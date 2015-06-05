@@ -4,11 +4,10 @@ extern crate bindgen;
 
 use std::env;
 use std::fs;
-// use std::fs::{self, File};
 use std::io::ErrorKind;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-// use bindgen::*; //dirty
+use bindgen::*; //dirty
 
 macro_rules! t {
     ($e:expr) => (match $e {
@@ -37,44 +36,44 @@ fn run(cmd: &mut Command, program: &str) {
 }
 
 //TODO: Auto binding generation
-// bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
-// fn build_bindings(package_name: &str
-//   , out_dir: &std::path::PathBuf
-//   , arrayfire_dir: &std::path::PathBuf) 
-// {
-//   let rust_header = package_name.to_string() + ".rs";
-//   let c_header = package_name.to_string() + ".h";
+// Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
+fn build_bindings(package_name: &str
+  , out_dir: &std::path::PathBuf
+  , arrayfire_dir: &std::path::PathBuf) 
+{
+  let rust_header = package_name.to_string() + ".rs";
+  let c_header = package_name.to_string() + ".h";
 
-//   let include_path = arrayfire_dir.join("include");
-//   // let include_dir = include_path.to_str().unwrap();
-//   let af_dir = include_path.join("af");
+  let include_path = arrayfire_dir.join("include");
+  let af_dir = include_path.join("af");
   
-//   // let clang_args = include_files;//"-I . ";//-I ".to_string() + include_path.to_str().unwrap();
-//   // println!("clang args --> {:?}", clang_args);
+  // let clang_args = include_files;//"-I . ";//-I ".to_string() + include_path.to_str().unwrap();
+  // println!("clang args --> {:?}", clang_args);
 
-//   let rs_dir = std::path::Path::new(&out_dir).join(rust_header);
-//   let rs_path = rs_dir.to_str().unwrap();
+  let rs_dir = std::path::Path::new(&out_dir).join(rust_header);
+  let rs_path = rs_dir.to_str().unwrap();
 
-//   let mut bindings = bindgen::builder();
-//   // bindings.forbid_unknown_types();
-//   bindings.emit_builtins();
+  let mut bindings = bindgen::builder();
+  bindings.emit_builtins();
   
-//   // let include_files = fs::read_dir(&Path::new(af_dir.to_str().unwrap())).unwrap();
-//   // for p in include_files{
-//   //   // println!("include_files {:?}", p.unwrap().path().display());
-//   //   let filewrap = p.unwrap();
-//   //   let filepath = filewrap.path();
-//   //   bindings.header(filepath.display().to_string());
-//   // }
+  // Let's try to pull in all the files, sadlyt this doesnt work.
+  // What we need is '-I arrayfire/include'
+  let include_files = fs::read_dir(&Path::new(af_dir.to_str().unwrap())).unwrap();
+  for p in include_files{
+    // println!("include_files {:?}", p.unwrap().path().display());
+    let filewrap = p.unwrap();
+    let filepath = filewrap.path();
+    bindings.header(filepath.display().to_string());
+  }
 
-//   let h_path = std::path::Path::new(&include_path).join(c_header);
-//   let h_path = String::from(h_path.to_str().unwrap());
-//   bindings.header(h_path);
+  let h_path = std::path::Path::new(&include_path).join(c_header);
+  let h_path = String::from(h_path.to_str().unwrap());
+  bindings.header(h_path);
 
-//   let bindings = bindings.generate();
-//   let bindings = bindings.unwrap();
-//   bindings.write_to_file(rs_path).unwrap();
-// }
+  let bindings = bindings.generate();
+  let bindings = bindings.unwrap();
+  bindings.write_to_file(rs_path).unwrap();
+}
 
 fn main() {
     // Setup pathing
@@ -103,7 +102,7 @@ fn main() {
 
     println!("cargo:rustc-link-search=native={}", build_dir.join("src/backend/cuda").display());
     println!("cargo:rustc-link-lib=dylib=afcuda");
-    println!("cargo:include={:?}", "/Users/jramapuram/projects/rust_arrayfire/arrayfire/include");
 
+    // TODO: Auto binding generation
     // build_bindings("arrayfire", &src_dir, &arrayfire_dir);//, "afcuda")
 }

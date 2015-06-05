@@ -1,19 +1,16 @@
 extern crate libc;
 extern crate arrayfire;
 
-// include!(concat!(env!("OUT_DIR"), "/arrayfire.rs"));
-
-
 fn main() {
 	// Let's define a NULL var: 
 	// Rust does not like initializing dangling pointers
 	let mut NULL = 0;
 
 	unsafe {
-    arrayfire::af_set_device(0);
-    arrayfire::af_info();
+          arrayfire::af_set_device(0);
+          arrayfire::af_info();
 
-    println!("Create a 5-by-3 matrix of random floats on the GPU");	
+          println!("Create a 5-by-3 matrix of random floats on the GPU");	
           let A: *mut arrayfire::af_array = &mut NULL as *mut _ as *mut arrayfire::af_array;
           let dims: [arrayfire::dim_t; 2] = [5,3];
           arrayfire::af_randu(A, 2, &dims[0], arrayfire::f32);

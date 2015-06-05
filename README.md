@@ -2,7 +2,7 @@
 Rust bindings for arrayfire
 
 Currently this will most likely only work on OSX as the bindings were generated specifically for it.
-To make it work for your system try the following in the root directory:
+To make it work for your system try building [bindgen](https://github.com/crabtw/rust-bindgen) and then run the following in the root directory:
 
 ```bash
 bindgen  -I arrayfire/include -builtins -o src/arrayfire.rs arrayfire/include/arrayfire.h
