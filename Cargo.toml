@@ -1,0 +1,20 @@
+[package]
+name = "arrayfire"
+version = "3.0.0"
+authors = ["Jason Ramapuram <jason.ramapuram@gmail.com>"]
+build = "build.rs"
+
+[dependencies]
+libc = "*"
+
+[build-dependencies.bindgen]
+git = "https://github.com/crabtw/rust-bindgen.git"
+version = "*"
+
+[lib]
+name = "arrayfire"
+path = "src/arrayfire.rs"
+
+[[test]]
+name = "arrayfire_test"
+path = "src/main.rs"
