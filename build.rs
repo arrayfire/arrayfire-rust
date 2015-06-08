@@ -4,7 +4,8 @@ extern crate bindgen;
 
 use std::env;
 use std::fs;
-use std::io::ErrorKind;
+use std::fs::{OpenOptions, File};
+use std::io::{ErrorKind, Seek, SeekFrom, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use bindgen::*; //dirty
@@ -35,7 +36,42 @@ fn run(cmd: &mut Command, program: &str) {
     }
 }
 
-//TODO: Auto binding generation
+// https://stackoverflow.com/questions/30412521/how-to-read-specific-number-of-bytes-from-a-stream/30413877#30413877
+fn read_n<R>(reader: R, bytes_to_read: u64) -> Vec<u8>
+    where R: Read,
+{
+    let mut buf = vec![];
+    let mut chunk = reader.take(bytes_to_read);
+    let status = chunk.read_to_end(&mut buf);
+    // Do appropriate error handling
+    match status {
+        Ok(n) => assert_eq!(bytes_to_read as usize, n),
+        _ => panic!("Didn't read enough"),
+    }
+    buf
+}
+
+// Dirty, prepends a header dependency on libc which is not auto-added
+fn prepend_deps(header: &str, deps: &str){
+  let options = OpenOptions::new()
+                    .read(true)
+                    .write(true)
+                    .create(false)
+                    .open(header);
+  let mut file = match options {
+    Ok(file) => file,
+    Err(..) => panic!("error reading file"),
+  };
+
+  // read N bytes first
+  let num_bytes = deps.len();
+  let buf = read_n(&mut file, num_bytes as u64);
+
+  file.seek(SeekFrom::Start(0));
+  file.write(deps.as_bytes());
+  file.write(&buf);
+}
+
 // Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
 fn build_bindings(package_name: &str
   , out_dir: &std::path::PathBuf
@@ -47,24 +83,15 @@ fn build_bindings(package_name: &str
   let include_path = arrayfire_dir.join("include");
   let af_dir = include_path.join("af");
   
-  // let clang_args = include_files;//"-I . ";//-I ".to_string() + include_path.to_str().unwrap();
-  // println!("clang args --> {:?}", clang_args);
-
   let rs_dir = std::path::Path::new(&out_dir).join(rust_header);
   let rs_path = rs_dir.to_str().unwrap();
 
   let mut bindings = bindgen::builder();
   bindings.emit_builtins();
   
-  // Let's try to pull in all the files, sadlyt this doesnt work.
-  // What we need is '-I arrayfire/include'
-  let include_files = fs::read_dir(&Path::new(af_dir.to_str().unwrap())).unwrap();
-  for p in include_files{
-    // println!("include_files {:?}", p.unwrap().path().display());
-    let filewrap = p.unwrap();
-    let filepath = filewrap.path();
-    bindings.header(filepath.display().to_string());
-  }
+  // Blob in '-I arrayfire/include' to the "VPATH" 
+  bindings.header("-I");
+  bindings.header(include_path.to_str().unwrap());
 
   let h_path = std::path::Path::new(&include_path).join(c_header);
   let h_path = String::from(h_path.to_str().unwrap());
@@ -73,6 +100,8 @@ fn build_bindings(package_name: &str
   let bindings = bindings.generate();
   let bindings = bindings.unwrap();
   bindings.write_to_file(rs_path).unwrap();
+
+  prepend_deps(rs_path, "extern crate libc;\n");
 }
 
 fn main() {
@@ -103,6 +132,5 @@ fn main() {
     println!("cargo:rustc-link-search=native={}", build_dir.join("src/backend/cuda").display());
     println!("cargo:rustc-link-lib=dylib=afcuda");
 
-    // TODO: Auto binding generation
-    // build_bindings("arrayfire", &src_dir, &arrayfire_dir);//, "afcuda")
+    build_bindings("arrayfire", &src_dir, &arrayfire_dir);
 }
