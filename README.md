@@ -1,21 +1,37 @@
-# rust_arrayfire
-Rust bindings for arrayfire
+# Arrayfire Rust Bindings
 
-Currently this will most likely only work on OSX as the bindings were generated specifically for it.
-To make it work for your system try building [bindgen](https://github.com/crabtw/rust-bindgen) and then run the following in the root directory:
+This project uses [bindgen](https://github.com/crabtw/rust-bindgen) to build an arrayfire binding that is usable in Rust. This project is currently in it's infancy and there will be quite a few issues to work through.
 
-```bash
-bindgen  -I arrayfire/include -builtins -o src/arrayfire.rs arrayfire/include/arrayfire.h
+Currently the example creates an arrayfire array structure and runs the first two examples listed in hello_world.
+
+## Automatic binding generation
+
+Bindgen automatically iterates from the root arrayfire.h header & pulls in all the required C includes. This is currently blobbed into one huge arrayfire.rs file. 
+
+In the future we will try to provide a nicer Rust-wrapped version of this header so that the code does not look too verbose.
+
+## Building & Running
+
+Currently the build script just builds the CUDA bindings.
+To change this edit build.rs (this will be changed to a Cargo variable eventually):
+
+```rust
+run(cmake_cmd.arg("..")
+  .arg("-DCMAKE_BUILD_TYPE=Release")
+  .arg("-DBUILD_CUDA=ON")
+  .arg("-DBUILD_OPENCL=OFF")
+  .arg("-DBUILD_CPU=OFF"), "cmake");
 ```
 
-After this you can simply:
 ```bash
-cargo build
+git submodule update --init --recursive
+cargo run
 ```
 
-It does work for the first two examples in the hello_world arrayfire example:
+You should see something along the lines of:
+
 ```bash
-jramapuram@gauss ~/p/rust_arrayfire> cargo run
+~/p/rust_arrayfire> cargo run
      Running `target/debug/arrayfire`
 ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
 Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
@@ -36,12 +52,3 @@ Element-wise arithmetic
     0.8243     0.4531     0.3509
     0.7987     0.4910     0.6299
 ```
-
-## Automatic binding generation
-I have commented out the auto binding generation as the api is rather terrible now.
-
-It doesn't work because arrayfire.h includes af/*.h files.
-
-To overcome this you need the `-I arrayfire/include` directive. 
-
-I have yet to find how that works through the [bindgen API](https://github.com/crabtw/rust-bindgen/blob/master/src/lib.rs)
