@@ -11,10 +11,13 @@ libc = "*"
 git = "https://github.com/crabtw/rust-bindgen.git"
 version = "*"
 
+[build-dependencies.rustc-serialize]
+rustc-serialize = "*"
+
 [lib]
 name = "arrayfire"
-path = "src/arrayfire.rs"
+path = "src/lib.rs"
 
 [[test]]
 name = "arrayfire_test"
-path = "src/main.rs"
+path = "tests/hello_world.rs"

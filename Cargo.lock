@@ -4,6 +4,7 @@ version = "3.0.0"
 dependencies = [
  "bindgen 0.14.0 (git+https://github.com/crabtw/rust-bindgen.git)",
  "libc 0.1.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.14 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

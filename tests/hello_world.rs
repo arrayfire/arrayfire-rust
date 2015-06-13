@@ -1,6 +1,7 @@
 extern crate libc;
 extern crate arrayfire;
 
+#[test]
 fn main() {
 	// Let's define a NULL var: 
 	// Rust does not like initializing dangling pointers

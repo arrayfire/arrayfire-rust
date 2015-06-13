@@ -12,27 +12,23 @@ In the future we will try to provide a nicer Rust-wrapped version of this header
 
 ## Building & Running
 
-Currently the build script just builds the CUDA bindings.
-To change this edit build.rs (this will be changed to a Cargo variable eventually):
+Edit build.conf to modify the build flags. The structure is a simple JSON blob.
+Currently Rust does not allow key:value pairs to be passed from the CLI.
+At the moment using an already installed arrayfire installation is not supported.
 
-```rust
-run(cmake_cmd.arg("..")
-  .arg("-DCMAKE_BUILD_TYPE=Release")
-  .arg("-DBUILD_CUDA=ON")
-  .arg("-DBUILD_OPENCL=OFF")
-  .arg("-DBUILD_CPU=OFF"), "cmake");
-```
+To build:
 
 ```bash
 git submodule update --init --recursive
-cargo run
+cargo build
 ```
 
-You should see something along the lines of:
+To test:
 
 ```bash
-~/p/rust_arrayfire> cargo run
-     Running `target/debug/arrayfire`
+~/p/arrayfire_rust> cargo test
+...
+     running 1 test
 ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
 Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
 [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0

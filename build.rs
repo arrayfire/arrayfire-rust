@@ -1,14 +1,33 @@
 /* -- Lots of reuse from: https://github.com/alexcrichton/git2-rs/blob/master/libgit2-sys/build.rs */
 
 extern crate bindgen;
+extern crate rustc_serialize;
 
 use std::env;
 use std::fs;
+use rustc_serialize::json;
 use std::fs::{OpenOptions, File};
 use std::io::{ErrorKind, Seek, SeekFrom, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use bindgen::*; //dirty
+
+#[derive(RustcDecodable)]
+struct Config {
+  // TODO: Use these variables to pull in from path  
+  use_lib: bool,
+  lib_dir: String,
+  inc_dir: String,
+  
+  // Build related
+  release_type: String,
+  make_flags: String,
+  build_cuda: String,
+  build_opencl: String,
+  build_cpu: String,
+  build_examples: String,
+  build_test: String,
+}
 
 macro_rules! t {
     ($e:expr) => (match $e {
@@ -34,42 +53,6 @@ fn run(cmd: &mut Command, program: &str) {
     if !status.success() {
         fail(&format!("command did not execute successfully, got: {}", status));
     }
-}
-
-// https://stackoverflow.com/questions/30412521/how-to-read-specific-number-of-bytes-from-a-stream/30413877#30413877
-fn read_n<R>(reader: R, bytes_to_read: u64) -> Vec<u8>
-    where R: Read,
-{
-    let mut buf = vec![];
-    let mut chunk = reader.take(bytes_to_read);
-    let status = chunk.read_to_end(&mut buf);
-    // Do appropriate error handling
-    match status {
-        Ok(n) => assert_eq!(bytes_to_read as usize, n),
-        _ => panic!("Didn't read enough"),
-    }
-    buf
-}
-
-// Dirty, prepends a header dependency on libc which is not auto-added
-fn prepend_deps(header: &str, deps: &str){
-  let options = OpenOptions::new()
-                    .read(true)
-                    .write(true)
-                    .create(false)
-                    .open(header);
-  let mut file = match options {
-    Ok(file) => file,
-    Err(..) => panic!("error reading file"),
-  };
-
-  // read N bytes first
-  let num_bytes = deps.len();
-  let buf = read_n(&mut file, num_bytes as u64);
-
-  file.seek(SeekFrom::Start(0));
-  file.write(deps.as_bytes());
-  file.write(&buf);
 }
 
 // Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
@@ -100,37 +83,78 @@ fn build_bindings(package_name: &str
   let bindings = bindings.generate();
   let bindings = bindings.unwrap();
   bindings.write_to_file(rs_path).unwrap();
+}
 
-  prepend_deps(rs_path, "extern crate libc;\n");
+fn read_file(file_name: &std::path::PathBuf) -> String {
+  let file_path = file_name.to_str().unwrap();
+  let options = OpenOptions::new()
+                    .read(true)
+                    .write(false)
+                    .create(false)
+                    .open(&file_path);
+  let mut file = match options {
+    Ok(file) => file,
+    Err(..) => panic!("error reading file"),
+  };
+
+  let mut s = String::new();
+  file.read_to_string(&mut s);
+  return s.to_string()
+}
+
+fn read_conf(conf_file: &std::path::PathBuf) -> Config {
+  let raw_conf = read_file(conf_file);
+  let decoded: Config = json::decode(&raw_conf).unwrap();
+  decoded
 }
 
 fn main() {
     // Setup pathing
     let src = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
+    let conf_file = src.join("build.conf");
+    let conf = read_conf(&conf_file);
+
+    // create build directories
     let arrayfire_dir = src.join("arrayfire");
     let build_dir = arrayfire_dir.join("build");
     let src_dir = src.join("src");
     let _ = fs::create_dir(&build_dir);
-    
-    
-    println!("CARGO_MANIFEST_DIR : {:?}", src);
 
     // Run our cmake operations
     let mut cmake_cmd = Command::new("cmake");
     cmake_cmd.current_dir(&build_dir);
     run(cmake_cmd.arg("..")
-      .arg("-DCMAKE_BUILD_TYPE=Release")
-      .arg("-DBUILD_CUDA=ON")
-      .arg("-DBUILD_OPENCL=OFF")
-      .arg("-DBUILD_CPU=OFF"), "cmake");
+      .arg(format!("-DCMAKE_BUILD_TYPE={}", conf.release_type))
+      .arg(format!("-DBUILD_CUDA={}", conf.build_cuda))
+      .arg(format!("-DBUILD_OPENCL={}", conf.build_opencl))
+      .arg(format!("-DBUILD_EXAMPLES={}", conf.build_examples))
+      .arg(format!("-DBUILD_TEST={}", conf.build_test))
+      .arg(format!("-DBUILD_CPU={}", conf.build_cpu)), "cmake");
 
     // run make
     let mut make_cmd = Command::new("make");
     make_cmd.current_dir(&build_dir);
-    run(make_cmd.arg("-j8"), "make");
+    run(make_cmd.arg(conf.make_flags), "make");
 
-    println!("cargo:rustc-link-search=native={}", build_dir.join("src/backend/cuda").display());
-    println!("cargo:rustc-link-lib=dylib=afcuda");
+    // build correct backend
+    let mut backend_dir = String::new();
+    let mut backend = String::new();
+
+    if conf.build_cuda == "ON"{
+      backend = backend + "afcuda";
+      backend_dir = backend_dir + build_dir.join("src/backend/cuda").to_str().unwrap();
+    }else if conf.build_opencl == "ON"{
+      backend = backend + "afcl";
+      let cl_dir = format!("{}", build_dir.join("src/backend/opencl").to_str().unwrap());
+      backend_dir = backend_dir + &cl_dir;
+    }else if conf.build_cpu == "ON"{
+      backend = backend + "afcpu";
+      let cpu_dir = format!("{}", build_dir.join("src/backend/cpu").to_str().unwrap());
+      backend_dir = backend_dir + &cpu_dir;  
+    }
+
+    println!("cargo:rustc-link-search=native={}", backend_dir);
+    println!("cargo:rustc-link-lib=dylib={}", backend);
 
     build_bindings("arrayfire", &src_dir, &arrayfire_dir);
 }
