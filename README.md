@@ -12,9 +12,9 @@ In the future we will try to provide a nicer Rust-wrapped version of this header
 
 ## Building & Running
 
-Edit build.conf to modify the build flags. The structure is a simple JSON blob.
+Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob.
 Currently Rust does not allow key:value pairs to be passed from the CLI.
-At the moment using an already installed arrayfire installation is not supported.
+At the moment using an exisiting arrayfire installation is not supported.
 
 To build:
 
