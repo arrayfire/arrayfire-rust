@@ -12,27 +12,23 @@ In the future we will try to provide a nicer Rust-wrapped version of this header
 
 ## Building & Running
 
-Currently the build script just builds the CUDA bindings.
-To change this edit build.rs (this will be changed to a Cargo variable eventually):
+Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob.
+Currently Rust does not allow key:value pairs to be passed from the CLI.
+To use an existing arrayfire installation modify the first three JSON values.
 
-```rust
-run(cmake_cmd.arg("..")
-  .arg("-DCMAKE_BUILD_TYPE=Release")
-  .arg("-DBUILD_CUDA=ON")
-  .arg("-DBUILD_OPENCL=OFF")
-  .arg("-DBUILD_CPU=OFF"), "cmake");
-```
+To build:
 
 ```bash
 git submodule update --init --recursive
-cargo run
+cargo build
 ```
 
-You should see something along the lines of:
+To test:
 
 ```bash
-~/p/rust_arrayfire> cargo run
-     Running `target/debug/arrayfire`
+~/p/arrayfire_rust> cargo test
+...
+     running 1 test
 ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
 Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
 [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
@@ -52,3 +48,14 @@ Element-wise arithmetic
     0.8243     0.4531     0.3509
     0.7987     0.4910     0.6299
 ```
+
+## Issues
+
+You might see something along the lines of :
+
+```bash
+dyld: Library not loaded: @rpath/libafopencl.3.dylib
+```
+
+This is related to this (Rust issue)[https://github.com/rust-lang/rust/issues/25185]
+A workaround for now is to add the location of libaf*.dylib to your LD_LIBRARY_PATH.
