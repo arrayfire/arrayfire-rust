@@ -48,3 +48,14 @@ Element-wise arithmetic
     0.8243     0.4531     0.3509
     0.7987     0.4910     0.6299
 ```
+
+## Issues
+
+You might see something along the lines of :
+
+```bash
+dyld: Library not loaded: @rpath/libafopencl.3.dylib
+```
+
+This is related to this (Rust issue)[https://github.com/rust-lang/rust/issues/25185]
+A workaround for now is to add the location of libaf*.dylib to your LD_LIBRARY_PATH.
