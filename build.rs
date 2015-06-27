@@ -1,16 +1,16 @@
 /* -- Lots of reuse from: https://github.com/alexcrichton/git2-rs/blob/master/libgit2-sys/build.rs */
-
 extern crate bindgen;
 extern crate rustc_serialize;
 
 use std::env;
 use std::fs;
 use rustc_serialize::json;
-use std::fs::{OpenOptions, File};
-use std::io::{ErrorKind, Seek, SeekFrom, Read, Write};
-use std::path::{Path, PathBuf};
+use std::fs::OpenOptions;
+use std::io::{ErrorKind, Read, Write};
+use std::path::PathBuf;
 use std::process::Command;
 use bindgen::*; //dirty
+use std::convert::AsRef;
 
 #[derive(RustcDecodable)]
 struct Config {
@@ -18,15 +18,33 @@ struct Config {
   use_lib: bool,
   lib_dir: String,
   inc_dir: String,
-  
+
   // Build related
-  release_type: String,
-  make_flags: String,
+  build_type: String,
+  build_threads: String,
   build_cuda: String,
   build_opencl: String,
   build_cpu: String,
   build_examples: String,
   build_test: String,
+  build_graphics: String,
+
+  // backend upstream library options
+  glew_static: String,
+  freeimage_type: String,
+  cpu_fft_type: String,
+  cpu_blas_type: String,
+  cpu_lapack_type: String,
+
+  // backend upstream library install paths
+  freeimage_dir: String,
+  fftw_dir: String,
+  acml_dir: String,
+  mkl_dir: String,
+  lapacke_dir: String,
+  glew_dir: String,
+  glfw_dir: String,
+  boost_dir: String,
 }
 
 macro_rules! t {
@@ -37,7 +55,7 @@ macro_rules! t {
 }
 
 fn fail(s: &str) -> ! {
-  panic!("\n{}\n\nbuild script failed, must exit now", s)
+    panic!("\n{}\n\nbuild script failed, must exit now", s)
 }
 
 fn run(cmd: &mut Command, program: &str) {
@@ -56,23 +74,23 @@ fn run(cmd: &mut Command, program: &str) {
 }
 
 // Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
-fn build_bindings(package_name: &str
-                  , out_dir: &std::path::PathBuf
-                  , include_path: &std::path::PathBuf) 
-{
+fn build_bindings(package_name: &str,
+                  out_dir: &std::path::PathBuf,
+                  include_path: &std::path::PathBuf) {
   let rust_header = package_name.to_string() + ".rs";
   let c_header = package_name.to_string() + ".h";
 
-  //let include_path = arrayfire_dir.join("include");
-  let af_dir = include_path.join("af");
-  
   let rs_dir = std::path::Path::new(&out_dir).join(rust_header);
   let rs_path = rs_dir.to_str().unwrap();
 
   let mut bindings = bindgen::builder();
   bindings.emit_builtins();
-  
-  // Blob in '-I arrayfire/include' to the "VPATH" 
+
+  // Blob in '-I arrayfire/include' to the "VPATH"
+  if cfg!(target_os="windows") {
+      bindings.header("-I");
+      bindings.header("C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\include");
+  }
   bindings.header("-I");
   bindings.header(include_path.to_str().unwrap());
 
@@ -108,8 +126,8 @@ fn read_conf(conf_file: &std::path::PathBuf) -> Config {
   decoded
 }
 
-fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>){
-	let mut backend_dirs :Vec<String>= Vec::new();
+fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
+  let mut backend_dirs :Vec<String>= Vec::new();
   let mut backends :Vec<String> = Vec::new();
 
   if conf.build_cuda == "ON" {
@@ -132,12 +150,208 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
       backend_dirs.push(build_dir.join("src/backend/cpu").to_str().to_owned().unwrap().to_string());
     }
   }
-
   if conf.use_lib{
     backend_dirs.push(conf.lib_dir.to_owned());
   }
-
   return (backends, backend_dirs);
+}
+
+#[cfg(windows)]
+fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
+    // create build directories
+    let _ = fs::create_dir(&build_dir);
+    // Run our cmake operations
+    let mut fft_options     = vec![];
+    let mut blas_options    = vec![];
+    let mut lapack_options  = vec![];
+    let mut glew_lib        = vec![];
+    let mut graphics_options= vec![];
+    let mut freeimage_options=vec![];
+    match conf.cpu_fft_type.as_ref() {
+        "FFTW" => {
+            fft_options.push(format!("-DFFTW_ROOT:STRING={0}", conf.fftw_dir));
+            fft_options.push(format!("-DFFTW_LIB:STRING={0}\\libfftw3-3.lib", conf.fftw_dir));
+            fft_options.push(format!("-DFFTWF_LIB:STRING={0}\\libfftw3f-3.lib", conf.fftw_dir));
+            fft_options.push(format!("-DFFTWL_LIB:STRING={0}\\libfftw3l-3.lib", conf.fftw_dir));
+        },
+        "ACML" => {
+            fft_options.push(format!("-DFFTW_ROOT:STRING={0}",conf.acml_dir));
+            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\acml_fftw.lib",conf.acml_dir));
+        },
+        "MKL" => {
+            fft_options.push(format!("-DFFTW_ROOT:STRING={0}", conf.mkl_dir));
+            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+        },
+        _ => fail("Invalid FFT upstream option set"),
+    };
+    match conf.cpu_blas_type.as_ref() {
+        "LAPACKE" => {
+            blas_options.push(format!("-DUSE_CPU_F77_BLAS:BOOL={}", "ON"));
+            blas_options.push(format!("-DCBLAS_INCLUDE_DIR:STRING={0}\\include", conf.lapacke_dir));
+            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\libblas.lib", conf.lapacke_dir));
+        },
+        "MKL" => {
+            blas_options.push(format!("-DUSE_CPU_MKL:BOOL={}", "ON"));
+            blas_options.push(format!("-DCBLAS_INCLUDE_DIR:STRING={0}\\include", conf.mkl_dir));
+            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+        },
+        _ => fail("Invalid BLAS upstream option set"),
+    };
+    match conf.cpu_lapack_type.as_ref() {
+        "LAPACKE" => {
+            lapack_options.push(format!("-DLAPACKE_ROOT:STRING={0}", conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACK_INCLUDE_DIR:STRING={0}\\include", conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACKE_LIB:STRING={0}\\lib\\liblapacke.lib", conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACK_LIB:STRING={0}\\lib\\liblapack.lib", conf.lapacke_dir));
+        },
+        "MKL" => {
+            lapack_options.push(format!("-DUSE_CPU_MKL:BOOL={0}", "ON"));
+            lapack_options.push(format!("-DUSE_OPENCL_MKL:BOOL={0}", "ON"));
+            lapack_options.push(format!("-DLAPACKE_INCLUDES:STRING={0}\\include", conf.mkl_dir));
+            lapack_options.push(format!("-DLAPACKE_LIB:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+            lapack_options.push(format!("-DLAPACK_LIB:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+        },
+        _ => fail("Invalid LAPACK upstream option set"),
+    };
+    match conf.glew_static.as_ref() {
+        "OFF" => {
+            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32.lib", conf.glew_dir));
+            glew_lib.push(format!("-DGLEWmxd_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mx.lib", conf.glew_dir));
+        },
+        "ON" => {
+            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32s.lib", conf.glew_dir));
+            glew_lib.push(format!("-DGLEWmxs_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mxs.lib", conf.glew_dir));
+        },
+        _ => fail("Invalid GLEW STATIC library option option set"),
+    };
+    match conf.build_graphics.as_ref() {
+        "OFF" => {
+            graphics_options.push(format!("-DBUILD_GRAPHICS:BOOL={0}", "OFF"));
+        },
+        "ON" => {
+            graphics_options.push(format!("-DBUILD_GRAPHICS:BOOL={0}", "ON"));
+            graphics_options.push(format!("-DGLEW_ROOT_DIR={0}", conf.glew_dir));
+            graphics_options.push(format!("-DUSE_GLEWmx_STATIC:BOOL={0}", conf.glew_static));
+            graphics_options.push(format!("-DGLEW_INCLUDE_DIR:STRING={0}\\include", conf.glew_dir));
+            graphics_options.push(format!("-DGLFW_INCLUDE_DIR:STRING={0}\\include", conf.glfw_dir));
+            graphics_options.push(format!("-DGLFW_LIBRARY:STRING={0}\\lib-msvc120\\glfw3.dll", conf.glfw_dir));
+            for glew_curr_lib in glew_lib {
+                graphics_options.push(glew_curr_lib);
+            }
+        },
+        _ => fail("Invalid graphics build option set"),
+    };
+    match conf.freeimage_type.as_ref() {
+        "OFF"    => {
+            freeimage_options.push(format!("-DFREEIMAGE_FOUND:STRING={}", conf.freeimage_type));
+        },
+        "STATIC" => {
+            freeimage_options.push(format!("-DFREEIMAGE_FOUND:STRING={}", "ON"));
+            freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "ON"));
+            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}", conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_STATIC_LIBRARY:STRING={0}\\FreeImageLib.lib", conf.freeimage_dir));
+        },
+        "DYNAMIC" => {
+            freeimage_options.push(format!("-DFREEIMAGE_FOUND:STRING={}", "ON"));
+            freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "OFF"));
+            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}", conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_DYNAMIC_LIBRARY:STRING={0}\\FreeImage.lib", conf.freeimage_dir));
+        },
+        _ => fail("Invalid freeimage build option set"),
+    };
+
+    let mut cmake_cmd = Command::new("cmake");
+    cmake_cmd.current_dir(&build_dir);
+
+    run(cmake_cmd.arg("..").arg("-G").arg("Visual Studio 12 2013 Win64")
+        .args(&[format!("-DCMAKE_BUILD_TYPE:STRING={}", conf.build_type),
+                format!("-DBUILD_CPU:BOOL={}", conf.build_cpu),
+                format!("-DBUILD_CUDA:BOOL={}", conf.build_cuda),
+                format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
+                format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
+                format!("-DBUILD_TEST:BOOL={}", conf.build_test),
+                format!("-DBOOST_ROOT={}", conf.boost_dir)])
+        .args(&freeimage_options)
+        .args(&fft_options)
+        .args(&blas_options)
+        .args(&lapack_options)
+        .args(&graphics_options)
+        , "cmake");
+
+    let mut make_cmd= Command::new("C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe");
+    make_cmd.current_dir(&build_dir);
+    run(make_cmd
+        .arg(format!("/m:{}", conf.build_threads))
+        .arg(format!("/p:Configuration={}", conf.build_type))
+        .arg(format!("ArrayFire.sln")),
+        "MSBuild");
+}
+
+#[cfg(not(windows))]
+fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
+    // create build directories
+    let _ = fs::create_dir(&build_dir);
+    // Run our cmake operations
+    let mut blas_options    = vec![];
+    let mut lapack_options  = vec![];
+    let mut graphics_options= vec![];
+    let mut freeimage_options=vec![];
+    match conf.cpu_fft_type.as_ref() {
+        "FFTW" => println!("Using FFTW upstream for fft functions on cpu backend"),
+        "ACML" => println!("Using ACML upstream for fft functions on cpu backend"),
+        "MKL" => println!("Using MKL upstream for fft functions on cpu backend"),
+        _ => fail("Invalid FFT upstream option set"),
+    };
+    match conf.cpu_blas_type.as_ref() {
+        "LAPACKE" => { blas_options.push(format!("-DUSE_CPU_F77_BLAS:BOOL={}", "ON")); },
+        "MKL" => { blas_options.push(format!("-DUSE_CPU_MKL:BOOL={}", "ON")); },
+        _ => fail("Invalid BLAS upstream option set"),
+    };
+    match conf.cpu_lapack_type.as_ref() {
+        "LAPACKE" => {},
+        "MKL" => {
+            lapack_options.push(format!("-DUSE_CPU_MKL:BOOL={0}", "ON"));
+            lapack_options.push(format!("-DUSE_OPENCL_MKL:BOOL={0}", "ON"));
+        },
+        _ => fail("Invalid LAPACK upstream option set"),
+    };
+    match conf.build_graphics.as_ref() {
+        "OFF" => {
+            graphics_options.push(format!("-DBUILD_GRAPHICS:BOOL={0}", "OFF"));
+        },
+        "ON" => {
+            graphics_options.push(format!("-DBUILD_GRAPHICS:BOOL={0}", "ON"));
+            graphics_options.push(format!("-DUSE_GLEWmx_STATIC:BOOL={0}", conf.glew_static));
+        },
+        _ => fail("Invalid graphics build option set"),
+    };
+    match conf.freeimage_type.as_ref() {
+        "OFF"    => { println!("Using Freeimage upstream for image io functions"); },
+        "STATIC" => { freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "ON")); },
+        "DYNAMIC" => { freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "OFF")); },
+        _ => fail("Invalid freeimage build option set"),
+    };
+
+    let mut cmake_cmd = Command::new("cmake");
+    cmake_cmd.current_dir(&build_dir);
+
+    run(cmake_cmd.arg("..")
+        .args(&[format!("-DCMAKE_BUILD_TYPE:STRING={}", conf.build_type),
+                format!("-DBUILD_CPU:BOOL={}", conf.build_cpu),
+                format!("-DBUILD_CUDA:BOOL={}", conf.build_cuda),
+                format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
+                format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
+                format!("-DBUILD_TEST:BOOL={}", conf.build_test)])
+        .args(&freeimage_options)
+        .args(&blas_options)
+        .args(&lapack_options)
+        .args(&graphics_options)
+        , "cmake");
+
+    // run make
+    let mut make_cmd= Command::new("make");
+    make_cmd.current_dir(&build_dir);
+    run(make_cmd.arg(format!("-j{}", conf.build_threads)), "make");
 }
 
 fn main() {
@@ -149,26 +363,9 @@ fn main() {
   let mut arrayfire_dir = src.join("arrayfire");
   let build_dir = arrayfire_dir.join("build");
   let src_dir = src.join("src");
-  
+
   if !conf.use_lib {
-    // create build directories
-    let _ = fs::create_dir(&build_dir);
-
-    // Run our cmake operations
-    let mut cmake_cmd = Command::new("cmake");
-    cmake_cmd.current_dir(&build_dir);
-    run(cmake_cmd.arg("..")
-        .arg(format!("-DCMAKE_BUILD_TYPE={}", conf.release_type))
-        .arg(format!("-DBUILD_CUDA={}", conf.build_cuda))
-        .arg(format!("-DBUILD_OPENCL={}", conf.build_opencl))
-        .arg(format!("-DBUILD_EXAMPLES={}", conf.build_examples))
-        .arg(format!("-DBUILD_TEST={}", conf.build_test))
-        .arg(format!("-DBUILD_CPU={}", conf.build_cpu)), "cmake");
-
-    // run make
-    let mut make_cmd = Command::new("make");
-    make_cmd.current_dir(&build_dir);
-    run(make_cmd.arg(conf.make_flags.to_owned()), "make");
+      run_cmake_command(&conf, &build_dir);
   }
 
   // build correct backend
@@ -176,16 +373,15 @@ fn main() {
   for backend in backends.iter() {
     println!("cargo:rustc-link-lib=dylib={}", backend);
   }
-
   for backend_dir in backend_dirs.iter() {
     println!("cargo:rustc-link-search=native={}", backend_dir);
   }
 
   if conf.use_lib {
     arrayfire_dir = PathBuf::from(conf.inc_dir);
-  }else{
+  } else {
     arrayfire_dir = arrayfire_dir.join("include");
   }
-  
+
   build_bindings("arrayfire", &src_dir, &arrayfire_dir);
 }
