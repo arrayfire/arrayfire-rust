@@ -73,6 +73,22 @@ fn run(cmd: &mut Command, program: &str) {
   }
 }
 
+#[cfg(not(windows))]
+fn get_gcc_version_path() -> String {
+    let gcc_cmd = Command::new("sh")
+        .args(&["-c", "echo -n `gcc --version | grep ^gcc | cut -f3 -d ' '`"])
+        .output()
+        .unwrap_or_else(|e| {
+            panic!("failed to find gcc version: {}", e)
+        });
+
+    if gcc_cmd.status.success() {
+        return String::from_utf8(gcc_cmd.stdout).unwrap();
+    } else {
+        panic!("gcc --version execution failed");
+    }
+}
+
 // Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
 fn build_bindings(package_name: &str,
                   out_dir: &std::path::PathBuf,
@@ -90,6 +106,11 @@ fn build_bindings(package_name: &str,
   if cfg!(target_os="windows") {
       bindings.header("-I");
       bindings.header("C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\include");
+  } else if cfg!(target_os="linux") {
+      bindings.header("-I");
+      bindings.header(format!("/usr/lib/gcc/x86_64-linux-gnu/{}/include", get_gcc_version_path()));
+      bindings.header("-I");
+      bindings.header(format!("/usr/lib/gcc/x86_64-unknown-linux-gnu/{}/include", get_gcc_version_path()));
   }
   bindings.header("-I");
   bindings.header(include_path.to_str().unwrap());
