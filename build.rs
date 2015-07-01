@@ -1,5 +1,4 @@
 /* -- Lots of reuse from: https://github.com/alexcrichton/git2-rs/blob/master/libgit2-sys/build.rs */
-extern crate bindgen;
 extern crate rustc_serialize;
 
 use std::env;
@@ -9,49 +8,48 @@ use std::fs::OpenOptions;
 use std::io::{ErrorKind, Read, Write};
 use std::path::PathBuf;
 use std::process::Command;
-use bindgen::*; //dirty
 use std::convert::AsRef;
 
 #[derive(RustcDecodable)]
 struct Config {
-  // Use the existing lib if it exists
-  use_lib: bool,
-  lib_dir: String,
-  inc_dir: String,
+    // Use the existing lib if it exists
+    use_lib: bool,
+    lib_dir: String,
+    inc_dir: String,
 
-  // Build related
-  build_type: String,
-  build_threads: String,
-  build_cuda: String,
-  build_opencl: String,
-  build_cpu: String,
-  build_examples: String,
-  build_test: String,
-  build_graphics: String,
+    // Build related
+    build_type: String,
+    build_threads: String,
+    build_cuda: String,
+    build_opencl: String,
+    build_cpu: String,
+    build_examples: String,
+    build_test: String,
+    build_graphics: String,
 
-  // backend upstream library options
-  glew_static: String,
-  freeimage_type: String,
-  cpu_fft_type: String,
-  cpu_blas_type: String,
-  cpu_lapack_type: String,
+    // backend upstream library options
+    glew_static: String,
+    freeimage_type: String,
+    cpu_fft_type: String,
+    cpu_blas_type: String,
+    cpu_lapack_type: String,
 
-  // backend upstream library install paths
-  freeimage_dir: String,
-  fftw_dir: String,
-  acml_dir: String,
-  mkl_dir: String,
-  lapacke_dir: String,
-  glew_dir: String,
-  glfw_dir: String,
-  boost_dir: String,
+    // backend upstream library install paths
+    freeimage_dir: String,
+    fftw_dir: String,
+    acml_dir: String,
+    mkl_dir: String,
+    lapacke_dir: String,
+    glew_dir: String,
+    glfw_dir: String,
+    boost_dir: String,
 }
 
 macro_rules! t {
-  ($e:expr) => (match $e {
-    Ok(n) => n,
-    Err(e) => fail(&format!("\n{} failed with {}\n", stringify!($e), e)),
-  })
+    ($e:expr) => (match $e {
+            Ok(n) => n,
+            Err(e) => fail(&format!("\n{} failed with {}\n", stringify!($e), e)),
+        })
 }
 
 fn fail(s: &str) -> ! {
@@ -59,122 +57,41 @@ fn fail(s: &str) -> ! {
 }
 
 fn run(cmd: &mut Command, program: &str) {
-  println!("running: {:?}", cmd);
-  let status = match cmd.status() {
-    Ok(status) => status,
-    Err(ref e) if e.kind() == ErrorKind::NotFound => {
-      fail(&format!("failed to execute command: {}\nis `{}` not installed?",
-                    e, program));
+    println!("running: {:?}", cmd);
+    let status = match cmd.status() {
+            Ok(status) => status,
+            Err(ref e) if e.kind() == ErrorKind::NotFound => {
+                    fail(&format!("failed to run cmd: {}\nis `{}` not installed?", e, program));
+                }
+                Err(e) => fail(&format!("failed to execute command: {}", e)),
+        };
+    if !status.success() {
+        fail(&format!("command did not execute successfully, got: {}", status));
     }
-    Err(e) => fail(&format!("failed to execute command: {}", e)),
-  };
-  if !status.success() {
-    fail(&format!("command did not execute successfully, got: {}", status));
-  }
-}
-
-#[cfg(not(windows))]
-fn get_gcc_version_path() -> String {
-    let gcc_cmd = Command::new("sh")
-        .args(&["-c", "echo -n `gcc --version | grep ^gcc | cut -f3 -d ' '`"])
-        .output()
-        .unwrap_or_else(|e| {
-            panic!("failed to find gcc version: {}", e)
-        });
-
-    if gcc_cmd.status.success() {
-        return String::from_utf8(gcc_cmd.stdout).unwrap();
-    } else {
-        panic!("gcc --version execution failed");
-    }
-}
-
-// Original CLI command: bindgen -l lib/libafcuda.dylib -I . -builtins -o arrayfire.rs arrayfire.h
-fn build_bindings(package_name: &str,
-                  out_dir: &std::path::PathBuf,
-                  include_path: &std::path::PathBuf) {
-  let rust_header = package_name.to_string() + ".rs";
-  let c_header = package_name.to_string() + ".h";
-
-  let rs_dir = std::path::Path::new(&out_dir).join(rust_header);
-  let rs_path = rs_dir.to_str().unwrap();
-
-  let mut bindings = bindgen::builder();
-  bindings.emit_builtins();
-
-  // Blob in '-I arrayfire/include' to the "VPATH"
-  if cfg!(target_os="windows") {
-      bindings.header("-I");
-      bindings.header("C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\include");
-  } else if cfg!(target_os="linux") {
-      bindings.header("-I");
-      bindings.header(format!("/usr/lib/gcc/x86_64-linux-gnu/{}/include", get_gcc_version_path()));
-      bindings.header("-I");
-      bindings.header(format!("/usr/lib/gcc/x86_64-unknown-linux-gnu/{}/include", get_gcc_version_path()));
-  }
-  bindings.header("-I");
-  bindings.header(include_path.to_str().unwrap());
-
-  let h_path = std::path::Path::new(&include_path).join(c_header);
-  let h_path = String::from(h_path.to_str().unwrap());
-  bindings.header(h_path);
-
-  let bindings = bindings.generate();
-  let bindings = bindings.unwrap();
-  bindings.write_to_file(rs_path).unwrap();
 }
 
 fn read_file(file_name: &std::path::PathBuf) -> String {
-  let file_path = file_name.to_str().unwrap();
-  let options = OpenOptions::new()
-    .read(true)
-    .write(false)
-    .create(false)
-    .open(&file_path);
-  let mut file = match options {
-    Ok(file) => file,
-    Err(..) => panic!("error reading file"),
-  };
+    let file_path = file_name.to_str().unwrap();
+    let options = OpenOptions::new()
+        .read(true)
+        .write(false)
+        .create(false)
+        .open(&file_path);
 
-  let mut s = String::new();
-  file.read_to_string(&mut s);
-  return s.to_string()
+    let mut file = match options {
+            Ok(file) => file,
+            Err(..) => panic!("error reading file"),
+        };
+
+    let mut s = String::new();
+    file.read_to_string(&mut s);
+    return s.to_string()
 }
 
 fn read_conf(conf_file: &std::path::PathBuf) -> Config {
-  let raw_conf = read_file(conf_file);
-  let decoded: Config = json::decode(&raw_conf).unwrap();
-  decoded
-}
-
-fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
-  let mut backend_dirs :Vec<String>= Vec::new();
-  let mut backends :Vec<String> = Vec::new();
-
-  if conf.build_cuda == "ON" {
-    backends.push("afcuda".to_string());
-    if !conf.use_lib {
-      backend_dirs.push(build_dir.join("src/backend/cuda").to_str().to_owned().unwrap().to_string());
-    }
-  }
-  if conf.build_opencl == "ON" {
-    backends.push("forge".to_string());
-    backends.push(("afopencl".to_string()));
-    if !conf.use_lib{
-      backend_dirs.push(build_dir.join("third_party/forge/lib").to_str().to_owned().unwrap().to_string());
-      backend_dirs.push(build_dir.join("src/backend/opencl").to_str().to_owned().unwrap().to_string());
-    }
-  }
-  if conf.build_cpu == "ON" {
-    backends.push("afcpu".to_string());
-    if !conf.use_lib{
-      backend_dirs.push(build_dir.join("src/backend/cpu").to_str().to_owned().unwrap().to_string());
-    }
-  }
-  if conf.use_lib{
-    backend_dirs.push(conf.lib_dir.to_owned());
-  }
-  return (backends, backend_dirs);
+    let raw_conf = read_file(conf_file);
+    let decoded: Config = json::decode(&raw_conf).unwrap();
+    decoded
 }
 
 #[cfg(windows)]
@@ -196,34 +113,43 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
             fft_options.push(format!("-DFFTWL_LIB:STRING={0}\\libfftw3l-3.lib", conf.fftw_dir));
         },
         "ACML" => {
-            fft_options.push(format!("-DFFTW_ROOT:STRING={0}",conf.acml_dir));
-            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\acml_fftw.lib",conf.acml_dir));
+            fft_options.push(format!("-DFFTW_ROOT:STRING={0}", conf.acml_dir));
+            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\acml_fftw.lib",
+                                    conf.acml_dir));
         },
         "MKL" => {
             fft_options.push(format!("-DFFTW_ROOT:STRING={0}", conf.mkl_dir));
-            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+            fft_options.push(format!("-DFFTW_LIBRARIES:STRING={0}\\lib\\mkl_rt.lib",
+                                    conf.mkl_dir));
         },
         _ => fail("Invalid FFT upstream option set"),
     };
     match conf.cpu_blas_type.as_ref() {
         "LAPACKE" => {
             blas_options.push(format!("-DUSE_CPU_F77_BLAS:BOOL={}", "ON"));
-            blas_options.push(format!("-DCBLAS_INCLUDE_DIR:STRING={0}\\include", conf.lapacke_dir));
-            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\libblas.lib", conf.lapacke_dir));
+            blas_options.push(format!("-DCBLAS_INCLUDE_DIR:STRING={0}\\include",
+                                    conf.lapacke_dir));
+            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\libblas.lib",
+                                    conf.lapacke_dir));
         },
         "MKL" => {
             blas_options.push(format!("-DUSE_CPU_MKL:BOOL={}", "ON"));
             blas_options.push(format!("-DCBLAS_INCLUDE_DIR:STRING={0}\\include", conf.mkl_dir));
-            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\mkl_rt.lib", conf.mkl_dir));
+            blas_options.push(format!("-DCBLAS_cblas_LIBRARY:STRING={0}\\lib\\mkl_rt.lib",
+                                    conf.mkl_dir));
         },
         _ => fail("Invalid BLAS upstream option set"),
     };
     match conf.cpu_lapack_type.as_ref() {
         "LAPACKE" => {
-            lapack_options.push(format!("-DLAPACKE_ROOT:STRING={0}", conf.lapacke_dir));
-            lapack_options.push(format!("-DLAPACK_INCLUDE_DIR:STRING={0}\\include", conf.lapacke_dir));
-            lapack_options.push(format!("-DLAPACKE_LIB:STRING={0}\\lib\\liblapacke.lib", conf.lapacke_dir));
-            lapack_options.push(format!("-DLAPACK_LIB:STRING={0}\\lib\\liblapack.lib", conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACKE_ROOT:STRING={0}",
+                                        conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACK_INCLUDE_DIR:STRING={0}\\include",
+                                        conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACKE_LIB:STRING={0}\\lib\\liblapacke.lib",
+                                        conf.lapacke_dir));
+            lapack_options.push(format!("-DLAPACK_LIB:STRING={0}\\lib\\liblapack.lib",
+                                        conf.lapacke_dir));
         },
         "MKL" => {
             lapack_options.push(format!("-DUSE_CPU_MKL:BOOL={0}", "ON"));
@@ -236,12 +162,16 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     };
     match conf.glew_static.as_ref() {
         "OFF" => {
-            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32.lib", conf.glew_dir));
-            glew_lib.push(format!("-DGLEWmxd_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mx.lib", conf.glew_dir));
+            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32.lib",
+                                    conf.glew_dir));
+            glew_lib.push(format!("-DGLEWmxd_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mx.lib",
+                                    conf.glew_dir));
         },
         "ON" => {
-            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32s.lib", conf.glew_dir));
-            glew_lib.push(format!("-DGLEWmxs_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mxs.lib", conf.glew_dir));
+            glew_lib.push(format!("-DGLEW_LIBRARY:STRING={0}\\lib\\Release\\x64\\glew32s.lib",
+                                conf.glew_dir));
+            glew_lib.push(format!("-DGLEWmxs_LIBRARY:STRING={0}\\lib\\Release MX\\x64\\glew32mxs.lib",
+                                conf.glew_dir));
         },
         _ => fail("Invalid GLEW STATIC library option option set"),
     };
@@ -255,7 +185,8 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
             graphics_options.push(format!("-DUSE_GLEWmx_STATIC:BOOL={0}", conf.glew_static));
             graphics_options.push(format!("-DGLEW_INCLUDE_DIR:STRING={0}\\include", conf.glew_dir));
             graphics_options.push(format!("-DGLFW_INCLUDE_DIR:STRING={0}\\include", conf.glfw_dir));
-            graphics_options.push(format!("-DGLFW_LIBRARY:STRING={0}\\lib-msvc120\\glfw3.dll", conf.glfw_dir));
+            graphics_options.push(format!("-DGLFW_LIBRARY:STRING={0}\\lib-msvc120\\glfw3.dll",
+                                        conf.glfw_dir));
             for glew_curr_lib in glew_lib {
                 graphics_options.push(glew_curr_lib);
             }
@@ -269,14 +200,18 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
         "STATIC" => {
             freeimage_options.push(format!("-DFREEIMAGE_FOUND:STRING={}", "ON"));
             freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "ON"));
-            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}", conf.freeimage_dir));
-            freeimage_options.push(format!("-DFREEIMAGE_STATIC_LIBRARY:STRING={0}\\FreeImageLib.lib", conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}",
+                                        conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_STATIC_LIBRARY:STRING={0}\\FreeImageLib.lib",
+                                        conf.freeimage_dir));
         },
         "DYNAMIC" => {
             freeimage_options.push(format!("-DFREEIMAGE_FOUND:STRING={}", "ON"));
             freeimage_options.push(format!("-DUSE_FREEIMAGE_STATIC:BOOL={}", "OFF"));
-            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}", conf.freeimage_dir));
-            freeimage_options.push(format!("-DFREEIMAGE_DYNAMIC_LIBRARY:STRING={0}\\FreeImage.lib", conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_INCLUDE_PATH:STRING={0}",
+                                        conf.freeimage_dir));
+            freeimage_options.push(format!("-DFREEIMAGE_DYNAMIC_LIBRARY:STRING={0}\\FreeImage.lib",
+                                        conf.freeimage_dir));
         },
         _ => fail("Invalid freeimage build option set"),
     };
@@ -291,7 +226,8 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
                 format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
                 format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
                 format!("-DBUILD_TEST:BOOL={}", conf.build_test),
-                format!("-DBOOST_ROOT={}", conf.boost_dir)])
+                format!("-DBOOST_ROOT={}", conf.boost_dir),
+                format!("-DCMAKE_INSTALL_PREFIX={}", "package")])
         .args(&freeimage_options)
         .args(&fft_options)
         .args(&blas_options)
@@ -306,6 +242,12 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
         .arg(format!("/p:Configuration={}", conf.build_type))
         .arg(format!("ArrayFire.sln")),
         "MSBuild");
+    let mut install_cmd= Command::new("C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe");
+    install_cmd.current_dir(&build_dir);
+    run(install_cmd
+        .arg(format!("/p:Configuration={}", conf.build_type))
+        .arg(format!("INSTALL.vcxproj")),
+        "Install");
 }
 
 #[cfg(not(windows))]
@@ -362,7 +304,8 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
                 format!("-DBUILD_CUDA:BOOL={}", conf.build_cuda),
                 format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
                 format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
-                format!("-DBUILD_TEST:BOOL={}", conf.build_test)])
+                format!("-DBUILD_TEST:BOOL={}", conf.build_test),
+                format!("-DCMAKE_INSTALL_PREFIX:STRING={}", "package")])
         .args(&freeimage_options)
         .args(&blas_options)
         .args(&lapack_options)
@@ -372,37 +315,61 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     // run make
     let mut make_cmd= Command::new("make");
     make_cmd.current_dir(&build_dir);
-    run(make_cmd.arg(format!("-j{}", conf.build_threads)), "make");
+    run(make_cmd.arg(format!("-j{} install", conf.build_threads)), "make");
+}
+
+fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
+    let mut backend_dirs :Vec<String>= Vec::new();
+    let mut backends :Vec<String> = Vec::new();
+
+    if conf.use_lib {
+        backend_dirs.push(conf.lib_dir.to_owned());
+    } else {
+        backend_dirs.push(build_dir.join("package/lib").to_str().to_owned().unwrap().to_string());
+    }
+
+    if conf.build_cuda == "ON" {
+        backends.push("afcuda".to_string());
+    }
+
+    if conf.build_cpu == "ON" {
+        backends.push("afcpu".to_string());
+    }
+
+    if conf.build_opencl == "ON" {
+        backends.push(("afopencl".to_string()));
+    }
+
+    if conf.build_graphics=="ON" {
+        backends.push("forge".to_string());
+        if !conf.use_lib {
+            backend_dirs.push(build_dir.join("third_party/forge/lib")
+                            .to_str().to_owned().unwrap().to_string());
+        }
+    }
+
+    return (backends, backend_dirs);
 }
 
 fn main() {
-  // Setup pathing
-  let src = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
-  let conf_file = src.join("build.conf");
-  let conf = read_conf(&conf_file);
+    // Setup pathing
+    let src = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
+    let conf_file = src.join("build.conf");
+    let conf = read_conf(&conf_file);
 
-  let mut arrayfire_dir = src.join("arrayfire");
-  let build_dir = arrayfire_dir.join("build");
-  let src_dir = src.join("src");
+    let arrayfire_dir = src.join("arrayfire");
+    let build_dir = arrayfire_dir.join("build");
 
-  if !conf.use_lib {
-      run_cmake_command(&conf, &build_dir);
-  }
+    if !conf.use_lib {
+        run_cmake_command(&conf, &build_dir);
+    }
 
-  // build correct backend
-  let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
-  for backend in backends.iter() {
-    println!("cargo:rustc-link-lib=dylib={}", backend);
-  }
-  for backend_dir in backend_dirs.iter() {
-    println!("cargo:rustc-link-search=native={}", backend_dir);
-  }
-
-  if conf.use_lib {
-    arrayfire_dir = PathBuf::from(conf.inc_dir);
-  } else {
-    arrayfire_dir = arrayfire_dir.join("include");
-  }
-
-  build_bindings("arrayfire", &src_dir, &arrayfire_dir);
+    // build correct backend
+    let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
+    for backend in backends.iter() {
+        println!("cargo:rustc-link-lib=dylib={}", backend);
+    }
+    for backend_dir in backend_dirs.iter() {
+        println!("cargo:rustc-link-search=native={}", backend_dir);
+    }
 }

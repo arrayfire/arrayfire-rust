@@ -7,10 +7,6 @@ build = "build.rs"
 [dependencies]
 libc = "*"
 
-[build-dependencies.bindgen]
-git = "https://github.com/crabtw/rust-bindgen.git"
-version = "*"
-
 [build-dependencies.rustc-serialize]
 rustc-serialize = "*"
 
