@@ -43,6 +43,8 @@ struct Config {
     glew_dir: String,
     glfw_dir: String,
     boost_dir: String,
+    cuda_sdk: String,
+    opencl_sdk: String,
 }
 
 macro_rules! t {
@@ -332,6 +334,14 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
 
     if conf.build_cuda == "ON" {
         backends.push("afcuda".to_string());
+        backends.push("nvvm".to_string());
+        if cfg!(windows) {
+            backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
+            backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
+        } else {
+            backend_dirs.push(format!("{}/lib64", conf.cuda_sdk));
+            backend_dirs.push(format!("{}/nvvm/lib64", conf.cuda_sdk));
+        }
     }
 
     if conf.build_cpu == "ON" {
@@ -341,6 +351,11 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     if conf.build_opencl == "ON" {
         backends.push(("afopencl".to_string()));
         backends.push("OpenCL".to_string());
+        if cfg!(windows) {
+            backend_dirs.push(format!("{}\\lib\\x64", conf.opencl_sdk));
+        } else {
+            backend_dirs.push(format!("{}/lib64", conf.opencl_sdk));
+        }
     }
 
     if conf.build_graphics=="ON" {
