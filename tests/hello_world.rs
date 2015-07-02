@@ -16,7 +16,7 @@ fn main() {
 	arrayfire::print(&a);
 
     println!("Element-wise arithmetic");
-	let b: Array = arrayfire::sin(&a);
+	let b: Array = arrayfire::sin(&a) + 1.5;
 	arrayfire::print(&b);
 
     // printf("Negate the first three elements of second column\n");

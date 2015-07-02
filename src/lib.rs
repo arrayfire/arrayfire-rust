@@ -6,7 +6,9 @@ use libc::c_int;
 use libc::c_uint;
 use libc::c_double;
 use libc::c_longlong;
+
 use std::ops::Index;
+use std::ops::Add;
 
 #[link(name="afcpu")]
 extern {
@@ -29,10 +31,21 @@ extern {
 
     fn af_print_array(arr: c_longlong) -> c_int;
 
+    fn af_constant(out: *mut c_longlong,
+                   cnst: c_double,
+                   ndims: c_uint,
+                   dims: *const c_longlong,
+                   af_type: c_int) -> c_int;
+
     fn af_randu(out: *mut c_longlong,
                 ndims: c_uint,
                 dims: *const c_longlong,
                 af_type: c_int) -> c_int;
+
+    fn af_add(out: *mut c_longlong,
+              lhs: c_longlong,
+              rhs: c_longlong,
+              batch: c_int) -> c_int;
 
     fn af_sin(out: *mut c_longlong,
                 arr: c_longlong) -> c_int;
@@ -62,6 +75,7 @@ extern {
                      ascending: c_int) -> c_int;
 }
 
+#[derive(Clone)]
 pub struct Dim4 {
     dims: [u64; 4],
 }
@@ -116,12 +130,29 @@ impl Dim4 {
 
 pub struct Array {
     handle: i64,
+    dims: Dim4,
 }
 
 impl Drop for Array {
     fn drop(&mut self) {
         unsafe {
             af_release_array(self.handle);
+        }
+    }
+}
+
+impl Add<f64> for Array {
+    type Output = Array;
+
+    fn add(self, rhs: f64) -> Array {
+        let cnst_arr = constant(rhs, self.dims());
+        unsafe {
+            let mut temp: i64 = 0;
+            af_add(&mut temp as *mut c_longlong,
+                   self.get() as c_longlong,
+                   cnst_arr.get() as c_longlong,
+                   0);
+            Array { handle: temp, dims: self.dims().clone() }
         }
     }
 }
@@ -136,8 +167,12 @@ impl Array {
                             dims.ndims() as c_uint,
                             dims.get().as_ptr() as * const c_longlong,
                             0);
-            Array { handle: temp }
+            Array { handle: temp, dims: dims.clone() }
         }
+    }
+
+    pub fn dims(&self) -> &Dim4 {
+        &self.dims
     }
 
     pub fn get(&self) -> i64 {
@@ -184,7 +219,20 @@ pub fn randu(dims: &Dim4) -> Array {
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as * const c_longlong,
                 0);
-        Array { handle: temp }
+        Array { handle: temp, dims: dims.clone() }
+    }
+}
+
+#[allow(unused_mut)]
+pub fn constant(cnst: f64, dims: &Dim4) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        af_constant(&mut temp as *mut c_longlong,
+                 cnst as c_double,
+                 dims.ndims() as c_uint,
+                 dims.get().as_ptr() as * const c_longlong,
+                 0);
+        Array { handle: temp, dims: dims.clone() }
     }
 }
 
@@ -193,7 +241,7 @@ pub fn sin(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_sin(&mut temp as *mut c_longlong, input.get() as c_longlong);
-        Array { handle: temp }
+        Array { handle: temp, dims: input.dims().clone() }
     }
 }
 
@@ -205,7 +253,7 @@ pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
                input.get() as c_longlong,
                norm_factor as c_double,
                odim0 as c_longlong);
-        Array { handle: temp }
+        Array { handle: temp, dims: input.dims().clone() }
     }
 }
 
@@ -218,7 +266,7 @@ pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
                 norm_factor as c_double,
                 odim0 as c_longlong,
                 odim1 as c_longlong);
-        Array { handle: temp }
+        Array { handle: temp, dims: input.dims().clone() }
     }
 }
 
@@ -232,7 +280,7 @@ pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64)
                 odim0 as c_longlong,
                 odim1 as c_longlong,
                 odim2 as c_longlong);
-        Array { handle: temp }
+        Array { handle: temp, dims: input.dims().clone() }
     }
 }
 
@@ -246,6 +294,7 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
                       input.get() as c_longlong,
                       dim as c_uint,
                       ascending as c_int);
-        (Array {handle: temp}, Array {handle: idx})
+        (Array {handle: temp, dims: input.dims().clone()},
+         Array {handle: idx, dims: input.dims().clone()})
     }
 }
