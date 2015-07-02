@@ -31,10 +31,11 @@ fn main() {
     // array c = C.row(end);
     // af_print(c);
 
-    // printf("Create 2-by-3 matrix from host data\n");
-    // float d[] = { 1, 2, 3, 4, 5, 6 };
-    // array D(2, 3, d, af::afHost);
-    // af_print(D);
+    println!("Create 2-by-3 matrix from host data");
+    let d_dims: Dim4 = Dim4::new(&[2, 3, 1, 1]);
+    let d_input: [f64; 6] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
+    let d: Array = Array::new(&d_dims, &d_input);
+    arrayfire::print(&d);
 
     // printf("Copy last column onto first\n");
     // D.col(0) = D.col(end);

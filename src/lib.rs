@@ -128,11 +128,11 @@ impl Drop for Array {
 
 impl Array {
     #[allow(unused_mut)]
-    pub fn new(dims: &Dim4, data: &[f64]) -> Array {
+    pub fn new(dims: &Dim4, slice: &[f64]) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            af_create_array(temp as *mut c_longlong,
-                            data.as_ptr() as *const c_void,
+            af_create_array(&mut temp as *mut c_longlong,
+                            slice.as_ptr() as *const c_void,
                             dims.ndims() as c_uint,
                             dims.get().as_ptr() as * const c_longlong,
                             0);
