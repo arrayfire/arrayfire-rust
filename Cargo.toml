@@ -15,5 +15,5 @@ name = "arrayfire"
 path = "src/lib.rs"
 
 [[test]]
-name = "arrayfire_test"
+name = "helloworld"
 path = "tests/hello_world.rs"

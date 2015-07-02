@@ -315,7 +315,9 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     // run make
     let mut make_cmd= Command::new("make");
     make_cmd.current_dir(&build_dir);
-    run(make_cmd.arg(format!("-j{} install", conf.build_threads)), "make");
+    run(make_cmd
+        .arg(format!("-j{}", conf.build_threads))
+        .arg(format!("install")), "make");
 }
 
 fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {

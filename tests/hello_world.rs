@@ -19,14 +19,13 @@ fn main() {
 	let b: Array = arrayfire::sin(&a);
 	arrayfire::print(&b);
 
-    // TODO: work through implementations of below
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
     // af_print(B);
 
-    // printf("Fourier transform the result\n");
-    // array C = fft(B);
-    // af_print(C);
+    println!("Fourier transform the result");
+    let c: Array = arrayfire::fft(&b, 1.0, 0);
+    arrayfire::print(&c);
 
     // printf("Grab last row\n");
     // array c = C.row(end);
@@ -42,9 +41,8 @@ fn main() {
     // af_print(D);
 
     // // Sort A
-    // printf("Sort A and print sorted array and corresponding indices\n");
-    // array vals, inds;
-    // sort(vals, inds, A);
-    // af_print(vals);
-    // af_print(inds);
+    println!("Sort A and print sorted array and corresponding indices");
+    let (vals, inds) = arrayfire::sort(&a, 0, true);
+    arrayfire::print(&vals);
+    arrayfire::print(&inds);
 }

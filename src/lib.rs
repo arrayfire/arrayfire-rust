@@ -1,12 +1,14 @@
 extern crate libc;
 
+use std::fmt;
 use libc::c_void;
 use libc::c_int;
 use libc::c_uint;
+use libc::c_double;
 use libc::c_longlong;
 use std::ops::Index;
 
-#[link(name="afopencl")]
+#[link(name="afcpu")]
 extern {
     fn af_set_device(device: c_int) -> c_int;
 
@@ -34,18 +36,30 @@ extern {
 
     fn af_sin(out: *mut c_longlong,
                 arr: c_longlong) -> c_int;
-}
 
-pub fn set_device(device: i32) {
-    unsafe {
-        af_set_device(device as c_int);
-    }
-}
+    fn af_fft(out: *mut c_longlong,
+              arr: c_longlong,
+              nfac: c_double,
+              odim0: c_longlong) -> c_int;
 
-pub fn info() {
-    unsafe {
-        af_info();
-    }
+    fn af_fft2(out: *mut c_longlong,
+               arr: c_longlong,
+               nfac: c_double,
+               odim0: c_longlong,
+               odim1: c_longlong) -> c_int;
+
+    fn af_fft3(out: *mut c_longlong,
+               arr: c_longlong,
+               nfac: c_double,
+               odim0: c_longlong,
+               odim1: c_longlong,
+               odim2: c_longlong) -> c_int;
+
+    fn af_sort_index(out: *mut c_longlong,
+                     indices: *mut c_longlong,
+                     input: c_longlong,
+                     dim: c_uint,
+                     ascending: c_int) -> c_int;
 }
 
 pub struct Dim4 {
@@ -63,6 +77,12 @@ impl Index<usize> for Dim4 {
 
     fn index<'a>(&'a self, _index: usize) ->&'a u64 {
         &self.dims[_index]
+    }
+}
+
+impl fmt::Display for Dim4 {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{} {} {} {}]", self.dims[0], self.dims[1], self.dims[2], self.dims[3])
     }
 }
 
@@ -138,11 +158,29 @@ impl Array {
     }
 }
 
+pub fn set_device(device: i32) {
+    unsafe {
+        af_set_device(device as c_int);
+    }
+}
+
+pub fn info() {
+    unsafe {
+        af_info();
+    }
+}
+
+pub fn print(input: &Array) {
+    unsafe {
+        af_print_array(input.get() as c_longlong);
+    }
+}
+
 #[allow(unused_mut)]
 pub fn randu(dims: &Dim4) -> Array {
     unsafe {
         let mut temp: i64 = 0;
-        af_randu(temp as *mut c_longlong,
+        af_randu(&mut temp as *mut c_longlong,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as * const c_longlong,
                 0);
@@ -154,13 +192,60 @@ pub fn randu(dims: &Dim4) -> Array {
 pub fn sin(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
-        af_sin(temp as *mut c_longlong, input.get());
+        af_sin(&mut temp as *mut c_longlong, input.get() as c_longlong);
         Array { handle: temp }
     }
 }
 
-pub fn print(input: &Array) {
+#[allow(unused_mut)]
+pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
     unsafe {
-        af_print_array(input.get() as c_longlong);
+        let mut temp: i64 = 0;
+        af_fft(&mut temp as *mut c_longlong,
+               input.get() as c_longlong,
+               norm_factor as c_double,
+               odim0 as c_longlong);
+        Array { handle: temp }
+    }
+}
+
+#[allow(unused_mut)]
+pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        af_fft2(&mut temp as *mut c_longlong,
+                input.get() as c_longlong,
+                norm_factor as c_double,
+                odim0 as c_longlong,
+                odim1 as c_longlong);
+        Array { handle: temp }
+    }
+}
+
+#[allow(unused_mut)]
+pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        af_fft3(&mut temp as *mut c_longlong,
+                input.get() as c_longlong,
+                norm_factor as c_double,
+                odim0 as c_longlong,
+                odim1 as c_longlong,
+                odim2 as c_longlong);
+        Array { handle: temp }
+    }
+}
+
+#[allow(unused_mut)]
+pub fn sort(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
+    unsafe {
+        let mut temp: i64 = 0;
+        let mut idx: i64 = 0;
+        af_sort_index(&mut temp as *mut c_longlong,
+                      &mut idx as *mut c_longlong,
+                      input.get() as c_longlong,
+                      dim as c_uint,
+                      ascending as c_int);
+        (Array {handle: temp}, Array {handle: idx})
     }
 }
