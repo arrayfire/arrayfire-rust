@@ -1,14 +1,8 @@
 # Arrayfire Rust Bindings
 
-This project uses [bindgen](https://github.com/crabtw/rust-bindgen) to build an arrayfire binding that is usable in Rust. This project is currently in it's infancy and there will be quite a few issues to work through.
+This project is currently in it's infancy and there will be quite a few issues to work through.
 
-Currently the example creates an arrayfire array structure and runs the first two examples listed in hello_world.
-
-## Automatic binding generation
-
-Bindgen automatically iterates from the root arrayfire.h header & pulls in all the required C includes. This is currently blobbed into one huge arrayfire.rs file. 
-
-In the future we will try to provide a nicer Rust-wrapped version of this header so that the code does not look too verbose.
+Currently the example creates an arrayfire array structure and runs the code from helloworld except indexing operations.
 
 ## Building & Running
 
@@ -57,5 +51,5 @@ You might see something along the lines of :
 dyld: Library not loaded: @rpath/libafopencl.3.dylib
 ```
 
-This is related to this (Rust issue)[https://github.com/rust-lang/rust/issues/25185]
+This is related to this [Rust issue](https://github.com/rust-lang/rust/issues/25185)
 A workaround for now is to add the location of libaf*.dylib to your LD_LIBRARY_PATH.

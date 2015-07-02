@@ -7,10 +7,6 @@ build = "build.rs"
 [dependencies]
 libc = "*"
 
-[build-dependencies.bindgen]
-git = "https://github.com/crabtw/rust-bindgen.git"
-version = "*"
-
 [build-dependencies.rustc-serialize]
 rustc-serialize = "*"
 
@@ -19,5 +15,5 @@ name = "arrayfire"
 path = "src/lib.rs"
 
 [[test]]
-name = "arrayfire_test"
+name = "helloworld"
 path = "tests/hello_world.rs"
