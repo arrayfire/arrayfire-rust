@@ -12,7 +12,7 @@ fn main() {
     let dims: Dim4 = Dim4::new(&[5, 3, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
-	let a: Array = arrayfire::randu(&dims);
+	let a: Array = arrayfire::randu(dims, arrayfire::Aftype::F32);
 	arrayfire::print(&a);
 
     println!("Element-wise arithmetic");
@@ -33,8 +33,8 @@ fn main() {
 
     println!("Create 2-by-3 matrix from host data");
     let d_dims: Dim4 = Dim4::new(&[2, 3, 1, 1]);
-    let d_input: [f64; 6] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
-    let d: Array = Array::new(&d_dims, &d_input);
+    let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];
+    let d: Array = Array::new(d_dims, &d_input, arrayfire::Aftype::S32);
     arrayfire::print(&d);
 
     // printf("Copy last column onto first\n");

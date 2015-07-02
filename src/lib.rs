@@ -22,6 +22,21 @@ extern {
                         dims: *const c_longlong,
                         af_type: c_int) -> c_int;
 
+    fn af_get_elements(out: *mut c_longlong,
+                       arr: c_longlong) -> c_int;
+
+    fn af_get_type(out: *mut c_int,
+                   arr: c_longlong) -> c_int;
+
+    fn af_get_dims(dim0: *mut c_longlong,
+                   dim1: *mut c_longlong,
+                   dim2: *mut c_longlong,
+                   dim3: *mut c_longlong,
+                   arr: c_longlong) -> c_int;
+
+    fn af_get_numdims(result: *mut c_uint,
+                      arr: c_longlong) -> c_int;
+
     fn af_get_data_ptr(data: *mut c_void,
                         arr: c_longlong) -> c_int;
 
@@ -76,6 +91,51 @@ extern {
 }
 
 #[derive(Clone)]
+pub enum Aftype {
+    F32,
+    C32,
+    F64,
+    C64,
+    B8,
+    S32,
+    U32,
+    U8,
+    S64,
+    U64,
+}
+
+fn get_ffi_type(t: Aftype) -> i32 {
+    match t {
+        Aftype::F32 => 0,
+        Aftype::C32 => 1,
+        Aftype::F64 => 2,
+        Aftype::C64 => 3,
+        Aftype::B8  => 4,
+        Aftype::S32 => 5,
+        Aftype::U32 => 6,
+        Aftype::U8  => 7,
+        Aftype::S64 => 8,
+        Aftype::U64 => 9,
+    }
+}
+
+fn get_af_type(t: i32) -> Aftype {
+    match t {
+        0 => Aftype::F32,
+        1 => Aftype::C32,
+        2 => Aftype::F64,
+        3 => Aftype::C64,
+        4 => Aftype::B8 ,
+        5 => Aftype::S32,
+        6 => Aftype::U32,
+        7 => Aftype::U8 ,
+        8 => Aftype::S64,
+        9 => Aftype::U64,
+        _ => Aftype::F32,
+    }
+}
+
+#[derive(Clone)]
 pub struct Dim4 {
     dims: [u64; 4],
 }
@@ -119,7 +179,7 @@ impl Dim4 {
                 else if self.dims[2] != 1 { 3 }
                 else if self.dims[1] != 1 { 2 }
                 else { 1 }
-            }
+            },
         }
     }
 
@@ -130,49 +190,62 @@ impl Dim4 {
 
 pub struct Array {
     handle: i64,
-    dims: Dim4,
-}
-
-impl Drop for Array {
-    fn drop(&mut self) {
-        unsafe {
-            af_release_array(self.handle);
-        }
-    }
-}
-
-impl Add<f64> for Array {
-    type Output = Array;
-
-    fn add(self, rhs: f64) -> Array {
-        let cnst_arr = constant(rhs, self.dims());
-        unsafe {
-            let mut temp: i64 = 0;
-            af_add(&mut temp as *mut c_longlong,
-                   self.get() as c_longlong,
-                   cnst_arr.get() as c_longlong,
-                   0);
-            Array { handle: temp, dims: self.dims().clone() }
-        }
-    }
 }
 
 impl Array {
     #[allow(unused_mut)]
-    pub fn new(dims: &Dim4, slice: &[f64]) -> Array {
+    pub fn new<T>(dims: Dim4, slice: &[T], aftype: Aftype) -> Array {
         unsafe {
             let mut temp: i64 = 0;
             af_create_array(&mut temp as *mut c_longlong,
                             slice.as_ptr() as *const c_void,
                             dims.ndims() as c_uint,
                             dims.get().as_ptr() as * const c_longlong,
-                            0);
-            Array { handle: temp, dims: dims.clone() }
+                            get_ffi_type(aftype.clone()) as c_int);
+            Array { handle: temp }
         }
     }
 
-    pub fn dims(&self) -> &Dim4 {
-        &self.dims
+    pub fn elements(&self) -> i64 {
+        unsafe {
+            let mut ret_val: i64 = 0;
+            af_get_elements(&mut ret_val as *mut c_longlong,
+                            self.handle as c_longlong);
+            ret_val
+        }
+    }
+
+    pub fn get_type(&self) -> Aftype {
+        unsafe {
+            let mut ret_val: i32 = 0;
+            af_get_type(&mut ret_val as *mut c_int,
+                        self.handle as c_longlong);
+            get_af_type(ret_val)
+        }
+    }
+
+    pub fn dims(&self) -> Dim4 {
+        unsafe {
+            let mut ret0: i64 = 0;
+            let mut ret1: i64 = 0;
+            let mut ret2: i64 = 0;
+            let mut ret3: i64 = 0;
+            af_get_dims(&mut ret0 as *mut c_longlong,
+                        &mut ret1 as *mut c_longlong,
+                        &mut ret2 as *mut c_longlong,
+                        &mut ret3 as *mut c_longlong,
+                        self.handle as c_longlong);
+            Dim4 { dims: [ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64] }
+        }
+    }
+
+    pub fn numdims(&self) -> u32 {
+        unsafe {
+            let mut ret_val: u32 = 0;
+            af_get_numdims(&mut ret_val as *mut c_uint,
+                           self.handle as c_longlong);
+            ret_val
+        }
     }
 
     pub fn get(&self) -> i64 {
@@ -189,6 +262,30 @@ impl Array {
     pub fn eval(&self) {
         unsafe {
             af_eval(self.handle as c_longlong);
+        }
+    }
+}
+
+impl Drop for Array {
+    fn drop(&mut self) {
+        unsafe {
+            af_release_array(self.handle);
+        }
+    }
+}
+
+impl Add<f64> for Array {
+    type Output = Array;
+
+    fn add(self, rhs: f64) -> Array {
+        let cnst_arr = constant(rhs, self.dims(), self.get_type().clone());
+        unsafe {
+            let mut temp: i64 = 0;
+            af_add(&mut temp as *mut c_longlong,
+                   self.get() as c_longlong,
+                   cnst_arr.get() as c_longlong,
+                   0);
+            Array { handle: temp }
         }
     }
 }
@@ -212,27 +309,27 @@ pub fn print(input: &Array) {
 }
 
 #[allow(unused_mut)]
-pub fn randu(dims: &Dim4) -> Array {
+pub fn randu(dims: Dim4, aftype: Aftype) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_randu(&mut temp as *mut c_longlong,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as * const c_longlong,
-                0);
-        Array { handle: temp, dims: dims.clone() }
+                get_ffi_type(aftype.clone()) as c_int);
+        Array { handle: temp }
     }
 }
 
 #[allow(unused_mut)]
-pub fn constant(cnst: f64, dims: &Dim4) -> Array {
+pub fn constant(cnst: f64, dims: Dim4, aftype: Aftype) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_constant(&mut temp as *mut c_longlong,
                  cnst as c_double,
                  dims.ndims() as c_uint,
                  dims.get().as_ptr() as * const c_longlong,
-                 0);
-        Array { handle: temp, dims: dims.clone() }
+                 get_ffi_type(aftype.clone()) as c_int);
+        Array { handle: temp }
     }
 }
 
@@ -241,7 +338,7 @@ pub fn sin(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_sin(&mut temp as *mut c_longlong, input.get() as c_longlong);
-        Array { handle: temp, dims: input.dims().clone() }
+        Array { handle: temp }
     }
 }
 
@@ -253,7 +350,7 @@ pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
                input.get() as c_longlong,
                norm_factor as c_double,
                odim0 as c_longlong);
-        Array { handle: temp, dims: input.dims().clone() }
+        Array { handle: temp }
     }
 }
 
@@ -266,7 +363,7 @@ pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
                 norm_factor as c_double,
                 odim0 as c_longlong,
                 odim1 as c_longlong);
-        Array { handle: temp, dims: input.dims().clone() }
+        Array { handle: temp }
     }
 }
 
@@ -280,7 +377,7 @@ pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64)
                 odim0 as c_longlong,
                 odim1 as c_longlong,
                 odim2 as c_longlong);
-        Array { handle: temp, dims: input.dims().clone() }
+        Array { handle: temp }
     }
 }
 
@@ -294,7 +391,6 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
                       input.get() as c_longlong,
                       dim as c_uint,
                       ascending as c_int);
-        (Array {handle: temp, dims: input.dims().clone()},
-         Array {handle: idx, dims: input.dims().clone()})
+        (Array {handle: temp}, Array {handle: idx})
     }
 }
