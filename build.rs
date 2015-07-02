@@ -340,6 +340,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
 
     if conf.build_opencl == "ON" {
         backends.push(("afopencl".to_string()));
+        backends.push("OpenCL".to_string());
     }
 
     if conf.build_graphics=="ON" {
