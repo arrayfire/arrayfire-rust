@@ -10,7 +10,6 @@ use libc::c_longlong;
 use std::ops::Index;
 use std::ops::Add;
 
-#[link(name="afcpu")]
 extern {
     fn af_set_device(device: c_int) -> c_int;
 
