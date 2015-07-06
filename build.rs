@@ -10,8 +10,13 @@ use std::path::PathBuf;
 use std::process::Command;
 use std::convert::AsRef;
 
+#[allow(dead_code)]
 #[derive(RustcDecodable)]
 struct Config {
+    // below variable dictates which
+    // backend library is used by rust wrapper
+    use_backend: String,
+
     // Use the existing lib if it exists
     use_lib: bool,
     lib_dir: String,
@@ -81,13 +86,15 @@ fn read_file(file_name: &std::path::PathBuf) -> String {
         .open(&file_path);
 
     let mut file = match options {
-            Ok(file) => file,
+            Ok(file)=> file,
             Err(..) => panic!("error reading file"),
         };
 
     let mut s = String::new();
-    file.read_to_string(&mut s);
-    return s.to_string()
+    match file.read_to_string(&mut s) {
+        Ok(_)   => s,
+        Err(..) => panic!("Error reading file to a string"),
+    }
 }
 
 fn read_conf(conf_file: &std::path::PathBuf) -> Config {
@@ -332,7 +339,9 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         backend_dirs.push(build_dir.join("package/lib").to_str().to_owned().unwrap().to_string());
     }
 
-    if conf.build_cuda == "ON" {
+    if conf.use_backend == "cpu" {
+        backends.push("afcpu".to_string());
+    } else if conf.use_backend == "cuda" {
         backends.push("afcuda".to_string());
         backends.push("nvvm".to_string());
         if cfg!(windows) {
@@ -342,13 +351,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
             backend_dirs.push(format!("{}/lib64", conf.cuda_sdk));
             backend_dirs.push(format!("{}/nvvm/lib64", conf.cuda_sdk));
         }
-    }
-
-    if conf.build_cpu == "ON" {
-        backends.push("afcpu".to_string());
-    }
-
-    if conf.build_opencl == "ON" {
+    } else if conf.use_backend == "opencl" {
         backends.push(("afopencl".to_string()));
         backends.push("OpenCL".to_string());
         if cfg!(windows) {
