@@ -370,8 +370,9 @@ pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64)
     }
 }
 
-pub use algorithm::{sum, sum_nan, product, product_nan, min, max, all_true, any_true, count};
-pub use algorithm::{sum_all, sum_nan_all, product_all, product_nan_all, min_all, max_all};
+//pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
+pub use algorithm::{sum, product, min, max, all_true, any_true, count};
+pub use algorithm::{sum_all, product_all, min_all, max_all};
 pub use algorithm::{all_true_all, any_true_all, count_all, imin, imax, imin_all, imax_all};
 pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
 pub use algorithm::{set_unique, set_union, set_intersect};

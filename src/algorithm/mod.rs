@@ -12,11 +12,11 @@ type AfArray    = ::libc::c_longlong;
 extern {
     fn af_sum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
 
-    fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
+    //fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
 
     fn af_product(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
 
-    fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
+    //fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
 
     fn af_min(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
 
@@ -30,11 +30,11 @@ extern {
 
     fn af_sum_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
 
-    fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
+    //fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
 
     fn af_product_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
 
-    fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
+    //fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
 
     fn af_min_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
 
@@ -85,14 +85,14 @@ pub fn sum(input: &Array, dim: i32) -> Array {
     }
 }
 
-pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
-    unsafe {
-        let mut temp: i64 = 0;
-        af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
-                   dim as c_int, nanval as c_double);
-        Array {handle: temp}
-    }
-}
+//pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
+//    unsafe {
+//        let mut temp: i64 = 0;
+//        af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
+//                   dim as c_int, nanval as c_double);
+//        Array {handle: temp}
+//    }
+//}
 
 pub fn product(input: &Array, dim: i32) -> Array {
     unsafe {
@@ -102,14 +102,14 @@ pub fn product(input: &Array, dim: i32) -> Array {
     }
 }
 
-pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
-    unsafe {
-        let mut temp: i64 = 0;
-        af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
-                       dim as c_int, nanval as c_double);
-        Array {handle: temp}
-    }
-}
+//pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
+//    unsafe {
+//        let mut temp: i64 = 0;
+//        af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
+//                       dim as c_int, nanval as c_double);
+//        Array {handle: temp}
+//    }
+//}
 
 pub fn min(input: &Array, dim: i32) -> Array {
     unsafe {
@@ -161,15 +161,15 @@ pub fn sum_all(input: &Array) -> (f64, f64) {
     }
 }
 
-pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
-    unsafe {
-        let mut real: f64 = 0.0;
-        let mut imag: f64 = 0.0;
-        af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
-                       input.get() as AfArray, val as c_double);
-        (real, imag)
-    }
-}
+//pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
+//    unsafe {
+//        let mut real: f64 = 0.0;
+//        let mut imag: f64 = 0.0;
+//        af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
+//                       input.get() as AfArray, val as c_double);
+//        (real, imag)
+//    }
+//}
 
 pub fn product_all(input: &Array) -> (f64, f64) {
     unsafe {
@@ -181,15 +181,15 @@ pub fn product_all(input: &Array) -> (f64, f64) {
     }
 }
 
-pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
-    unsafe {
-        let mut real: f64 = 0.0;
-        let mut imag: f64 = 0.0;
-        af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
-                           input.get() as AfArray, val as c_double);
-        (real, imag)
-    }
-}
+//pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
+//    unsafe {
+//        let mut real: f64 = 0.0;
+//        let mut imag: f64 = 0.0;
+//        af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
+//                           input.get() as AfArray, val as c_double);
+//        (real, imag)
+//    }
+//}
 
 pub fn min_all(input: &Array) -> (f64, f64) {
     unsafe {
