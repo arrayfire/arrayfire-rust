@@ -1,12 +1,8 @@
 extern crate libc;
 
-use std::fmt;
-use libc::c_void;
-use libc::c_int;
-use libc::c_uint;
-use libc::c_double;
-use libc::c_longlong;
+use libc::{c_void, c_int, c_uint, c_double, c_longlong};
 
+use std::fmt;
 use std::ops::Index;
 use std::ops::Add;
 
@@ -81,12 +77,6 @@ extern {
                odim0: c_longlong,
                odim1: c_longlong,
                odim2: c_longlong) -> c_int;
-
-    fn af_sort_index(out: *mut c_longlong,
-                     indices: *mut c_longlong,
-                     input: c_longlong,
-                     dim: c_uint,
-                     ascending: c_int) -> c_int;
 }
 
 #[derive(Clone)]
@@ -380,16 +370,10 @@ pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64)
     }
 }
 
-#[allow(unused_mut)]
-pub fn sort(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
-    unsafe {
-        let mut temp: i64 = 0;
-        let mut idx: i64 = 0;
-        af_sort_index(&mut temp as *mut c_longlong,
-                      &mut idx as *mut c_longlong,
-                      input.get() as c_longlong,
-                      dim as c_uint,
-                      ascending as c_int);
-        (Array {handle: temp}, Array {handle: idx})
-    }
-}
+//pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
+pub use algorithm::{sum, product, min, max, all_true, any_true, count};
+pub use algorithm::{sum_all, product_all, min_all, max_all};
+pub use algorithm::{all_true_all, any_true_all, count_all, imin, imax, imin_all, imax_all};
+pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
+pub use algorithm::{set_unique, set_union, set_intersect};
+mod algorithm;

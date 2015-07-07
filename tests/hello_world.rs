@@ -43,7 +43,7 @@ fn main() {
 
     // // Sort A
     println!("Sort A and print sorted array and corresponding indices");
-    let (vals, inds) = af::sort(&a, 0, true);
+    let (vals, inds) = af::sort_index(&a, 0, true);
     af::print(&vals);
     af::print(&inds);
 }
