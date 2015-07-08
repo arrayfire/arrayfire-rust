@@ -6,6 +6,7 @@ build = "build.rs"
 
 [dependencies]
 libc = "*"
+num = "*"
 
 [build-dependencies.rustc-serialize]
 rustc-serialize = "*"

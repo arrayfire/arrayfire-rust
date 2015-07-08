@@ -1,12 +1,12 @@
 extern crate libc;
 
 use super::Array as Array;
-use libc::{c_int, c_uint, c_double};
+use self::libc::{c_int, c_uint};
 
-type MutAfArray = *mut ::libc::c_longlong;
-type MutDouble  = *mut ::libc::c_double;
-type MutUint    = *mut ::libc::c_uint;
-type AfArray    = ::libc::c_longlong;
+type MutAfArray = *mut self::libc::c_longlong;
+type MutDouble  = *mut self::libc::c_double;
+type MutUint    = *mut self::libc::c_uint;
+type AfArray    = self::libc::c_longlong;
 
 #[allow(dead_code)]
 extern {
@@ -94,6 +94,7 @@ pub fn sum(input: &Array, dim: i32) -> Array {
 //    }
 //}
 
+#[allow(unused_mut)]
 pub fn product(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -111,6 +112,7 @@ pub fn product(input: &Array, dim: i32) -> Array {
 //    }
 //}
 
+#[allow(unused_mut)]
 pub fn min(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -119,6 +121,7 @@ pub fn min(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn max(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -127,6 +130,7 @@ pub fn max(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn all_true(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -135,6 +139,7 @@ pub fn all_true(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn any_true(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -143,6 +148,7 @@ pub fn any_true(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn count(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -151,6 +157,7 @@ pub fn count(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn sum_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -191,6 +198,7 @@ pub fn product_all(input: &Array) -> (f64, f64) {
 //    }
 //}
 
+#[allow(unused_mut)]
 pub fn min_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -201,6 +209,7 @@ pub fn min_all(input: &Array) -> (f64, f64) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn max_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -211,6 +220,7 @@ pub fn max_all(input: &Array) -> (f64, f64) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn all_true_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -221,6 +231,7 @@ pub fn all_true_all(input: &Array) -> (f64, f64) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn any_true_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -231,6 +242,7 @@ pub fn any_true_all(input: &Array) -> (f64, f64) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn count_all(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -241,6 +253,7 @@ pub fn count_all(input: &Array) -> (f64, f64) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn imin(input: &Array, dim: i32) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
@@ -251,6 +264,7 @@ pub fn imin(input: &Array, dim: i32) -> (Array, Array) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn imax(input: &Array, dim: i32) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
@@ -261,6 +275,7 @@ pub fn imax(input: &Array, dim: i32) -> (Array, Array) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn imin_all(input: &Array) -> (f64, f64, u32) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -272,6 +287,7 @@ pub fn imin_all(input: &Array) -> (f64, f64, u32) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn imax_all(input: &Array) -> (f64, f64, u32) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -283,6 +299,7 @@ pub fn imax_all(input: &Array) -> (f64, f64, u32) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn accum(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -291,6 +308,7 @@ pub fn accum(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn locate(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -299,6 +317,7 @@ pub fn locate(input: &Array) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn diff1(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -307,6 +326,7 @@ pub fn diff1(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn diff2(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -315,6 +335,7 @@ pub fn diff2(input: &Array, dim: i32) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -324,6 +345,7 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
@@ -335,6 +357,7 @@ pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
     }
 }
 
+#[allow(unused_mut)]
 pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32, ascending: bool) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
@@ -346,6 +369,7 @@ pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32, ascending: bool) -> (Ar
     }
 }
 
+#[allow(unused_mut)]
 pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -354,6 +378,7 @@ pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -363,6 +388,7 @@ pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
     }
 }
 
+#[allow(unused_mut)]
 pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;

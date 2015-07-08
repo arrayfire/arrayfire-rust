@@ -46,4 +46,8 @@ fn main() {
     let (vals, inds) = af::sort_index(&a, 0, true);
     af::print(&vals);
     af::print(&inds);
+
+    println!("u8 constant array");
+    let u8_cnst = af::constant(1 as u8, Dim4::new(&[4,4,1,1]));
+    af::print(&u8_cnst);
 }
