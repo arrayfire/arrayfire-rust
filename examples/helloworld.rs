@@ -4,7 +4,6 @@ extern crate arrayfire as af;
 use af::Dim4;
 use af::Array;
 
-#[test]
 fn main() {
     af::set_device(0);
     af::info();
@@ -24,7 +23,7 @@ fn main() {
     println!("!a => "); af::print(&b3);
 
     let test = &a + &b;
-    af::print(&test);
+    println!("a + b"); af::print(&test);
 
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
