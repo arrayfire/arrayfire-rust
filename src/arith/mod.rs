@@ -92,7 +92,7 @@ extern {
     fn af_isnan(out: MutAfArray, arr: AfArray) -> c_int;
 }
 
-impl Not for Array {
+impl<'f> Not for &'f Array {
     type Output = Array;
 
     fn not(self) -> Array {
@@ -190,7 +190,7 @@ binary_func!(pow, af_pow);
 
 macro_rules! arith_scalar_func {
     ($rust_type: ty, $op_name:ident, $fn_name: ident, $ffi_fn: ident) => (
-        impl $op_name<$rust_type> for Array {
+        impl<'f> $op_name<$rust_type> for &'f Array {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
@@ -228,10 +228,10 @@ arith_scalar_spec!(u8);
 
 macro_rules! arith_func {
     ($op_name:ident, $fn_name:ident, $ffi_fn: ident) => (
-        impl $op_name<Array> for Array {
+        impl<'f> $op_name<&'f Array> for &'f Array {
             type Output = Array;
 
-            fn $fn_name(self, rhs: Array) -> Array {
+            fn $fn_name(self, rhs:&'f Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
                     $ffi_fn(&mut temp as MutAfArray,

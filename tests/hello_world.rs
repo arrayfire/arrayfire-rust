@@ -16,10 +16,14 @@ fn main() {
     af::print(&a);
 
     println!("Element-wise arithmetic");
-    let b: Array = af::sin(&a) + 1.5;
-    af::print(&b);
+    let b: Array = &af::sin(&a) + 1.5;
+    let b2: Array = &af::sin(&a) + &af::cos(&a);
+    let b3: Array = ! &a;
+    println!("sin(a) + 1.5 => "); af::print(&b);
+    println!("sin(a) + cos(a) => "); af::print(&b2);
+    println!("!a => "); af::print(&b3);
 
-    let test = a.clone() + b.clone();
+    let test = &a + &b;
     af::print(&test);
 
     // printf("Negate the first three elements of second column\n");
