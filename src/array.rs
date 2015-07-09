@@ -57,6 +57,8 @@ extern {
 
     fn af_eval(arr: AfArray) -> c_int;
 
+    fn af_retain_array(out: MutAfArray, arr: AfArray) -> c_int;
+
     fn af_release_array(arr: AfArray) -> c_int;
 
     fn af_print_array(arr: AfArray) -> c_int;
@@ -151,6 +153,16 @@ impl Array {
     is_func!(is_floating, af_is_floating);
     is_func!(is_integer, af_is_integer);
     is_func!(is_bool, af_is_bool);
+}
+
+impl Clone for Array {
+    fn clone(&self) -> Array {
+        unsafe {
+            let mut temp: i64 = 0;
+            af_retain_array(&mut temp as MutAfArray, self.handle as AfArray);
+            Array {handle: temp}
+        }
+    }
 }
 
 impl Drop for Array {

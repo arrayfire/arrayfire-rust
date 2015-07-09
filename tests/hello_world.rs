@@ -19,6 +19,9 @@ fn main() {
     let b: Array = af::sin(&a) + 1.5;
     af::print(&b);
 
+    let test = a.clone() + b.clone();
+    af::print(&test);
+
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
     // af_print(B);
