@@ -48,6 +48,7 @@ fn main() {
     af::print(&inds);
 
     println!("u8 constant array");
-    let u8_cnst = af::constant(1 as u8, Dim4::new(&[4,4,1,1]));
+    let u8_cnst = af::constant(1 as u8, dims);
     af::print(&u8_cnst);
+    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single());
 }

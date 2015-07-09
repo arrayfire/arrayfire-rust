@@ -136,7 +136,7 @@ pub fn range(dims: Dim4, seq_dim: i32, aftype: Aftype) -> Array {
         af_range(&mut temp as MutAfArray,
                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                  seq_dim as c_int,
-                 get_ffi_type(aftype.clone()) as c_int);
+                 get_ffi_type(aftype) as c_int);
         Array {handle: temp}
     }
 }
@@ -148,7 +148,7 @@ pub fn iota(dims: Dim4, tdims: Dim4, aftype: Aftype) -> Array {
         af_iota(&mut temp as MutAfArray,
                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                 tdims.ndims() as c_uint, tdims.get().as_ptr() as *const DimT,
-                get_ffi_type(aftype.clone()) as c_int);
+                get_ffi_type(aftype) as c_int);
         Array {handle: temp}
     }
 }
@@ -172,7 +172,7 @@ pub fn randu(dims: Dim4, aftype: Aftype) -> Array {
         let mut temp: i64 = 0;
         af_randu(&mut temp as MutAfArray,
                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                 get_ffi_type(aftype.clone()) as c_int);
+                 get_ffi_type(aftype) as c_int);
         Array {handle: temp}
     }
 }
@@ -183,7 +183,7 @@ pub fn randn(dims: Dim4, aftype: Aftype) -> Array {
         let mut temp: i64 = 0;
         af_randn(&mut temp as MutAfArray,
                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                 get_ffi_type(aftype.clone()) as c_int);
+                 get_ffi_type(aftype) as c_int);
         Array {handle: temp}
     }
 }

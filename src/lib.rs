@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Copy, Clone)]
 pub enum Aftype {
     F32,
     C32,
@@ -12,7 +12,7 @@ pub enum Aftype {
     U64,
 }
 
-#[derive(Clone)]
+#[derive(Copy, Clone)]
 pub struct Dim4 {
     dims: [u64; 4],
 }
@@ -28,7 +28,7 @@ mod dim4;
 
 mod util;
 
-pub use device::{info, set_device};
+pub use device::{get_version, info, set_device};
 mod device;
 
 //pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
