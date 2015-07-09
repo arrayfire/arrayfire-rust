@@ -37,11 +37,9 @@ extern {
                t_ndims: c_uint, tdims: *const DimT, afdtype: c_int) -> c_int;
 
     fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_int) -> c_int;
-
     fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_int) -> c_int;
 
     fn af_set_seed(seed: Uintl);
-
     fn af_get_seed(seed: *mut Uintl);
 
 }

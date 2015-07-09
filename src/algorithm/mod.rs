@@ -11,69 +11,39 @@ type AfArray    = self::libc::c_longlong;
 #[allow(dead_code)]
 extern {
     fn af_sum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     //fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
-
     fn af_product(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     //fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
-
     fn af_min(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_max(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_all_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_any_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_count(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_sum_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     //fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
-
     fn af_product_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     //fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
-
     fn af_min_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     fn af_max_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     fn af_all_true_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     fn af_any_true_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     fn af_count_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-
     fn af_imin(out: MutAfArray, idx: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_imax(out: MutAfArray, idx: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_imin_all(r: MutDouble, i: MutDouble, idx: MutUint, input: AfArray) -> c_int;
-
     fn af_imax_all(r: MutDouble, i: MutDouble, idx: MutUint, input: AfArray) -> c_int;
-
     fn af_accum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_where(out: MutAfArray, input: AfArray) -> c_int;
-
     fn af_diff1(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_diff2(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-
     fn af_sort(out: MutAfArray, input: AfArray, dim: c_uint, ascend: c_int) -> c_int;
-
     fn af_sort_index(o: MutAfArray, i: MutAfArray, inp: AfArray, d: c_uint, a: c_int) -> c_int;
+    fn af_set_unique(out: MutAfArray, input: AfArray, is_sorted: c_int) -> c_int;
+    fn af_set_union(out: MutAfArray, first: AfArray, second: AfArray, is_unq: c_int) -> c_int;
+    fn af_set_intersect(out: MutAfArray, one: AfArray, two: AfArray, is_unq: c_int) -> c_int;
 
     fn af_sort_by_key(out_keys: MutAfArray, out_vals: MutAfArray,
                       in_keys: AfArray, in_vals: AfArray, dim: c_uint, ascend: c_int) -> c_int;
-
-    fn af_set_unique(out: MutAfArray, input: AfArray, is_sorted: c_int) -> c_int;
-
-    fn af_set_union(out: MutAfArray, first: AfArray, second: AfArray, is_unq: c_int) -> c_int;
-
-    fn af_set_intersect(out: MutAfArray, one: AfArray, two: AfArray, is_unq: c_int) -> c_int;
 }
 
 #[allow(unused_mut)]

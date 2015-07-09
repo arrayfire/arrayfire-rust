@@ -39,7 +39,12 @@ pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
 pub use algorithm::{set_unique, set_union, set_intersect};
 mod algorithm;
 
-pub use arith::{sin};
+pub use arith::{lt, gt, le, ge, eq, neq, and, or, minof, maxof};
+pub use arith::{abs, sign, round, trunc, floor, ceil, modulo};
+pub use arith::{sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh};
+pub use arith::{atan2, cplx2, arg, cplx, real, imag, conjg, hypot};
+pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root, pow};
+pub use arith::{cbrt, factorial, tgamma, lgamma, iszero, isinf, isnan};
 mod arith;
 
 pub use data::{constant, range, iota};
