@@ -111,6 +111,12 @@ pub use signal::{fft_convolve1, fft_convolve2, fft_convolve3};
 pub use signal::{fir, iir};
 mod signal;
 
+pub use statistics::{mean, stdev, median, var, cov, corrcoef};
+pub use statistics::{mean_weighted, var_weighted};
+pub use statistics::{var_all, mean_all, stdev_all, median_all};
+pub use statistics::{mean_all_weighted, var_all_weighted};
+mod statistics;
+
 mod util;
 
 pub use vision::Features;
