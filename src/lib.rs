@@ -49,9 +49,9 @@ mod arith;
 
 pub use data::{constant, range, iota};
 pub use data::{set_seed, get_seed, randu, randn};
-//pub use data::{identity, diag_create, diag_extract, lower, upper};
-//pub use data::{join, join_many, tile};
-//pub use data::{reorder, shift, moddims, flat, flip};
+pub use data::{identity, diag_create, diag_extract, lower, upper};
+pub use data::{join, join_many, tile};
+pub use data::{reorder, shift, moddims, flat, flip};
 mod data;
 
 pub use signal::{fft, fft2, fft3};
