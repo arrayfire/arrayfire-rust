@@ -3,6 +3,7 @@ use super::InterpType as InterpType;
 use super::ConvMode as ConvMode;
 use super::ConvDomain as ConvDomain;
 use super::MatProp as MatProp;
+use super::MatchType as MatchType;
 use std::mem;
 
 impl From<u8> for Aftype {
@@ -29,6 +30,13 @@ impl From<u8> for ConvMode {
 impl From<u8> for ConvDomain {
     fn from(t: u8) -> ConvDomain {
         assert!(ConvDomain::AUTO as u8 <= t && t <= ConvDomain::FREQUENCY as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for MatchType {
+    fn from(t: u8) -> MatchType {
+        assert!(MatchType::SAD as u8 <= t && t <= MatchType::SHD as u8);
         unsafe { mem::transmute(t) }
     }
 }

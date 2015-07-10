@@ -34,6 +34,19 @@ pub enum ConvDomain {
 }
 
 #[derive(Copy, Clone)]
+pub enum MatchType {
+    SAD = 0,
+    ZSAD= 1,
+    LSAD= 2,
+    SSD = 3,
+    ZSSD= 4,
+    LSSD= 5,
+    NCC = 6,
+    ZNCC= 7,
+    SHD = 8,
+}
+
+#[derive(Copy, Clone)]
 pub enum MatProp {
     NONE,
     TRANS,
@@ -99,3 +112,7 @@ pub use signal::{fir, iir};
 mod signal;
 
 mod util;
+
+pub use vision::Features;
+pub use vision::{fast, orb, hamming_matcher, match_template};
+mod vision;
