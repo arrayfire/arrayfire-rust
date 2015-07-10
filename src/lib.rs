@@ -14,23 +14,38 @@ pub enum Aftype {
 
 #[derive(Copy, Clone)]
 pub enum InterpType {
-    Nearest = 0,
-    Linear  = 1,
-    Bilinear= 2,
-    Cubic   = 3,
+    NEAREST = 0,
+    LINEAR  = 1,
+    BILINEAR= 2,
+    CUBIC   = 3,
 }
 
 #[derive(Copy, Clone)]
 pub enum ConvMode {
-    Default = 0,
-    Expand  = 1,
+    DEFAULT = 0,
+    EXPAND  = 1,
 }
 
 #[derive(Copy, Clone)]
 pub enum ConvDomain {
-    Auto     = 0,
-    Spatial  = 1,
-    Frequency= 2,
+    AUTO     = 0,
+    SPATIAL  = 1,
+    FREQUENCY= 2,
+}
+
+#[derive(Copy, Clone)]
+pub enum MatProp {
+    NONE,
+    TRANS,
+    CTRANS,
+    UPPER,
+    LOWER,
+    DIAGUNIT,
+    SYM,
+    POSDEF,
+    ORTHOG,
+    TRIDIAG,
+    BLOCKDIAG,
 }
 
 #[derive(Copy, Clone)]
@@ -44,13 +59,6 @@ pub struct Array {
 
 pub use array::{print};
 mod array;
-
-mod dim4;
-
-mod util;
-
-pub use device::{get_version, info, set_device};
-mod device;
 
 //pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
 pub use algorithm::{sum, product, min, max, all_true, any_true, count};
@@ -68,6 +76,9 @@ pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root
 pub use arith::{cbrt, factorial, tgamma, lgamma, iszero, isinf, isnan};
 mod arith;
 
+pub use blas::{matmul, dot, transpose, transpose_inplace};
+mod blas;
+
 pub use data::{constant, range, iota};
 pub use data::{set_seed, get_seed, randu, randn};
 pub use data::{identity, diag_create, diag_extract, lower, upper};
@@ -75,9 +86,16 @@ pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
 mod data;
 
+pub use device::{get_version, info, set_device};
+mod device;
+
+mod dim4;
+
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
 pub use signal::{convolve1, convolve2, convolve3, convolve2_sep};
 pub use signal::{fft_convolve1, fft_convolve2, fft_convolve3};
 pub use signal::{fir, iir};
 mod signal;
+
+mod util;
