@@ -1,32 +1,33 @@
 use super::Aftype as Aftype;
+use super::InterpType as InterpType;
+use super::ConvMode as ConvMode;
+use super::ConvDomain as ConvDomain;
+use std::mem;
 
-pub fn get_ffi_type(t: Aftype) -> i32 {
-    match t {
-        Aftype::F32 => 0,
-        Aftype::C32 => 1,
-        Aftype::F64 => 2,
-        Aftype::C64 => 3,
-        Aftype::B8  => 4,
-        Aftype::S32 => 5,
-        Aftype::U32 => 6,
-        Aftype::U8  => 7,
-        Aftype::S64 => 8,
-        Aftype::U64 => 9,
+impl From<u8> for Aftype {
+    fn from(t: u8) -> Aftype {
+        assert!(Aftype::F32 as u8 <= t && t <= Aftype::U64 as u8);
+        unsafe { mem::transmute(t) }
     }
 }
 
-pub fn get_af_type(t: i32) -> Aftype {
-    match t {
-        0 => Aftype::F32,
-        1 => Aftype::C32,
-        2 => Aftype::F64,
-        3 => Aftype::C64,
-        4 => Aftype::B8 ,
-        5 => Aftype::S32,
-        6 => Aftype::U32,
-        7 => Aftype::U8 ,
-        8 => Aftype::S64,
-        9 => Aftype::U64,
-        _ => Aftype::F32,
+impl From<u8> for InterpType {
+    fn from(t: u8) -> InterpType {
+        assert!(InterpType::Nearest as u8 <= t && t <= InterpType::Cubic as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for ConvMode {
+    fn from(t: u8) -> ConvMode {
+        assert!(ConvMode::Default as u8 <= t && t <= ConvMode::Expand as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for ConvDomain {
+    fn from(t: u8) -> ConvDomain {
+        assert!(ConvDomain::Auto as u8 <= t && t <= ConvDomain::Frequency as u8);
+        unsafe { mem::transmute(t) }
     }
 }

@@ -4,8 +4,7 @@ extern crate num;
 use super::Array as Array;
 use super::Dim4 as Dim4;
 use super::Aftype as Aftype;
-use util::get_ffi_type;
-use self::libc::{c_int, c_uint, c_double};
+use self::libc::{uint8_t, c_int, c_uint, c_double};
 use self::num::Complex;
 
 use std::vec::Vec;
@@ -33,18 +32,18 @@ extern {
                          ndims: c_uint, dims: *const DimT) -> c_int;
 
     fn af_range(out: MutAfArray, ndims: c_uint, dims: *const DimT,
-                seq_dims: c_int, afdtype: c_int) -> c_int;
+                seq_dims: c_int, afdtype: uint8_t) -> c_int;
 
     fn af_iota(out: MutAfArray, ndims: c_uint, dims: *const DimT,
-               t_ndims: c_uint, tdims: *const DimT, afdtype: c_int) -> c_int;
+               t_ndims: c_uint, tdims: *const DimT, afdtype: uint8_t) -> c_int;
 
-    fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_int) -> c_int;
-    fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_int) -> c_int;
+    fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
+    fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
 
     fn af_set_seed(seed: Uintl);
     fn af_get_seed(seed: *mut Uintl);
 
-    fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_int) -> c_int;
+    fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
     fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_diag_extract(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_join(out: MutAfArray, dim: c_int, first: AfArray, second: AfArray) -> c_int;
@@ -150,8 +149,7 @@ pub fn range(dims: Dim4, seq_dim: i32, aftype: Aftype) -> Array {
         let mut temp: i64 = 0;
         af_range(&mut temp as MutAfArray,
                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                 seq_dim as c_int,
-                 get_ffi_type(aftype) as c_int);
+                 seq_dim as c_int, aftype as uint8_t);
         Array {handle: temp}
     }
 }
@@ -163,7 +161,7 @@ pub fn iota(dims: Dim4, tdims: Dim4, aftype: Aftype) -> Array {
         af_iota(&mut temp as MutAfArray,
                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                 tdims.ndims() as c_uint, tdims.get().as_ptr() as *const DimT,
-                get_ffi_type(aftype) as c_int);
+                aftype as uint8_t);
         Array {handle: temp}
     }
 }
@@ -189,7 +187,7 @@ macro_rules! data_gen_def {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray,
                           dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                          get_ffi_type(aftype) as c_int);
+                          aftype as uint8_t);
                 Array {handle: temp}
             }
         }

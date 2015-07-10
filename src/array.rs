@@ -3,9 +3,7 @@ extern crate libc;
 use super::Array as Array;
 use super::Dim4 as Dim4;
 use super::Aftype as Aftype;
-use util::get_ffi_type;
-use util::get_af_type;
-use self::libc::{c_void, c_int, c_uint, c_longlong};
+use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -16,11 +14,11 @@ type DimT       = self::libc::c_longlong;
 #[allow(dead_code)]
 extern {
     fn af_create_array(out: MutAfArray, data: *const c_void,
-                       ndims: c_uint, dims: *const DimT, aftype: c_int) -> c_int;
+                       ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
-    fn af_get_type(out: *mut c_int, arr: AfArray) -> c_int;
+    fn af_get_type(out: *mut uint8_t, arr: AfArray) -> c_int;
 
     fn af_get_dims(dim0: *mut c_longlong, dim1: *mut c_longlong, dim2: *mut c_longlong,
                    dim3: *mut c_longlong, arr: AfArray) -> c_int;
@@ -83,7 +81,7 @@ impl Array {
             let mut temp: i64 = 0;
             af_create_array(&mut temp as MutAfArray, slice.as_ptr() as *const c_void,
                             dims.ndims() as c_uint, dims.get().as_ptr() as * const c_longlong,
-                            get_ffi_type(aftype) as c_int);
+                            aftype as uint8_t);
             Array {handle: temp}
         }
     }
@@ -98,9 +96,9 @@ impl Array {
 
     pub fn get_type(&self) -> Aftype {
         unsafe {
-            let mut ret_val: i32 = 0;
-            af_get_type(&mut ret_val as *mut c_int, self.handle as AfArray);
-            get_af_type(ret_val)
+            let mut ret_val: u8 = 0;
+            af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
+            Aftype::from(ret_val)
         }
     }
 
@@ -175,6 +173,6 @@ impl Drop for Array {
 
 pub fn print(input: &Array) {
     unsafe {
-        af_print_array(input.get() as c_longlong);
+        af_print_array(input.get() as AfArray);
     }
 }

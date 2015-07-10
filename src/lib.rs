@@ -1,15 +1,36 @@
 #[derive(Copy, Clone)]
 pub enum Aftype {
-    F32,
-    C32,
-    F64,
-    C64,
-    B8,
-    S32,
-    U32,
-    U8,
-    S64,
-    U64,
+    F32 = 0,
+    C32 = 1,
+    F64 = 2,
+    C64 = 3,
+    B8  = 4,
+    S32 = 5,
+    U32 = 6,
+    U8  = 7,
+    S64 = 8,
+    U64 = 9,
+}
+
+#[derive(Copy, Clone)]
+pub enum InterpType {
+    Nearest = 0,
+    Linear  = 1,
+    Bilinear= 2,
+    Cubic   = 3,
+}
+
+#[derive(Copy, Clone)]
+pub enum ConvMode {
+    Default = 0,
+    Expand  = 1,
+}
+
+#[derive(Copy, Clone)]
+pub enum ConvDomain {
+    Auto     = 0,
+    Spatial  = 1,
+    Frequency= 2,
 }
 
 #[derive(Copy, Clone)]
@@ -54,5 +75,9 @@ pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
 mod data;
 
-pub use signal::{fft, fft2, fft3};
+pub use signal::{approx1, approx2};
+pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
+pub use signal::{convolve1, convolve2, convolve3, convolve2_sep};
+pub use signal::{fft_convolve1, fft_convolve2, fft_convolve3};
+pub use signal::{fir, iir};
 mod signal;
