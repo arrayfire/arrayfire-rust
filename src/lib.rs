@@ -61,6 +61,19 @@ pub enum MatProp {
     BLOCKDIAG,
 }
 
+#[allow(non_camel_case_types)]
+#[derive(Copy, Clone)]
+pub enum NormType {
+    VECTOR_1    = 0,
+    VECTOR_INF  = 1,
+    VECTOR_2    = 2,
+    VECTOR_P    = 3,
+    MATRIX_1    = 4,
+    MATRIX_INF  = 5,
+    MATRIX_2    = 6,
+    MATRIX_L_PQ = 7,
+}
+
 #[derive(Copy, Clone)]
 pub struct Dim4 {
     dims: [u64; 4],
