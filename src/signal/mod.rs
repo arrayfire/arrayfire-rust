@@ -1,9 +1,9 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::InterpType as InterpType;
-use super::ConvMode as ConvMode;
-use super::ConvDomain as ConvDomain;
+use array::Array;
+use defines::InterpType;
+use defines::ConvMode;
+use defines::ConvDomain;
 use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -53,7 +53,7 @@ pub fn approx1(input: &Array, pos: &Array, method: InterpType, off_grid: f32) ->
         af_approx1(&mut temp as MutAfArray,
                    input.get() as AfArray, pos.get() as AfArray,
                    method as c_int, off_grid as c_float);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -65,7 +65,7 @@ pub fn approx2(input: &Array, pos0: &Array, pos1: &Array,
         af_approx2(&mut temp as MutAfArray,
                    input.get() as AfArray, pos0.get() as AfArray, pos1.get() as AfArray,
                    method as c_int, off_grid as c_float);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -75,7 +75,7 @@ pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
         let mut temp: i64 = 0;
         af_fft(&mut temp as MutAfArray, input.get() as AfArray,
                norm_factor as c_double, odim0 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -85,7 +85,7 @@ pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
         let mut temp: i64 = 0;
         af_fft2(&mut temp as MutAfArray, input.get() as AfArray,
                 norm_factor as c_double, odim0 as c_longlong, odim1 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -95,7 +95,7 @@ pub fn fft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64)
         let mut temp: i64 = 0;
         af_fft3(&mut temp as MutAfArray, input.get() as AfArray, norm_factor as c_double,
                 odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -105,7 +105,7 @@ pub fn ifft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
         let mut temp: i64 = 0;
         af_ifft(&mut temp as MutAfArray, input.get() as AfArray,
                 norm_factor as c_double, odim0 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -115,7 +115,7 @@ pub fn ifft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
         let mut temp: i64 = 0;
         af_ifft2(&mut temp as MutAfArray, input.get() as AfArray,
                  norm_factor as c_double, odim0 as c_longlong, odim1 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -125,7 +125,7 @@ pub fn ifft3(input: &Array, norm_factor: f64, odim0: i64, odim1: i64, odim2: i64
         let mut temp: i64 = 0;
         af_ifft3(&mut temp as MutAfArray, input.get() as AfArray, norm_factor as c_double,
                  odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -139,7 +139,7 @@ macro_rules! conv_func_def {
                 $ffi_name(&mut temp as MutAfArray,
                           signal.get() as AfArray, filter.get() as AfArray,
                           mode as uint8_t, domain as uint8_t);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -156,7 +156,7 @@ pub fn convolve2_sep(cfilt: &Array, rfilt: &Array, signal: &Array, mode: ConvMod
         af_convolve2_sep(&mut temp as MutAfArray,
                          cfilt.get() as AfArray, rfilt.get() as AfArray,
                          signal.get() as AfArray, mode as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -168,7 +168,7 @@ macro_rules! fft_conv_func_def {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, signal.get() as AfArray,
                           filter.get() as AfArray, mode as uint8_t);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -183,7 +183,7 @@ pub fn fir(b: &Array, x: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_fir(&mut temp as MutAfArray, b.get() as AfArray, x.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -192,6 +192,6 @@ pub fn iir(b: &Array, a: &Array, x: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_iir(&mut temp as MutAfArray, b.get() as AfArray, a.get() as AfArray, x.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }

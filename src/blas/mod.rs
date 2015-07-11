@@ -1,7 +1,7 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::MatProp as MatProp;
+use array::Array;
+use defines::MatProp;
 use self::libc::{c_uint, c_int};
 use util::to_u32;
 
@@ -26,7 +26,7 @@ pub fn matmul(lhs: &Array, rhs: &Array, optlhs: MatProp, optrhs: MatProp) -> Arr
         let mut temp: i64 = 0;
         af_matmul(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray,
                   to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -36,7 +36,7 @@ pub fn dot(lhs: &Array, rhs: &Array, optlhs: MatProp, optrhs: MatProp) -> Array 
         let mut temp: i64 = 0;
         af_dot(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray,
                to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -45,7 +45,7 @@ pub fn transpose(arr: &Array, conjugate: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_transpose(&mut temp as MutAfArray, arr.get() as AfArray, conjugate as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 

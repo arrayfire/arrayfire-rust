@@ -1,11 +1,11 @@
 extern crate libc;
 
-use super::Aftype;
-use super::Array;
-use super::BorderType;
-use super::ColorSpace;
-use super::Connectivity;
-use super::InterpType;
+use array::Array;
+use defines::Aftype;
+use defines::BorderType;
+use defines::ColorSpace;
+use defines::Connectivity;
+use defines::InterpType;
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -79,7 +79,7 @@ pub fn gradient(input: &Array) -> (Array, Array) {
         let mut dx: i64 = 0;
         let mut dy: i64 = 0;
         af_gradient(&mut dx as MutAfArray, &mut dy as MutAfArray, input.get() as AfArray);
-        (Array {handle: dx}, Array {handle: dy})
+        (Array::from(dx), Array::from(dy))
     }
 }
 
@@ -89,7 +89,7 @@ pub fn load_image(filename: &[u8], is_color: bool) -> Array {
         let mut temp: i64 = 0;
         af_load_image(&mut temp as MutAfArray,
                       filename.as_ptr() as *const u8, is_color as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -106,7 +106,7 @@ pub fn resize(input: &Array, odim0: i64, odim1: i64, method: InterpType) -> Arra
         let mut temp: i64 = 0;
         af_resize(&mut temp as MutAfArray, input.get() as AfArray, odim0 as DimT,
                   odim1 as DimT, method as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -117,7 +117,7 @@ pub fn transform(input: &Array, trans: &Array, odim0: i64, odim1: i64,
         let mut temp: i64 = 0;
         af_transform(&mut temp as MutAfArray, input.get() as AfArray, trans.get() as AfArray,
                      odim0 as DimT, odim1 as DimT, method as uint8_t, is_inverse as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -127,7 +127,7 @@ pub fn rotate(input: &Array, theta: f64, crop: bool, method: InterpType) -> Arra
         let mut temp: i64 = 0;
         af_rotate(&mut temp as MutAfArray, input.get() as AfArray, theta as c_float,
                   crop as c_int, method as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -143,7 +143,7 @@ macro_rules! trans_func_def {
                           p0 as c_float, p1 as c_float,
                           odim0 as DimT, odim1 as DimT,
                           method as uint8_t);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -160,7 +160,7 @@ pub fn skew(input: &Array, skew0: f32, skew1: f32, odim0: i64, odim1: i64,
         af_skew(&mut temp as MutAfArray, input.get() as AfArray,
                 skew0 as c_float, skew1 as c_float, odim0 as DimT, odim1 as DimT,
                 method as uint8_t, is_inverse as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -170,7 +170,7 @@ pub fn histogram(input: &Array, nbins: u32, minval: f64, maxval: f64) -> Array {
         let mut temp: i64 = 0;
         af_histogram(&mut temp as MutAfArray, input.get() as AfArray,
                      nbins as c_uint, minval as c_double, maxval as c_double);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -181,7 +181,7 @@ macro_rules! morph_func_def {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, input.get() as AfArray, mask.get() as AfArray);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -200,7 +200,7 @@ pub fn bilateral(input: &Array, spatial_sigma: f32, chromatic_sigma: f32,
         af_bilateral(&mut temp as MutAfArray, input.get() as AfArray,
                      spatial_sigma as c_float, chromatic_sigma as c_float,
                      iscolor as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -212,7 +212,7 @@ pub fn mean_shift(input: &Array, spatial_sigma: f32, chromatic_sigma: f32,
         af_mean_shift(&mut temp as MutAfArray, input.get() as AfArray,
                       spatial_sigma as c_float, chromatic_sigma as c_float,
                       iter as c_uint, iscolor as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -224,7 +224,7 @@ macro_rules! filt_func_def {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, input.get() as AfArray,
                           wlen as DimT, wwid as DimT, etype as uint8_t);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -240,7 +240,7 @@ pub fn gaussian_kernel(rows: i32, cols: i32, sigma_r: f64, sigma_c: f64) -> Arra
         let mut temp: i64 = 0;
         af_gaussian_kernel(&mut temp as MutAfArray, rows as c_int, cols as c_int,
                            sigma_r as c_double, sigma_c as c_double);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -250,7 +250,7 @@ pub fn color_space(input: &Array, tospace: ColorSpace, fromspace: ColorSpace) ->
         let mut temp: i64 = 0;
         af_color_space(&mut temp as MutAfArray, input.get() as AfArray,
                        tospace as uint8_t, fromspace as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -260,7 +260,7 @@ pub fn regions(input: &Array, conn: Connectivity, aftype: Aftype) -> Array {
         let mut temp: i64 = 0;
         af_regions(&mut temp as MutAfArray, input.get() as AfArray,
                    conn as uint8_t, aftype as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -271,7 +271,7 @@ pub fn sobel(input: &Array, ker_size: u32) -> (Array, Array) {
         let mut dy: i64 = 0;
         af_sobel_operator(&mut dx as MutAfArray, &mut dy as MutAfArray,
                           input.get() as AfArray, ker_size as c_uint);
-        (Array {handle: dx}, Array{handle: dy})
+        (Array::from(dx), Array::from(dy))
     }
 }
 
@@ -280,7 +280,7 @@ pub fn hist_equal(input: &Array, hist: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_hist_equal(&mut temp as MutAfArray, input.get() as AfArray, hist.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -292,7 +292,7 @@ macro_rules! grayrgb_func_def {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, input.get() as AfArray,
                           r as c_float, g as c_float, b as c_float);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -308,7 +308,7 @@ macro_rules! hsvrgb_func_def {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, input.get() as AfArray);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )

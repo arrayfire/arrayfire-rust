@@ -1,9 +1,9 @@
-use super::Aftype as Aftype;
-use super::InterpType as InterpType;
-use super::ConvMode as ConvMode;
-use super::ConvDomain as ConvDomain;
-use super::MatProp as MatProp;
-use super::MatchType as MatchType;
+use defines::Aftype;
+use defines::InterpType;
+use defines::ConvMode;
+use defines::ConvDomain;
+use defines::MatProp;
+use defines::MatchType;
 use std::mem;
 
 impl From<u8> for Aftype {

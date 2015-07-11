@@ -1,9 +1,9 @@
 extern crate libc;
 extern crate num;
 
-use super::Array as Array;
-use super::Dim4 as Dim4;
-use super::Aftype as Aftype;
+use array::Array;
+use dim4::Dim4;
+use defines::Aftype;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 use self::num::Complex;
 
@@ -71,7 +71,7 @@ impl ConstGenerator for i64 {
             let mut temp: i64 = 0;
             af_constant_long(&mut temp as MutAfArray, *self as Intl,
                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT);
-            Array {handle: temp}
+            Array::from(temp)
         }
     }
 }
@@ -83,7 +83,7 @@ impl ConstGenerator for u64 {
             let mut temp: i64 = 0;
             af_constant_ulong(&mut temp as MutAfArray, *self as Uintl,
                               dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT);
-            Array {handle: temp}
+            Array::from(temp)
         }
     }
 }
@@ -96,7 +96,7 @@ impl ConstGenerator for Complex<f32> {
             af_constant_complex(&mut temp as MutAfArray,
                                 (*self).re as c_double, (*self).im as c_double,
                                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, 1);
-            Array {handle: temp}
+            Array::from(temp)
         }
     }
 }
@@ -109,7 +109,7 @@ impl ConstGenerator for Complex<f64> {
             af_constant_complex(&mut temp as MutAfArray,
                                 (*self).re as c_double, (*self).im as c_double,
                                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, 3);
-            Array {handle: temp}
+            Array::from(temp)
         }
     }
 }
@@ -124,7 +124,7 @@ macro_rules! cnst {
                     af_constant(&mut temp as MutAfArray, *self as c_double,
                                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                                 $ffi_type);
-                    Array {handle: temp}
+                    Array::from(temp)
                 }
             }
         }
@@ -150,7 +150,7 @@ pub fn range(dims: Dim4, seq_dim: i32, aftype: Aftype) -> Array {
         af_range(&mut temp as MutAfArray,
                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                  seq_dim as c_int, aftype as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -162,7 +162,7 @@ pub fn iota(dims: Dim4, tdims: Dim4, aftype: Aftype) -> Array {
                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                 tdims.ndims() as c_uint, tdims.get().as_ptr() as *const DimT,
                 aftype as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -188,7 +188,7 @@ macro_rules! data_gen_def {
                 $ffi_name(&mut temp as MutAfArray,
                           dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                           aftype as uint8_t);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -203,7 +203,7 @@ pub fn diag_create(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_diag_create(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -212,7 +212,7 @@ pub fn diag_extract(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_diag_extract(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -222,7 +222,7 @@ pub fn join(dim: i32, first: &Array, second: &Array) -> Array {
         let mut temp: i64 = 0;
         af_join(&mut temp as MutAfArray, dim as c_int,
                 first.get() as AfArray, second.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -232,7 +232,7 @@ pub fn join_many(dim: i32, inputs: Vec<&Array>) -> Array {
         let mut temp: i64 = 0;
         af_join_many(&mut temp as MutAfArray, dim as c_int,
                      inputs.len() as c_uint, inputs.as_ptr() as *const AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -250,7 +250,7 @@ macro_rules! join_many {
                 let mut temp: i64 = 0;
                 af_join_many(&mut temp as MutAfArray, $dim as c_int,
                              temp_vec.len() as c_uint, temp_vec.as_ptr() as *const AfArray);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     };
@@ -265,7 +265,7 @@ macro_rules! data_func_def {
                 $ffi_name(&mut temp as MutAfArray, input.get() as AfArray,
                           dims[0] as c_uint, dims[1] as c_uint,
                           dims[2] as c_uint, dims[3] as c_uint);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -281,7 +281,7 @@ pub fn moddims(input: &Array, dims: Dim4) -> Array {
         let mut temp: i64 = 0;
         af_moddims(&mut temp as MutAfArray, input.get() as AfArray,
                    dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -290,7 +290,7 @@ pub fn flat(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_flat(&mut temp as MutAfArray, input.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -299,7 +299,7 @@ pub fn flip(input: &Array, dim: u32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_flip(&mut temp as MutAfArray, input.get() as AfArray, dim as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -308,7 +308,7 @@ pub fn lower(input: &Array, is_unit_diag: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_lower(&mut temp as MutAfArray, input.get() as AfArray, is_unit_diag as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -317,6 +317,6 @@ pub fn upper(input: &Array, is_unit_diag: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_upper(&mut temp as MutAfArray, input.get() as AfArray, is_unit_diag as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }

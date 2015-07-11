@@ -1,7 +1,7 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::NormType as NormType;
+use array::Array;
+use defines::NormType;
 use util::to_u32;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 
@@ -33,7 +33,7 @@ pub fn lu(input: &Array) -> (Array, Array, Array) {
         let mut pivot: i64 = 0;
         af_lu(&mut lower as MutAfArray, &mut upper as MutAfArray,
               &mut pivot as MutAfArray, input.get() as AfArray);
-        (Array {handle: lower}, Array {handle: upper}, Array {handle: pivot})
+        (Array::from(lower), Array::from(upper), Array::from(pivot))
     }
 }
 
@@ -43,7 +43,7 @@ pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Array {
         let mut pivot: i64 = 0;
         af_lu_inplace(&mut pivot as MutAfArray, input.get() as AfArray,
                       is_lapack_piv as c_int);
-        Array {handle: pivot}
+        Array::from(pivot)
     }
 }
 
@@ -55,7 +55,7 @@ pub fn qr(input: &Array) -> (Array, Array, Array) {
         let mut tau: i64 = 0;
         af_qr(&mut q as MutAfArray, &mut r as MutAfArray,
               &mut tau as MutAfArray, input.get() as AfArray);
-        (Array {handle: q}, Array {handle: r}, Array {handle: tau})
+        (Array::from(q), Array::from(r), Array::from(tau))
     }
 }
 
@@ -64,7 +64,7 @@ pub fn qr_inplace(input: &mut Array) -> Array {
     unsafe {
         let mut tau: i64 = 0;
         af_lu_inplace(&mut tau as MutAfArray, input.get() as AfArray);
-        Array {handle: tau}
+        Array::from(tau)
     }
 }
 
@@ -75,7 +75,7 @@ pub fn cholesky(input: &Array, is_upper: bool) -> (Array, i32) {
         let mut info: i32 = 0;
         af_cholesky(&mut temp as MutAfArray, &mut info as *mut c_int,
                     input.get() as AfArray, is_upper as c_int);
-        (Array {handle: temp}, info)
+        (Array::from(temp), info)
     }
 }
 
@@ -95,7 +95,7 @@ pub fn solve(a: &Array, b: &Array, options: MatProp) -> Array {
         let mut temp: i64 = 0;
         af_solve(&mut temp as MutAfArray, a.get() as AfArray,
                  b.get() as AfArray, to_u32(options) as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -105,7 +105,7 @@ pub fn solve_lu(a: &Array, piv: &Array, b: &Array, options: MatProp) -> Array {
         let mut temp: i64 = 0;
         af_solve_lu(&mut temp as MutAfArray, a.get() as AfArray, piv.get() as AfArray,
                     b.get() as AfArray, to_u32(options) as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -114,7 +114,7 @@ pub fn inverse(input: &Array, options: MatProp) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_solve(&mut temp as MutAfArray, input.get() as AfArray, to_u32(options) as c_uint);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 

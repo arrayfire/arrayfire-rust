@@ -1,8 +1,7 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::Dim4 as Dim4;
-use super::Aftype as Aftype;
+use dim4::Dim4;
+use defines::Aftype;
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -62,6 +61,10 @@ extern {
     fn af_print_array(arr: AfArray) -> c_int;
 }
 
+pub struct Array {
+    handle: i64,
+}
+
 macro_rules! is_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         pub fn $fn_name(&self) -> bool {
@@ -111,7 +114,7 @@ impl Array {
             af_get_dims(&mut ret0 as *mut c_longlong, &mut ret1 as *mut c_longlong,
                         &mut ret2 as *mut c_longlong, &mut ret3 as *mut c_longlong,
                         self.handle as AfArray);
-            Dim4 {dims: [ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64]}
+            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
     }
 
@@ -151,6 +154,12 @@ impl Array {
     is_func!(is_floating, af_is_floating);
     is_func!(is_integer, af_is_integer);
     is_func!(is_bool, af_is_bool);
+}
+
+impl From<i64> for Array {
+    fn from(t: i64) -> Array {
+        Array {handle: t}
+    }
 }
 
 impl Clone for Array {

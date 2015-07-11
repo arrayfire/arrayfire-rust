@@ -1,7 +1,7 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::MatchType as MatchType;
+use array::Array;
+use defines::MatchType;
 use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -46,7 +46,7 @@ macro_rules! feat_func_def {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -123,7 +123,7 @@ pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
         af_orb(&mut f as *mut c_longlong as MutFeat, &mut d as MutAfArray,
                input.get() as AfArray, fast_thr as c_float,
                max_feat as c_uint, scl_fctr as c_float, levels as c_uint, blur_img as c_int);
-        (Features {feat: f}, Array {handle: d})
+        (Features {feat: f}, Array::from(d))
     }
 }
 
@@ -136,7 +136,7 @@ pub fn hamming_matcher(query: &Array, train: &Array,
         af_hamming_matcher(&mut idx as MutAfArray, &mut dist as MutAfArray,
                            query.get() as AfArray, train.get() as AfArray,
                            dist_dims as DimT, n_dist as c_uint);
-        (Array {handle: idx}, Array {handle: dist})
+        (Array::from(idx), Array::from(dist))
     }
 }
 
@@ -147,6 +147,6 @@ pub fn match_template(search_img: &Array, template_img: &Array, mtype: MatchType
         af_match_template(&mut temp as MutAfArray,
                           search_img.get() as AfArray, template_img.get() as AfArray,
                           mtype as uint8_t);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }

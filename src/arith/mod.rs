@@ -1,7 +1,7 @@
 extern crate libc;
 extern crate num;
 
-use super::Array as Array;
+use array::Array;
 use self::libc::{c_int};
 use data::constant;
 use self::num::Complex;
@@ -99,7 +99,7 @@ impl<'f> Not for &'f Array {
         unsafe {
             let mut temp: i64 = 0;
             af_not(&mut temp as MutAfArray, self.get() as AfArray);
-            Array {handle: temp}
+            Array::from(temp)
         }
     }
 }
@@ -111,7 +111,7 @@ macro_rules! unary_func {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -165,7 +165,7 @@ macro_rules! binary_func {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_fn(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray, 0);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -200,7 +200,7 @@ macro_rules! arith_scalar_func {
                     $ffi_fn(&mut temp as MutAfArray,
                             self.get() as AfArray, cnst_arr.get() as AfArray,
                             0);
-                    Array {handle: temp}
+                    Array::from(temp)
                 }
             }
         }
@@ -237,7 +237,7 @@ macro_rules! arith_func {
                     $ffi_fn(&mut temp as MutAfArray,
                             self.get() as AfArray, rhs.get() as AfArray,
                             0);
-                    Array {handle: temp}
+                    Array::from(temp)
                 }
             }
         }

@@ -1,6 +1,6 @@
 extern crate libc;
 
-use super::Array as Array;
+use array::Array;
 use self::libc::{c_int};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -38,7 +38,7 @@ macro_rules! stat_func_def {
             unsafe {
                 let mut temp: i64 = 0;
                 $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray, dim as DimT);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -56,7 +56,7 @@ macro_rules! stat_wtd_func_def {
                 let mut temp: i64 = 0;
                 $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray,
                         weights.get() as AfArray, dim as DimT);
-                Array {handle: temp}
+                Array::from(temp)
             }
         }
     )
@@ -71,7 +71,7 @@ pub fn var(arr: &Array, isbiased: bool, dim: i64) -> Array {
         let mut temp: i64 = 0;
         af_var(&mut temp as MutAfArray, arr.get() as AfArray,
                isbiased as c_int, dim as DimT);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -80,7 +80,7 @@ pub fn cov(x: &Array, y: &Array, isbiased: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_cov(&mut temp as MutAfArray, x.get() as AfArray, y.get() as AfArray, isbiased as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
