@@ -21,6 +21,18 @@ pub enum InterpType {
 }
 
 #[derive(Copy, Clone)]
+pub enum BorderType {
+    ZERO = 0,
+    SYMMETRIC = 1,
+}
+
+#[derive(Copy, Clone)]
+pub enum Connectivity {
+    FOUR = 4,
+    EIGHT = 8
+}
+
+#[derive(Copy, Clone)]
 pub enum ConvMode {
     DEFAULT = 0,
     EXPAND  = 1,
@@ -44,6 +56,13 @@ pub enum MatchType {
     NCC = 6,
     ZNCC= 7,
     SHD = 8,
+}
+
+#[derive(Copy, Clone)]
+pub enum ColorSpace {
+    GRAY = 0,
+    RGB  = 1,
+    HSV  = 2,
 }
 
 #[derive(Copy, Clone)]
@@ -116,6 +135,14 @@ pub use device::{get_version, info, set_device};
 mod device;
 
 mod dim4;
+
+pub use image::{gaussian_kernel, load_image, save_image};
+pub use image::{resize, transform, rotate, translate, scale, skew};
+pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
+pub use image::{gradient, histogram, hist_equal, regions};
+pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
+pub use image::{bilateral, mean_shift, medfilt, sobel};
+mod image;
 
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
