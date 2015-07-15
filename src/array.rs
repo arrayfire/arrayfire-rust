@@ -1,11 +1,8 @@
 extern crate libc;
 
-use super::Array as Array;
-use super::Dim4 as Dim4;
-use super::Aftype as Aftype;
-use util::get_ffi_type;
-use util::get_af_type;
-use self::libc::{c_void, c_int, c_uint, c_longlong};
+use dim4::Dim4;
+use defines::Aftype;
+use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -16,11 +13,11 @@ type DimT       = self::libc::c_longlong;
 #[allow(dead_code)]
 extern {
     fn af_create_array(out: MutAfArray, data: *const c_void,
-                       ndims: c_uint, dims: *const DimT, aftype: c_int) -> c_int;
+                       ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
-    fn af_get_type(out: *mut c_int, arr: AfArray) -> c_int;
+    fn af_get_type(out: *mut uint8_t, arr: AfArray) -> c_int;
 
     fn af_get_dims(dim0: *mut c_longlong, dim1: *mut c_longlong, dim2: *mut c_longlong,
                    dim3: *mut c_longlong, arr: AfArray) -> c_int;
@@ -64,6 +61,10 @@ extern {
     fn af_print_array(arr: AfArray) -> c_int;
 }
 
+pub struct Array {
+    handle: i64,
+}
+
 macro_rules! is_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         pub fn $fn_name(&self) -> bool {
@@ -83,7 +84,7 @@ impl Array {
             let mut temp: i64 = 0;
             af_create_array(&mut temp as MutAfArray, slice.as_ptr() as *const c_void,
                             dims.ndims() as c_uint, dims.get().as_ptr() as * const c_longlong,
-                            get_ffi_type(aftype) as c_int);
+                            aftype as uint8_t);
             Array {handle: temp}
         }
     }
@@ -98,9 +99,9 @@ impl Array {
 
     pub fn get_type(&self) -> Aftype {
         unsafe {
-            let mut ret_val: i32 = 0;
-            af_get_type(&mut ret_val as *mut c_int, self.handle as AfArray);
-            get_af_type(ret_val)
+            let mut ret_val: u8 = 0;
+            af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
+            Aftype::from(ret_val)
         }
     }
 
@@ -113,7 +114,7 @@ impl Array {
             af_get_dims(&mut ret0 as *mut c_longlong, &mut ret1 as *mut c_longlong,
                         &mut ret2 as *mut c_longlong, &mut ret3 as *mut c_longlong,
                         self.handle as AfArray);
-            Dim4 {dims: [ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64]}
+            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
     }
 
@@ -155,6 +156,12 @@ impl Array {
     is_func!(is_bool, af_is_bool);
 }
 
+impl From<i64> for Array {
+    fn from(t: i64) -> Array {
+        Array {handle: t}
+    }
+}
+
 impl Clone for Array {
     fn clone(&self) -> Array {
         unsafe {
@@ -175,6 +182,6 @@ impl Drop for Array {
 
 pub fn print(input: &Array) {
     unsafe {
-        af_print_array(input.get() as c_longlong);
+        af_print_array(input.get() as AfArray);
     }
 }

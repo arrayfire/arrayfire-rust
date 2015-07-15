@@ -1,32 +1,58 @@
-use super::Aftype as Aftype;
+use defines::Aftype;
+use defines::InterpType;
+use defines::ConvMode;
+use defines::ConvDomain;
+use defines::MatProp;
+use defines::MatchType;
+use std::mem;
 
-pub fn get_ffi_type(t: Aftype) -> i32 {
-    match t {
-        Aftype::F32 => 0,
-        Aftype::C32 => 1,
-        Aftype::F64 => 2,
-        Aftype::C64 => 3,
-        Aftype::B8  => 4,
-        Aftype::S32 => 5,
-        Aftype::U32 => 6,
-        Aftype::U8  => 7,
-        Aftype::S64 => 8,
-        Aftype::U64 => 9,
+impl From<u8> for Aftype {
+    fn from(t: u8) -> Aftype {
+        assert!(Aftype::F32 as u8 <= t && t <= Aftype::U64 as u8);
+        unsafe { mem::transmute(t) }
     }
 }
 
-pub fn get_af_type(t: i32) -> Aftype {
+impl From<u8> for InterpType {
+    fn from(t: u8) -> InterpType {
+        assert!(InterpType::NEAREST as u8 <= t && t <= InterpType::CUBIC as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for ConvMode {
+    fn from(t: u8) -> ConvMode {
+        assert!(ConvMode::DEFAULT as u8 <= t && t <= ConvMode::EXPAND as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for ConvDomain {
+    fn from(t: u8) -> ConvDomain {
+        assert!(ConvDomain::AUTO as u8 <= t && t <= ConvDomain::FREQUENCY as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<u8> for MatchType {
+    fn from(t: u8) -> MatchType {
+        assert!(MatchType::SAD as u8 <= t && t <= MatchType::SHD as u8);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+pub fn to_u32(t: MatProp) -> u32 {
     match t {
-        0 => Aftype::F32,
-        1 => Aftype::C32,
-        2 => Aftype::F64,
-        3 => Aftype::C64,
-        4 => Aftype::B8 ,
-        5 => Aftype::S32,
-        6 => Aftype::U32,
-        7 => Aftype::U8 ,
-        8 => Aftype::S64,
-        9 => Aftype::U64,
-        _ => Aftype::F32,
+        MatProp::NONE       =>  0,
+        MatProp::TRANS      =>  1,
+        MatProp::CTRANS     =>  2,
+        MatProp::UPPER      =>  32,
+        MatProp::LOWER      =>  64,
+        MatProp::DIAGUNIT  =>  128,
+        MatProp::SYM        =>  512,
+        MatProp::POSDEF     =>  1024,
+        MatProp::ORTHOG     =>  2048,
+        MatProp::TRIDIAG   =>  4096,
+        MatProp::BLOCKDIAG =>  8192,
     }
 }

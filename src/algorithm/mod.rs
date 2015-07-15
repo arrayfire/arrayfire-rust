@@ -1,6 +1,6 @@
 extern crate libc;
 
-use super::Array as Array;
+use array::Array;
 use self::libc::{c_int, c_uint};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -51,7 +51,7 @@ pub fn sum(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_sum(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -69,7 +69,7 @@ pub fn product(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_product(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -87,7 +87,7 @@ pub fn min(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_min(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -96,7 +96,7 @@ pub fn max(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_max(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -105,7 +105,7 @@ pub fn all_true(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_all_true(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -114,7 +114,7 @@ pub fn any_true(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_any_true(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -123,7 +123,7 @@ pub fn count(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_count(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -230,7 +230,7 @@ pub fn imin(input: &Array, dim: i32) -> (Array, Array) {
         let mut idx: i64 = 0;
         af_imin(&mut temp as MutAfArray, &mut idx as MutAfArray,
                 input.get() as AfArray, dim as c_int);
-        (Array{handle: temp}, Array{handle: idx})
+        (Array::from(temp), Array::from(idx))
     }
 }
 
@@ -241,7 +241,7 @@ pub fn imax(input: &Array, dim: i32) -> (Array, Array) {
         let mut idx: i64 = 0;
         af_imax(&mut temp as MutAfArray, &mut idx as MutAfArray,
                 input.get() as AfArray, dim as c_int);
-        (Array{handle: temp}, Array{handle: idx})
+        (Array::from(temp), Array::from(idx))
     }
 }
 
@@ -274,7 +274,7 @@ pub fn accum(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_accum(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -283,7 +283,7 @@ pub fn locate(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_where(&mut temp as MutAfArray, input.get() as AfArray);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -292,7 +292,7 @@ pub fn diff1(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_diff1(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -301,7 +301,7 @@ pub fn diff2(input: &Array, dim: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_diff2(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int);
-        Array {handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -311,7 +311,7 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
         let mut temp: i64 = 0;
         af_sort(&mut temp as MutAfArray, input.get() as AfArray,
                 dim as c_uint, ascending as c_int);
-        Array{handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -323,7 +323,7 @@ pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
         af_sort_index(&mut temp as MutAfArray, &mut idx as MutAfArray,
                       input.get() as AfArray,
                       dim as c_uint, ascending as c_int);
-        (Array {handle: temp}, Array {handle: idx})
+        (Array::from(temp), Array::from(idx))
     }
 }
 
@@ -335,7 +335,7 @@ pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32, ascending: bool) -> (Ar
         af_sort_by_key(&mut temp as MutAfArray, &mut temp2 as MutAfArray,
                        keys.get() as AfArray, vals.get() as AfArray,
                       dim as c_uint, ascending as c_int);
-        (Array {handle: temp}, Array {handle: temp2})
+        (Array::from(temp), Array::from(temp2))
     }
 }
 
@@ -344,7 +344,7 @@ pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         af_set_unique(&mut temp as MutAfArray, input.get() as AfArray, is_sorted as c_int);
-        Array{handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -354,7 +354,7 @@ pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
         let mut temp: i64 = 0;
         af_set_union(&mut temp as MutAfArray, first.get() as AfArray,
                      second.get() as AfArray, is_unique as c_int);
-        Array{handle: temp}
+        Array::from(temp)
     }
 }
 
@@ -364,6 +364,6 @@ pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
         let mut temp: i64 = 0;
         af_set_intersect(&mut temp as MutAfArray, first.get() as AfArray,
                          second.get() as AfArray, is_unique as c_int);
-        Array{handle: temp}
+        Array::from(temp)
     }
 }

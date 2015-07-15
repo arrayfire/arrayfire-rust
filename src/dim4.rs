@@ -1,6 +1,10 @@
-use super::Dim4 as Dim4;
 use std::fmt;
 use std::ops::Index;
+
+#[derive(Copy, Clone)]
+pub struct Dim4 {
+    dims: [u64; 4],
+}
 
 impl Default for Dim4 {
     fn default() -> Dim4 {
