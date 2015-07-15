@@ -4,7 +4,6 @@ extern crate arrayfire as af;
 use af::Dim4;
 use af::Array;
 
-#[test]
 fn main() {
     af::set_device(0);
     af::info();
@@ -16,8 +15,15 @@ fn main() {
     af::print(&a);
 
     println!("Element-wise arithmetic");
-    let b: Array = af::sin(&a) + 1.5;
-    af::print(&b);
+    let b: Array = &af::sin(&a) + 1.5;
+    let b2: Array = &af::sin(&a) + &af::cos(&a);
+    let b3: Array = ! &a;
+    println!("sin(a) + 1.5 => "); af::print(&b);
+    println!("sin(a) + cos(a) => "); af::print(&b2);
+    println!("!a => "); af::print(&b3);
+
+    let test = &a + &b;
+    println!("a + b"); af::print(&test);
 
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
@@ -46,4 +52,9 @@ fn main() {
     let (vals, inds) = af::sort_index(&a, 0, true);
     af::print(&vals);
     af::print(&inds);
+
+    println!("u8 constant array");
+    let u8_cnst = af::constant(1 as u8, dims);
+    af::print(&u8_cnst);
+    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single());
 }

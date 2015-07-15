@@ -6,6 +6,7 @@ build = "build.rs"
 
 [dependencies]
 libc = "*"
+num = "*"
 
 [build-dependencies.rustc-serialize]
 rustc-serialize = "*"
@@ -14,6 +15,6 @@ rustc-serialize = "*"
 name = "arrayfire"
 path = "src/lib.rs"
 
-[[test]]
+[[example]]
 name = "helloworld"
-path = "tests/hello_world.rs"
+path = "examples/helloworld.rs"
