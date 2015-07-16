@@ -12,10 +12,10 @@ type AfArray    = self::libc::c_longlong;
 #[allow(dead_code)]
 extern {
     fn af_approx1(out: MutAfArray, inp: AfArray, pos: AfArray,
-                  method: c_int, off_grid: c_float);
+                  method: c_int, off_grid: c_float) -> c_int;
 
     fn af_approx2(out: MutAfArray, inp: AfArray, pos0: AfArray, pos1: AfArray,
-                  method: c_int, off_grid: c_float);
+                  method: c_int, off_grid: c_float) -> c_int;
 
     fn af_fft(out: MutAfArray, arr: AfArray,
               nfac: c_double, odim0: c_longlong) -> c_int;
