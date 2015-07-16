@@ -1,6 +1,7 @@
 extern crate libc;
 
 use array::Array;
+use defines::AfError;
 use defines::MatchType;
 use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_longlong};
 
@@ -42,11 +43,14 @@ pub struct Features {
 
 macro_rules! feat_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
-        pub fn $fn_name(&self) -> Array {
+        pub fn $fn_name(&self) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
-                $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
-                Array::from(temp)
+                let err_val = $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )
@@ -54,21 +58,27 @@ macro_rules! feat_func_def {
 
 impl Features {
     #[allow(unused_mut)]
-    pub fn new(n: u64) -> Features {
+    pub fn new(n: u64) -> Result<Features, AfError> {
         unsafe {
             let mut temp: i64 = 0;
-            af_create_features(&mut temp as *mut c_longlong as MutFeat,
-                               n as DimT);
-            Features {feat: temp}
+            let err_val = af_create_features(&mut temp as *mut c_longlong as MutFeat,
+                                             n as DimT);
+            match err_val {
+                0 => Ok(Features {feat: temp}),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
-    pub fn num_features(&self) -> i64 {
+    pub fn num_features(&self) -> Result<i64, AfError> {
         unsafe {
             let mut temp: i64 = 0;
-            af_get_features_num(&mut temp as *mut DimT,
-                                self.feat as *const c_longlong as Feat);
-            temp
+            let err_val = af_get_features_num(&mut temp as *mut DimT,
+                                              self.feat as *const c_longlong as Feat);
+            match err_val {
+                0 => Ok(temp),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
@@ -87,9 +97,12 @@ impl Clone for Features {
     fn clone(&self) -> Features {
         unsafe {
             let mut temp: i64 = 0;
-            af_retain_features(&mut temp as *mut c_longlong as MutFeat,
-                               self.feat as *const c_longlong as Feat);
-            Features {feat: temp}
+            let ret_val = af_retain_features(&mut temp as *mut c_longlong as MutFeat,
+                                             self.feat as *const c_longlong as Feat);
+            match ret_val {
+                0 => Features {feat: temp},
+                _ => panic!("Weak copy of Features failed with error code: {}", ret_val),
+            }
         }
     }
 }
@@ -97,56 +110,73 @@ impl Clone for Features {
 impl Drop for Features {
     fn drop(&mut self) {
         unsafe {
-            af_release_features(self.feat as *mut c_longlong as *mut c_void);
+            let ret_val = af_release_features(self.feat as *mut c_longlong as *mut c_void);
+            match ret_val {
+                0 => (),
+                _ => panic!("Weak copy of Features failed with error code: {}", ret_val),
+            }
         }
     }
 }
 
 #[allow(unused_mut)]
 pub fn fast(input: &Array, thr: f32, arc_len: u32,
-            non_max: bool, feat_ratio: f32, edge: u32) -> Features {
+            non_max: bool, feat_ratio: f32, edge: u32) -> Result<Features, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        af_fast(&mut temp as *mut c_longlong as MutFeat,
+        let err_val = af_fast(&mut temp as *mut c_longlong as MutFeat,
                 input.get() as AfArray, thr as c_float, arc_len as c_uint,
                 non_max as c_int, feat_ratio as c_float, edge as c_uint);
-        Features {feat: temp}
+        match err_val {
+            0 => Ok(Features {feat: temp}),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
 pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
-           scl_fctr: f32, levels: u32, blur_img: bool) -> (Features, Array) {
+           scl_fctr: f32, levels: u32, blur_img: bool) -> Result<(Features, Array), AfError> {
     unsafe {
         let mut f: i64 = 0;
         let mut d: i64 = 0;
-        af_orb(&mut f as *mut c_longlong as MutFeat, &mut d as MutAfArray,
+        let err_val = af_orb(&mut f as *mut c_longlong as MutFeat, &mut d as MutAfArray,
                input.get() as AfArray, fast_thr as c_float,
                max_feat as c_uint, scl_fctr as c_float, levels as c_uint, blur_img as c_int);
-        (Features {feat: f}, Array::from(d))
+        match err_val {
+            0 => Ok((Features {feat: f}, Array::from(d))),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
 pub fn hamming_matcher(query: &Array, train: &Array,
-                       dist_dims: i64, n_dist: u32) -> (Array, Array) {
+                       dist_dims: i64, n_dist: u32) -> Result<(Array, Array), AfError> {
     unsafe {
         let mut idx: i64 = 0;
         let mut dist:i64 = 0;
-        af_hamming_matcher(&mut idx as MutAfArray, &mut dist as MutAfArray,
+        let err_val = af_hamming_matcher(&mut idx as MutAfArray, &mut dist as MutAfArray,
                            query.get() as AfArray, train.get() as AfArray,
                            dist_dims as DimT, n_dist as c_uint);
-        (Array::from(idx), Array::from(dist))
+        match err_val {
+            0 => Ok((Array::from(idx), Array::from(dist))),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
-pub fn match_template(search_img: &Array, template_img: &Array, mtype: MatchType) -> Array {
+pub fn match_template(search_img: &Array, template_img: &Array,
+                      mtype: MatchType) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        af_match_template(&mut temp as MutAfArray,
+        let err_val = af_match_template(&mut temp as MutAfArray,
                           search_img.get() as AfArray, template_img.get() as AfArray,
                           mtype as uint8_t);
-        Array::from(temp)
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }

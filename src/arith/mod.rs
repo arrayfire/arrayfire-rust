@@ -2,6 +2,7 @@ extern crate libc;
 extern crate num;
 
 use array::Array;
+use defines::AfError;
 use self::libc::{c_int};
 use data::constant;
 use self::num::Complex;
@@ -107,11 +108,14 @@ impl<'f> Not for &'f Array {
 macro_rules! unary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Array {
+        pub fn $fn_name(input: &Array) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
-                $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
-                Array::from(temp)
+                let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )
@@ -161,11 +165,16 @@ unary_func!(isnan, af_isnan);
 macro_rules! binary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
+        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
-                $ffi_fn(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray, 0);
-                Array::from(temp)
+                let err_val = $ffi_fn(&mut temp as MutAfArray,
+                                      lhs.get() as AfArray, rhs.get() as AfArray,
+                                      0);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )

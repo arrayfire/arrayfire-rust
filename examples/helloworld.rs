@@ -11,12 +11,14 @@ fn main() {
     let dims: Dim4 = Dim4::new(&[5, 3, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
-    let a: Array = af::randu(dims, af::Aftype::F32);
+    let a: Array = af::randu(dims, af::Aftype::F32).ok().unwrap();
     af::print(&a);
 
     println!("Element-wise arithmetic");
-    let b: Array = &af::sin(&a) + 1.5;
-    let b2: Array = &af::sin(&a) + &af::cos(&a);
+    let sin_res = af::sin(&a).ok().unwrap();
+    let cos_res = af::cos(&a).ok().unwrap();
+    let b: Array = &sin_res + 1.5;
+    let b2: Array = &sin_res + &cos_res;
     let b3: Array = ! &a;
     println!("sin(a) + 1.5 => "); af::print(&b);
     println!("sin(a) + cos(a) => "); af::print(&b2);
@@ -30,7 +32,7 @@ fn main() {
     // af_print(B);
 
     println!("Fourier transform the result");
-    let c: Array = af::fft(&b, 1.0, 0);
+    let c: Array = af::fft(&b, 1.0, 0).ok().unwrap();
     af::print(&c);
 
     // printf("Grab last row\n");
@@ -49,12 +51,12 @@ fn main() {
 
     // // Sort A
     println!("Sort A and print sorted array and corresponding indices");
-    let (vals, inds) = af::sort_index(&a, 0, true);
+    let (vals, inds) = af::sort_index(&a, 0, true).ok().unwrap();
     af::print(&vals);
     af::print(&inds);
 
     println!("u8 constant array");
-    let u8_cnst = af::constant(1 as u8, dims);
+    let u8_cnst = af::constant(1 as u8, dims).ok().unwrap();
     af::print(&u8_cnst);
     println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single().ok().unwrap());
 }
