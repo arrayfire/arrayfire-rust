@@ -12,28 +12,28 @@ type Feat       = *const self::libc::c_void;
 
 #[allow(dead_code)]
 extern {
-    fn af_create_features(feat: MutFeat, num: DimT);
-    fn af_retain_features(feat: MutFeat, feat: Feat);
-    fn af_get_features_num(num: *mut DimT, feat: Feat);
-    fn af_get_features_xpos(out: MutAfArray, feat: Feat);
-    fn af_get_features_ypos(out: MutAfArray, feat: Feat);
-    fn af_get_features_score(out: MutAfArray, feat: Feat);
-    fn af_get_features_orientation(out: MutAfArray, feat: Feat);
-    fn af_get_features_size(out: MutAfArray, feat: Feat);
-    fn af_release_features(feat: *mut c_void);
+    fn af_create_features(feat: MutFeat, num: DimT) -> c_int;
+    fn af_retain_features(feat: MutFeat, feat: Feat) -> c_int;
+    fn af_get_features_num(num: *mut DimT, feat: Feat) -> c_int;
+    fn af_get_features_xpos(out: MutAfArray, feat: Feat) -> c_int;
+    fn af_get_features_ypos(out: MutAfArray, feat: Feat) -> c_int;
+    fn af_get_features_score(out: MutAfArray, feat: Feat) -> c_int;
+    fn af_get_features_orientation(out: MutAfArray, feat: Feat) -> c_int;
+    fn af_get_features_size(out: MutAfArray, feat: Feat) -> c_int;
+    fn af_release_features(feat: *mut c_void) -> c_int;
 
     fn af_fast(out: MutFeat, input: AfArray, thr: c_float, arc_len: c_uint, non_max: c_int,
-               feature_ratio: c_float, edge: c_uint);
+               feature_ratio: c_float, edge: c_uint) -> c_int;
 
     fn af_orb(out: MutFeat, desc: MutAfArray, arr: AfArray, fast_thr: c_float, max_feat: c_uint,
-              scl_fctr: c_float, levels: c_uint, blur_img: c_int);
+              scl_fctr: c_float, levels: c_uint, blur_img: c_int) -> c_int;
 
     fn af_hamming_matcher(idx: MutAfArray, dist: MutAfArray,
                           query: AfArray, train: AfArray,
-                          dist_dim: DimT, n_dist: c_uint);
+                          dist_dim: DimT, n_dist: c_uint) -> c_int;
 
     fn af_match_template(out: MutAfArray, search_img: AfArray, template_img: AfArray,
-                         mtype: uint8_t);
+                         mtype: uint8_t) -> c_int;
 }
 
 pub struct Features {
