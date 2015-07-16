@@ -40,8 +40,8 @@ extern {
     fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
     fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
 
-    fn af_set_seed(seed: Uintl);
-    fn af_get_seed(seed: *mut Uintl);
+    fn af_set_seed(seed: Uintl) -> c_int;
+    fn af_get_seed(seed: *mut Uintl) -> c_int;
 
     fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
     fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
