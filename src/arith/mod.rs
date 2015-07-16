@@ -194,7 +194,7 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims());
+                let cnst_arr = constant(rhs, self.dims().ok().unwrap()).ok().unwrap();
                 unsafe {
                     let mut temp: i64 = 0;
                     $ffi_fn(&mut temp as MutAfArray,

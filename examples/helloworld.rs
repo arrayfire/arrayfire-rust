@@ -40,7 +40,7 @@ fn main() {
     println!("Create 2-by-3 matrix from host data");
     let d_dims: Dim4 = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];
-    let d: Array = Array::new(d_dims, &d_input, af::Aftype::S32);
+    let d: Array = Array::new(d_dims, &d_input, af::Aftype::S32).ok().unwrap();
     af::print(&d);
 
     // printf("Copy last column onto first\n");
@@ -56,5 +56,5 @@ fn main() {
     println!("u8 constant array");
     let u8_cnst = af::constant(1 as u8, dims);
     af::print(&u8_cnst);
-    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single());
+    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single().ok().unwrap());
 }
