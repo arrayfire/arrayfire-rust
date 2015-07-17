@@ -180,6 +180,10 @@ macro_rules! binary_func {
     )
 }
 
+binary_func!(add, af_add);
+binary_func!(sub, af_sub);
+binary_func!(mul, af_mul);
+binary_func!(div, af_div);
 binary_func!(lt, af_lt);
 binary_func!(gt, af_gt);
 binary_func!(le, af_le);
@@ -203,13 +207,14 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims().ok().unwrap()).ok().unwrap();
+                let cnst_arr = constant(rhs, self.dims().unwrap()).unwrap();
                 unsafe {
                     let mut temp: i64 = 0;
-                    $ffi_fn(&mut temp as MutAfArray,
-                            self.get() as AfArray, cnst_arr.get() as AfArray,
-                            0);
-                    Array::from(temp)
+                    match $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
+                                  cnst_arr.get() as AfArray, 0) {
+                        0 => Array::from(temp),
+                        _ => panic!("Arithmetic operator on Array failed with error code"),
+                    }
                 }
             }
         }
