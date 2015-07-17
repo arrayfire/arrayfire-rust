@@ -31,7 +31,7 @@ mod data;
 pub use device::{get_version, info, set_device};
 mod device;
 
-pub use defines::Aftype;
+pub use defines::{Aftype, AfError};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;
