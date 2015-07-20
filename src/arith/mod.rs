@@ -2,6 +2,7 @@ extern crate libc;
 extern crate num;
 
 use array::Array;
+use defines::AfError;
 use self::libc::{c_int};
 use data::constant;
 use self::num::Complex;
@@ -98,8 +99,10 @@ impl<'f> Not for &'f Array {
     fn not(self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            af_not(&mut temp as MutAfArray, self.get() as AfArray);
-            Array::from(temp)
+            match af_not(&mut temp as MutAfArray, self.get() as AfArray) {
+                0 => Array::from(temp),
+                _ => panic!("Negation of Array failed, please check input"),
+            }
         }
     }
 }
@@ -107,11 +110,14 @@ impl<'f> Not for &'f Array {
 macro_rules! unary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Array {
+        pub fn $fn_name(input: &Array) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
-                $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
-                Array::from(temp)
+                let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )
@@ -161,16 +167,31 @@ unary_func!(isnan, af_isnan);
 macro_rules! binary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
+        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
-                $ffi_fn(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray, 0);
-                Array::from(temp)
+                let err_val = $ffi_fn(&mut temp as MutAfArray,
+                                      lhs.get() as AfArray, rhs.get() as AfArray,
+                                      0);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )
 }
 
+binary_func!(add, af_add);
+binary_func!(sub, af_sub);
+binary_func!(mul, af_mul);
+binary_func!(div, af_div);
+binary_func!(rem, af_rem);
+binary_func!(bitand, af_bitand);
+binary_func!(bitor, af_bitor);
+binary_func!(bitxor, af_bitxor);
+binary_func!(shiftl, af_bitshiftl);
+binary_func!(shiftr, af_bitshiftr);
 binary_func!(lt, af_lt);
 binary_func!(gt, af_gt);
 binary_func!(le, af_le);
@@ -194,13 +215,14 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims());
+                let cnst_arr = constant(rhs, self.dims().unwrap()).unwrap();
                 unsafe {
                     let mut temp: i64 = 0;
-                    $ffi_fn(&mut temp as MutAfArray,
-                            self.get() as AfArray, cnst_arr.get() as AfArray,
-                            0);
-                    Array::from(temp)
+                    match $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
+                                  cnst_arr.get() as AfArray, 0) {
+                        0 => Array::from(temp),
+                        _ => panic!("Arithmetic operator on Array failed"),
+                    }
                 }
             }
         }
@@ -234,10 +256,12 @@ macro_rules! arith_func {
             fn $fn_name(self, rhs:&'f Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
-                    $ffi_fn(&mut temp as MutAfArray,
-                            self.get() as AfArray, rhs.get() as AfArray,
-                            0);
-                    Array::from(temp)
+                    match $ffi_fn(&mut temp as MutAfArray,
+                                  self.get() as AfArray, rhs.get() as AfArray,
+                                  0) {
+                        0 => Array::from(temp),
+                        _ => panic!("Failed to perform arithmetic operation"),
+                    }
                 }
             }
         }

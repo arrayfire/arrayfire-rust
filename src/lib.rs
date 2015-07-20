@@ -10,7 +10,8 @@ pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
 pub use algorithm::{set_unique, set_union, set_intersect};
 mod algorithm;
 
-pub use arith::{lt, gt, le, ge, eq, neq, and, or, minof, maxof};
+pub use arith::{add, sub, div, mul, lt, gt, le, ge, eq, neq, and, or, minof, maxof, rem};
+pub use arith::{bitand, bitor, bitxor, shiftl, shiftr};
 pub use arith::{abs, sign, round, trunc, floor, ceil, modulo};
 pub use arith::{sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh};
 pub use arith::{atan2, cplx2, arg, cplx, real, imag, conjg, hypot};
@@ -31,7 +32,7 @@ mod data;
 pub use device::{get_version, info, set_device};
 mod device;
 
-pub use defines::Aftype;
+pub use defines::{Aftype, AfError};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;

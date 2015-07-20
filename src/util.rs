@@ -1,3 +1,4 @@
+use defines::AfError;
 use defines::Aftype;
 use defines::InterpType;
 use defines::ConvMode;
@@ -5,6 +6,13 @@ use defines::ConvDomain;
 use defines::MatProp;
 use defines::MatchType;
 use std::mem;
+
+impl From<i32> for AfError {
+    fn from(t: i32) -> AfError {
+        assert!(AfError::SUCCESS as i32 <= t && t <= AfError::ERR_UNKNOWN as i32);
+        unsafe { mem::transmute(t) }
+    }
+}
 
 impl From<u8> for Aftype {
     fn from(t: u8) -> Aftype {

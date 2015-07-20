@@ -1,6 +1,7 @@
 extern crate libc;
 
 use array::Array;
+use defines::AfError;
 use defines::MatProp;
 use self::libc::{c_uint, c_int};
 use util::to_u32;
@@ -21,37 +22,55 @@ extern {
 }
 
 #[allow(unused_mut)]
-pub fn matmul(lhs: &Array, rhs: &Array, optlhs: MatProp, optrhs: MatProp) -> Array {
+pub fn matmul(lhs: &Array, rhs: &Array,
+              optlhs: MatProp, optrhs: MatProp) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        af_matmul(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray,
-                  to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
-        Array::from(temp)
+        let err_val = af_matmul(&mut temp as MutAfArray,
+                                lhs.get() as AfArray, rhs.get() as AfArray,
+                                to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
-pub fn dot(lhs: &Array, rhs: &Array, optlhs: MatProp, optrhs: MatProp) -> Array {
+pub fn dot(lhs: &Array, rhs: &Array,
+           optlhs: MatProp, optrhs: MatProp) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        af_dot(&mut temp as MutAfArray, lhs.get() as AfArray, rhs.get() as AfArray,
-               to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
-        Array::from(temp)
+        let err_val = af_dot(&mut temp as MutAfArray,
+                             lhs.get() as AfArray, rhs.get() as AfArray,
+                             to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
-pub fn transpose(arr: &Array, conjugate: bool) -> Array {
+pub fn transpose(arr: &Array, conjugate: bool) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        af_transpose(&mut temp as MutAfArray, arr.get() as AfArray, conjugate as c_int);
-        Array::from(temp)
+        let err_val = af_transpose(&mut temp as MutAfArray,
+                                   arr.get() as AfArray, conjugate as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }
 
 #[allow(unused_mut)]
-pub fn transpose_inplace(arr: &Array, conjugate: bool) {
+pub fn transpose_inplace(arr: &mut Array, conjugate: bool) -> Result<(), AfError> {
     unsafe {
-        af_transpose_inplace(arr.get() as AfArray, conjugate as c_int);
+        let err_val = af_transpose_inplace(arr.get() as AfArray, conjugate as c_int);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
     }
 }

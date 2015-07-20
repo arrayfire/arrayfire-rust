@@ -1,4 +1,3 @@
-extern crate libc;
 extern crate arrayfire as af;
 
 use af::Dim4;
@@ -8,16 +7,18 @@ fn main() {
     af::set_device(0);
     af::info();
 
-    let dims: Dim4 = Dim4::new(&[5, 3, 1, 1]);
+    let dims = Dim4::new(&[5, 3, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
-    let a: Array = af::randu(dims, af::Aftype::F32);
+    let a = af::randu(dims, af::Aftype::F32).unwrap();
     af::print(&a);
 
     println!("Element-wise arithmetic");
-    let b: Array = &af::sin(&a) + 1.5;
-    let b2: Array = &af::sin(&a) + &af::cos(&a);
-    let b3: Array = ! &a;
+    let sin_res = af::sin(&a).unwrap();
+    let cos_res = af::cos(&a).unwrap();
+    let  b = &sin_res + 1.5;
+    let b2 = &sin_res + &cos_res;
+    let b3 = ! &a;
     println!("sin(a) + 1.5 => "); af::print(&b);
     println!("sin(a) + cos(a) => "); af::print(&b2);
     println!("!a => "); af::print(&b3);
@@ -30,7 +31,7 @@ fn main() {
     // af_print(B);
 
     println!("Fourier transform the result");
-    let c: Array = af::fft(&b, 1.0, 0);
+    let c = &af::fft(&b, 1.0, 0).unwrap();
     af::print(&c);
 
     // printf("Grab last row\n");
@@ -38,10 +39,10 @@ fn main() {
     // af_print(c);
 
     println!("Create 2-by-3 matrix from host data");
-    let d_dims: Dim4 = Dim4::new(&[2, 3, 1, 1]);
+    let d_dims = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];
-    let d: Array = Array::new(d_dims, &d_input, af::Aftype::S32);
-    af::print(&d);
+    let d = &Array::new(d_dims, &d_input, af::Aftype::S32).unwrap();
+    af::print(d);
 
     // printf("Copy last column onto first\n");
     // D.col(0) = D.col(end);
@@ -49,12 +50,12 @@ fn main() {
 
     // // Sort A
     println!("Sort A and print sorted array and corresponding indices");
-    let (vals, inds) = af::sort_index(&a, 0, true);
+    let (vals, inds) = af::sort_index(&a, 0, true).unwrap();
     af::print(&vals);
     af::print(&inds);
 
     println!("u8 constant array");
-    let u8_cnst = af::constant(1 as u8, dims);
-    af::print(&u8_cnst);
-    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single());
+    let u8_cnst = &af::constant(1 as u8, dims).unwrap();
+    af::print(u8_cnst);
+    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single().unwrap());
 }

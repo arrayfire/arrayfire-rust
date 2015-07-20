@@ -1,6 +1,7 @@
 extern crate libc;
 
 use dim4::Dim4;
+use defines::AfError;
 use defines::Aftype;
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
@@ -67,11 +68,14 @@ pub struct Array {
 
 macro_rules! is_func {
     ($fn_name: ident, $ffi_fn: ident) => (
-        pub fn $fn_name(&self) -> bool {
+        pub fn $fn_name(&self) -> Result<bool, AfError> {
             unsafe {
                 let mut ret_val: i32 = 0;
-                $ffi_fn(&mut ret_val as *mut c_int, self.handle as AfArray);
-                ret_val > 0
+                let err_val = $ffi_fn(&mut ret_val as *mut c_int, self.handle as AfArray);
+                match err_val {
+                    0 => Ok(ret_val>0),
+                    _ => Err(AfError::from(err_val)),
+                }
             }
         }
     )
@@ -79,50 +83,67 @@ macro_rules! is_func {
 
 impl Array {
     #[allow(unused_mut)]
-    pub fn new<T>(dims: Dim4, slice: &[T], aftype: Aftype) -> Array {
+    pub fn new<T>(dims: Dim4, slice: &[T], aftype: Aftype) -> Result<Array, AfError> {
         unsafe {
             let mut temp: i64 = 0;
-            af_create_array(&mut temp as MutAfArray, slice.as_ptr() as *const c_void,
-                            dims.ndims() as c_uint, dims.get().as_ptr() as * const c_longlong,
-                            aftype as uint8_t);
-            Array {handle: temp}
+            let err_val = af_create_array(&mut temp as MutAfArray,
+                                          slice.as_ptr() as *const c_void,
+                                          dims.ndims() as c_uint,
+                                          dims.get().as_ptr() as * const c_longlong,
+                                          aftype as uint8_t);
+            match err_val {
+                0 => Ok(Array {handle: temp}),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
-    pub fn elements(&self) -> i64 {
+    pub fn elements(&self) -> Result<i64, AfError> {
         unsafe {
             let mut ret_val: i64 = 0;
-            af_get_elements(&mut ret_val as MutAfArray, self.handle as AfArray);
-            ret_val
+            let err_val = af_get_elements(&mut ret_val as MutAfArray, self.handle as AfArray);
+            match err_val {
+                0 => Ok(ret_val),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
-    pub fn get_type(&self) -> Aftype {
+    pub fn get_type(&self) -> Result<Aftype, AfError> {
         unsafe {
             let mut ret_val: u8 = 0;
-            af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
-            Aftype::from(ret_val)
+            let err_val = af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
+            match err_val {
+                0 => Ok(Aftype::from(ret_val)),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
-    pub fn dims(&self) -> Dim4 {
+    pub fn dims(&self) -> Result<Dim4, AfError> {
         unsafe {
             let mut ret0: i64 = 0;
             let mut ret1: i64 = 0;
             let mut ret2: i64 = 0;
             let mut ret3: i64 = 0;
-            af_get_dims(&mut ret0 as *mut c_longlong, &mut ret1 as *mut c_longlong,
-                        &mut ret2 as *mut c_longlong, &mut ret3 as *mut c_longlong,
-                        self.handle as AfArray);
-            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
+            let err_val = af_get_dims(&mut ret0 as *mut c_longlong, &mut ret1 as *mut c_longlong,
+                                      &mut ret2 as *mut c_longlong, &mut ret3 as *mut c_longlong,
+                                      self.handle as AfArray);
+            match err_val {
+                0 => Ok(Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
-    pub fn numdims(&self) -> u32 {
+    pub fn numdims(&self) -> Result<u32, AfError> {
         unsafe {
             let mut ret_val: u32 = 0;
-            af_get_numdims(&mut ret_val as *mut c_uint, self.handle as AfArray);
-            ret_val
+            let err_val = af_get_numdims(&mut ret_val as *mut c_uint, self.handle as AfArray);
+            match err_val {
+                0 => Ok(ret_val),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 
@@ -130,15 +151,23 @@ impl Array {
         self.handle
     }
 
-    pub fn host(&self, data:&mut [f64]) {
+    pub fn host(&self, data:&mut [f64]) -> Result<(), AfError> {
         unsafe {
-            af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
+            let ret_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
+            match ret_val {
+                0 => Ok(()),
+                _ => Err(AfError::from(ret_val)),
+            }
         }
     }
 
-    pub fn eval(&self) {
+    pub fn eval(&self) -> Result<(), AfError> {
         unsafe {
-            af_eval(self.handle as AfArray);
+            let ret_val = af_eval(self.handle as AfArray);
+            match ret_val {
+                0 => Ok(()),
+                _ => Err(AfError::from(ret_val)),
+            }
         }
     }
 
@@ -166,8 +195,11 @@ impl Clone for Array {
     fn clone(&self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            af_retain_array(&mut temp as MutAfArray, self.handle as AfArray);
-            Array {handle: temp}
+            let ret_val = af_retain_array(&mut temp as MutAfArray, self.handle as AfArray);
+            match ret_val {
+                0 => Array {handle: temp},
+                _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
+            }
         }
     }
 }
@@ -175,13 +207,21 @@ impl Clone for Array {
 impl Drop for Array {
     fn drop(&mut self) {
         unsafe {
-            af_release_array(self.handle);
+            let ret_val = af_release_array(self.handle);
+            match ret_val {
+                0 => (),
+                _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
+            }
         }
     }
 }
 
-pub fn print(input: &Array) {
+pub fn print(input: &Array) -> Result<(), AfError> {
     unsafe {
-        af_print_array(input.get() as AfArray);
+        let ret_val = af_print_array(input.get() as AfArray);
+        match ret_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(ret_val)),
+        }
     }
 }
