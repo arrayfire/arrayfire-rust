@@ -99,8 +99,10 @@ impl<'f> Not for &'f Array {
     fn not(self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            af_not(&mut temp as MutAfArray, self.get() as AfArray);
-            Array::from(temp)
+            match af_not(&mut temp as MutAfArray, self.get() as AfArray) {
+                0 => Array::from(temp),
+                _ => panic!("Negation of Array failed, please check input"),
+            }
         }
     }
 }
@@ -184,6 +186,12 @@ binary_func!(add, af_add);
 binary_func!(sub, af_sub);
 binary_func!(mul, af_mul);
 binary_func!(div, af_div);
+binary_func!(rem, af_rem);
+binary_func!(bitand, af_bitand);
+binary_func!(bitor, af_bitor);
+binary_func!(bitxor, af_bitxor);
+binary_func!(shiftl, af_bitshiftl);
+binary_func!(shiftr, af_bitshiftr);
 binary_func!(lt, af_lt);
 binary_func!(gt, af_gt);
 binary_func!(le, af_le);
@@ -213,7 +221,7 @@ macro_rules! arith_scalar_func {
                     match $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
                                   cnst_arr.get() as AfArray, 0) {
                         0 => Array::from(temp),
-                        _ => panic!("Arithmetic operator on Array failed with error code"),
+                        _ => panic!("Arithmetic operator on Array failed"),
                     }
                 }
             }
@@ -248,10 +256,12 @@ macro_rules! arith_func {
             fn $fn_name(self, rhs:&'f Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
-                    $ffi_fn(&mut temp as MutAfArray,
-                            self.get() as AfArray, rhs.get() as AfArray,
-                            0);
-                    Array::from(temp)
+                    match $ffi_fn(&mut temp as MutAfArray,
+                                  self.get() as AfArray, rhs.get() as AfArray,
+                                  0) {
+                        0 => Array::from(temp),
+                        _ => panic!("Failed to perform arithmetic operation"),
+                    }
                 }
             }
         }
