@@ -114,6 +114,18 @@ impl ConstGenerator for Complex<f64> {
     }
 }
 
+#[allow(unused_mut)]
+impl ConstGenerator for bool {
+    fn generate(&self, dims: Dim4) -> Array {
+        unsafe {
+            let mut temp: i64 = 0;
+            af_constant(&mut temp as MutAfArray, *self as c_int as c_double,
+                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, 4);
+            Array::from(temp)
+        }
+    }
+}
+
 macro_rules! cnst {
     ($rust_type:ty, $ffi_type:expr) => (
         #[allow(unused_mut)]
@@ -121,7 +133,7 @@ macro_rules! cnst {
             fn generate(&self, dims: Dim4) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
-                    af_constant(&mut temp as MutAfArray, *self as u64 as c_double,
+                    af_constant(&mut temp as MutAfArray, *self as c_double,
                                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                                 $ffi_type);
                     Array::from(temp)
@@ -133,7 +145,6 @@ macro_rules! cnst {
 
 cnst!(f32 , 0);
 cnst!(f64 , 2);
-cnst!(bool, 4);
 cnst!(i32 , 5);
 cnst!(u32 , 6);
 cnst!(u8  , 7);
