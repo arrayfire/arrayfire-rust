@@ -48,8 +48,11 @@ struct Config {
     glew_dir: String,
     glfw_dir: String,
     boost_dir: String,
+
+    // GPU backends
     cuda_sdk: String,
     opencl_sdk: String,
+    sdk_lib_dir: String,
 }
 
 macro_rules! t {
@@ -348,8 +351,8 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
             backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
             backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
         } else {
-            backend_dirs.push(format!("{}/lib64", conf.cuda_sdk));
-            backend_dirs.push(format!("{}/nvvm/lib64", conf.cuda_sdk));
+            backend_dirs.push(format!("{}/{}", conf.cuda_sdk, conf.sdk_lib_dir));
+            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, conf.sdk_lib_dir));
         }
     } else if conf.use_backend == "opencl" {
         backends.push(("afopencl".to_string()));
@@ -357,7 +360,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         if cfg!(windows) {
             backend_dirs.push(format!("{}\\lib\\x64", conf.opencl_sdk));
         } else {
-            backend_dirs.push(format!("{}/lib64", conf.opencl_sdk));
+            backend_dirs.push(format!("{}/{}", conf.opencl_sdk, conf.sdk_lib_dir));
         }
     }
 
