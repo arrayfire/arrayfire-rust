@@ -133,12 +133,16 @@ impl ConstGenerator for Complex<f64> {
 
 #[allow(unused_mut)]
 impl ConstGenerator for bool {
-    fn generate(&self, dims: Dim4) -> Array {
+    fn generate(&self, dims: Dim4) -> Result<Array, AfError> {
         unsafe {
             let mut temp: i64 = 0;
-            af_constant(&mut temp as MutAfArray, *self as c_int as c_double,
-                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, 4);
-            Array::from(temp)
+            let err_val = af_constant(&mut temp as MutAfArray, *self as c_int as c_double,
+                                      dims.ndims() as c_uint,
+                                      dims.get().as_ptr() as *const DimT, 4);
+            match err_val {
+                0 => Ok(Array::from(temp)),
+                _ => Err(AfError::from(err_val)),
+            }
         }
     }
 }

@@ -40,6 +40,9 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
+pub use graphics::Window;
+mod graphics;
+
 pub use image::{gaussian_kernel, load_image, save_image};
 pub use image::{resize, transform, rotate, translate, scale, skew};
 pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
