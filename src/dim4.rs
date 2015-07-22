@@ -39,7 +39,7 @@ impl Dim4 {
         let nelems = self.elements();
         match nelems {
             0 => 0,
-            1 => 0,
+            1 => 1,
             _ => {
                 if self.dims[3] != 1 { 4 }
                 else if self.dims[2] != 1 { 3 }

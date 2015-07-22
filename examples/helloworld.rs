@@ -3,6 +3,7 @@ extern crate arrayfire as af;
 use af::Dim4;
 use af::Array;
 
+#[allow(unused_must_use)]
 fn main() {
     af::set_device(0);
     af::info();
@@ -14,10 +15,9 @@ fn main() {
     af::print(&a);
 
     println!("Element-wise arithmetic");
-    let sin_res = af::sin(&a).unwrap();
-    let cos_res = af::cos(&a).unwrap();
-    let  b = &sin_res + 1.5;
-    let b2 = &sin_res + &cos_res;
+    let  b = af::add(af::sin(&a), 1.5).unwrap();
+    let b2 = af::add(af::sin(&a), af::cos(&a)).unwrap();
+
     let b3 = ! &a;
     println!("sin(a) + 1.5 => "); af::print(&b);
     println!("sin(a) + cos(a) => "); af::print(&b2);
