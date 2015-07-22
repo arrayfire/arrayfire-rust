@@ -57,6 +57,8 @@ extern {
 
     fn af_retain_array(out: MutAfArray, arr: AfArray) -> c_int;
 
+    fn af_copy_array(out: MutAfArray, arr: AfArray) -> c_int;
+
     fn af_release_array(arr: AfArray) -> c_int;
 
     fn af_print_array(arr: AfArray) -> c_int;
@@ -167,6 +169,17 @@ impl Array {
             match ret_val {
                 0 => Ok(()),
                 _ => Err(AfError::from(ret_val)),
+            }
+        }
+    }
+
+    pub fn copy(&self) -> Result<Array, AfError> {
+        unsafe {
+            let mut temp: i64 = 0;
+            let err_val = af_copy_array(&mut temp as MutAfArray, self.handle as AfArray);
+            match err_val {
+                0 => Ok(Array::from(temp)),
+                _ => Err(AfError::from(err_val)),
             }
         }
     }

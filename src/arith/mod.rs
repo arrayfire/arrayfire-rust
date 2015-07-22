@@ -1,10 +1,11 @@
 extern crate libc;
 extern crate num;
 
+use dim4::Dim4;
 use array::Array;
 use defines::AfError;
 use self::libc::{c_int};
-use data::constant;
+use data::{constant, tile};
 use self::num::Complex;
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -182,32 +183,100 @@ macro_rules! binary_func {
     )
 }
 
-binary_func!(add, af_add);
-binary_func!(sub, af_sub);
-binary_func!(mul, af_mul);
-binary_func!(div, af_div);
-binary_func!(rem, af_rem);
 binary_func!(bitand, af_bitand);
 binary_func!(bitor, af_bitor);
 binary_func!(bitxor, af_bitxor);
-binary_func!(shiftl, af_bitshiftl);
-binary_func!(shiftr, af_bitshiftr);
-binary_func!(lt, af_lt);
-binary_func!(gt, af_gt);
-binary_func!(le, af_le);
-binary_func!(ge, af_ge);
-binary_func!(eq, af_eq);
 binary_func!(neq, af_neq);
 binary_func!(and, af_and);
 binary_func!(or, af_or);
 binary_func!(minof, af_minof);
 binary_func!(maxof, af_maxof);
-binary_func!(modulo, af_mod);
 binary_func!(hypot, af_hypot);
-binary_func!(atan2, af_atan2);
-binary_func!(cplx2, af_cplx2);
-binary_func!(root, af_root);
-binary_func!(pow, af_pow);
+
+pub trait Convertable {
+    fn convert(&self) -> Array;
+}
+
+macro_rules! convertable_type_def {
+    ($rust_type: ty) => (
+        impl Convertable for $rust_type {
+            fn convert(&self) -> Array {
+                constant(*self, Dim4::new(&[1,1,1,1])).unwrap()
+            }
+        }
+    )
+}
+
+convertable_type_def!(f64);
+convertable_type_def!(f32);
+convertable_type_def!(i32);
+convertable_type_def!(u32);
+convertable_type_def!(u8);
+
+impl Convertable for Array {
+    fn convert(&self) -> Array {
+        self.clone()
+    }
+}
+
+impl Convertable for Result<Array, AfError> {
+    fn convert(&self) -> Array {
+        self.clone().unwrap()
+    }
+}
+
+macro_rules! overloaded_binary_func {
+    ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
+        fn $help_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
+            unsafe {
+                let mut temp: i64 = 0;
+                let err_val = $ffi_name(&mut temp as MutAfArray,
+                                     lhs.get() as AfArray, rhs.get() as AfArray,
+                                     0);
+                match err_val {
+                    0 => Ok(Array::from(temp)),
+                    _ => Err(AfError::from(err_val)),
+                }
+            }
+        }
+
+        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: T, arg2: U) -> Result<Array, AfError> {
+            let lhs = arg1.convert();
+            let rhs = arg2.convert();
+            match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
+                ( true, false) => {
+                    let l = tile(&lhs, rhs.dims().unwrap()).unwrap();
+                    $help_name(&l, &rhs)
+                },
+                (false,  true) => {
+                    let r = tile(&rhs, lhs.dims().unwrap()).unwrap();
+                    $help_name(&lhs, &r)
+                },
+                _ => $help_name(&lhs, &rhs),
+            }
+        }
+    )
+}
+
+// thanks to Umar Arshad for the idea on how to
+// implement overloaded function
+overloaded_binary_func!(add, add_helper, af_add);
+overloaded_binary_func!(sub, sub_helper, af_sub);
+overloaded_binary_func!(mul, mul_helper, af_mul);
+overloaded_binary_func!(div, div_helper, af_div);
+overloaded_binary_func!(rem, rem_helper, af_rem);
+overloaded_binary_func!(shiftl, shiftl_helper, af_bitshiftl);
+overloaded_binary_func!(shiftr, shiftr_helper, af_bitshiftr);
+overloaded_binary_func!(lt, lt_helper, af_lt);
+overloaded_binary_func!(gt, gt_helper, af_gt);
+overloaded_binary_func!(le, le_helper, af_le);
+overloaded_binary_func!(ge, ge_helper, af_ge);
+overloaded_binary_func!(eq, eq_helper, af_eq);
+overloaded_binary_func!(modulo, modulo_helper, af_mod);
+overloaded_binary_func!(atan2, atan2_helper, af_atan2);
+overloaded_binary_func!(cplx2, cplx2_helper, af_cplx2);
+overloaded_binary_func!(root, root_helper, af_root);
+overloaded_binary_func!(pow, pow_helper, af_pow);
 
 macro_rules! arith_scalar_func {
     ($rust_type: ty, $op_name:ident, $fn_name: ident, $ffi_fn: ident) => (
