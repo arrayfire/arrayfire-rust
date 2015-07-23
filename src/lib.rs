@@ -32,13 +32,16 @@ mod data;
 pub use device::{get_version, info, set_device};
 mod device;
 
-pub use defines::{Aftype, AfError};
+pub use defines::{Aftype, AfError, ColorMap};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;
 
 pub use dim4::Dim4;
 mod dim4;
+
+pub use graphics::Window;
+mod graphics;
 
 pub use image::{gaussian_kernel, load_image, save_image};
 pub use image::{resize, transform, rotate, translate, scale, skew};

@@ -168,3 +168,15 @@ pub enum NormType {
     MATRIX_2    = 6,
     MATRIX_L_PQ = 7,
 }
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub enum ColorMap {
+    DEFAULT = 0,
+    SPECTRUM= 1,
+    COLORS  = 2,
+    RED     = 3,
+    MOOD    = 4,
+    HEAT    = 5,
+    BLUE    = 6,
+}

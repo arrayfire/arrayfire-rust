@@ -89,11 +89,12 @@ pub fn gradient(input: &Array) -> Result<(Array, Array), AfError> {
 }
 
 #[allow(unused_mut)]
-pub fn load_image(filename: &[u8], is_color: bool) -> Result<Array, AfError> {
+pub fn load_image(filename: String, is_color: bool) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_load_image(&mut temp as MutAfArray,
-                                    filename.as_ptr() as *const u8, is_color as c_int);
+                                    filename.as_bytes().as_ptr() as *const u8,
+                                    is_color as c_int);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
@@ -102,9 +103,10 @@ pub fn load_image(filename: &[u8], is_color: bool) -> Result<Array, AfError> {
 }
 
 #[allow(unused_mut)]
-pub fn save_image(filename: &[u8], input: &Array) -> Result<(), AfError> {
+pub fn save_image(filename: String, input: &Array) -> Result<(), AfError> {
     unsafe {
-        let err_val = af_save_image(filename.as_ptr() as *const u8, input.get() as AfArray);
+        let err_val = af_save_image(filename.as_bytes().as_ptr() as *const u8,
+                                    input.get() as AfArray);
         match err_val {
             0 => Ok(()),
             _ => Err(AfError::from(err_val)),
@@ -266,7 +268,7 @@ pub fn mean_shift(input: &Array, spatial_sigma: f32, chromatic_sigma: f32,
 macro_rules! filt_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, wlen: i64, wwid: i64,
+        pub fn $fn_name(input: &Array, wlen: u64, wwid: u64,
                         etype: BorderType) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
