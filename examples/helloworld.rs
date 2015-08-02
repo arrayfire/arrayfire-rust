@@ -10,7 +10,10 @@ fn main() {
     let dims = Dim4::new(&[5, 3, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
-    let a = randu(dims, Aftype::F32).unwrap();
+    let a = match randu(dims, Aftype::F32) {
+        Ok(value) => value,
+        Err(error) => panic!("{}", error),
+    };
     print(&a);
 
     println!("Element-wise arithmetic");
@@ -38,8 +41,7 @@ fn main() {
     // af_print(B);
 
     println!("Fourier transform the result");
-    let c = &fft(&b, 1.0, 0).unwrap();
-    print(&c);
+    fft(&b, 1.0, 0).map(|x| print(&x));
 
     // printf("Grab last row\n");
     // array c = C.row(end);
@@ -57,9 +59,11 @@ fn main() {
 
     // // Sort A
     println!("Sort A and print sorted array and corresponding indices");
-    let (vals, inds) = sort_index(&a, 0, true).unwrap();
-    print(&vals);
-    print(&inds);
+    sort_index(&a, 0, true)
+        .map(| x | {
+            print(&x.0);
+            print(&x.1);
+        });
 
     println!("u8 constant array");
     let u8_cnst = &constant(1 as u8, dims).unwrap();

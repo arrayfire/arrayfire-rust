@@ -15,20 +15,20 @@ fn main() {
 
     let img_wnd = match Window::new(480, 640, String::from("Input Image")) {
         Ok(v) => { v.set_position(100, 100).unwrap(); v },
-        Err(e)=> panic!("Window creation failed, exiting: {:?}", e),
+        Err(e)=> panic!("Window creation failed, exiting: {}", e),
     };
 
     let hst_wnd = match Window::new(512, 512, String::from("Input Image Histogram")) {
         Ok(v) => { v.set_position(600, 100).unwrap(); v },
-        Err(e)=> panic!("Window creation failed, exiting: {:?}", e),
+        Err(e)=> panic!("Window creation failed, exiting: {}", e),
     };
 
     let (man, hst) = match load_image(format!("{}/man.jpg", assets_dir.display()), false) {
         Ok(v) => match histogram(&v, 256, 0.0, 255.0) {
             Ok(h) => (v, h),
-            Err(e)=> panic!("Histogram computation failed, exiting: {:?}", e),
+            Err(e)=> panic!("Histogram computation failed, exiting: {}", e),
         },
-        Err(e)=> panic!("Image loading failed, exiting: {:?}", e),
+        Err(e)=> panic!("Image loading failed, exiting: {}", e),
     };
 
     let disp_img = man.dims()

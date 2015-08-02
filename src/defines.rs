@@ -1,3 +1,7 @@
+use std::error::Error;
+use std::fmt::{Display, Formatter};
+use std::fmt::Error as FmtError;
+
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub enum AfError {
@@ -72,6 +76,35 @@ pub enum AfError {
     /// Unknown Error
     ///
     ERR_UNKNOWN        = 999
+}
+
+impl Display for AfError {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
+        write!(f, "{}", self.description())
+    }
+}
+
+impl Error for AfError {
+    fn description(&self) -> &str {
+        match *self {
+            AfError::SUCCESS => "Function returned successfully",
+            AfError::ERR_NO_MEM => "The system or device ran out of memory",
+            AfError::ERR_DRIVER => "Device driver error",
+            AfError::ERR_RUNTIME => "Error in runtime environment",
+            AfError::ERR_INVALID_ARRAY => "Input is not a valid Array Object",
+            AfError::ERR_ARG => "One of the function arguments is incorrect",
+            AfError::ERR_SIZE => "The size is incorrect",
+            AfError::ERR_TYPE => "The type is not supported by this function",
+            AfError::ERR_DIFF_TYPE => "The type of input arrays are not compatible",
+            AfError::ERR_BATCH => "Function does not support GFOR / batch mode",
+            AfError::ERR_NOT_SUPPORTED => "The option is not supported",
+            AfError::ERR_NOT_CONFIGURED => "This build of ArrayFire does not support this feature",
+            AfError::ERR_NO_DBL => "This device does not support double",
+            AfError::ERR_NO_GFX => "This build of ArrayFire was not built with graphics or this device does not support graphics",
+            AfError::ERR_INTERNAL => "There was an internal error in either ArrayFire or upstream project",
+            AfError::ERR_UNKNOWN => "Unkown Error",
+        }
+    }
 }
 
 #[derive(Copy, Clone)]
