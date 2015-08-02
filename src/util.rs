@@ -5,6 +5,7 @@ use defines::ConvMode;
 use defines::ConvDomain;
 use defines::MatProp;
 use defines::MatchType;
+use defines::ColorMap;
 use std::mem;
 
 impl From<i32> for AfError {
@@ -62,5 +63,12 @@ pub fn to_u32(t: MatProp) -> u32 {
         MatProp::ORTHOG     =>  2048,
         MatProp::TRIDIAG   =>  4096,
         MatProp::BLOCKDIAG =>  8192,
+    }
+}
+
+impl From<i32> for ColorMap {
+    fn from(t: i32) -> ColorMap {
+        assert!(ColorMap::DEFAULT as i32 <= t && t <= ColorMap::BLUE as i32);
+        unsafe { mem::transmute(t) }
     }
 }

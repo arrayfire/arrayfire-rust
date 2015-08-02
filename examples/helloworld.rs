@@ -1,38 +1,47 @@
 extern crate arrayfire as af;
 
-use af::Dim4;
-use af::Array;
+use af::*;
 
 #[allow(unused_must_use)]
 fn main() {
-    af::set_device(0);
-    af::info();
+    set_device(0);
+    info();
 
     let dims = Dim4::new(&[5, 3, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
-    let a = af::randu(dims, af::Aftype::F32).unwrap();
-    af::print(&a);
+    let a = match randu(dims, Aftype::F32) {
+        Ok(value) => value,
+        Err(error) => panic!("{}", error),
+    };
+    print(&a);
 
     println!("Element-wise arithmetic");
-    let  b = af::add(af::sin(&a), 1.5).unwrap();
-    let b2 = af::add(af::sin(&a), af::cos(&a)).unwrap();
+    let  b = sin(&a)
+        .and_then(|x| add(x, 1.5))
+        .unwrap();
+
+    let b2 = sin(&a).
+        and_then(|x| {
+            cos(&a)
+                .and_then(|y| add(x, y))
+        })
+        .unwrap();
 
     let b3 = ! &a;
-    println!("sin(a) + 1.5 => "); af::print(&b);
-    println!("sin(a) + cos(a) => "); af::print(&b2);
-    println!("!a => "); af::print(&b3);
+    println!("sin(a) + 1.5 => "); print(&b);
+    println!("sin(a) + cos(a) => "); print(&b2);
+    println!("!a => "); print(&b3);
 
     let test = &a + &b;
-    println!("a + b"); af::print(&test);
+    println!("a + b"); print(&test);
 
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
     // af_print(B);
 
     println!("Fourier transform the result");
-    let c = &af::fft(&b, 1.0, 0).unwrap();
-    af::print(&c);
+    fft(&b, 1.0, 0).map(|x| print(&x));
 
     // printf("Grab last row\n");
     // array c = C.row(end);
@@ -41,8 +50,8 @@ fn main() {
     println!("Create 2-by-3 matrix from host data");
     let d_dims = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];
-    let d = &Array::new(d_dims, &d_input, af::Aftype::S32).unwrap();
-    af::print(d);
+    let d = &Array::new(d_dims, &d_input, Aftype::S32).unwrap();
+    print(d);
 
     // printf("Copy last column onto first\n");
     // D.col(0) = D.col(end);
@@ -50,12 +59,14 @@ fn main() {
 
     // // Sort A
     println!("Sort A and print sorted array and corresponding indices");
-    let (vals, inds) = af::sort_index(&a, 0, true).unwrap();
-    af::print(&vals);
-    af::print(&inds);
+    sort_index(&a, 0, true)
+        .map(| x | {
+            print(&x.0);
+            print(&x.1);
+        });
 
     println!("u8 constant array");
-    let u8_cnst = &af::constant(1 as u8, dims).unwrap();
-    af::print(u8_cnst);
+    let u8_cnst = &constant(1 as u8, dims).unwrap();
+    print(u8_cnst);
     println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single().unwrap());
 }

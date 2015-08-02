@@ -207,6 +207,8 @@ macro_rules! convertable_type_def {
     )
 }
 
+convertable_type_def!(u64);
+convertable_type_def!(i64);
 convertable_type_def!(f64);
 convertable_type_def!(f32);
 convertable_type_def!(i32);
@@ -216,12 +218,6 @@ convertable_type_def!(u8);
 impl Convertable for Array {
     fn convert(&self) -> Array {
         self.clone()
-    }
-}
-
-impl Convertable for Result<Array, AfError> {
-    fn convert(&self) -> Array {
-        self.clone().unwrap()
     }
 }
 

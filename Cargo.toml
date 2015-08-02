@@ -23,3 +23,11 @@ path = "examples/helloworld.rs"
 [[example]]
 name = "pi"
 path = "examples/pi.rs"
+
+[[example]]
+name = "snow"
+path = "examples/snow.rs"
+
+[[example]]
+name = "histogram"
+path = "examples/histogram.rs"
