@@ -1,13 +1,12 @@
 extern crate arrayfire as af;
 
-use af::Dim4;
-use af::Window;
+use af::*;
 
 #[allow(unused_variables)]
 #[allow(unused_must_use)]
 fn main() {
-    af::set_device(0);
-    af::info();
+    set_device(0);
+    info();
 
     let wnd = match Window::new(1280, 720, String::from("Snow")) {
         Ok(v) => v,
@@ -17,7 +16,7 @@ fn main() {
     let dims = Dim4::new(&[1280, 720, 3, 1]);
 
     loop {
-        af::randu(dims, af::Aftype::F32).as_ref()
+        randu(dims, Aftype::F32).as_ref()
             .map(|arr| wnd.draw_image(arr, None));
 
         if wnd.is_closed().unwrap() == true { break; }

@@ -221,12 +221,6 @@ impl Convertable for Array {
     }
 }
 
-impl Convertable for Result<Array, AfError> {
-    fn convert(&self) -> Array {
-        self.clone().unwrap()
-    }
-}
-
 macro_rules! overloaded_binary_func {
     ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
         fn $help_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {

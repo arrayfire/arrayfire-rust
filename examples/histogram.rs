@@ -1,14 +1,14 @@
 extern crate arrayfire as af;
 
-use af::Window;
+use af::*;
 use std::env;
 use std::path::PathBuf;
 
 #[allow(unused_variables)]
 #[allow(unused_must_use)]
 fn main() {
-    af::set_device(0);
-    af::info();
+    set_device(0);
+    info();
 
     let assets_dir = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap())
         .join("arrayfire").join("assets").join("examples").join("images");
@@ -23,8 +23,8 @@ fn main() {
         Err(e)=> panic!("Window creation failed, exiting: {:?}", e),
     };
 
-    let (man, hst) = match af::load_image(format!("{}/man.jpg", assets_dir.display()), false) {
-        Ok(v) => match af::histogram(&v, 256, 0.0, 255.0) {
+    let (man, hst) = match load_image(format!("{}/man.jpg", assets_dir.display()), false) {
+        Ok(v) => match histogram(&v, 256, 0.0, 255.0) {
             Ok(h) => (v, h),
             Err(e)=> panic!("Histogram computation failed, exiting: {:?}", e),
         },
@@ -32,8 +32,8 @@ fn main() {
     };
 
     let disp_img = man.dims()
-        .and_then(|x| af::constant(255 as f32, x))
-        .and_then(|x| af::div(&man, &x))
+        .and_then(|x| constant(255 as f32, x))
+        .and_then(|x| div(man, x))
         .unwrap();
 
     loop {
