@@ -236,7 +236,7 @@ macro_rules! overloaded_binary_func {
             }
         }
 
-        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: T, arg2: U) -> Result<Array, AfError> {
+        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: &T, arg2: &U) -> Result<Array, AfError> {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
             match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
