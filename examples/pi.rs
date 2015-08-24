@@ -18,9 +18,9 @@ fn main() {
     let start = PreciseTime::now();
 
     for bench_iter in 0..100 {
-        let pi_val = add(x*x, y*y)
+        let pi_val = add(&mul(x, x).unwrap(), &mul(y, y).unwrap())
             .and_then( |z| sqrt(&z) )
-            .and_then( |z| le(z, constant(1, dims).unwrap()) )
+            .and_then( |z| le(&z, &constant(1, dims).unwrap()) )
             .and_then( |z| sum_all(&z) )
             .map( |z| z.0 * 4.0/(samples as  f64) )
             .unwrap();
