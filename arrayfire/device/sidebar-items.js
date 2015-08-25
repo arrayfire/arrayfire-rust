@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_version",""],["info",""],["set_device",""]]});

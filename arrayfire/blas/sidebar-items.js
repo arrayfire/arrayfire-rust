@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dot",""],["matmul",""],["transpose",""],["transpose_inplace",""]]});

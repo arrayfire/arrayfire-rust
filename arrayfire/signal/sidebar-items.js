@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["approx1",""],["approx2",""],["convolve1",""],["convolve2",""],["convolve2_sep",""],["convolve3",""],["fft",""],["fft2",""],["fft3",""],["fft_convolve1",""],["fft_convolve2",""],["fft_convolve3",""],["fir",""],["ifft",""],["ifft2",""],["ifft3",""],["iir",""]]});

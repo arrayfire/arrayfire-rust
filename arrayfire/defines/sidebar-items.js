@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AfError",""],["Aftype",""],["BorderType",""],["ColorMap",""],["ColorSpace",""],["Connectivity",""],["ConvDomain",""],["ConvMode",""],["InterpType",""],["MatProp",""],["MatchType",""],["NormType",""]]});
