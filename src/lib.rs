@@ -44,6 +44,12 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
+pub use index::Index;
+mod index;
+
+pub use seq::Seq;
+mod seq;
+
 pub use graphics::Window;
 mod graphics;
 
