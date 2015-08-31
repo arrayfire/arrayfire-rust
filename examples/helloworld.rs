@@ -7,7 +7,10 @@ fn main() {
     set_device(0);
     info();
 
-    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let num_rows: u64 = 5;
+    let num_columns: u64 = 3;
+
+    let dims = Dim4::new(&[num_rows, num_columns, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
     let a = match randu(dims, Aftype::F32) {
@@ -43,8 +46,10 @@ fn main() {
     println!("Fourier transform the result");
     fft(&b, 1.0, 0).map(|x| print(&x));
 
-    // printf("Grab last row\n");
-    // array c = C.row(end);
+    println!("Grab last row");
+    let c = row(&a, 4).unwrap();
+    print(&c);
+    //array c = C.row(end);
     // af_print(c);
 
     println!("Create 2-by-3 matrix from host data");

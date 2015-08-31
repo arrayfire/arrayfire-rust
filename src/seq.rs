@@ -3,7 +3,7 @@ extern crate libc;
 use std::fmt;
 use std::ops::Index;
 use std::default::Default;
-use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_double};
+use self::libc::{c_double};
 
 #[derive(Copy, Clone)]
 #[repr(C)]
