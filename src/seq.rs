@@ -1,7 +1,6 @@
 extern crate libc;
 
 use std::fmt;
-use std::ops::Index;
 use std::default::Default;
 use self::libc::{c_double};
 
@@ -15,13 +14,13 @@ pub struct Seq {
 
 impl Default for Seq {
     fn default() -> Seq {
-        Seq { begin: 0.0, end: 0.0, step: 0.0, }
+        Seq { begin: 1.0, end: 1.0, step: 0.0, }
     }
 }
 
 impl fmt::Display for Seq {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "[begin: {}, end: {}, step: {}", self.begin, self.end, self.step)
+        write!(f, "[begin: {}, end: {}, step: {}]", self.begin, self.end, self.step)
     }
 }
 
