@@ -8,15 +8,11 @@ use defines::Aftype;
 use self::libc::{c_int, c_uint, c_longlong};
 
 type MutAfArray    = *mut self::libc::c_longlong;
-type MutAfSeq      = *mut Seq;
 type MutMutAfIndex = *mut *mut self::libc::c_longlong;
 type MutAfIndex    = *mut self::libc::c_longlong;
-type MutDouble     = *mut self::libc::c_double;
-type MutUint       = *mut self::libc::c_uint;
 type AfArray       = self::libc::c_longlong;
 type AfIndex       = self::libc::c_longlong;
 type DimT          = self::libc::c_longlong;
-type SeqT          = self::libc::c_longlong;
 type IndexT        = self::libc::c_longlong;
 
 #[allow(dead_code)]
@@ -24,7 +20,7 @@ extern {
     fn af_create_seq_index(result: MutMutAfIndex, input: *const Seq, is_batch: c_int) -> c_int;
     fn af_create_array_index(result: MutMutAfIndex, input: AfArray) -> c_int;
     fn af_release_index(indexer: MutAfIndex) -> c_int;
-    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const IndexT) -> c_int;
+    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const Seq) -> c_int;
     fn af_lookup(out: MutAfArray, arr: AfArray, indices: AfArray, dim: c_uint) -> c_int;
     fn af_assign_seq(out: MutAfArray, lhs: AfArray, ndims: c_uint, indices: *const IndexT, rhs: AfArray) -> c_int;
     fn af_index_gen(out: MutAfArray, input: AfArray, ndims: DimT, indices: *const IndexT) -> c_int;
@@ -63,7 +59,7 @@ impl Index {
         }
     }
 
-    pub fn get(&self) -> i64 {
+    pub fn get(&self) -> i64{
         self.handle
     }
 
@@ -91,9 +87,11 @@ impl Drop for Index {
 pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
+        println!("size is: {}", seqs.len() as u32);
         let err_val = af_index(&mut temp as MutAfArray
-                                , input.get() as AfArray, seqs.len() as u32
-                                , seqs.as_ptr() as *const SeqT);
+                                , input.get() as AfArray
+                                , seqs.len() as u32
+                                , seqs.clone().as_ptr() as *const Seq);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
@@ -103,61 +101,26 @@ pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
 
 pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
     let dims_err = input.dims();
-    let mut dims = [0, 0, 0, 0];
+    let mut dims = Dim4::default();
     match dims_err {
-        Ok(dim) =>  dims = dim.get().clone(),
+        Ok(dim) =>  dims = dim.clone(),
         Err(e)  =>  panic!("Error unwrapping dims in row(): {}", e),
     }
-
-    let array_end = dims[0] as f64 * dims[1] as f64 * dims[2] as f64 * dims[3] as f64;
-    let row_begin: f64 = dims[1] as f64 * row_num as f64;
-    assert!(row_begin <= array_end - dims[1] as f64);
-
-    let row_end: f64 = row_begin + dims[1] as f64 - 1.0;
-    assert!(row_end <= array_end);
-
-    let index = Index::new(None, Some(Seq::new(row_begin, row_end, 1.0)), false);
-    println!("origin size {} x {} x {} x {}", dims[0], dims[1], dims[2], dims[3]);
-    println!("passed index gen from {} to {}", row_begin, row_end);
-
-    match index {
-        Ok(i)  => { println!("index raw handle: {}", i.get()); index_gen(input, Dim4::new(&[1, 1, 1, 1]), &[i])},
-        Err(e) => Err(AfError::from(e)),
-    }
+    
+    index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0)
+                    ,Seq::new(0.0, dims[1] as f64 - 1.0, 1.0)])
 }
 
 pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
     let dims_err = input.dims();
-    let mut dims = [0, 0, 0, 0];
+    let mut dims = Dim4::default();
     match dims_err {
-        Ok(dim) =>  dims = dim.get().clone(),
-        Err(e)  =>  panic!("Error unwrapping dims in col(): {}", e),
+        Ok(dim) =>  dims = dim.clone(),
+        Err(e)  =>  panic!("Error unwrapping dims in row(): {}", e),
     }
-
-    let input_type_err = input.get_type();
-    let mut input_type = Aftype::F32;
-    match input_type_err {
-        Ok(t)   => input_type = t,
-        Err(e)  => panic!("Error unwrapping type in col(): {}", e),
-    }
-
-    let mut indices = vec![col_num];
-    for i in 0..dims[0]-1 {
-        let last_element = indices[indices.len() - 1];
-        indices.push(last_element + dims[0]);
-    }
-
-    let index_array = Array::new(Dim4::new(&dims), &indices, input_type);
-    match index_array {
-        Ok(a)  => {
-                    let index = Index::new(Some(a), None, false);
-                    match index {
-                        Ok(i)  => index_gen(input, Dim4::new(&[1, 1, 1, 1]), &[i]),
-                        Err(e) => Err(AfError::from(e)),
-                    }
-                  },
-        Err(e) => Err(AfError::from(e)),
-    }
+    
+    index(input, &[Seq::new(0.0, dims[0] as f64 - 1.0, 1.0)
+                    ,Seq::new(col_num as f64, col_num as f64, 1.0)])
 }
 
 pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfError> {
@@ -174,7 +137,6 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfE
     }
 }
 
-
 pub fn assign_seq(lhs: &Array, ndims: usize, seqs: &[Seq], rhs: &Array) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
@@ -189,13 +151,18 @@ pub fn assign_seq(lhs: &Array, ndims: usize, seqs: &[Seq], rhs: &Array) -> Resul
     }
 }
 
-pub fn index_gen(input: &Array, ndims: Dim4, indices: &[Index]) -> Result<Array, AfError> {
+pub fn index_gen(input: &Array, ndims: Dim4, indices: &mut [Index]) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
+        let mut index_ptrs = Vec::new();
+        for index_struct in &mut indices[..] {
+            index_ptrs.push(index_struct.get());
+        }
+
         let err_val = af_index_gen(&mut temp as MutAfArray
                                   , input.get() as AfArray
                                   , ndims.get().as_ptr() as DimT
-                                  , indices.as_ptr() as *const IndexT);
+                                  , index_ptrs.as_ptr() as *const IndexT);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),

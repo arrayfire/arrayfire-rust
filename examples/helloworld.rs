@@ -8,9 +8,9 @@ fn main() {
     info();
 
     let num_rows: u64 = 5;
-    let num_columns: u64 = 3;
+    let num_cols: u64 = 3;
 
-    let dims = Dim4::new(&[num_rows, num_columns, 1, 1]);
+    let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
     let a = match randu(dims, Aftype::F32) {
@@ -46,11 +46,10 @@ fn main() {
     println!("Fourier transform the result");
     fft(&b, 1.0, 0).map(|x| print(&x));
 
-    println!("Grab last row");
-    let c = row(&a, 4).unwrap();
-    print(&c);
-    //array c = C.row(end);
-    // af_print(c);
+    println!("Grab last row & col of the random matrix");
+    print(&a);
+    print(&row(&a, num_rows - 1).unwrap());
+    print(&col(&a, num_cols - 1).unwrap());
 
     println!("Create 2-by-3 matrix from host data");
     let d_dims = Dim4::new(&[2, 3, 1, 1]);
