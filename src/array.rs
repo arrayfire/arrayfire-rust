@@ -153,7 +153,7 @@ impl Array {
         self.handle
     }
 
-    pub fn host(&self, data:&mut [f64]) -> Result<(), AfError> {
+    pub fn host<T>(&self, data: &mut [T]) -> Result<(), AfError> {
         unsafe {
             let ret_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
             match ret_val {
