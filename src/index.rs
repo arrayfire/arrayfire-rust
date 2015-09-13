@@ -87,7 +87,6 @@ impl Drop for Index {
 pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        println!("size is: {}", seqs.len() as u32);
         let err_val = af_index(&mut temp as MutAfArray
                                 , input.get() as AfArray
                                 , seqs.len() as u32
