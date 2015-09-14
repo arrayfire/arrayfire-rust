@@ -33,7 +33,7 @@ fn main() {
 
     let disp_img = man.dims()
         .and_then(|x| constant(255 as f32, x))
-        .and_then(|x| div(&man, &x))
+        .and_then(|x| div(&man, &x, false))
         .unwrap();
 
     loop {

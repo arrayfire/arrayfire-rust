@@ -18,13 +18,13 @@ fn main() {
 
     println!("Element-wise arithmetic");
     let  b = sin(&a)
-        .and_then(|x| add(&x, &1.5))
+        .and_then(|x| add(&x, &1.5, false))
         .unwrap();
 
     let b2 = sin(&a).
         and_then(|x| {
             cos(&a)
-                .and_then(|y| add(&x, &y))
+                .and_then(|y| add(&x, &y, false))
         })
         .unwrap();
 
