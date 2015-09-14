@@ -223,12 +223,12 @@ impl Convertable for Array {
 
 macro_rules! overloaded_binary_func {
     ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
-        fn $help_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
+        fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Result<Array, AfError> {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                      lhs.get() as AfArray, rhs.get() as AfArray,
-                                     0);
+                                     batch as c_int);
                 match err_val {
                     0 => Ok(Array::from(temp)),
                     _ => Err(AfError::from(err_val)),
@@ -236,19 +236,19 @@ macro_rules! overloaded_binary_func {
             }
         }
 
-        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: &T, arg2: &U) -> Result<Array, AfError> {
+        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: &T, arg2: &U, batch: bool) -> Result<Array, AfError> {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
             match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
                 ( true, false) => {
                     let l = tile(&lhs, rhs.dims().unwrap()).unwrap();
-                    $help_name(&l, &rhs)
+                    $help_name(&l, &rhs, batch)
                 },
                 (false,  true) => {
                     let r = tile(&rhs, lhs.dims().unwrap()).unwrap();
-                    $help_name(&lhs, &r)
+                    $help_name(&lhs, &r, batch)
                 },
-                _ => $help_name(&lhs, &rhs),
+                _ => $help_name(&lhs, &rhs, batch),
             }
         }
     )
