@@ -7,7 +7,12 @@ fn main() {
     set_device(0);
     info();
 
-    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let num_rows: u64 = 5;
+    let num_cols: u64 = 3;
+    let values: &[f32] = &[1.0, 2.0, 3.0];
+    let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+
+    let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
     println!("Create a 5-by-3 matrix of random floats on the GPU");
     let a = match randu(dims, Aftype::F32) {
@@ -36,6 +41,24 @@ fn main() {
     let test = &a + &b;
     println!("a + b"); print(&test);
 
+    // Index array using sequences
+    let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+    let sub = index(&a, seqs).unwrap();
+    println!("a(seq(1,3,1), span)"); print(&sub);
+
+    //Index array using array and sequence
+    let seq4gen = Seq::new(0.0, 2.0, 1.0);
+
+    let mut idxrs = match Indexer::new() {
+        Ok(v) => v,
+        Err(e) => panic!("{}",e),
+    };
+    idxrs.set_index(&indices, 0, None);
+    idxrs.set_index(&seq4gen, 1, Some(false));
+
+    let sub2 = index_gen(&a, idxrs).unwrap();
+    println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+
     // printf("Negate the first three elements of second column\n");
     // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
     // af_print(B);
@@ -43,9 +66,10 @@ fn main() {
     println!("Fourier transform the result");
     fft(&b, 1.0, 0).map(|x| print(&x));
 
-    // printf("Grab last row\n");
-    // array c = C.row(end);
-    // af_print(c);
+    println!("Grab last row & col of the random matrix");
+    print(&a);
+    print(&row(&a, num_rows - 1).unwrap());
+    print(&col(&a, num_cols - 1).unwrap());
 
     println!("Create 2-by-3 matrix from host data");
     let d_dims = Dim4::new(&[2, 3, 1, 1]);

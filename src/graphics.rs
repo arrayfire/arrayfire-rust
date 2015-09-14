@@ -67,7 +67,7 @@ impl Window {
             let mut temp: u64 = 0;
             let err_val = af_create_window(&mut temp as MutWndHandle,
                                            width as c_int, height as c_int,
-                                           title.as_bytes().as_ptr() as *const u8);
+                                           title.clone().as_bytes().as_ptr() as *const u8);
             match err_val {
                 0 => Ok(Window::from(temp)),
                 _ => Err(AfError::from(err_val)),
@@ -88,7 +88,7 @@ impl Window {
     pub fn set_title(&self, title: String) -> Result<(), AfError> {
         unsafe {
             let err_val = af_set_title(self.handle as WndHandle,
-                                       title.as_bytes().as_ptr() as *const u8);
+                                       title.clone().as_bytes().as_ptr() as *const u8);
             match err_val {
                 0 => Ok(()),
                 _ => Err(AfError::from(err_val)),
