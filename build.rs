@@ -278,7 +278,7 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
         _ => fail("Invalid FFT upstream option set"),
     };
     match conf.cpu_blas_type.as_ref() {
-        "LAPACKE" => { blas_options.push(format!("-DUSE_CPU_F77_BLAS:BOOL={}", "ON")); },
+        "LAPACKE" => { blas_options.push(format!("-DUSE_CPU_F77_BLAS:BOOL={}", "OFF")); },
         "MKL" => { blas_options.push(format!("-DUSE_CPU_MKL:BOOL={}", "ON")); },
         _ => fail("Invalid BLAS upstream option set"),
     };
@@ -356,7 +356,9 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         }
     } else if conf.use_backend == "opencl" {
         backends.push(("afopencl".to_string()));
-        backends.push("OpenCL".to_string());
+        if ! cfg!(target_os = "macos"){
+          backends.push("OpenCL".to_string());
+        }
         if cfg!(windows) {
             backend_dirs.push(format!("{}\\lib\\x64", conf.opencl_sdk));
         } else {
