@@ -125,6 +125,17 @@ pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
                     ,Seq::new(0.0, dims[1] as f64 - 1.0, 1.0)])
 }
 
+pub fn rows(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    let dims_err = input.dims();
+    let dims = match dims_err {
+        Ok(dim) =>  dim.clone(),
+        Err(e)  =>  panic!("Error unwrapping dims in row(): {}", e),
+    };
+
+    index(input, &[Seq::new(first as f64, last as f64, 1.0)
+                    ,Seq::new(0.0, dims[1] as f64 - 1.0, 1.0)])
+}
+
 pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
     let dims_err = input.dims();
     let dims = match dims_err {
@@ -134,6 +145,17 @@ pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
 
     index(input, &[Seq::new(0.0, dims[0] as f64 - 1.0, 1.0)
                     ,Seq::new(col_num as f64, col_num as f64, 1.0)])
+}
+
+pub fn cols(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    let dims_err = input.dims();
+    let dims = match dims_err {
+        Ok(dim) =>  dim.clone(),
+        Err(e)  =>  panic!("Error unwrapping dims in row(): {}", e),
+    };
+
+    index(input, &[Seq::new(0.0, dims[0] as f64 - 1.0, 1.0)
+                    ,Seq::new(first as f64, last as f64, 1.0)])
 }
 
 pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfError> {
