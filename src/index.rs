@@ -114,48 +114,81 @@ pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
     }
 }
 
+#[allow(dead_code)]
 pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
-    let dims_err = input.dims();
-    let dims = match dims_err {
-        Ok(dim) =>  dim.clone(),
-        Err(e)  =>  panic!("Error unwrapping dims in row(): {}", e),
-    };
-
     index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0)
-                    ,Seq::new(0.0, dims[1] as f64 - 1.0, 1.0)])
+                    , Seq::default()])
 }
 
+#[allow(dead_code)]
+pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()]
+               , new_row)
+}
+
+#[allow(dead_code)]
 pub fn rows(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
-    let dims_err = input.dims();
-    let dims = match dims_err {
-        Ok(dim) =>  dim.clone(),
-        Err(e)  =>  panic!("Error unwrapping dims in rows(): {}", e),
-    };
-
-    index(input, &[Seq::new(first as f64, last as f64, 1.0)
-                    ,Seq::new(0.0, dims[1] as f64 - 1.0, 1.0)])
+    index(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()])
 }
 
+#[allow(dead_code)]
+pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()]
+               , new_rows)
+}
+
+#[allow(dead_code)]
 pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
-    let dims_err = input.dims();
-    let dims = match dims_err {
-        Ok(dim) =>  dim.clone(),
-        Err(e)  =>  panic!("Error unwrapping dims in col(): {}", e),
-    };
-
-    index(input, &[Seq::new(0.0, dims[0] as f64 - 1.0, 1.0)
-                    ,Seq::new(col_num as f64, col_num as f64, 1.0)])
+    index(input, &[Seq::default()
+                    , Seq::new(col_num as f64, col_num as f64, 1.0)])
 }
 
-pub fn cols(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
-    let dims_err = input.dims();
-    let dims = match dims_err {
-        Ok(dim) =>  dim.clone(),
-        Err(e)  =>  panic!("Error unwrapping dims in cols(): {}", e),
-    };
+#[allow(dead_code)]
+pub fn set_col(input: &Array, new_col: &Array, col_num: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)]
+               , new_col)
+}
 
-    index(input, &[Seq::new(0.0, dims[0] as f64 - 1.0, 1.0)
-                    ,Seq::new(first as f64, last as f64, 1.0)])
+#[allow(dead_code)]
+pub fn cols(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    index(input, &[Seq::default()
+                    , Seq::new(first as f64, last as f64, 1.0)])
+}
+
+#[allow(dead_code)]
+pub fn set_cols(input: &Array, new_cols: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::default(), Seq::new(first as f64, last as f64, 1.0)]
+               , new_cols)
+}
+
+#[allow(dead_code)]
+pub fn slice(input: &Array, slice_num: u64) -> Result<Array, AfError> {
+    index(input, &[Seq::default()
+                    , Seq::default()
+                    , Seq::new(slice_num as f64, slice_num as f64, 1.0)])
+}
+
+#[allow(dead_code)]
+pub fn set_slice(input: &Array, new_slice: &Array, slice_num: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::default()
+                        , Seq::default()
+                        , Seq::new(slice_num as f64, slice_num as f64, 1.0)]
+               , new_slice)
+}
+
+#[allow(dead_code)]
+pub fn slices(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    index(input, &[Seq::default()
+                    , Seq::default()
+                    , Seq::new(first as f64, last as f64, 1.0)])
+}
+
+#[allow(dead_code)]
+pub fn set_slices(input: &Array, new_slices: &Array, first: u64, last: u64) -> Result<Array, AfError> {
+    assign_seq(input, &[Seq::default()
+                        , Seq::default()
+                        , Seq::new(first as f64, last as f64, 1.0)]
+               , new_slices)
 }
 
 pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfError> {
@@ -170,11 +203,11 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfE
     }
 }
 
-pub fn assign_seq(lhs: &Array, ndims: usize, seqs: &[Seq], rhs: &Array) -> Result<Array, AfError> {
+pub fn assign_seq(lhs: &Array, seqs: &[Seq], rhs: &Array) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
         let err_val = af_assign_seq(&mut temp as MutAfArray, lhs.get() as AfArray,
-                                    ndims as c_uint, seqs.as_ptr() as *const Seq,
+                                    seqs.len() as c_uint, seqs.as_ptr() as *const Seq,
                                     rhs.get() as AfArray);
         match err_val {
             0 => Ok(Array::from(temp)),

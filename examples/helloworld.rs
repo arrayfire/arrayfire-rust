@@ -71,6 +71,12 @@ fn main() {
     print(&row(&a, num_rows - 1).unwrap());
     print(&col(&a, num_cols - 1).unwrap());
 
+    println!("Set last row to 1's");
+    let r_dims = Dim4::new(&[3, 1, 1, 1]);
+    let r_input: [f32; 3] = [1.0, 1.0, 1.0];
+    let r = Array::new(r_dims, &r_input, Aftype::F32).unwrap();
+    print(&set_row(&a, &r, num_rows - 1).unwrap());
+
     println!("Create 2-by-3 matrix from host data");
     let d_dims = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];

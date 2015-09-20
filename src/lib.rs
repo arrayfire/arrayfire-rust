@@ -44,7 +44,9 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
-pub use index::{Indexer, index, row, col, lookup, assign_seq, index_gen, assign_gen};
+pub use index::{Indexer, index, row, rows, col, cols, slice, slices
+                , set_row, set_rows, set_col, set_cols, set_slice, set_slices
+                , lookup, assign_seq, index_gen, assign_gen};
 mod index;
 
 pub use seq::Seq;
