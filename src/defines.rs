@@ -5,76 +5,44 @@ use std::fmt::Error as FmtError;
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub enum AfError {
-    ///
     /// The function returned successfully
-    ///
     SUCCESS            =   0,
     // 100-199 Errors in environment
-    ///
     /// The system or device ran out of memory
-    ///
     ERR_NO_MEM         = 101,
-    ///
     /// There was an error in the device driver
-    ///
     ERR_DRIVER         = 102,
-    ///
     /// There was an error with the runtime environment
-    ///
     ERR_RUNTIME        = 103,
     // 200-299 Errors in input parameters
-    ///
     /// The input array is not a valid af_array object
-    ///
     ERR_INVALID_ARRAY  = 201,
-    ///
     /// One of the function arguments is incorrect
-    ///
     ERR_ARG            = 202,
-    ///
     /// The size is incorrect
-    ///
     ERR_SIZE           = 203,
-    ///
     /// The type is not suppported by this function
-    ///
     ERR_TYPE           = 204,
-    ///
     /// The type of the input arrays are not compatible
-    ///
     ERR_DIFF_TYPE      = 205,
-    ///
     /// Function does not support GFOR / batch mode
-    ///
     ERR_BATCH          = 207,
     // 300-399 Errors for missing software features
-    ///
     /// The option is not supported
-    ///
     ERR_NOT_SUPPORTED  = 301,
-    ///
     /// This build of ArrayFire does not support this feature
-    ///
     ERR_NOT_CONFIGURED = 302,
     // 400-499 Errors for missing hardware features
-    ///
     /// This device does not support double
-    ///
     ERR_NO_DBL         = 401,
-    ///
     /// This build of ArrayFire was not built with graphics or this device does
     /// not support graphics
-    ///
     ERR_NO_GFX         = 402,
     // 900-999 Errors from upstream libraries and runtimes
-    ///
     /// There was an internal error either in ArrayFire or in a project
     /// upstream
-    ///
     ERR_INTERNAL       = 998,
-    ///
     /// Unknown Error
-    ///
     ERR_UNKNOWN        = 999
 }
 
@@ -109,107 +77,168 @@ impl Error for AfError {
 
 #[derive(Copy, Clone)]
 pub enum Aftype {
+    /// 32 bit float
     F32 = 0,
+    /// 32 bit complex float
     C32 = 1,
+    /// 64 bit float
     F64 = 2,
+    /// 64 bit complex float
     C64 = 3,
+    /// 8 bit boolean
     B8  = 4,
+    /// 32 bit signed integer
     S32 = 5,
+    /// 32 bit unsigned integer
     U32 = 6,
+    /// 8 bit unsigned integer
     U8  = 7,
+    /// 64 bit signed integer
     S64 = 8,
+    /// 64 bit unsigned integer
     U64 = 9,
 }
 
 #[derive(Copy, Clone)]
 pub enum InterpType {
+    /// Nearest Neighbor interpolation method
     NEAREST = 0,
+    /// Linear interpolation method
     LINEAR  = 1,
+    /// Bilinear interpolation method
     BILINEAR= 2,
+    /// Cubic interpolation method
     CUBIC   = 3,
 }
 
 #[derive(Copy, Clone)]
 pub enum BorderType {
+    /// Pad using zeros
     ZERO = 0,
+    /// Pad using mirrored values along border
     SYMMETRIC = 1,
 }
 
 #[derive(Copy, Clone)]
 pub enum Connectivity {
+    /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
     FOUR = 4,
+    /// N-NE-E-SE-S-SW-W-NW connectivity from given pixel/point
     EIGHT = 8
 }
 
 #[derive(Copy, Clone)]
 pub enum ConvMode {
+    /// Default convolution mode where output size is same as input size
     DEFAULT = 0,
+    /// Output of convolution is expanded based on signal and filter sizes
     EXPAND  = 1,
 }
 
 #[derive(Copy, Clone)]
 pub enum ConvDomain {
+    /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
     AUTO     = 0,
+    /// Convoltion in spatial domain
     SPATIAL  = 1,
+    /// Convolution in frequency domain
     FREQUENCY= 2,
 }
 
 #[derive(Copy, Clone)]
 pub enum MatchType {
+    /// Sum of Absolute Differences
     SAD = 0,
+    /// Zero-mean Sum of Absolute Differences
     ZSAD= 1,
+    /// Locally scaled Sum of Absolute Differences
     LSAD= 2,
+    /// Sum of Squared Differences
     SSD = 3,
+    /// Zero-mean Sum of Squared Differences
     ZSSD= 4,
+    /// Localy scaled Sum of Squared Differences
     LSSD= 5,
+    /// Normalized Cross Correlation
     NCC = 6,
+    /// Zero-mean Normalized Cross Correlation
     ZNCC= 7,
+    /// Sum of Hamming Distances
     SHD = 8,
 }
 
 #[derive(Copy, Clone)]
 pub enum ColorSpace {
+    /// Grayscale color space
     GRAY = 0,
+    /// Red-Green-Blue color space
     RGB  = 1,
+    /// Hue-Saturation-value color space
     HSV  = 2,
 }
 
 #[derive(Copy, Clone)]
 pub enum MatProp {
+    /// Default (no-op)
     NONE,
+    /// Data needs to be transposed
     TRANS,
+    /// Data needs to be conjugate transposed
     CTRANS,
+    /// Matrix is upper triangular
     UPPER,
+    /// Matrix is lower triangular
     LOWER,
+    /// Matrix diagonal has unitary values
     DIAGUNIT,
+    /// Matrix is symmetric
     SYM,
+    /// Matrix is positive definite
     POSDEF,
+    /// Matrix is orthogonal
     ORTHOG,
+    /// Matrix is tri-diagonal
     TRIDIAG,
+    /// Matrix is block-diagonal
     BLOCKDIAG,
 }
 
 #[allow(non_camel_case_types)]
 #[derive(Copy, Clone)]
 pub enum NormType {
+    /// Treats input as a vector and return sum of absolute values
     VECTOR_1    = 0,
+    /// Treats input as vector and return max of absolute values
     VECTOR_INF  = 1,
+    /// Treats input as vector and returns euclidean norm
     VECTOR_2    = 2,
+    /// Treats input as vector and returns the p-norm
     VECTOR_P    = 3,
+    /// Return the max of column sums
     MATRIX_1    = 4,
+    /// Return the max of row sums
     MATRIX_INF  = 5,
+    /// Returns the max singular value (Currently not supported)
     MATRIX_2    = 6,
+    /// Returns Lpq-norm
     MATRIX_L_PQ = 7,
 }
 
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub enum ColorMap {
+    /// Default color map is grayscale range [0-1]
     DEFAULT = 0,
+    /// Visible spectrum color map
     SPECTRUM= 1,
+    /// Colors
     COLORS  = 2,
+    /// Red hue map
     RED     = 3,
+    /// Mood color map
     MOOD    = 4,
+    /// Heat color map
     HEAT    = 5,
+    /// Blue hue map
     BLUE    = 6,
 }
