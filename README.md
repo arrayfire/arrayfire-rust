@@ -1,8 +1,6 @@
 # Arrayfire Rust Bindings
 
-This project is currently in it's infancy and there will be quite a few issues to work through.
-
-Currently the example creates an arrayfire array structure and runs the code from helloworld except indexing operations.
+This project is a work in progress. You can find the basic documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html)(please be advised that we are in the process of updating it). If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues). Currently the wrapper is ArrayFire 3.0 compliant.
 
 ## Building & Running
 
