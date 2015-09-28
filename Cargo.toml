@@ -1,16 +1,17 @@
 [package]
 name = "arrayfire"
-version = "3.0.0"
-authors = ["Jason Ramapuram <jason.ramapuram@gmail.com>"]
+version = "3.1.2"
+authors = ["Pradeep Garigipati <pradeep@arrayfire.com>",
+		   "Jason Ramapuram <jason.ramapuram@gmail.com>"]
 build = "build.rs"
 
 [dependencies]
-libc = "*"
-num = "*"
-time = "*"
+libc = "0.1.10"
+num = "0.1.27"
+time = "0.1.32"
 
 [build-dependencies.rustc-serialize]
-rustc-serialize = "*"
+rustc-serialize = "0.3.16"
 
 [lib]
 name = "arrayfire"
