@@ -3,25 +3,25 @@ extern crate libc;
 use array::Array;
 use defines::AfError;
 use defines::ColorMap;
-use self::libc::{c_int, c_uint, c_double};
+use self::libc::{c_int, c_uint, c_double, c_char};
+use std::ffi::CString;
 
 type MutWndHandle = *mut self::libc::c_ulonglong;
 type WndHandle    = self::libc::c_ulonglong;
-type AfArray   = self::libc::c_longlong;
+type AfArray      = self::libc::c_longlong;
 type CellPtr      = *const self::libc::c_void;
 
 #[allow(dead_code)]
 extern {
-    fn af_create_window(out: MutWndHandle, w: c_int, h: c_int, title: *const u8) -> c_int;
+    fn af_create_window(out: MutWndHandle, w: c_int, h: c_int, title: *const c_char) -> c_int;
     fn af_set_position(wnd: WndHandle, x: c_uint, y: c_uint) -> c_int;
-    fn af_set_title(wnd: WndHandle, title: *const u8) -> c_int;
+    fn af_set_title(wnd: WndHandle, title: *const c_char) -> c_int;
     fn af_draw_image(wnd: WndHandle, arr: AfArray, props: CellPtr) -> c_int;
     fn af_draw_plot(wnd: WndHandle, x: AfArray, y: AfArray, props: CellPtr) -> c_int;
     fn af_grid(wnd: WndHandle, rows: c_int, cols: c_int) -> c_int;
     fn af_show(wnd: WndHandle) -> c_int;
     fn af_is_window_closed(out: *mut c_int, wnd: WndHandle) -> c_int;
     fn af_destroy_window(wnd: WndHandle) -> c_int;
-
     fn af_draw_hist(wnd: WndHandle, x: AfArray,
                     minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
 }
@@ -65,12 +65,18 @@ impl Window {
     pub fn new(width: i32, height: i32, title: String) -> Result<Window, AfError> {
         unsafe {
             let mut temp: u64 = 0;
-            let err_val = af_create_window(&mut temp as MutWndHandle,
-                                           width as c_int, height as c_int,
-                                           title.clone().as_bytes().as_ptr() as *const u8);
-            match err_val {
-                0 => Ok(Window::from(temp)),
-                _ => Err(AfError::from(err_val)),
+            let cstr_ret = CString::new(title.as_bytes());
+            match cstr_ret {
+                Ok(cstr) => {
+                    let err_val = af_create_window(&mut temp as MutWndHandle
+                                                   , width as c_int, height as c_int
+                                                   , cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                    match err_val {
+                        0 => Ok(Window::from(temp)),
+                        _ => Err(AfError::from(err_val)),
+                    }
+                },
+                Err(_)   => Err(AfError::ERR_INTERNAL),
             }
         }
     }
@@ -87,11 +93,17 @@ impl Window {
 
     pub fn set_title(&self, title: String) -> Result<(), AfError> {
         unsafe {
-            let err_val = af_set_title(self.handle as WndHandle,
-                                       title.clone().as_bytes().as_ptr() as *const u8);
-            match err_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(err_val)),
+            let cstr_ret = CString::new(title.as_bytes());
+            match cstr_ret {
+                Ok(cstr) => {
+                    let err_val = af_set_title(self.handle as WndHandle
+                                               , cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                    match err_val {
+                        0 => Ok(()),
+                        _ => Err(AfError::from(err_val)),
+                    }
+                },
+                Err(_)   => Err(AfError::ERR_INTERNAL),
             }
         }
     }
