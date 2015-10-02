@@ -37,6 +37,17 @@ extern {
                          mtype: uint8_t) -> c_int;
 }
 
+/// A set of Array objects (usually, used in Computer vision context)
+///
+/// `Features` struct is used by computer vision functions
+/// to return the outcome of their operation. Typically, such output
+/// has the following Arrays:
+///
+/// - X positions of the features
+/// - Y positions of the features
+/// - Scores of the features
+/// - Orientations of the features
+/// - Sizes of the features
 pub struct Features {
     feat: i64,
 }
@@ -70,6 +81,7 @@ impl Features {
         }
     }
 
+    /// Get total number of features found
     pub fn num_features(&self) -> Result<i64, AfError> {
         unsafe {
             let mut temp: i64 = 0;
@@ -119,6 +131,34 @@ impl Drop for Features {
     }
 }
 
+/// Fast feature detector
+///
+/// A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential
+/// segments of pixels much brighter or much darker than the central one. For a pixel p to be
+/// considered a feature, there must exist a sequential segment of arc_length pixels in the circle
+/// around it such that all are greather than (p + thr) or smaller than (p - thr). After all
+/// features in the image are detected, if nonmax is true, the non-maximal suppression is applied,
+/// checking all detected features and the features detected in its 8-neighborhood and discard it
+/// if its score is non maximal.
+///
+/// # Parameters
+///
+/// - `input` - the input image Array
+/// - `thr` - FAST threshold for which pixel of the circle around the center pixel is considered to
+/// be greater or smaller
+/// - `arc_len` - length of arc (or sequential segment) to be tested, must be within range [9-16]
+/// - `non_max` - performs non-maximal supression if true
+/// - `feat_ratio` - maximum ratio of features to detect, the maximum number of features is
+/// calculated by `feature_ratio * num of elements`. The maximum number of features is not based on
+/// the score, instead, features detected after the limit is reached are discarded.
+/// - `edge` - is the length of the edges in the image to be discarded by FAST(minimum is 3, as the
+/// radius of the circle)
+///
+/// # Return Values
+///
+/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays
+/// for x and y coordinates and score, while array oreientation is set to 0 as FAST does not
+/// compute orientation. Size is set to 1 as FAST does not compute multiple scales.
 #[allow(unused_mut)]
 pub fn fast(input: &Array, thr: f32, arc_len: u32,
             non_max: bool, feat_ratio: f32, edge: u32) -> Result<Features, AfError> {
@@ -134,6 +174,28 @@ pub fn fast(input: &Array, thr: f32, arc_len: u32,
     }
 }
 
+/// ORB feature descriptor
+///
+/// Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not
+/// compute orientation, thus, orientation of features is calculated using the intensity centroid.
+/// As FAST is also not multi-scale enabled, a multi-scale pyramid is calculated by downsampling
+/// the input image multiple times followed by FAST feature detection on each scale.
+///
+/// # Parameters
+///
+/// - `input` - the input image Array
+/// - `fast_thr` - FAST threshold for which a pixel of the circle around the central pixel is
+/// considered to be brighter or darker
+/// - `max_feat` - maximum number of features to hold
+/// - `scl_fctr` - factor to downsample the input image, meaning that each level with hold prior
+/// level dimensions divided by `scl_fctr`
+/// - `levels` - number of levels to be computed for the image pyramid
+/// - `blur_img` - blur image with a Gaussian filter with sigma=2 before computing descriptors to
+/// increase robustness against noise if true
+///
+/// # Return Values
+///
+/// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.
 #[allow(unused_mut)]
 pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
            scl_fctr: f32, levels: u32, blur_img: bool) -> Result<(Features, Array), AfError> {
@@ -150,6 +212,38 @@ pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
     }
 }
 
+/// Hamming feature matcher
+///
+/// Calculates Hamming distances between two 2-dimensional arrays containing features, one of the
+/// arrays containing the training data and the other the query data. One of the dimensions of the
+/// both arrays must be equal among them, identifying the length of each feature. The other
+/// dimension indicates the total number of features in each of the training and query arrays. Two
+/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query
+/// array and another containing the indices of these distances in the training array. The
+/// resulting 1-dimensional arrays have length equal to the number of features contained in the
+/// query array.
+///
+/// # Parameters
+///
+/// - `query` - Array containing the data to be queried
+/// - `train` - Array containing the data to be used as training data
+/// - `dist_dims` - indicates the dimension to analyze for distance (the dimension indicated here
+/// must be of equal length for both query and train arrays)
+/// - `n_dist` - is the number of smallest distances to return (currently, only 1 is supported)
+///
+///
+/// # Return Values
+///
+/// This function returns a tuple of [Array](./struct.Array.html)'s.
+///
+/// First Array is an array of MxN size, where M is equal to the number of query features and N is
+/// equal to n_dist. The value at position IxJ indicates the index of the Jth smallest distance to
+/// the Ith query value in the train data array. the index of the Ith smallest distance of the Mth
+/// query.
+///
+/// Second Array is an array of MxN size, where M is equal to the number of query features and N is
+/// equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest
+/// distance to the Ith query value in the train data array.
 #[allow(unused_mut)]
 pub fn hamming_matcher(query: &Array, train: &Array,
                        dist_dims: i64, n_dist: u32) -> Result<(Array, Array), AfError> {
@@ -166,6 +260,20 @@ pub fn hamming_matcher(query: &Array, train: &Array,
     }
 }
 
+/// Image matching
+///
+/// Template matching is an image processing technique to find small patches of an image which
+/// match a given template image. A more in depth discussion on the topic can be found
+/// [here](https://en.wikipedia.org/wiki/Template_matching).
+///
+/// # Parameters
+///
+/// `search_img` - is an array with image data
+/// `template_img` - is the template we are looking for in the image
+/// `mtype` -  is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).
+/// # Return Values
+///
+/// This function returns an Array with disparity values for the window starting at corresponding pixel position.
 #[allow(unused_mut)]
 pub fn match_template(search_img: &Array, template_img: &Array,
                       mtype: MatchType) -> Result<Array, AfError> {

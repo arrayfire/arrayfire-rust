@@ -2,6 +2,7 @@ use std::error::Error;
 use std::fmt::{Display, Formatter};
 use std::fmt::Error as FmtError;
 
+/// Error codes
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub enum AfError {
@@ -75,6 +76,7 @@ impl Error for AfError {
     }
 }
 
+/// Types of Array data type
 #[derive(Copy, Clone)]
 pub enum Aftype {
     /// 32 bit float
@@ -99,6 +101,7 @@ pub enum Aftype {
     U64 = 9,
 }
 
+/// Dictates the interpolation method to be used by a function
 #[derive(Copy, Clone)]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
@@ -111,6 +114,7 @@ pub enum InterpType {
     CUBIC   = 3,
 }
 
+/// Helps determine how to pad kernels along borders
 #[derive(Copy, Clone)]
 pub enum BorderType {
     /// Pad using zeros
@@ -119,6 +123,7 @@ pub enum BorderType {
     SYMMETRIC = 1,
 }
 
+/// Used by `regions` function to identify type of connectivity
 #[derive(Copy, Clone)]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
@@ -127,6 +132,7 @@ pub enum Connectivity {
     EIGHT = 8
 }
 
+/// Helps determine the size of output of convolution
 #[derive(Copy, Clone)]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
@@ -135,6 +141,7 @@ pub enum ConvMode {
     EXPAND  = 1,
 }
 
+/// Helps determine if convolution is in Spatial or Frequency domain
 #[derive(Copy, Clone)]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
@@ -145,6 +152,7 @@ pub enum ConvDomain {
     FREQUENCY= 2,
 }
 
+/// Error metric used by `matchTemplate` function
 #[derive(Copy, Clone)]
 pub enum MatchType {
     /// Sum of Absolute Differences
@@ -167,6 +175,7 @@ pub enum MatchType {
     SHD = 8,
 }
 
+/// Identify the color space of given image(Array)
 #[derive(Copy, Clone)]
 pub enum ColorSpace {
     /// Grayscale color space
@@ -177,6 +186,7 @@ pub enum ColorSpace {
     HSV  = 2,
 }
 
+/// Helps determine the type of a Matrix
 #[derive(Copy, Clone)]
 pub enum MatProp {
     /// Default (no-op)
@@ -203,6 +213,7 @@ pub enum MatProp {
     BLOCKDIAG,
 }
 
+/// Norm type
 #[allow(non_camel_case_types)]
 #[derive(Copy, Clone)]
 pub enum NormType {
@@ -224,6 +235,7 @@ pub enum NormType {
     MATRIX_L_PQ = 7,
 }
 
+/// Dictates what color map is used for Image rendering
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub enum ColorMap {
