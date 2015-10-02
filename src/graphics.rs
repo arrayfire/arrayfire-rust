@@ -26,6 +26,11 @@ extern {
                     minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
 }
 
+/// Represents a sub-view of Window
+///
+/// This struct is used in conjunction with [Window](./struct.Window.html) in multiview
+/// mode to render multiple targets to sub-regions of a given window.
+///
 #[repr(C)]
 pub struct Cell {
     pub row: i32,
@@ -34,6 +39,36 @@ pub struct Cell {
     pub cmap: ColorMap,
 }
 
+/// Used to render [Array](./struct.Array.html) objects
+///
+/// The renderings can be either plots, histograms or simply just image displays.
+/// A single window can also display multiple of the above renderings at the same time, which
+/// is known as multiview mode. An example of that is given below.
+///
+/// # Examples
+///
+/// ```
+/// let wnd = Window::new(1280, 720, String::from("Image Histogram")).unwrap();
+/// let img = match load_image("Path to image", true/*If color image, 'false' otherwise*/) {
+///     Ok(img) => img,
+///     Err(err) => panic!("Image loading failed with error code {}", err),
+/// };
+/// let hst = histogram(img, 256, 0, 255).unwrap();
+///
+/// loop {
+///     wnd.grid(2, 1);
+///
+///     wnd.set_view(0, 0);
+///     wnd.draw_image(img, Some("Input Image"));
+///
+///     wnd.set_view(1, 0);
+///     wnd.draw_histogram(hst, 0.0, 255.0, Some("Input Image Histogram"));
+///
+///     wnd.show();
+///
+///     if wnd.is_closed().unwrap() == true { break; }
+/// }
+/// ```
 #[derive(Clone)]
 pub struct Window {
     handle: u64,
@@ -42,6 +77,7 @@ pub struct Window {
     cmap: ColorMap,
 }
 
+/// Used to create Window object from native(ArrayFire) resource handle
 impl From<u64> for Window {
     fn from(t: u64) -> Window {
         Window {handle: t, row: -1, col: -1, cmap: ColorMap::DEFAULT}
@@ -61,6 +97,7 @@ impl Drop for Window {
 }
 
 impl Window {
+    /// Creates new Window object
     #[allow(unused_mut)]
     pub fn new(width: i32, height: i32, title: String) -> Result<Window, AfError> {
         unsafe {
@@ -75,6 +112,7 @@ impl Window {
         }
     }
 
+    /// Set window starting position on the screen
     pub fn set_position(&self, x: u32, y: u32) -> Result<(), AfError> {
         unsafe {
             let err_val = af_set_position(self.handle as WndHandle, x as c_uint, y as c_uint);
@@ -85,6 +123,7 @@ impl Window {
         }
     }
 
+    /// Set window title
     pub fn set_title(&self, title: String) -> Result<(), AfError> {
         unsafe {
             let err_val = af_set_title(self.handle as WndHandle,
@@ -96,10 +135,13 @@ impl Window {
         }
     }
 
+    /// Set color map to be used for rendering image, it can take one of the values of enum
+    /// [ColorMap](./enum.ColorMap.html)
     pub fn set_colormap(&mut self, cmap: ColorMap) {
         self.cmap = cmap;
     }
 
+    /// Returns true if the window close is triggered by the user
     pub fn is_closed(&self) -> Result<bool, AfError> {
         unsafe {
             let mut temp: i32 = 1;
@@ -111,6 +153,7 @@ impl Window {
         }
     }
 
+    /// Used to setup display layout in multiview mode
     pub fn grid(&self, rows: i32, cols: i32) -> Result<(), AfError> {
         unsafe {
             let err_val = af_grid(self.handle as WndHandle, rows as c_int, cols as c_int);
@@ -121,6 +164,8 @@ impl Window {
         }
     }
 
+    /// Used in multiview mode to swap back buffer with front buffer to show the recently rendered
+    /// frame
     pub fn show(&mut self) -> Result<(), AfError> {
         unsafe {
             let err_val = af_show(self.handle as WndHandle);
@@ -133,11 +178,14 @@ impl Window {
         }
     }
 
+    /// Used in multiview mode to set the current sub-region to which the subsequence draw call
+    /// renders to
     pub fn set_view(&mut self, r: i32, c: i32) {
         self.row = r;
         self.col = c;
     }
 
+    /// Render given Array as an image
     pub fn draw_image(&self, input: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -154,6 +202,7 @@ impl Window {
         }
     }
 
+    /// Render given two Array's `x` and `y` as a 2d line plot
     pub fn draw_plot(&self, x: &Array, y: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -172,6 +221,7 @@ impl Window {
         }
     }
 
+    /// Render given Array as a histogram
     pub fn draw_hist(&self, hst: &Array, minval: f64, maxval: f64, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
