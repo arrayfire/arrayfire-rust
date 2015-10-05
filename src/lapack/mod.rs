@@ -26,6 +26,21 @@ extern {
     fn af_norm(out: MutDouble, input: AfArray, ntype: uint8_t, p: c_double, q: c_double) -> c_int;
 }
 
+/// Perform LU decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+///
+/// # Return Values
+///
+/// A triplet of Arrays.
+///
+/// The first Array will contain the lower triangular matrix of the LU decomposition.
+///
+/// The second Array will contain the lower triangular matrix of the LU decomposition.
+///
+/// The third Array will contain the permutation indices to map the input to the decomposition.
 #[allow(unused_mut)]
 pub fn lu(input: &Array) -> Result<(Array, Array, Array), AfError> {
     unsafe {
@@ -41,6 +56,17 @@ pub fn lu(input: &Array) -> Result<(Array, Array, Array), AfError> {
     }
 }
 
+/// Perform inplace LU decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `is_lapack_pic` specified if the pivot is returned in original LAPACK compliant format
+///
+/// # Return Values
+///
+/// An Array with permutation indices to map the input to the decomposition. Since, the input
+/// matrix is modified in place, only pivot values are returned.
 #[allow(unused_mut)]
 pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Result<Array, AfError> {
     unsafe {
@@ -54,6 +80,22 @@ pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Result<Array, AfErr
     }
 }
 
+/// Perform QR decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+///
+/// # Return Values
+///
+/// A triplet of Arrays.
+///
+/// The first Array is the orthogonal matrix from QR decomposition
+///
+/// The second Array is the upper triangular matrix from QR decomposition
+///
+/// The third Array will contain additional information needed for solving a least squares problem
+/// using q and r
 #[allow(unused_mut)]
 pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
     unsafe {
@@ -69,6 +111,15 @@ pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
     }
 }
 
+/// Perform inplace QR decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+///
+/// # Return Values
+///
+/// An Array with additional information needed for unpacking the data.
 #[allow(unused_mut)]
 pub fn qr_inplace(input: &mut Array) -> Result<Array, AfError> {
     unsafe {
@@ -81,6 +132,21 @@ pub fn qr_inplace(input: &mut Array) -> Result<Array, AfError> {
     }
 }
 
+/// Perform Cholesky decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `is_upper` is a boolean to indicate if the output has to be upper or lower triangular matrix
+///
+/// # Return Values
+///
+/// A tuple of an Array and signed 32-bit integer.
+///
+/// The Array contains the triangular matrix (multiply it with conjugate transpose to reproduce the input).
+///
+/// If the integer is 0, it means the cholesky decomposition passed. Otherwise, it will contain the rank at
+/// which the decomposition failed.
 #[allow(unused_mut)]
 pub fn cholesky(input: &Array, is_upper: bool) -> Result<(Array, i32), AfError> {
     unsafe {
@@ -95,6 +161,17 @@ pub fn cholesky(input: &Array, is_upper: bool) -> Result<(Array, i32), AfError> 
     }
 }
 
+/// Perform inplace Cholesky decomposition
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `is_upper` is a boolean to indicate if the output has to be upper or lower triangular matrix
+///
+/// # Return Values
+///
+/// A signed 32-bit integer. If the integer is 0, it means the cholesky decomposition passed. Otherwise,
+/// it will contain the rank at which the decomposition failed.
 #[allow(unused_mut)]
 pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> Result<i32, AfError> {
     unsafe {
@@ -108,6 +185,19 @@ pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> Result<i32, AfErro
     }
 }
 
+/// Solve a system of equations
+///
+/// # Parameters
+///
+/// - `a` is the coefficient matrix
+/// - `b` has the measured values
+/// - `options` determine the various properties of matrix a
+///
+/// The `options` parameter currently needs to be either `NONE`, `LOWER` or `UPPER`, other values are not supported yet.
+///
+/// # Return Values
+///
+/// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
 pub fn solve(a: &Array, b: &Array, options: MatProp) -> Result<Array, AfError> {
     unsafe {
@@ -121,6 +211,20 @@ pub fn solve(a: &Array, b: &Array, options: MatProp) -> Result<Array, AfError> {
     }
 }
 
+/// Solve a system of equations
+///
+/// # Parameters
+///
+/// - `a` is the output matrix from packed LU decomposition of the coefficient matrix
+/// - `piv` is the pivot array from packed LU decomposition of the coefficient matrix
+/// - `b` has the measured values
+/// - `options` determine the various properties of matrix a
+///
+/// The `options` parameter currently needs to be `NONE`, other values are not supported yet.
+///
+/// # Return Values
+///
+/// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
 pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
                 options: MatProp) -> Result<Array, AfError> {
@@ -135,6 +239,18 @@ pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
     }
 }
 
+/// Compute inverse of a matrix
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `options` determine various properties of input matrix
+///
+/// The parameter `options` currently take only the value `NONE`.
+///
+/// # Return Values
+///
+/// An Array with values of the inverse of input matrix.
 #[allow(unused_mut)]
 pub fn inverse(input: &Array, options: MatProp) -> Result<Array, AfError> {
     unsafe {
@@ -147,6 +263,16 @@ pub fn inverse(input: &Array, options: MatProp) -> Result<Array, AfError> {
     }
 }
 
+/// Find rank of a matrix
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `tol` is the tolerance value
+///
+/// # Return Values
+///
+/// An unsigned 32-bit integer which is the rank of the input matrix.
 #[allow(unused_mut)]
 pub fn rank(input: &Array, tol: f64) -> Result<u32, AfError> {
     unsafe {
@@ -159,6 +285,17 @@ pub fn rank(input: &Array, tol: f64) -> Result<u32, AfError> {
     }
 }
 
+/// Find the determinant of the matrix
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+///
+/// # Return Values
+///
+/// A tuple of 32-bit floating point values.
+///
+/// If the input matrix is non-complex type, only first values of tuple contains the result.
 #[allow(unused_mut)]
 pub fn det(input: &Array) -> Result<(f64, f64), AfError> {
     unsafe {
@@ -172,6 +309,20 @@ pub fn det(input: &Array) -> Result<(f64, f64), AfError> {
     }
 }
 
+/// Find the norm of a matrix
+///
+/// # Parameters
+///
+/// - `input` is the input matrix
+/// - `ntype` is specifies the required norm type using enum [NormType](./enum.NormType.html)
+/// - `p` specifies the value of *P* when `ntype` is one of VECTOR_P, MATRIX_L_PQ. It is ignored
+/// for other values of `ntype`
+/// - `q` specifies the value of *Q* when `ntype` is MATRIX_L_PQ. This parameter is ignored if
+/// `ntype` is anything else.
+///
+/// # Return Values
+///
+/// A 64-bit floating point value that contains the norm of input matrix.
 #[allow(unused_mut)]
 pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> Result<f64, AfError> {
     unsafe {
