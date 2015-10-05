@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'print', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,29 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-1414' class='srclink' href='../src/arrayfire/array.rs.html#232-240' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn print(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-1415' class='srclink' href='../src/arrayfire/array.rs.html#280-288' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn print(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Print data in the Array</p>
+
+<h1 id="examples" class='section-header'><a
+                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>randu</span>(<span class='ident'>dims</span>, <span class='ident'>Aftype</span>::<span class='ident'>F32</span>) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>error</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>error</span>),
+};
+<span class='ident'>print</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>);
+</pre>
+
+<p>The sample output will look like below:</p>
+<pre class='rust rust-example-rendered'>
+ [<span class='number'>5</span> <span class='number'>3</span> <span class='number'>1</span> <span class='number'>1</span>]
+     <span class='number'>0.7402</span>     <span class='number'>0.4464</span>     <span class='number'>0.7762</span>
+     <span class='number'>0.9210</span>     <span class='number'>0.6673</span>     <span class='number'>0.2948</span>
+     <span class='number'>0.0390</span>     <span class='number'>0.1099</span>     <span class='number'>0.7140</span>
+     <span class='number'>0.9690</span>     <span class='number'>0.4702</span>     <span class='number'>0.3585</span>
+     <span class='number'>0.9251</span>     <span class='number'>0.5132</span>     <span class='number'>0.6814</span>
+</pre>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'matmul', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,22 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-12961' class='srclink' href='../src/arrayfire/blas/mod.rs.html#25-37' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn matmul(lhs: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, rhs: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, optlhs: <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>, optrhs: <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-13149' class='srclink' href='../src/arrayfire/blas/mod.rs.html#37-49' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn matmul(lhs: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, rhs: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, optlhs: <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>, optrhs: <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Matrix multiple of two Arrays</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>lhs</code> is the Array on left hand side</li>
+<li><code>rhs</code> is the Array on right hand side</li>
+<li><code>optlhs</code> - Transpose left hand side before the function is performed, uses one of the values of <a href="./enum.MatProp.html">MatProp</a></li>
+<li><code>optrhs</code> - Transpose right hand side before the function is performed, uses one of the values of <a href="./enum.MatProp.html">MatProp</a></li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>The result Array of matrix multiplication</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

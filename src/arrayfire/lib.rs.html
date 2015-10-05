@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
     </section>
 
@@ -111,7 +111,26 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
 </pre><pre class='rust '>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://arrayfire.com/docs/rust&quot;</span>)]</span>
+
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>array</span>::{<span class='ident'>print</span>};
 <span class='kw'>mod</span> <span class='ident'>array</span>;
@@ -154,6 +173,14 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
 <span class='kw'>mod</span> <span class='ident'>dim4</span>;
 
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>index</span>, <span class='ident'>row</span>, <span class='ident'>rows</span>, <span class='ident'>col</span>, <span class='ident'>cols</span>, <span class='ident'>slice</span>, <span class='ident'>slices</span>
+                , <span class='ident'>set_row</span>, <span class='ident'>set_rows</span>, <span class='ident'>set_col</span>, <span class='ident'>set_cols</span>, <span class='ident'>set_slice</span>, <span class='ident'>set_slices</span>
+                , <span class='ident'>lookup</span>, <span class='ident'>assign_seq</span>, <span class='ident'>index_gen</span>, <span class='ident'>assign_gen</span>};
+<span class='kw'>mod</span> <span class='ident'>index</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>seq</span>::<span class='ident'>Seq</span>;
+<span class='kw'>mod</span> <span class='ident'>seq</span>;
+
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>graphics</span>::<span class='ident'>Window</span>;
 <span class='kw'>mod</span> <span class='ident'>graphics</span>;
 
@@ -164,6 +191,9 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gray2rgb</span>, <span class='ident'>rgb2gray</span>, <span class='ident'>hsv2rgb</span>, <span class='ident'>rgb2hsv</span>, <span class='ident'>color_space</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>bilateral</span>, <span class='ident'>mean_shift</span>, <span class='ident'>medfilt</span>, <span class='ident'>sobel</span>};
 <span class='kw'>mod</span> <span class='ident'>image</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lapack</span>::{<span class='ident'>lu</span>, <span class='ident'>lu_inplace</span>, <span class='ident'>qr</span>, <span class='ident'>qr_inplace</span>, <span class='ident'>cholesky</span>, <span class='ident'>cholesky_inplace</span>, <span class='ident'>solve</span>, <span class='ident'>solve_lu</span>, <span class='ident'>inverse</span>, <span class='ident'>det</span>, <span class='ident'>rank</span>, <span class='ident'>norm</span>};
+<span class='kw'>mod</span> <span class='ident'>lapack</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>approx1</span>, <span class='ident'>approx2</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fft</span>, <span class='ident'>fft2</span>, <span class='ident'>fft3</span>, <span class='ident'>ifft</span>, <span class='ident'>ifft2</span>, <span class='ident'>ifft3</span>};

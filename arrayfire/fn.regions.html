@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'regions', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,28 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19620' class='srclink' href='../src/arrayfire/image/mod.rs.html#320-330' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn regions(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, conn: <a class='enum' href='../arrayfire/enum.Connectivity.html' title='arrayfire::Connectivity'>Connectivity</a>, aftype: <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-21228' class='srclink' href='../src/arrayfire/image/mod.rs.html#586-596' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn regions(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, conn: <a class='enum' href='../arrayfire/enum.Connectivity.html' title='arrayfire::Connectivity'>Connectivity</a>, aftype: <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Find blobs in given image.</p>
+
+<p>Given a binary image (with zero representing background pixels), regions computes a floating
+point image where each connected component is labeled from 1 to N, the total number of
+components in the image.</p>
+
+<p>A component is defined as one or more nonzero pixels that are connected by the specified
+connectivity (either <a href="./enum.Connectivity.html"><code>Connectivity::FOUR</code></a> or <a href="./enum.Connectivity.html"><code>Connectivity::EIGHT</code></a>) in two dimensions.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>conn</code> can take one of the values of <a href="./enum.Connectivity.html">Connectivity</a></li>
+<li><code>aftype</code> can take one of the values of <a href="./enum.Aftype.html">Aftype</a></li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Array with labels indicating different regions</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

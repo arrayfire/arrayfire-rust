@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'mean_shift', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,30 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19244' class='srclink' href='../src/arrayfire/image/mod.rs.html#254-266' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn mean_shift(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, spatial_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, chromatic_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, iter: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, iscolor: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-20852' class='srclink' href='../src/arrayfire/image/mod.rs.html#449-461' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn mean_shift(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, spatial_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, chromatic_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, iter: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, iscolor: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Meanshift Filter.</p>
+
+<p>A meanshift filter is an edge-preserving smoothing filter commonly used in object tracking and
+image segmentation.</p>
+
+<p>This filter replaces each pixel in the image with the mean of the values within a given given
+color and spatial radius. The meanshift filter is an iterative algorithm that continues until a
+maxium number of iterations is met or until the value of the means no longer changes.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> array is the input image</li>
+<li><code>spatial_sigma</code> is the spatial variance parameter that decides the filter window</li>
+<li><code>chromatic_sigma</code> is the chromatic variance parameter</li>
+<li><code>iter</code> is the number of iterations filter operation is performed</li>
+<li><code>iscolor</code> indicates if the input is color image or grayscale</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Filtered Image - Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

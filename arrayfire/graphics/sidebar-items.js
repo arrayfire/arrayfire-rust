@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Window",""]]});
+initSidebarItems({"struct":[["Window","Used to render Array objects"]]});

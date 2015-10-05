@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'rotate', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,39 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18612' class='srclink' href='../src/arrayfire/image/mod.rs.html#148-159' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn rotate(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, theta: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, crop: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-20220' class='srclink' href='../src/arrayfire/image/mod.rs.html#257-268' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn rotate(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, theta: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, crop: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Rotate an Image</p>
+
+<p>Rotating an input image can be done using either NEAREST or BILINEAR interpolations.
+Nearest interpolation will pick the nearest value to the location, whereas bilinear
+interpolation will do a weighted interpolation for calculate the new size.</p>
+
+<p>This function does not differentiate between images and data. As long as the array is defined,
+it will rotate any type or size of array.</p>
+
+<p>The crop option allows you to choose whether to resize the image. If crop is set to false, ie.
+the entire rotated image will be a part of the array and the new array size will be greater
+than or equal to the input array size. If crop is set to true, then the new array size is same
+as the input array size and the data that falls outside the boundaries of the array is
+discarded.</p>
+
+<p>Any location of the rotated array that does not map to a location of the input array is set to
+0.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>theta</code> is the amount of angle (in radians) image should be rotated</li>
+<li><code>crop</code> indicates if the rotated image has to be cropped to original size</li>
+<li><code>method</code> indicates which interpolation method to use for rotating the image. It uses enum
+<a href="./enum.InterpType.html">InterpType</a> to identify the interpolation method.</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Rotated Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Aftype', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-15844' class='srclink' href='../src/arrayfire/defines.rs.html#111-122' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-16032' class='srclink' href='../src/arrayfire/defines.rs.html#81-102' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Aftype {
     F32,
     C32,
@@ -57,8 +57,19 @@
     U8,
     S64,
     U64,
-}</pre><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.F32'><code>F32</code></td><td></td></tr><tr><td id='variant.C32'><code>C32</code></td><td></td></tr><tr><td id='variant.F64'><code>F64</code></td><td></td></tr><tr><td id='variant.C64'><code>C64</code></td><td></td></tr><tr><td id='variant.B8'><code>B8</code></td><td></td></tr><tr><td id='variant.S32'><code>S32</code></td><td></td></tr><tr><td id='variant.U32'><code>U32</code></td><td></td></tr><tr><td id='variant.U8'><code>U8</code></td><td></td></tr><tr><td id='variant.S64'><code>S64</code></td><td></td></tr><tr><td id='variant.U64'><code>U64</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; for <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>) -&gt; <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h4>
+}</pre><div class='docblock'><p>Types of Array data type</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.F32'><code>F32</code></td><td><div class='docblock'><p>32 bit float</p>
+</div></td></tr><tr><td id='variant.C32'><code>C32</code></td><td><div class='docblock'><p>32 bit complex float</p>
+</div></td></tr><tr><td id='variant.F64'><code>F64</code></td><td><div class='docblock'><p>64 bit float</p>
+</div></td></tr><tr><td id='variant.C64'><code>C64</code></td><td><div class='docblock'><p>64 bit complex float</p>
+</div></td></tr><tr><td id='variant.B8'><code>B8</code></td><td><div class='docblock'><p>8 bit boolean</p>
+</div></td></tr><tr><td id='variant.S32'><code>S32</code></td><td><div class='docblock'><p>32 bit signed integer</p>
+</div></td></tr><tr><td id='variant.U32'><code>U32</code></td><td><div class='docblock'><p>32 bit unsigned integer</p>
+</div></td></tr><tr><td id='variant.U8'><code>U8</code></td><td><div class='docblock'><p>8 bit unsigned integer</p>
+</div></td></tr><tr><td id='variant.S64'><code>S64</code></td><td><div class='docblock'><p>64 bit signed integer</p>
+</div></td></tr><tr><td id='variant.U64'><code>U64</code></td><td><div class='docblock'><p>64 bit unsigned integer</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; for <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>) -&gt; <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a></code></h3><div class='impl-items'></div></section>

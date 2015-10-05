@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
     </section>
 
@@ -222,6 +222,114 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
@@ -262,6 +370,17 @@
                          <span class='ident'>mtype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
 
+<span class='doccomment'>/// A set of Array objects (usually, used in Computer vision context)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// `Features` struct is used by computer vision functions</span>
+<span class='doccomment'>/// to return the outcome of their operation. Typically, such output</span>
+<span class='doccomment'>/// has the following Arrays:</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - X positions of the features</span>
+<span class='doccomment'>/// - Y positions of the features</span>
+<span class='doccomment'>/// - Scores of the features</span>
+<span class='doccomment'>/// - Orientations of the features</span>
+<span class='doccomment'>/// - Sizes of the features</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Features</span> {
     <span class='ident'>feat</span>: <span class='ident'>i64</span>,
 }
@@ -295,6 +414,7 @@
         }
     }
 
+    <span class='doccomment'>/// Get total number of features found</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>num_features</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>i64</span>, <span class='ident'>AfError</span><span class='op'>&gt;</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
@@ -344,6 +464,34 @@
     }
 }
 
+<span class='doccomment'>/// Fast feature detector</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential</span>
+<span class='doccomment'>/// segments of pixels much brighter or much darker than the central one. For a pixel p to be</span>
+<span class='doccomment'>/// considered a feature, there must exist a sequential segment of arc_length pixels in the circle</span>
+<span class='doccomment'>/// around it such that all are greather than (p + thr) or smaller than (p - thr). After all</span>
+<span class='doccomment'>/// features in the image are detected, if nonmax is true, the non-maximal suppression is applied,</span>
+<span class='doccomment'>/// checking all detected features and the features detected in its 8-neighborhood and discard it</span>
+<span class='doccomment'>/// if its score is non maximal.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `input` - the input image Array</span>
+<span class='doccomment'>/// - `thr` - FAST threshold for which pixel of the circle around the center pixel is considered to</span>
+<span class='doccomment'>/// be greater or smaller</span>
+<span class='doccomment'>/// - `arc_len` - length of arc (or sequential segment) to be tested, must be within range [9-16]</span>
+<span class='doccomment'>/// - `non_max` - performs non-maximal supression if true</span>
+<span class='doccomment'>/// - `feat_ratio` - maximum ratio of features to detect, the maximum number of features is</span>
+<span class='doccomment'>/// calculated by `feature_ratio * num of elements`. The maximum number of features is not based on</span>
+<span class='doccomment'>/// the score, instead, features detected after the limit is reached are discarded.</span>
+<span class='doccomment'>/// - `edge` - is the length of the edges in the image to be discarded by FAST(minimum is 3, as the</span>
+<span class='doccomment'>/// radius of the circle)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays</span>
+<span class='doccomment'>/// for x and y coordinates and score, while array oreientation is set to 0 as FAST does not</span>
+<span class='doccomment'>/// compute orientation. Size is set to 1 as FAST does not compute multiple scales.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fast</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>thr</span>: <span class='ident'>f32</span>, <span class='ident'>arc_len</span>: <span class='ident'>u32</span>,
             <span class='ident'>non_max</span>: <span class='ident'>bool</span>, <span class='ident'>feat_ratio</span>: <span class='ident'>f32</span>, <span class='ident'>edge</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Features</span>, <span class='ident'>AfError</span><span class='op'>&gt;</span> {
@@ -359,6 +507,28 @@
     }
 }
 
+<span class='doccomment'>/// ORB feature descriptor</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not</span>
+<span class='doccomment'>/// compute orientation, thus, orientation of features is calculated using the intensity centroid.</span>
+<span class='doccomment'>/// As FAST is also not multi-scale enabled, a multi-scale pyramid is calculated by downsampling</span>
+<span class='doccomment'>/// the input image multiple times followed by FAST feature detection on each scale.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `input` - the input image Array</span>
+<span class='doccomment'>/// - `fast_thr` - FAST threshold for which a pixel of the circle around the central pixel is</span>
+<span class='doccomment'>/// considered to be brighter or darker</span>
+<span class='doccomment'>/// - `max_feat` - maximum number of features to hold</span>
+<span class='doccomment'>/// - `scl_fctr` - factor to downsample the input image, meaning that each level with hold prior</span>
+<span class='doccomment'>/// level dimensions divided by `scl_fctr`</span>
+<span class='doccomment'>/// - `levels` - number of levels to be computed for the image pyramid</span>
+<span class='doccomment'>/// - `blur_img` - blur image with a Gaussian filter with sigma=2 before computing descriptors to</span>
+<span class='doccomment'>/// increase robustness against noise if true</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>orb</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>fast_thr</span>: <span class='ident'>f32</span>, <span class='ident'>max_feat</span>: <span class='ident'>u32</span>,
            <span class='ident'>scl_fctr</span>: <span class='ident'>f32</span>, <span class='ident'>levels</span>: <span class='ident'>u32</span>, <span class='ident'>blur_img</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Features</span>, <span class='ident'>Array</span>), <span class='ident'>AfError</span><span class='op'>&gt;</span> {
@@ -375,6 +545,38 @@
     }
 }
 
+<span class='doccomment'>/// Hamming feature matcher</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Calculates Hamming distances between two 2-dimensional arrays containing features, one of the</span>
+<span class='doccomment'>/// arrays containing the training data and the other the query data. One of the dimensions of the</span>
+<span class='doccomment'>/// both arrays must be equal among them, identifying the length of each feature. The other</span>
+<span class='doccomment'>/// dimension indicates the total number of features in each of the training and query arrays. Two</span>
+<span class='doccomment'>/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query</span>
+<span class='doccomment'>/// array and another containing the indices of these distances in the training array. The</span>
+<span class='doccomment'>/// resulting 1-dimensional arrays have length equal to the number of features contained in the</span>
+<span class='doccomment'>/// query array.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `query` - Array containing the data to be queried</span>
+<span class='doccomment'>/// - `train` - Array containing the data to be used as training data</span>
+<span class='doccomment'>/// - `dist_dims` - indicates the dimension to analyze for distance (the dimension indicated here</span>
+<span class='doccomment'>/// must be of equal length for both query and train arrays)</span>
+<span class='doccomment'>/// - `n_dist` - is the number of smallest distances to return (currently, only 1 is supported)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function returns a tuple of [Array](./struct.Array.html)&#39;s.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// First Array is an array of MxN size, where M is equal to the number of query features and N is</span>
+<span class='doccomment'>/// equal to n_dist. The value at position IxJ indicates the index of the Jth smallest distance to</span>
+<span class='doccomment'>/// the Ith query value in the train data array. the index of the Ith smallest distance of the Mth</span>
+<span class='doccomment'>/// query.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Second Array is an array of MxN size, where M is equal to the number of query features and N is</span>
+<span class='doccomment'>/// equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest</span>
+<span class='doccomment'>/// distance to the Ith query value in the train data array.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hamming_matcher</span>(<span class='ident'>query</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>train</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
                        <span class='ident'>dist_dims</span>: <span class='ident'>i64</span>, <span class='ident'>n_dist</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Array</span>, <span class='ident'>Array</span>), <span class='ident'>AfError</span><span class='op'>&gt;</span> {
@@ -391,6 +593,20 @@
     }
 }
 
+<span class='doccomment'>/// Image matching</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Template matching is an image processing technique to find small patches of an image which</span>
+<span class='doccomment'>/// match a given template image. A more in depth discussion on the topic can be found</span>
+<span class='doccomment'>/// [here](https://en.wikipedia.org/wiki/Template_matching).</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// `search_img` - is an array with image data</span>
+<span class='doccomment'>/// `template_img` - is the template we are looking for in the image</span>
+<span class='doccomment'>/// `mtype` -  is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function returns an Array with disparity values for the window starting at corresponding pixel position.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_template</span>(<span class='ident'>search_img</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>template_img</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
                       <span class='ident'>mtype</span>: <span class='ident'>MatchType</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Array</span>, <span class='ident'>AfError</span><span class='op'>&gt;</span> {
