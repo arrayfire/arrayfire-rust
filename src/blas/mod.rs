@@ -21,6 +21,18 @@ extern {
     fn af_transpose_inplace(arr: AfArray, conjugate: c_int) -> c_int;
 }
 
+/// Matrix multiple of two Arrays
+///
+/// # Parameters
+///
+/// - `lhs` is the Array on left hand side
+/// - `rhs` is the Array on right hand side
+/// - `optlhs` - Transpose left hand side before the function is performed, uses one of the values of [MatProp](./enum.MatProp.html)
+/// - `optrhs` - Transpose right hand side before the function is performed, uses one of the values of [MatProp](./enum.MatProp.html)
+///
+/// # Return Values
+///
+/// The result Array of matrix multiplication
 #[allow(unused_mut)]
 pub fn matmul(lhs: &Array, rhs: &Array,
               optlhs: MatProp, optrhs: MatProp) -> Result<Array, AfError> {
@@ -36,6 +48,20 @@ pub fn matmul(lhs: &Array, rhs: &Array,
     }
 }
 
+/// Calculate the dot product of vectors.
+///
+/// Scalar dot product between two vectors. Also referred to as the inner product. This function returns the scalar product of two equal sized vectors or between a matrix and a vector. The second operand needs to be a vector in either case.
+///
+/// # Parameters
+///
+/// - `lhs` - Left hand side of dot operation
+/// - `rhs` - Right hand side of dot operation
+/// - `optlhs` - Options for lhs. Currently only NONE value from [MatProp](./enum.MatProp.html) is supported.
+/// - `optrhs` - Options for rhs. Currently only NONE value from [MatProp](./enum.MatProp.html) is supported.
+///
+/// # Return Values
+///
+/// The result of dot product.
 #[allow(unused_mut)]
 pub fn dot(lhs: &Array, rhs: &Array,
            optlhs: MatProp, optrhs: MatProp) -> Result<Array, AfError> {
@@ -51,6 +77,17 @@ pub fn dot(lhs: &Array, rhs: &Array,
     }
 }
 
+/// Transpose of a matrix.
+///
+/// # Parameters
+///
+/// - `arr` is the input Array
+/// - `conjugate` is a boolean that indicates if the transpose operation needs to be a conjugate
+/// transpose
+///
+/// # Return Values
+///
+/// Transposed Array.
 #[allow(unused_mut)]
 pub fn transpose(arr: &Array, conjugate: bool) -> Result<Array, AfError> {
     unsafe {
@@ -64,6 +101,13 @@ pub fn transpose(arr: &Array, conjugate: bool) -> Result<Array, AfError> {
     }
 }
 
+/// Inplace transpose of a matrix.
+///
+/// # Parameters
+///
+/// - `arr` is the input Array that has to be transposed
+/// - `conjugate` is a boolean that indicates if the transpose operation needs to be a conjugate
+/// transpose
 #[allow(unused_mut)]
 pub fn transpose_inplace(arr: &mut Array, conjugate: bool) -> Result<(), AfError> {
     unsafe {

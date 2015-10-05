@@ -94,6 +94,7 @@ extern {
     fn af_isnan(out: MutAfArray, arr: AfArray) -> c_int;
 }
 
+/// Enables use of `!` on objects of type [Array](./struct.Array.html)
 impl<'f> Not for &'f Array {
     type Output = Array;
 

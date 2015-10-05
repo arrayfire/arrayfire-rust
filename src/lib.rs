@@ -63,6 +63,9 @@ pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
 pub use image::{bilateral, mean_shift, medfilt, sobel};
 mod image;
 
+pub use lapack::{lu, lu_inplace, qr, qr_inplace, cholesky, cholesky_inplace, solve, solve_lu, inverse, det, rank, norm};
+mod lapack;
+
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
 pub use signal::{convolve1, convolve2, convolve3, convolve2_sep};

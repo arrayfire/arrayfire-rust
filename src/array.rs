@@ -64,12 +64,16 @@ extern {
     fn af_print_array(arr: AfArray) -> c_int;
 }
 
+/// A multidimensional data container
+///
+/// Currently, Array objects can store only data until four dimensions
 pub struct Array {
     handle: i64,
 }
 
 macro_rules! is_func {
     ($fn_name: ident, $ffi_fn: ident) => (
+        /// Checks if the Array is of specific format/data type.
         pub fn $fn_name(&self) -> Result<bool, AfError> {
             unsafe {
                 let mut ret_val: i32 = 0;
@@ -84,6 +88,14 @@ macro_rules! is_func {
 }
 
 impl Array {
+    /// Constructs a new Array object
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let values: &[f32] = &[1.0, 2.0, 3.0];
+    /// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+    /// ```
     #[allow(unused_mut)]
     pub fn new<T>(dims: Dim4, slice: &[T], aftype: Aftype) -> Result<Array, AfError> {
         unsafe {
@@ -100,6 +112,7 @@ impl Array {
         }
     }
 
+    /// Returns the number of elements in the Array
     pub fn elements(&self) -> Result<i64, AfError> {
         unsafe {
             let mut ret_val: i64 = 0;
@@ -111,6 +124,7 @@ impl Array {
         }
     }
 
+    /// Returns the Array data type
     pub fn get_type(&self) -> Result<Aftype, AfError> {
         unsafe {
             let mut ret_val: u8 = 0;
@@ -122,6 +136,7 @@ impl Array {
         }
     }
 
+    /// Returns the dimensions of the Array
     pub fn dims(&self) -> Result<Dim4, AfError> {
         unsafe {
             let mut ret0: i64 = 0;
@@ -138,6 +153,7 @@ impl Array {
         }
     }
 
+    /// Returns the number of dimensions of the Array
     pub fn numdims(&self) -> Result<u32, AfError> {
         unsafe {
             let mut ret_val: u32 = 0;
@@ -149,10 +165,12 @@ impl Array {
         }
     }
 
+    /// Returns the native FFI handle for Rust object `Array`
     pub fn get(&self) -> i64 {
         self.handle
     }
 
+    /// Copies the data from the Array to the mutable slice `data`
     pub fn host<T>(&self, data: &mut [T]) -> Result<(), AfError> {
         unsafe {
             let ret_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
@@ -163,6 +181,7 @@ impl Array {
         }
     }
 
+    /// Evaluates any pending lazy expressions that represent the data in the Array object
     pub fn eval(&self) -> Result<(), AfError> {
         unsafe {
             let ret_val = af_eval(self.handle as AfArray);
@@ -173,6 +192,9 @@ impl Array {
         }
     }
 
+    /// Makes an copy of the Array
+    ///
+    /// Internally, this is handled by reference counting
     pub fn copy(&self) -> Result<Array, AfError> {
         unsafe {
             let mut temp: i64 = 0;
@@ -198,12 +220,14 @@ impl Array {
     is_func!(is_bool, af_is_bool);
 }
 
+/// Used for creating Array object from native resource id
 impl From<i64> for Array {
     fn from(t: i64) -> Array {
         Array {handle: t}
     }
 }
 
+/// Used for incrementing the reference count of Array's native resource
 impl Clone for Array {
     fn clone(&self) -> Array {
         unsafe {
@@ -217,6 +241,7 @@ impl Clone for Array {
     }
 }
 
+/// To free resources when Array goes out of scope
 impl Drop for Array {
     fn drop(&mut self) {
         unsafe {
@@ -229,6 +254,29 @@ impl Drop for Array {
     }
 }
 
+/// Print data in the Array
+///
+/// # Examples
+///
+///  ```
+/// println!("Create a 5-by-3 matrix of random floats on the GPU");
+/// let a = match randu(dims, Aftype::F32) {
+///     Ok(value) => value,
+///     Err(error) => panic!("{}", error),
+/// };
+/// print(&a);
+///  ```
+///
+///  The sample output will look like below:
+///
+///  ```
+///  [5 3 1 1]
+///      0.7402     0.4464     0.7762
+///      0.9210     0.6673     0.2948
+///      0.0390     0.1099     0.7140
+///      0.9690     0.4702     0.3585
+///      0.9251     0.5132     0.6814
+///  ```
 pub fn print(input: &Array) -> Result<(), AfError> {
     unsafe {
         let ret_val = af_print_array(input.get() as AfArray);

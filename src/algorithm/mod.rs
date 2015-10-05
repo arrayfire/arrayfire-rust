@@ -49,6 +49,16 @@ extern {
 
 macro_rules! dim_reduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
+        /// Reduction operation along specific dimension
+        ///
+        /// # Parameters
+        ///
+        /// - `input` - Input Array
+        /// - `dim` - Dimension along which the input Array will be reduced
+        ///
+        /// # Return Values
+        ///
+        /// Reduced Array
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dim: i32) -> Result<Array, AfError> {
             unsafe {
@@ -95,6 +105,16 @@ dim_reduce_func_def!(diff2, af_diff2);
 
 macro_rules! all_reduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
+        /// Reduction operation of all values
+        ///
+        /// # Parameters
+        ///
+        /// `input` - Input Array
+        ///
+        /// # Return Values
+        ///
+        /// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
+        /// zero.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> Result<(f64, f64), AfError> {
             unsafe {
@@ -141,6 +161,18 @@ all_reduce_func_def!(count_all, af_count_all);
 
 macro_rules! dim_ireduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
+        /// Reduction operation along specific dimension
+        ///
+        /// # Parameters
+        ///
+        /// - `input` - Input Array
+        /// - `dim` - Dimension along which the input Array will be reduced
+        ///
+        /// # Return Values
+        ///
+        /// A tuple of Arrays: Reduced Array and Indices Array.
+        ///
+        /// The indices Array has the index of the result element along the reduction dimension.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dim: i32) -> Result<(Array, Array), AfError> {
             unsafe {
@@ -162,6 +194,19 @@ dim_ireduce_func_def!(imax, af_imax);
 
 macro_rules! all_ireduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
+        /// Reduction operation of all values
+        ///
+        /// # Parameters
+        ///
+        /// `input` - Input Array
+        ///
+        /// # Return Values
+        ///
+        /// A triplet of reduction result.
+        ///
+        /// The second value of the tuple is zero for non-complex data type Arrays.
+        ///
+        /// The third value of triplet is the index of result element from reduction operation.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> Result<(f64, f64, u32), AfError> {
             unsafe {
@@ -182,6 +227,17 @@ macro_rules! all_ireduce_func_def {
 all_ireduce_func_def!(imin_all, af_imin_all);
 all_ireduce_func_def!(imax_all, af_imax_all);
 
+/// Locate the indices of non-zero elements.
+///
+/// The locations are provided by flattening the input into a linear array.
+///
+/// # Parameters
+///
+/// - `input` - Input Array
+///
+/// # Return Values
+///
+/// Array of indices where the input Array has non-zero values.
 #[allow(unused_mut)]
 pub fn locate(input: &Array) -> Result<Array, AfError> {
     unsafe {
@@ -194,6 +250,19 @@ pub fn locate(input: &Array) -> Result<Array, AfError> {
     }
 }
 
+/// Sort the values in input Arrays
+///
+/// Sort an multidimensional Array along a given dimension
+///
+/// # Parameters
+///
+/// - `input` - Input Array
+/// - `dim` - Dimension along which to sort
+/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.
+///
+/// # Return Values
+///
+/// Sorted Array.
 #[allow(unused_mut)]
 pub fn sort(input: &Array, dim: u32, ascending: bool) -> Result<Array, AfError> {
     unsafe {
@@ -207,6 +276,21 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Result<Array, AfError> 
     }
 }
 
+/// Sort the values in input Arrays
+///
+/// # Parameters
+///
+/// - `input` - Input Array
+/// - `dim` - Dimension along which to sort
+/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.
+///
+/// # Return Values
+///
+/// A tuple of Arrays.
+///
+/// The first Array contains the keys based on sorted values.
+///
+/// The second Array contains the original indices of the sorted values.
 #[allow(unused_mut)]
 pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> Result<(Array, Array), AfError> {
     unsafe {
@@ -222,6 +306,24 @@ pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> Result<(Array, Ar
     }
 }
 
+/// Sort the values in input Arrays
+///
+/// Sort an multidimensional Array based on keys
+///
+/// # Parameters
+///
+/// - `keys` - Array with key values
+/// - `vals` - Array with input values
+/// - `dim` - Dimension along which to sort
+/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.
+///
+/// # Return Values
+///
+/// A tuple of Arrays.
+///
+/// The first Array contains the keys based on sorted values.
+///
+/// The second Array contains the sorted values.
 #[allow(unused_mut)]
 pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
                    ascending: bool) -> Result<(Array, Array), AfError> {
@@ -238,6 +340,16 @@ pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
     }
 }
 
+/// Find unique values from a Set
+///
+/// # Parameters
+///
+/// - `input` - Input Array
+/// - `is_sorted` - is a boolean variable. If ```True`` indicates, the `input` Array is sorted.
+///
+/// # Return Values
+///
+/// An Array of unique values from the input Array.
 #[allow(unused_mut)]
 pub fn set_unique(input: &Array, is_sorted: bool) -> Result<Array, AfError> {
     unsafe {
@@ -251,6 +363,17 @@ pub fn set_unique(input: &Array, is_sorted: bool) -> Result<Array, AfError> {
     }
 }
 
+/// Find union of two sets
+///
+/// # Parameters
+///
+/// - `first` is one of the input sets
+/// - `second` is the other of the input sets
+/// - `is_unique` is a boolean value indicates if the input sets are unique
+///
+/// # Return Values
+///
+/// An Array with union of the input sets
 #[allow(unused_mut)]
 pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Result<Array, AfError> {
     unsafe {
@@ -264,6 +387,17 @@ pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Result<Array
     }
 }
 
+/// Find intersection of two sets
+///
+/// # Parameters
+///
+/// - `first` is one of the input sets
+/// - `second` is the other of the input sets
+/// - `is_unique` is a boolean value indicates if the input sets are unique
+///
+/// # Return Values
+///
+/// An Array with intersection of the input sets
 #[allow(unused_mut)]
 pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Result<Array, AfError> {
     unsafe {

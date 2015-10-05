@@ -25,15 +25,24 @@ extern {
     fn af_assign_gen(out: MutAfArray, lhs: AfArray, ndims: DimT, indices: *const IndexT, rhs: AfArray) -> c_int;
 }
 
+/// Struct to manage an array of resources of type `af_indexer_t`(ArrayFire C struct)
 pub struct Indexer {
     handle: i64,
     count: u32,
 }
 
+// Trait that indicates that object can be used for indexing
+//
+// Any object to be able to be passed on to [./struct.Indexer.html#method.set_index] method
+// should implement this trait with appropriate implementation
 pub trait Indexable {
     fn set(&self, idxr: &Indexer, dim: u32, is_batch: Option<bool>) -> Result<(), AfError>;
 }
 
+/// Enables [Array](./struct.Array.html) to be used to index another Array
+///
+/// This is used in functions [index_gen](./fn.index_gen.html) and
+/// [assign_gen](./fn.assign_gen.html)
 impl Indexable for Array {
     #[allow(unused_variables)]
     fn set(&self, idxr: &Indexer, dim: u32, is_batch: Option<bool>) -> Result<(), AfError> {
@@ -49,6 +58,10 @@ impl Indexable for Array {
     }
 }
 
+/// Enables [Seq](./struct.Seq.html) to be used to index another Array
+///
+/// This is used in functions [index_gen](./fn.index_gen.html) and
+/// [assign_gen](./fn.assign_gen.html)
 impl Indexable for Seq {
     fn set(&self, idxr: &Indexer, dim: u32, is_batch: Option<bool>) -> Result<(), AfError> {
         unsafe {
@@ -75,15 +88,20 @@ impl Indexer {
         }
     }
 
+    /// Set either [Array](./struct.Array.html) or [Seq](./struct.Seq.html) to index an Array along `idx` dimension
     pub fn set_index<T: Indexable>(&mut self, idx: &T, dim: u32, is_batch: Option<bool>) -> Result<(), AfError> {
         self.count = self.count + 1;
         idx.set(self, dim, is_batch)
     }
 
+    /// Get native(ArrayFire) resource handle
     pub fn get(&self) -> i64 {
         self.handle
     }
 
+    /// Get number of indexers
+    ///
+    /// This can be a maximum of four since currently ArrayFire supports maximum of four dimensions
     pub fn len(&self) -> u32 {
         self.count
     }
@@ -101,6 +119,17 @@ impl Drop for Indexer {
     }
 }
 
+/// Indexes the `input` Array using `seqs` Sequences
+///
+/// # Examples
+///
+/// ```
+/// let a = randu(dims, Aftype::F32).unwrap();
+/// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+/// let sub  = index(&a, seqs).unwrap();
+/// println!("a(seq(1, 3, 1), span)");
+/// print(&sub);
+/// ```
 pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
@@ -114,6 +143,16 @@ pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
     }
 }
 
+/// Extract `row_num` row from `input` Array
+///
+/// # Examples
+///
+/// ```
+/// let a = randu(dims, Aftype::F32).unwrap();
+/// println!("Grab last row of the random matrix");
+/// print(&a);
+/// print(&row(&a, num_rows - 1).unwrap());
+/// ```
 #[allow(dead_code)]
 pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
     index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0)
@@ -121,22 +160,35 @@ pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
 }
 
 #[allow(dead_code)]
+/// Set row `row_num` in `input` Array to a new Array `new_row`
 pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()]
                , new_row)
 }
 
 #[allow(dead_code)]
+/// Get all rows from `first` to `last` in the `input` Array
 pub fn rows(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     index(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()])
 }
 
 #[allow(dead_code)]
+/// Set rows from `first` to `last` in `input` Array with rows from Array `new_rows`
 pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()]
                , new_rows)
 }
 
+/// Extract `col_num` col from `input` Array
+///
+/// # Examples
+///
+/// ```
+/// let a = randu(dims, Aftype::F32).unwrap();
+/// println!("Grab last col of the random matrix");
+/// print(&a);
+/// print(&row(&a, num_cols - 1).unwrap());
+/// ```
 #[allow(dead_code)]
 pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
     index(input, &[Seq::default()
@@ -144,24 +196,30 @@ pub fn col(input: &Array, col_num: u64) -> Result<Array, AfError> {
 }
 
 #[allow(dead_code)]
+/// Set col `col_num` in `input` Array to a new Array `new_col`
 pub fn set_col(input: &Array, new_col: &Array, col_num: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)]
                , new_col)
 }
 
 #[allow(dead_code)]
+/// Get all cols from `first` to `last` in the `input` Array
 pub fn cols(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     index(input, &[Seq::default()
                     , Seq::new(first as f64, last as f64, 1.0)])
 }
 
 #[allow(dead_code)]
+/// Set cols from `first` to `last` in `input` Array with cols from Array `new_cols`
 pub fn set_cols(input: &Array, new_cols: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::default(), Seq::new(first as f64, last as f64, 1.0)]
                , new_cols)
 }
 
 #[allow(dead_code)]
+/// Get slice `slice_num` from `input` Array
+///
+/// Slices indicate that the indexing is along 3rd dimension
 pub fn slice(input: &Array, slice_num: u64) -> Result<Array, AfError> {
     index(input, &[Seq::default()
                     , Seq::default()
@@ -169,6 +227,9 @@ pub fn slice(input: &Array, slice_num: u64) -> Result<Array, AfError> {
 }
 
 #[allow(dead_code)]
+/// Set slice `slice_num` in `input` Array to a new Array `new_slice`
+///
+/// Slices indicate that the indexing is along 3rd dimension
 pub fn set_slice(input: &Array, new_slice: &Array, slice_num: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::default()
                         , Seq::default()
@@ -177,6 +238,9 @@ pub fn set_slice(input: &Array, new_slice: &Array, slice_num: u64) -> Result<Arr
 }
 
 #[allow(dead_code)]
+/// Get slices from `first` to `last` in `input` Array
+///
+/// Slices indicate that the indexing is along 3rd dimension
 pub fn slices(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     index(input, &[Seq::default()
                     , Seq::default()
@@ -184,6 +248,9 @@ pub fn slices(input: &Array, first: u64, last: u64) -> Result<Array, AfError> {
 }
 
 #[allow(dead_code)]
+/// Set `first` to `last` slices of `input` Array to a new Array `new_slices`
+///
+/// Slices indicate that the indexing is along 3rd dimension
 pub fn set_slices(input: &Array, new_slices: &Array, first: u64, last: u64) -> Result<Array, AfError> {
     assign_seq(input, &[Seq::default()
                         , Seq::default()
@@ -191,6 +258,11 @@ pub fn set_slices(input: &Array, new_slices: &Array, first: u64, last: u64) -> R
                , new_slices)
 }
 
+
+/// Lookup(hash) an Array using another Array
+///
+/// Given a dimension `seq_dim`, `indices` are lookedup in `input` and returned as a new
+/// Array if found
 pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
@@ -203,6 +275,31 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfE
     }
 }
 
+/// Assign(copy) content of an Array to another Array indexed by Sequences
+///
+/// Assign `rhs` to `lhs` after indexing `lhs`
+///
+/// # Examples
+///
+/// ```
+/// let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1])).unwrap();
+/// let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1])).unwrap();
+/// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+/// let sub  = assign_seq(&a, seqs, &b).unwrap();
+/// print(&a);
+/// // 2.0 2.0 2.0
+/// // 2.0 2.0 2.0
+/// // 2.0 2.0 2.0
+/// // 2.0 2.0 2.0
+/// // 2.0 2.0 2.0
+///
+/// print(&sub);
+/// // 2.0 2.0 2.0
+/// // 1.0 1.0 1.0
+/// // 1.0 1.0 1.0
+/// // 1.0 1.0 1.0
+/// // 2.0 2.0 2.0
+/// ```
 pub fn assign_seq(lhs: &Array, seqs: &[Seq], rhs: &Array) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
@@ -216,6 +313,37 @@ pub fn assign_seq(lhs: &Array, seqs: &[Seq], rhs: &Array) -> Result<Array, AfErr
     }
 }
 
+/// Index an Array using any combination of Array's and Sequence's
+///
+/// # Examples
+///
+/// ```
+/// let values: &[f32] = &[1.0, 2.0, 3.0];
+/// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+/// let seq4gen = Seq::new(0.0, 2.0, 1.0);
+/// let a = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
+/// // [5 3 1 1]
+/// //     0.0000     0.2190     0.3835
+/// //     0.1315     0.0470     0.5194
+/// //     0.7556     0.6789     0.8310
+/// //     0.4587     0.6793     0.0346
+/// //     0.5328     0.9347     0.0535
+///
+///
+/// let mut idxrs = match Indexer::new() {
+///     Ok(v) => v,
+///     Err(e) => panic!("{}",e),
+/// };
+/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+///
+/// let sub2 = index_gen(&a, idxrs).unwrap();
+/// println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+/// // [3 3 1 1]
+/// //     0.1315     0.0470     0.5194
+/// //     0.7556     0.6789     0.8310
+/// //     0.4587     0.6793     0.0346
+/// ```
 pub fn index_gen(input: &Array, indices: Indexer) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
@@ -228,6 +356,40 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Result<Array, AfError> {
     }
 }
 
+/// Assign an Array to another after indexing it using any combination of Array's and Sequence's
+///
+/// # Examples
+///
+/// ```
+/// let values: &[f32] = &[1.0, 2.0, 3.0];
+/// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+/// let seq4gen = Seq::new(0.0, 2.0, 1.0);
+/// let a = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
+/// // [5 3 1 1]
+/// //     0.0000     0.2190     0.3835
+/// //     0.1315     0.0470     0.5194
+/// //     0.7556     0.6789     0.8310
+/// //     0.4587     0.6793     0.0346
+/// //     0.5328     0.9347     0.0535
+///
+/// let b    = constant(2.0 as f32, Dim4::new(&[3, 3, 1, 1])).unwrap();
+///
+/// let mut idxrs = match Indexer::new() {
+///     Ok(v) => v,
+///     Err(e) => panic!("{}",e),
+/// };
+/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+///
+/// let sub2 = assign_gen(&a, idxrs, &b).unwrap();
+/// println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+/// // [5 3 1 1]
+/// //     0.0000     0.2190     0.3835
+/// //     2.0000     2.0000     2.0000
+/// //     2.0000     2.0000     2.0000
+/// //     2.0000     2.0000     2.0000
+/// //     0.5328     0.9347     0.0535
+/// ```
 pub fn assign_gen(lhs: &Array, indices: &Indexer, rhs: &Array) -> Result<Array, AfError> {
     unsafe{
         let mut temp: i64 = 0;
