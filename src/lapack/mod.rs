@@ -2,7 +2,7 @@ extern crate libc;
 
 use array::Array;
 use defines::AfError;
-use defines::NormType;
+use defines::{MatProp, NormType};
 use util::to_u32;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 
@@ -73,7 +73,7 @@ pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
 pub fn qr_inplace(input: &mut Array) -> Result<Array, AfError> {
     unsafe {
         let mut tau: i64 = 0;
-        let err_val = af_lu_inplace(&mut tau as MutAfArray, input.get() as AfArray);
+        let err_val = af_qr_inplace(&mut tau as MutAfArray, input.get() as AfArray);
         match err_val {
             0 => Ok(Array::from(tau)),
             _ => Err(AfError::from(err_val)),
@@ -139,7 +139,7 @@ pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
 pub fn inverse(input: &Array, options: MatProp) -> Result<Array, AfError> {
     unsafe {
         let mut temp: i64 = 0;
-        let err_val = af_solve(&mut temp as MutAfArray, input.get() as AfArray, to_u32(options) as c_uint);
+        let err_val = af_inverse(&mut temp as MutAfArray, input.get() as AfArray, to_u32(options) as c_uint);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
