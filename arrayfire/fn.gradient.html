@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'gradient', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,25 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18317' class='srclink' href='../src/arrayfire/image/mod.rs.html#78-89' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn gradient(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-19923' class='srclink' href='../src/arrayfire/image/mod.rs.html#93-104' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn gradient(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Calculate the gradients</p>
+
+<p>The gradients along the first and second dimensions are calculated simultaneously.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input Array</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>A tuple of Arrays.</p>
+
+<p>The first Array is <code>dx</code> which is the gradient along the 1st dimension.</p>
+
+<p>The second Array is <code>dy</code> which is the gradient along the 2nd dimension.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

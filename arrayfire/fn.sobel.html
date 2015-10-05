@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'sobel', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,27 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19677' class='srclink' href='../src/arrayfire/image/mod.rs.html#333-344' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sobel(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, ker_size: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-21285' class='srclink' href='../src/arrayfire/image/mod.rs.html#616-627' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn sobel(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, ker_size: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Sobel Operator</p>
+
+<p>Sobel operators perform a 2-D spatial gradient measurement on an image to emphasize the regions
+of high spatial frequency, namely edges. A more in depth discussion on it can be found <a href="https://en.wikipedia.org/wiki/Sobel_operator">here</a>.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>ker_size</code> is the kernel size of sobel operator</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>A tuple of Arrays.</p>
+
+<p>The first Array has derivatives along horizontal direction</p>
+
+<p>The second Array has derivatives along vertical direction</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

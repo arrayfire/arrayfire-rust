@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'convolve1', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,33 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-20863' class='srclink' href='../src/arrayfire/signal/mod.rs.html#168-180' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn convolve1(signal: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, filter: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, mode: <a class='enum' href='../arrayfire/enum.ConvMode.html' title='arrayfire::ConvMode'>ConvMode</a>, domain: <a class='enum' href='../arrayfire/enum.ConvDomain.html' title='arrayfire::ConvDomain'>ConvDomain</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-23385' class='srclink' href='../src/arrayfire/signal/mod.rs.html#296-308' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn convolve1(signal: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, filter: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, mode: <a class='enum' href='../arrayfire/enum.ConvMode.html' title='arrayfire::ConvMode'>ConvMode</a>, domain: <a class='enum' href='../arrayfire/enum.ConvDomain.html' title='arrayfire::ConvDomain'>ConvDomain</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Convolution</p>
+
+<p>The numeric suffix to the function name indicates the dimension in which the
+convolution operation is going to take place.</p>
+
+<ul>
+<li>1 - Indicates 1d convolution</li>
+<li>2 - Indicates 2d convolution</li>
+<li>3 - Indicates 3d convolution</li>
+</ul>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>signal</code> is the input signal</li>
+<li><code>filter</code> is the signal that shall be flipped for convolution operation</li>
+<li><code>mode</code> indicates if the convolution should be expanded or not(where output size
+equals input)</li>
+<li><code>domain</code> indicates if the convolution should be performed in frequencey or spatial
+domain</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>The convolved Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

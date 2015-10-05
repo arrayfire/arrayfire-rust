@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["fast",""],["hamming_matcher",""],["match_template",""],["orb",""]],"struct":[["Features",""]]});
+initSidebarItems({"fn":[["fast","Fast feature detector"],["hamming_matcher","Hamming feature matcher"],["match_template","Image matching"],["orb","ORB feature descriptor"]],"struct":[["Features","A set of Array objects (usually, used in Computer vision context)"]]});

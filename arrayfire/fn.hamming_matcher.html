@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'hamming_matcher', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,41 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-23725' class='srclink' href='../src/arrayfire/vision/mod.rs.html#154-167' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn hamming_matcher(query: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, train: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dist_dims: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, n_dist: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-26247' class='srclink' href='../src/arrayfire/vision/mod.rs.html#248-261' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn hamming_matcher(query: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, train: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dist_dims: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, n_dist: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Hamming feature matcher</p>
+
+<p>Calculates Hamming distances between two 2-dimensional arrays containing features, one of the
+arrays containing the training data and the other the query data. One of the dimensions of the
+both arrays must be equal among them, identifying the length of each feature. The other
+dimension indicates the total number of features in each of the training and query arrays. Two
+1-dimensional arrays are created as results, one containg the smallest N distances of the query
+array and another containing the indices of these distances in the training array. The
+resulting 1-dimensional arrays have length equal to the number of features contained in the
+query array.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>query</code> - Array containing the data to be queried</li>
+<li><code>train</code> - Array containing the data to be used as training data</li>
+<li><code>dist_dims</code> - indicates the dimension to analyze for distance (the dimension indicated here
+must be of equal length for both query and train arrays)</li>
+<li><code>n_dist</code> - is the number of smallest distances to return (currently, only 1 is supported)</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>This function returns a tuple of <a href="./struct.Array.html">Array</a>&#39;s.</p>
+
+<p>First Array is an array of MxN size, where M is equal to the number of query features and N is
+equal to n_dist. The value at position IxJ indicates the index of the Jth smallest distance to
+the Ith query value in the train data array. the index of the Ith smallest distance of the Mth
+query.</p>
+
+<p>Second Array is an array of MxN size, where M is equal to the number of query features and N is
+equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest
+distance to the Ith query value in the train data array.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

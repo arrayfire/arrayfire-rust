@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
     </section>
 
@@ -255,84 +255,94 @@
 <span id="213">213</span>
 <span id="214">214</span>
 <span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Display</span>, <span class='ident'>Formatter</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>FmtError</span>;
 
+<span class='doccomment'>/// Error codes</span>
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AfError</span> {
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The function returned successfully</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>SUCCESS</span>            <span class='op'>=</span>   <span class='number'>0</span>,
     <span class='comment'>// 100-199 Errors in environment</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The system or device ran out of memory</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_NO_MEM</span>         <span class='op'>=</span> <span class='number'>101</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// There was an error in the device driver</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_DRIVER</span>         <span class='op'>=</span> <span class='number'>102</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// There was an error with the runtime environment</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_RUNTIME</span>        <span class='op'>=</span> <span class='number'>103</span>,
     <span class='comment'>// 200-299 Errors in input parameters</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The input array is not a valid af_array object</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_INVALID_ARRAY</span>  <span class='op'>=</span> <span class='number'>201</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// One of the function arguments is incorrect</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_ARG</span>            <span class='op'>=</span> <span class='number'>202</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The size is incorrect</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_SIZE</span>           <span class='op'>=</span> <span class='number'>203</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The type is not suppported by this function</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_TYPE</span>           <span class='op'>=</span> <span class='number'>204</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The type of the input arrays are not compatible</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_DIFF_TYPE</span>      <span class='op'>=</span> <span class='number'>205</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// Function does not support GFOR / batch mode</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_BATCH</span>          <span class='op'>=</span> <span class='number'>207</span>,
     <span class='comment'>// 300-399 Errors for missing software features</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// The option is not supported</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_NOT_SUPPORTED</span>  <span class='op'>=</span> <span class='number'>301</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// This build of ArrayFire does not support this feature</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_NOT_CONFIGURED</span> <span class='op'>=</span> <span class='number'>302</span>,
     <span class='comment'>// 400-499 Errors for missing hardware features</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// This device does not support double</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_NO_DBL</span>         <span class='op'>=</span> <span class='number'>401</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// This build of ArrayFire was not built with graphics or this device does</span>
     <span class='doccomment'>/// not support graphics</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_NO_GFX</span>         <span class='op'>=</span> <span class='number'>402</span>,
     <span class='comment'>// 900-999 Errors from upstream libraries and runtimes</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// There was an internal error either in ArrayFire or in a project</span>
     <span class='doccomment'>/// upstream</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_INTERNAL</span>       <span class='op'>=</span> <span class='number'>998</span>,
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// Unknown Error</span>
-    <span class='doccomment'>///</span>
     <span class='ident'>ERR_UNKNOWN</span>        <span class='op'>=</span> <span class='number'>999</span>
 }
 
@@ -365,110 +375,182 @@
     }
 }
 
+<span class='doccomment'>/// Types of Array data type</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Aftype</span> {
+    <span class='doccomment'>/// 32 bit float</span>
     <span class='ident'>F32</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// 32 bit complex float</span>
     <span class='ident'>C32</span> <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// 64 bit float</span>
     <span class='ident'>F64</span> <span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// 64 bit complex float</span>
     <span class='ident'>C64</span> <span class='op'>=</span> <span class='number'>3</span>,
+    <span class='doccomment'>/// 8 bit boolean</span>
     <span class='ident'>B8</span>  <span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// 32 bit signed integer</span>
     <span class='ident'>S32</span> <span class='op'>=</span> <span class='number'>5</span>,
+    <span class='doccomment'>/// 32 bit unsigned integer</span>
     <span class='ident'>U32</span> <span class='op'>=</span> <span class='number'>6</span>,
+    <span class='doccomment'>/// 8 bit unsigned integer</span>
     <span class='ident'>U8</span>  <span class='op'>=</span> <span class='number'>7</span>,
+    <span class='doccomment'>/// 64 bit signed integer</span>
     <span class='ident'>S64</span> <span class='op'>=</span> <span class='number'>8</span>,
+    <span class='doccomment'>/// 64 bit unsigned integer</span>
     <span class='ident'>U64</span> <span class='op'>=</span> <span class='number'>9</span>,
 }
 
+<span class='doccomment'>/// Dictates the interpolation method to be used by a function</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>InterpType</span> {
+    <span class='doccomment'>/// Nearest Neighbor interpolation method</span>
     <span class='ident'>NEAREST</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Linear interpolation method</span>
     <span class='ident'>LINEAR</span>  <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Bilinear interpolation method</span>
     <span class='ident'>BILINEAR</span><span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// Cubic interpolation method</span>
     <span class='ident'>CUBIC</span>   <span class='op'>=</span> <span class='number'>3</span>,
 }
 
+<span class='doccomment'>/// Helps determine how to pad kernels along borders</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BorderType</span> {
+    <span class='doccomment'>/// Pad using zeros</span>
     <span class='ident'>ZERO</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Pad using mirrored values along border</span>
     <span class='ident'>SYMMETRIC</span> <span class='op'>=</span> <span class='number'>1</span>,
 }
 
+<span class='doccomment'>/// Used by `regions` function to identify type of connectivity</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Connectivity</span> {
+    <span class='doccomment'>/// North-East-South-West (N-E-S-W) connectivity from given pixel/point</span>
     <span class='ident'>FOUR</span> <span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// N-NE-E-SE-S-SW-W-NW connectivity from given pixel/point</span>
     <span class='ident'>EIGHT</span> <span class='op'>=</span> <span class='number'>8</span>
 }
 
+<span class='doccomment'>/// Helps determine the size of output of convolution</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ConvMode</span> {
+    <span class='doccomment'>/// Default convolution mode where output size is same as input size</span>
     <span class='ident'>DEFAULT</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Output of convolution is expanded based on signal and filter sizes</span>
     <span class='ident'>EXPAND</span>  <span class='op'>=</span> <span class='number'>1</span>,
 }
 
+<span class='doccomment'>/// Helps determine if convolution is in Spatial or Frequency domain</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ConvDomain</span> {
+    <span class='doccomment'>/// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain</span>
     <span class='ident'>AUTO</span>     <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Convoltion in spatial domain</span>
     <span class='ident'>SPATIAL</span>  <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Convolution in frequency domain</span>
     <span class='ident'>FREQUENCY</span><span class='op'>=</span> <span class='number'>2</span>,
 }
 
+<span class='doccomment'>/// Error metric used by `matchTemplate` function</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MatchType</span> {
+    <span class='doccomment'>/// Sum of Absolute Differences</span>
     <span class='ident'>SAD</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Zero-mean Sum of Absolute Differences</span>
     <span class='ident'>ZSAD</span><span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Locally scaled Sum of Absolute Differences</span>
     <span class='ident'>LSAD</span><span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// Sum of Squared Differences</span>
     <span class='ident'>SSD</span> <span class='op'>=</span> <span class='number'>3</span>,
+    <span class='doccomment'>/// Zero-mean Sum of Squared Differences</span>
     <span class='ident'>ZSSD</span><span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// Localy scaled Sum of Squared Differences</span>
     <span class='ident'>LSSD</span><span class='op'>=</span> <span class='number'>5</span>,
+    <span class='doccomment'>/// Normalized Cross Correlation</span>
     <span class='ident'>NCC</span> <span class='op'>=</span> <span class='number'>6</span>,
+    <span class='doccomment'>/// Zero-mean Normalized Cross Correlation</span>
     <span class='ident'>ZNCC</span><span class='op'>=</span> <span class='number'>7</span>,
+    <span class='doccomment'>/// Sum of Hamming Distances</span>
     <span class='ident'>SHD</span> <span class='op'>=</span> <span class='number'>8</span>,
 }
 
+<span class='doccomment'>/// Identify the color space of given image(Array)</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ColorSpace</span> {
+    <span class='doccomment'>/// Grayscale color space</span>
     <span class='ident'>GRAY</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Red-Green-Blue color space</span>
     <span class='ident'>RGB</span>  <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Hue-Saturation-value color space</span>
     <span class='ident'>HSV</span>  <span class='op'>=</span> <span class='number'>2</span>,
 }
 
+<span class='doccomment'>/// Helps determine the type of a Matrix</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MatProp</span> {
+    <span class='doccomment'>/// Default (no-op)</span>
     <span class='ident'>NONE</span>,
+    <span class='doccomment'>/// Data needs to be transposed</span>
     <span class='ident'>TRANS</span>,
+    <span class='doccomment'>/// Data needs to be conjugate transposed</span>
     <span class='ident'>CTRANS</span>,
+    <span class='doccomment'>/// Matrix is upper triangular</span>
     <span class='ident'>UPPER</span>,
+    <span class='doccomment'>/// Matrix is lower triangular</span>
     <span class='ident'>LOWER</span>,
+    <span class='doccomment'>/// Matrix diagonal has unitary values</span>
     <span class='ident'>DIAGUNIT</span>,
+    <span class='doccomment'>/// Matrix is symmetric</span>
     <span class='ident'>SYM</span>,
+    <span class='doccomment'>/// Matrix is positive definite</span>
     <span class='ident'>POSDEF</span>,
+    <span class='doccomment'>/// Matrix is orthogonal</span>
     <span class='ident'>ORTHOG</span>,
+    <span class='doccomment'>/// Matrix is tri-diagonal</span>
     <span class='ident'>TRIDIAG</span>,
+    <span class='doccomment'>/// Matrix is block-diagonal</span>
     <span class='ident'>BLOCKDIAG</span>,
 }
 
+<span class='doccomment'>/// Norm type</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>)]</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>NormType</span> {
+    <span class='doccomment'>/// Treats input as a vector and return sum of absolute values</span>
     <span class='ident'>VECTOR_1</span>    <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Treats input as vector and return max of absolute values</span>
     <span class='ident'>VECTOR_INF</span>  <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Treats input as vector and returns euclidean norm</span>
     <span class='ident'>VECTOR_2</span>    <span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// Treats input as vector and returns the p-norm</span>
     <span class='ident'>VECTOR_P</span>    <span class='op'>=</span> <span class='number'>3</span>,
+    <span class='doccomment'>/// Return the max of column sums</span>
     <span class='ident'>MATRIX_1</span>    <span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// Return the max of row sums</span>
     <span class='ident'>MATRIX_INF</span>  <span class='op'>=</span> <span class='number'>5</span>,
+    <span class='doccomment'>/// Returns the max singular value (Currently not supported)</span>
     <span class='ident'>MATRIX_2</span>    <span class='op'>=</span> <span class='number'>6</span>,
+    <span class='doccomment'>/// Returns Lpq-norm</span>
     <span class='ident'>MATRIX_L_PQ</span> <span class='op'>=</span> <span class='number'>7</span>,
 }
 
+<span class='doccomment'>/// Dictates what color map is used for Image rendering</span>
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ColorMap</span> {
+    <span class='doccomment'>/// Default color map is grayscale range [0-1]</span>
     <span class='ident'>DEFAULT</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Visible spectrum color map</span>
     <span class='ident'>SPECTRUM</span><span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Colors</span>
     <span class='ident'>COLORS</span>  <span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// Red hue map</span>
     <span class='ident'>RED</span>     <span class='op'>=</span> <span class='number'>3</span>,
+    <span class='doccomment'>/// Mood color map</span>
     <span class='ident'>MOOD</span>    <span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// Heat color map</span>
     <span class='ident'>HEAT</span>    <span class='op'>=</span> <span class='number'>5</span>,
+    <span class='doccomment'>/// Blue hue map</span>
     <span class='ident'>BLUE</span>    <span class='op'>=</span> <span class='number'>6</span>,
 }
 </pre>

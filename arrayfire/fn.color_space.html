@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'color_space', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,44 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19563' class='srclink' href='../src/arrayfire/image/mod.rs.html#306-317' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn color_space(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, tospace: <a class='enum' href='../arrayfire/enum.ColorSpace.html' title='arrayfire::ColorSpace'>ColorSpace</a>, fromspace: <a class='enum' href='../arrayfire/enum.ColorSpace.html' title='arrayfire::ColorSpace'>ColorSpace</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-21171' class='srclink' href='../src/arrayfire/image/mod.rs.html#554-565' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn color_space(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, tospace: <a class='enum' href='../arrayfire/enum.ColorSpace.html' title='arrayfire::ColorSpace'>ColorSpace</a>, fromspace: <a class='enum' href='../arrayfire/enum.ColorSpace.html' title='arrayfire::ColorSpace'>ColorSpace</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Color space conversion</p>
+
+<p>Following are the supported conversions</p>
+
+<ul>
+<li>RGB =&gt; GRAY</li>
+<li>GRAY =&gt; RGB</li>
+<li>RGB =&gt; HSV</li>
+<li>HSV =&gt; RGB</li>
+</ul>
+
+<p>RGB (Red, Green, Blue) is the most common format used in computer imaging. RGB stores
+individual values for red, green and blue, and hence the 3 values per pixel. A combination of
+these three values produces the gamut of unique colors.</p>
+
+<p>HSV (Hue, Saturation, Value), also known as HSB (hue, saturation, brightness), is often used by
+artists because it is more natural to think about a color in terms of hue and saturation than
+in terms of additive or subtractive color components (as in RGB). HSV is a transformation of
+RGB colorspace; its components and colorimetry are relative to the RGB colorspace from which it
+was derived. Like RGB, HSV also uses 3 values per pixel.</p>
+
+<p>GRAY is a single channel color space where pixel value ranges from 0 to 1. Zero represents
+black, one represent white and any value between zero &amp; one is a gray value</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>tospace</code> is the target color space. Takes values of <a href="./enum.ColorSpace.html">ColorSpace</a></li>
+<li><code>fromspace</code> is the source image color space. Takes values of
+<a href="./enum.ColorSpace.html">ColorSpace</a></li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>An Array with input image values in target color space</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

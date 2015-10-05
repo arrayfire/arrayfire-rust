@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'transpose_inplace', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,17 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-13150' class='srclink' href='../src/arrayfire/blas/mod.rs.html#68-76' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn transpose_inplace(arr: &amp;mut <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, conjugate: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-13338' class='srclink' href='../src/arrayfire/blas/mod.rs.html#112-120' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn transpose_inplace(arr: &amp;mut <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, conjugate: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Inplace transpose of a matrix.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>arr</code> is the input Array that has to be transposed</li>
+<li><code>conjugate</code> is a boolean that indicates if the transpose operation needs to be a conjugate
+transpose</li>
+</ul>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

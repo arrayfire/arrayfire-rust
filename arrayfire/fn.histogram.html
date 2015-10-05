@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'histogram', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,33 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18906' class='srclink' href='../src/arrayfire/image/mod.rs.html#203-214' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn histogram(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, nbins: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, minval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, maxval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-20514' class='srclink' href='../src/arrayfire/image/mod.rs.html#359-370' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn histogram(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, nbins: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, minval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, maxval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Compute Histogram of an Array</p>
+
+<p>A histogram is a representation of the distribution of given data. This representation is
+essentially a graph consisting of the data range or domain on one axis and frequency of
+occurence on the other axis. All the data in the domain is counted in the appropriate bin. The
+total number of elements belonging to each bin is known as the bin&#39;s frequency.</p>
+
+<p>The regular histogram function creates bins of equal size between the minimum and maximum of
+the input data (min and max are calculated internally). The histogram min-max function takes
+input parameters minimum and maximum, and divides the bins into equal sizes within the range
+specified by min and max parameters. All values less than min in the data range are placed in
+the first (min) bin and all values greater than max will be placed in the last (max) bin.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the Array whose histogram has to be computed</li>
+<li><code>nbins</code> is the number bins the input data has to be categorized into.</li>
+<li><code>minval</code> is the minimum value of bin ordering</li>
+<li><code>maxval</code> is the maximum value of bin ordering</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Histogram of input Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

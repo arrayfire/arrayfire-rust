@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'match_template', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,23 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-23805' class='srclink' href='../src/arrayfire/vision/mod.rs.html#170-182' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn match_template(search_img: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, template_img: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, mtype: <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-26327' class='srclink' href='../src/arrayfire/vision/mod.rs.html#278-290' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn match_template(search_img: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, template_img: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, mtype: <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Image matching</p>
+
+<p>Template matching is an image processing technique to find small patches of an image which
+match a given template image. A more in depth discussion on the topic can be found
+<a href="https://en.wikipedia.org/wiki/Template_matching">here</a>.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<p><code>search_img</code> - is an array with image data
+<code>template_img</code> - is the template we are looking for in the image
+<code>mtype</code> -  is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum <a href="./enum.MatchType.html">MatchType</a>.</p>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>This function returns an Array with disparity values for the window starting at corresponding pixel position.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

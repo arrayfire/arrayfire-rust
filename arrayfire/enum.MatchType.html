@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'MatchType', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-16114' class='srclink' href='../src/arrayfire/defines.rs.html#158-168' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-16302' class='srclink' href='../src/arrayfire/defines.rs.html#157-176' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum MatchType {
     SAD,
     ZSAD,
@@ -56,8 +56,18 @@
     NCC,
     ZNCC,
     SHD,
-}</pre><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.SAD'><code>SAD</code></td><td></td></tr><tr><td id='variant.ZSAD'><code>ZSAD</code></td><td></td></tr><tr><td id='variant.LSAD'><code>LSAD</code></td><td></td></tr><tr><td id='variant.SSD'><code>SSD</code></td><td></td></tr><tr><td id='variant.ZSSD'><code>ZSSD</code></td><td></td></tr><tr><td id='variant.LSSD'><code>LSSD</code></td><td></td></tr><tr><td id='variant.NCC'><code>NCC</code></td><td></td></tr><tr><td id='variant.ZNCC'><code>ZNCC</code></td><td></td></tr><tr><td id='variant.SHD'><code>SHD</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; for <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>) -&gt; <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h4>
+}</pre><div class='docblock'><p>Error metric used by <code>matchTemplate</code> function</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.SAD'><code>SAD</code></td><td><div class='docblock'><p>Sum of Absolute Differences</p>
+</div></td></tr><tr><td id='variant.ZSAD'><code>ZSAD</code></td><td><div class='docblock'><p>Zero-mean Sum of Absolute Differences</p>
+</div></td></tr><tr><td id='variant.LSAD'><code>LSAD</code></td><td><div class='docblock'><p>Locally scaled Sum of Absolute Differences</p>
+</div></td></tr><tr><td id='variant.SSD'><code>SSD</code></td><td><div class='docblock'><p>Sum of Squared Differences</p>
+</div></td></tr><tr><td id='variant.ZSSD'><code>ZSSD</code></td><td><div class='docblock'><p>Zero-mean Sum of Squared Differences</p>
+</div></td></tr><tr><td id='variant.LSSD'><code>LSSD</code></td><td><div class='docblock'><p>Localy scaled Sum of Squared Differences</p>
+</div></td></tr><tr><td id='variant.NCC'><code>NCC</code></td><td><div class='docblock'><p>Normalized Cross Correlation</p>
+</div></td></tr><tr><td id='variant.ZNCC'><code>ZNCC</code></td><td><div class='docblock'><p>Zero-mean Normalized Cross Correlation</p>
+</div></td></tr><tr><td id='variant.SHD'><code>SHD</code></td><td><div class='docblock'><p>Sum of Hamming Distances</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; for <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>) -&gt; <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.MatchType.html' title='arrayfire::MatchType'>MatchType</a></code></h3><div class='impl-items'></div></section>

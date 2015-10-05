@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'transform', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,39 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18535' class='srclink' href='../src/arrayfire/image/mod.rs.html#132-145' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn transform(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, trans: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, odim0: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, odim1: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>, is_inverse: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-20143' class='srclink' href='../src/arrayfire/image/mod.rs.html#212-225' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn transform(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, trans: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, odim0: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, odim1: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>, is_inverse: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Transform(Affine) an Image</p>
+
+<p>The transform function uses an affine transform matrix to tranform an input image into a new
+one. The transform matrix tf is a 3x2 matrix of type float. The matrix operation is applied to each
+location (x, y) that is then transformed to (x&#39;, y&#39;) of the new array. Hence the transformation
+is an element-wise operation.</p>
+
+<p>The operation is as below: tf = [r00 r10 r01 r11 t0 t1]</p>
+
+<p>x&#39; = x * r00 + y * r01 + t0; y&#39; = x * r10 + y * r11 + t1;</p>
+
+<p>Interpolation types of NEAREST, LINEAR, BILINEAR and CUBIC are allowed. Affine transforms can be used for various purposes. <a href="./fn.translate.html">translate</a>, <a href="./fn.scale.html">scale</a> and <a href="./fn.skew.html">skew</a> are
+specializations of the transform function.</p>
+
+<p>This function can also handle batch operations.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the image to be resized</li>
+<li><code>trans</code> is the transformation matrix to be used for image transformation</li>
+<li><code>odim0</code> is the output height</li>
+<li><code>odim1</code> is the output width</li>
+<li><code>method</code> indicates which interpolation method to use for resizing. It uses enum
+<a href="./enum.InterpType.html">InterpType</a> to identify the interpolation method.</li>
+<li><code>is_inverse</code> indicates if to apply inverse/forward transform</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Resized Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

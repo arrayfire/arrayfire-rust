@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Dim4",""]]});
+initSidebarItems({"struct":[["Dim4","Dim4 is used to store Array dimensions"]]});

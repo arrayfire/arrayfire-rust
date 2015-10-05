@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'gaussian_kernel', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,31 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19502' class='srclink' href='../src/arrayfire/image/mod.rs.html#291-303' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn gaussian_kernel(rows: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, cols: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, sigma_r: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, sigma_c: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-21110' class='srclink' href='../src/arrayfire/image/mod.rs.html#507-519' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn gaussian_kernel(rows: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, cols: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, sigma_r: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, sigma_c: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Creates a Gaussian Kernel.</p>
+
+<p>This function creates a kernel of a specified size that contains a Gaussian distribution. This
+distribution is normalized to one. This is most commonly used when performing a Gaussian blur
+on an image. The function takes two sets of arguments, the size of the kernel (width and height
+in pixels) and the sigma parameters (for row and column) which effect the distribution of the
+weights in the y and x directions, respectively.</p>
+
+<p>Changing sigma causes the weights in each direction to vary. Sigma is calculated internally as
+(0.25 * rows + 0.75) for rows and similarly for columns.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>rows</code> is number of rows of kernel</li>
+<li><code>cols</code> is number of cols of kernel</li>
+<li><code>sigma_r</code> is standard deviation of rows</li>
+<li><code>sigma_c</code> is standard deviation of cols</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>An Array with gaussian kernel values</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

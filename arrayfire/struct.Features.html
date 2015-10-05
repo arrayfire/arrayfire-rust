@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Features', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,12 +45,26 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-23062' class='srclink' href='../src/arrayfire/vision/mod.rs.html#40-42' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-25584' class='srclink' href='../src/arrayfire/vision/mod.rs.html#51-53' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Features {
     // some fields omitted
-}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(n: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+}</pre><div class='docblock'><p>A set of Array objects (usually, used in Computer vision context)</p>
+
+<p><code>Features</code> struct is used by computer vision functions
+to return the outcome of their operation. Typically, such output
+has the following Arrays:</p>
+
+<ul>
+<li>X positions of the features</li>
+<li>Y positions of the features</li>
+<li>Scores of the features</li>
+<li>Orientations of the features</li>
+<li>Sizes of the features</li>
+</ul>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(n: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <h4 id='method.num_features' class='method'><code>fn <a href='#method.num_features' class='fnname'>num_features</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
-<h4 id='method.xpos' class='method'><code>fn <a href='#method.xpos' class='fnname'>xpos</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+<div class='docblock'><p>Get total number of features found</p>
+</div><h4 id='method.xpos' class='method'><code>fn <a href='#method.xpos' class='fnname'>xpos</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <h4 id='method.ypos' class='method'><code>fn <a href='#method.ypos' class='fnname'>ypos</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <h4 id='method.score' class='method'><code>fn <a href='#method.score' class='fnname'>score</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <h4 id='method.orientation' class='method'><code>fn <a href='#method.orientation' class='fnname'>orientation</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>

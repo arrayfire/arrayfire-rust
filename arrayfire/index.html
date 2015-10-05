@@ -45,14 +45,15 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/arrayfire/lib.rs.html#1-75' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/arrayfire/lib.rs.html#1-86' title='goto source code'>[src]</a></span></h1>
 <h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                     <tr class=' module-item'>
                         <td><a class='macro' href='macro.join_many!.html'
                                title='arrayfire::join_many!'>join_many!</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Join multiple Arrays along a given dimension</p>
+
                         </td>
                     </tr>
                 </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -61,7 +62,8 @@
                         <td><a class='struct' href='struct.Array.html'
                                title='arrayfire::Array'>Array</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A multidimensional data container</p>
+
                         </td>
                     </tr>
                 
@@ -69,7 +71,8 @@
                         <td><a class='struct' href='struct.Dim4.html'
                                title='arrayfire::Dim4'>Dim4</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Dim4 is used to store <a href="./struct.Array.html">Array</a> dimensions</p>
+
                         </td>
                     </tr>
                 
@@ -77,7 +80,26 @@
                         <td><a class='struct' href='struct.Features.html'
                                title='arrayfire::Features'>Features</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A set of Array objects (usually, used in Computer vision context)</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Indexer.html'
+                               title='arrayfire::Indexer'>Indexer</a></td>
+                        <td class='docblock short'>
+                             <p>Struct to manage an array of resources of type <code>af_indexer_t</code>(ArrayFire C struct)</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Seq.html'
+                               title='arrayfire::Seq'>Seq</a></td>
+                        <td class='docblock short'>
+                             <p>Sequences are used for indexing Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -85,7 +107,8 @@
                         <td><a class='struct' href='struct.Window.html'
                                title='arrayfire::Window'>Window</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Used to render <a href="./struct.Array.html">Array</a> objects</p>
+
                         </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
@@ -94,7 +117,8 @@
                         <td><a class='enum' href='enum.AfError.html'
                                title='arrayfire::AfError'>AfError</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Error codes</p>
+
                         </td>
                     </tr>
                 
@@ -102,7 +126,8 @@
                         <td><a class='enum' href='enum.Aftype.html'
                                title='arrayfire::Aftype'>Aftype</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Types of Array data type</p>
+
                         </td>
                     </tr>
                 
@@ -110,7 +135,8 @@
                         <td><a class='enum' href='enum.BorderType.html'
                                title='arrayfire::BorderType'>BorderType</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Helps determine how to pad kernels along borders</p>
+
                         </td>
                     </tr>
                 
@@ -118,7 +144,8 @@
                         <td><a class='enum' href='enum.ColorMap.html'
                                title='arrayfire::ColorMap'>ColorMap</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Dictates what color map is used for Image rendering</p>
+
                         </td>
                     </tr>
                 
@@ -126,7 +153,8 @@
                         <td><a class='enum' href='enum.ColorSpace.html'
                                title='arrayfire::ColorSpace'>ColorSpace</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Identify the color space of given image(Array)</p>
+
                         </td>
                     </tr>
                 
@@ -134,7 +162,8 @@
                         <td><a class='enum' href='enum.Connectivity.html'
                                title='arrayfire::Connectivity'>Connectivity</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Used by <code>regions</code> function to identify type of connectivity</p>
+
                         </td>
                     </tr>
                 
@@ -142,7 +171,8 @@
                         <td><a class='enum' href='enum.ConvDomain.html'
                                title='arrayfire::ConvDomain'>ConvDomain</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Helps determine if convolution is in Spatial or Frequency domain</p>
+
                         </td>
                     </tr>
                 
@@ -150,7 +180,8 @@
                         <td><a class='enum' href='enum.ConvMode.html'
                                title='arrayfire::ConvMode'>ConvMode</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Helps determine the size of output of convolution</p>
+
                         </td>
                     </tr>
                 
@@ -158,7 +189,8 @@
                         <td><a class='enum' href='enum.InterpType.html'
                                title='arrayfire::InterpType'>InterpType</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Dictates the interpolation method to be used by a function</p>
+
                         </td>
                     </tr>
                 
@@ -166,7 +198,8 @@
                         <td><a class='enum' href='enum.MatProp.html'
                                title='arrayfire::MatProp'>MatProp</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Helps determine the type of a Matrix</p>
+
                         </td>
                     </tr>
                 
@@ -174,7 +207,8 @@
                         <td><a class='enum' href='enum.MatchType.html'
                                title='arrayfire::MatchType'>MatchType</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Error metric used by <code>matchTemplate</code> function</p>
+
                         </td>
                     </tr>
                 
@@ -182,7 +216,8 @@
                         <td><a class='enum' href='enum.NormType.html'
                                title='arrayfire::NormType'>NormType</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Norm type</p>
+
                         </td>
                     </tr>
                 </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
@@ -199,7 +234,8 @@
                         <td><a class='fn' href='fn.accum.html'
                                title='arrayfire::accum'>accum</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -231,7 +267,8 @@
                         <td><a class='fn' href='fn.all_true.html'
                                title='arrayfire::all_true'>all_true</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -239,7 +276,8 @@
                         <td><a class='fn' href='fn.all_true_all.html'
                                title='arrayfire::all_true_all'>all_true_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -255,7 +293,8 @@
                         <td><a class='fn' href='fn.any_true.html'
                                title='arrayfire::any_true'>any_true</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -263,7 +302,8 @@
                         <td><a class='fn' href='fn.any_true_all.html'
                                title='arrayfire::any_true_all'>any_true_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -271,7 +311,8 @@
                         <td><a class='fn' href='fn.approx1.html'
                                title='arrayfire::approx1'>approx1</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Perform signal interpolation for 1d signals</p>
+
                         </td>
                     </tr>
                 
@@ -279,7 +320,8 @@
                         <td><a class='fn' href='fn.approx2.html'
                                title='arrayfire::approx2'>approx2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Perform signal interpolation for 2d signals</p>
+
                         </td>
                     </tr>
                 
@@ -304,6 +346,24 @@
                                title='arrayfire::asinh'>asinh</a></td>
                         <td class='docblock short'>
                              
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.assign_gen.html'
+                               title='arrayfire::assign_gen'>assign_gen</a></td>
+                        <td class='docblock short'>
+                             <p>Assign an Array to another after indexing it using any combination of Array&#39;s and Sequence&#39;s</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.assign_seq.html'
+                               title='arrayfire::assign_seq'>assign_seq</a></td>
+                        <td class='docblock short'>
+                             <p>Assign(copy) content of an Array to another Array indexed by Sequences</p>
+
                         </td>
                     </tr>
                 
@@ -335,7 +395,8 @@
                         <td><a class='fn' href='fn.bilateral.html'
                                title='arrayfire::bilateral'>bilateral</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Bilateral Filter.</p>
+
                         </td>
                     </tr>
                 
@@ -380,10 +441,47 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cholesky.html'
+                               title='arrayfire::cholesky'>cholesky</a></td>
+                        <td class='docblock short'>
+                             <p>Perform Cholesky decomposition</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cholesky_inplace.html'
+                               title='arrayfire::cholesky_inplace'>cholesky_inplace</a></td>
+                        <td class='docblock short'>
+                             <p>Perform inplace Cholesky decomposition</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.col.html'
+                               title='arrayfire::col'>col</a></td>
+                        <td class='docblock short'>
+                             <p>Extract <code>col_num</code> col from <code>input</code> Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.color_space.html'
                                title='arrayfire::color_space'>color_space</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Color space conversion</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cols.html'
+                               title='arrayfire::cols'>cols</a></td>
+                        <td class='docblock short'>
+                             <p>Get all cols from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
+
                         </td>
                     </tr>
                 
@@ -399,7 +497,8 @@
                         <td><a class='fn' href='fn.constant.html'
                                title='arrayfire::constant'>constant</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create an Array with constant value</p>
+
                         </td>
                     </tr>
                 
@@ -407,7 +506,8 @@
                         <td><a class='fn' href='fn.convolve1.html'
                                title='arrayfire::convolve1'>convolve1</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution</p>
+
                         </td>
                     </tr>
                 
@@ -415,7 +515,8 @@
                         <td><a class='fn' href='fn.convolve2.html'
                                title='arrayfire::convolve2'>convolve2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution</p>
+
                         </td>
                     </tr>
                 
@@ -423,7 +524,8 @@
                         <td><a class='fn' href='fn.convolve2_sep.html'
                                title='arrayfire::convolve2_sep'>convolve2_sep</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Separable convolution for 2d signals</p>
+
                         </td>
                     </tr>
                 
@@ -431,7 +533,8 @@
                         <td><a class='fn' href='fn.convolve3.html'
                                title='arrayfire::convolve3'>convolve3</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution</p>
+
                         </td>
                     </tr>
                 
@@ -439,7 +542,8 @@
                         <td><a class='fn' href='fn.corrcoef.html'
                                title='arrayfire::corrcoef'>corrcoef</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute correlation coefficient</p>
+
                         </td>
                     </tr>
                 
@@ -463,7 +567,8 @@
                         <td><a class='fn' href='fn.count.html'
                                title='arrayfire::count'>count</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -471,7 +576,8 @@
                         <td><a class='fn' href='fn.count_all.html'
                                title='arrayfire::count_all'>count_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -479,7 +585,8 @@
                         <td><a class='fn' href='fn.cov.html'
                                title='arrayfire::cov'>cov</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute covariance of two Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -500,10 +607,20 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.det.html'
+                               title='arrayfire::det'>det</a></td>
+                        <td class='docblock short'>
+                             <p>Find the determinant of the matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.diag_create.html'
                                title='arrayfire::diag_create'>diag_create</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create a diagonal matrix</p>
+
                         </td>
                     </tr>
                 
@@ -511,7 +628,8 @@
                         <td><a class='fn' href='fn.diag_extract.html'
                                title='arrayfire::diag_extract'>diag_extract</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Extract diagonal from a given Matrix</p>
+
                         </td>
                     </tr>
                 
@@ -519,7 +637,8 @@
                         <td><a class='fn' href='fn.diff1.html'
                                title='arrayfire::diff1'>diff1</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -527,7 +646,8 @@
                         <td><a class='fn' href='fn.diff2.html'
                                title='arrayfire::diff2'>diff2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -559,7 +679,8 @@
                         <td><a class='fn' href='fn.dot.html'
                                title='arrayfire::dot'>dot</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Calculate the dot product of vectors.</p>
+
                         </td>
                     </tr>
                 
@@ -631,7 +752,8 @@
                         <td><a class='fn' href='fn.fast.html'
                                title='arrayfire::fast'>fast</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Fast feature detector</p>
+
                         </td>
                     </tr>
                 
@@ -639,7 +761,8 @@
                         <td><a class='fn' href='fn.fft.html'
                                title='arrayfire::fft'>fft</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Fast fourier transform for 1d signals</p>
+
                         </td>
                     </tr>
                 
@@ -647,7 +770,8 @@
                         <td><a class='fn' href='fn.fft2.html'
                                title='arrayfire::fft2'>fft2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Fast fourier transform for 2d signals</p>
+
                         </td>
                     </tr>
                 
@@ -655,7 +779,8 @@
                         <td><a class='fn' href='fn.fft3.html'
                                title='arrayfire::fft3'>fft3</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Fast fourier transform for 3d signals</p>
+
                         </td>
                     </tr>
                 
@@ -663,7 +788,8 @@
                         <td><a class='fn' href='fn.fft_convolve1.html'
                                title='arrayfire::fft_convolve1'>fft_convolve1</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution using Fast-fourier transform</p>
+
                         </td>
                     </tr>
                 
@@ -671,7 +797,8 @@
                         <td><a class='fn' href='fn.fft_convolve2.html'
                                title='arrayfire::fft_convolve2'>fft_convolve2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution using Fast-fourier transform</p>
+
                         </td>
                     </tr>
                 
@@ -679,7 +806,8 @@
                         <td><a class='fn' href='fn.fft_convolve3.html'
                                title='arrayfire::fft_convolve3'>fft_convolve3</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Convolution using Fast-fourier transform</p>
+
                         </td>
                     </tr>
                 
@@ -687,7 +815,8 @@
                         <td><a class='fn' href='fn.fir.html'
                                title='arrayfire::fir'>fir</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Finite impulse filter</p>
+
                         </td>
                     </tr>
                 
@@ -695,7 +824,8 @@
                         <td><a class='fn' href='fn.flat.html'
                                title='arrayfire::flat'>flat</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Flatten the multidimensional Array to an 1D Array</p>
+
                         </td>
                     </tr>
                 
@@ -703,7 +833,8 @@
                         <td><a class='fn' href='fn.flip.html'
                                title='arrayfire::flip'>flip</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Flip the Array</p>
+
                         </td>
                     </tr>
                 
@@ -719,7 +850,8 @@
                         <td><a class='fn' href='fn.gaussian_kernel.html'
                                title='arrayfire::gaussian_kernel'>gaussian_kernel</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Creates a Gaussian Kernel.</p>
+
                         </td>
                     </tr>
                 
@@ -735,7 +867,8 @@
                         <td><a class='fn' href='fn.get_seed.html'
                                title='arrayfire::get_seed'>get_seed</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Get the seed of random number generator</p>
+
                         </td>
                     </tr>
                 
@@ -743,7 +876,8 @@
                         <td><a class='fn' href='fn.get_version.html'
                                title='arrayfire::get_version'>get_version</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Get ArrayFire Version Number</p>
+
                         </td>
                     </tr>
                 
@@ -751,7 +885,8 @@
                         <td><a class='fn' href='fn.gradient.html'
                                title='arrayfire::gradient'>gradient</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Calculate the gradients</p>
+
                         </td>
                     </tr>
                 
@@ -759,7 +894,8 @@
                         <td><a class='fn' href='fn.gray2rgb.html'
                                title='arrayfire::gray2rgb'>gray2rgb</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Color space conversion functions</p>
+
                         </td>
                     </tr>
                 
@@ -775,7 +911,8 @@
                         <td><a class='fn' href='fn.hamming_matcher.html'
                                title='arrayfire::hamming_matcher'>hamming_matcher</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Hamming feature matcher</p>
+
                         </td>
                     </tr>
                 
@@ -783,7 +920,8 @@
                         <td><a class='fn' href='fn.hist_equal.html'
                                title='arrayfire::hist_equal'>hist_equal</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Histogram Equalization</p>
+
                         </td>
                     </tr>
                 
@@ -791,7 +929,8 @@
                         <td><a class='fn' href='fn.histogram.html'
                                title='arrayfire::histogram'>histogram</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute Histogram of an Array</p>
+
                         </td>
                     </tr>
                 
@@ -799,7 +938,8 @@
                         <td><a class='fn' href='fn.hsv2rgb.html'
                                title='arrayfire::hsv2rgb'>hsv2rgb</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Color space conversion functions</p>
+
                         </td>
                     </tr>
                 
@@ -823,7 +963,8 @@
                         <td><a class='fn' href='fn.ifft.html'
                                title='arrayfire::ifft'>ifft</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Inverse fast fourier transform for 1d signals</p>
+
                         </td>
                     </tr>
                 
@@ -831,7 +972,8 @@
                         <td><a class='fn' href='fn.ifft2.html'
                                title='arrayfire::ifft2'>ifft2</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Inverse fast fourier transform for 1d signals</p>
+
                         </td>
                     </tr>
                 
@@ -839,7 +981,8 @@
                         <td><a class='fn' href='fn.ifft3.html'
                                title='arrayfire::ifft3'>ifft3</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Inverse fast fourier transform for 1d signals</p>
+
                         </td>
                     </tr>
                 
@@ -847,7 +990,8 @@
                         <td><a class='fn' href='fn.iir.html'
                                title='arrayfire::iir'>iir</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Infinite impulse response filter</p>
+
                         </td>
                     </tr>
                 
@@ -863,7 +1007,8 @@
                         <td><a class='fn' href='fn.imax.html'
                                title='arrayfire::imax'>imax</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -871,7 +1016,8 @@
                         <td><a class='fn' href='fn.imax_all.html'
                                title='arrayfire::imax_all'>imax_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -879,7 +1025,8 @@
                         <td><a class='fn' href='fn.imin.html'
                                title='arrayfire::imin'>imin</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -887,7 +1034,26 @@
                         <td><a class='fn' href='fn.imin_all.html'
                                title='arrayfire::imin_all'>imin_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.index.html'
+                               title='arrayfire::index'>index</a></td>
+                        <td class='docblock short'>
+                             <p>Indexes the <code>input</code> Array using <code>seqs</code> Sequences</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.index_gen.html'
+                               title='arrayfire::index_gen'>index_gen</a></td>
+                        <td class='docblock short'>
+                             <p>Index an Array using any combination of Array&#39;s and Sequence&#39;s</p>
+
                         </td>
                     </tr>
                 
@@ -895,7 +1061,17 @@
                         <td><a class='fn' href='fn.info.html'
                                title='arrayfire::info'>info</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Print library meta-info</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.inverse.html'
+                               title='arrayfire::inverse'>inverse</a></td>
+                        <td class='docblock short'>
+                             <p>Compute inverse of a matrix</p>
+
                         </td>
                     </tr>
                 
@@ -903,7 +1079,8 @@
                         <td><a class='fn' href='fn.iota.html'
                                title='arrayfire::iota'>iota</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create a range of values</p>
+
                         </td>
                     </tr>
                 
@@ -935,7 +1112,8 @@
                         <td><a class='fn' href='fn.join.html'
                                title='arrayfire::join'>join</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Join two arrays</p>
+
                         </td>
                     </tr>
                 
@@ -943,7 +1121,8 @@
                         <td><a class='fn' href='fn.join_many.html'
                                title='arrayfire::join_many'>join_many</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Join multiple arrays</p>
+
                         </td>
                     </tr>
                 
@@ -967,7 +1146,8 @@
                         <td><a class='fn' href='fn.load_image.html'
                                title='arrayfire::load_image'>load_image</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Load Image into Array</p>
+
                         </td>
                     </tr>
                 
@@ -975,7 +1155,8 @@
                         <td><a class='fn' href='fn.locate.html'
                                title='arrayfire::locate'>locate</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Locate the indices of non-zero elements.</p>
+
                         </td>
                     </tr>
                 
@@ -1012,10 +1193,20 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.lookup.html'
+                               title='arrayfire::lookup'>lookup</a></td>
+                        <td class='docblock short'>
+                             <p>Lookup(hash) an Array using another Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.lower.html'
                                title='arrayfire::lower'>lower</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create lower triangular matrix</p>
+
                         </td>
                     </tr>
                 
@@ -1028,10 +1219,29 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.lu.html'
+                               title='arrayfire::lu'>lu</a></td>
+                        <td class='docblock short'>
+                             <p>Perform LU decomposition</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.lu_inplace.html'
+                               title='arrayfire::lu_inplace'>lu_inplace</a></td>
+                        <td class='docblock short'>
+                             <p>Perform inplace LU decomposition</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.match_template.html'
                                title='arrayfire::match_template'>match_template</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Image matching</p>
+
                         </td>
                     </tr>
                 
@@ -1039,7 +1249,8 @@
                         <td><a class='fn' href='fn.matmul.html'
                                title='arrayfire::matmul'>matmul</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Matrix multiple of two Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -1047,7 +1258,8 @@
                         <td><a class='fn' href='fn.max.html'
                                title='arrayfire::max'>max</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -1055,7 +1267,8 @@
                         <td><a class='fn' href='fn.max_all.html'
                                title='arrayfire::max_all'>max_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -1079,7 +1292,8 @@
                         <td><a class='fn' href='fn.mean.html'
                                title='arrayfire::mean'>mean</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute a statistic along given dimension for an Array</p>
+
                         </td>
                     </tr>
                 
@@ -1087,7 +1301,8 @@
                         <td><a class='fn' href='fn.mean_all.html'
                                title='arrayfire::mean_all'>mean_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute statistic for all elements of Array</p>
+
                         </td>
                     </tr>
                 
@@ -1095,7 +1310,8 @@
                         <td><a class='fn' href='fn.mean_all_weighted.html'
                                title='arrayfire::mean_all_weighted'>mean_all_weighted</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute weighted statistic for all elements of Array</p>
+
                         </td>
                     </tr>
                 
@@ -1103,7 +1319,8 @@
                         <td><a class='fn' href='fn.mean_shift.html'
                                title='arrayfire::mean_shift'>mean_shift</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Meanshift Filter.</p>
+
                         </td>
                     </tr>
                 
@@ -1111,7 +1328,8 @@
                         <td><a class='fn' href='fn.mean_weighted.html'
                                title='arrayfire::mean_weighted'>mean_weighted</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute a weighted statistic along given dimension for an Array</p>
+
                         </td>
                     </tr>
                 
@@ -1127,7 +1345,8 @@
                         <td><a class='fn' href='fn.median.html'
                                title='arrayfire::median'>median</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute a statistic along given dimension for an Array</p>
+
                         </td>
                     </tr>
                 
@@ -1135,7 +1354,8 @@
                         <td><a class='fn' href='fn.median_all.html'
                                title='arrayfire::median_all'>median_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute statistic for all elements of Array</p>
+
                         </td>
                     </tr>
                 
@@ -1143,7 +1363,8 @@
                         <td><a class='fn' href='fn.min.html'
                                title='arrayfire::min'>min</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -1151,7 +1372,8 @@
                         <td><a class='fn' href='fn.min_all.html'
                                title='arrayfire::min_all'>min_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -1175,7 +1397,8 @@
                         <td><a class='fn' href='fn.moddims.html'
                                title='arrayfire::moddims'>moddims</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Change the shape of the Array</p>
+
                         </td>
                     </tr>
                 
@@ -1204,6 +1427,15 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.norm.html'
+                               title='arrayfire::norm'>norm</a></td>
+                        <td class='docblock short'>
+                             <p>Find the norm of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.or.html'
                                title='arrayfire::or'>or</a></td>
                         <td class='docblock short'>
@@ -1215,7 +1447,8 @@
                         <td><a class='fn' href='fn.orb.html'
                                title='arrayfire::orb'>orb</a></td>
                         <td class='docblock short'>
-                             
+                             <p>ORB feature descriptor</p>
+
                         </td>
                     </tr>
                 
@@ -1239,7 +1472,8 @@
                         <td><a class='fn' href='fn.print.html'
                                title='arrayfire::print'>print</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Print data in the Array</p>
+
                         </td>
                     </tr>
                 
@@ -1247,7 +1481,8 @@
                         <td><a class='fn' href='fn.product.html'
                                title='arrayfire::product'>product</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -1255,7 +1490,26 @@
                         <td><a class='fn' href='fn.product_all.html'
                                title='arrayfire::product_all'>product_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.qr.html'
+                               title='arrayfire::qr'>qr</a></td>
+                        <td class='docblock short'>
+                             <p>Perform QR decomposition</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.qr_inplace.html'
+                               title='arrayfire::qr_inplace'>qr_inplace</a></td>
+                        <td class='docblock short'>
+                             <p>Perform inplace QR decomposition</p>
+
                         </td>
                     </tr>
                 
@@ -1279,7 +1533,17 @@
                         <td><a class='fn' href='fn.range.html'
                                title='arrayfire::range'>range</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create a Range of values</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.rank.html'
+                               title='arrayfire::rank'>rank</a></td>
+                        <td class='docblock short'>
+                             <p>Find rank of a matrix</p>
+
                         </td>
                     </tr>
                 
@@ -1295,7 +1559,8 @@
                         <td><a class='fn' href='fn.regions.html'
                                title='arrayfire::regions'>regions</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Find blobs in given image.</p>
+
                         </td>
                     </tr>
                 
@@ -1319,7 +1584,8 @@
                         <td><a class='fn' href='fn.resize.html'
                                title='arrayfire::resize'>resize</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Resize an Image</p>
+
                         </td>
                     </tr>
                 
@@ -1327,7 +1593,8 @@
                         <td><a class='fn' href='fn.rgb2gray.html'
                                title='arrayfire::rgb2gray'>rgb2gray</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Color space conversion functions</p>
+
                         </td>
                     </tr>
                 
@@ -1335,7 +1602,8 @@
                         <td><a class='fn' href='fn.rgb2hsv.html'
                                title='arrayfire::rgb2hsv'>rgb2hsv</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Color space conversion functions</p>
+
                         </td>
                     </tr>
                 
@@ -1351,7 +1619,8 @@
                         <td><a class='fn' href='fn.rotate.html'
                                title='arrayfire::rotate'>rotate</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Rotate an Image</p>
+
                         </td>
                     </tr>
                 
@@ -1364,10 +1633,29 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.row.html'
+                               title='arrayfire::row'>row</a></td>
+                        <td class='docblock short'>
+                             <p>Extract <code>row_num</code> row from <code>input</code> Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.rows.html'
+                               title='arrayfire::rows'>rows</a></td>
+                        <td class='docblock short'>
+                             <p>Get all rows from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.save_image.html'
                                title='arrayfire::save_image'>save_image</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Save an Array to an image file</p>
+
                         </td>
                     </tr>
                 
@@ -1380,10 +1668,29 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_col.html'
+                               title='arrayfire::set_col'>set_col</a></td>
+                        <td class='docblock short'>
+                             <p>Set col <code>col_num</code> in <code>input</code> Array to a new Array <code>new_col</code></p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_cols.html'
+                               title='arrayfire::set_cols'>set_cols</a></td>
+                        <td class='docblock short'>
+                             <p>Set cols from <code>first</code> to <code>last</code> in <code>input</code> Array with cols from Array <code>new_cols</code></p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.set_device.html'
                                title='arrayfire::set_device'>set_device</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Set active device</p>
+
                         </td>
                     </tr>
                 
@@ -1391,7 +1698,26 @@
                         <td><a class='fn' href='fn.set_intersect.html'
                                title='arrayfire::set_intersect'>set_intersect</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Find intersection of two sets</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_row.html'
+                               title='arrayfire::set_row'>set_row</a></td>
+                        <td class='docblock short'>
+                             <p>Set row <code>row_num</code> in <code>input</code> Array to a new Array <code>new_row</code></p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_rows.html'
+                               title='arrayfire::set_rows'>set_rows</a></td>
+                        <td class='docblock short'>
+                             <p>Set rows from <code>first</code> to <code>last</code> in <code>input</code> Array with rows from Array <code>new_rows</code></p>
+
                         </td>
                     </tr>
                 
@@ -1399,7 +1725,26 @@
                         <td><a class='fn' href='fn.set_seed.html'
                                title='arrayfire::set_seed'>set_seed</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Set seed for random number generation</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_slice.html'
+                               title='arrayfire::set_slice'>set_slice</a></td>
+                        <td class='docblock short'>
+                             <p>Set slice <code>slice_num</code> in <code>input</code> Array to a new Array <code>new_slice</code></p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.set_slices.html'
+                               title='arrayfire::set_slices'>set_slices</a></td>
+                        <td class='docblock short'>
+                             <p>Set <code>first</code> to <code>last</code> slices of <code>input</code> Array to a new Array <code>new_slices</code></p>
+
                         </td>
                     </tr>
                 
@@ -1407,7 +1752,8 @@
                         <td><a class='fn' href='fn.set_union.html'
                                title='arrayfire::set_union'>set_union</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Find union of two sets</p>
+
                         </td>
                     </tr>
                 
@@ -1415,7 +1761,8 @@
                         <td><a class='fn' href='fn.set_unique.html'
                                title='arrayfire::set_unique'>set_unique</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Find unique values from a Set</p>
+
                         </td>
                     </tr>
                 
@@ -1471,7 +1818,26 @@
                         <td><a class='fn' href='fn.skew.html'
                                title='arrayfire::skew'>skew</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Skew an image</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.slice.html'
+                               title='arrayfire::slice'>slice</a></td>
+                        <td class='docblock short'>
+                             <p>Get slice <code>slice_num</code> from <code>input</code> Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.slices.html'
+                               title='arrayfire::slices'>slices</a></td>
+                        <td class='docblock short'>
+                             <p>Get slices from <code>first</code> to <code>last</code> in <code>input</code> Array</p>
+
                         </td>
                     </tr>
                 
@@ -1479,7 +1845,26 @@
                         <td><a class='fn' href='fn.sobel.html'
                                title='arrayfire::sobel'>sobel</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Sobel Operator</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.solve.html'
+                               title='arrayfire::solve'>solve</a></td>
+                        <td class='docblock short'>
+                             <p>Solve a system of equations</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.solve_lu.html'
+                               title='arrayfire::solve_lu'>solve_lu</a></td>
+                        <td class='docblock short'>
+                             <p>Solve a system of equations</p>
+
                         </td>
                     </tr>
                 
@@ -1487,7 +1872,8 @@
                         <td><a class='fn' href='fn.sort.html'
                                title='arrayfire::sort'>sort</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Sort the values in input Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -1495,7 +1881,8 @@
                         <td><a class='fn' href='fn.sort_by_key.html'
                                title='arrayfire::sort_by_key'>sort_by_key</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Sort the values in input Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -1503,7 +1890,8 @@
                         <td><a class='fn' href='fn.sort_index.html'
                                title='arrayfire::sort_index'>sort_index</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Sort the values in input Arrays</p>
+
                         </td>
                     </tr>
                 
@@ -1519,7 +1907,8 @@
                         <td><a class='fn' href='fn.stdev.html'
                                title='arrayfire::stdev'>stdev</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute a statistic along given dimension for an Array</p>
+
                         </td>
                     </tr>
                 
@@ -1527,7 +1916,8 @@
                         <td><a class='fn' href='fn.stdev_all.html'
                                title='arrayfire::stdev_all'>stdev_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute statistic for all elements of Array</p>
+
                         </td>
                     </tr>
                 
@@ -1543,7 +1933,8 @@
                         <td><a class='fn' href='fn.sum.html'
                                title='arrayfire::sum'>sum</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation along specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -1551,7 +1942,8 @@
                         <td><a class='fn' href='fn.sum_all.html'
                                title='arrayfire::sum_all'>sum_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Reduction operation of all values</p>
+
                         </td>
                     </tr>
                 
@@ -1591,7 +1983,8 @@
                         <td><a class='fn' href='fn.transform.html'
                                title='arrayfire::transform'>transform</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Transform(Affine) an Image</p>
+
                         </td>
                     </tr>
                 
@@ -1607,7 +2000,8 @@
                         <td><a class='fn' href='fn.transpose.html'
                                title='arrayfire::transpose'>transpose</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Transpose of a matrix.</p>
+
                         </td>
                     </tr>
                 
@@ -1615,7 +2009,8 @@
                         <td><a class='fn' href='fn.transpose_inplace.html'
                                title='arrayfire::transpose_inplace'>transpose_inplace</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Inplace transpose of a matrix.</p>
+
                         </td>
                     </tr>
                 
@@ -1631,7 +2026,8 @@
                         <td><a class='fn' href='fn.upper.html'
                                title='arrayfire::upper'>upper</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Create upper triangular matrix</p>
+
                         </td>
                     </tr>
                 
@@ -1639,7 +2035,8 @@
                         <td><a class='fn' href='fn.var.html'
                                title='arrayfire::var'>var</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute Variance along a specific dimension</p>
+
                         </td>
                     </tr>
                 
@@ -1647,7 +2044,8 @@
                         <td><a class='fn' href='fn.var_all.html'
                                title='arrayfire::var_all'>var_all</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute Variance of all elements</p>
+
                         </td>
                     </tr>
                 
@@ -1655,7 +2053,8 @@
                         <td><a class='fn' href='fn.var_all_weighted.html'
                                title='arrayfire::var_all_weighted'>var_all_weighted</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute weighted statistic for all elements of Array</p>
+
                         </td>
                     </tr>
                 
@@ -1663,7 +2062,8 @@
                         <td><a class='fn' href='fn.var_weighted.html'
                                title='arrayfire::var_weighted'>var_weighted</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Compute a weighted statistic along given dimension for an Array</p>
+
                         </td>
                     </tr>
                 </table></section>

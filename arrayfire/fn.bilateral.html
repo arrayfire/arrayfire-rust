@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'bilateral', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,29 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19181' class='srclink' href='../src/arrayfire/image/mod.rs.html#239-251' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn bilateral(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, spatial_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, chromatic_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, iscolor: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-20789' class='srclink' href='../src/arrayfire/image/mod.rs.html#414-426' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn bilateral(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, spatial_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, chromatic_sigma: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, iscolor: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Bilateral Filter.</p>
+
+<p>A bilateral filter is a edge-preserving filter that reduces noise in an image. The intensity of
+each pixel is replaced by a weighted average of the intensities of nearby pixels. The weights
+follow a Gaussian distribution and depend on the distance as well as the color distance.</p>
+
+<p>The bilateral filter requires the size of the filter (in pixels) and the upper bound on color
+values, N, where pixel values range from 0–N inclusively.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> array is the input image</li>
+<li><code>spatial_sigma</code> is the spatial variance parameter that decides the filter window</li>
+<li><code>chromatic_sigma</code> is the chromatic variance parameter</li>
+<li><code>iscolor</code> indicates if the input is color image or grayscale</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Filtered Image - Array</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

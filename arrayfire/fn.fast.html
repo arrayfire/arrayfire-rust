@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'fast', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,38 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-23556' class='srclink' href='../src/arrayfire/vision/mod.rs.html#123-135' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn fast(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, thr: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, arc_len: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, non_max: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, feat_ratio: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, edge: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-26078' class='srclink' href='../src/arrayfire/vision/mod.rs.html#163-175' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn fast(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, thr: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, arc_len: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, non_max: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, feat_ratio: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, edge: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Fast feature detector</p>
+
+<p>A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential
+segments of pixels much brighter or much darker than the central one. For a pixel p to be
+considered a feature, there must exist a sequential segment of arc_length pixels in the circle
+around it such that all are greather than (p + thr) or smaller than (p - thr). After all
+features in the image are detected, if nonmax is true, the non-maximal suppression is applied,
+checking all detected features and the features detected in its 8-neighborhood and discard it
+if its score is non maximal.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> - the input image Array</li>
+<li><code>thr</code> - FAST threshold for which pixel of the circle around the center pixel is considered to
+be greater or smaller</li>
+<li><code>arc_len</code> - length of arc (or sequential segment) to be tested, must be within range [9-16]</li>
+<li><code>non_max</code> - performs non-maximal supression if true</li>
+<li><code>feat_ratio</code> - maximum ratio of features to detect, the maximum number of features is
+calculated by <code>feature_ratio * num of elements</code>. The maximum number of features is not based on
+the score, instead, features detected after the limit is reached are discarded.</li>
+<li><code>edge</code> - is the length of the edges in the image to be discarded by FAST(minimum is 3, as the
+radius of the circle)</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>This function returns an object of struct <a href="./struct.Features.html">Features</a> containing Arrays
+for x and y coordinates and score, while array oreientation is set to 0 as FAST does not
+compute orientation. Size is set to 1 as FAST does not compute multiple scales.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

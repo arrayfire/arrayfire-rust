@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["get_version",""],["info",""],["set_device",""]]});
+initSidebarItems({"fn":[["get_version","Get ArrayFire Version Number"],["info","Print library meta-info"],["set_device","Set active device"]]});

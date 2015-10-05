@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +25,7 @@
     
 
     <section class="sidebar">
-        
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'sort_by_key', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
@@ -45,8 +45,28 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3216' class='srclink' href='../src/arrayfire/algorithm/mod.rs.html#226-239' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sort_by_key(keys: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, vals: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dim: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, ascending: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-3217' class='srclink' href='../src/arrayfire/algorithm/mod.rs.html#328-341' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn sort_by_key(keys: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, vals: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dim: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, ascending: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Sort the values in input Arrays</p>
+
+<p>Sort an multidimensional Array based on keys</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>keys</code> - Array with key values</li>
+<li><code>vals</code> - Array with input values</li>
+<li><code>dim</code> - Dimension along which to sort</li>
+<li><code>ascending</code> - Sorted output will have ascending values if <code>True</code> and descending order otherwise.</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>A tuple of Arrays.</p>
+
+<p>The first Array contains the keys based on sorted values.</p>
+
+<p>The second Array contains the sorted values.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
