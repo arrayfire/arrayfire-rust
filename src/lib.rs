@@ -7,8 +7,8 @@ pub use array::{print};
 mod array;
 
 //pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
-pub use algorithm::{sum, product, min, max, all_true, any_true, count};
-pub use algorithm::{sum_all, product_all, min_all, max_all};
+pub use algorithm::{sum, product, min, max, all_true, any_true, count, sum_nan, product_nan};
+pub use algorithm::{sum_all, product_all, min_all, max_all, sum_nan_all, product_nan_all};
 pub use algorithm::{all_true_all, any_true_all, count_all, imin, imax, imin_all, imax_all};
 pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
 pub use algorithm::{set_unique, set_union, set_intersect};
@@ -16,7 +16,7 @@ mod algorithm;
 
 pub use arith::{add, sub, div, mul, lt, gt, le, ge, eq, neq, and, or, minof, maxof, rem};
 pub use arith::{bitand, bitor, bitxor, shiftl, shiftr};
-pub use arith::{abs, sign, round, trunc, floor, ceil, modulo};
+pub use arith::{abs, sign, round, trunc, floor, ceil, modulo, sigmoid};
 pub use arith::{sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh};
 pub use arith::{atan2, cplx2, arg, cplx, real, imag, conjg, hypot};
 pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root, pow};
@@ -33,10 +33,10 @@ pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
 mod data;
 
-pub use device::{get_version, info, set_device};
+pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync};
 mod device;
 
-pub use defines::{Aftype, AfError, ColorMap};
+pub use defines::{Aftype, AfError, ColorMap, YCCStd};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;
@@ -61,6 +61,7 @@ pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
 pub use image::{gradient, histogram, hist_equal, regions};
 pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
 pub use image::{bilateral, mean_shift, medfilt, sobel};
+pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb};
 mod image;
 
 pub use lapack::{lu, lu_inplace, qr, qr_inplace, cholesky, cholesky_inplace, solve, solve_lu, inverse, det, rank, norm};

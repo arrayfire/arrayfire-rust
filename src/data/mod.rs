@@ -176,6 +176,18 @@ cnst!(u8  , 7);
 
 /// Create an Array with constant value
 ///
+/// The trait ConstGenerator has been defined internally for the following types:
+///
+/// - i64
+/// - u64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - f32
+/// - f64
+/// - i32
+/// - u32
+/// - u8
+///
 /// # Parameters
 ///
 /// - `cnst` is the constant value to be filled in the Array

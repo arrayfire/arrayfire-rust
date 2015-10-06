@@ -77,6 +77,7 @@ extern {
     fn af_atanh(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_pow2(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_exp(out: MutAfArray, arr: AfArray) -> c_int;
+    fn af_sigmoid(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_expm1(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_erf(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_erfc(out: MutAfArray, arr: AfArray) -> c_int;
@@ -150,6 +151,7 @@ unary_func!(acosh, af_acosh);
 unary_func!(atanh, af_atanh);
 unary_func!(pow2, af_pow2);
 unary_func!(exp, af_exp);
+unary_func!(sigmoid, af_sigmoid);
 unary_func!(expm1, af_expm1);
 unary_func!(erf, af_erf);
 unary_func!(erfc, af_erfc);
@@ -237,7 +239,7 @@ macro_rules! overloaded_binary_func {
             }
         }
 
-        pub fn $fn_name<T: Convertable, U: Convertable> (arg1: &T, arg2: &U, batch: bool) -> Result<Array, AfError> {
+        pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Result<Array, AfError> where T: Convertable, U: Convertable {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
             match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
