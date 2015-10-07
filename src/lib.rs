@@ -65,7 +65,8 @@ pub use image::{bilateral, mean_shift, medfilt, sobel};
 pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb};
 mod image;
 
-pub use lapack::{lu, lu_inplace, qr, qr_inplace, cholesky, cholesky_inplace, solve, solve_lu, inverse, det, rank, norm};
+pub use lapack::{svd, lu, qr, cholesky, solve, solve_lu, inverse, det, rank, norm};
+pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace};
 mod lapack;
 
 pub use signal::{approx1, approx2};
