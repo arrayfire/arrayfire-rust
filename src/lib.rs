@@ -88,5 +88,5 @@ mod statistics;
 mod util;
 
 pub use vision::Features;
-pub use vision::{fast, orb, hamming_matcher, match_template};
+pub use vision::{fast, harris, orb, hamming_matcher, nearest_neighbour, match_template, susan, dog};
 mod vision;
