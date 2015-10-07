@@ -36,6 +36,24 @@ extern {
     fn af_ifft3(out: MutAfArray, arr: AfArray, nfac: c_double,
                 odim0: c_longlong, odim1: c_longlong, odim2: c_longlong) -> c_int;
 
+    fn af_fft_inplace(arr: AfArray, nfac: c_double) -> c_int;
+    fn af_fft2_inplace(arr: AfArray, nfac: c_double) -> c_int;
+    fn af_fft3_inplace(arr: AfArray, nfac: c_double) -> c_int;
+    fn af_ifft_inplace(arr: AfArray, nfac: c_double) -> c_int;
+    fn af_ifft2_inplace(arr: AfArray, nfac: c_double) -> c_int;
+    fn af_ifft3_inplace(arr: AfArray, nfac: c_double) -> c_int;
+
+    fn af_fft_r2c(out: MutAfArray, arr: AfArray,
+                  nfac: c_double, pad0: c_longlong) -> c_int;
+    fn af_fft2_r2c(out: MutAfArray, arr: AfArray,
+                   nfac: c_double, pad0: c_longlong, pad1: c_longlong) -> c_int;
+    fn af_fft3_r2c(out: MutAfArray, arr: AfArray,
+                   nfac: c_double, pad0: c_longlong, pad1: c_longlong, pad2: c_longlong) -> c_int;
+
+    fn af_fft_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
+    fn af_fft2_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
+    fn af_fft3_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
+
     fn af_convolve1(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
     fn af_convolve2(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
     fn af_convolve3(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
@@ -420,6 +438,244 @@ pub fn iir(b: &Array, a: &Array, x: &Array) -> Result<Array, AfError> {
         let mut temp: i64 = 0;
         let err_val = af_iir(&mut temp as MutAfArray,
                              b.get() as AfArray, a.get() as AfArray, x.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 1d dimensional Fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn fft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_fft_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 2d dimensional Fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn fft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_fft2_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 3d dimensional Fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn fft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_fft3_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 1d dimensional inverse fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn ifft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_ifft_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 2d dimensional inverse fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn ifft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_ifft2_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// In place 3d dimensional inverse fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor
+pub fn ifft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_ifft3_inplace(input.get() as AfArray, norm_factor as c_double);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 1d Real to Complex fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `pad0` is the padding along 0th dimension of Array
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft_r2c(input: &Array, norm_factor: f64, pad0: i64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft_r2c(&mut temp as MutAfArray, input.get() as AfArray,
+                                 norm_factor as c_double, pad0 as c_longlong);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 2d Real to Complex fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `pad0` is the padding along 0th dimension of Array
+/// - `pad1` is the padding along 1st dimension of Array
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft2_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft2_r2c(&mut temp as MutAfArray, input.get() as AfArray,
+                                  norm_factor as c_double, pad0 as c_longlong, pad1 as c_longlong);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 3d Real to Complex fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `pad0` is the padding along 0th dimension of Array
+/// - `pad1` is the padding along 1st dimension of Array
+/// - `pad2` is the padding along 2nd dimension of Array
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft3_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64, pad2: i64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft3_r2c(&mut temp as MutAfArray, input.get() as AfArray,
+                                  norm_factor as c_double, pad0 as c_longlong,
+                                  pad1 as c_longlong, pad2 as c_longlong);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 1d Complex to Real fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `is_odd` signifies if the output should be even or odd size
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft_c2r(&mut temp as MutAfArray, input.get() as AfArray,
+                                 norm_factor as c_double, is_odd as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 2d Complex to Real fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `is_odd` signifies if the output should be even or odd size
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft2_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft2_c2r(&mut temp as MutAfArray, input.get() as AfArray,
+                                  norm_factor as c_double, is_odd as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// 3d Complex to Real fast fourier transform
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `norm_factor` is the normalization factor to be applied before fft is applied
+/// - `is_odd` signifies if the output should be even or odd size
+///
+/// # Return Values
+///
+/// Complex Array
+pub fn fft3_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_fft3_c2r(&mut temp as MutAfArray, input.get() as AfArray,
+                                  norm_factor as c_double, is_odd as c_int);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),

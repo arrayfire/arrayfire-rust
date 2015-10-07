@@ -71,6 +71,9 @@ mod lapack;
 
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
+pub use signal::{fft_r2c, fft2_r2c, fft3_r2c, fft_c2r, fft2_c2r, fft3_c2r};
+pub use signal::{fft_inplace, fft2_inplace, fft3_inplace};
+pub use signal::{ifft_inplace, ifft2_inplace, ifft3_inplace};
 pub use signal::{convolve1, convolve2, convolve3, convolve2_sep};
 pub use signal::{fft_convolve1, fft_convolve2, fft_convolve3};
 pub use signal::{fir, iir};
