@@ -31,6 +31,7 @@ pub use data::{set_seed, get_seed, randu, randn};
 pub use data::{identity, diag_create, diag_extract, lower, upper};
 pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
+pub use data::{select, selectl, selectr, replace, replace_scalar};
 mod data;
 
 pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync};

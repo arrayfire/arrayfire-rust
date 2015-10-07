@@ -59,6 +59,13 @@ extern {
     fn af_flip(out: MutAfArray, arr: AfArray, dim: c_uint) -> c_int;
     fn af_lower(out: MutAfArray, arr: AfArray, is_unit_diag: c_int) -> c_int;
     fn af_upper(out: MutAfArray, arr: AfArray, is_unit_diag: c_int) -> c_int;
+
+    fn af_select(out: MutAfArray, cond: AfArray, a: AfArray, b: AfArray) -> c_int;
+    fn af_select_scalar_l(out: MutAfArray, cond: AfArray, a: c_double, b: AfArray) -> c_int;
+    fn af_select_scalar_r(out: MutAfArray, cond: AfArray, a: AfArray, b: c_double) -> c_int;
+
+    fn af_replace(a: AfArray, cond: AfArray, b: AfArray) -> c_int;
+    fn af_replace_scalar(a: AfArray, cond: AfArray, b: c_double) -> c_int;
 }
 
 pub trait ConstGenerator {
@@ -551,6 +558,165 @@ pub fn upper(input: &Array, is_unit_diag: bool) -> Result<Array, AfError> {
                                input.get() as AfArray, is_unit_diag as c_int);
         match err_val {
             0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Element wise conditional operator for Arrays
+///
+/// This function does the C-equivalent of the following statement, except that the operation
+/// happens on a GPU for all elements simultaneously.
+///
+/// ```
+/// c = cond ? a : b; /// where cond, a & b are all objects of type Array
+/// ```
+///
+/// # Parameters
+///
+/// - `a` is the Array whose element will be assigned to output if corresponding element in `cond` Array is
+/// `True`
+/// - `cond` is the Array with conditional values
+/// - `b` is the Array whose element will be assigned to output if corresponding element in `cond` Array is
+/// `False`
+///
+/// # Return Values
+///
+/// An Array
+#[allow(unused_mut)]
+pub fn select(a: &Array, cond: &Array, b: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_select(&mut temp as MutAfArray, cond.get() as AfArray,
+        a.get() as AfArray, b.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Element wise conditional operator for Arrays
+///
+/// This function does the C-equivalent of the following statement, except that the operation
+/// happens on a GPU for all elements simultaneously.
+///
+/// ```
+/// c = cond ? a : b; /// where  a is a scalar(f64) and b is Array
+/// ```
+///
+/// # Parameters
+///
+/// - `a` is the scalar that is assigned to output if corresponding element in `cond` Array is
+/// `True`
+/// - `cond` is the Array with conditional values
+/// - `b` is the Array whose element will be assigned to output if corresponding element in `cond` Array is
+/// `False`
+///
+/// # Return Values
+///
+/// An Array
+#[allow(unused_mut)]
+pub fn selectl(a: f64, cond: &Array, b: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_select_scalar_l(&mut temp as MutAfArray, cond.get() as AfArray,
+        a as c_double, b.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Element wise conditional operator for Arrays
+///
+/// This function does the C-equivalent of the following statement, except that the operation
+/// happens on a GPU for all elements simultaneously.
+///
+/// ```
+/// c = cond ? a : b; /// where a is Array and b is a scalar(f64)
+/// ```
+///
+/// # Parameters
+///
+/// - `a` is the Array whose element will be assigned to output if corresponding element in `cond` Array is
+/// `True`
+/// - `cond` is the Array with conditional values
+/// - `b` is the scalar that is assigned to output if corresponding element in `cond` Array is
+/// `False`
+///
+/// # Return Values
+///
+/// An Array
+#[allow(unused_mut)]
+pub fn selectr(a: &Array, cond: &Array, b: f64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_select_scalar_r(&mut temp as MutAfArray, cond.get() as AfArray,
+        a.get() as AfArray, b as c_double);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Inplace replace in Array based on a condition
+///
+/// This function does the C-equivalent of the following statement, except that the operation
+/// happens on a GPU for all elements simultaneously.
+///
+/// ```
+/// a = cond ? a : b; /// where cond, a & b are all objects of type Array
+/// ```
+///
+/// # Parameters
+///
+/// - `a` is the Array whose element will be replaced with element from `b` if corresponding element in `cond` Array is `True`
+/// - `cond` is the Array with conditional values
+/// - `b` is the Array whose element will replace the element in output if corresponding element in `cond` Array is
+/// `False`
+///
+/// # Return Values
+///
+/// An Array
+#[allow(unused_mut)]
+pub fn replace(a: &mut Array, cond: &Array, b: &Array) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_replace(a.get() as AfArray, cond.get() as AfArray, b.get() as AfArray);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Inplace replace in Array based on a condition
+///
+/// This function does the C-equivalent of the following statement, except that the operation
+/// happens on a GPU for all elements simultaneously.
+///
+/// ```
+/// a = cond ? a : b; /// where cond, a are Arrays and b is scalar(f64)
+/// ```
+///
+/// # Parameters
+///
+/// - `a` is the Array whose element will be replaced with element from `b` if corresponding element in `cond` Array is `True`
+/// - `cond` is the Array with conditional values
+/// - `b` is the scalar that will replace the element in output if corresponding element in `cond` Array is
+/// `False`
+///
+/// # Return Values
+///
+/// An Array
+#[allow(unused_mut)]
+pub fn replace_scalar(a: &mut Array, cond: &Array, b: f64) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_replace_scalar(a.get() as AfArray, cond.get() as AfArray, b as c_double);
+        match err_val {
+            0 => Ok(()),
             _ => Err(AfError::from(err_val)),
         }
     }
