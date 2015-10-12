@@ -26,6 +26,8 @@ extern {
     fn af_fast(out: MutFeat, input: AfArray, thr: c_float, arc_len: c_uint, non_max: c_int,
                feature_ratio: c_float, edge: c_uint) -> c_int;
 
+    fn af_harris(out: MutFeat, input: AfArray, m: c_uint, r: c_float, s: c_float, bs: c_uint, k: c_float) -> c_int;
+
     fn af_orb(out: MutFeat, desc: MutAfArray, arr: AfArray, fast_thr: c_float, max_feat: c_uint,
               scl_fctr: c_float, levels: c_uint, blur_img: c_int) -> c_int;
 
@@ -33,8 +35,15 @@ extern {
                           query: AfArray, train: AfArray,
                           dist_dim: DimT, n_dist: c_uint) -> c_int;
 
+    fn af_nearest_neighbour(idx: MutAfArray, dist: MutAfArray, q: AfArray, t: AfArray,
+                            dist_dim: DimT, n_dist: c_uint, dist_type: c_int) -> c_int;
+
     fn af_match_template(out: MutAfArray, search_img: AfArray, template_img: AfArray,
                          mtype: uint8_t) -> c_int;
+
+    fn af_susan(feat: MutFeat, i: AfArray, r: c_uint, d: c_float, g: c_float, f: c_float, e: c_uint) -> c_int;
+
+    fn af_dog(out: MutAfArray, i: AfArray, r1: c_int, r2: c_int) -> c_int;
 }
 
 /// A set of Array objects (usually, used in Computer vision context)
@@ -174,6 +183,42 @@ pub fn fast(input: &Array, thr: f32, arc_len: u32,
     }
 }
 
+/// Harris corner detector.
+///
+/// Compute corners using the Harris corner detector approach. For each pixel, a small window is
+/// used to calculate the determinant and trace of such a window, from which a response is
+/// calculated. Pixels are considered corners if they are local maximas and have a high positive
+/// response.
+///
+/// # Parameters
+///
+/// - `input` is the array containing a grayscale image (color images are not supported)
+/// - `max_corners` is the maximum number of corners to keep, only retains those with highest Harris responses
+/// - `min_response` is the minimum response in order for a corner to be retained, only used if max_corners = 0
+/// - `sigma` is the standard deviation of a circular window (its dimensions will be calculated according to the standard deviation), the covariation matrix will be calculated to a circular neighborhood of this standard deviation (only used when block_size == 0, must be >= 0.5f and <= 5.0f)
+/// - `block_size` is square window size, the covariation matrix will be calculated to a square neighborhood of this size (must be >= 3 and <= 31)
+/// - `k_thr` is the Harris constant, usually set empirically to 0.04f (must be >= 0.01f)
+///
+/// # Return Values
+///
+/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays
+/// for x and y coordinates and score, while array oreientation & size are set to 0 & 1,
+/// respectively, since harris doesn't compute that information
+#[allow(unused_mut)]
+pub fn harris(input: &Array, max_corners: u32, min_response: f32, sigma: f32, block_size: u32, k_thr: f32) -> Result<Features, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_harris(&mut temp as *mut c_longlong as MutFeat,
+                                input.get() as AfArray, max_corners as c_uint,
+                                min_response as c_float, sigma as c_float, block_size as c_uint,
+                                k_thr as c_float);
+        match err_val {
+            0 => Ok(Features {feat: temp}),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
 /// ORB feature descriptor
 ///
 /// Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not
@@ -260,6 +305,53 @@ pub fn hamming_matcher(query: &Array, train: &Array,
     }
 }
 
+/// Nearest Neighbour.
+///
+/// Calculates nearest distances between two 2-dimensional arrays containing features based on the
+/// type of distance computation chosen. Currently, AF_SAD (sum of absolute differences), AF_SSD
+/// (sum of squared differences) and AF_SHD (hamming distance) are supported. One of the arrays
+/// containing the training data and the other the query data. One of the dimensions of the both
+/// arrays must be equal among them, identifying the length of each feature. The other dimension
+/// indicates the total number of features in each of the training and query arrays. Two
+/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query
+/// array and another containing the indices of these distances in the training array. The resulting
+/// 1-dimensional arrays have length equal to the number of features contained in the query array.
+///
+/// # Parameters
+///
+/// - `query` is the array containing the data to be queried
+/// - `train` is the array containing the data used as training data
+/// - `dist_dim` indicates the dimension to analyze for distance (the dimension indicated here must be of equal length for both query and train arrays)
+/// - `n_dist` is the number of smallest distances to return (currently, only 1 is supported)
+/// - `dist_type` is the distance computation type. Currently [`MatchType::SAD`](./enum.MatchType.html), [`MatchType::SSD`](./enum.MatchType.html), and [`MatchType::SHD`](./enum.MatchType.html) are supported.
+///
+/// # Return Values
+///
+/// A tuple of Arrays.
+///
+/// The first Array is is an array of MxN size, where M is equal to the number of query features
+/// and N is equal to `n_dist`. The value at position IxJ indicates the index of the Jth smallest
+/// distance to the Ith query value in the train data array. the index of the Ith smallest distance
+/// of the Mth query.
+///
+/// The second Array is is an array of MxN size, where M is equal to the number of query features
+/// and N is equal to `n_dist`. The value at position IxJ indicates the distance of the Jth smallest
+/// distance to the Ith query value in the train data array based on the `dist_type` chosen.
+#[allow(unused_mut)]
+pub fn nearest_neighbour(query: &Array, train: &Array, dist_dim: i64, n_dist: u32, dist_type: MatchType) -> Result<(Array, Array), AfError> {
+    unsafe {
+        let mut idx: i64 = 0;
+        let mut dist: i64 = 0;
+        let err_val = af_nearest_neighbour(&mut idx as MutAfArray, &mut dist as MutAfArray,
+                                           query.get() as AfArray, train.get() as AfArray,
+                                           dist_dim as DimT, n_dist as c_uint, dist_type as c_int);
+        match err_val {
+            0 => Ok((Array::from(idx), Array::from(dist))),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
 /// Image matching
 ///
 /// Template matching is an image processing technique to find small patches of an image which
@@ -282,6 +374,87 @@ pub fn match_template(search_img: &Array, template_img: &Array,
         let err_val = af_match_template(&mut temp as MutAfArray,
                           search_img.get() as AfArray, template_img.get() as AfArray,
                           mtype as uint8_t);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// SUSAN corner detector.
+///
+/// SUSAN is an acronym standing for Smallest Univalue Segment Assimilating Nucleus. This method
+/// places a circular disc over the pixel to be tested (a.k.a nucleus) to compute the corner
+/// measure of that corresponding pixel. The region covered by the circular disc is M, and a pixel
+/// in this region is represented by m⃗ ∈M where m⃗ 0 is the nucleus. Every pixel in the region is
+/// compared to the nucleus using the following comparison function:
+///
+/// c(m⃗ )=e^−((I(m⃗)−I(m⃗_0))/t)^6
+///
+/// where t is radius of the region, I is the brightness of the pixel.
+///
+/// Response of SUSAN operator is given by the following equation:
+///
+/// R(M) = g−n(M) if n(M) < g
+///
+/// R(M) = 0 otherwise,
+///
+/// where n(M)=∑c(m⃗) m⃗∈M, g is named the geometric threshold and n is the number of pixels in the
+/// mask which are within t of the nucleus.
+///
+/// Importance of the parameters, t and g is explained below:
+///
+/// - t determines how similar points have to be to the nucleusbefore they are considered to be a
+/// part of the univalue segment
+/// - g determines the minimum size of the univalue segment. For a large enough g, SUSAN operator
+/// becomes an edge dectector.
+///
+/// # Parameters
+///
+/// - `input` is input grayscale/intensity image
+/// - `radius` is the nucleus radius for each pixel neighborhood
+/// - `diff_thr` is intensity difference threshold a.k.a **t** from equations in description
+/// - `geom_thr` is the geometric threshold
+/// - `feature_ratio` is maximum number of features that will be returned by the function
+/// - `edge` indicates how many pixels width area should be skipped for corner detection
+///
+/// # Return Values
+/// An object of type [Features](./struct.Features.html) composed of arrays for x and y coordinates, score, orientation and size of selected features.
+#[allow(unused_mut)]
+pub fn susan(input: &Array, radius: u32, diff_thr: f32, geom_thr: f32, feature_ratio: f32, edge: u32) -> Result<Features, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_susan(&mut temp as *mut c_longlong as MutFeat,
+                               input.get() as AfArray, radius as c_uint,
+                               diff_thr as c_float, geom_thr as c_float, feature_ratio as c_float,
+                               edge as c_uint);
+        match err_val {
+            0 => Ok(Features {feat: temp}),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Difference of Gaussians.
+///
+/// Given an image, this function computes two different versions of smoothed input image using the
+/// difference smoothing parameters and subtracts one from the other and returns the result.
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `radius1` is the radius of the first gaussian kernel
+/// - `radius2` is the radius of the second gaussian kernel
+///
+/// # Return Values
+///
+/// Difference of smoothed inputs - An Array.
+#[allow(unused_mut)]
+pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_dog(&mut temp as MutAfArray, input.get() as AfArray,
+                             radius1 as c_int, radius2 as c_int);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),

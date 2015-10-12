@@ -254,3 +254,15 @@ pub enum ColorMap {
     /// Blue hue map
     BLUE    = 6,
 }
+
+/// YCbCr Standards
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub enum YCCStd {
+    /// ITU-R BT.601 (formerly CCIR 601) standard
+    YCC_601 = 601,
+    /// ITU-R BT.709 standard
+    YCC_709 = 709,
+    /// ITU-R BT.2020 standard
+    YCC_2020 = 2020,
+}

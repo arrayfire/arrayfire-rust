@@ -12,6 +12,8 @@ type AfArray    = self::libc::c_longlong;
 
 #[allow(dead_code)]
 extern {
+    fn af_svd(u: MutAfArray, s: MutAfArray, vt: MutAfArray, input: AfArray) -> c_int;
+    fn af_svd_inplace(u: MutAfArray, s: MutAfArray, vt: MutAfArray, input: AfArray) -> c_int;
     fn af_lu(lower: MutAfArray, upper: MutAfArray, pivot: MutAfArray, input: AfArray) -> c_int;
     fn af_lu_inplace(pivot: MutAfArray, input: AfArray, is_lapack_piv: c_int) -> c_int;
     fn af_qr(q: MutAfArray, r: MutAfArray, tau: MutAfArray, input: AfArray) -> c_int;
@@ -24,6 +26,83 @@ extern {
     fn af_rank(rank: *mut c_uint, input: AfArray, tol: c_double) -> c_int;
     fn af_det(det_real: MutDouble, det_imag: MutDouble, input: AfArray) -> c_int;
     fn af_norm(out: MutDouble, input: AfArray, ntype: uint8_t, p: c_double, q: c_double) -> c_int;
+}
+
+/// Perform Singular Value Decomposition
+///
+/// This function factorizes a matrix A into two unitary matrices U and Vt, and a diagonal matrix S
+/// such that
+///
+/// A = U∗S∗Vt
+///
+/// If A has M rows and N columns, U is of the size M x M , V is of size N x N, and S is of size M
+/// x N
+///
+/// # Parameters
+///
+/// - `in` is the input matrix
+///
+/// # Return Values
+///
+/// A triplet of Arrays.
+///
+/// The first Array is the output array containing U
+///
+/// The second Array is the output array containing the diagonal values of sigma, (singular values of the input matrix))
+///
+/// The third Array is the output array containing V ^ H
+#[allow(unused_mut)]
+pub fn svd(input: &Array) -> Result<(Array, Array, Array), AfError> {
+    unsafe {
+        let mut u: i64 = 0;
+        let mut s: i64 = 0;
+        let mut vt: i64 = 0;
+        let err_val = af_svd(&mut u as MutAfArray, &mut s as MutAfArray, &mut vt as MutAfArray,
+                             input.get() as AfArray);
+        match err_val {
+            0 => Ok((Array::from(u), Array::from(s), Array::from(vt))),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Perform Singular Value Decomposition inplace
+///
+/// This function factorizes a matrix A into two unitary matrices U and Vt, and a diagonal matrix S
+/// such that
+///
+/// A = U∗S∗Vt
+///
+/// If A has M rows and N columns, U is of the size M x M , V is of size N x N, and S is of size M
+/// x N
+///
+/// # Parameters
+///
+/// - `in` is the input/output matrix. This will contain random data after the function call is
+/// complete.
+///
+/// # Return Values
+///
+/// A triplet of Arrays.
+///
+/// The first Array is the output array containing U
+///
+/// The second Array is the output array containing the diagonal values of sigma, (singular values of the input matrix))
+///
+/// The third Array is the output array containing V ^ H
+#[allow(unused_mut)]
+pub fn svd_inplace(input: &mut Array) -> Result<(Array, Array, Array), AfError> {
+    unsafe {
+        let mut u: i64 = 0;
+        let mut s: i64 = 0;
+        let mut vt: i64 = 0;
+        let err_val = af_svd_inplace(&mut u as MutAfArray, &mut s as MutAfArray,
+                                     &mut vt as MutAfArray, input.get() as AfArray);
+        match err_val {
+            0 => Ok((Array::from(u), Array::from(s), Array::from(vt))),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
 }
 
 /// Perform LU decomposition
@@ -60,7 +139,7 @@ pub fn lu(input: &Array) -> Result<(Array, Array, Array), AfError> {
 ///
 /// # Parameters
 ///
-/// - `input` is the input matrix
+/// - `input` contains the input matrix on entry and packed LU decomposition on exit
 /// - `is_lapack_pic` specified if the pivot is returned in original LAPACK compliant format
 ///
 /// # Return Values
@@ -115,7 +194,7 @@ pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
 ///
 /// # Parameters
 ///
-/// - `input` is the input matrix
+/// - `input` contains the input matrix on entry, and packed QR decomposition on exit
 ///
 /// # Return Values
 ///
@@ -165,7 +244,7 @@ pub fn cholesky(input: &Array, is_upper: bool) -> Result<(Array, i32), AfError> 
 ///
 /// # Parameters
 ///
-/// - `input` is the input matrix
+/// - `input` contains the input matrix on entry, and triangular matrix on exit.
 /// - `is_upper` is a boolean to indicate if the output has to be upper or lower triangular matrix
 ///
 /// # Return Values

@@ -2,7 +2,7 @@ extern crate libc;
 
 use array::Array;
 use defines::AfError;
-use self::libc::{c_int, c_uint};
+use self::libc::{c_int, c_uint, c_double};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -12,18 +12,18 @@ type AfArray    = self::libc::c_longlong;
 #[allow(dead_code)]
 extern {
     fn af_sum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    //fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
+    fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
     fn af_product(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    //fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
+    fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
     fn af_min(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
     fn af_max(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
     fn af_all_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
     fn af_any_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
     fn af_count(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
     fn af_sum_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    //fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
+    fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
     fn af_product_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    //fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
+    fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
     fn af_min_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
     fn af_max_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
     fn af_all_true_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
@@ -85,23 +85,56 @@ dim_reduce_func_def!(accum, af_accum);
 dim_reduce_func_def!(diff1, af_diff1);
 dim_reduce_func_def!(diff2, af_diff2);
 
-//pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
-//    unsafe {
-//        let mut temp: i64 = 0;
-//        af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
-//                   dim as c_int, nanval as c_double);
-//        Array {handle: temp}
-//    }
-//}
+/// Reduction operation along specific dimension
+///
+/// Sum values of the `input` Array along `dim` dimension after replacing any `NAN` values in the
+/// Array with `nanval` value.
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `dim` is reduction dimension
+/// - `nanval` is value with which all the `NAN` values of Array are replaced with
+///
+/// # Return Values
+///
+/// Reduced Array
+pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
+                                 dim as c_int, nanval as c_double);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
-//pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
-//    unsafe {
-//        let mut temp: i64 = 0;
-//        af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
-//                       dim as c_int, nanval as c_double);
-//        Array {handle: temp}
-//    }
-//}
+/// Reduction operation along specific dimension
+///
+/// Compute product of the values of the `input` Array along `dim` dimension after replacing any `NAN` values in the Array with `nanval` value.
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `dim` is reduction dimension
+/// - `nanval` is value with which all the `NAN` values of Array are replaced with
+///
+/// # Return Values
+///
+/// Reduced Array
+pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
+                                     dim as c_int, nanval as c_double);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
 macro_rules! all_reduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
@@ -109,7 +142,7 @@ macro_rules! all_reduce_func_def {
         ///
         /// # Parameters
         ///
-        /// `input` - Input Array
+        /// - `input` is the input Array
         ///
         /// # Return Values
         ///
@@ -139,25 +172,59 @@ all_reduce_func_def!(all_true_all, af_all_true_all);
 all_reduce_func_def!(any_true_all, af_any_true_all);
 all_reduce_func_def!(count_all, af_count_all);
 
-//pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
-//    unsafe {
-//        let mut real: f64 = 0.0;
-//        let mut imag: f64 = 0.0;
-//        af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
-//                       input.get() as AfArray, val as c_double);
-//        (real, imag)
-//    }
-//}
+/// Reduction operation of all values
+///
+/// Sum all the values of the `input` Array after replacing any `NAN` values with `val`.
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is
+/// performed.
+///
+/// # Return Values
+///
+/// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
+/// zero.
+pub fn sum_nan_all(input: &Array, val: f64) -> Result<(f64, f64), AfError> {
+    unsafe {
+        let mut real: f64 = 0.0;
+        let mut imag: f64 = 0.0;
+        let err_val = af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
+                                     input.get() as AfArray, val as c_double);
+        match err_val {
+            0 => Ok((real, imag)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
-//pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
-//    unsafe {
-//        let mut real: f64 = 0.0;
-//        let mut imag: f64 = 0.0;
-//        af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
-//                           input.get() as AfArray, val as c_double);
-//        (real, imag)
-//    }
-//}
+/// Reduction operation of all values
+///
+/// Compute the product of all the values of the `input` Array after replacing any `NAN` values with `val`.
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is
+/// performed.
+///
+/// # Return Values
+///
+/// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
+/// zero.
+pub fn product_nan_all(input: &Array, val: f64) -> Result<(f64, f64), AfError> {
+    unsafe {
+        let mut real: f64 = 0.0;
+        let mut imag: f64 = 0.0;
+        let err_val = af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
+                                         input.get() as AfArray, val as c_double);
+        match err_val {
+            0 => Ok((real, imag)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
 macro_rules! dim_ireduce_func_def {
     ($fn_name: ident, $ffi_name: ident) => (

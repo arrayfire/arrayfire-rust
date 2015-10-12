@@ -62,6 +62,8 @@ extern {
     fn af_release_array(arr: AfArray) -> c_int;
 
     fn af_print_array(arr: AfArray) -> c_int;
+
+    fn af_cast(out: MutAfArray, arr: AfArray, aftype: uint8_t) -> c_int;
 }
 
 /// A multidimensional data container
@@ -218,6 +220,18 @@ impl Array {
     is_func!(is_floating, af_is_floating);
     is_func!(is_integer, af_is_integer);
     is_func!(is_bool, af_is_bool);
+
+    /// Cast the Array data type to `target_type`
+    pub fn cast(&self, target_type: Aftype) -> Result<Array, AfError> {
+        unsafe {
+            let mut temp: i64 = 0;
+            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, target_type as uint8_t);
+            match err_val {
+                0 => Ok(Array::from(temp)),
+                _ => Err(AfError::from(err_val)),
+            }
+        }
+    }
 }
 
 /// Used for creating Array object from native resource id

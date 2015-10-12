@@ -7,6 +7,7 @@ use defines::BorderType;
 use defines::ColorSpace;
 use defines::Connectivity;
 use defines::InterpType;
+use defines::YCCStd;
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -72,6 +73,21 @@ extern {
 
     fn af_color_space(out: MutAfArray, input: AfArray,
                       tospace: uint8_t, fromspace: uint8_t) -> c_int;
+
+    fn af_unwrap(out: MutAfArray, input: AfArray, wx: DimT, wy: DimT, sx: DimT, sy: DimT,
+                 px: DimT, py: DimT, is_column: c_int) -> c_int;
+
+    fn af_wrap(out: MutAfArray, input: AfArray,
+               ox: DimT, oy: DimT,
+               wx: DimT, wy: DimT,
+               sx: DimT, sy: DimT,
+               px: DimT, py: DimT,
+               is_column: c_int) -> c_int;
+
+    fn af_sat(out: MutAfArray, input: AfArray) -> c_int;
+
+    fn af_ycbcr2rgb(out: MutAfArray, input: AfArray, stnd: c_int) -> c_int;
+    fn af_rgb2ycbcr(out: MutAfArray, input: AfArray, stnd: c_int) -> c_int;
 }
 
 /// Calculate the gradients
@@ -267,30 +283,84 @@ pub fn rotate(input: &Array, theta: f64, crop: bool,
     }
 }
 
-macro_rules! trans_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, p0: f32, p1: f32,
-                        odim0: i64, odim1: i64,
-                        method: InterpType) -> Result<Array, AfError> {
-            unsafe {
-                let mut temp: i64 = 0;
-                let err_val = $ffi_name(&mut temp as MutAfArray,
-                                        input.get() as AfArray,
-                                        p0 as c_float, p1 as c_float,
-                                        odim0 as DimT, odim1 as DimT,
-                                        method as uint8_t);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
-            }
+/// Translate an Image
+///
+/// Translating an image is moving it along 1st and 2nd dimensions by trans0 and trans1. Positive
+/// values of these will move the data towards negative x and negative y whereas negative values of
+/// these will move the positive right and positive down. See the example below for more.
+///
+/// To specify an output dimension, use the odim0 and odim1 for dim0 and dim1 respectively. The
+/// size of 2rd and 3rd dimension is same as input. If odim0 and odim1 and not defined, then the
+/// output dimensions are same as the input dimensions and the data out of bounds will be
+/// discarded.
+///
+/// All new values that do not map to a location of the input array are set to 0.
+///
+/// Translate is a special case of the [transform](./fn.transform.html) function.
+///
+/// # Parameters
+///
+/// - `input` is input image
+/// - `trans0` is amount by which the first dimension is translated
+/// - `trans1` is amount by which the second dimension is translated
+/// - `odim0` is the first output dimension
+/// - `odim1` is the second output dimension
+/// - `method` is the interpolation type (Nearest by default)
+///
+/// # Return Values
+///
+/// Translated Image(Array).
+#[allow(unused_mut)]
+pub fn translate(input: &Array, trans0: f32, trans1: f32,
+                 odim0: i64, odim1: i64, method: InterpType) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_translate(&mut temp as MutAfArray,
+                                   input.get() as AfArray,
+                                   trans0 as c_float, trans1 as c_float,
+                                   odim0 as DimT, odim1 as DimT,
+                                   method as uint8_t);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
         }
-    )
+    }
 }
 
-trans_func_def!(translate, af_translate);
-trans_func_def!(scale, af_scale);
+/// Scale an Image
+///
+/// Scale is the same functionality as [resize](./fn.resize.html) except that the scale function uses the transform kernels. The other difference is that scale does not set boundary values to be the boundary of the input array. Instead these are set to 0.
+///
+/// Scale is a special case of the [transform](./fn.transform.html) function.
+///
+/// # Parameters
+///
+/// - `input` is input image
+/// - `trans0` is amount by which the first dimension is translated
+/// - `trans1` is amount by which the second dimension is translated
+/// - `odim0` is the first output dimension
+/// - `odim1` is the second output dimension
+/// - `method` is the interpolation type (Nearest by default)
+///
+/// # Return Values
+///
+/// Translated Image(Array).
+#[allow(unused_mut)]
+pub fn scale(input: &Array, scale0: f32, scale1: f32,
+             odim0: i64, odim1: i64, method: InterpType) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_scale(&mut temp as MutAfArray,
+                               input.get() as AfArray,
+                               scale0 as c_float, scale1 as c_float,
+                               odim0 as DimT, odim1 as DimT,
+                               method as uint8_t);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
 /// Skew an image
 ///
@@ -369,27 +439,122 @@ pub fn histogram(input: &Array, nbins: u32,
     }
 }
 
-macro_rules! morph_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, mask: &Array) -> Result<Array, AfError> {
-            unsafe {
-                let mut temp: i64 = 0;
-                let err_val = $ffi_name(&mut temp as MutAfArray,
-                                        input.get() as AfArray, mask.get() as AfArray);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
-            }
+/// Dilate an Image
+///
+/// The dilation function takes two pieces of data as inputs. The first is the input image to be
+/// morphed, and the second is the mask indicating the neighborhood around each pixel to match.
+///
+/// In dilation, for each pixel, the mask is centered at the pixel. If the center pixel of the mask
+/// matches the corresponding pixel on the image, then the mask is accepted. If the center pixels
+/// do not matches, then the mask is ignored and no changes are made.
+///
+/// For further reference, see [here](https://en.wikipedia.org/wiki/Dilation_(morphology)).
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `mask` is the morphological operation mask
+///
+/// # Return Values
+///
+/// Dilated Image(Array)
+#[allow(unused_mut)]
+pub fn dilate(input: &Array, mask: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_dilate(&mut temp as MutAfArray,
+                                input.get() as AfArray, mask.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
         }
-    )
+    }
 }
 
-morph_func_def!(dilate, af_dilate);
-morph_func_def!(erode, af_erode);
-morph_func_def!(dilate3, af_dilate3);
-morph_func_def!(erode3, af_erode3);
+/// Erode an Image
+///
+/// The erosion function is a morphological transformation on an image that requires two inputs.
+/// The first is the image to be morphed, and the second is the mask indicating neighborhood that
+/// must be white in order to preserve each pixel.
+///
+/// In erode, for each pixel, the mask is centered at the pixel. If each pixel of the mask matches
+/// the corresponding pixel on the image, then no change is made. If there is at least one
+/// mismatch, then pixels are changed to the background color (black).
+///
+/// For further reference, see [here](https://en.wikipedia.org/wiki/Erosion_(morphology)).
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `mask` is the morphological operation mask
+///
+/// # Return Values
+///
+/// Eroded Image(Array)
+#[allow(unused_mut)]
+pub fn erode(input: &Array, mask: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_erode(&mut temp as MutAfArray,
+                               input.get() as AfArray, mask.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Dilate a Volume
+///
+/// Dilation for a volume is similar to the way dilation works on an image. Only difference is that
+/// the masking operation is performed on a volume instead of a rectangular region.
+///
+/// # Parameters
+///
+/// - `input` is the input volume
+/// - `mask` is the morphological operation mask
+///
+/// # Return Values
+///
+/// Dilated Volume(Array)
+#[allow(unused_mut)]
+pub fn dilate3(input: &Array, mask: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_dilate3(&mut temp as MutAfArray,
+                                input.get() as AfArray, mask.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Erode a Volume
+///
+/// Erosion for a volume is similar to the way erosion works on an image. Only difference is that
+/// the masking operation is performed on a volume instead of a rectangular region.
+///
+/// # Parameters
+///
+/// - `input` is the input volume
+/// - `mask` is the morphological operation mask
+///
+/// # Return Values
+///
+/// Eroded Volume(Array)
+#[allow(unused_mut)]
+pub fn erode3(input: &Array, mask: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_erode3(&mut temp as MutAfArray,
+                               input.get() as AfArray, mask.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
 
 /// Bilateral Filter.
 ///
@@ -526,6 +691,8 @@ pub fn gaussian_kernel(rows: i32, cols: i32,
 /// - GRAY => RGB
 /// - RGB => HSV
 /// - HSV => RGB
+/// - YCbCr => RGB
+/// - RGB => YCbCr
 ///
 /// RGB (Red, Green, Blue) is the most common format used in computer imaging. RGB stores
 /// individual values for red, green and blue, and hence the 3 values per pixel. A combination of
@@ -694,3 +861,217 @@ macro_rules! hsvrgb_func_def {
 
 hsvrgb_func_def!(hsv2rgb, af_hsv2rgb);
 hsvrgb_func_def!(rgb2hsv, af_rgb2hsv);
+
+/// Generate an array with image windows as columns
+///
+/// unwrap takes in an input image along with the window sizes wx and wy, strides sx and sy, and
+/// padding px and py. This function then generates a matrix where each windows is an independent
+/// column.
+///
+/// The number of columns (rows if is_column is true) in the output array are govenered by the
+/// number of windows that can be fit along x and y directions. Padding is applied along all 4
+/// sides of the matrix with px defining the height of the padding along dim 0 and py defining the
+/// width of the padding along dim 1.
+///
+/// The first column window is always at the top left corner of the input including padding. If a
+/// window cannot fit before the end of the matrix + padding, it is skipped from the generated
+/// matrix.
+///
+/// Padding can take a maximum value of window - 1 repectively for x and y.
+///
+/// For multiple channels (3rd and 4th dimension), the generated matrix contains the same number of
+/// channels as the input matrix. Each channel of the output matrix corresponds to the same channel
+/// of the input.
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `wx` is the block window size along 0th-dimension between [1, input.dims[0] + px]
+/// - `wy` is the block window size along 1st-dimension between [1, input.dims[1] + py]
+/// - `sx` is the stride along 0th-dimension
+/// - `sy` is the stride along 1st-dimension
+/// - `px` is the padding along 0th-dimension between [0, wx). Padding is applied both before and after.
+/// - `py` is the padding along 1st-dimension between [0, wy). Padding is applied both before and after.
+/// - `is_column` specifies the layout for the unwrapped patch. If is_column is false, the unrapped patch is laid out as a row.
+///
+/// # Return Values
+///
+/// An Array with image windows as columns
+///
+/// # Examples
+///
+/// ```
+/// A [5 5 1 1]
+/// 10 15 20 25 30
+/// 11 16 21 26 31
+/// 12 17 22 27 32
+/// 13 18 23 28 33
+/// 14 19 24 29 34
+///
+/// // Window 3x3, strides 1x1, padding 0x0
+/// unwrap(A, 3, 3, 1, 1, 0, 0, False) [9 9 1 1]
+/// 10 11 12 15 16 17 20 21 22
+/// 11 12 13 16 17 18 21 22 23
+/// 12 13 14 17 18 19 22 23 24
+/// 15 16 17 20 21 22 25 26 27
+/// 16 17 18 21 22 23 26 27 28
+/// 17 18 19 22 23 24 27 28 29
+/// 20 21 22 25 26 27 30 31 32
+/// 21 22 23 26 27 28 31 32 33
+/// 22 23 24 27 28 29 32 33 34
+///
+/// // Window 3x3, strides 1x1, padding 1x1
+/// unwrap(A, 3, 3, 1, 1, 1, 1, False) [9 25 1 1]
+///  0  0  0  0  0  0 10 11 12 13  0 15 16 17 18  0 20 21 22 23  0 25 26 27 28
+///  0  0  0  0  0 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+///  0  0  0  0  0 11 12 13 14  0 16 17 18 19  0 21 22 23 24  0 26 27 28 29  0
+///  0 10 11 12 13  0 15 16 17 18  0 20 21 22 23  0 25 26 27 28  0 30 31 32 33
+/// 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+/// 11 12 13 14  0 16 17 18 19  0 21 22 23 24  0 26 27 28 29  0 31 32 33 34  0
+///  0 15 16 17 18  0 20 21 22 23  0 25 26 27 28  0 30 31 32 33  0  0  0  0  0
+/// 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  0  0  0  0  0
+/// 16 17 18 19  0 21 22 23 24  0 26 27 28 29  0 31 32 33 34  0  0  0  0  0  0
+/// ```
+pub fn unwrap(input: &Array,
+              wx: i64, wy: i64,
+              sx: i64, sy: i64,
+              px: i64, py: i64,
+              is_column: bool) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_unwrap(&mut temp as MutAfArray, input.get() as AfArray,
+                                wx, wy, sx, sy, px, py, is_column as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Converts unwrapped image to an image
+///
+/// Wrap takes an unwrapped image (see unwrap()) and converts it back to an image.
+///
+/// The inputs to this function should be the same as the inputs used to generate the unwrapped
+/// image.
+///
+/// # Parameters
+///
+/// - `input` is the output of unwrap function call
+/// - `ox` is the 0th-dimension of output image
+/// - `oy` is the 1st-dimension of output image
+/// - `wx` is the block window size along 0th-dimension between
+/// - `wy` is the block window size along 1st-dimension between
+/// - `sx` is the stride along 0th-dimension
+/// - `sy` is the stride along 1st-dimension
+/// - `px` is the padding used along 0th-dimension between [0, wx).
+/// - `py` is the padding used along 1st-dimension between [0, wy).
+/// - `is_column` specifies the layout for the unwrapped patch. If is_column is false, the rows are treated as the patches
+///
+/// # Return Values
+///
+/// Image(Array) created from unwrapped Image(Array)
+pub fn wrap(input: &Array,
+            ox: i64, oy: i64, wx: i64, wy: i64,
+            sx: i64, sy: i64, px: i64, py: i64,
+            is_column: bool) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_wrap(&mut temp as MutAfArray, input.get() as AfArray,
+                              ox, oy, wx, wy, sx, sy, px, py, is_column as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Summed area table of an Image
+///
+/// # Parameters
+///
+/// - `input` is the input image
+///
+/// # Return Values
+///
+/// Summed area table (a.k.a Integral Image) of the input image.
+pub fn sat(input: &Array) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_sat(&mut temp as MutAfArray, input.get() as AfArray);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// RGB to YCbCr colorspace converter.
+///
+/// RGB (Red, Green, Blue) is the most common format used in computer imaging. RGB stores
+/// individual values for red, green and blue, and hence the 3 values per pixel. A combination of
+/// these three values produces the gamut of unique colors.
+///
+/// YCbCr is a family of color spaces used as a part of the color image pipeline in video and
+/// digital photography systems where Y is luma component and Cb & Cr are the blue-difference and
+/// red-difference chroma components.
+///
+/// Input array to this function should be of real data in the range [0,1].
+///
+/// # Parameters
+///
+/// - `input` is the input image in RGB color space
+/// - `standard` is the target color space - [YCbCr standard](./enum.YCCStd.html)
+///
+/// # Return Values
+///
+/// Image(Array) in YCbCr color space
+pub fn rgb2ycbcr(input: &Array, standard: YCCStd) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_rgb2ycbcr(&mut temp as MutAfArray, input.get() as AfArray,
+                                   standard as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// YCbCr to RGB colorspace converter.
+///
+/// YCbCr is a family of color spaces used as a part of the color image pipeline in video and
+/// digital photography systems where Y is luma component and Cb & Cr are the blue-difference and
+/// red-difference chroma components.
+///
+/// RGB (Red, Green, Blue) is the most common format used in computer imaging. RGB stores
+/// individual values for red, green and blue, and hence the 3 values per pixel. A combination of
+/// these three values produces the gamut of unique colors.
+///
+/// Input array to this function should be of real data with the following range in their
+/// respective channels.
+///
+/// - Y  −> [16,219]
+/// - Cb −> [16,240]
+/// - Cr −> [16,240]
+///
+/// # Parameters
+///
+/// - `input` is the input image in YCbCr color space
+/// - `standard` is the [YCbCr standard](./enum.YCCStd.html) in which input image color space is
+/// present.
+///
+/// # Return Values
+///
+/// Image(Array) in RGB color space
+pub fn ycbcr2rgb(input: &Array, standard: YCCStd) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_ycbcr2rgb(&mut temp as MutAfArray, input.get() as AfArray,
+                                   standard as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
