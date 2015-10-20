@@ -13,10 +13,6 @@ use std::convert::AsRef;
 #[allow(dead_code)]
 #[derive(RustcDecodable)]
 struct Config {
-    // below variable dictates which
-    // backend library is used by rust wrapper
-    use_backend: String,
-
     // Use the existing lib if it exists
     use_lib: bool,
     lib_dir: String,
@@ -25,9 +21,6 @@ struct Config {
     // Build related
     build_type: String,
     build_threads: String,
-    build_cuda: String,
-    build_opencl: String,
-    build_cpu: String,
     build_examples: String,
     build_test: String,
     build_graphics: String,
@@ -64,6 +57,13 @@ macro_rules! t {
 
 fn fail(s: &str) -> ! {
     panic!("\n{}\n\nbuild script failed, must exit now", s)
+}
+
+fn file_exists(location: &str) -> bool {
+    match fs::metadata(location) {
+        Ok(f)  => f.is_file(),
+        Err(_) => false,
+    }
 }
 
 fn run(cmd: &mut Command, program: &str) {
@@ -233,9 +233,6 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
 
     run(cmake_cmd.arg("..").arg("-G").arg("Visual Studio 12 2013 Win64")
         .args(&[format!("-DCMAKE_BUILD_TYPE:STRING={}", conf.build_type),
-                format!("-DBUILD_CPU:BOOL={}", conf.build_cpu),
-                format!("-DBUILD_CUDA:BOOL={}", conf.build_cuda),
-                format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
                 format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
                 format!("-DBUILD_TEST:BOOL={}", conf.build_test),
                 format!("-DBOOST_ROOT={}", conf.boost_dir),
@@ -312,9 +309,6 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
 
     run(cmake_cmd.arg("..")
         .args(&[format!("-DCMAKE_BUILD_TYPE:STRING={}", conf.build_type),
-                format!("-DBUILD_CPU:BOOL={}", conf.build_cpu),
-                format!("-DBUILD_CUDA:BOOL={}", conf.build_cuda),
-                format!("-DBUILD_OPENCL:BOOL={}", conf.build_opencl),
                 format!("-DBUILD_EXAMPLES:BOOL={}", conf.build_examples),
                 format!("-DBUILD_TEST:BOOL={}", conf.build_test),
                 format!("-DCMAKE_INSTALL_PREFIX:STRING={}", "package")])
@@ -332,6 +326,16 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
         .arg(format!("install")), "make");
 }
 
+fn backend_exists(name: &str) -> bool{
+    let win_backend   = name.to_string() + ".dll";
+    let osx_backend   = name.to_string() + ".dylib";
+    let linux_backend = name.to_string() + ".so";
+
+    return file_exists(&win_backend)
+        || file_exists(&osx_backend)
+        || file_exists(&linux_backend)
+}
+
 fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
     let mut backend_dirs :Vec<String>= Vec::new();
     let mut backends :Vec<String> = Vec::new();
@@ -342,11 +346,10 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         backend_dirs.push(build_dir.join("package/lib").to_str().to_owned().unwrap().to_string());
     }
 
-    if conf.use_backend == "cpu" {
-        backends.push("afcpu".to_string());
-    } else if conf.use_backend == "cuda" {
-        backends.push("afcuda".to_string());
-        backends.push("nvvm".to_string());
+    let lib_dir = PathBuf::from(backend_dirs.last().unwrap());
+
+    // blob in cuda deps
+    if backend_exists(&lib_dir.join("libafcuda").to_string_lossy()) {
         if cfg!(windows) {
             backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
             backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
@@ -354,8 +357,10 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
             backend_dirs.push(format!("{}/{}", conf.cuda_sdk, conf.sdk_lib_dir));
             backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, conf.sdk_lib_dir));
         }
-    } else if conf.use_backend == "opencl" {
-        backends.push(("afopencl".to_string()));
+    }
+
+    //blob in opencl deps
+    if backend_exists(&lib_dir.join("libafopencl").to_string_lossy()) {
         if ! cfg!(target_os = "macos"){
           backends.push("OpenCL".to_string());
         }
@@ -364,6 +369,10 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         } else {
             backend_dirs.push(format!("{}/{}", conf.opencl_sdk, conf.sdk_lib_dir));
         }
+    }
+
+    if backend_exists(&lib_dir.join("libaf").to_string_lossy()) {
+        backends.push("af".to_string());
     }
 
     if conf.build_graphics=="ON" {

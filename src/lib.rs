@@ -34,10 +34,10 @@ pub use data::{reorder, shift, moddims, flat, flip};
 pub use data::{select, selectl, selectr, replace, replace_scalar};
 mod data;
 
-pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync};
+pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync, get_backend_count, set_backend};
 mod device;
 
-pub use defines::{Aftype, AfError, ColorMap, YCCStd};
+pub use defines::{Aftype, AfError, AfBackend, ColorMap, YCCStd};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;
