@@ -10,7 +10,7 @@ fn test_backend(){
   let num_cols: u64 = 10;
   let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
-  println!("Create a 5-by-3 matrix of random floats on the compute device");
+  println!("Create a 10-by-10 matrix of random floats on the compute device");
   let a = match randu(dims, Aftype::F32) {
     Ok(value) => value,
     Err(error) => panic!("{}", error),
