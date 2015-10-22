@@ -57,7 +57,7 @@ pub enum AfBackend {
     /// CUDA Compute Backend
     AF_BACKEND_CUDA    = 2,
     /// OpenCL Compute Backend
-    AF_BACKEND_OPENCL  = 3
+    AF_BACKEND_OPENCL  = 4
 }
 
 impl Display for AfError {
