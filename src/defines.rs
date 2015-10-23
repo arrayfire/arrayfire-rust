@@ -48,7 +48,7 @@ pub enum AfError {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum AfBackend {
     /// Default backend order: OpenCL -> CUDA -> CPU
     AF_BACKEND_DEFAULT = 0,
@@ -58,6 +58,18 @@ pub enum AfBackend {
     AF_BACKEND_CUDA    = 2,
     /// OpenCL Compute Backend
     AF_BACKEND_OPENCL  = 3
+}
+
+impl Display for AfBackend {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
+        let text = match *self {
+            AfBackend::AF_BACKEND_OPENCL  => "OpenCL",
+            AfBackend::AF_BACKEND_CUDA    => "Cuda",
+            AfBackend::AF_BACKEND_CPU     => "CPU",
+            AfBackend::AF_BACKEND_DEFAULT => "Default",
+        };
+        write!(f, "{}", text)
+    }
 }
 
 impl Display for AfError {

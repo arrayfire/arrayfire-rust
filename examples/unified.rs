@@ -21,22 +21,33 @@ fn test_backend(){
 
 #[allow(unused_must_use)]
 fn main() {
-  println!("There are {} available backends", get_backend_count().unwrap());
-  let err = set_backend(AfBackend::AF_BACKEND_CPU);
-  match err {
-    Ok(_)  => test_backend(),
-    Err(e) => println!("CPU backend not available: {}", e),
-  };
+  println!("There are {:?} available backends", get_backend_count().unwrap());
+  let available = get_available_backends().unwrap();
 
-  let err = set_backend(AfBackend::AF_BACKEND_CUDA);
-  match err {
-    Ok(_)  => test_backend(),
-    Err(e) => println!("CUDA backend not available: {}", e),
-  };
+  if available.contains(&AfBackend::AF_BACKEND_CPU){
+    println!("Evaluating CPU Backend...");
+    let err = set_backend(AfBackend::AF_BACKEND_CPU);
+      match err {
+        Ok(_)  => test_backend(),
+        Err(e) => println!("CPU backend error: {}", e),
+    };
+  }
 
-  let err = set_backend(AfBackend::AF_BACKEND_OPENCL);
-  match err {
-    Ok(_)  => test_backend(),
-    Err(e) => println!("OpenCL backend not available: {}", e),
-  };
+  if available.contains(&AfBackend::AF_BACKEND_CUDA){
+    println!("Evaluating CUDA Backend...");
+    let err = set_backend(AfBackend::AF_BACKEND_CUDA);
+      match err {
+        Ok(_)  => test_backend(),
+        Err(e) => println!("CUDA backend error: {}", e),
+    };
+  }
+
+  if available.contains(&AfBackend::AF_BACKEND_OPENCL){
+    println!("Evaluating OpenCL Backend...");
+    let err = set_backend(AfBackend::AF_BACKEND_OPENCL);
+      match err {
+        Ok(_)  => test_backend(),
+        Err(e) => println!("OpenCL backend error: {}", e),
+    };
+  }
 }
