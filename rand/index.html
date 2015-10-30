@@ -67,7 +67,7 @@ rand = &quot;0.3&quot;
 </code></pre>
 
 <p>and this to your crate root:</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 </pre>
 
@@ -115,7 +115,7 @@ the CSPRNG has not seeded yet.)</li>
 </ul>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>Rng</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>thread_rng</span>();
@@ -123,7 +123,7 @@ the CSPRNG has not seeded yet.)</li>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;i32: {}, u32: {}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>gen</span>::<span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>(), <span class='ident'>rng</span>.<span class='ident'>gen</span>::<span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>())
 }
 </pre>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>tuple</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>random</span>::<span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>char</span>)<span class='op'>&gt;</span>();
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>tuple</span>)
 </pre>
@@ -143,7 +143,7 @@ should be inside the circle.</p>
 <p>We can use the above fact to estimate the value of π: pick many points in
 the square at random, calculate the fraction that fall within the circle,
 and multiply this fraction by 4.</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>distributions</span>::{<span class='ident'>IndependentSample</span>, <span class='ident'>Range</span>};
 
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
@@ -184,7 +184,7 @@ switch.</p>
 
 <p>This program will simulate the game show and with large enough simulation
 steps it will indeed confirm that it is better to switch.</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>Rng</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>distributions</span>::{<span class='ident'>IndependentSample</span>, <span class='ident'>Range</span>};
 

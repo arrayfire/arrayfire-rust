@@ -75,7 +75,7 @@ same array</li>
 format.  Arrays are enclosed in square brackets ([ ... ]) and objects in
 curly brackets ({ ... }).  A simple JSON document encoding a person,
 their age, address and phone numbers could look like</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 {
     <span class='string'>&quot;FirstName&quot;</span>: <span class='string'>&quot;John&quot;</span>,
     <span class='string'>&quot;LastName&quot;</span>: <span class='string'>&quot;Doe&quot;</span>,
@@ -117,7 +117,7 @@ mandatory.</p>
                            href="#using-autoserialization">Using Autoserialization</a></h2>
 <p>Create a struct called <code>TestStruct</code> and serialize and deserialize it to and
 from JSON using the serialization API, using the derived serialization code.</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>;
 
@@ -151,7 +151,7 @@ from JSON using the serialization API, using the derived serialization code.</p>
 which is required for custom mappings.</p>
 
 <h3 id="simple-example-of-tojson-usage" class='section-header'><a
-                           href="#simple-example-of-tojson-usage">Simple example of <code>ToJson</code> usage</a></h3><pre class='rust rust-example-rendered'>
+                           href="#simple-example-of-tojson-usage">Simple example of <code>ToJson</code> usage</a></h3><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::{<span class='self'>self</span>, <span class='ident'>ToJson</span>, <span class='ident'>Json</span>};
 
@@ -189,7 +189,7 @@ which is required for custom mappings.</p>
 </pre>
 
 <h3 id="verbose-example-of-tojson-usage" class='section-header'><a
-                           href="#verbose-example-of-tojson-usage">Verbose example of <code>ToJson</code> usage</a></h3><pre class='rust rust-example-rendered'>
+                           href="#verbose-example-of-tojson-usage">Verbose example of <code>ToJson</code> usage</a></h3><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::{<span class='self'>self</span>, <span class='ident'>Json</span>, <span class='ident'>ToJson</span>};
@@ -230,7 +230,7 @@ which is required for custom mappings.</p>
 </pre>
 
 <h2 id="parsing-a-str-to-json-and-reading-the-result" class='section-header'><a
-                           href="#parsing-a-str-to-json-and-reading-the-result">Parsing a <code>str</code> to <code>Json</code> and reading the result</a></h2><pre class='rust rust-example-rendered'>
+                           href="#parsing-a-str-to-json-and-reading-the-result">Parsing a <code>str</code> to <code>Json</code> and reading the result</a></h2><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::<span class='ident'>Json</span>;
 

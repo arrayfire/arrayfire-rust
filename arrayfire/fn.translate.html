@@ -45,8 +45,37 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-20283' class='srclink' href='../src/arrayfire/image/mod.rs.html#273-288' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn translate(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, p0: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, p1: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, odim0: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, odim1: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre></section>
+        </span><a id='src-21896' class='srclink' href='../src/arrayfire/image/mod.rs.html#314-328' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn translate(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, trans0: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, trans1: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, odim0: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, odim1: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Translate an Image</p>
+
+<p>Translating an image is moving it along 1st and 2nd dimensions by trans0 and trans1. Positive
+values of these will move the data towards negative x and negative y whereas negative values of
+these will move the positive right and positive down. See the example below for more.</p>
+
+<p>To specify an output dimension, use the odim0 and odim1 for dim0 and dim1 respectively. The
+size of 2rd and 3rd dimension is same as input. If odim0 and odim1 and not defined, then the
+output dimensions are same as the input dimensions and the data out of bounds will be
+discarded.</p>
+
+<p>All new values that do not map to a location of the input array are set to 0.</p>
+
+<p>Translate is a special case of the <a href="./fn.transform.html">transform</a> function.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is input image</li>
+<li><code>trans0</code> is amount by which the first dimension is translated</li>
+<li><code>trans1</code> is amount by which the second dimension is translated</li>
+<li><code>odim0</code> is the first output dimension</li>
+<li><code>odim1</code> is the second output dimension</li>
+<li><code>method</code> is the interpolation type (Nearest by default)</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Translated Image(Array).</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

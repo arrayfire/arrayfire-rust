@@ -45,11 +45,11 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-17967' class='srclink' href='../src/arrayfire/index.rs.html#347-357' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-19474' class='srclink' href='../src/arrayfire/index.rs.html#347-357' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn index_gen(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, indices: <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Index an Array using any combination of Array&#39;s and Sequence&#39;s</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>values</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>f32</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>1.0</span>, <span class='number'>2.0</span>, <span class='number'>3.0</span>];
 <span class='kw'>let</span> <span class='ident'>indices</span> <span class='op'>=</span> <span class='ident'>Array</span>::<span class='ident'>new</span>(<span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='number'>3</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>]), <span class='ident'>values</span>, <span class='ident'>Aftype</span>::<span class='ident'>F32</span>).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>seq4gen</span> <span class='op'>=</span> <span class='ident'>Seq</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>2.0</span>, <span class='number'>1.0</span>);

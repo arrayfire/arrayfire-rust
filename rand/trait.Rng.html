@@ -58,8 +58,8 @@
     fn <a href='#method.gen_range' class='fnname'>gen_range</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a> + <a class='trait' href='../rand/distributions/range/trait.SampleRange.html' title='rand::distributions::range::SampleRange'>SampleRange</a>&gt;(&amp;mut self, low: T, high: T) -&gt; T <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
     fn <a href='#method.gen_weighted_bool' class='fnname'>gen_weighted_bool</a>(&amp;mut self, n: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a> <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
     fn <a href='#method.gen_ascii_chars' class='fnname'>gen_ascii_chars</a>&lt;'a&gt;(&amp;'a mut self) -&gt; <a class='struct' href='../rand/struct.AsciiGenerator.html' title='rand::AsciiGenerator'>AsciiGenerator</a>&lt;'a, Self&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
-    fn <a href='#method.choose' class='fnname'>choose</a>&lt;'a, T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a>T<a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
-    fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a>T<a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
+    fn <a href='#method.choose' class='fnname'>choose</a>&lt;'a, T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [T]</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
+    fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [T]</a>) <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span> { ... }
 }</pre><div class='docblock'><p>A random number generator.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
@@ -116,7 +116,7 @@ with new data, and may panic if this is impossible
 source of randomness).</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>13579</span>];
@@ -126,7 +126,7 @@ source of randomness).</p>
 </div><h3 id='method.gen' class='method stab '><code>fn <a href='#method.gen' class='fnname'>gen</a>&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;(&amp;mut self) -&gt; T <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Return a random value of a <code>Rand</code> type.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
@@ -138,7 +138,7 @@ source of randomness).</p>
 generated items.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
@@ -160,7 +160,7 @@ uniformity, as they only happen on initialization.</p>
 <p>Panics if <code>low &gt;= high</code>.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
@@ -172,7 +172,7 @@ uniformity, as they only happen on initialization.</p>
 </div><h3 id='method.gen_weighted_bool' class='method stab '><code>fn <a href='#method.gen_weighted_bool' class='fnname'>gen_weighted_bool</a>(&amp;mut self, n: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a> <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Return a bool with a 1 in n chance of true</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
@@ -181,18 +181,18 @@ uniformity, as they only happen on initialization.</p>
 </div><h3 id='method.gen_ascii_chars' class='method stab '><code>fn <a href='#method.gen_ascii_chars' class='fnname'>gen_ascii_chars</a>&lt;'a&gt;(&amp;'a mut self) -&gt; <a class='struct' href='../rand/struct.AsciiGenerator.html' title='rand::AsciiGenerator'>AsciiGenerator</a>&lt;'a, Self&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Return an iterator of random characters from the set A-Z,a-z,0-9.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='ident'>s</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>().<span class='ident'>gen_ascii_chars</span>().<span class='ident'>take</span>(<span class='number'>10</span>).<span class='ident'>collect</span>();
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>s</span>);
 </pre>
-</div><h3 id='method.choose' class='method stab '><code>fn <a href='#method.choose' class='fnname'>choose</a>&lt;'a, T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a>T<a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Return a random element from <code>values</code>.</p>
+</div><h3 id='method.choose' class='method stab '><code>fn <a href='#method.choose' class='fnname'>choose</a>&lt;'a, T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [T]</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt; <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Return a random element from <code>values</code>.</p>
 
 <p>Return <code>None</code> if <code>values</code> is empty.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='ident'>choices</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>4</span>, <span class='number'>8</span>, <span class='number'>16</span>, <span class='number'>32</span>];
@@ -200,10 +200,10 @@ uniformity, as they only happen on initialization.</p>
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>choose</span>(<span class='kw-2'>&amp;</span><span class='ident'>choices</span>));
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>rng</span>.<span class='ident'>choose</span>(<span class='kw-2'>&amp;</span><span class='ident'>choices</span>[..<span class='number'>0</span>]), <span class='prelude-val'>None</span>);
 </pre>
-</div><h3 id='method.shuffle' class='method stab '><code>fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a>T<a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Shuffle a mutable slice in place.</p>
+</div><h3 id='method.shuffle' class='method stab '><code>fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [T]</a>) <span class='where'>where Self: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h3><div class='docblock'><p>Shuffle a mutable slice in place.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>thread_rng</span>, <span class='ident'>Rng</span>};
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();

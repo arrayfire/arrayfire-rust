@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `unwrap` fn in crate `arrayfire`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, unwrap">
+
+    <title>arrayfire::unwrap - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'unwrap', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class='fn' href=''>unwrap</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-23233' class='srclink' href='../src/arrayfire/image/mod.rs.html#935-949' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn unwrap(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, wx: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, wy: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, sx: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, sy: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, px: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, py: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, is_column: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Generate an array with image windows as columns</p>
+
+<p>unwrap takes in an input image along with the window sizes wx and wy, strides sx and sy, and
+padding px and py. This function then generates a matrix where each windows is an independent
+column.</p>
+
+<p>The number of columns (rows if is_column is true) in the output array are govenered by the
+number of windows that can be fit along x and y directions. Padding is applied along all 4
+sides of the matrix with px defining the height of the padding along dim 0 and py defining the
+width of the padding along dim 1.</p>
+
+<p>The first column window is always at the top left corner of the input including padding. If a
+window cannot fit before the end of the matrix + padding, it is skipped from the generated
+matrix.</p>
+
+<p>Padding can take a maximum value of window - 1 repectively for x and y.</p>
+
+<p>For multiple channels (3rd and 4th dimension), the generated matrix contains the same number of
+channels as the input matrix. Each channel of the output matrix corresponds to the same channel
+of the input.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>wx</code> is the block window size along 0th-dimension between [1, input.dims[0] + px]</li>
+<li><code>wy</code> is the block window size along 1st-dimension between [1, input.dims[1] + py]</li>
+<li><code>sx</code> is the stride along 0th-dimension</li>
+<li><code>sy</code> is the stride along 1st-dimension</li>
+<li><code>px</code> is the padding along 0th-dimension between [0, wx). Padding is applied both before and after.</li>
+<li><code>py</code> is the padding along 1st-dimension between [0, wy). Padding is applied both before and after.</li>
+<li><code>is_column</code> specifies the layout for the unwrapped patch. If is_column is false, the unrapped patch is laid out as a row.</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>An Array with image windows as columns</p>
+
+<h1 id="examples" class='section-header'><a
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
+<span class='ident'>A</span> [<span class='number'>5</span> <span class='number'>5</span> <span class='number'>1</span> <span class='number'>1</span>]
+<span class='number'>10</span> <span class='number'>15</span> <span class='number'>20</span> <span class='number'>25</span> <span class='number'>30</span>
+<span class='number'>11</span> <span class='number'>16</span> <span class='number'>21</span> <span class='number'>26</span> <span class='number'>31</span>
+<span class='number'>12</span> <span class='number'>17</span> <span class='number'>22</span> <span class='number'>27</span> <span class='number'>32</span>
+<span class='number'>13</span> <span class='number'>18</span> <span class='number'>23</span> <span class='number'>28</span> <span class='number'>33</span>
+<span class='number'>14</span> <span class='number'>19</span> <span class='number'>24</span> <span class='number'>29</span> <span class='number'>34</span>
+
+<span class='comment'>// Window 3x3, strides 1x1, padding 0x0</span>
+<span class='ident'>unwrap</span>(<span class='ident'>A</span>, <span class='number'>3</span>, <span class='number'>3</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='ident'>False</span>) [<span class='number'>9</span> <span class='number'>9</span> <span class='number'>1</span> <span class='number'>1</span>]
+<span class='number'>10</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span>
+<span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span>
+<span class='number'>12</span> <span class='number'>13</span> <span class='number'>14</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span>
+<span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span>
+<span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span>
+<span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span>
+<span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>30</span> <span class='number'>31</span> <span class='number'>32</span>
+<span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span>
+<span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span> <span class='number'>32</span> <span class='number'>33</span> <span class='number'>34</span>
+
+<span class='comment'>// Window 3x3, strides 1x1, padding 1x1</span>
+<span class='ident'>unwrap</span>(<span class='ident'>A</span>, <span class='number'>3</span>, <span class='number'>3</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='ident'>False</span>) [<span class='number'>9</span> <span class='number'>25</span> <span class='number'>1</span> <span class='number'>1</span>]
+ <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span> <span class='number'>10</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span>  <span class='number'>0</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span>  <span class='number'>0</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span>  <span class='number'>0</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span>
+ <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span> <span class='number'>10</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span> <span class='number'>14</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span>
+ <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span> <span class='number'>14</span>  <span class='number'>0</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span>  <span class='number'>0</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span>  <span class='number'>0</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span>  <span class='number'>0</span>
+ <span class='number'>0</span> <span class='number'>10</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span>  <span class='number'>0</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span>  <span class='number'>0</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span>  <span class='number'>0</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span>  <span class='number'>0</span> <span class='number'>30</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span>
+<span class='number'>10</span> <span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span> <span class='number'>14</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span> <span class='number'>30</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span> <span class='number'>34</span>
+<span class='number'>11</span> <span class='number'>12</span> <span class='number'>13</span> <span class='number'>14</span>  <span class='number'>0</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span>  <span class='number'>0</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span>  <span class='number'>0</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span>  <span class='number'>0</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span> <span class='number'>34</span>  <span class='number'>0</span>
+ <span class='number'>0</span> <span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span>  <span class='number'>0</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span>  <span class='number'>0</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span>  <span class='number'>0</span> <span class='number'>30</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>
+<span class='number'>15</span> <span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span> <span class='number'>20</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span> <span class='number'>25</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span> <span class='number'>30</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span> <span class='number'>34</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>
+<span class='number'>16</span> <span class='number'>17</span> <span class='number'>18</span> <span class='number'>19</span>  <span class='number'>0</span> <span class='number'>21</span> <span class='number'>22</span> <span class='number'>23</span> <span class='number'>24</span>  <span class='number'>0</span> <span class='number'>26</span> <span class='number'>27</span> <span class='number'>28</span> <span class='number'>29</span>  <span class='number'>0</span> <span class='number'>31</span> <span class='number'>32</span> <span class='number'>33</span> <span class='number'>34</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>  <span class='number'>0</span>
+</pre>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "arrayfire";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-20101' class='srclink' href='../../src/num/traits.rs.html#649-851' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-19965' class='srclink' href='../../src/num/traits.rs.html#649-851' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait PrimInt: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> + <a class='trait' href='../../num/traits/trait.Num.html' title='num::traits::Num'>Num</a> + <a class='trait' href='../../num/traits/trait.NumCast.html' title='num::traits::NumCast'>NumCast</a> + <a class='trait' href='../../num/traits/trait.Bounded.html' title='num::traits::Bounded'>Bounded</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html' title='core::cmp::Ord'>Ord</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Not.html' title='core::ops::Not'>Not</a>&lt;Output=Self&gt; + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.BitAnd.html' title='core::ops::BitAnd'>BitAnd</a>&lt;Output=Self&gt; + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.BitOr.html' title='core::ops::BitOr'>BitOr</a>&lt;Output=Self&gt; + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.BitXor.html' title='core::ops::BitXor'>BitXor</a>&lt;Output=Self&gt; + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Shl.html' title='core::ops::Shl'>Shl</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, Output=Self&gt; + <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Shr.html' title='core::ops::Shr'>Shr</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, Output=Self&gt; + <a class='trait' href='../../num/traits/trait.CheckedAdd.html' title='num::traits::CheckedAdd'>CheckedAdd</a>&lt;Output=Self&gt; + <a class='trait' href='../../num/traits/trait.CheckedSub.html' title='num::traits::CheckedSub'>CheckedSub</a>&lt;Output=Self&gt; + <a class='trait' href='../../num/traits/trait.CheckedMul.html' title='num::traits::CheckedMul'>CheckedMul</a>&lt;Output=Self&gt; + <a class='trait' href='../../num/traits/trait.CheckedDiv.html' title='num::traits::CheckedDiv'>CheckedDiv</a>&lt;Output=Self&gt; + <a class='trait' href='../../num/traits/trait.Saturating.html' title='num::traits::Saturating'>Saturating</a> {
     fn <a href='#tymethod.count_ones' class='fnname'>count_ones</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
     fn <a href='#tymethod.count_zeros' class='fnname'>count_zeros</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
@@ -73,7 +73,7 @@ fn main() {
     
     assert_eq!(n.count_ones(), 3);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0b01001100u8</span>;
@@ -91,7 +91,7 @@ fn main() {
     
     assert_eq!(n.count_zeros(), 5);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0b01001100u8</span>;
@@ -110,7 +110,7 @@ fn main() {
     
     assert_eq!(n.leading_zeros(), 10);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0b0101000u16</span>;
@@ -129,7 +129,7 @@ fn main() {
     
     assert_eq!(n.trailing_zeros(), 3);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0b0101000u16</span>;
@@ -149,7 +149,7 @@ fn main() {
     
     assert_eq!(n.rotate_left(12), m);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -170,7 +170,7 @@ fn main() {
     
     assert_eq!(n.rotate_right(12), m);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -190,7 +190,7 @@ fn main() {
     
     assert_eq!(n.swap_bytes(), m);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -215,7 +215,7 @@ fn main() {
         assert_eq!(u64::from_be(n), n.swap_bytes())
     }
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -243,7 +243,7 @@ fn main() {
         assert_eq!(u64::from_le(n), n.swap_bytes())
     }
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -271,7 +271,7 @@ fn main() {
         assert_eq!(n.to_be(), n.swap_bytes())
     }
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -299,7 +299,7 @@ fn main() {
         assert_eq!(n.to_le(), n.swap_bytes())
     }
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0x0123456789ABCDEFu64</span>;
@@ -319,7 +319,7 @@ fn main() {
     
     assert_eq!(2i32.pow(4), 16);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>PrimInt</span>;
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2i32</span>.<span class='ident'>pow</span>(<span class='number'>4</span>), <span class='number'>16</span>);

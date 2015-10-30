@@ -328,6 +328,20 @@
 <span id="286">286</span>
 <span id="287">287</span>
 <span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
@@ -393,6 +407,8 @@
     <span class='kw'>fn</span> <span class='ident'>af_release_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_print_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>af_cast</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
 
 <span class='doccomment'>/// A multidimensional data container</span>
@@ -549,6 +565,18 @@
     <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='ident'>is_floating</span>, <span class='ident'>af_is_floating</span>);
     <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='ident'>is_integer</span>, <span class='ident'>af_is_integer</span>);
     <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='ident'>is_bool</span>, <span class='ident'>af_is_bool</span>);
+
+    <span class='doccomment'>/// Cast the Array data type to `target_type`</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cast</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>target_type</span>: <span class='ident'>Aftype</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Array</span>, <span class='ident'>AfError</span><span class='op'>&gt;</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
+            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_cast</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>target_type</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
+            <span class='kw'>match</span> <span class='ident'>err_val</span> {
+                <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)),
+                _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>)),
+            }
+        }
+    }
 }
 
 <span class='doccomment'>/// Used for creating Array object from native resource id</span>

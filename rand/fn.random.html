@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-20181' class='srclink' href='../src/rand/lib.rs.html#934-936' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-20213' class='srclink' href='../src/rand/lib.rs.html#934-936' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn random&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;() -&gt; T</pre><div class='docblock'><p>Generates a random value using the thread-local random number generator.</p>
 
 <p><code>random()</code> can generate various types of random things, and so may require
@@ -56,7 +56,7 @@ that if you&#39;re calling <code>random()</code> in a loop, caching the generato
 increase performance. An example is shown below.</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>random</span>::<span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>();
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
 
@@ -69,7 +69,7 @@ increase performance. An example is shown below.</p>
 </pre>
 
 <p>Caching the thread local random number generator:</p>
-<pre class='rust rust-example-rendered'>
+<pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>Rng</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];

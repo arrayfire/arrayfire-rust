@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18432' class='srclink' href='../src/arrayfire/graphics.rs.html#73-78' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-19939' class='srclink' href='../src/arrayfire/graphics.rs.html#73-78' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Window {
     // some fields omitted
 }</pre><div class='docblock'><p>Used to render <a href="./struct.Array.html">Array</a> objects</p>
@@ -55,7 +55,7 @@ A single window can also display multiple of the above renderings at the same ti
 is known as multiview mode. An example of that is given below.</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>wnd</span> <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>new</span>(<span class='number'>1280</span>, <span class='number'>720</span>, <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Image Histogram&quot;</span>)).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>img</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>load_image</span>(<span class='string'>&quot;Path to image&quot;</span>, <span class='boolval'>true</span><span class='comment'>/*If color image, &#39;false&#39; otherwise*/</span>) {
     <span class='prelude-val'>Ok</span>(<span class='ident'>img</span>) <span class='op'>=&gt;</span> <span class='ident'>img</span>,

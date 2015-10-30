@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-16634' class='srclink' href='../src/arrayfire/dim4.rs.html#6-8' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-18141' class='srclink' href='../src/arrayfire/dim4.rs.html#6-8' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Dim4 {
     // some fields omitted
 }</pre><div class='docblock'><p>Dim4 is used to store <a href="./struct.Array.html">Array</a> dimensions</p>
@@ -53,7 +53,7 @@
 <div class='docblock'><p>Create Dim4 object</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>dims</span> <span class='op'>=</span> <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='number'>4</span>, <span class='number'>4</span>, <span class='number'>2</span>, <span class='number'>1</span>]);
 </pre>
 </div><h4 id='method.elements' class='method'><code>fn <a href='#method.elements' class='fnname'>elements</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></h4>
@@ -66,7 +66,7 @@
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Index.html' title='core::ops::Index'>Index</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt; for <a class='struct' href='../arrayfire/struct.Dim4.html' title='arrayfire::Dim4'>Dim4</a></code></h3><div class='docblock'><p>Enables index operation for Dim4</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>dims</span> <span class='op'>=</span> <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='number'>4</span>, <span class='number'>4</span>, <span class='number'>2</span>, <span class='number'>1</span>]);
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;0th Dimension length is {}&quot;</span>, <span class='ident'>dims</span>[<span class='number'>0</span>]); <span class='comment'>// -&gt; 4</span>
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;1th Dimension length is {}&quot;</span>, <span class='ident'>dims</span>[<span class='number'>1</span>]); <span class='comment'>// -&gt; 4</span>
@@ -78,7 +78,7 @@
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='struct' href='../arrayfire/struct.Dim4.html' title='arrayfire::Dim4'>Dim4</a></code></h3><div class='docblock'><p>Enables use of Dim4 objects for printing it to display</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>dims</span> <span class='op'>=</span> <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='number'>4</span>, <span class='number'>4</span>, <span class='number'>2</span>, <span class='number'>1</span>]);
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;0th Dimension length is {}&quot;</span>, <span class='ident'>dims</span>[<span class='number'>0</span>]); <span class='comment'>// -&gt; 4</span>
 </pre>

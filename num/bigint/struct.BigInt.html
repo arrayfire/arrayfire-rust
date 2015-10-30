@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-6052' class='srclink' href='../../src/num/bigint.rs.html#1129-1132' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-5947' class='srclink' href='../../src/num/bigint.rs.html#1129-1132' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct BigInt {
     // some fields omitted
 }</pre><div class='docblock'><p>A big signed integer type.</p>
@@ -78,7 +78,7 @@ fn main() {
     assert_eq!(BigInt::from_bytes_be(Sign::Plus, b&quot;Hello world!&quot;),
                BigInt::parse_bytes(b&quot;22405534230753963835153736737&quot;, 10).unwrap());
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>bigint</span>::{<span class='ident'>BigInt</span>, <span class='ident'>Sign</span>};
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>BigInt</span>::<span class='ident'>from_bytes_be</span>(<span class='ident'>Sign</span>::<span class='ident'>Plus</span>, <span class='string'>b&quot;A&quot;</span>),
@@ -105,7 +105,7 @@ fn main() {
     let i = -1125.to_bigint().unwrap();
     assert_eq!(i.to_bytes_le(), (Sign::Minus, vec![101, 4]));
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>bigint</span>::{<span class='ident'>ToBigInt</span>, <span class='ident'>Sign</span>};
 
 <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>1125</span>.<span class='ident'>to_bigint</span>().<span class='ident'>unwrap</span>();
@@ -122,7 +122,7 @@ fn main() {
     let i = -1125.to_bigint().unwrap();
     assert_eq!(i.to_bytes_be(), (Sign::Minus, vec![4, 101]));
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>bigint</span>::{<span class='ident'>ToBigInt</span>, <span class='ident'>Sign</span>};
 
 <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>1125</span>.<span class='ident'>to_bigint</span>().<span class='ident'>unwrap</span>();
@@ -140,7 +140,7 @@ fn main() {
     assert_eq!(BigInt::parse_bytes(b&quot;ABCD&quot;, 16), ToBigInt::to_bigint(&amp;0xABCD));
     assert_eq!(BigInt::parse_bytes(b&quot;G&quot;, 16), None);
     
-}</span><pre class='rust rust-example-rendered'>
+}</span><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>num</span>::<span class='ident'>bigint</span>::{<span class='ident'>BigInt</span>, <span class='ident'>ToBigInt</span>};
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>BigInt</span>::<span class='ident'>parse_bytes</span>(<span class='string'>b&quot;1234&quot;</span>, <span class='number'>10</span>), <span class='ident'>ToBigInt</span>::<span class='ident'>to_bigint</span>(<span class='kw-2'>&amp;</span><span class='number'>1234</span>));
@@ -270,8 +270,8 @@ fn main() {
 <h4 id='method.from_f64' class='method'><code>fn <a href='../../num/traits/trait.FromPrimitive.html#method.from_f64' class='fnname'>from_f64</a>(n: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='../../num/bigint/trait.ToBigInt.html' title='num::bigint::ToBigInt'>ToBigInt</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.to_bigint' class='method'><code>fn <a href='../../num/bigint/trait.ToBigInt.html#method.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>&gt;</code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#method.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>, __D::Error&gt;</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#method.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#method.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>, __D&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#method.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S&gt;</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
