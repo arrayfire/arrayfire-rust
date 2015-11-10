@@ -1,6 +1,10 @@
 # Arrayfire Rust Bindings
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.0 API. You can find the documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html). If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.0 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+
+## Documentation
+
+You can find the most recent updated documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html).
 
 ## Build
 
