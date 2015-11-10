@@ -1,21 +1,42 @@
 # Arrayfire Rust Bindings
 
-The wrapper is currently compliant with ArrayFire 3.0 API. You can find the documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html). If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.0 API. You can find the documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html). If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
-## Building & Running
+## Build
 
-Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob.
-Currently Rust does not allow key:value pairs to be passed from the CLI.
-To use an existing arrayfire installation modify the first three JSON values.
+Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob. Currently Rust does not allow key:value pairs to be passed from the CLI. To use an existing ArrayFire installation modify the first three JSON values. You can install ArrayFire using one of the following two ways.
 
-To build arrayfire:
+- [Download and install binaries](https://arrayfire.com/download)
+- [Build and install from source](https://github.com/arrayfire/arrayfire)
+
+To build arrayfire submodule available in the rust wrapper, you have to do the following.
 
 ```bash
 git submodule update --init --recursive
 cargo build
 ```
+ This is recommended way to build Rust wrapper since the submodule points to the most compatible version of ArrayFire the Rust wrapper has been tested with. You can find the ArrayFire dependencies below.
 
-To run hello world example:
+- [Linux dependencies](http://www.arrayfire.com/docs/using_on_linux.htm)
+- [OSX dependencies](http://www.arrayfire.com/docs/using_on_osx.htm)
+
+Operating System Support: Currently, only Linux and OSX. With Rust 1.4(MSVC binary), we soon expect to get the Windows support available.
+
+## Example
+
+```rust
+let num_rows: u64 = 5;
+let num_cols: u64 = 3;
+let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
+println!("Create a 5-by-3 matrix of random floats on the GPU");
+let a = match randu(dims, Aftype::F32) {
+    Ok(value) => value,
+    Err(error) => panic!("{}", error),
+};
+print(&a);
+```
+
+### Sample output
 
 ```bash
 ~/p/arrayfire_rust> cargo run --example helloworld
@@ -32,76 +53,7 @@ Create a 5-by-3 matrix of random floats on the GPU
     0.9690     0.4702     0.3585
     0.9251     0.5132     0.6814
 
-Element-wise arithmetic
-sin(a) + 1.5 =>
-[5 3 1 1]
-    2.1744     1.9317     2.2006
-    2.2962     2.1189     1.7905
-    1.5390     1.6097     2.1549
-    2.3243     1.9531     1.8509
-    2.2987     1.9910     2.1299
-
-sin(a) + cos(a) =>
-[5 3 1 1]
-    1.4128     1.3337     1.4142
-    1.4012     1.4044     1.2474
-    1.0382     1.1037     1.4106
-    1.3905     1.3446     1.2873
-    1.4004     1.3621     1.4066
-
-!a =>
-[5 3 1 1]
-         1          1          1
-         1          1          1
-         1          1          1
-         1          1          1
-         1          1          1
-
-a + b
-[5 3 1 1]
-    2.9147     2.3780     2.9767
-    3.2172     2.7862     2.0853
-    1.5780     1.7196     2.8689
-    3.2933     2.4233     2.2094
-    3.2238     2.5042     2.8113
-
-Fourier transform the result
-[5 3 1 1]
-         (10.6327,0.0000)         (9.6043,0.0000)          (10.1267,0.0000)
-         (0.4689,0.4640)          (0.3193,0.0802)          (0.1713,0.1441)
-         (-0.3491,-0.7454)        (-0.2923,-0.4018)        (0.2667,0.4886)
-         (-0.3491,0.7454)         (-0.2923,0.4018)         (0.2667,-0.4886)
-         (0.4689,-0.4640)         (0.3193,-0.0802)         (0.1713,-0.1441)
-
-Create 2-by-3 matrix from host data
-[2 3 1 1]
-         1          3          5
-         2          4          6
-
-Sort A and print sorted array and corresponding indices
-[5 3 1 1]
-    0.0390     0.1099     0.2948
-    0.7402     0.4464     0.3585
-    0.9210     0.4702     0.6814
-    0.9251     0.5132     0.7140
-    0.9690     0.6673     0.7762
-
-[5 3 1 1]
-         2          2          1
-         0          0          3
-         1          3          4
-         4          4          2
-         3          1          0
-
-u8 constant array
-[5 3 1 1]
-         1          1          1
-         1          1          1
-         1          1          1
-         1          1          1
-         1          1          1
-
-Is u8_cnst array float precision type ? false
+...
 ```
 
 ## Issues
@@ -113,3 +65,30 @@ dyld: Library not loaded: @rpath/libafopencl.3.dylib
 ```
 
 You need to add the location of libaf.{dylib, so, dll} to your LD_LIBRARY_PATH.
+
+## Note
+
+This is a work in progress and is not intended for production use.
+
+## Acknowledgements
+
+The ArrayFire library is written by developers at [ArrayFire](http://arrayfire.com) LLC
+with [contributions from several individuals](https://github.com/arrayfire/arrayfire_python/graphs/contributors).
+
+The developers at ArrayFire LLC have received partial financial support
+from several grants and institutions. Those that wish to receive public
+acknowledgement are listed below:
+
+<!--
+The following section contains acknowledgements for grant funding. In most
+circumstances, the specific phrasing of the text is mandated by the grant
+provider. Thus these acknowledgements must remain intact without modification.
+-->
+
+### Grants
+
+This material is based upon work supported by the DARPA SBIR Program Office
+under Contract Numbers W31P4Q-14-C-0012 and W31P4Q-15-C-0008.
+Any opinions, findings and conclusions or recommendations expressed in this
+material are those of the author(s) and do not necessarily reflect the views of
+the DARPA SBIR Program Office.
