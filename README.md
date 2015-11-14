@@ -1,6 +1,6 @@
 # Arrayfire Rust Bindings
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.0 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.2 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
 ## Documentation
 
@@ -46,7 +46,7 @@ print(&a);
 ~/p/arrayfire_rust> cargo run --example helloworld
 ...
      running 1 test
-ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
+ArrayFire v3.2.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
 Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
 [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
 Create a 5-by-3 matrix of random floats on the GPU
