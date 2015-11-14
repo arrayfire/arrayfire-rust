@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_available_backends","Get the available backends"],["get_backend_count","Get the available backend count"],["set_backend","Toggle backends between cuda, opencl or cpu"]]});

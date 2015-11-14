@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         <a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -503,19 +503,81 @@
 <span id="461">461</span>
 <span id="462">462</span>
 <span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
 <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::<span class='ident'>AfError</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::<span class='ident'>MatchType</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_void</span>, <span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_longlong</span>};
+<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>HomographyType</span>, <span class='ident'>Aftype</span>, <span class='ident'>MatchType</span>};
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_void</span>, <span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_longlong</span>};
 
 <span class='kw'>type</span> <span class='ident'>MutAfArray</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>type</span> <span class='ident'>AfArray</span>    <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>type</span> <span class='ident'>DimT</span>       <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>type</span> <span class='ident'>MutFeat</span>    <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
 <span class='kw'>type</span> <span class='ident'>Feat</span>       <span class='op'>=</span> <span class='op'>*</span><span class='kw'>const</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
+
+<span class='comment'>// af_sift and af_gloh uses patented algorithms, so didn&#39;t add them</span>
+<span class='comment'>// they are built using installer builds</span>
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>extern</span> {
@@ -550,6 +612,14 @@
     <span class='kw'>fn</span> <span class='ident'>af_susan</span>(<span class='ident'>feat</span>: <span class='ident'>MutFeat</span>, <span class='ident'>i</span>: <span class='ident'>AfArray</span>, <span class='ident'>r</span>: <span class='ident'>c_uint</span>, <span class='ident'>d</span>: <span class='ident'>c_float</span>, <span class='ident'>g</span>: <span class='ident'>c_float</span>, <span class='ident'>f</span>: <span class='ident'>c_float</span>, <span class='ident'>e</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_dog</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>i</span>: <span class='ident'>AfArray</span>, <span class='ident'>r1</span>: <span class='ident'>c_int</span>, <span class='ident'>r2</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>af_homography</span>(<span class='ident'>H</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inliers</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>x_src</span>: <span class='ident'>AfArray</span>, <span class='ident'>y_src</span>: <span class='ident'>AfArray</span>,
+                     <span class='ident'>x_dst</span>: <span class='ident'>AfArray</span>, <span class='ident'>y_dst</span>: <span class='ident'>AfArray</span>, <span class='ident'>htype</span>: <span class='ident'>c_int</span>, <span class='ident'>inlier_thr</span>: <span class='ident'>c_float</span>,
+                     <span class='ident'>iterations</span>: <span class='ident'>c_uint</span>, <span class='ident'>otype</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>af_gloh</span>(<span class='ident'>out</span>: <span class='ident'>MutFeat</span>, <span class='ident'>desc</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>n_layers</span>: <span class='ident'>c_uint</span>,
+               <span class='ident'>contrast_thr</span>: <span class='ident'>c_float</span>, <span class='ident'>edge_thr</span>: <span class='ident'>c_float</span>, <span class='ident'>init_sigma</span>: <span class='ident'>c_float</span>,
+               <span class='ident'>double_input</span>: <span class='ident'>c_double</span>, <span class='ident'>intensity_scale</span>: <span class='ident'>c_float</span>, <span class='ident'>feature_ratio</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
 
 <span class='doccomment'>/// A set of Array objects (usually, used in Computer vision context)</span>
@@ -866,9 +936,9 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Parameters</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// `search_img` - is an array with image data</span>
-<span class='doccomment'>/// `template_img` - is the template we are looking for in the image</span>
-<span class='doccomment'>/// `mtype` -  is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).</span>
+<span class='doccomment'>/// - `search_img` is an array with image data</span>
+<span class='doccomment'>/// - `template_img` is the template we are looking for in the image</span>
+<span class='doccomment'>/// - `mtype` is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).</span>
 <span class='doccomment'>/// # Return Values</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// This function returns an Array with disparity values for the window starting at corresponding pixel position.</span>
@@ -967,46 +1037,105 @@
         }
     }
 }
+
+<span class='doccomment'>/// Homography estimation</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Homography estimation find a perspective transform between two sets of 2D points.</span>
+<span class='doccomment'>/// Currently, two methods are supported for the estimation, RANSAC (RANdom SAmple Consensus)</span>
+<span class='doccomment'>/// and LMedS (Least Median of Squares). Both methods work by randomly selecting a subset</span>
+<span class='doccomment'>/// of 4 points of the set of source points, computing the eigenvectors of that set and</span>
+<span class='doccomment'>/// finding the perspective transform. The process is repeated several times, a maximum of</span>
+<span class='doccomment'>/// times given by the value passed to the iterations arguments for RANSAC (for the CPU</span>
+<span class='doccomment'>/// backend, usually less than that, depending on the quality of the dataset, but for CUDA</span>
+<span class='doccomment'>/// and OpenCL backends the transformation will be computed exactly the amount of times</span>
+<span class='doccomment'>/// passed via the iterations parameter), the returned value is the one that matches the</span>
+<span class='doccomment'>/// best number of inliers, which are all of the points that fall within a maximum L2</span>
+<span class='doccomment'>/// distance from the value passed to the inlier_thr argument.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `x_src` is the x coordinates of the source points.</span>
+<span class='doccomment'>/// - `y_src` is the y coordinates of the source points.</span>
+<span class='doccomment'>/// - `x_dst` is the x coordinates of the destination points.</span>
+<span class='doccomment'>/// - `y_dst` is the y coordinates of the destination points.</span>
+<span class='doccomment'>/// - `htype` can be AF_HOMOGRAPHY_RANSAC, for which a RANdom SAmple Consensus will be used to evaluate the homography quality (e.g., number of inliers), or AF_HOMOGRAPHY_LMEDS, which will use Least Median of Squares method to evaluate homography quality</span>
+<span class='doccomment'>/// - `inlier_thr` - if htype is AF_HOMOGRAPHY_RANSAC, this parameter will five the maximum L2-distance for a point to be considered an inlier.</span>
+<span class='doccomment'>/// - `iterations` is the maximum number of iterations when htype is AF_HOMOGRAPHY_RANSAC and backend is CPU,if backend is CUDA or OpenCL, iterations is the total number of iterations, an iteration is a selection of 4 random points for which the homography is estimated and evaluated for number of inliers.</span>
+<span class='doccomment'>/// - `otype` is the array type for the homography output.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Returns a tuple of Array and int.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `H` is a 3x3 array containing the estimated homography.</span>
+<span class='doccomment'>/// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>homography</span>(<span class='ident'>x_src</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>y_src</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
+                  <span class='ident'>x_dst</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>y_dst</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
+                  <span class='ident'>htype</span>: <span class='ident'>HomographyType</span>, <span class='ident'>inlier_thr</span>: <span class='ident'>f32</span>,
+                  <span class='ident'>iterations</span>: <span class='ident'>u32</span>, <span class='ident'>otype</span>: <span class='ident'>Aftype</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Array</span>, <span class='ident'>i32</span>), <span class='ident'>AfError</span><span class='op'>&gt;</span> {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inliers</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span>    <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_homography</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>inliers</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>,
+                                    <span class='ident'>x_src</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y_src</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                    <span class='ident'>x_dst</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y_dst</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                    <span class='ident'>htype</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>inlier_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
+                                    <span class='ident'>iterations</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>otype</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+        <span class='kw'>match</span> <span class='ident'>err_val</span> {
+            <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>( (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>), <span class='ident'>inliers</span>) ),
+            _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>)),
+        }
+    }
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

@@ -24,116 +24,125 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         <a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
-<span id="2"> 2</span>
-<span id="3"> 3</span>
-<span id="4"> 4</span>
-<span id="5"> 5</span>
-<span id="6"> 6</span>
-<span id="7"> 7</span>
-<span id="8"> 8</span>
-<span id="9"> 9</span>
-<span id="10">10</span>
-<span id="11">11</span>
-<span id="12">12</span>
-<span id="13">13</span>
-<span id="14">14</span>
-<span id="15">15</span>
-<span id="16">16</span>
-<span id="17">17</span>
-<span id="18">18</span>
-<span id="19">19</span>
-<span id="20">20</span>
-<span id="21">21</span>
-<span id="22">22</span>
-<span id="23">23</span>
-<span id="24">24</span>
-<span id="25">25</span>
-<span id="26">26</span>
-<span id="27">27</span>
-<span id="28">28</span>
-<span id="29">29</span>
-<span id="30">30</span>
-<span id="31">31</span>
-<span id="32">32</span>
-<span id="33">33</span>
-<span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
-<span id="84">84</span>
-<span id="85">85</span>
-<span id="86">86</span>
-<span id="87">87</span>
-<span id="88">88</span>
-<span id="89">89</span>
-<span id="90">90</span>
-<span id="91">91</span>
-<span id="92">92</span>
-<span id="93">93</span>
-<span id="94">94</span>
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
        <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
@@ -160,6 +169,9 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>cbrt</span>, <span class='ident'>factorial</span>, <span class='ident'>tgamma</span>, <span class='ident'>lgamma</span>, <span class='ident'>iszero</span>, <span class='ident'>isinf</span>, <span class='ident'>isnan</span>};
 <span class='kw'>mod</span> <span class='ident'>arith</span>;
 
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>backend</span>::{<span class='ident'>set_backend</span>, <span class='ident'>get_backend_count</span>, <span class='ident'>get_available_backends</span>};
+<span class='kw'>mod</span> <span class='ident'>backend</span>;
+
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>blas</span>::{<span class='ident'>matmul</span>, <span class='ident'>dot</span>, <span class='ident'>transpose</span>, <span class='ident'>transpose_inplace</span>};
 <span class='kw'>mod</span> <span class='ident'>blas</span>;
 
@@ -171,12 +183,10 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>select</span>, <span class='ident'>selectl</span>, <span class='ident'>selectr</span>, <span class='ident'>replace</span>, <span class='ident'>replace_scalar</span>};
 <span class='kw'>mod</span> <span class='ident'>data</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>get_version</span>, <span class='ident'>info</span>, <span class='ident'>device_count</span>, <span class='ident'>is_double_available</span>
-	, <span class='ident'>set_device</span>, <span class='ident'>get_device</span>, <span class='ident'>sync</span>, <span class='ident'>get_backend_count</span>, <span class='ident'>set_backend</span>
-	, <span class='ident'>get_available_backends</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>get_version</span>, <span class='ident'>info</span>, <span class='ident'>device_count</span>, <span class='ident'>is_double_available</span>, <span class='ident'>set_device</span>, <span class='ident'>get_device</span>, <span class='ident'>sync</span>};
 <span class='kw'>mod</span> <span class='ident'>device</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>Aftype</span>, <span class='ident'>AfError</span>, <span class='ident'>AfBackend</span>, <span class='ident'>ColorMap</span>, <span class='ident'>YCCStd</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>Aftype</span>, <span class='ident'>AfError</span>, <span class='ident'>Backend</span>, <span class='ident'>ColorMap</span>, <span class='ident'>YCCStd</span>, <span class='ident'>HomographyType</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>InterpType</span>, <span class='ident'>BorderType</span>, <span class='ident'>MatchType</span>, <span class='ident'>NormType</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>Connectivity</span>, <span class='ident'>ConvMode</span>, <span class='ident'>ConvDomain</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>MatProp</span>};
 <span class='kw'>mod</span> <span class='ident'>defines</span>;
@@ -184,9 +194,9 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
 <span class='kw'>mod</span> <span class='ident'>dim4</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>index</span>, <span class='ident'>row</span>, <span class='ident'>rows</span>, <span class='ident'>col</span>, <span class='ident'>cols</span>, <span class='ident'>slice</span>, <span class='ident'>slices</span>
-                , <span class='ident'>set_row</span>, <span class='ident'>set_rows</span>, <span class='ident'>set_col</span>, <span class='ident'>set_cols</span>, <span class='ident'>set_slice</span>, <span class='ident'>set_slices</span>
-                , <span class='ident'>lookup</span>, <span class='ident'>assign_seq</span>, <span class='ident'>index_gen</span>, <span class='ident'>assign_gen</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>index</span>, <span class='ident'>row</span>, <span class='ident'>rows</span>, <span class='ident'>col</span>, <span class='ident'>cols</span>, <span class='ident'>slice</span>, <span class='ident'>slices</span>,
+                <span class='ident'>set_row</span>, <span class='ident'>set_rows</span>, <span class='ident'>set_col</span>, <span class='ident'>set_cols</span>, <span class='ident'>set_slice</span>, <span class='ident'>set_slices</span>,
+                <span class='ident'>lookup</span>, <span class='ident'>assign_seq</span>, <span class='ident'>index_gen</span>, <span class='ident'>assign_gen</span>};
 <span class='kw'>mod</span> <span class='ident'>index</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>seq</span>::<span class='ident'>Seq</span>;
@@ -195,7 +205,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>graphics</span>::<span class='ident'>Window</span>;
 <span class='kw'>mod</span> <span class='ident'>graphics</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gaussian_kernel</span>, <span class='ident'>load_image</span>, <span class='ident'>save_image</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gaussian_kernel</span>, <span class='ident'>load_image</span>, <span class='ident'>load_image_native</span>, <span class='ident'>save_image</span>, <span class='ident'>save_image_native</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>resize</span>, <span class='ident'>transform</span>, <span class='ident'>rotate</span>, <span class='ident'>translate</span>, <span class='ident'>scale</span>, <span class='ident'>skew</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>dilate</span>, <span class='ident'>dilate3</span>, <span class='ident'>erode</span>, <span class='ident'>erode3</span>, <span class='ident'>minfilt</span>, <span class='ident'>maxfilt</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gradient</span>, <span class='ident'>histogram</span>, <span class='ident'>hist_equal</span>, <span class='ident'>regions</span>};
@@ -228,47 +238,64 @@
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::<span class='ident'>Features</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::{<span class='ident'>fast</span>, <span class='ident'>harris</span>, <span class='ident'>orb</span>, <span class='ident'>hamming_matcher</span>, <span class='ident'>nearest_neighbour</span>, <span class='ident'>match_template</span>, <span class='ident'>susan</span>, <span class='ident'>dog</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::{<span class='ident'>homography</span>};
 <span class='kw'>mod</span> <span class='ident'>vision</span>;
+
+<span class='comment'>// headers that are not exposed through rust wrapper are as follows:</span>
+<span class='comment'>// compatible.h</span>
+<span class='comment'>// constants.h</span>
+<span class='comment'>// complex.h</span>
+<span class='comment'>// cuda.h</span>
+<span class='comment'>// opencl.h</span>
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

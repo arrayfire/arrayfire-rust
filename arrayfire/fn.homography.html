@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `homography` fn in crate `arrayfire`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, homography">
+
+    <title>arrayfire::homography - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'homography', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class='fn' href=''>homography</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-30359' class='srclink' href='../src/arrayfire/vision/mod.rs.html#506-523' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn homography(x_src: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, y_src: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, x_dst: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, y_dst: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, htype: <a class='enum' href='../arrayfire/enum.HomographyType.html' title='arrayfire::HomographyType'>HomographyType</a>, inlier_thr: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, iterations: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, otype: <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Homography estimation</p>
+
+<p>Homography estimation find a perspective transform between two sets of 2D points.
+Currently, two methods are supported for the estimation, RANSAC (RANdom SAmple Consensus)
+and LMedS (Least Median of Squares). Both methods work by randomly selecting a subset
+of 4 points of the set of source points, computing the eigenvectors of that set and
+finding the perspective transform. The process is repeated several times, a maximum of
+times given by the value passed to the iterations arguments for RANSAC (for the CPU
+backend, usually less than that, depending on the quality of the dataset, but for CUDA
+and OpenCL backends the transformation will be computed exactly the amount of times
+passed via the iterations parameter), the returned value is the one that matches the
+best number of inliers, which are all of the points that fall within a maximum L2
+distance from the value passed to the inlier_thr argument.</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>x_src</code> is the x coordinates of the source points.</li>
+<li><code>y_src</code> is the y coordinates of the source points.</li>
+<li><code>x_dst</code> is the x coordinates of the destination points.</li>
+<li><code>y_dst</code> is the y coordinates of the destination points.</li>
+<li><code>htype</code> can be AF_HOMOGRAPHY_RANSAC, for which a RANdom SAmple Consensus will be used to evaluate the homography quality (e.g., number of inliers), or AF_HOMOGRAPHY_LMEDS, which will use Least Median of Squares method to evaluate homography quality</li>
+<li><code>inlier_thr</code> - if htype is AF_HOMOGRAPHY_RANSAC, this parameter will five the maximum L2-distance for a point to be considered an inlier.</li>
+<li><code>iterations</code> is the maximum number of iterations when htype is AF_HOMOGRAPHY_RANSAC and backend is CPU,if backend is CUDA or OpenCL, iterations is the total number of iterations, an iteration is a selection of 4 random points for which the homography is estimated and evaluated for number of inliers.</li>
+<li><code>otype</code> is the array type for the homography output.</li>
+</ul>
+
+<h1 id="return-values" class='section-header'><a
+                           href="#return-values">Return Values</a></h1>
+<p>Returns a tuple of Array and int.</p>
+
+<ul>
+<li><code>H</code> is a 3x3 array containing the estimated homography.</li>
+<li><code>inliers</code> is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.</li>
+</ul>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "arrayfire";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

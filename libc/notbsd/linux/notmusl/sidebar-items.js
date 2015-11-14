@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BUFSIZ",""],["FOPEN_MAX",""],["O_ACCMODE",""],["POSIX_MADV_DONTNEED",""],["RUSAGE_CHILDREN",""],["RUSAGE_THREAD",""],["TMP_MAX",""],["_SC_2_C_VERSION",""]],"fn":[["backtrace",""],["glob64",""],["globfree64",""],["ioctl",""],["sysctl",""]],"struct":[["glob64_t",""]]});

@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Window', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-19939' class='srclink' href='../src/arrayfire/graphics.rs.html#73-78' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-20112' class='srclink' href='../src/arrayfire/graphics.rs.html#77-82' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Window {
     // some fields omitted
 }</pre><div class='docblock'><p>Used to render <a href="./struct.Array.html">Array</a> objects</p>
@@ -55,7 +55,7 @@ A single window can also display multiple of the above renderings at the same ti
 is known as multiview mode. An example of that is given below.</p>
 
 <h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre id='rust-example-rendered' class='rust '>
+                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>wnd</span> <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>new</span>(<span class='number'>1280</span>, <span class='number'>720</span>, <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Image Histogram&quot;</span>)).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>img</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>load_image</span>(<span class='string'>&quot;Path to image&quot;</span>, <span class='boolval'>true</span><span class='comment'>/*If color image, &#39;false&#39; otherwise*/</span>) {
     <span class='prelude-val'>Ok</span>(<span class='ident'>img</span>) <span class='op'>=&gt;</span> <span class='ident'>img</span>,
@@ -75,77 +75,98 @@ is known as multiview mode. An example of that is given below.</p>
     <span class='ident'>wnd</span>.<span class='ident'>show</span>();
 
     <span class='kw'>if</span> <span class='ident'>wnd</span>.<span class='ident'>is_closed</span>().<span class='ident'>unwrap</span>() <span class='op'>==</span> <span class='boolval'>true</span> { <span class='kw'>break</span>; }
-}
-</pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(width: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, height: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, title: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+}</pre>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(width: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, height: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, title: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Creates new Window object</p>
-</div><h4 id='method.set_position' class='method'><code>fn <a href='#method.set_position' class='fnname'>set_position</a>(&amp;self, x: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, y: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+</div><h4 id='method.set_position' class='method'><code>fn <a href='#method.set_position' class='fnname'>set_position</a>(&amp;self, x: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, y: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Set window starting position on the screen</p>
-</div><h4 id='method.set_title' class='method'><code>fn <a href='#method.set_title' class='fnname'>set_title</a>(&amp;self, title: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+</div><h4 id='method.set_title' class='method'><code>fn <a href='#method.set_title' class='fnname'>set_title</a>(&amp;self, title: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Set window title</p>
+</div><h4 id='method.set_size' class='method'><code>fn <a href='#method.set_size' class='fnname'>set_size</a>(&amp;self, w: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, h: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+<div class='docblock'><p>Set window size</p>
+
+<h1 id="parameters" class='section-header'><a
+                           href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>w</code> is the target width of window</li>
+<li><code>h</code> is the target height of window</li>
+</ul>
 </div><h4 id='method.set_colormap' class='method'><code>fn <a href='#method.set_colormap' class='fnname'>set_colormap</a>(&amp;mut self, cmap: <a class='enum' href='../arrayfire/enum.ColorMap.html' title='arrayfire::ColorMap'>ColorMap</a>)</code></h4>
 <div class='docblock'><p>Set color map to be used for rendering image, it can take one of the values of enum
 <a href="./enum.ColorMap.html">ColorMap</a></p>
-</div><h4 id='method.is_closed' class='method'><code>fn <a href='#method.is_closed' class='fnname'>is_closed</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+</div><h4 id='method.is_closed' class='method'><code>fn <a href='#method.is_closed' class='fnname'>is_closed</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Returns true if the window close is triggered by the user</p>
-</div><h4 id='method.grid' class='method'><code>fn <a href='#method.grid' class='fnname'>grid</a>(&amp;self, rows: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, cols: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+</div><h4 id='method.grid' class='method'><code>fn <a href='#method.grid' class='fnname'>grid</a>(&amp;self, rows: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, cols: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Used to setup display layout in multiview mode</p>
-</div><h4 id='method.show' class='method'><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
+</div><h4 id='method.show' class='method'><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;mut self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</code></h4>
 <div class='docblock'><p>Used in multiview mode to swap back buffer with front buffer to show the recently rendered
 frame</p>
-</div><h4 id='method.set_view' class='method'><code>fn <a href='#method.set_view' class='fnname'>set_view</a>(&amp;mut self, r: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, c: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
+</div><h4 id='method.set_view' class='method'><code>fn <a href='#method.set_view' class='fnname'>set_view</a>(&amp;mut self, r: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, c: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
 <div class='docblock'><p>Used in multiview mode to set the current sub-region to which the subsequence draw call
 renders to</p>
-</div><h4 id='method.draw_image' class='method'><code>fn <a href='#method.draw_image' class='fnname'>draw_image</a>(&amp;self, input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+</div><h4 id='method.draw_image' class='method'><code>fn <a href='#method.draw_image' class='fnname'>draw_image</a>(&amp;self, input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
 <div class='docblock'><p>Render given Array as an image</p>
-</div><h4 id='method.draw_plot' class='method'><code>fn <a href='#method.draw_plot' class='fnname'>draw_plot</a>(&amp;self, x: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, y: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+</div><h4 id='method.draw_plot' class='method'><code>fn <a href='#method.draw_plot' class='fnname'>draw_plot</a>(&amp;self, x: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, y: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
 <div class='docblock'><p>Render given two Array&#39;s <code>x</code> and <code>y</code> as a 2d line plot</p>
-</div><h4 id='method.draw_hist' class='method'><code>fn <a href='#method.draw_hist' class='fnname'>draw_hist</a>(&amp;self, hst: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, minval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, maxval: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, title: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+</div><h4 id='method.draw_plot3' class='method'><code>fn <a href='#method.draw_plot3' class='fnname'>draw_plot3</a>(&amp;self, points: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+<div class='docblock'><p>Render give Arrays of points as a 3d line plot</p>
+</div><h4 id='method.draw_hist' class='method'><code>fn <a href='#method.draw_hist' class='fnname'>draw_hist</a>(&amp;self, hst: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, minval: <a href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, maxval: <a href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, title: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
 <div class='docblock'><p>Render given Array as a histogram</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>&gt; for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='docblock'><p>Used to create Window object from native(ArrayFire) resource handle</p>
-</div><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
-</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h4>
-<h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h4 id='method.draw_surface' class='method'><code>fn <a href='#method.draw_surface' class='fnname'>draw_surface</a>(&amp;self, xvals: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, yvals: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, zvals: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, title: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+<div class='docblock'><p>Render give Arrays as 3d surface</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>&gt; for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='docblock'><p>Used to create Window object from native(ArrayFire) resource handle</p>
+</div><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../arrayfire/struct.Window.html' title='arrayfire::Window'>Window</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

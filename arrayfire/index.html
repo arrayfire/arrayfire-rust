@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         <p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script>
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/arrayfire/lib.rs.html#1-94' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/arrayfire/lib.rs.html#1-96' title='goto source code'>[src]</a></span></h1>
 <h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                     <tr class=' module-item'>
@@ -114,14 +114,6 @@
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                     <tr class=' module-item'>
-                        <td><a class='enum' href='enum.AfBackend.html'
-                               title='arrayfire::AfBackend'>AfBackend</a></td>
-                        <td class='docblock short'>
-                             
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
                         <td><a class='enum' href='enum.AfError.html'
                                title='arrayfire::AfError'>AfError</a></td>
                         <td class='docblock short'>
@@ -136,6 +128,14 @@
                         <td class='docblock short'>
                              <p>Types of Array data type</p>
 
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Backend.html'
+                               title='arrayfire::Backend'>Backend</a></td>
+                        <td class='docblock short'>
+                             
                         </td>
                     </tr>
                 
@@ -189,6 +189,15 @@
                                title='arrayfire::ConvMode'>ConvMode</a></td>
                         <td class='docblock short'>
                              <p>Helps determine the size of output of convolution</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.HomographyType.html'
+                               title='arrayfire::HomographyType'>HomographyType</a></td>
+                        <td class='docblock short'>
+                             <p>Homography type</p>
 
                         </td>
                     </tr>
@@ -1091,6 +1100,15 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.homography.html'
+                               title='arrayfire::homography'>homography</a></td>
+                        <td class='docblock short'>
+                             <p>Homography estimation</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.hsv2rgb.html'
                                title='arrayfire::hsv2rgb'>hsv2rgb</a></td>
                         <td class='docblock short'>
@@ -1339,6 +1357,15 @@
                                title='arrayfire::load_image'>load_image</a></td>
                         <td class='docblock short'>
                              <p>Load Image into Array</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.load_image_native.html'
+                               title='arrayfire::load_image_native'>load_image_native</a></td>
+                        <td class='docblock short'>
+                             <p>Load Image into Array in it&#39;s native type</p>
 
                         </td>
                     </tr>
@@ -1915,6 +1942,15 @@
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='fn' href='fn.save_image_native.html'
+                               title='arrayfire::save_image_native'>save_image_native</a></td>
+                        <td class='docblock short'>
+                             <p>Save an Array without modifications to an image file</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='fn' href='fn.scale.html'
                                title='arrayfire::scale'>scale</a></td>
                         <td class='docblock short'>
@@ -2453,40 +2489,49 @@
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

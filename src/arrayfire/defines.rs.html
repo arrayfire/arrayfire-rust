@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         <a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -333,6 +333,20 @@
 <span id="291">291</span>
 <span id="292">292</span>
 <span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Display</span>, <span class='ident'>Formatter</span>};
@@ -385,7 +399,7 @@
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AfBackend</span> {
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Backend</span> {
     <span class='doccomment'>/// Default backend order: OpenCL -&gt; CUDA -&gt; CPU</span>
     <span class='ident'>AF_BACKEND_DEFAULT</span> <span class='op'>=</span> <span class='number'>0</span>,
     <span class='doccomment'>/// CPU a.k.a sequential algorithms</span>
@@ -396,13 +410,13 @@
     <span class='ident'>AF_BACKEND_OPENCL</span>  <span class='op'>=</span> <span class='number'>4</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>AfBackend</span> {
+<span class='kw'>impl</span> <span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Backend</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>FmtError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>AfBackend</span>::<span class='ident'>AF_BACKEND_OPENCL</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;OpenCL&quot;</span>,
-            <span class='ident'>AfBackend</span>::<span class='ident'>AF_BACKEND_CUDA</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;Cuda&quot;</span>,
-            <span class='ident'>AfBackend</span>::<span class='ident'>AF_BACKEND_CPU</span>     <span class='op'>=&gt;</span> <span class='string'>&quot;CPU&quot;</span>,
-            <span class='ident'>AfBackend</span>::<span class='ident'>AF_BACKEND_DEFAULT</span> <span class='op'>=&gt;</span> <span class='string'>&quot;Default&quot;</span>,
+            <span class='ident'>Backend</span>::<span class='ident'>AF_BACKEND_OPENCL</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;OpenCL&quot;</span>,
+            <span class='ident'>Backend</span>::<span class='ident'>AF_BACKEND_CUDA</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;Cuda&quot;</span>,
+            <span class='ident'>Backend</span>::<span class='ident'>AF_BACKEND_CPU</span>     <span class='op'>=&gt;</span> <span class='string'>&quot;CPU&quot;</span>,
+            <span class='ident'>Backend</span>::<span class='ident'>AF_BACKEND_DEFAULT</span> <span class='op'>=&gt;</span> <span class='string'>&quot;Default&quot;</span>,
         };
         <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>text</span>)
     }
@@ -460,6 +474,10 @@
     <span class='ident'>S64</span> <span class='op'>=</span> <span class='number'>8</span>,
     <span class='doccomment'>/// 64 bit unsigned integer</span>
     <span class='ident'>U64</span> <span class='op'>=</span> <span class='number'>9</span>,
+    <span class='doccomment'>/// 16 bit signed integer</span>
+    <span class='ident'>S16</span> <span class='op'>=</span> <span class='number'>10</span>,
+    <span class='doccomment'>/// 16 bit unsigned integer</span>
+    <span class='ident'>U16</span> <span class='op'>=</span> <span class='number'>11</span>,
 }
 
 <span class='doccomment'>/// Dictates the interpolation method to be used by a function</span>
@@ -627,46 +645,65 @@
     <span class='doccomment'>/// ITU-R BT.2020 standard</span>
     <span class='ident'>YCC_2020</span> <span class='op'>=</span> <span class='number'>2020</span>,
 }
+
+<span class='doccomment'>/// Homography type</span>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>HomographyType</span> {
+    <span class='doccomment'>/// RANdom SAmple Consensus algorithm</span>
+    <span class='ident'>RANSAC</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Least Median of Squares</span>
+    <span class='ident'>LMEDS</span>  <span class='op'>=</span> <span class='number'>1</span>,
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 
