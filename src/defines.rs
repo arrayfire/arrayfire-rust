@@ -49,7 +49,7 @@ pub enum AfError {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum AfBackend {
+pub enum Backend {
     /// Default backend order: OpenCL -> CUDA -> CPU
     AF_BACKEND_DEFAULT = 0,
     /// CPU a.k.a sequential algorithms
@@ -60,13 +60,13 @@ pub enum AfBackend {
     AF_BACKEND_OPENCL  = 4
 }
 
-impl Display for AfBackend {
+impl Display for Backend {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
         let text = match *self {
-            AfBackend::AF_BACKEND_OPENCL  => "OpenCL",
-            AfBackend::AF_BACKEND_CUDA    => "Cuda",
-            AfBackend::AF_BACKEND_CPU     => "CPU",
-            AfBackend::AF_BACKEND_DEFAULT => "Default",
+            Backend::AF_BACKEND_OPENCL  => "OpenCL",
+            Backend::AF_BACKEND_CUDA    => "Cuda",
+            Backend::AF_BACKEND_CPU     => "CPU",
+            Backend::AF_BACKEND_DEFAULT => "Default",
         };
         write!(f, "{}", text)
     }
@@ -124,6 +124,10 @@ pub enum Aftype {
     S64 = 8,
     /// 64 bit unsigned integer
     U64 = 9,
+    /// 16 bit signed integer
+    S16 = 10,
+    /// 16 bit unsigned integer
+    U16 = 11,
 }
 
 /// Dictates the interpolation method to be used by a function
@@ -290,4 +294,14 @@ pub enum YCCStd {
     YCC_709 = 709,
     /// ITU-R BT.2020 standard
     YCC_2020 = 2020,
+}
+
+/// Homography type
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub enum HomographyType {
+    /// RANdom SAmple Consensus algorithm
+    RANSAC = 0,
+    /// Least Median of Squares
+    LMEDS  = 1,
 }

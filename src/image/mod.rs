@@ -14,11 +14,18 @@ type MutAfArray = *mut self::libc::c_longlong;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
 
+// unused functions from image.h header
+// af_load_image_memory
+// af_save_image_memory
+// af_delete_image_memory
+
 #[allow(dead_code)]
 extern {
     fn af_gradient(dx: MutAfArray, dy: MutAfArray, arr: AfArray) -> c_int;
     fn af_load_image(out: MutAfArray, filename: *const u8, iscolor: c_int) -> c_int;
     fn af_save_image(filename: *const u8, input: AfArray) -> c_int;
+    fn af_load_image_native(out: MutAfArray, filename: *const u8) -> c_int;
+    fn af_save_image_native(filename: *const u8, input: AfArray) -> c_int;
 
     fn af_resize(out: MutAfArray, input: AfArray,
                  odim0: DimT, odim1: DimT, method: uint8_t) -> c_int;
@@ -143,6 +150,37 @@ pub fn load_image(filename: String, is_color: bool) -> Result<Array, AfError> {
     }
 }
 
+/// Load Image into Array in it's native type
+///
+/// This load image function allows you to load images as U8, U16 or F32
+/// depending on the type of input image as shown by the table below.
+///
+///  Bits per Color (Gray/RGB/RGBA Bits Per Pixel) | Array Type  | Range
+/// -----------------------------------------------|-------------|---------------
+///   8 ( 8/24/32  BPP)                            | u8          | 0 - 255
+///  16 (16/48/64  BPP)                            | u16         | 0 - 65535
+///  32 (32/96/128 BPP)                            | f32         | 0 - 1
+///
+/// # Parameters
+///
+/// - `filename` is name of file to be loaded
+///
+/// # Return Arrays
+///
+/// An Array with pixel values loaded from the image
+#[allow(unused_mut)]
+pub fn load_image_native(filename: String) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_load_image_native(&mut temp as MutAfArray,
+                                    filename.clone().as_bytes().as_ptr() as *const u8);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
 /// Save an Array to an image file
 ///
 /// # Parameters
@@ -153,6 +191,34 @@ pub fn load_image(filename: String, is_color: bool) -> Result<Array, AfError> {
 pub fn save_image(filename: String, input: &Array) -> Result<(), AfError> {
     unsafe {
         let err_val = af_save_image(filename.clone().as_bytes().as_ptr() as *const u8,
+                                    input.get() as AfArray);
+        match err_val {
+            0 => Ok(()),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Save an Array without modifications to an image file
+///
+/// This function only accepts U8, U16, F32 arrays. These arrays are saved to images without any modifications. You must also note that note all image type support 16 or 32 bit images. The best options for 16 bit images are PNG, PPM and TIFF. The best option for 32 bit images is TIFF. These allow lossless storage.
+///
+/// The images stored have the following properties:
+///
+///  Array Type  | Bits per Color (Gray/RGB/RGBA Bits Per Pixel) | Range
+/// -------------|-----------------------------------------------|---------------
+///  U8          |  8 ( 8/24/32  BPP)                            | 0 - 255
+///  U16         | 16 (16/48/64  BPP)                            | 0 - 65535
+///  F32         | 32 (32/96/128 BPP)                            | 0 - 1
+///
+/// # Parameters
+///
+/// - `filename` is name of file to be saved
+/// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.
+#[allow(unused_mut)]
+pub fn save_image_native(filename: String, input: &Array) -> Result<(), AfError> {
+    unsafe {
+        let err_val = af_save_image_native(filename.clone().as_bytes().as_ptr() as *const u8,
                                     input.get() as AfArray);
         match err_val {
             0 => Ok(()),

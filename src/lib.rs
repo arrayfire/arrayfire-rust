@@ -23,6 +23,9 @@ pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root
 pub use arith::{cbrt, factorial, tgamma, lgamma, iszero, isinf, isnan};
 mod arith;
 
+pub use backend::{set_backend, get_backend_count, get_available_backends};
+mod backend;
+
 pub use blas::{matmul, dot, transpose, transpose_inplace};
 mod blas;
 
@@ -34,12 +37,10 @@ pub use data::{reorder, shift, moddims, flat, flip};
 pub use data::{select, selectl, selectr, replace, replace_scalar};
 mod data;
 
-pub use device::{get_version, info, device_count, is_double_available
-	, set_device, get_device, sync, get_backend_count, set_backend
-	, get_available_backends};
+pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync};
 mod device;
 
-pub use defines::{Aftype, AfError, AfBackend, ColorMap, YCCStd};
+pub use defines::{Aftype, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 mod defines;
@@ -47,9 +48,9 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
-pub use index::{Indexer, index, row, rows, col, cols, slice, slices
-                , set_row, set_rows, set_col, set_cols, set_slice, set_slices
-                , lookup, assign_seq, index_gen, assign_gen};
+pub use index::{Indexer, index, row, rows, col, cols, slice, slices,
+                set_row, set_rows, set_col, set_cols, set_slice, set_slices,
+                lookup, assign_seq, index_gen, assign_gen};
 mod index;
 
 pub use seq::Seq;
@@ -58,7 +59,7 @@ mod seq;
 pub use graphics::Window;
 mod graphics;
 
-pub use image::{gaussian_kernel, load_image, save_image};
+pub use image::{gaussian_kernel, load_image, load_image_native, save_image, save_image_native};
 pub use image::{resize, transform, rotate, translate, scale, skew};
 pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
 pub use image::{gradient, histogram, hist_equal, regions};
@@ -91,4 +92,12 @@ mod util;
 
 pub use vision::Features;
 pub use vision::{fast, harris, orb, hamming_matcher, nearest_neighbour, match_template, susan, dog};
+pub use vision::{homography};
 mod vision;
+
+// headers that are not exposed through rust wrapper are as follows:
+// compatible.h
+// constants.h
+// complex.h
+// cuda.h
+// opencl.h

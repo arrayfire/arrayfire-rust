@@ -1,8 +1,7 @@
 extern crate libc;
 
 use dim4::Dim4;
-use defines::AfError;
-use defines::Aftype;
+use defines::{AfError, Aftype, Backend};
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -10,6 +9,13 @@ type MutDouble  = *mut self::libc::c_double;
 type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
+
+// Some unused functions from array.h in C-API of ArrayFire
+// af_create_handle
+// af_copy_array
+// af_write_array
+// af_get_data_ptr
+// af_get_data_ref_count
 
 #[allow(dead_code)]
 extern {
@@ -64,6 +70,8 @@ extern {
     fn af_print_array(arr: AfArray) -> c_int;
 
     fn af_cast(out: MutAfArray, arr: AfArray, aftype: uint8_t) -> c_int;
+
+    fn af_get_backend_id(backend: *mut c_int, input: AfArray) -> c_int;
 }
 
 /// A multidimensional data container
@@ -110,6 +118,25 @@ impl Array {
             match err_val {
                 0 => Ok(Array {handle: temp}),
                 _ => Err(AfError::from(err_val)),
+            }
+        }
+    }
+
+    /// Returns the backend of the Array
+    ///
+    /// # Return Values
+    ///
+    /// Returns an value of type `Backend` which indicates which backend
+    /// was active when Array was created.
+    pub fn get_backend(&self) -> Backend {
+        unsafe {
+            let mut ret_val: i32 = 0;
+            af_get_backend_id(&mut ret_val as *mut c_int, self.handle as AfArray);
+            match ret_val {
+                1 => Backend::AF_BACKEND_CPU,
+                2 => Backend::AF_BACKEND_CUDA,
+                3 => Backend::AF_BACKEND_OPENCL,
+                _ => Backend::AF_BACKEND_DEFAULT,
             }
         }
     }

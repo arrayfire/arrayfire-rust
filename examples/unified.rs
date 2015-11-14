@@ -24,9 +24,9 @@ fn main() {
   println!("There are {:?} available backends", get_backend_count().unwrap());
   let available = get_available_backends().unwrap();
 
-  if available.contains(&AfBackend::AF_BACKEND_CPU){
+  if available.contains(&Backend::AF_BACKEND_CPU){
     println!("Evaluating CPU Backend...");
-    let err = set_backend(AfBackend::AF_BACKEND_CPU);
+    let err = set_backend(Backend::AF_BACKEND_CPU);
     println!("There are {} CPU compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),
@@ -34,9 +34,9 @@ fn main() {
     };
   }
 
-  if available.contains(&AfBackend::AF_BACKEND_CUDA){
+  if available.contains(&Backend::AF_BACKEND_CUDA){
     println!("Evaluating CUDA Backend...");
-    let err = set_backend(AfBackend::AF_BACKEND_CUDA);
+    let err = set_backend(Backend::AF_BACKEND_CUDA);
     println!("There are {} CUDA compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),
@@ -44,9 +44,9 @@ fn main() {
     };
   }
 
-  if available.contains(&AfBackend::AF_BACKEND_OPENCL){
+  if available.contains(&Backend::AF_BACKEND_OPENCL){
     println!("Evaluating OpenCL Backend...");
-    let err = set_backend(AfBackend::AF_BACKEND_OPENCL);
+    let err = set_backend(Backend::AF_BACKEND_OPENCL);
     println!("There are {} OpenCL compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),

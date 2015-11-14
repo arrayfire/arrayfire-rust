@@ -1,15 +1,17 @@
 extern crate libc;
 
 use array::Array;
-use defines::AfError;
-use defines::MatchType;
-use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_longlong};
+use defines::{AfError, HomographyType, Aftype, MatchType};
+use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_double, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
 type MutFeat    = *mut *mut self::libc::c_void;
 type Feat       = *const self::libc::c_void;
+
+// af_sift and af_gloh uses patented algorithms, so didn't add them
+// they are built using installer builds
 
 #[allow(dead_code)]
 extern {
@@ -44,6 +46,14 @@ extern {
     fn af_susan(feat: MutFeat, i: AfArray, r: c_uint, d: c_float, g: c_float, f: c_float, e: c_uint) -> c_int;
 
     fn af_dog(out: MutAfArray, i: AfArray, r1: c_int, r2: c_int) -> c_int;
+
+    fn af_homography(H: MutAfArray, inliers: *mut c_int, x_src: AfArray, y_src: AfArray,
+                     x_dst: AfArray, y_dst: AfArray, htype: c_int, inlier_thr: c_float,
+                     iterations: c_uint, otype: c_int) -> c_int;
+
+    fn af_gloh(out: MutFeat, desc: MutAfArray, input: AfArray, n_layers: c_uint,
+               contrast_thr: c_float, edge_thr: c_float, init_sigma: c_float,
+               double_input: c_double, intensity_scale: c_float, feature_ratio: c_float) -> c_int;
 }
 
 /// A set of Array objects (usually, used in Computer vision context)
@@ -360,9 +370,9 @@ pub fn nearest_neighbour(query: &Array, train: &Array, dist_dim: i64, n_dist: u3
 ///
 /// # Parameters
 ///
-/// `search_img` - is an array with image data
-/// `template_img` - is the template we are looking for in the image
-/// `mtype` -  is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).
+/// - `search_img` is an array with image data
+/// - `template_img` is the template we are looking for in the image
+/// - `mtype` is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).
 /// # Return Values
 ///
 /// This function returns an Array with disparity values for the window starting at corresponding pixel position.
@@ -457,6 +467,56 @@ pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Result<Array, AfError> 
                              radius1 as c_int, radius2 as c_int);
         match err_val {
             0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Homography estimation
+///
+/// Homography estimation find a perspective transform between two sets of 2D points.
+/// Currently, two methods are supported for the estimation, RANSAC (RANdom SAmple Consensus)
+/// and LMedS (Least Median of Squares). Both methods work by randomly selecting a subset
+/// of 4 points of the set of source points, computing the eigenvectors of that set and
+/// finding the perspective transform. The process is repeated several times, a maximum of
+/// times given by the value passed to the iterations arguments for RANSAC (for the CPU
+/// backend, usually less than that, depending on the quality of the dataset, but for CUDA
+/// and OpenCL backends the transformation will be computed exactly the amount of times
+/// passed via the iterations parameter), the returned value is the one that matches the
+/// best number of inliers, which are all of the points that fall within a maximum L2
+/// distance from the value passed to the inlier_thr argument.
+///
+/// # Parameters
+///
+/// - `x_src` is the x coordinates of the source points.
+/// - `y_src` is the y coordinates of the source points.
+/// - `x_dst` is the x coordinates of the destination points.
+/// - `y_dst` is the y coordinates of the destination points.
+/// - `htype` can be AF_HOMOGRAPHY_RANSAC, for which a RANdom SAmple Consensus will be used to evaluate the homography quality (e.g., number of inliers), or AF_HOMOGRAPHY_LMEDS, which will use Least Median of Squares method to evaluate homography quality
+/// - `inlier_thr` - if htype is AF_HOMOGRAPHY_RANSAC, this parameter will five the maximum L2-distance for a point to be considered an inlier.
+/// - `iterations` is the maximum number of iterations when htype is AF_HOMOGRAPHY_RANSAC and backend is CPU,if backend is CUDA or OpenCL, iterations is the total number of iterations, an iteration is a selection of 4 random points for which the homography is estimated and evaluated for number of inliers.
+/// - `otype` is the array type for the homography output.
+///
+/// # Return Values
+///
+/// Returns a tuple of Array and int.
+///
+/// - `H` is a 3x3 array containing the estimated homography.
+/// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.
+pub fn homography(x_src: &Array, y_src: &Array,
+                  x_dst: &Array, y_dst: &Array,
+                  htype: HomographyType, inlier_thr: f32,
+                  iterations: u32, otype: Aftype) -> Result<(Array, i32), AfError> {
+    unsafe {
+        let mut inliers: i32 = 0;
+        let mut temp: i64    = 0;
+        let err_val = af_homography(&mut temp as MutAfArray, &mut inliers as *mut c_int,
+                                    x_src.get() as AfArray, y_src.get() as AfArray,
+                                    x_dst.get() as AfArray, y_dst.get() as AfArray,
+                                    htype as c_int, inlier_thr as c_float,
+                                    iterations as c_uint, otype as c_int);
+        match err_val {
+            0 => Ok( (Array::from(temp), inliers) ),
             _ => Err(AfError::from(err_val)),
         }
     }

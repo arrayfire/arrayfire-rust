@@ -16,14 +16,18 @@ extern {
     fn af_create_window(out: MutWndHandle, w: c_int, h: c_int, title: *const c_char) -> c_int;
     fn af_set_position(wnd: WndHandle, x: c_uint, y: c_uint) -> c_int;
     fn af_set_title(wnd: WndHandle, title: *const c_char) -> c_int;
+    fn af_set_size(wnd: WndHandle, w: c_uint, h: c_uint) -> c_int;
     fn af_draw_image(wnd: WndHandle, arr: AfArray, props: CellPtr) -> c_int;
     fn af_draw_plot(wnd: WndHandle, x: AfArray, y: AfArray, props: CellPtr) -> c_int;
+    fn af_draw_plot3(wnd: WndHandle, P: AfArray, props: CellPtr) -> c_int;
+    fn af_draw_hist(wnd: WndHandle, x: AfArray,
+                    minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
+    fn af_draw_surface(wnd: WndHandle, xvals: AfArray, yvals: AfArray, S: AfArray,
+                       props: CellPtr) -> c_int;
     fn af_grid(wnd: WndHandle, rows: c_int, cols: c_int) -> c_int;
     fn af_show(wnd: WndHandle) -> c_int;
     fn af_is_window_closed(out: *mut c_int, wnd: WndHandle) -> c_int;
     fn af_destroy_window(wnd: WndHandle) -> c_int;
-    fn af_draw_hist(wnd: WndHandle, x: AfArray,
-                    minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
 }
 
 /// Represents a sub-view of Window
@@ -147,6 +151,22 @@ impl Window {
         }
     }
 
+    /// Set window size
+    ///
+    /// # Parameters
+    ///
+    /// - `w` is the target width of window
+    /// - `h` is the target height of window
+    pub fn set_size(&self, w: u32, h: u32) -> Result<(), AfError> {
+        unsafe {
+            let err_val = af_set_size(self.handle as WndHandle, w as c_uint, h as c_uint);
+            match err_val {
+                0 => Ok(()),
+                _ => Err(AfError::from(err_val)),
+            }
+        }
+    }
+
     /// Set color map to be used for rendering image, it can take one of the values of enum
     /// [ColorMap](./enum.ColorMap.html)
     pub fn set_colormap(&mut self, cmap: ColorMap) {
@@ -228,7 +248,24 @@ impl Window {
                                        cprops as *const Cell as CellPtr);
             match err_val {
                 0 => (),
-                _ => panic!("Rendering the image failed: {}", err_val),
+                _ => panic!("Rendering 2d line plot failed: {}", err_val),
+            }
+        }
+    }
+
+    /// Render give Arrays of points as a 3d line plot
+    pub fn draw_plot3(&self, points: &Array, title: Option<String>) {
+        let tstr = match title {
+            Some(s) => s,
+            None => format!("Cell({},{}))", self.col, self.row)
+        };
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        unsafe {
+            let err_val = af_draw_plot3(self.handle as WndHandle, points.get() as AfArray,
+                                        cprops as *const Cell as CellPtr);
+            match err_val {
+                0 => (),
+                _ => panic!("Rendering 3d line plot failed: {}", err_val),
             }
         }
     }
@@ -246,7 +283,27 @@ impl Window {
                                        cprops as *const Cell as CellPtr);
             match err_val {
                 0 => (),
-                _ => panic!("Rendering the image failed: {}", err_val),
+                _ => panic!("Rendering histogram failed: {}", err_val),
+            }
+        }
+    }
+
+    /// Render give Arrays as 3d surface
+    pub fn draw_surface(&self, xvals: &Array, yvals: &Array, zvals: &Array, title: Option<String>) {
+        let tstr = match title {
+            Some(s) => s,
+            None => format!("Cell({},{}))", self.col, self.row)
+        };
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        unsafe {
+            let err_val = af_draw_surface(self.handle as WndHandle,
+                                          xvals.get() as AfArray,
+                                          yvals.get() as AfArray,
+                                          zvals.get() as AfArray,
+                                          cprops as *const Cell as CellPtr);
+            match err_val {
+                0 => (),
+                _ => panic!("Rendering surface failed: {}", err_val),
             }
         }
     }
