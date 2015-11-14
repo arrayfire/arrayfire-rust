@@ -15,8 +15,6 @@ use std::convert::AsRef;
 struct Config {
     // Use the existing lib if it exists
     use_lib: bool,
-    lib_dir: String,
-    inc_dir: String,
 
     // Build related
     build_type: String,
@@ -341,7 +339,9 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     let mut backends :Vec<String> = Vec::new();
 
     if conf.use_lib {
-        backend_dirs.push(conf.lib_dir.to_owned());
+        let afpath  = PathBuf::from(&env::var("AF_PATH").unwrap());
+        let libpath = afpath.join("lib");
+        backend_dirs.push(libpath.to_str().to_owned().unwrap().to_string());
     } else {
         backend_dirs.push(build_dir.join("package/lib").to_str().to_owned().unwrap().to_string());
     }
