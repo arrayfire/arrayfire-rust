@@ -19,7 +19,7 @@ first.
    system.
 2. Set the evironment variable `AF_PATH` to point to ArrayFire installation root folder.
 3. Make sure you add the path to library files to your path environment variables.
-    - On Linux & ODX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
+    - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
 4. Add `arrayfire = "3.2.0"` to the dependencies section of your project's Cargo.toml file.
 
