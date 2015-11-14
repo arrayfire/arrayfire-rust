@@ -6,7 +6,26 @@
 
 You can find the most recent updated documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html).
 
-## Build
+## Supported platforms
+
+Currently, only Linux and OSX. With Rust 1.4(MSVC binary), we soon expect to get the Windows support available.
+
+## Use from Crates.io
+
+To use the rust bindings for ArrayFire from crates.io, the following requirements are to be met
+first.
+
+1. [Download and install ArrayFire binaries](https://arrayfire.com/download) based on your operating
+   system.
+2. Set the evironment variable `AF_PATH` to point to ArrayFire installation root folder.
+3. Make sure you add the path to library files to your path environment variables.
+    - On Linux & ODX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
+    - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
+4. Add `arrayfire = "3.2.0"` to the dependencies section of your project's Cargo.toml file.
+
+Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+
+## Build from Source
 
 Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob. Currently Rust does not allow key:value pairs to be passed from the CLI. To use an existing ArrayFire installation modify the first three JSON values. You can install ArrayFire using one of the following two ways.
 
@@ -23,8 +42,6 @@ cargo build
 
 - [Linux dependencies](http://www.arrayfire.com/docs/using_on_linux.htm)
 - [OSX dependencies](http://www.arrayfire.com/docs/using_on_osx.htm)
-
-Operating System Support: Currently, only Linux and OSX. With Rust 1.4(MSVC binary), we soon expect to get the Windows support available.
 
 ## Example
 
