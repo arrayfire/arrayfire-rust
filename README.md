@@ -94,7 +94,7 @@ This is a work in progress and is not intended for production use.
 ## Acknowledgements
 
 The ArrayFire library is written by developers at [ArrayFire](http://arrayfire.com) LLC
-with [contributions from several individuals](https://github.com/arrayfire/arrayfire_python/graphs/contributors).
+with [contributions from several individuals](https://github.com/arrayfire/arrayfire_rust/graphs/contributors).
 
 The developers at ArrayFire LLC have received partial financial support
 from several grants and institutions. Those that wish to receive public
