@@ -174,11 +174,13 @@ macro_rules! cnst {
     )
 }
 
-cnst!(f32 , 0);
-cnst!(f64 , 2);
-cnst!(i32 , 5);
-cnst!(u32 , 6);
-cnst!(u8  , 7);
+cnst!(f32 ,  0);
+cnst!(f64 ,  2);
+cnst!(i32 ,  5);
+cnst!(u32 ,  6);
+cnst!(u8  ,  7);
+cnst!(i16 , 10);
+cnst!(u16 , 11);
 
 
 /// Create an Array with constant value
@@ -194,6 +196,8 @@ cnst!(u8  , 7);
 /// - i32
 /// - u32
 /// - u8
+/// - i16
+/// - u16
 ///
 /// # Parameters
 ///
