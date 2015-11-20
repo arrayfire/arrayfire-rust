@@ -43,7 +43,6 @@ struct Config {
     // GPU backends
     cuda_sdk: String,
     opencl_sdk: String,
-    sdk_lib_dir: String,
 }
 
 macro_rules! t {
@@ -55,6 +54,13 @@ macro_rules! t {
 
 fn fail(s: &str) -> ! {
     panic!("\n{}\n\nbuild script failed, must exit now", s)
+}
+
+fn dir_exists(location: &str) -> bool {
+    match fs::metadata(location) {
+        Ok(f)  => f.is_dir(),
+        Err(_) => false,
+    }
 }
 
 fn file_exists(location: &str) -> bool {
@@ -339,7 +345,10 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     let mut backends :Vec<String> = Vec::new();
 
     if conf.use_lib {
-        let afpath  = PathBuf::from(&env::var("AF_PATH").unwrap());
+        let afpath  = match env::var("AF_PATH") {
+            Ok(af_path) => PathBuf::from(&af_path),
+            Err(_)      => panic!("Error use_lib is defined, but AF_PATH is not defined"),
+        };
         let libpath = afpath.join("lib");
         backend_dirs.push(libpath.to_str().to_owned().unwrap().to_string());
     } else {
@@ -354,8 +363,17 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
             backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
             backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
         } else {
-            backend_dirs.push(format!("{}/{}", conf.cuda_sdk, conf.sdk_lib_dir));
-            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, conf.sdk_lib_dir));
+            let sdk_dir = format!("{}/{}", conf.cuda_sdk, "lib64");
+            match dir_exists(&sdk_dir){
+                true  => {
+                            backend_dirs.push(sdk_dir);
+                            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib64"));
+                        },
+                false => {
+                            backend_dirs.push(format!("{}/{}", conf.cuda_sdk, "lib"));
+                            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib"));
+                        },
+            };
         }
     }
 
@@ -367,7 +385,12 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         if cfg!(windows) {
             backend_dirs.push(format!("{}\\lib\\x64", conf.opencl_sdk));
         } else {
-            backend_dirs.push(format!("{}/{}", conf.opencl_sdk, conf.sdk_lib_dir));
+            let sdk_dir = format!("{}/{}", conf.opencl_sdk, "lib64");
+            if dir_exists(&sdk_dir){
+                backend_dirs.push(sdk_dir);
+            }else {
+                backend_dirs.push(format!("{}/{}", conf.opencl_sdk, "lib"));
+            }
         }
     }
 
