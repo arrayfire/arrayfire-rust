@@ -8,9 +8,8 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 ## Supported platforms
 
-Linux and OSX: The bindings have been tested with Rust 1.x.
-Windows: Rust 1.5 (MSVC ABI) is the first version that works with our bindings and ArrayFire
-library(built using MSVC compiler).
+- Linux and OSX: The bindings have been tested with Rust 1.x.
+- Windows: Rust 1.5 (MSVC ABI) is the first version that works with our bindings and ArrayFire library(built using MSVC compiler).
 
 We recommend using Rust 1.5 and higher.
 
