@@ -8,9 +8,13 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 ## Supported platforms
 
-Currently, only Linux and OSX. With Rust 1.4(MSVC binary), we soon expect to get the Windows support available.
+Linux and OSX: The bindings have been tested with Rust 1.x.
+Windows: Rust 1.5 (MSVC ABI) is the first version that works with our bindings and ArrayFire
+library(built using MSVC compiler).
 
-## Use from Crates.io
+We recommend using Rust 1.5 and higher.
+
+## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
 
 To use the rust bindings for ArrayFire from crates.io, the following requirements are to be met
 first.
