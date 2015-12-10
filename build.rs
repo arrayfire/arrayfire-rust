@@ -10,6 +10,15 @@ use std::path::PathBuf;
 use std::process::Command;
 use std::convert::AsRef;
 
+// Windows specific library file names
+static WIN_CUDA_LIB_NAME: &'static str = "afcuda";
+static WIN_OCL_LIB_NAME: &'static str = "afopencl";
+static WIN_UNI_LIB_NAME: &'static str = "af";
+// Linux & OSX specific library file names
+static UNIX_CUDA_LIB_NAME: &'static str = "libafcuda";
+static UNIX_OCL_LIB_NAME: &'static str = "libafopencl";
+static UNIX_UNI_LIB_NAME: &'static str = "libaf";
+
 #[allow(dead_code)]
 #[derive(RustcDecodable)]
 struct Config {
@@ -356,53 +365,64 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     }
 
     let lib_dir = PathBuf::from(backend_dirs.last().unwrap());
-
-    // blob in cuda deps
-    if backend_exists(&lib_dir.join("libafcuda").to_string_lossy()) {
-        if cfg!(windows) {
-            backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
-            backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
-        } else {
-            let sdk_dir = format!("{}/{}", conf.cuda_sdk, "lib64");
-            match dir_exists(&sdk_dir){
-                true  => {
-                            backend_dirs.push(sdk_dir);
-                            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib64"));
-                        },
-                false => {
-                            backend_dirs.push(format!("{}/{}", conf.cuda_sdk, "lib"));
-                            backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib"));
-                        },
-            };
+    if ! conf.use_lib {
+        // blob in cuda deps
+        let mut lib_file_to_check = if cfg!(windows) {WIN_CUDA_LIB_NAME} else {UNIX_CUDA_LIB_NAME};
+        if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
+            if cfg!(windows) {
+                backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
+                backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
+            } else {
+                let sdk_dir = format!("{}/{}", conf.cuda_sdk, "lib64");
+                match dir_exists(&sdk_dir){
+                    true  => {
+                        backend_dirs.push(sdk_dir);
+                        backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib64"));
+                    },
+                    false => {
+                        backend_dirs.push(format!("{}/{}", conf.cuda_sdk, "lib"));
+                        backend_dirs.push(format!("{}/nvvm/{}", conf.cuda_sdk, "lib"));
+                    },
+                };
+            }
         }
-    }
 
-    //blob in opencl deps
-    if backend_exists(&lib_dir.join("libafopencl").to_string_lossy()) {
-        if ! cfg!(target_os = "macos"){
-          backends.push("OpenCL".to_string());
+        //blob in opencl deps
+        lib_file_to_check = if cfg!(windows) {WIN_OCL_LIB_NAME} else {UNIX_OCL_LIB_NAME};
+        if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
+            if ! cfg!(target_os = "macos"){
+                backends.push("OpenCL".to_string());
+            }
+            if cfg!(windows) {
+                let sdk_dir = format!("{}\\lib\\x64", conf.opencl_sdk);
+                if dir_exists(&sdk_dir){
+                    backend_dirs.push(sdk_dir);
+                }else {
+                    backend_dirs.push(format!("{}\\lib\\x86_64", conf.opencl_sdk));
+                }
+            } else {
+                let sdk_dir = format!("{}/{}", conf.opencl_sdk, "lib64");
+                if dir_exists(&sdk_dir){
+                    backend_dirs.push(sdk_dir);
+                }else {
+                    backend_dirs.push(format!("{}/{}", conf.opencl_sdk, "lib"));
+                }
+            }
         }
-        if cfg!(windows) {
-            backend_dirs.push(format!("{}\\lib\\x64", conf.opencl_sdk));
-        } else {
-            let sdk_dir = format!("{}/{}", conf.opencl_sdk, "lib64");
-            if dir_exists(&sdk_dir){
-                backend_dirs.push(sdk_dir);
-            }else {
-                backend_dirs.push(format!("{}/{}", conf.opencl_sdk, "lib"));
+
+        if conf.build_graphics=="ON" {
+            if !conf.use_lib {
+                backend_dirs.push(build_dir.join("third_party/forge/lib")
+                .to_str().to_owned().unwrap().to_string());
             }
         }
     }
 
-    if backend_exists(&lib_dir.join("libaf").to_string_lossy()) {
+    let lib_file_to_check = if cfg!(windows) {WIN_UNI_LIB_NAME} else {UNIX_UNI_LIB_NAME};
+    if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
         backends.push("af".to_string());
-    }
-
-    if conf.build_graphics=="ON" {
-        backends.push("forge".to_string());
-        if !conf.use_lib {
-            backend_dirs.push(build_dir.join("third_party/forge/lib")
-                            .to_str().to_owned().unwrap().to_string());
+        if !conf.use_lib && conf.build_graphics=="ON" {
+            backends.push("forge".to_string());
         }
     }
 
