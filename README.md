@@ -80,20 +80,6 @@ Create a 5-by-3 matrix of random floats on the GPU
 ...
 ```
 
-## Issues
-
-You might see something along the lines of :
-
-```bash
-dyld: Library not loaded: @rpath/libafopencl.3.dylib
-```
-
-You need to add the location of libaf.{dylib, so, dll} to your LD_LIBRARY_PATH.
-
-## Note
-
-This is a work in progress and is not intended for production use.
-
 ## Acknowledgements
 
 The ArrayFire library is written by developers at [ArrayFire](http://arrayfire.com) LLC
