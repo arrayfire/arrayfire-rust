@@ -1,3 +1,5 @@
+#![feature(zero_one)]
+
 #![doc(html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]

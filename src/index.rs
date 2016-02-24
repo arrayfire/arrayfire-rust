@@ -3,7 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::AfError;
 use seq::Seq;
-use self::libc::{c_int, c_uint, c_longlong};
+use self::libc::{c_double, c_int, c_uint};
 
 type MutAfIndex    = *mut self::libc::c_longlong;
 type MutAfArray    = *mut self::libc::c_longlong;
@@ -15,12 +15,12 @@ type IndexT        = self::libc::c_longlong;
 extern {
     fn af_create_indexers(indexers: MutAfIndex) -> c_int;
     fn af_set_array_indexer(indexer: MutAfIndex, idx: AfArray, dim: DimT) -> c_int;
-    fn af_set_seq_indexer(indexer: MutAfIndex, idx: *const Seq, dim: DimT, is_batch: c_int) -> c_int;
+    fn af_set_seq_indexer(indexer: MutAfIndex, idx: *const SeqInternal, dim: DimT, is_batch: c_int) -> c_int;
     fn af_release_indexers(indexers: MutAfIndex) -> c_int;
 
-    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const Seq) -> c_int;
+    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const SeqInternal) -> c_int;
     fn af_lookup(out: MutAfArray, arr: AfArray, indices: AfArray, dim: c_uint) -> c_int;
-    fn af_assign_seq(out: MutAfArray, lhs: AfArray, ndims: c_uint, indices: *const Seq, rhs: AfArray) -> c_int;
+    fn af_assign_seq(out: MutAfArray, lhs: AfArray, ndims: c_uint, indices: *const SeqInternal, rhs: AfArray) -> c_int;
     fn af_index_gen(out: MutAfArray, input: AfArray, ndims: DimT, indices: *const IndexT) -> c_int;
     fn af_assign_gen(out: MutAfArray, lhs: AfArray, ndims: DimT, indices: *const IndexT, rhs: AfArray) -> c_int;
 }
@@ -62,11 +62,12 @@ impl Indexable for Array {
 ///
 /// This is used in functions [index_gen](./fn.index_gen.html) and
 /// [assign_gen](./fn.assign_gen.html)
-impl Indexable for Seq {
+impl<T: Copy> Indexable for Seq<T> where c_double: From<T> {
     fn set(&self, idxr: &Indexer, dim: u32, is_batch: Option<bool>) -> Result<(), AfError> {
         unsafe {
-            let err_val = af_set_seq_indexer(idxr.clone().get() as MutAfIndex, self as *const Seq,
-                                           dim as DimT, is_batch.unwrap() as c_int);
+            let err_val = af_set_seq_indexer(idxr.clone().get() as MutAfIndex,
+                                             &SeqInternal::from_seq(self) as *const SeqInternal,
+                                             dim as DimT, is_batch.unwrap() as c_int);
             match err_val {
                 0 => Ok(()),
                 _ => Err(AfError::from(err_val)),
@@ -130,12 +131,16 @@ impl Drop for Indexer {
 /// println!("a(seq(1, 3, 1), span)");
 /// print(&sub);
 /// ```
-pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
+pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Result<Array, AfError>
+                      where c_double: From<T>
+{
     unsafe {
         let mut temp: i64 = 0;
+        // TODO: allocating a whole new array on the heap just for this is BAD
+        let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
         let err_val = af_index(&mut temp as MutAfArray
                                , input.get() as AfArray, seqs.len() as u32
-                               , seqs.as_ptr() as *const Seq);
+                               , seqs.as_ptr() as *const SeqInternal);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
@@ -155,8 +160,8 @@ pub fn index(input: &Array, seqs: &[Seq]) -> Result<Array, AfError> {
 /// ```
 #[allow(dead_code)]
 pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
-    index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0)
-                    , Seq::default()])
+    index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0),
+                   Seq::default()])
 }
 
 #[allow(dead_code)]
@@ -300,11 +305,15 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Result<Array, AfE
 /// // 1.0 1.0 1.0
 /// // 2.0 2.0 2.0
 /// ```
-pub fn assign_seq(lhs: &Array, seqs: &[Seq], rhs: &Array) -> Result<Array, AfError> {
+pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Result<Array, AfError>
+                           where c_double: From<T>
+{
     unsafe{
         let mut temp: i64 = 0;
+        // TODO: allocating a whole new array on the heap just for this is BAD
+        let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
         let err_val = af_assign_seq(&mut temp as MutAfArray, lhs.get() as AfArray,
-                                    seqs.len() as c_uint, seqs.as_ptr() as *const Seq,
+                                    seqs.len() as c_uint, seqs.as_ptr() as *const SeqInternal,
                                     rhs.get() as AfArray);
         match err_val {
             0 => Ok(Array::from(temp)),
@@ -399,6 +408,23 @@ pub fn assign_gen(lhs: &Array, indices: &Indexer, rhs: &Array) -> Result<Array, 
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+#[repr(C)]
+struct SeqInternal {
+    begin: c_double,
+    end: c_double,
+    step: c_double,
+}
+
+impl SeqInternal {
+    fn from_seq<T: Copy>(s: &Seq<T>) -> Self where c_double: From<T> {
+        SeqInternal {
+            begin: From::from(s.begin()),
+            end: From::from(s.end()),
+            step: From::from(s.step()),
         }
     }
 }
