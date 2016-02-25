@@ -1,5 +1,3 @@
-#![feature(zero_one)]
-
 #![doc(html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
@@ -73,6 +71,7 @@ mod image;
 pub use lapack::{svd, lu, qr, cholesky, solve, solve_lu, inverse, det, rank, norm};
 pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace};
 mod lapack;
+mod num;
 
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
