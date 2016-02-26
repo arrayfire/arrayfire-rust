@@ -42,12 +42,12 @@ fn main() {
     println!("a + b"); print(&test);
 
     // Index array using sequences
-    let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+    let seqs = &[Seq::new(1u32, 3, 1), Seq::default()];
     let sub = index(&a, seqs).unwrap();
     println!("a(seq(1,3,1), span)"); print(&sub);
 
     //Index array using array and sequence
-    let seq4gen = Seq::new(0.0, 2.0, 1.0);
+    let seq4gen = Seq::new(0u32, 2, 1);
 
     let mut idxrs = match Indexer::new() {
         Ok(v) => v,
