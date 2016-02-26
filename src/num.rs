@@ -6,28 +6,41 @@ pub trait One {
     fn one() -> Self;
 }
 
-impl Zero for u8 { fn zero() -> Self { 0 } }
-impl Zero for u16 { fn zero() -> Self { 0 } }
-impl Zero for u32 { fn zero() -> Self { 0 } }
-impl Zero for u64 { fn zero() -> Self { 0 } }
-impl Zero for usize { fn zero() -> Self { 0 } }
-impl Zero for i8 { fn zero() -> Self { 0 } }
-impl Zero for i16 { fn zero() -> Self { 0 } }
-impl Zero for i32 { fn zero() -> Self { 0 } }
-impl Zero for i64 { fn zero() -> Self { 0 } }
-impl Zero for isize { fn zero() -> Self { 0 } }
-impl Zero for f32 { fn zero() -> Self { 0.0 } }
-impl Zero for f64 { fn zero() -> Self { 0.0 } }
+macro_rules! zero_impl {
+    ( $t:ident, $z:expr ) => (
+        impl Zero for $t { fn zero() -> Self { $z } }
+    )
+}
 
-impl One for u8 { fn one() -> Self { 1 } }
-impl One for u16 { fn one() -> Self { 1 } }
-impl One for u32 { fn one() -> Self { 1 } }
-impl One for u64 { fn one() -> Self { 1 } }
-impl One for usize { fn one() -> Self { 1 } }
-impl One for i8 { fn one() -> Self { 1 } }
-impl One for i16 { fn one() -> Self { 1 } }
-impl One for i32 { fn one() -> Self { 1 } }
-impl One for i64 { fn one() -> Self { 1 } }
-impl One for isize { fn one() -> Self { 1 } }
-impl One for f32 { fn one() -> Self { 1.0 } }
-impl One for f64 { fn one() -> Self { 1.0 } }
+zero_impl!(u8, 0);
+zero_impl!(u16, 0);
+zero_impl!(u32, 0);
+zero_impl!(u64, 0);
+zero_impl!(usize, 0);
+zero_impl!(i8, 0);
+zero_impl!(i16, 0);
+zero_impl!(i32, 0);
+zero_impl!(i64, 0);
+zero_impl!(isize, 0);
+zero_impl!(f32, 0.0);
+zero_impl!(f64, 0.0);
+
+
+macro_rules! one_impl {
+    ( $t:ident, $o:expr ) => (
+        impl One for $t { fn one() -> Self { $o } }
+    )
+}
+
+one_impl!(u8, 1);
+one_impl!(u16, 1);
+one_impl!(u32, 1);
+one_impl!(u64, 1);
+one_impl!(usize, 1);
+one_impl!(i8, 1);
+one_impl!(i16, 1);
+one_impl!(i32, 1);
+one_impl!(i64, 1);
+one_impl!(isize, 1);
+one_impl!(f32, 1.0);
+one_impl!(f64, 1.0);
