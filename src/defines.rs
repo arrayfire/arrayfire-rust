@@ -28,6 +28,8 @@ pub enum AfError {
     ERR_DIFF_TYPE      = 205,
     /// Function does not support GFOR / batch mode
     ERR_BATCH          = 207,
+    /// Input does not belong to the current device
+    ERR_DEVICE         = 208,
     // 300-399 Errors for missing software features
     /// The option is not supported
     ERR_NOT_SUPPORTED  = 301,
@@ -51,22 +53,22 @@ pub enum AfError {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Backend {
     /// Default backend order: OpenCL -> CUDA -> CPU
-    AF_BACKEND_DEFAULT = 0,
+    DEFAULT = 0,
     /// CPU a.k.a sequential algorithms
-    AF_BACKEND_CPU     = 1,
+    CPU     = 1,
     /// CUDA Compute Backend
-    AF_BACKEND_CUDA    = 2,
+    CUDA    = 2,
     /// OpenCL Compute Backend
-    AF_BACKEND_OPENCL  = 4
+    OPENCL  = 4
 }
 
 impl Display for Backend {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
         let text = match *self {
-            Backend::AF_BACKEND_OPENCL  => "OpenCL",
-            Backend::AF_BACKEND_CUDA    => "Cuda",
-            Backend::AF_BACKEND_CPU     => "CPU",
-            Backend::AF_BACKEND_DEFAULT => "Default",
+            Backend::OPENCL  => "OpenCL",
+            Backend::CUDA    => "Cuda",
+            Backend::CPU     => "CPU",
+            Backend::DEFAULT => "Default",
         };
         write!(f, "{}", text)
     }
@@ -91,6 +93,7 @@ impl Error for AfError {
             AfError::ERR_TYPE => "The type is not supported by this function",
             AfError::ERR_DIFF_TYPE => "The type of input arrays are not compatible",
             AfError::ERR_BATCH => "Function does not support GFOR / batch mode",
+            AfError::ERR_DEVICE => "Array does not belong to device",
             AfError::ERR_NOT_SUPPORTED => "The option is not supported",
             AfError::ERR_NOT_CONFIGURED => "This build of ArrayFire does not support this feature",
             AfError::ERR_NO_DBL => "This device does not support double",
@@ -304,4 +307,18 @@ pub enum HomographyType {
     RANSAC = 0,
     /// Least Median of Squares
     LMEDS  = 1,
+}
+
+/// Plotting markers
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub enum MarkerType {
+    NONE     = 0,
+    POINT    = 1,
+    CIRCLE   = 2,
+    SQUARE   = 3,
+    TRIANGLE = 4,
+    CROSS    = 5,
+    PLUS     = 6,
+    STAR     = 7
 }

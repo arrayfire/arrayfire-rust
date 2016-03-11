@@ -2,7 +2,7 @@ extern crate libc;
 
 use array::Array;
 use defines::AfError;
-use defines::ColorMap;
+use defines::{ColorMap, MarkerType};
 use self::libc::{c_int, c_uint, c_double, c_char};
 use std::ffi::CString;
 
@@ -17,6 +17,7 @@ extern {
     fn af_set_position(wnd: WndHandle, x: c_uint, y: c_uint) -> c_int;
     fn af_set_title(wnd: WndHandle, title: *const c_char) -> c_int;
     fn af_set_size(wnd: WndHandle, w: c_uint, h: c_uint) -> c_int;
+    fn af_set_visibility(wnd: WndHandle, is_visible: c_int) -> c_int;
     fn af_draw_image(wnd: WndHandle, arr: AfArray, props: CellPtr) -> c_int;
     fn af_draw_plot(wnd: WndHandle, x: AfArray, y: AfArray, props: CellPtr) -> c_int;
     fn af_draw_plot3(wnd: WndHandle, P: AfArray, props: CellPtr) -> c_int;
@@ -24,6 +25,8 @@ extern {
                     minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
     fn af_draw_surface(wnd: WndHandle, xvals: AfArray, yvals: AfArray, S: AfArray,
                        props: CellPtr) -> c_int;
+    fn af_draw_scatter(wnd: WndHandle, x: AfArray, y: AfArray, marker: c_int, props: CellPtr) -> c_int;
+    fn af_draw_scatter3(wnd: WndHandle, P: AfArray, marker: c_int, props: CellPtr) -> c_int;
     fn af_grid(wnd: WndHandle, rows: c_int, cols: c_int) -> c_int;
     fn af_show(wnd: WndHandle) -> c_int;
     fn af_is_window_closed(out: *mut c_int, wnd: WndHandle) -> c_int;
@@ -147,6 +150,25 @@ impl Window {
                     }
                 },
                 Err(_)   => Err(AfError::ERR_INTERNAL),
+            }
+        }
+    }
+
+    /// Set window visibility
+    ///
+    /// # Parameters
+    ///
+    /// - `is_visible` is a boolean indicating whether window is to be hidden or brought into focus
+    ///
+    /// # Return Values
+    ///
+    /// None
+    pub fn set_visibility(&self, is_visible: bool) -> Result<(), AfError> {
+        unsafe {
+            let err_val = af_set_visibility(self.handle as WndHandle, is_visible as c_int);
+            match err_val {
+                0 => Ok(()),
+                _ => Err(AfError::from(err_val)),
             }
         }
     }
@@ -304,6 +326,45 @@ impl Window {
             match err_val {
                 0 => (),
                 _ => panic!("Rendering surface failed: {}", err_val),
+            }
+        }
+    }
+
+    /// Render give Arrays as 2d scatter plot
+    pub fn draw_scatter(&self, xvals: &Array, yvals: &Array, marker: MarkerType, title: Option<String>) {
+        let tstr = match title {
+            Some(s) => s,
+            None => format!("Cell({},{}))", self.col, self.row)
+        };
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        unsafe {
+            let err_val = af_draw_scatter(self.handle as WndHandle,
+                                          xvals.get() as AfArray,
+                                          yvals.get() as AfArray,
+                                          marker as c_int,
+                                          cprops as *const Cell as CellPtr);
+            match err_val {
+                0 => (),
+                _ => panic!("Rendering scatter failed: {}", err_val),
+            }
+        }
+    }
+
+    /// Render give Array as 3d scatter plot
+    pub fn draw_scatter3(&self, vals: &Array, marker: MarkerType, title: Option<String>) {
+        let tstr = match title {
+            Some(s) => s,
+            None => format!("Cell({},{}))", self.col, self.row)
+        };
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        unsafe {
+            let err_val = af_draw_scatter3(self.handle as WndHandle,
+                                           vals.get() as AfArray,
+                                           marker as c_int,
+                                           cprops as *const Cell as CellPtr);
+            match err_val {
+                0 => (),
+                _ => panic!("Rendering scatter3 failed: {}", err_val),
             }
         }
     }

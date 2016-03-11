@@ -95,6 +95,8 @@ extern {
 
     fn af_ycbcr2rgb(out: MutAfArray, input: AfArray, stnd: c_int) -> c_int;
     fn af_rgb2ycbcr(out: MutAfArray, input: AfArray, stnd: c_int) -> c_int;
+    fn af_is_image_io_available(out: *mut c_int) -> c_int;
+    fn af_transform_coordinates(out: MutAfArray, tf: AfArray, d0: c_float, d1: c_float) -> c_int;
 }
 
 /// Calculate the gradients
@@ -1135,6 +1137,53 @@ pub fn ycbcr2rgb(input: &Array, standard: YCCStd) -> Result<Array, AfError> {
         let mut temp: i64 = 0;
         let err_val = af_ycbcr2rgb(&mut temp as MutAfArray, input.get() as AfArray,
                                    standard as c_int);
+        match err_val {
+            0 => Ok(Array::from(temp)),
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Function to check if Image I/O is available
+///
+/// # Parameters
+///
+/// None
+///
+/// # Return Values
+///
+/// Return a boolean indicating if ArrayFire was compiled with Image I/O support
+pub fn is_imageio_available() -> bool {
+    unsafe {
+        let mut temp: i32 = 0;
+        af_is_image_io_available(&mut temp as *mut c_int);
+        temp > 0 // Return boolean fla
+    }
+}
+
+/// Transform input coordinates
+///
+/// The transform function uses a perspective transform matrix to transform input coordinates
+/// (given as two dimensions) into a coordinates matrix.
+///
+/// The output is a 4x2 matrix, indicating the coordinates of the 4 bidimensional transformed
+/// points.
+///
+/// # Parameters
+///
+/// - `tf` is the transformation matrix
+/// - `d0` is the first input dimension
+/// - `d1` is the second input dimension
+///
+/// # Return Values
+///
+/// Transformed coordinates
+pub fn transform_coords(tf: &Array, d0: f32, d1: f32) -> Result<Array, AfError> {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_transform_coordinates(&mut temp as MutAfArray,
+                                               tf.get() as AfArray,
+                                               d0 as c_float, d1 as c_float);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
