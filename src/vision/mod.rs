@@ -1,7 +1,8 @@
 extern crate libc;
 
 use array::Array;
-use defines::{AfError, HomographyType, Aftype, MatchType};
+use defines::{AfError, HomographyType, MatchType};
+use util::HasAfEnum;
 use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_double, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -503,11 +504,12 @@ pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Result<Array, AfError> 
 ///
 /// - `H` is a 3x3 array containing the estimated homography.
 /// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.
-pub fn homography(x_src: &Array, y_src: &Array,
-                  x_dst: &Array, y_dst: &Array,
-                  htype: HomographyType, inlier_thr: f32,
-                  iterations: u32, otype: Aftype) -> Result<(Array, i32), AfError> {
+pub fn homography<OutType: HasAfEnum>(x_src: &Array, y_src: &Array,
+                                      x_dst: &Array, y_dst: &Array,
+                                      htype: HomographyType, inlier_thr: f32,
+                                      iterations: u32) -> Result<(Array, i32), AfError> {
     unsafe {
+        let otype = OutType::get_af_dtype();
         let mut inliers: i32 = 0;
         let mut temp: i64    = 0;
         let err_val = af_homography(&mut temp as MutAfArray, &mut inliers as *mut c_int,

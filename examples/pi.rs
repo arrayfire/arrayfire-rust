@@ -12,8 +12,8 @@ fn main() {
     let samples = 20_000_000;
     let dims = Dim4::new(&[samples, 1, 1, 1]);
 
-    let x = &randu(dims, Aftype::F32).unwrap();
-    let y = &randu(dims, Aftype::F32).unwrap();
+    let x = &randu::<f32>(dims).unwrap();
+    let y = &randu::<f32>(dims).unwrap();
 
     let start = PreciseTime::now();
 

@@ -125,7 +125,7 @@ impl Drop for Indexer {
 /// # Examples
 ///
 /// ```
-/// let a = randu(dims, Aftype::F32).unwrap();
+/// let a = randu::<f32>(dims).unwrap();
 /// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
 /// let sub  = index(&a, seqs).unwrap();
 /// println!("a(seq(1, 3, 1), span)");
@@ -153,7 +153,7 @@ pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Result<Array, AfError>
 /// # Examples
 ///
 /// ```
-/// let a = randu(dims, Aftype::F32).unwrap();
+/// let a = randu::<f32>(dims).unwrap();
 /// println!("Grab last row of the random matrix");
 /// print(&a);
 /// print(&row(&a, num_rows - 1).unwrap());
@@ -189,7 +189,7 @@ pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Resul
 /// # Examples
 ///
 /// ```
-/// let a = randu(dims, Aftype::F32).unwrap();
+/// let a = randu::<f32>(dims).unwrap();
 /// println!("Grab last col of the random matrix");
 /// print(&a);
 /// print(&row(&a, num_cols - 1).unwrap());
@@ -328,9 +328,9 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Result<
 ///
 /// ```
 /// let values: &[f32] = &[1.0, 2.0, 3.0];
-/// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+/// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
 /// let seq4gen = Seq::new(0.0, 2.0, 1.0);
-/// let a = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
+/// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
 /// // [5 3 1 1]
 /// //     0.0000     0.2190     0.3835
 /// //     0.1315     0.0470     0.5194
@@ -371,9 +371,9 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Result<Array, AfError> {
 ///
 /// ```
 /// let values: &[f32] = &[1.0, 2.0, 3.0];
-/// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+/// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
 /// let seq4gen = Seq::new(0.0, 2.0, 1.0);
-/// let a = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
+/// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
 /// // [5 3 1 1]
 /// //     0.0000     0.2190     0.3835
 /// //     0.1315     0.0470     0.5194

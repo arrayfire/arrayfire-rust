@@ -11,7 +11,7 @@ fn test_backend(){
   let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
   println!("Create a 10-by-10 matrix of random floats on the compute device");
-  let a = match randu(dims, Aftype::F32) {
+  let a = match randu::<f32>(dims) {
     Ok(value) => value,
     Err(error) => panic!("{}", error),
   };

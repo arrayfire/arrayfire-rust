@@ -49,6 +49,7 @@ pub enum AfError {
     ERR_UNKNOWN        = 999
 }
 
+/// Compute/Acceleration Backend
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Backend {

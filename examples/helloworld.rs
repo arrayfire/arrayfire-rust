@@ -10,7 +10,7 @@ fn main() {
     let num_rows: u64 = 5;
     let num_cols: u64 = 3;
     let values: &[f32] = &[1.0, 2.0, 3.0];
-    let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+    let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
 
     let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
@@ -74,13 +74,13 @@ fn main() {
     println!("Set last row to 1's");
     let r_dims = Dim4::new(&[3, 1, 1, 1]);
     let r_input: [f32; 3] = [1.0, 1.0, 1.0];
-    let r = Array::new(r_dims, &r_input, Aftype::F32).unwrap();
+    let r = Array::new(&r_input, r_dims).unwrap();
     print(&set_row(&a, &r, num_rows - 1).unwrap());
 
     println!("Create 2-by-3 matrix from host data");
     let d_dims = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];
-    let d = &Array::new(d_dims, &d_input, Aftype::S32).unwrap();
+    let d = &Array::new(&d_input, d_dims).unwrap();
     print(d);
 
     // printf("Copy last column onto first\n");

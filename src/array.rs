@@ -2,6 +2,7 @@ extern crate libc;
 
 use dim4::Dim4;
 use defines::{AfError, Aftype, Backend};
+use util::HasAfEnum;
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -119,11 +120,12 @@ impl Array {
     ///
     /// ```
     /// let values: &[f32] = &[1.0, 2.0, 3.0];
-    /// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
+    /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
     /// ```
     #[allow(unused_mut)]
-    pub fn new<T>(dims: Dim4, slice: &[T], aftype: Aftype) -> Result<Array, AfError> {
+    pub fn new<T: HasAfEnum>(slice: &[T], dims: Dim4) -> Result<Array, AfError> {
         unsafe {
+            let aftype = T::get_af_dtype();
             let mut temp: i64 = 0;
             let err_val = af_create_array(&mut temp as MutAfArray,
                                           slice.as_ptr() as *const c_void,
@@ -140,18 +142,11 @@ impl Array {
     /// Constructs a new Array object from strided data
     ///
     /// This data can possiblly offseted using an additiona `offset` parameter.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let values: &[f32] = &[1.0, 2.0, 3.0];
-    /// let indices = Array::new(Dim4::new(&[3, 1, 1, 1]), values, Aftype::F32).unwrap();
-    /// ```
     #[allow(unused_mut)]
-    pub fn new_strided<T>(slice: &[T], offset: i64,
-                          dims: Dim4, strides: Dim4,
-                          aftype: Aftype) -> Result<Array, AfError> {
+    pub fn new_strided<T: HasAfEnum>(slice: &[T], offset: i64,
+                                     dims: Dim4, strides: Dim4) -> Result<Array, AfError> {
         unsafe {
+            let aftype = T::get_af_dtype();
             let mut temp: i64 = 0;
             let err_val = af_create_strided_array(&mut temp as MutAfArray,
                                                   slice.as_ptr() as *const c_void,
@@ -342,10 +337,11 @@ impl Array {
     is_func!(is_owner, af_is_owner);
 
     /// Cast the Array data type to `target_type`
-    pub fn cast(&self, target_type: Aftype) -> Result<Array, AfError> {
+    pub fn cast<T: HasAfEnum>(&self) -> Result<Array, AfError> {
         unsafe {
+            let trgt_type = T::get_af_dtype();
             let mut temp: i64 = 0;
-            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, target_type as uint8_t);
+            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
             match err_val {
                 0 => Ok(Array::from(temp)),
                 _ => Err(AfError::from(err_val)),
@@ -394,7 +390,7 @@ impl Drop for Array {
 ///
 ///  ```
 /// println!("Create a 5-by-3 matrix of random floats on the GPU");
-/// let a = match randu(dims, Aftype::F32) {
+/// let a = match randu::<f32>(dims) {
 ///     Ok(value) => value,
 ///     Err(error) => panic!("{}", error),
 /// };

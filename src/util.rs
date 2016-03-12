@@ -1,3 +1,5 @@
+extern crate num;
+
 use defines::AfError;
 use defines::Aftype;
 use defines::InterpType;
@@ -7,6 +9,7 @@ use defines::MatProp;
 use defines::MatchType;
 use defines::ColorMap;
 use std::mem;
+use self::num::Complex;
 
 impl From<i32> for AfError {
     fn from(t: i32) -> AfError {
@@ -72,3 +75,52 @@ impl From<i32> for ColorMap {
         unsafe { mem::transmute(t) }
     }
 }
+
+/// Types of the data that can be generated using ArrayFire data generation functions.
+///
+/// The trait HasAfEnum has been defined internally for the following types. We strongly suggest
+/// not to implement this trait in your program for user defined types because ArrayFire functions
+/// will only work for the following data types currently. Any such trait implementation for types
+/// other than the ones listed below will result in undefined behavior.
+///
+/// - f32
+/// - f64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - bool
+/// - i32
+/// - u32
+/// - u8
+/// - i64
+/// - u64
+/// - i16
+/// - u16
+///
+pub trait HasAfEnum {
+    fn get_af_dtype() -> Aftype;
+}
+
+macro_rules! impl_has_af_enum {
+    ($rust_t: ty, $af_dtype: expr) => (
+        impl HasAfEnum for $rust_t {
+            fn get_af_dtype() -> Aftype {
+                $af_dtype
+            }
+        }
+    )
+}
+
+impl_has_af_enum!(f32, Aftype::F32);
+impl_has_af_enum!(Complex<f32>, Aftype::C32);
+impl_has_af_enum!(f64, Aftype::F64);
+impl_has_af_enum!(Complex<f64>, Aftype::C64);
+// FIXME: Rust bool may become incompatible in memory layout with C-ABI
+// Currently, it is of size 1-byte
+impl_has_af_enum!(bool, Aftype::B8);
+impl_has_af_enum!(i32, Aftype::S32);
+impl_has_af_enum!(u32, Aftype::U32);
+impl_has_af_enum!(u8, Aftype::U8);
+impl_has_af_enum!(i64, Aftype::S64);
+impl_has_af_enum!(u64, Aftype::U64);
+impl_has_af_enum!(i16, Aftype::S16);
+impl_has_af_enum!(u16, Aftype::U16);

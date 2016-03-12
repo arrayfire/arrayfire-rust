@@ -16,7 +16,7 @@ fn main() {
     let dims = Dim4::new(&[1280, 720, 3, 1]);
 
     loop {
-        randu(dims, Aftype::F32).as_ref()
+        randu::<f32>(dims).as_ref()
             .map(|arr| wnd.draw_image(arr, None));
 
         if wnd.is_closed().unwrap() == true { break; }
