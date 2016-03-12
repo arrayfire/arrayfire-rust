@@ -60,15 +60,17 @@ macro_rules! mem_info {
 
 /// Join multiple Arrays along a given dimension
 ///
+/// All the Arrays provided to this macro should be of type `&Array`
+///
 /// # Examples
 ///
 /// ```
 /// # #[macro_use] extern crate arrayfire;
 /// # fn main() {
-/// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let b = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let c = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let d = join_many![2, a, b, c];
+/// let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+/// let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+/// let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+/// let d = join_many![2; a, b, c];
 /// # }
 /// ```
 ///
