@@ -1,3 +1,4 @@
+#[macro_use(mem_info)]
 extern crate arrayfire as af;
 extern crate time;
 
@@ -17,6 +18,8 @@ fn main() {
 
     let start = PreciseTime::now();
 
+    mem_info!("Before benchmark");
+
     for bench_iter in 0..100 {
         let pi_val = add(&mul(x, x, false).unwrap(), &mul(y, y, false).unwrap(), false)
             .and_then( |z| sqrt(&z) )
@@ -29,4 +32,6 @@ fn main() {
     let end = PreciseTime::now();
 
     println!("Estimated Pi Value in {} seconds", start.to(end) / 100);
+
+    mem_info!("After benchmark");
 }

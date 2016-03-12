@@ -73,6 +73,7 @@ mod image;
 pub use lapack::{svd, lu, qr, cholesky, solve, solve_lu, inverse, det, rank, norm};
 pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace, is_lapack_available};
 mod lapack;
+mod macros;
 mod num;
 
 pub use signal::{approx1, approx2};

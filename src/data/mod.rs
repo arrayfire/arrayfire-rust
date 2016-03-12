@@ -395,53 +395,18 @@ pub fn join(dim: i32, first: &Array, second: &Array) -> Result<Array, AfError> {
 #[allow(unused_mut)]
 pub fn join_many(dim: i32, inputs: Vec<&Array>) -> Result<Array, AfError> {
     unsafe {
+        let mut v = Vec::new();
+        for i in inputs {
+            v.push(i.get());
+        }
         let mut temp: i64 = 0;
         let err_val = af_join_many(&mut temp as MutAfArray, dim as c_int,
-                                   inputs.len() as c_uint, inputs.as_ptr() as *const AfArray);
+                                   v.len() as c_uint, v.as_ptr() as *const AfArray);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
         }
     }
-}
-
-/// Join multiple Arrays along a given dimension
-///
-/// # Examples
-///
-/// ```
-/// # #[macro_use] extern crate arrayfire;
-/// # fn main() {
-/// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let b = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let c = randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let d = join_many![2, a, b, c];
-/// # }
-/// ```
-///
-/// # Panics
-///
-/// Using this macro to create an Array from multiple Arrays doesn't implicitly check for errors
-/// during FFI calls. Therefore, make sure your inputs are correct. In case, you do need proper
-/// error checking, use the [function version](./fn.join_many.html) of this macro.
-// Using macro to implement join many wrapper
-#[macro_export]
-macro_rules! join_many {
-    [$dim: expr; $($x:ident),+] => {
-        {
-            let mut temp_vec = Vec::new();
-            $(
-                temp_vec.push($x);
-             )*
-            let mut temp: i64 = 0;
-            unsafe {
-                let mut temp: i64 = 0;
-                af_join_many(&mut temp as MutAfArray, $dim as c_int,
-                             temp_vec.len() as c_uint, temp_vec.as_ptr() as *const AfArray);
-                Array::from(temp)
-            }
-        }
-    };
 }
 
 macro_rules! data_func_def {
