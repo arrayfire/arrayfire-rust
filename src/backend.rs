@@ -7,6 +7,7 @@ extern {
     fn af_set_backend(bknd: uint8_t) -> c_int;
     fn af_get_backend_count(num_backends: *mut c_uint) -> c_int;
     fn af_get_available_backends(backends: *mut c_int) -> c_int;
+    fn af_get_active_backend(backend: *mut c_int) -> c_int;
 }
 
 /// Toggle backends between cuda, opencl or cpu
@@ -47,11 +48,27 @@ pub fn get_available_backends() -> Result<Vec<Backend>, AfError> {
         match err_val {
             0 => {
                 let mut b = Vec::new();
-                if temp & 0b0100 == 0b0100 { b.push(Backend::AF_BACKEND_OPENCL); }
-                if temp & 0b0010 == 0b0010 { b.push(Backend::AF_BACKEND_CUDA); }
-                if temp & 0b0001 == 0b0001 { b.push(Backend::AF_BACKEND_CPU); }
+                if temp & 0b0100 == 0b0100 { b.push(Backend::OPENCL); }
+                if temp & 0b0010 == 0b0010 { b.push(Backend::CUDA); }
+                if temp & 0b0001 == 0b0001 { b.push(Backend::CPU); }
                 Ok(b)
             },
+            _ => Err(AfError::from(err_val)),
+        }
+    }
+}
+
+/// Get current active backend
+#[allow(unused_mut)]
+pub fn get_active_backend() -> Result<Backend, AfError> {
+    unsafe {
+        let mut temp: i32 = 0;
+        let err_val = af_get_active_backend(&mut temp as *mut c_int);
+        match (err_val, temp) {
+            (0, 0) => Ok(Backend::DEFAULT),
+            (0, 1) => Ok(Backend::CPU),
+            (0, 2) => Ok(Backend::CUDA),
+            (0, 4) => Ok(Backend::OPENCL),
             _ => Err(AfError::from(err_val)),
         }
     }

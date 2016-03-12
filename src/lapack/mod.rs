@@ -26,6 +26,7 @@ extern {
     fn af_rank(rank: *mut c_uint, input: AfArray, tol: c_double) -> c_int;
     fn af_det(det_real: MutDouble, det_imag: MutDouble, input: AfArray) -> c_int;
     fn af_norm(out: MutDouble, input: AfArray, ntype: uint8_t, p: c_double, q: c_double) -> c_int;
+    fn af_is_lapack_available(out: *mut c_int) -> c_int;
 }
 
 /// Perform Singular Value Decomposition
@@ -412,5 +413,22 @@ pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> Result<f64, AfErr
             0 => Ok(out),
             _ => Err(AfError::from(err_val)),
         }
+    }
+}
+
+/// Function to check if lapack support is available
+///
+/// # Parameters
+///
+/// None
+///
+/// # Return Values
+///
+/// Return a boolean indicating if ArrayFire was compiled with lapack support
+pub fn is_lapack_available() -> bool {
+    unsafe {
+        let mut temp: i32 = 0;
+        af_is_lapack_available(&mut temp as *mut c_int);
+        temp > 0 // Return boolean fla
     }
 }

@@ -11,7 +11,7 @@ fn test_backend(){
   let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
   println!("Create a 10-by-10 matrix of random floats on the compute device");
-  let a = match randu(dims, Aftype::F32) {
+  let a = match randu::<f32>(dims) {
     Ok(value) => value,
     Err(error) => panic!("{}", error),
   };
@@ -24,9 +24,9 @@ fn main() {
   println!("There are {:?} available backends", get_backend_count().unwrap());
   let available = get_available_backends().unwrap();
 
-  if available.contains(&Backend::AF_BACKEND_CPU){
+  if available.contains(&Backend::CPU){
     println!("Evaluating CPU Backend...");
-    let err = set_backend(Backend::AF_BACKEND_CPU);
+    let err = set_backend(Backend::CPU);
     println!("There are {} CPU compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),
@@ -34,9 +34,9 @@ fn main() {
     };
   }
 
-  if available.contains(&Backend::AF_BACKEND_CUDA){
+  if available.contains(&Backend::CUDA){
     println!("Evaluating CUDA Backend...");
-    let err = set_backend(Backend::AF_BACKEND_CUDA);
+    let err = set_backend(Backend::CUDA);
     println!("There are {} CUDA compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),
@@ -44,9 +44,9 @@ fn main() {
     };
   }
 
-  if available.contains(&Backend::AF_BACKEND_OPENCL){
+  if available.contains(&Backend::OPENCL){
     println!("Evaluating OpenCL Backend...");
-    let err = set_backend(Backend::AF_BACKEND_OPENCL);
+    let err = set_backend(Backend::OPENCL);
     println!("There are {} OpenCL compute devices", device_count().unwrap());
       match err {
         Ok(_)  => test_backend(),

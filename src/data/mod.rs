@@ -4,10 +4,9 @@ extern crate num;
 use array::Array;
 use dim4::Dim4;
 use defines::AfError;
-use defines::Aftype;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 use self::num::Complex;
-
+use util::HasAfEnum;
 use std::vec::Vec;
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -220,15 +219,15 @@ pub fn constant<T : ConstGenerator>(cnst: T, dims: Dim4) -> Result<Array, AfErro
 /// - `dims` is the size of Array
 /// - `seq_dim` is the dimension along which range values are populated, all values along other
 /// dimensions are just repeated
-/// - `aftype` is the type of the Array.
 ///
 /// # Return Values
 /// Array
 #[allow(unused_mut)]
-pub fn range(dims: Dim4, seq_dim: i32, aftype: Aftype) -> Result<Array, AfError> {
+pub fn range<T: HasAfEnum>(dims: Dim4, seq_dim: i32) -> Result<Array, AfError> {
     unsafe {
+        let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
-        let err_val =af_range(&mut temp as MutAfArray,
+        let err_val = af_range(&mut temp as MutAfArray,
                               dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                               seq_dim as c_int, aftype as uint8_t);
         match err_val {
@@ -246,14 +245,14 @@ pub fn range(dims: Dim4, seq_dim: i32, aftype: Aftype) -> Result<Array, AfError>
 ///
 /// - `dims` is the dimensions of the sequence to be generated
 /// - `tdims` is the number of repitions of the unit dimensions
-/// - `aftype` is the type of Array to generate
 ///
 /// # Return Values
 ///
 /// Array
 #[allow(unused_mut)]
-pub fn iota(dims: Dim4, tdims: Dim4, aftype: Aftype) -> Result<Array, AfError> {
+pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Result<Array, AfError> {
     unsafe {
+        let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
         let err_val =af_iota(&mut temp as MutAfArray,
                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
@@ -293,8 +292,9 @@ pub fn get_seed() -> Result<u64, AfError> {
 macro_rules! data_gen_def {
     ($fn_name:ident, $ffi_name: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(dims: Dim4, aftype: Aftype) -> Result<Array, AfError> {
+        pub fn $fn_name<T: HasAfEnum>(dims: Dim4) -> Result<Array, AfError> {
             unsafe {
+                let aftype = T::get_af_dtype();
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
@@ -395,53 +395,18 @@ pub fn join(dim: i32, first: &Array, second: &Array) -> Result<Array, AfError> {
 #[allow(unused_mut)]
 pub fn join_many(dim: i32, inputs: Vec<&Array>) -> Result<Array, AfError> {
     unsafe {
+        let mut v = Vec::new();
+        for i in inputs {
+            v.push(i.get());
+        }
         let mut temp: i64 = 0;
         let err_val = af_join_many(&mut temp as MutAfArray, dim as c_int,
-                                   inputs.len() as c_uint, inputs.as_ptr() as *const AfArray);
+                                   v.len() as c_uint, v.as_ptr() as *const AfArray);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
         }
     }
-}
-
-/// Join multiple Arrays along a given dimension
-///
-/// # Examples
-///
-/// ```
-/// # #[macro_use] extern crate arrayfire;
-/// # fn main() {
-/// let a = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
-/// let b = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
-/// let c = randu(Dim4::new(&[5, 3, 1, 1]), Aftype::F32).unwrap();
-/// let d = join_many![2, a, b, c];
-/// # }
-/// ```
-///
-/// # Panics
-///
-/// Using this macro to create an Array from multiple Arrays doesn't implicitly check for errors
-/// during FFI calls. Therefore, make sure your inputs are correct. In case, you do need proper
-/// error checking, use the [function version](./fn.join_many.html) of this macro.
-// Using macro to implement join many wrapper
-#[macro_export]
-macro_rules! join_many {
-    [$dim: expr; $($x:ident),+] => {
-        {
-            let mut temp_vec = Vec::new();
-            $(
-                temp_vec.push($x);
-             )*
-            let mut temp: i64 = 0;
-            unsafe {
-                let mut temp: i64 = 0;
-                af_join_many(&mut temp as MutAfArray, $dim as c_int,
-                             temp_vec.len() as c_uint, temp_vec.as_ptr() as *const AfArray);
-                Array::from(temp)
-            }
-        }
-    };
 }
 
 macro_rules! data_func_def {
