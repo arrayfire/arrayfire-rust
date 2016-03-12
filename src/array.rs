@@ -141,7 +141,7 @@ impl Array {
 
     /// Constructs a new Array object from strided data
     ///
-    /// This data can possiblly offseted using an additiona `offset` parameter.
+    /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     #[allow(unused_mut)]
     pub fn new_strided<T: HasAfEnum>(slice: &[T], offset: i64,
                                      dims: Dim4, strides: Dim4) -> Result<Array, AfError> {

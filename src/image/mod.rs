@@ -817,12 +817,12 @@ pub fn color_space(input: &Array,
 ///
 /// Array with labels indicating different regions
 #[allow(unused_mut)]
-pub fn regions<T: HasAfEnum>(input: &Array, conn: Connectivity) -> Result<Array, AfError> {
+pub fn regions<OutType: HasAfEnum>(input: &Array, conn: Connectivity) -> Result<Array, AfError> {
     unsafe {
-        let aftype = T::get_af_dtype();
+        let otype = OutType::get_af_dtype();
         let mut temp: i64 = 0;
         let err_val = af_regions(&mut temp as MutAfArray, input.get() as AfArray,
-                                 conn as uint8_t, aftype as uint8_t);
+                                 conn as uint8_t, otype as uint8_t);
         match err_val {
             0 => Ok(Array::from(temp)),
             _ => Err(AfError::from(err_val)),
