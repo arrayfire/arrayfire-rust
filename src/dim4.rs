@@ -19,6 +19,8 @@ impl Default for Dim4 {
 /// # Examples
 ///
 /// ```
+/// use arrayfire::Dim4;
+///
 /// let dims = Dim4::new(&[4, 4, 2, 1]);
 /// println!("0th Dimension length is {}", dims[0]); // -> 4
 /// println!("1th Dimension length is {}", dims[1]); // -> 4
@@ -38,6 +40,8 @@ impl Index<usize> for Dim4 {
 /// # Examples
 ///
 /// ```
+/// use arrayfire::Dim4;
+///
 /// let dims = Dim4::new(&[4, 4, 2, 1]);
 /// println!("0th Dimension length is {}", dims[0]); // -> 4
 /// ```
@@ -53,6 +57,7 @@ impl Dim4 {
     /// # Examples
     ///
     /// ```
+    /// use arrayfire::Dim4;
     /// let dims = Dim4::new(&[4, 4, 2, 1]);
     /// ```
     pub fn new(dims: &[u64; 4]) -> Dim4 {

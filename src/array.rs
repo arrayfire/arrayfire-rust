@@ -119,6 +119,7 @@ impl Array {
     /// # Examples
     ///
     /// ```
+    /// use arrayfire::{Array, Dim4};
     /// let values: &[f32] = &[1.0, 2.0, 3.0];
     /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
     /// ```
@@ -388,25 +389,27 @@ impl Drop for Array {
 ///
 /// # Examples
 ///
-///  ```
+/// ```
+/// use arrayfire::{Dim4, print, randu};
 /// println!("Create a 5-by-3 matrix of random floats on the GPU");
+/// let dims = Dim4::new(&[3, 1, 1, 1]);
 /// let a = match randu::<f32>(dims) {
 ///     Ok(value) => value,
 ///     Err(error) => panic!("{}", error),
 /// };
 /// print(&a);
-///  ```
+/// ```
 ///
-///  The sample output will look like below:
+/// The sample output will look like below:
 ///
-///  ```
-///  [5 3 1 1]
-///      0.7402     0.4464     0.7762
-///      0.9210     0.6673     0.2948
-///      0.0390     0.1099     0.7140
-///      0.9690     0.4702     0.3585
-///      0.9251     0.5132     0.6814
-///  ```
+/// ```bash
+/// [5 3 1 1]
+///     0.7402     0.4464     0.7762
+///     0.9210     0.6673     0.2948
+///     0.0390     0.1099     0.7140
+///     0.9690     0.4702     0.3585
+///     0.9251     0.5132     0.6814
+/// ```
 pub fn print(input: &Array) -> Result<(), AfError> {
     unsafe {
         let ret_val = af_print_array(input.get() as AfArray);

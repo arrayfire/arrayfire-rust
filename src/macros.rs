@@ -36,12 +36,20 @@
 /// # Examples
 ///
 /// ```
-/// mem_info!("Here");
+/// # #[macro_use(mem_info)] extern crate arrayfire;
+/// # fn main() {
+///     use arrayfire::{Dim4, device_mem_info, print, randu};
+///
+///     let dims = Dim4::new(&[5, 5, 1, 1]);
+///     let a = randu::<f32>(dims).unwrap();
+///     print(&a);
+///     mem_info!("Hello!");
+/// # }
 /// ```
 ///
 /// Sample Output:
 ///
-/// ```
+/// ```ignore
 /// AF Memory: Here
 /// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]
 /// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]
@@ -66,11 +74,15 @@ macro_rules! mem_info {
 ///
 /// ```
 /// # #[macro_use] extern crate arrayfire;
+///
 /// # fn main() {
-/// let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-/// let d = join_many![2; a, b, c];
+///     use arrayfire::{Dim4, join_many, print, randu};
+///
+///     let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+///     let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+///     let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+///     let d = join_many![2; a, b, c];
+///     print(&d.unwrap());
 /// # }
 /// ```
 ///

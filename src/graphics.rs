@@ -54,22 +54,23 @@ pub struct Cell {
 ///
 /// # Examples
 ///
-/// ```
-/// let wnd = Window::new(1280, 720, String::from("Image Histogram")).unwrap();
-/// let img = match load_image("Path to image", true/*If color image, 'false' otherwise*/) {
+/// ```no_run
+/// use arrayfire::{histogram, load_image, Window};
+/// let mut wnd = Window::new(1280, 720, String::from("Image Histogram")).unwrap();
+/// let img = match load_image("Path to image".to_string(), true/*If color image, 'false' otherwise*/) {
 ///     Ok(img) => img,
 ///     Err(err) => panic!("Image loading failed with error code {}", err),
 /// };
-/// let hst = histogram(img, 256, 0, 255).unwrap();
+/// let hst = histogram(&img, 256, 0 as f64, 255 as f64).unwrap();
 ///
 /// loop {
 ///     wnd.grid(2, 1);
 ///
 ///     wnd.set_view(0, 0);
-///     wnd.draw_image(img, Some("Input Image"));
+///     wnd.draw_image(&img, Some("Input Image".to_string()));
 ///
 ///     wnd.set_view(1, 0);
-///     wnd.draw_histogram(hst, 0.0, 255.0, Some("Input Image Histogram"));
+///     wnd.draw_hist(&hst, 0.0, 255.0, Some("Input Image Histogram".to_string()));
 ///
 ///     wnd.show();
 ///

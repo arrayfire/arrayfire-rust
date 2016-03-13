@@ -537,7 +537,7 @@ pub fn upper(input: &Array, is_unit_diag: bool) -> Result<Array, AfError> {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```
+/// ```ignore
 /// c = cond ? a : b; /// where cond, a & b are all objects of type Array
 /// ```
 ///
@@ -570,7 +570,7 @@ pub fn select(a: &Array, cond: &Array, b: &Array) -> Result<Array, AfError> {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```
+/// ```ignore
 /// c = cond ? a : b; /// where  a is a scalar(f64) and b is Array
 /// ```
 ///
@@ -603,7 +603,7 @@ pub fn selectl(a: f64, cond: &Array, b: &Array) -> Result<Array, AfError> {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```
+/// ```ignore
 /// c = cond ? a : b; /// where a is Array and b is a scalar(f64)
 /// ```
 ///
@@ -636,7 +636,7 @@ pub fn selectr(a: &Array, cond: &Array, b: f64) -> Result<Array, AfError> {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```
+/// ```ignore
 /// a = cond ? a : b; /// where cond, a & b are all objects of type Array
 /// ```
 ///
@@ -666,7 +666,7 @@ pub fn replace(a: &mut Array, cond: &Array, b: &Array) -> Result<(), AfError> {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```
+/// ```ignore
 /// a = cond ? a : b; /// where cond, a are Arrays and b is scalar(f64)
 /// ```
 ///
