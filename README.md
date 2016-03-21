@@ -1,4 +1,7 @@
 # Arrayfire Rust Bindings [![Join the chat at https://gitter.im/arrayfire/arrayfire-rust](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/arrayfire/arrayfire-rust?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+| Linux   | Windows | OSX |
+|:-------:|:-------:|:---:|
+| [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-linux/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-windows/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-osx/) |
 
 [ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.2 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
