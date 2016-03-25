@@ -131,7 +131,7 @@ impl Drop for Indexer {
 /// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
 /// let sub  = index(&a, seqs).unwrap();
 /// println!("a(seq(1, 3, 1), span)");
-/// print(&sub);
+/// print(&sub).unwrap();
 /// ```
 pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Result<Array, AfError>
                       where c_double: From<T>
