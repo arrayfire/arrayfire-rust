@@ -351,8 +351,8 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Result<
 ///     Ok(v) => v,
 ///     Err(e) => panic!("{}",e),
 /// };
-/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
-/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+/// idxrs.set_index(&indices, 0, None).unwrap(); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)).unwrap(); // 3rd parameter indicates batch operation
 ///
 /// let sub2 = index_gen(&a, idxrs).unwrap();
 /// println!("a(indices, seq(0, 2, 1))"); print(&sub2).unwrap();
@@ -396,8 +396,8 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Result<Array, AfError> {
 ///     Ok(v) => v,
 ///     Err(e) => panic!("{}",e),
 /// };
-/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
-/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+/// idxrs.set_index(&indices, 0, None).unwrap(); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)).unwrap(); // 3rd parameter indicates batch operation
 ///
 /// let sub2 = assign_gen(&a, &idxrs, &b).unwrap();
 /// println!("a(indices, seq(0, 2, 1))"); print(&sub2).unwrap();
