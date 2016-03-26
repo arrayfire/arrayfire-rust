@@ -160,7 +160,7 @@ pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Result<Array, AfError>
 /// let a = randu::<f32>(dims).unwrap();
 /// println!("Grab last row of the random matrix");
 /// print(&a);
-/// print(&row(&a, 4).unwrap());
+/// print(&row(&a, 4).unwrap()).unwrap();
 /// ```
 #[allow(dead_code)]
 pub fn row(input: &Array, row_num: u64) -> Result<Array, AfError> {
@@ -351,11 +351,11 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Result<
 ///     Ok(v) => v,
 ///     Err(e) => panic!("{}",e),
 /// };
-/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
-/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+/// idxrs.set_index(&indices, 0, None).unwrap(); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)).unwrap(); // 3rd parameter indicates batch operation
 ///
 /// let sub2 = index_gen(&a, idxrs).unwrap();
-/// println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+/// println!("a(indices, seq(0, 2, 1))"); print(&sub2).unwrap();
 /// // [3 3 1 1]
 /// //     0.1315     0.0470     0.5194
 /// //     0.7556     0.6789     0.8310
@@ -396,11 +396,11 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Result<Array, AfError> {
 ///     Ok(v) => v,
 ///     Err(e) => panic!("{}",e),
 /// };
-/// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
-/// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+/// idxrs.set_index(&indices, 0, None).unwrap(); // 2nd parameter is indexing dimension
+/// idxrs.set_index(&seq4gen, 1, Some(false)).unwrap(); // 3rd parameter indicates batch operation
 ///
 /// let sub2 = assign_gen(&a, &idxrs, &b).unwrap();
-/// println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+/// println!("a(indices, seq(0, 2, 1))"); print(&sub2).unwrap();
 /// // [5 3 1 1]
 /// //     0.0000     0.2190     0.3835
 /// //     2.0000     2.0000     2.0000

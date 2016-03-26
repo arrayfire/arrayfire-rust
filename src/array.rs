@@ -119,9 +119,10 @@ impl Array {
     /// # Examples
     ///
     /// ```
-    /// use arrayfire::{Array, Dim4};
+    /// use arrayfire::{Array, Dim4, print};
     /// let values: &[f32] = &[1.0, 2.0, 3.0];
     /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
+    /// print(&indices).unwrap();
     /// ```
     #[allow(unused_mut)]
     pub fn new<T: HasAfEnum>(slice: &[T], dims: Dim4) -> Result<Array, AfError> {
