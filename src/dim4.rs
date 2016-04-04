@@ -2,7 +2,7 @@ use std::fmt;
 use std::ops::Index;
 
 /// Dim4 is used to store [Array](./struct.Array.html) dimensions
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Dim4 {
     dims: [u64; 4],
 }
