@@ -103,3 +103,31 @@ macro_rules! join_many {
         }
     };
 }
+
+/// Print given message before printing out the Array to standard output
+///
+/// # Examples
+///
+/// ```
+/// # #[macro_use] extern crate arrayfire;
+///
+/// # fn main() {
+///     use arrayfire::{Dim4, print, randu};
+///     let dims = Dim4::new(&[3, 1, 1, 1]);
+///     let a = match randu::<f32>(dims) {
+///         Ok(value) => value,
+///         Err(error) => panic!("{}", error),
+///     };
+///     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
+/// # }
+/// ```
+///
+#[macro_export]
+macro_rules! af_print {
+    [$msg: expr, $x: ident] => {
+        {
+            println!("{}", $msg);
+            print(&$x).unwrap();
+        }
+    };
+}
