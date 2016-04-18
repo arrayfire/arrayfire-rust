@@ -79,7 +79,7 @@ macro_rules! feat_func_def {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
                 match err_val {
-                    0 => Ok(Array::from(temp)),
+                    0 => Ok(Array::from_retained(temp)),
                     _ => Err(AfError::from(err_val)),
                 }
             }

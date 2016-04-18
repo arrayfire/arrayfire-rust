@@ -164,6 +164,18 @@ impl Array {
         }
     }
 
+    /// Used to create a weak copy of an Array object from a native resource id
+    pub fn from_retained(t: i64) -> Array {
+        unsafe {
+            let mut temp: i64 = 0;
+            let ret_val = af_retain_array(&mut temp as MutAfArray, t);
+            match ret_val {
+                0 => Array {handle: temp},
+                _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
+            }
+        }
+    }
+
     /// Returns the backend of the Array
     ///
     /// # Return Values
