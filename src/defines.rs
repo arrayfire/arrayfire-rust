@@ -4,7 +4,7 @@ use std::fmt::Error as FmtError;
 
 /// Error codes
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum AfError {
     /// The function returned successfully
     SUCCESS            =   0,
@@ -106,7 +106,7 @@ impl Error for AfError {
 }
 
 /// Types of Array data type
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Aftype {
     /// 32 bit float
     F32 = 0,
@@ -135,7 +135,7 @@ pub enum Aftype {
 }
 
 /// Dictates the interpolation method to be used by a function
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
     NEAREST = 0,
@@ -148,7 +148,7 @@ pub enum InterpType {
 }
 
 /// Helps determine how to pad kernels along borders
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BorderType {
     /// Pad using zeros
     ZERO = 0,
@@ -157,7 +157,7 @@ pub enum BorderType {
 }
 
 /// Used by `regions` function to identify type of connectivity
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
     FOUR = 4,
@@ -166,7 +166,7 @@ pub enum Connectivity {
 }
 
 /// Helps determine the size of output of convolution
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
     DEFAULT = 0,
@@ -175,7 +175,7 @@ pub enum ConvMode {
 }
 
 /// Helps determine if convolution is in Spatial or Frequency domain
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
     AUTO     = 0,
@@ -186,7 +186,7 @@ pub enum ConvDomain {
 }
 
 /// Error metric used by `matchTemplate` function
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatchType {
     /// Sum of Absolute Differences
     SAD = 0,
@@ -209,7 +209,7 @@ pub enum MatchType {
 }
 
 /// Identify the color space of given image(Array)
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorSpace {
     /// Grayscale color space
     GRAY = 0,
@@ -220,7 +220,7 @@ pub enum ColorSpace {
 }
 
 /// Helps determine the type of a Matrix
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatProp {
     /// Default (no-op)
     NONE,
@@ -248,7 +248,7 @@ pub enum MatProp {
 
 /// Norm type
 #[allow(non_camel_case_types)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum NormType {
     /// Treats input as a vector and return sum of absolute values
     VECTOR_1    = 0,
@@ -270,7 +270,7 @@ pub enum NormType {
 
 /// Dictates what color map is used for Image rendering
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorMap {
     /// Default color map is grayscale range [0-1]
     DEFAULT = 0,
@@ -290,7 +290,7 @@ pub enum ColorMap {
 
 /// YCbCr Standards
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum YCCStd {
     /// ITU-R BT.601 (formerly CCIR 601) standard
     YCC_601 = 601,
@@ -302,7 +302,7 @@ pub enum YCCStd {
 
 /// Homography type
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HomographyType {
     /// RANdom SAmple Consensus algorithm
     RANSAC = 0,
@@ -312,7 +312,7 @@ pub enum HomographyType {
 
 /// Plotting markers
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MarkerType {
     NONE     = 0,
     POINT    = 1,
