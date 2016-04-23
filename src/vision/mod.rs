@@ -1,5 +1,6 @@
 extern crate libc;
 
+use std::mem;
 use array::Array;
 use defines::{AfError, HomographyType, MatchType};
 use util::HasAfEnum;
@@ -78,8 +79,13 @@ macro_rules! feat_func_def {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
+
+                let temp_array = Array::from(temp);
+                let retained = temp_array.clone();
+                unsafe { mem::forget(temp_array); }
+
                 match err_val {
-                    0 => Ok(Array::from_retained(temp)),
+                    0 => Ok(retained),
                     _ => Err(AfError::from(err_val)),
                 }
             }
