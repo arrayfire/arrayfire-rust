@@ -41,7 +41,7 @@ pub use device::{get_version, info, init, device_count, is_double_available, set
 pub use device::{device_mem_info, print_mem_info, set_mem_step_size, get_mem_step_size, device_gc, sync};
 mod device;
 
-pub use defines::{Aftype, AfError, Backend, ColorMap, YCCStd, HomographyType};
+pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 pub use defines::{MarkerType};
@@ -49,6 +49,9 @@ mod defines;
 
 pub use dim4::Dim4;
 mod dim4;
+
+pub use error::{register_error_handler,handle_error_general};
+mod error;
 
 pub use index::{Indexer, index, row, rows, col, cols, slice, slices,
                 set_row, set_rows, set_col, set_cols, set_slice, set_slices,

@@ -3,6 +3,7 @@ extern crate libc;
 use std::mem;
 use array::Array;
 use defines::{AfError, HomographyType, MatchType};
+use error::HANDLE_ERROR;
 use util::HasAfEnum;
 use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_double, c_longlong};
 
@@ -75,19 +76,17 @@ pub struct Features {
 
 macro_rules! feat_func_def {
     ($fn_name: ident, $ffi_name: ident) => (
-        pub fn $fn_name(&self) -> Result<Array, AfError> {
+        pub fn $fn_name(&self) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, self.feat as Feat);
 
                 let temp_array = Array::from(temp);
                 let retained = temp_array.clone();
-                unsafe { mem::forget(temp_array); }
-
-                match err_val {
-                    0 => Ok(retained),
-                    _ => Err(AfError::from(err_val)),
-                }
+                mem::forget(temp_array);
+                
+                HANDLE_ERROR(AfError::from(err_val));
+                retained
             }
         }
     )
@@ -95,28 +94,24 @@ macro_rules! feat_func_def {
 
 impl Features {
     #[allow(unused_mut)]
-    pub fn new(n: u64) -> Result<Features, AfError> {
+    pub fn new(n: u64) -> Features {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_create_features(&mut temp as *mut c_longlong as MutFeat,
                                              n as DimT);
-            match err_val {
-                0 => Ok(Features {feat: temp}),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Features {feat: temp}
         }
     }
 
     /// Get total number of features found
-    pub fn num_features(&self) -> Result<i64, AfError> {
+    pub fn num_features(&self) -> i64 {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_get_features_num(&mut temp as *mut DimT,
                                               self.feat as *const c_longlong as Feat);
-            match err_val {
-                0 => Ok(temp),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            temp
         }
     }
 
@@ -137,10 +132,8 @@ impl Clone for Features {
             let mut temp: i64 = 0;
             let ret_val = af_retain_features(&mut temp as *mut c_longlong as MutFeat,
                                              self.feat as *const c_longlong as Feat);
-            match ret_val {
-                0 => Features {feat: temp},
-                _ => panic!("Weak copy of Features failed with error code: {}", ret_val),
-            }
+            HANDLE_ERROR(AfError::from(ret_val));
+            Features {feat: temp}
         }
     }
 }
@@ -149,10 +142,7 @@ impl Drop for Features {
     fn drop(&mut self) {
         unsafe {
             let ret_val = af_release_features(self.feat as *mut c_longlong as *mut c_void);
-            match ret_val {
-                0 => (),
-                _ => panic!("Weak copy of Features failed with error code: {}", ret_val),
-            }
+            HANDLE_ERROR(AfError::from(ret_val));
         }
     }
 }
@@ -187,16 +177,14 @@ impl Drop for Features {
 /// compute orientation. Size is set to 1 as FAST does not compute multiple scales.
 #[allow(unused_mut)]
 pub fn fast(input: &Array, thr: f32, arc_len: u32,
-            non_max: bool, feat_ratio: f32, edge: u32) -> Result<Features, AfError> {
+            non_max: bool, feat_ratio: f32, edge: u32) -> Features {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fast(&mut temp as *mut c_longlong as MutFeat,
                 input.get() as AfArray, thr as c_float, arc_len as c_uint,
                 non_max as c_int, feat_ratio as c_float, edge as c_uint);
-        match err_val {
-            0 => Ok(Features {feat: temp}),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Features {feat: temp}
     }
 }
 
@@ -222,17 +210,15 @@ pub fn fast(input: &Array, thr: f32, arc_len: u32,
 /// for x and y coordinates and score, while array oreientation & size are set to 0 & 1,
 /// respectively, since harris doesn't compute that information
 #[allow(unused_mut)]
-pub fn harris(input: &Array, max_corners: u32, min_response: f32, sigma: f32, block_size: u32, k_thr: f32) -> Result<Features, AfError> {
+pub fn harris(input: &Array, max_corners: u32, min_response: f32, sigma: f32, block_size: u32, k_thr: f32) -> Features {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_harris(&mut temp as *mut c_longlong as MutFeat,
                                 input.get() as AfArray, max_corners as c_uint,
                                 min_response as c_float, sigma as c_float, block_size as c_uint,
                                 k_thr as c_float);
-        match err_val {
-            0 => Ok(Features {feat: temp}),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Features {feat: temp}
     }
 }
 
@@ -260,17 +246,15 @@ pub fn harris(input: &Array, max_corners: u32, min_response: f32, sigma: f32, bl
 /// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.
 #[allow(unused_mut)]
 pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
-           scl_fctr: f32, levels: u32, blur_img: bool) -> Result<(Features, Array), AfError> {
+           scl_fctr: f32, levels: u32, blur_img: bool) -> (Features, Array) {
     unsafe {
         let mut f: i64 = 0;
         let mut d: i64 = 0;
         let err_val = af_orb(&mut f as *mut c_longlong as MutFeat, &mut d as MutAfArray,
                input.get() as AfArray, fast_thr as c_float,
                max_feat as c_uint, scl_fctr as c_float, levels as c_uint, blur_img as c_int);
-        match err_val {
-            0 => Ok((Features {feat: f}, Array::from(d))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Features {feat: f}, Array::from(d))
     }
 }
 
@@ -308,17 +292,15 @@ pub fn orb(input: &Array, fast_thr: f32, max_feat: u32,
 /// distance to the Ith query value in the train data array.
 #[allow(unused_mut)]
 pub fn hamming_matcher(query: &Array, train: &Array,
-                       dist_dims: i64, n_dist: u32) -> Result<(Array, Array), AfError> {
+                       dist_dims: i64, n_dist: u32) -> (Array, Array) {
     unsafe {
         let mut idx: i64 = 0;
         let mut dist:i64 = 0;
         let err_val = af_hamming_matcher(&mut idx as MutAfArray, &mut dist as MutAfArray,
                            query.get() as AfArray, train.get() as AfArray,
                            dist_dims as DimT, n_dist as c_uint);
-        match err_val {
-            0 => Ok((Array::from(idx), Array::from(dist))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(idx), Array::from(dist))
     }
 }
 
@@ -355,17 +337,15 @@ pub fn hamming_matcher(query: &Array, train: &Array,
 /// and N is equal to `n_dist`. The value at position IxJ indicates the distance of the Jth smallest
 /// distance to the Ith query value in the train data array based on the `dist_type` chosen.
 #[allow(unused_mut)]
-pub fn nearest_neighbour(query: &Array, train: &Array, dist_dim: i64, n_dist: u32, dist_type: MatchType) -> Result<(Array, Array), AfError> {
+pub fn nearest_neighbour(query: &Array, train: &Array, dist_dim: i64, n_dist: u32, dist_type: MatchType) -> (Array, Array) {
     unsafe {
         let mut idx: i64 = 0;
         let mut dist: i64 = 0;
         let err_val = af_nearest_neighbour(&mut idx as MutAfArray, &mut dist as MutAfArray,
                                            query.get() as AfArray, train.get() as AfArray,
                                            dist_dim as DimT, n_dist as c_uint, dist_type as c_int);
-        match err_val {
-            0 => Ok((Array::from(idx), Array::from(dist))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(idx), Array::from(dist))
     }
 }
 
@@ -385,16 +365,14 @@ pub fn nearest_neighbour(query: &Array, train: &Array, dist_dim: i64, n_dist: u3
 /// This function returns an Array with disparity values for the window starting at corresponding pixel position.
 #[allow(unused_mut)]
 pub fn match_template(search_img: &Array, template_img: &Array,
-                      mtype: MatchType) -> Result<Array, AfError> {
+                      mtype: MatchType) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_match_template(&mut temp as MutAfArray,
                           search_img.get() as AfArray, template_img.get() as AfArray,
                           mtype as uint8_t);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -438,17 +416,15 @@ pub fn match_template(search_img: &Array, template_img: &Array,
 /// # Return Values
 /// An object of type [Features](./struct.Features.html) composed of arrays for x and y coordinates, score, orientation and size of selected features.
 #[allow(unused_mut)]
-pub fn susan(input: &Array, radius: u32, diff_thr: f32, geom_thr: f32, feature_ratio: f32, edge: u32) -> Result<Features, AfError> {
+pub fn susan(input: &Array, radius: u32, diff_thr: f32, geom_thr: f32, feature_ratio: f32, edge: u32) -> Features {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_susan(&mut temp as *mut c_longlong as MutFeat,
                                input.get() as AfArray, radius as c_uint,
                                diff_thr as c_float, geom_thr as c_float, feature_ratio as c_float,
                                edge as c_uint);
-        match err_val {
-            0 => Ok(Features {feat: temp}),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Features {feat: temp}
     }
 }
 
@@ -467,15 +443,13 @@ pub fn susan(input: &Array, radius: u32, diff_thr: f32, geom_thr: f32, feature_r
 ///
 /// Difference of smoothed inputs - An Array.
 #[allow(unused_mut)]
-pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Result<Array, AfError> {
+pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_dog(&mut temp as MutAfArray, input.get() as AfArray,
                              radius1 as c_int, radius2 as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -513,7 +487,7 @@ pub fn dog(input: &Array, radius1: i32, radius2: i32) -> Result<Array, AfError> 
 pub fn homography<OutType: HasAfEnum>(x_src: &Array, y_src: &Array,
                                       x_dst: &Array, y_dst: &Array,
                                       htype: HomographyType, inlier_thr: f32,
-                                      iterations: u32) -> Result<(Array, i32), AfError> {
+                                      iterations: u32) -> (Array, i32) {
     unsafe {
         let otype = OutType::get_af_dtype();
         let mut inliers: i32 = 0;
@@ -523,9 +497,7 @@ pub fn homography<OutType: HasAfEnum>(x_src: &Array, y_src: &Array,
                                     x_dst.get() as AfArray, y_dst.get() as AfArray,
                                     htype as c_int, inlier_thr as c_float,
                                     iterations as c_uint, otype as c_int);
-        match err_val {
-            0 => Ok( (Array::from(temp), inliers) ),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(temp), inliers)
     }
 }

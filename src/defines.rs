@@ -16,7 +16,7 @@ pub enum AfError {
     /// There was an error with the runtime environment
     ERR_RUNTIME        = 103,
     // 200-299 Errors in input parameters
-    /// The input array is not a valid af_array object
+    /// The input array is not a valid Array object
     ERR_INVALID_ARRAY  = 201,
     /// One of the function arguments is incorrect
     ERR_ARG            = 202,
@@ -107,7 +107,7 @@ impl Error for AfError {
 
 /// Types of Array data type
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Aftype {
+pub enum DType {
     /// 32 bit float
     F32 = 0,
     /// 32 bit complex float

@@ -1,6 +1,7 @@
 extern crate libc;
 
 use defines::AfError;
+use error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char};
 use std::ffi::CString;
 
@@ -25,17 +26,15 @@ extern {
 ///
 /// # Return Values
 /// A triplet of integers indicating major, minor & fix release version numbers.
-pub fn get_version() -> Result<(i32, i32, i32), AfError> {
+pub fn get_version() -> (i32, i32, i32) {
     unsafe {
         let mut maj: i32 = 0;
         let mut min: i32 = 0;
         let mut pat: i32 = 0;
         let err_val = af_get_version(&mut maj as *mut c_int,
                                      &mut min as *mut c_int, &mut pat as *mut c_int);
-        match err_val {
-            0 => Ok((maj, min, pat)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (maj, min, pat)
     }
 }
 
@@ -50,13 +49,10 @@ pub fn get_version() -> Result<(i32, i32, i32), AfError> {
 /// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
 /// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
 /// ```
-pub fn info() -> Result<(), AfError> {
+pub fn info() {
     unsafe {
         let err_val = af_info();
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -64,25 +60,20 @@ pub fn info() -> Result<(), AfError> {
 ///
 /// 0th device will be the default device unless init call
 /// is followed by set_device
-pub fn init() -> Result<(), AfError> {
+pub fn init() {
     unsafe {
         let err_val = af_init();
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
 /// Get total number of available devices
-pub fn device_count() -> Result<i32, AfError> {
+pub fn device_count() -> i32 {
     unsafe {
         let mut temp: i32 = 0;
         let err_val = af_get_device_count(&mut temp as *mut c_int);
-        match err_val {
-            0 => Ok(temp),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 }
 
@@ -95,14 +86,12 @@ pub fn device_count() -> Result<i32, AfError> {
 /// # Return Values
 ///
 /// `True` if `device` device has double support, `False` otherwise.
-pub fn is_double_available(device: i32) -> Result<bool, AfError> {
+pub fn is_double_available(device: i32) -> bool {
     unsafe {
         let mut temp: i32 = 0;
         let err_val = af_get_dbl_support(&mut temp as *mut c_int, device as c_int);
-        match err_val {
-            0 => Ok(temp > 0),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        temp > 0
     }
 }
 
@@ -111,25 +100,20 @@ pub fn is_double_available(device: i32) -> Result<bool, AfError> {
 /// # Parameters
 ///
 /// - `device` is the value of the device identifier which has to be set as active
-pub fn set_device(device: i32) -> Result<(), AfError> {
+pub fn set_device(device: i32) {
     unsafe {
         let err_val = af_set_device(device as c_int);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
 /// Get the current active device id
-pub fn get_device() -> Result<i32, AfError> {
+pub fn get_device() -> i32 {
     unsafe {
         let mut temp: i32 = 0;
         let err_val = af_get_device(&mut temp as *mut c_int);
-        match err_val {
-            0 => Ok(temp),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 }
 
@@ -147,7 +131,7 @@ pub fn get_device() -> Result<i32, AfError> {
 /// * Number of buffers allocated
 /// * Number of bytes locked
 /// * Number of buffers locked
-pub fn device_mem_info() -> Result<(u64, u64, u64, u64), AfError> {
+pub fn device_mem_info() -> (u64, u64, u64, u64) {
     unsafe {
         let mut o0: u64 = 0;
         let mut o1: u64 = 0;
@@ -157,10 +141,8 @@ pub fn device_mem_info() -> Result<(u64, u64, u64, u64), AfError> {
                                          &mut o1 as *mut size_t,
                                          &mut o2 as *mut size_t,
                                          &mut o3 as *mut size_t);
-        match err_val {
-            0 => Ok((o0, o1, o2, o3)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (o0, o1, o2, o3)
     }
 }
 
@@ -176,19 +158,16 @@ pub fn device_mem_info() -> Result<(u64, u64, u64, u64), AfError> {
 /// # Return Values
 ///
 /// None
-pub fn print_mem_info(msg: String, device: i32) -> Result<(), AfError> {
+pub fn print_mem_info(msg: String, device: i32) {
     unsafe {
         let cmsg = CString::new(msg.as_bytes());
         match cmsg {
             Ok(v) => {
                 let err_val = af_print_mem_info(v.to_bytes_with_nul().as_ptr() as * const c_char,
                                                 device as c_int);
-                match err_val {
-                    0 => Ok(()),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
             },
-            Err(_) => Err(AfError::from(AfError::ERR_INTERNAL)),
+            Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
         }
     }
 }
@@ -202,13 +181,10 @@ pub fn print_mem_info(msg: String, device: i32) -> Result<(), AfError> {
 /// # Return Values
 ///
 /// None
-pub fn set_mem_step_size(step_bytes: u64) -> Result<(), AfError> {
+pub fn set_mem_step_size(step_bytes: u64) {
     unsafe {
         let err_val = af_set_mem_step_size(step_bytes as size_t);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -221,25 +197,20 @@ pub fn set_mem_step_size(step_bytes: u64) -> Result<(), AfError> {
 /// # Return Values
 ///
 /// Returns is the size of minimum memory chunk in bytes
-pub fn get_mem_step_size() -> Result<u64, AfError> {
+pub fn get_mem_step_size() -> u64 {
     unsafe {
         let mut temp: u64 = 0;
         let err_val = af_get_mem_step_size(&mut temp as *mut size_t);
-        match err_val {
-            0 => Ok(temp),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 }
 
 /// Call the garbage collection routine
-pub fn device_gc() -> Result<(), AfError> {
+pub fn device_gc() {
     unsafe {
         let err_val = af_device_gc();
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -252,12 +223,9 @@ pub fn device_gc() -> Result<(), AfError> {
 /// # Return Values
 ///
 /// None
-pub fn sync(device: i32) -> Result<(), AfError> {
+pub fn sync(device: i32) {
     unsafe {
         let err_val = af_sync(device as c_int);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }

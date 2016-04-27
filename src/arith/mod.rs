@@ -4,6 +4,7 @@ extern crate num;
 use dim4::Dim4;
 use array::Array;
 use defines::AfError;
+use error::HANDLE_ERROR;
 use self::libc::{c_int};
 use data::{constant, tile};
 use self::num::Complex;
@@ -102,10 +103,9 @@ impl<'f> Not for &'f Array {
     fn not(self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            match af_not(&mut temp as MutAfArray, self.get() as AfArray) {
-                0 => Array::from(temp),
-                _ => panic!("Negation of Array failed, please check input"),
-            }
+            let err_val = af_not(&mut temp as MutAfArray, self.get() as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 }
@@ -113,14 +113,12 @@ impl<'f> Not for &'f Array {
 macro_rules! unary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Result<Array, AfError> {
+        pub fn $fn_name(input: &Array) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -171,16 +169,14 @@ unary_func!(isnan, af_isnan);
 macro_rules! binary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
+        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray,
                                       lhs.get() as AfArray, rhs.get() as AfArray,
                                       0);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -204,7 +200,7 @@ macro_rules! convertable_type_def {
     ($rust_type: ty) => (
         impl Convertable for $rust_type {
             fn convert(&self) -> Array {
-                constant(*self, Dim4::new(&[1,1,1,1])).unwrap()
+                constant(*self, Dim4::new(&[1,1,1,1]))
             }
         }
     )
@@ -226,29 +222,27 @@ impl Convertable for Array {
 
 macro_rules! overloaded_binary_func {
     ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
-        fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Result<Array, AfError> {
+        fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                      lhs.get() as AfArray, rhs.get() as AfArray,
                                      batch as c_int);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
 
-        pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Result<Array, AfError> where T: Convertable, U: Convertable {
+        pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Array where T: Convertable, U: Convertable {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
-            match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
+            match (lhs.is_scalar(), rhs.is_scalar()) {
                 ( true, false) => {
-                    let l = tile(&lhs, rhs.dims().unwrap()).unwrap();
+                    let l = tile(&lhs, rhs.dims());
                     $help_name(&l, &rhs, batch)
                 },
                 (false,  true) => {
-                    let r = tile(&rhs, lhs.dims().unwrap()).unwrap();
+                    let r = tile(&rhs, lhs.dims());
                     $help_name(&lhs, &r, batch)
                 },
                 _ => $help_name(&lhs, &rhs, batch),
@@ -283,14 +277,13 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims().unwrap()).unwrap();
+                let cnst_arr = constant(rhs, self.dims());
                 unsafe {
                     let mut temp: i64 = 0;
-                    match $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
-                                  cnst_arr.get() as AfArray, 0) {
-                        0 => Array::from(temp),
-                        _ => panic!("Arithmetic operator on Array failed"),
-                    }
+                    let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
+                                          cnst_arr.get() as AfArray, 0); 
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Array::from(temp)
                 }
             }
         }
@@ -324,12 +317,10 @@ macro_rules! arith_func {
             fn $fn_name(self, rhs:&'f Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
-                    match $ffi_fn(&mut temp as MutAfArray,
-                                  self.get() as AfArray, rhs.get() as AfArray,
-                                  0) {
-                        0 => Array::from(temp),
-                        _ => panic!("Failed to perform arithmetic operation"),
-                    }
+                    let err_val = $ffi_fn(&mut temp as MutAfArray,
+                                          self.get() as AfArray, rhs.get() as AfArray, 0);
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Array::from(temp)
                 }
             }
         }

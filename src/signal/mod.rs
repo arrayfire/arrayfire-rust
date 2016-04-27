@@ -1,10 +1,8 @@
 extern crate libc;
 
 use array::Array;
-use defines::AfError;
-use defines::InterpType;
-use defines::ConvMode;
-use defines::ConvDomain;
+use defines::{AfError, ConvDomain, ConvMode, InterpType};
+use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -80,15 +78,13 @@ extern {
 /// An Array with interpolated values
 #[allow(unused_mut)]
 pub fn approx1(input: &Array, pos: &Array,
-               method: InterpType, off_grid: f32) -> Result<Array, AfError> {
+               method: InterpType, off_grid: f32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_approx1(&mut temp as MutAfArray, input.get() as AfArray,
                                  pos.get() as AfArray, method as c_int, off_grid as c_float);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -108,16 +104,14 @@ pub fn approx1(input: &Array, pos: &Array,
 ///
 /// An Array with interpolated values
 pub fn approx2(input: &Array, pos0: &Array, pos1: &Array,
-               method: InterpType, off_grid: f32) -> Result<Array, AfError> {
+               method: InterpType, off_grid: f32) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_approx2(&mut temp as MutAfArray, input.get() as AfArray,
                                  pos0.get() as AfArray, pos1.get() as AfArray,
                                  method as c_int, off_grid as c_float);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -135,16 +129,14 @@ pub fn approx2(input: &Array, pos0: &Array, pos1: &Array,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Result<Array, AfError> {
+pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft(&mut temp as MutAfArray,
                              input.get() as AfArray, norm_factor as c_double,
                              odim0 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -162,16 +154,14 @@ pub fn fft(input: &Array, norm_factor: f64, odim0: i64) -> Result<Array, AfError
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Result<Array, AfError> {
+pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft2(&mut temp as MutAfArray,
                               input.get() as AfArray, norm_factor as c_double,
                               odim0 as c_longlong, odim1 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -191,16 +181,14 @@ pub fn fft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Result<A
 /// Transformed Array
 #[allow(unused_mut)]
 pub fn fft3(input: &Array, norm_factor: f64,
-            odim0: i64, odim1: i64, odim2: i64) -> Result<Array, AfError> {
+            odim0: i64, odim1: i64, odim2: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft3(&mut temp as MutAfArray,
                               input.get() as AfArray, norm_factor as c_double,
                               odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -218,16 +206,14 @@ pub fn fft3(input: &Array, norm_factor: f64,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn ifft(input: &Array, norm_factor: f64, odim0: i64) -> Result<Array, AfError> {
+pub fn ifft(input: &Array, norm_factor: f64, odim0: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_ifft(&mut temp as MutAfArray,
                               input.get() as AfArray, norm_factor as c_double,
                               odim0 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -245,16 +231,14 @@ pub fn ifft(input: &Array, norm_factor: f64, odim0: i64) -> Result<Array, AfErro
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn ifft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Result<Array, AfError> {
+pub fn ifft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_ifft2(&mut temp as MutAfArray,
                                input.get() as AfArray, norm_factor as c_double,
                                odim0 as c_longlong, odim1 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -274,16 +258,14 @@ pub fn ifft2(input: &Array, norm_factor: f64, odim0: i64, odim1: i64) -> Result<
 /// Transformed Array
 #[allow(unused_mut)]
 pub fn ifft3(input: &Array, norm_factor: f64,
-             odim0: i64, odim1: i64, odim2: i64) -> Result<Array, AfError> {
+             odim0: i64, odim1: i64, odim2: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_ifft3(&mut temp as MutAfArray,
                                input.get() as AfArray, norm_factor as c_double,
                                odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -312,16 +294,14 @@ macro_rules! conv_func_def {
         /// The convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
-                        mode: ConvMode, domain: ConvDomain) -> Result<Array, AfError> {
+                        mode: ConvMode, domain: ConvDomain) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         signal.get() as AfArray, filter.get() as AfArray,
                                         mode as uint8_t, domain as uint8_t);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -345,16 +325,14 @@ conv_func_def!(convolve3, af_convolve3);
 /// The convolved Array
 #[allow(unused_mut)]
 pub fn convolve2_sep(cfilt: &Array, rfilt: &Array, signal: &Array,
-                     mode: ConvMode) -> Result<Array, AfError> {
+                     mode: ConvMode) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_convolve2_sep(&mut temp as MutAfArray,
                                        cfilt.get() as AfArray, rfilt.get() as AfArray,
                                        signal.get() as AfArray, mode as uint8_t);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -381,15 +359,13 @@ macro_rules! fft_conv_func_def {
         /// The convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
-                        mode: ConvMode) -> Result<Array, AfError> {
+                        mode: ConvMode) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, signal.get() as AfArray,
                                         filter.get() as AfArray, mode as uint8_t);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -410,14 +386,12 @@ fft_conv_func_def!(fft_convolve3, af_fft_convolve3);
 ///
 /// Filtered Array
 #[allow(unused_mut)]
-pub fn fir(b: &Array, x: &Array) -> Result<Array, AfError> {
+pub fn fir(b: &Array, x: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fir(&mut temp as MutAfArray, b.get() as AfArray, x.get() as AfArray);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -433,15 +407,13 @@ pub fn fir(b: &Array, x: &Array) -> Result<Array, AfError> {
 ///
 /// Filtered Array
 #[allow(unused_mut)]
-pub fn iir(b: &Array, a: &Array, x: &Array) -> Result<Array, AfError> {
+pub fn iir(b: &Array, a: &Array, x: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_iir(&mut temp as MutAfArray,
                              b.get() as AfArray, a.get() as AfArray, x.get() as AfArray);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -451,13 +423,10 @@ pub fn iir(b: &Array, a: &Array, x: &Array) -> Result<Array, AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn fft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn fft_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_fft_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -467,13 +436,10 @@ pub fn fft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn fft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn fft2_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_fft2_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -483,13 +449,10 @@ pub fn fft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn fft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn fft3_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_fft3_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -499,13 +462,10 @@ pub fn fft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn ifft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn ifft_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_ifft_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -515,13 +475,10 @@ pub fn ifft_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn ifft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn ifft2_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_ifft2_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -531,13 +488,10 @@ pub fn ifft2_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 ///
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
-pub fn ifft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
+pub fn ifft3_inplace(input: &Array, norm_factor: f64) {
     unsafe {
         let err_val = af_ifft3_inplace(input.get() as AfArray, norm_factor as c_double);
-        match err_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -552,15 +506,13 @@ pub fn ifft3_inplace(input: &Array, norm_factor: f64) -> Result<(), AfError> {
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft_r2c(input: &Array, norm_factor: f64, pad0: i64) -> Result<Array, AfError> {
+pub fn fft_r2c(input: &Array, norm_factor: f64, pad0: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft_r2c(&mut temp as MutAfArray, input.get() as AfArray,
                                  norm_factor as c_double, pad0 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -576,15 +528,13 @@ pub fn fft_r2c(input: &Array, norm_factor: f64, pad0: i64) -> Result<Array, AfEr
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft2_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64) -> Result<Array, AfError> {
+pub fn fft2_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft2_r2c(&mut temp as MutAfArray, input.get() as AfArray,
                                   norm_factor as c_double, pad0 as c_longlong, pad1 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -601,16 +551,14 @@ pub fn fft2_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64) -> Result
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft3_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64, pad2: i64) -> Result<Array, AfError> {
+pub fn fft3_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64, pad2: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft3_r2c(&mut temp as MutAfArray, input.get() as AfArray,
                                   norm_factor as c_double, pad0 as c_longlong,
                                   pad1 as c_longlong, pad2 as c_longlong);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -625,15 +573,13 @@ pub fn fft3_r2c(input: &Array, norm_factor: f64, pad0: i64, pad1: i64, pad2: i64
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+pub fn fft_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft_c2r(&mut temp as MutAfArray, input.get() as AfArray,
                                  norm_factor as c_double, is_odd as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -648,15 +594,13 @@ pub fn fft_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, A
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft2_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+pub fn fft2_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft2_c2r(&mut temp as MutAfArray, input.get() as AfArray,
                                   norm_factor as c_double, is_odd as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -671,14 +615,12 @@ pub fn fft2_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, 
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft3_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Result<Array, AfError> {
+pub fn fft3_c2r(input: &Array, norm_factor: f64, is_odd: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_fft3_c2r(&mut temp as MutAfArray, input.get() as AfArray,
                                   norm_factor as c_double, is_odd as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
