@@ -187,8 +187,8 @@ pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Array
 /// use arrayfire::{Dim4, randu, col, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
-/// println!("Grab last col of the random matrix");
 /// print(&a);
+/// println!("Grab last col of the random matrix");
 /// print(&col(&a, 4));
 /// ```
 #[allow(dead_code)]
