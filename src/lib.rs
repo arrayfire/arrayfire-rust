@@ -2,6 +2,9 @@
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
 
+#[macro_use]
+extern crate lazy_static;
+
 pub use array::Array;
 pub use array::{print};
 mod array;
@@ -50,7 +53,7 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
-pub use error::{register_error_handler,handle_error_general};
+pub use error::{ErrorCallback, register_error_handler,handle_error_general};
 mod error;
 
 pub use index::{Indexer, index, row, rows, col, cols, slice, slices,
