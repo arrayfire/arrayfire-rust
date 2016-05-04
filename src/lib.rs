@@ -2,9 +2,6 @@
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
 
-#[macro_use]
-extern crate lazy_static;
-
 pub use array::Array;
 pub use array::{print};
 mod array;
