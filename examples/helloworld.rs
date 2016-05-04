@@ -28,7 +28,7 @@ fn main() {
     af_print!("sin(a) + cos(a) => ", b2);
     af_print!("!a => ", b3);
 
-    let test = &a + &b;
+    let test = a.clone() + b.clone();
     af_print!("a + b", test);
 
     // Index array using sequences

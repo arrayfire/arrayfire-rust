@@ -8,6 +8,9 @@ use error::HANDLE_ERROR;
 use self::libc::{c_int};
 use data::{constant, tile};
 use self::num::Complex;
+use index::{Indexer, assign_gen};
+use seq::Seq;
+use std::mem;
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -15,6 +18,8 @@ type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 
 use std::ops::{Add, Sub, Div, Mul, BitAnd, BitOr, BitXor, Not, Rem, Shl, Shr};
+use std::ops::{AddAssign, SubAssign, DivAssign, MulAssign, BitAndAssign, BitOrAssign, BitXorAssign,
+RemAssign, ShlAssign, ShrAssign};
 
 #[allow(dead_code)]
 extern {
@@ -311,10 +316,10 @@ arith_scalar_spec!(u8);
 
 macro_rules! arith_func {
     ($op_name:ident, $fn_name:ident, $ffi_fn: ident) => (
-        impl<'f> $op_name<&'f Array> for &'f Array {
+        impl $op_name<Array> for Array {
             type Output = Array;
 
-            fn $fn_name(self, rhs:&'f Array) -> Array {
+            fn $fn_name(self, rhs: Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
                     let err_val = $ffi_fn(&mut temp as MutAfArray,
@@ -337,3 +342,48 @@ arith_func!(BitOr, bitor, af_bitor);
 arith_func!(BitXor, bitxor, af_bitxor);
 arith_func!(Shl, shl, af_bitshiftl);
 arith_func!(Shr, shr, af_bitshiftr);
+
+macro_rules! arith_assign_func {
+    ($op_name:ident, $fn_name:ident, $func: ident) => (
+        impl $op_name<Array> for Array {
+
+            #[allow(unused_variables)]
+            fn $fn_name(&mut self, rhs: Array) {
+                let mut idxrs = Indexer::new();
+                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
+                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                let tmp = assign_gen(self as &Array, &idxrs,
+                                     & $func(self as &Array, &rhs, false));
+                mem::replace(self, tmp);
+            }
+        }
+    )
+}
+
+arith_assign_func!(AddAssign, add_assign, add);
+arith_assign_func!(SubAssign, sub_assign, sub);
+arith_assign_func!(MulAssign, mul_assign, mul);
+arith_assign_func!(DivAssign, div_assign, div);
+arith_assign_func!(RemAssign, rem_assign, rem);
+arith_assign_func!(ShlAssign, shl_assign, shiftl);
+arith_assign_func!(ShrAssign, shr_assign, shiftr);
+
+macro_rules! bit_assign_func {
+    ($op_name:ident, $fn_name:ident, $func: ident) => (
+        impl $op_name<Array> for Array {
+
+            #[allow(unused_variables)]
+            fn $fn_name(&mut self, rhs: Array) {
+                let mut idxrs = Indexer::new();
+                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
+                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs));
+                mem::replace(self, tmp);
+            }
+        }
+    )
+}
+
+bit_assign_func!(BitAndAssign, bitand_assign, bitand);
+bit_assign_func!(BitOrAssign, bitor_assign, bitor);
+bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);

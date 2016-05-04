@@ -11,7 +11,11 @@ fn test_backend(){
   let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
   println!("Create a 10-by-10 matrix of random floats on the compute device");
-  let a = randu::<f32>(dims);
+  let mut a = randu::<f32>(dims);
+  let b = randu::<f32>(dims);
+  print(&a);
+  print(&b);
+  a += b;
   print(&a);
 }
 
