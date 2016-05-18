@@ -8,9 +8,6 @@ use error::HANDLE_ERROR;
 use self::libc::{c_int};
 use data::{constant, tile};
 use self::num::Complex;
-use index::{Indexer, assign_gen};
-use seq::Seq;
-use std::mem;
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -18,8 +15,6 @@ type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 
 use std::ops::{Add, Sub, Div, Mul, BitAnd, BitOr, BitXor, Not, Rem, Shl, Shr};
-use std::ops::{AddAssign, SubAssign, DivAssign, MulAssign, BitAndAssign, BitOrAssign, BitXorAssign,
-RemAssign, ShlAssign, ShrAssign};
 
 #[allow(dead_code)]
 extern {
@@ -343,6 +338,18 @@ arith_func!(BitXor, bitxor, af_bitxor);
 arith_func!(Shl, shl, af_bitshiftl);
 arith_func!(Shr, shr, af_bitshiftr);
 
+#[cfg(op_assign)]
+mod op_assign {
+
+use array::Array;
+use super::*;
+use index::{Indexer, assign_gen};
+use seq::Seq;
+use std::mem;
+use std::ops::{AddAssign, SubAssign, DivAssign, MulAssign, RemAssign};
+use std::ops::{BitAndAssign, BitOrAssign, BitXorAssign, ShlAssign, ShrAssign};
+
+
 macro_rules! arith_assign_func {
     ($op_name:ident, $fn_name:ident, $func: ident) => (
         impl $op_name<Array> for Array {
@@ -387,3 +394,5 @@ macro_rules! bit_assign_func {
 bit_assign_func!(BitAndAssign, bitand_assign, bitand);
 bit_assign_func!(BitOrAssign, bitor_assign, bitor);
 bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);
+
+}
