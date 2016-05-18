@@ -44,11 +44,6 @@ fn check_error_handler_mutation() {
                 3 => register_error_handler(HANDLE4.clone()),
                 _ => panic!("Impossible scenario"),
             }
-            //match i {
-            //    1 => thread::sleep(Duration::from_millis(20)),
-            //    2 => thread::sleep(Duration::from_millis(10)),
-            //    _ => (),
-            //}
         });
     }
 
