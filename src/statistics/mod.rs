@@ -2,6 +2,7 @@ extern crate libc;
 
 use array::Array;
 use defines::AfError;
+use error::HANDLE_ERROR;
 use self::libc::{c_int};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -46,14 +47,12 @@ macro_rules! stat_func_def {
         /// An Array whose size is equal to input except along the dimension which the stat
         /// operation is performed. Array size along `dim` will be reduced to one.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, dim: i64) -> Result<Array, AfError> {
+        pub fn $fn_name(input: &Array, dim: i64) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray, dim as DimT);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -78,15 +77,13 @@ macro_rules! stat_wtd_func_def {
         /// An Array whose size is equal to input except along the dimension which the stat
         /// operation is performed. Array size along `dim` will be reduced to one.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, weights: &Array, dim: i64) -> Result<Array, AfError> {
+        pub fn $fn_name(input: &Array, weights: &Array, dim: i64) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray,
                                       weights.get() as AfArray, dim as DimT);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -107,15 +104,13 @@ stat_wtd_func_def!(var_weighted, af_var_weighted);
 ///
 /// Array with variance of input Array `arr` along dimension `dim`.
 #[allow(unused_mut)]
-pub fn var(arr: &Array, isbiased: bool, dim: i64) -> Result<Array, AfError> {
+pub fn var(arr: &Array, isbiased: bool, dim: i64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_var(&mut temp as MutAfArray, arr.get() as AfArray,
                              isbiased as c_int, dim as DimT);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -131,15 +126,13 @@ pub fn var(arr: &Array, isbiased: bool, dim: i64) -> Result<Array, AfError> {
 ///
 /// An Array with Covariance values
 #[allow(unused_mut)]
-pub fn cov(x: &Array, y: &Array, isbiased: bool) -> Result<Array, AfError> {
+pub fn cov(x: &Array, y: &Array, isbiased: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_cov(&mut temp as MutAfArray, x.get() as AfArray,
                              y.get() as AfArray, isbiased as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -154,16 +147,14 @@ pub fn cov(x: &Array, y: &Array, isbiased: bool) -> Result<Array, AfError> {
 ///
 /// A tuple of 64-bit floating point values that has the variance of `input` Array.
 #[allow(unused_mut)]
-pub fn var_all(input: &Array, isbiased: bool) -> Result<(f64, f64), AfError> {
+pub fn var_all(input: &Array, isbiased: bool) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
         let mut imag: f64 = 0.0;
         let err_val = af_var_all(&mut real as MutDouble, &mut imag as MutDouble,
                                  input.get() as AfArray, isbiased as c_int);
-        match err_val {
-            0 => Ok((real, imag)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (real, imag)
     }
 }
 
@@ -179,16 +170,14 @@ macro_rules! stat_all_func_def {
         ///
         /// A tuple of 64-bit floating point values with the stat values.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Result<(f64, f64), AfError> {
+        pub fn $fn_name(input: &Array) -> (f64, f64) {
             unsafe {
                 let mut real: f64 = 0.0;
                 let mut imag: f64 = 0.0;
                 let err_val = $ffi_fn(&mut real as MutDouble, &mut imag as MutDouble,
                                       input.get() as AfArray);
-                match err_val {
-                    0 => Ok((real, imag)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                (real, imag)
             }
         }
     )
@@ -211,16 +200,14 @@ macro_rules! stat_wtd_all_func_def {
         ///
         /// A tuple of 64-bit floating point values with the stat values.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, weights: &Array) -> Result<(f64, f64), AfError> {
+        pub fn $fn_name(input: &Array, weights: &Array) -> (f64, f64) {
             unsafe {
                 let mut real: f64 = 0.0;
                 let mut imag: f64 = 0.0;
                 let err_val = $ffi_fn(&mut real as MutDouble, &mut imag as MutDouble,
                                       input.get() as AfArray, weights.get() as AfArray);
-                match err_val {
-                    0 => Ok((real, imag)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                (real, imag)
             }
         }
     )
@@ -239,15 +226,13 @@ stat_wtd_all_func_def!(var_all_weighted, af_var_all_weighted);
 /// # Return Values
 /// A tuple of 64-bit floating point values with the coefficients.
 #[allow(unused_mut)]
-pub fn corrcoef(x: &Array, y: &Array) -> Result<(f64, f64), AfError> {
+pub fn corrcoef(x: &Array, y: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
         let mut imag: f64 = 0.0;
         let err_val = af_corrcoef(&mut real as MutDouble, &mut imag as MutDouble,
                                   x.get() as AfArray, y.get() as AfArray);
-        match err_val {
-            0 => Ok((real, imag)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (real, imag)
     }
 }

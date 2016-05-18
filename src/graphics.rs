@@ -3,6 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::AfError;
 use defines::{ColorMap, MarkerType};
+use error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_double, c_char};
 use std::ffi::CString;
 
@@ -56,12 +57,9 @@ pub struct Cell {
 ///
 /// ```no_run
 /// use arrayfire::{histogram, load_image, Window};
-/// let mut wnd = Window::new(1280, 720, String::from("Image Histogram")).unwrap();
-/// let img = match load_image("Path to image".to_string(), true/*If color image, 'false' otherwise*/) {
-///     Ok(img) => img,
-///     Err(err) => panic!("Image loading failed with error code {}", err),
-/// };
-/// let hst = histogram(&img, 256, 0 as f64, 255 as f64).unwrap();
+/// let mut wnd = Window::new(1280, 720, String::from("Image Histogram"));
+/// let img = load_image("Path to image".to_string(), true/*If color image, 'false' otherwise*/);
+/// let hst = histogram(&img, 256, 0 as f64, 255 as f64);
 ///
 /// loop {
 ///     wnd.grid(2, 1);
@@ -74,7 +72,7 @@ pub struct Cell {
 ///
 ///     wnd.show();
 ///
-///     if wnd.is_closed().unwrap() == true { break; }
+///     if wnd.is_closed() == true { break; }
 /// }
 /// ```
 #[derive(Clone)]
@@ -107,50 +105,42 @@ impl Drop for Window {
 impl Window {
     /// Creates new Window object
     #[allow(unused_mut)]
-    pub fn new(width: i32, height: i32, title: String) -> Result<Window, AfError> {
+    pub fn new(width: i32, height: i32, title: String) ->  Window {
         unsafe {
             let mut temp: u64 = 0;
             let cstr_ret = CString::new(title.as_bytes());
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_create_window(&mut temp as MutWndHandle
-                                                   , width as c_int, height as c_int
-                                                   , cstr.to_bytes_with_nul().as_ptr() as *const c_char);
-                    match err_val {
-                        0 => Ok(Window::from(temp)),
-                        _ => Err(AfError::from(err_val)),
-                    }
+                    let err_val = af_create_window(&mut temp as MutWndHandle,
+                                                   width as c_int, height as c_int,
+                                                   cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Window::from(temp)
                 },
-                Err(_)   => Err(AfError::ERR_INTERNAL),
+                Err(_)   => panic!("String creation failed while prepping params for window creation."),
             }
         }
     }
 
     /// Set window starting position on the screen
-    pub fn set_position(&self, x: u32, y: u32) -> Result<(), AfError> {
+    pub fn set_position(&self, x: u32, y: u32) {
         unsafe {
             let err_val = af_set_position(self.handle as WndHandle, x as c_uint, y as c_uint);
-            match err_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
     /// Set window title
-    pub fn set_title(&self, title: String) -> Result<(), AfError> {
+    pub fn set_title(&self, title: String) {
         unsafe {
             let cstr_ret = CString::new(title.as_bytes());
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_set_title(self.handle as WndHandle
-                                               , cstr.to_bytes_with_nul().as_ptr() as *const c_char);
-                    match err_val {
-                        0 => Ok(()),
-                        _ => Err(AfError::from(err_val)),
-                    }
+                    let err_val = af_set_title(self.handle as WndHandle,
+                                               cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                    HANDLE_ERROR(AfError::from(err_val));
                 },
-                Err(_)   => Err(AfError::ERR_INTERNAL),
+                Err(_)   => HANDLE_ERROR(AfError::ERR_INTERNAL),
             }
         }
     }
@@ -164,13 +154,10 @@ impl Window {
     /// # Return Values
     ///
     /// None
-    pub fn set_visibility(&self, is_visible: bool) -> Result<(), AfError> {
+    pub fn set_visibility(&self, is_visible: bool) {
         unsafe {
             let err_val = af_set_visibility(self.handle as WndHandle, is_visible as c_int);
-            match err_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -180,13 +167,10 @@ impl Window {
     ///
     /// - `w` is the target width of window
     /// - `h` is the target height of window
-    pub fn set_size(&self, w: u32, h: u32) -> Result<(), AfError> {
+    pub fn set_size(&self, w: u32, h: u32) {
         unsafe {
             let err_val = af_set_size(self.handle as WndHandle, w as c_uint, h as c_uint);
-            match err_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -197,39 +181,31 @@ impl Window {
     }
 
     /// Returns true if the window close is triggered by the user
-    pub fn is_closed(&self) -> Result<bool, AfError> {
+    pub fn is_closed(&self) -> bool {
         unsafe {
             let mut temp: i32 = 1;
             let err_val = af_is_window_closed(&mut temp as *mut c_int, self.handle as WndHandle);
-            match err_val {
-                0 => Ok(temp > 0),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            temp > 0
         }
     }
 
     /// Used to setup display layout in multiview mode
-    pub fn grid(&self, rows: i32, cols: i32) -> Result<(), AfError> {
+    pub fn grid(&self, rows: i32, cols: i32) {
         unsafe {
             let err_val = af_grid(self.handle as WndHandle, rows as c_int, cols as c_int);
-            match err_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
     /// Used in multiview mode to swap back buffer with front buffer to show the recently rendered
     /// frame
-    pub fn show(&mut self) -> Result<(), AfError> {
+    pub fn show(&mut self) {
         unsafe {
             let err_val = af_show(self.handle as WndHandle);
-            if err_val != 0 {
-                return Err(AfError::from(err_val));
-            }
+            HANDLE_ERROR(AfError::from(err_val));
             self.row = -1;
             self.col = -1;
-            Ok(())
         }
     }
 
@@ -250,10 +226,7 @@ impl Window {
         unsafe {
             let err_val = af_draw_image(self.handle as WndHandle, input.get() as AfArray,
                                         cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering the image failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -269,10 +242,7 @@ impl Window {
                                        x.get() as AfArray,
                                        y.get() as AfArray,
                                        cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering 2d line plot failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -286,10 +256,7 @@ impl Window {
         unsafe {
             let err_val = af_draw_plot3(self.handle as WndHandle, points.get() as AfArray,
                                         cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering 3d line plot failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -304,10 +271,7 @@ impl Window {
             let err_val = af_draw_hist(self.handle as WndHandle, hst.get() as AfArray,
                                        minval as c_double, maxval as c_double,
                                        cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering histogram failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -324,10 +288,7 @@ impl Window {
                                           yvals.get() as AfArray,
                                           zvals.get() as AfArray,
                                           cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering surface failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -344,10 +305,7 @@ impl Window {
                                           yvals.get() as AfArray,
                                           marker as c_int,
                                           cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering scatter failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
@@ -363,10 +321,7 @@ impl Window {
                                            vals.get() as AfArray,
                                            marker as c_int,
                                            cprops as *const Cell as CellPtr);
-            match err_val {
-                0 => (),
-                _ => panic!("Rendering scatter3 failed: {}", err_val),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 }

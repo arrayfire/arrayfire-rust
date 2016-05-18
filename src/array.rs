@@ -1,7 +1,8 @@
 extern crate libc;
 
 use dim4::Dim4;
-use defines::{AfError, Aftype, Backend};
+use defines::{AfError, DType, Backend};
+use error::HANDLE_ERROR;
 use util::HasAfEnum;
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
 
@@ -100,14 +101,12 @@ pub struct Array {
 macro_rules! is_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         /// Checks if the Array is of specific format/data type.
-        pub fn $fn_name(&self) -> Result<bool, AfError> {
+        pub fn $fn_name(&self) -> bool {
             unsafe {
                 let mut ret_val: i32 = 0;
                 let err_val = $ffi_fn(&mut ret_val as *mut c_int, self.handle as AfArray);
-                match err_val {
-                    0 => Ok(ret_val>0),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                ret_val>0
             }
         }
     )
@@ -121,11 +120,11 @@ impl Array {
     /// ```
     /// use arrayfire::{Array, Dim4, print};
     /// let values: &[f32] = &[1.0, 2.0, 3.0];
-    /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1])).unwrap();
-    /// print(&indices).unwrap();
+    /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1]));
+    /// print(&indices);
     /// ```
     #[allow(unused_mut)]
-    pub fn new<T: HasAfEnum>(slice: &[T], dims: Dim4) -> Result<Array, AfError> {
+    pub fn new<T: HasAfEnum>(slice: &[T], dims: Dim4) -> Array {
         unsafe {
             let aftype = T::get_af_dtype();
             let mut temp: i64 = 0;
@@ -134,10 +133,8 @@ impl Array {
                                           dims.ndims() as c_uint,
                                           dims.get().as_ptr() as * const c_longlong,
                                           aftype as uint8_t);
-            match err_val {
-                0 => Ok(Array {handle: temp}),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 
@@ -146,7 +143,7 @@ impl Array {
     /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     #[allow(unused_mut)]
     pub fn new_strided<T: HasAfEnum>(slice: &[T], offset: i64,
-                                     dims: Dim4, strides: Dim4) -> Result<Array, AfError> {
+                                     dims: Dim4, strides: Dim4) -> Array {
         unsafe {
             let aftype = T::get_af_dtype();
             let mut temp: i64 = 0;
@@ -157,10 +154,8 @@ impl Array {
                                                   dims.get().as_ptr() as * const c_longlong,
                                                   strides.get().as_ptr() as * const c_longlong,
                                                   aftype as uint8_t);
-            match err_val {
-                0 => Ok(Array {handle: temp}),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 
@@ -170,15 +165,16 @@ impl Array {
     ///
     /// Returns an value of type `Backend` which indicates which backend
     /// was active when Array was created.
-    pub fn get_backend(&self) -> Result<Backend, AfError> {
+    pub fn get_backend(&self) -> Backend {
         unsafe {
             let mut ret_val: i32 = 0;
             let err_val = af_get_backend_id(&mut ret_val as *mut c_int, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
             match (err_val, ret_val) {
-                (0, 1) => Ok(Backend::CPU),
-                (0, 2) => Ok(Backend::CUDA),
-                (0, 3) => Ok(Backend::OPENCL),
-                _      => Err(AfError::from(err_val)),
+                (0, 1) => Backend::CPU,
+                (0, 2) => Backend::CUDA,
+                (0, 3) => Backend::OPENCL,
+                _      => Backend::DEFAULT,
             }
         }
     }
@@ -188,44 +184,37 @@ impl Array {
     /// # Return Values
     ///
     /// Return the device id on which Array was created.
-    pub fn get_device_id(&self) -> Result<i32, AfError> {
+    pub fn get_device_id(&self) -> i32 {
         unsafe {
             let mut ret_val: i32 = 0;
             let err_val = af_get_device_id(&mut ret_val as *mut c_int, self.handle as AfArray);
-            match err_val {
-                0 => Ok(ret_val),
-                _ => Err(AfError::from(err_val)),
-
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            ret_val
         }
     }
 
     /// Returns the number of elements in the Array
-    pub fn elements(&self) -> Result<i64, AfError> {
+    pub fn elements(&self) -> i64 {
         unsafe {
             let mut ret_val: i64 = 0;
             let err_val = af_get_elements(&mut ret_val as MutAfArray, self.handle as AfArray);
-            match err_val {
-                0 => Ok(ret_val),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            ret_val
         }
     }
 
     /// Returns the Array data type
-    pub fn get_type(&self) -> Result<Aftype, AfError> {
+    pub fn get_type(&self) -> DType {
         unsafe {
             let mut ret_val: u8 = 0;
             let err_val = af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
-            match err_val {
-                0 => Ok(Aftype::from(ret_val)),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            DType::from(ret_val)
         }
     }
 
     /// Returns the dimensions of the Array
-    pub fn dims(&self) -> Result<Dim4, AfError> {
+    pub fn dims(&self) -> Dim4 {
         unsafe {
             let mut ret0: i64 = 0;
             let mut ret1: i64 = 0;
@@ -234,15 +223,13 @@ impl Array {
             let err_val = af_get_dims(&mut ret0 as *mut DimT, &mut ret1 as *mut DimT,
                                       &mut ret2 as *mut DimT, &mut ret3 as *mut DimT,
                                       self.handle as AfArray);
-            match err_val {
-                0 => Ok(Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
     }
 
     /// Returns the strides of the Array
-    pub fn strides(&self) -> Result<Dim4, AfError> {
+    pub fn strides(&self) -> Dim4 {
         unsafe {
             let mut ret0: i64 = 0;
             let mut ret1: i64 = 0;
@@ -251,34 +238,28 @@ impl Array {
             let err_val = af_get_strides(&mut ret0 as *mut DimT, &mut ret1 as *mut DimT,
                                          &mut ret2 as *mut DimT, &mut ret3 as *mut DimT,
                                          self.handle as AfArray);
-            match err_val {
-                0 => Ok(Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
     }
 
     /// Returns the number of dimensions of the Array
-    pub fn numdims(&self) -> Result<u32, AfError> {
+    pub fn numdims(&self) -> u32 {
         unsafe {
             let mut ret_val: u32 = 0;
             let err_val = af_get_numdims(&mut ret_val as *mut c_uint, self.handle as AfArray);
-            match err_val {
-                0 => Ok(ret_val),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            ret_val
         }
     }
 
     /// Returns the offset to the pointer from where data begins
-    pub fn offset(&self) -> Result<i64, AfError> {
+    pub fn offset(&self) -> i64 {
         unsafe {
             let mut ret_val: i64 = 0;
             let err_val = af_get_offset(&mut ret_val as *mut DimT, self.handle as AfArray);
-            match err_val {
-                0 => Ok(ret_val),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            ret_val
         }
     }
 
@@ -288,38 +269,30 @@ impl Array {
     }
 
     /// Copies the data from the Array to the mutable slice `data`
-    pub fn host<T>(&self, data: &mut [T]) -> Result<(), AfError> {
+    pub fn host<T>(&self, data: &mut [T]) {
         unsafe {
-            let ret_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
-            match ret_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(ret_val)),
-            }
+            let err_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
     /// Evaluates any pending lazy expressions that represent the data in the Array object
-    pub fn eval(&self) -> Result<(), AfError> {
+    pub fn eval(&self) {
         unsafe {
-            let ret_val = af_eval(self.handle as AfArray);
-            match ret_val {
-                0 => Ok(()),
-                _ => Err(AfError::from(ret_val)),
-            }
+            let err_val = af_eval(self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
         }
     }
 
     /// Makes an copy of the Array
     ///
     /// Internally, this is handled by reference counting
-    pub fn copy(&self) -> Result<Array, AfError> {
+    pub fn copy(&self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_copy_array(&mut temp as MutAfArray, self.handle as AfArray);
-            match err_val {
-                0 => Ok(Array::from(temp)),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 
@@ -339,15 +312,13 @@ impl Array {
     is_func!(is_owner, af_is_owner);
 
     /// Cast the Array data type to `target_type`
-    pub fn cast<T: HasAfEnum>(&self) -> Result<Array, AfError> {
+    pub fn cast<T: HasAfEnum>(&self) -> Array {
         unsafe {
             let trgt_type = T::get_af_dtype();
             let mut temp: i64 = 0;
             let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
-            match err_val {
-                0 => Ok(Array::from(temp)),
-                _ => Err(AfError::from(err_val)),
-            }
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 }
@@ -394,10 +365,7 @@ impl Drop for Array {
 /// use arrayfire::{Dim4, print, randu};
 /// println!("Create a 5-by-3 matrix of random floats on the GPU");
 /// let dims = Dim4::new(&[3, 1, 1, 1]);
-/// let a = match randu::<f32>(dims) {
-///     Ok(value) => value,
-///     Err(error) => panic!("{}", error),
-/// };
+/// let a = randu::<f32>(dims);
 /// print(&a);
 /// ```
 ///
@@ -411,12 +379,9 @@ impl Drop for Array {
 ///     0.9690     0.4702     0.3585
 ///     0.9251     0.5132     0.6814
 /// ```
-pub fn print(input: &Array) -> Result<(), AfError> {
+pub fn print(input: &Array) {
     unsafe {
-        let ret_val = af_print_array(input.get() as AfArray);
-        match ret_val {
-            0 => Ok(()),
-            _ => Err(AfError::from(ret_val)),
-        }
+        let err_val = af_print_array(input.get() as AfArray);
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }

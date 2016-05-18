@@ -15,8 +15,9 @@ build         = "build.rs"
 libc = "0.1.10"
 num  = "0.1.27"
 time = "0.1.32"
+lazy_static = "0.2.1"
 
-[build-dependencies.rustc-serialize]
+[build-dependencies]
 rustc-serialize = "0.3.16"
 
 [lib]

@@ -16,7 +16,7 @@ pub enum AfError {
     /// There was an error with the runtime environment
     ERR_RUNTIME        = 103,
     // 200-299 Errors in input parameters
-    /// The input array is not a valid af_array object
+    /// The input array is not a valid Array object
     ERR_INVALID_ARRAY  = 201,
     /// One of the function arguments is incorrect
     ERR_ARG            = 202,
@@ -84,30 +84,30 @@ impl Display for AfError {
 impl Error for AfError {
     fn description(&self) -> &str {
         match *self {
-            AfError::SUCCESS => "Function returned successfully",
-            AfError::ERR_NO_MEM => "The system or device ran out of memory",
-            AfError::ERR_DRIVER => "Device driver error",
-            AfError::ERR_RUNTIME => "Error in runtime environment",
-            AfError::ERR_INVALID_ARRAY => "Input is not a valid Array Object",
-            AfError::ERR_ARG => "One of the function arguments is incorrect",
-            AfError::ERR_SIZE => "The size is incorrect",
-            AfError::ERR_TYPE => "The type is not supported by this function",
-            AfError::ERR_DIFF_TYPE => "The type of input arrays are not compatible",
-            AfError::ERR_BATCH => "Function does not support GFOR / batch mode",
-            AfError::ERR_DEVICE => "Array does not belong to device",
-            AfError::ERR_NOT_SUPPORTED => "The option is not supported",
+            AfError::SUCCESS            => "Function returned successfully",
+            AfError::ERR_NO_MEM         => "System or Device ran out of memory",
+            AfError::ERR_DRIVER         => "Error in the device driver",
+            AfError::ERR_RUNTIME        => "Error with the runtime environment",
+            AfError::ERR_INVALID_ARRAY  => "Iput Array is not a valid object",
+            AfError::ERR_ARG            => "One of the function arguments is incorrect",
+            AfError::ERR_SIZE           => "Size is incorrect",
+            AfError::ERR_TYPE           => "Type is not suppported by this function",
+            AfError::ERR_DIFF_TYPE      => "Type of the input arrays are not compatible",
+            AfError::ERR_BATCH          => "Function does not support GFOR / batch mode",
+            AfError::ERR_DEVICE         => "Input does not belong to the current device",
+            AfError::ERR_NOT_SUPPORTED  => "Unsupported operation/parameter option",
             AfError::ERR_NOT_CONFIGURED => "This build of ArrayFire does not support this feature",
-            AfError::ERR_NO_DBL => "This device does not support double",
-            AfError::ERR_NO_GFX => "This build of ArrayFire was not built with graphics or this device does not support graphics",
-            AfError::ERR_INTERNAL => "There was an internal error in either ArrayFire or upstream project",
-            AfError::ERR_UNKNOWN => "Unkown Error",
+            AfError::ERR_NO_DBL         => "This device does not support double",
+            AfError::ERR_NO_GFX         => "This build of ArrayFire has no graphics support",
+            AfError::ERR_INTERNAL       => "Eror either in ArrayFire or in a project upstream",
+            AfError::ERR_UNKNOWN        => "Unknown Error",
         }
     }
 }
 
 /// Types of Array data type
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Aftype {
+pub enum DType {
     /// 32 bit float
     F32 = 0,
     /// 32 bit complex float

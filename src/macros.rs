@@ -41,7 +41,7 @@
 ///     use arrayfire::{Dim4, device_mem_info, print, randu};
 ///
 ///     let dims = Dim4::new(&[5, 5, 1, 1]);
-///     let a = randu::<f32>(dims).unwrap();
+///     let a = randu::<f32>(dims);
 ///     print(&a);
 ///     mem_info!("Hello!");
 /// # }
@@ -58,7 +58,7 @@
 macro_rules! mem_info {
     [$msg: expr] => {
         {
-            let (abytes, abuffs, lbytes, lbuffs) = device_mem_info().unwrap();
+            let (abytes, abuffs, lbytes, lbuffs) = device_mem_info();
             println!("AF Memory: {:?}", $msg);
             println!("Allocated [Bytes | Buffers] = [ {} | {} ]", abytes, abuffs);
             println!("In Use    [Bytes | Buffers] = [ {} | {} ]", lbytes, lbuffs);
@@ -78,11 +78,11 @@ macro_rules! mem_info {
 /// # fn main() {
 ///     use arrayfire::{Dim4, join_many, print, randu};
 ///
-///     let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-///     let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
-///     let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1])).unwrap();
+///     let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+///     let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+///     let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
 ///     let d = join_many![2; a, b, c];
-///     print(&d.unwrap());
+///     print(&d);
 /// # }
 /// ```
 ///
@@ -114,10 +114,7 @@ macro_rules! join_many {
 /// # fn main() {
 ///     use arrayfire::{Dim4, print, randu};
 ///     let dims = Dim4::new(&[3, 1, 1, 1]);
-///     let a = match randu::<f32>(dims) {
-///         Ok(value) => value,
-///         Err(error) => panic!("{}", error),
-///     };
+///     let a = randu::<f32>(dims);
 ///     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 /// # }
 /// ```
@@ -127,7 +124,7 @@ macro_rules! af_print {
     [$msg: expr, $x: ident] => {
         {
             println!("{}", $msg);
-            print(&$x).unwrap();
+            print(&$x);
         }
     };
 }

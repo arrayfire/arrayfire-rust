@@ -1,13 +1,6 @@
 extern crate num;
 
-use defines::AfError;
-use defines::Aftype;
-use defines::InterpType;
-use defines::ConvMode;
-use defines::ConvDomain;
-use defines::MatProp;
-use defines::MatchType;
-use defines::ColorMap;
+use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
 use std::mem;
 use self::num::Complex;
 
@@ -18,9 +11,9 @@ impl From<i32> for AfError {
     }
 }
 
-impl From<u8> for Aftype {
-    fn from(t: u8) -> Aftype {
-        assert!(Aftype::F32 as u8 <= t && t <= Aftype::U64 as u8);
+impl From<u8> for DType {
+    fn from(t: u8) -> DType {
+        assert!(DType::F32 as u8 <= t && t <= DType::U64 as u8);
         unsafe { mem::transmute(t) }
     }
 }
@@ -97,30 +90,30 @@ impl From<i32> for ColorMap {
 /// - u16
 ///
 pub trait HasAfEnum {
-    fn get_af_dtype() -> Aftype;
+    fn get_af_dtype() -> DType;
 }
 
 macro_rules! impl_has_af_enum {
     ($rust_t: ty, $af_dtype: expr) => (
         impl HasAfEnum for $rust_t {
-            fn get_af_dtype() -> Aftype {
+            fn get_af_dtype() -> DType {
                 $af_dtype
             }
         }
     )
 }
 
-impl_has_af_enum!(f32, Aftype::F32);
-impl_has_af_enum!(Complex<f32>, Aftype::C32);
-impl_has_af_enum!(f64, Aftype::F64);
-impl_has_af_enum!(Complex<f64>, Aftype::C64);
+impl_has_af_enum!(f32, DType::F32);
+impl_has_af_enum!(Complex<f32>, DType::C32);
+impl_has_af_enum!(f64, DType::F64);
+impl_has_af_enum!(Complex<f64>, DType::C64);
 // FIXME: Rust bool may become incompatible in memory layout with C-ABI
 // Currently, it is of size 1-byte
-impl_has_af_enum!(bool, Aftype::B8);
-impl_has_af_enum!(i32, Aftype::S32);
-impl_has_af_enum!(u32, Aftype::U32);
-impl_has_af_enum!(u8, Aftype::U8);
-impl_has_af_enum!(i64, Aftype::S64);
-impl_has_af_enum!(u64, Aftype::U64);
-impl_has_af_enum!(i16, Aftype::S16);
-impl_has_af_enum!(u16, Aftype::U16);
+impl_has_af_enum!(bool, DType::B8);
+impl_has_af_enum!(i32, DType::S32);
+impl_has_af_enum!(u32, DType::U32);
+impl_has_af_enum!(u8, DType::U8);
+impl_has_af_enum!(i64, DType::S64);
+impl_has_af_enum!(u64, DType::U64);
+impl_has_af_enum!(i16, DType::S16);
+impl_has_af_enum!(u16, DType::U16);

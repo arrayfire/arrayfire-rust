@@ -11,46 +11,38 @@ fn test_backend(){
   let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
   println!("Create a 10-by-10 matrix of random floats on the compute device");
-  let a = match randu::<f32>(dims) {
-    Ok(value) => value,
-    Err(error) => panic!("{}", error),
-  };
+  let mut a = randu::<f32>(dims);
+  let b = randu::<f32>(dims);
+  print(&a);
+  print(&b);
+  a += b;
   print(&a);
 }
 
 
 #[allow(unused_must_use)]
 fn main() {
-  println!("There are {:?} available backends", get_backend_count().unwrap());
-  let available = get_available_backends().unwrap();
+  println!("There are {:?} available backends", get_backend_count());
+  let available = get_available_backends();
 
-  if available.contains(&Backend::CPU){
+  if available.contains(&Backend::CPU) {
     println!("Evaluating CPU Backend...");
-    let err = set_backend(Backend::CPU);
-    println!("There are {} CPU compute devices", device_count().unwrap());
-      match err {
-        Ok(_)  => test_backend(),
-        Err(e) => println!("CPU backend error: {}", e),
-    };
+    set_backend(Backend::CPU);
+    println!("There are {} CPU compute devices", device_count());
+    test_backend();
   }
 
-  if available.contains(&Backend::CUDA){
+  if available.contains(&Backend::CUDA) {
     println!("Evaluating CUDA Backend...");
-    let err = set_backend(Backend::CUDA);
-    println!("There are {} CUDA compute devices", device_count().unwrap());
-      match err {
-        Ok(_)  => test_backend(),
-        Err(e) => println!("CUDA backend error: {}", e),
-    };
+    set_backend(Backend::CUDA);
+    println!("There are {} CUDA compute devices", device_count());
+    test_backend();
   }
 
-  if available.contains(&Backend::OPENCL){
+  if available.contains(&Backend::OPENCL) {
     println!("Evaluating OpenCL Backend...");
-    let err = set_backend(Backend::OPENCL);
-    println!("There are {} OpenCL compute devices", device_count().unwrap());
-      match err {
-        Ok(_)  => test_backend(),
-        Err(e) => println!("OpenCL backend error: {}", e),
-    };
+    set_backend(Backend::OPENCL);
+    println!("There are {} OpenCL compute devices", device_count());
+    test_backend();
   }
 }

@@ -4,9 +4,13 @@ extern crate num;
 use dim4::Dim4;
 use array::Array;
 use defines::AfError;
+use error::HANDLE_ERROR;
 use self::libc::{c_int};
 use data::{constant, tile};
 use self::num::Complex;
+use index::{Indexer, assign_gen};
+use seq::Seq;
+use std::mem;
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -14,6 +18,8 @@ type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 
 use std::ops::{Add, Sub, Div, Mul, BitAnd, BitOr, BitXor, Not, Rem, Shl, Shr};
+use std::ops::{AddAssign, SubAssign, DivAssign, MulAssign, BitAndAssign, BitOrAssign, BitXorAssign,
+RemAssign, ShlAssign, ShrAssign};
 
 #[allow(dead_code)]
 extern {
@@ -102,10 +108,9 @@ impl<'f> Not for &'f Array {
     fn not(self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
-            match af_not(&mut temp as MutAfArray, self.get() as AfArray) {
-                0 => Array::from(temp),
-                _ => panic!("Negation of Array failed, please check input"),
-            }
+            let err_val = af_not(&mut temp as MutAfArray, self.get() as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
         }
     }
 }
@@ -113,14 +118,12 @@ impl<'f> Not for &'f Array {
 macro_rules! unary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Result<Array, AfError> {
+        pub fn $fn_name(input: &Array) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -171,16 +174,14 @@ unary_func!(isnan, af_isnan);
 macro_rules! binary_func {
     ($fn_name: ident, $ffi_fn: ident) => (
         #[allow(unused_mut)]
-        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Result<Array, AfError> {
+        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray,
                                       lhs.get() as AfArray, rhs.get() as AfArray,
                                       0);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -204,7 +205,7 @@ macro_rules! convertable_type_def {
     ($rust_type: ty) => (
         impl Convertable for $rust_type {
             fn convert(&self) -> Array {
-                constant(*self, Dim4::new(&[1,1,1,1])).unwrap()
+                constant(*self, Dim4::new(&[1,1,1,1]))
             }
         }
     )
@@ -226,29 +227,27 @@ impl Convertable for Array {
 
 macro_rules! overloaded_binary_func {
     ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
-        fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Result<Array, AfError> {
+        fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                      lhs.get() as AfArray, rhs.get() as AfArray,
                                      batch as c_int);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
 
-        pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Result<Array, AfError> where T: Convertable, U: Convertable {
+        pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Array where T: Convertable, U: Convertable {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
-            match (lhs.is_scalar().unwrap(), rhs.is_scalar().unwrap()) {
+            match (lhs.is_scalar(), rhs.is_scalar()) {
                 ( true, false) => {
-                    let l = tile(&lhs, rhs.dims().unwrap()).unwrap();
+                    let l = tile(&lhs, rhs.dims());
                     $help_name(&l, &rhs, batch)
                 },
                 (false,  true) => {
-                    let r = tile(&rhs, lhs.dims().unwrap()).unwrap();
+                    let r = tile(&rhs, lhs.dims());
                     $help_name(&lhs, &r, batch)
                 },
                 _ => $help_name(&lhs, &rhs, batch),
@@ -283,14 +282,13 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims().unwrap()).unwrap();
+                let cnst_arr = constant(rhs, self.dims());
                 unsafe {
                     let mut temp: i64 = 0;
-                    match $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
-                                  cnst_arr.get() as AfArray, 0) {
-                        0 => Array::from(temp),
-                        _ => panic!("Arithmetic operator on Array failed"),
-                    }
+                    let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
+                                          cnst_arr.get() as AfArray, 0); 
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Array::from(temp)
                 }
             }
         }
@@ -318,18 +316,16 @@ arith_scalar_spec!(u8);
 
 macro_rules! arith_func {
     ($op_name:ident, $fn_name:ident, $ffi_fn: ident) => (
-        impl<'f> $op_name<&'f Array> for &'f Array {
+        impl $op_name<Array> for Array {
             type Output = Array;
 
-            fn $fn_name(self, rhs:&'f Array) -> Array {
+            fn $fn_name(self, rhs: Array) -> Array {
                 unsafe {
                     let mut temp: i64 = 0;
-                    match $ffi_fn(&mut temp as MutAfArray,
-                                  self.get() as AfArray, rhs.get() as AfArray,
-                                  0) {
-                        0 => Array::from(temp),
-                        _ => panic!("Failed to perform arithmetic operation"),
-                    }
+                    let err_val = $ffi_fn(&mut temp as MutAfArray,
+                                          self.get() as AfArray, rhs.get() as AfArray, 0);
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Array::from(temp)
                 }
             }
         }
@@ -346,3 +342,48 @@ arith_func!(BitOr, bitor, af_bitor);
 arith_func!(BitXor, bitxor, af_bitxor);
 arith_func!(Shl, shl, af_bitshiftl);
 arith_func!(Shr, shr, af_bitshiftr);
+
+macro_rules! arith_assign_func {
+    ($op_name:ident, $fn_name:ident, $func: ident) => (
+        impl $op_name<Array> for Array {
+
+            #[allow(unused_variables)]
+            fn $fn_name(&mut self, rhs: Array) {
+                let mut idxrs = Indexer::new();
+                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
+                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                let tmp = assign_gen(self as &Array, &idxrs,
+                                     & $func(self as &Array, &rhs, false));
+                mem::replace(self, tmp);
+            }
+        }
+    )
+}
+
+arith_assign_func!(AddAssign, add_assign, add);
+arith_assign_func!(SubAssign, sub_assign, sub);
+arith_assign_func!(MulAssign, mul_assign, mul);
+arith_assign_func!(DivAssign, div_assign, div);
+arith_assign_func!(RemAssign, rem_assign, rem);
+arith_assign_func!(ShlAssign, shl_assign, shiftl);
+arith_assign_func!(ShrAssign, shr_assign, shiftr);
+
+macro_rules! bit_assign_func {
+    ($op_name:ident, $fn_name:ident, $func: ident) => (
+        impl $op_name<Array> for Array {
+
+            #[allow(unused_variables)]
+            fn $fn_name(&mut self, rhs: Array) {
+                let mut idxrs = Indexer::new();
+                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
+                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs));
+                mem::replace(self, tmp);
+            }
+        }
+    )
+}
+
+bit_assign_func!(BitAndAssign, bitand_assign, bitand);
+bit_assign_func!(BitOrAssign, bitor_assign, bitor);
+bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);
