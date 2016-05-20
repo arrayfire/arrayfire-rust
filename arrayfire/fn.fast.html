@@ -9,6 +9,7 @@
 
     <title>arrayfire::fast - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'fast', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,8 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-29754' class='srclink' href='../src/arrayfire/vision/mod.rs.html#182-194' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn fast(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, thr: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, arc_len: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, non_max: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, feat_ratio: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, edge: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Fast feature detector</p>
+        </span><a id='src-4955' class='srclink' href='../src/arrayfire/src/vision/mod.rs.html#179-189' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn fast(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, thr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, arc_len: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, non_max: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, feat_ratio: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, edge: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a></pre><div class='docblock'><p>Fast feature detector</p>
 
 <p>A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential
 segments of pixels much brighter or much darker than the central one. For a pixel p to be
@@ -56,8 +57,7 @@ features in the image are detected, if nonmax is true, the non-maximal suppressi
 checking all detected features and the features detected in its 8-neighborhood and discard it
 if its score is non maximal.</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>input</code> - the input image Array</li>
 <li><code>thr</code> - FAST threshold for which pixel of the circle around the center pixel is considered to
@@ -71,8 +71,7 @@ the score, instead, features detected after the limit is reached are discarded.<
 radius of the circle)</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>This function returns an object of struct <a href="./struct.Features.html">Features</a> containing Arrays
 for x and y coordinates and score, while array oreientation is set to 0 as FAST does not
 compute orientation. Size is set to 1 as FAST does not compute multiple scales.</p>
@@ -119,7 +118,7 @@ compute orientation. Size is set to 1 as FAST does not compute multiple scales.<
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -135,6 +134,6 @@ compute orientation. Size is set to 1 as FAST does not compute multiple scales.<
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

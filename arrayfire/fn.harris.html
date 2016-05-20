@@ -9,6 +9,7 @@
 
     <title>arrayfire::harris - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'harris', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,16 +46,15 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-29831' class='srclink' href='../src/arrayfire/vision/mod.rs.html#218-230' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn harris(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, max_corners: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, min_response: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, sigma: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, block_size: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, k_thr: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Harris corner detector.</p>
+        </span><a id='src-4964' class='srclink' href='../src/arrayfire/src/vision/mod.rs.html#213-223' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn harris(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, max_corners: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, min_response: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, sigma: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, block_size: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, k_thr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>) -&gt; <a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a></pre><div class='docblock'><p>Harris corner detector.</p>
 
 <p>Compute corners using the Harris corner detector approach. For each pixel, a small window is
 used to calculate the determinant and trace of such a window, from which a response is
 calculated. Pixels are considered corners if they are local maximas and have a high positive
 response.</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>input</code> is the array containing a grayscale image (color images are not supported)</li>
 <li><code>max_corners</code> is the maximum number of corners to keep, only retains those with highest Harris responses</li>
@@ -64,8 +64,7 @@ response.</p>
 <li><code>k_thr</code> is the Harris constant, usually set empirically to 0.04f (must be &gt;= 0.01f)</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>This function returns an object of struct <a href="./struct.Features.html">Features</a> containing Arrays
 for x and y coordinates and score, while array oreientation &amp; size are set to 0 &amp; 1,
 respectively, since harris doesn&#39;t compute that information</p>
@@ -112,7 +111,7 @@ respectively, since harris doesn&#39;t compute that information</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -128,6 +127,6 @@ respectively, since harris doesn&#39;t compute that information</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

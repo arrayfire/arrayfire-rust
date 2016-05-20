@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-0a35038f75765ae4/num-0.1.27/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-88ac128001ac3a9a/num-0.1.32/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../num/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <a href='../../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -204,8 +205,49 @@
 <span id="162">162</span>
 <span id="163">163</span>
 <span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
 </pre><pre class='rust '>
-<span class='comment'>// Copyright 2014 The Rust Project Developers. See the COPYRIGHT</span>
+<span class='comment'>// Copyright 2014-2016 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
 <span class='comment'>// http://rust-lang.org/COPYRIGHT.</span>
 <span class='comment'>//</span>
@@ -215,9 +257,11 @@
 <span class='comment'>// option. This file may not be copied, modified, or distributed</span>
 <span class='comment'>// except according to those terms.</span>
 
-<span class='doccomment'>//! Simple numerics.</span>
+<span class='doccomment'>//! A collection of numeric types and traits for Rust.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! This crate contains arbitrary-sized integer, rational, and complex types.</span>
+<span class='doccomment'>//! This includes new types for big integers, rationals, and complex numbers,</span>
+<span class='doccomment'>//! new traits for generic programming on numeric properties like `Integer`,</span>
+<span class='doccomment'>//! and generic range iterators.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## Example</span>
 <span class='doccomment'>//!</span>
@@ -227,12 +271,13 @@
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//! extern crate num;</span>
 <span class='doccomment'>//! # #[cfg(all(feature = &quot;bigint&quot;, feature=&quot;rational&quot;))]</span>
-<span class='doccomment'>//! # pub mod test {</span>
+<span class='doccomment'>//! # mod test {</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! use num::FromPrimitive;</span>
 <span class='doccomment'>//! use num::bigint::BigInt;</span>
 <span class='doccomment'>//! use num::rational::{Ratio, BigRational};</span>
 <span class='doccomment'>//!</span>
+<span class='doccomment'>//! # pub</span>
 <span class='doccomment'>//! fn approx_sqrt(number: u64, iterations: usize) -&gt; BigRational {</span>
 <span class='doccomment'>//!     let start: Ratio&lt;BigInt&gt; = Ratio::from_integer(FromPrimitive::from_u64(number).unwrap());</span>
 <span class='doccomment'>//!     let mut approx = start.clone();</span>
@@ -246,7 +291,8 @@
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! # }</span>
 <span class='doccomment'>//! # #[cfg(not(all(feature = &quot;bigint&quot;, feature=&quot;rational&quot;)))]</span>
-<span class='doccomment'>//! # fn approx_sqrt(n: u64, _: usize) -&gt; u64 { n }</span>
+<span class='doccomment'>//! # mod test { pub fn approx_sqrt(n: u64, _: usize) -&gt; u64 { n } }</span>
+<span class='doccomment'>//! # use test::approx_sqrt;</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! fn main() {</span>
 <span class='doccomment'>//!     println!(&quot;{}&quot;, approx_sqrt(10, 4)); // prints 4057691201/1283082416</span>
@@ -255,42 +301,46 @@
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! [newt]: https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;</span>,
-       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
-       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://doc.rust-lang.org/num/&quot;</span>,
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/&quot;</span>,
        <span class='ident'>html_playground_url</span> <span class='op'>=</span> <span class='string'>&quot;http://play.rust-lang.org/&quot;</span>)]</span>
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rand&quot;</span>)]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span>;
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_integer</span>;
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_iter</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-complex&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_complex</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-bigint&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_bigint</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-rational&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_rational</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bigint&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>bigint</span>::{<span class='ident'>BigInt</span>, <span class='ident'>BigUint</span>};
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rational&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>rational</span>::<span class='ident'>Rational</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rational&quot;</span>, <span class='ident'>feature</span><span class='op'>=</span><span class='string'>&quot;bigint&quot;</span>))]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>rational</span>::<span class='ident'>BigRational</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;complex&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>complex</span>::<span class='ident'>Complex</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>integer</span>::<span class='ident'>Integer</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>iter</span>::{<span class='ident'>range</span>, <span class='ident'>range_inclusive</span>, <span class='ident'>range_step</span>, <span class='ident'>range_step_inclusive</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>traits</span>::{<span class='ident'>Num</span>, <span class='ident'>Zero</span>, <span class='ident'>One</span>, <span class='ident'>Signed</span>, <span class='ident'>Unsigned</span>, <span class='ident'>Bounded</span>,
-                 <span class='ident'>Saturating</span>, <span class='ident'>CheckedAdd</span>, <span class='ident'>CheckedSub</span>, <span class='ident'>CheckedMul</span>, <span class='ident'>CheckedDiv</span>,
-                 <span class='ident'>PrimInt</span>, <span class='ident'>Float</span>, <span class='ident'>ToPrimitive</span>, <span class='ident'>FromPrimitive</span>, <span class='ident'>NumCast</span>, <span class='ident'>cast</span>};
-
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span> <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-bigint&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_bigint</span>::{<span class='ident'>BigInt</span>, <span class='ident'>BigUint</span>};
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-rational&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_rational</span>::<span class='ident'>Rational</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-rational&quot;</span>, <span class='ident'>feature</span><span class='op'>=</span><span class='string'>&quot;num-bigint&quot;</span>))]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_rational</span>::<span class='ident'>BigRational</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-complex&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_complex</span>::<span class='ident'>Complex</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_integer</span>::<span class='ident'>Integer</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_iter</span>::{<span class='ident'>range</span>, <span class='ident'>range_inclusive</span>, <span class='ident'>range_step</span>, <span class='ident'>range_step_inclusive</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_traits</span>::{<span class='ident'>Num</span>, <span class='ident'>Zero</span>, <span class='ident'>One</span>, <span class='ident'>Signed</span>, <span class='ident'>Unsigned</span>, <span class='ident'>Bounded</span>,
+                     <span class='ident'>Saturating</span>, <span class='ident'>CheckedAdd</span>, <span class='ident'>CheckedSub</span>, <span class='ident'>CheckedMul</span>, <span class='ident'>CheckedDiv</span>,
+                     <span class='ident'>PrimInt</span>, <span class='ident'>Float</span>, <span class='ident'>ToPrimitive</span>, <span class='ident'>FromPrimitive</span>, <span class='ident'>NumCast</span>, <span class='ident'>cast</span>};
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Mul</span>};
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bigint&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bigint</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>complex</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>integer</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>iter</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>traits</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rational&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>rational</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-bigint&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_bigint</span> <span class='kw'>as</span> <span class='ident'>bigint</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-complex&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_complex</span> <span class='kw'>as</span> <span class='ident'>complex</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_integer</span> <span class='kw'>as</span> <span class='ident'>integer</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_iter</span> <span class='kw'>as</span> <span class='ident'>iter</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_traits</span> <span class='kw'>as</span> <span class='ident'>traits</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-rational&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_rational</span> <span class='kw'>as</span> <span class='ident'>rational</span>;
 
 <span class='doccomment'>/// Returns the additive identity, `0`.</span>
 <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span> <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>zero</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Zero</span><span class='op'>&gt;</span>() <span class='op'>-&gt;</span> <span class='ident'>T</span> { <span class='ident'>Zero</span>::<span class='ident'>zero</span>() }
@@ -344,30 +394,63 @@
 <span class='doccomment'>/// ```</span>
 <span class='attribute'>#[<span class='ident'>inline</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pow</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>One</span> <span class='op'>+</span> <span class='ident'>Mul</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>base</span>: <span class='ident'>T</span>, <span class='kw-2'>mut</span> <span class='ident'>exp</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-    <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>1</span> { <span class='ident'>base</span> }
-    <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>one</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>();
-        <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
-            <span class='kw'>if</span> (<span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span>) <span class='op'>==</span> <span class='number'>1</span> {
-                <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>acc</span> <span class='op'>*</span> <span class='ident'>base</span>.<span class='ident'>clone</span>();
-            }
+    <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='ident'>T</span>::<span class='ident'>one</span>() }
 
-            <span class='comment'>// avoid overflow if we won&#39;t need it</span>
-            <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
-                <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>() <span class='op'>*</span> <span class='ident'>base</span>;
-            }
-            <span class='ident'>exp</span> <span class='op'>=</span> <span class='ident'>exp</span> <span class='op'>&gt;&gt;</span> <span class='number'>1</span>;
-        }
-        <span class='ident'>acc</span>
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
+        <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>() <span class='op'>*</span> <span class='ident'>base</span>;
+        <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
     }
+    <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>1</span> { <span class='kw'>return</span> <span class='ident'>base</span> }
+
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>();
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
+        <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
+        <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>() <span class='op'>*</span> <span class='ident'>base</span>;
+        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
+            <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>acc</span> <span class='op'>*</span> <span class='ident'>base</span>.<span class='ident'>clone</span>();
+        }
+    }
+    <span class='ident'>acc</span>
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>fn</span> <span class='ident'>hash</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>hash</span>::<span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hasher</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>hash</span>::<span class='ident'>SipHasher</span>::<span class='ident'>new</span>();
-    <span class='ident'>x</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-    <span class='ident'>hasher</span>.<span class='ident'>finish</span>()
+<span class='doccomment'>/// Raises a value to the power of exp, returning `None` if an overflow occurred.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Otherwise same as the `pow` function.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```rust</span>
+<span class='doccomment'>/// use num;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// assert_eq!(num::checked_pow(2i8, 4), Some(16));</span>
+<span class='doccomment'>/// assert_eq!(num::checked_pow(7i8, 8), None);</span>
+<span class='doccomment'>/// assert_eq!(num::checked_pow(7u32, 8), Some(5_764_801));</span>
+<span class='doccomment'>/// ```</span>
+<span class='attribute'>#[<span class='ident'>inline</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>checked_pow</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>One</span> <span class='op'>+</span> <span class='ident'>CheckedMul</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>base</span>: <span class='ident'>T</span>, <span class='kw-2'>mut</span> <span class='ident'>exp</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>T</span>::<span class='ident'>one</span>()) }
+
+    <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>optry</span> {
+        ( $ <span class='ident'>expr</span> : <span class='ident'>expr</span> ) <span class='op'>=&gt;</span> {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>val</span>) <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>expr</span> { <span class='ident'>val</span> } <span class='kw'>else</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span> }
+        }
+    }
+
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
+        <span class='ident'>base</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>base</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
+        <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
+    }
+    <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>1</span> { <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>base</span>) }
+
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>();
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
+        <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
+        <span class='ident'>base</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>base</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
+        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
+            <span class='ident'>acc</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>acc</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
+        }
+    }
+    <span class='prelude-val'>Some</span>(<span class='ident'>acc</span>)
 }
 </pre>
 </section>
@@ -413,7 +496,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -429,6 +512,6 @@
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script src="../../playpen.js"></script>
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

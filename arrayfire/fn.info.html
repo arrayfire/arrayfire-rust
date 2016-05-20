@@ -9,6 +9,7 @@
 
     <title>arrayfire::info - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'info', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,12 +46,12 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-16681' class='srclink' href='../src/arrayfire/device/mod.rs.html#45-53' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn info() -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Print library meta-info</p>
+        </span><a id='src-2379' class='srclink' href='../src/arrayfire/src/device/mod.rs.html#52-57' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn info()</pre><div class='docblock'><p>Print library meta-info</p>
 
-<h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <p>An example output of <code>af::info</code> call looks like below</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='ident'>ArrayFire</span> <span class='ident'>v3</span>.<span class='number'>0.0</span> (<span class='ident'>CUDA</span>, <span class='number'>64</span><span class='op'>-</span><span class='ident'>bit</span> <span class='ident'>Mac</span> <span class='ident'>OSX</span>, <span class='ident'>build</span> <span class='ident'>d8d4b38</span>)
 <span class='ident'>Platform</span>: <span class='ident'>CUDA</span> <span class='ident'>Toolkit</span> <span class='number'>7</span>, <span class='ident'>Driver</span>: <span class='ident'>CUDA</span> <span class='ident'>Driver</span> <span class='ident'>Version</span>: <span class='number'>7000</span>
@@ -98,7 +99,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -114,6 +115,6 @@
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

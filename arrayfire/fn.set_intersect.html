@@ -9,6 +9,7 @@
 
     <title>arrayfire::set_intersect - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'set_intersect', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,19 +46,17 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3823' class='srclink' href='../src/arrayfire/algorithm/mod.rs.html#469-479' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn set_intersect(first: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, second: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, is_unique: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Find intersection of two sets</p>
+        </span><a id='src-612' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#442-450' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn set_intersect(first: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, second: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, is_unique: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Find intersection of two sets</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>first</code> is one of the input sets</li>
 <li><code>second</code> is the other of the input sets</li>
 <li><code>is_unique</code> is a boolean value indicates if the input sets are unique</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>An Array with intersection of the input sets</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -102,7 +101,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -118,6 +117,6 @@
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>arrayfire::dog - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'dog', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,22 +46,20 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-30302' class='srclink' href='../src/arrayfire/vision/mod.rs.html#463-473' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn dog(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, radius1: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, radius2: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Difference of Gaussians.</p>
+        </span><a id='src-5015' class='srclink' href='../src/arrayfire/src/vision/mod.rs.html#446-454' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn dog(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, radius1: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, radius2: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Difference of Gaussians.</p>
 
 <p>Given an image, this function computes two different versions of smoothed input image using the
 difference smoothing parameters and subtracts one from the other and returns the result.</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>input</code> is the input image</li>
 <li><code>radius1</code> is the radius of the first gaussian kernel</li>
 <li><code>radius2</code> is the radius of the second gaussian kernel</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>Difference of smoothed inputs - An Array.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -105,7 +104,7 @@ difference smoothing parameters and subtracts one from the other and returns the
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -121,6 +120,6 @@ difference smoothing parameters and subtracts one from the other and returns the
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

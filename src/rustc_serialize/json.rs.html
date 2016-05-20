@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-0a35038f75765ae4/rustc-serialize-0.3.16/src/json.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-88ac128001ac3a9a/rustc-serialize-0.3.19/src/json.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>json.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../rustc_serialize/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <a href='../../rustc_serialize/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -3971,6 +3972,30 @@
 <span id="3929">3929</span>
 <span id="3930">3930</span>
 <span id="3931">3931</span>
+<span id="3932">3932</span>
+<span id="3933">3933</span>
+<span id="3934">3934</span>
+<span id="3935">3935</span>
+<span id="3936">3936</span>
+<span id="3937">3937</span>
+<span id="3938">3938</span>
+<span id="3939">3939</span>
+<span id="3940">3940</span>
+<span id="3941">3941</span>
+<span id="3942">3942</span>
+<span id="3943">3943</span>
+<span id="3944">3944</span>
+<span id="3945">3945</span>
+<span id="3946">3946</span>
+<span id="3947">3947</span>
+<span id="3948">3948</span>
+<span id="3949">3949</span>
+<span id="3950">3950</span>
+<span id="3951">3951</span>
+<span id="3952">3952</span>
+<span id="3953">3953</span>
+<span id="3954">3954</span>
+<span id="3955">3955</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2012-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -3990,8 +4015,8 @@
 <span class='doccomment'>//! # What is JSON?</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! JSON (JavaScript Object Notation) is a way to write data in Javascript.</span>
-<span class='doccomment'>//! Like XML, it allows to encode structured data in a text format that can be</span>
-<span class='doccomment'>//! easily read by humans Its simple syntax and native compatibility with</span>
+<span class='doccomment'>//! Like XML, it allows encoding structured data in a text format that can be</span>
+<span class='doccomment'>//! easily read by humans. Its simple syntax and native compatibility with</span>
 <span class='doccomment'>//! JavaScript have made it a widely used format.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Data types that can be encoded are JavaScript types (see the `Json` enum</span>
@@ -4046,7 +4071,7 @@
 <span class='doccomment'>//! string or buffer using the functions described above.  You can also use the</span>
 <span class='doccomment'>//! `json::Encoder` object, which implements the `Encoder` trait.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! When using `ToJson` the `Encodable` trait implementation is not</span>
+<span class='doccomment'>//! When using `ToJson`, the `Encodable` trait implementation is not</span>
 <span class='doccomment'>//! mandatory.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! # Examples of use</span>
@@ -4086,7 +4111,7 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## Using the `ToJson` trait</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The examples above use the `ToJson` trait to generate the JSON string,</span>
+<span class='doccomment'>//! The examples below use the `ToJson` trait to generate the JSON string,</span>
 <span class='doccomment'>//! which is required for custom mappings.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ### Simple example of `ToJson` usage</span>
@@ -4208,7 +4233,7 @@
 <span class='doccomment'>//! While this library is the standard way of working with JSON in Rust,</span>
 <span class='doccomment'>//! there is a next-generation library called Serde that&#39;s in the works (it&#39;s</span>
 <span class='doccomment'>//! faster, overcomes some design limitations of rustc-serialize and has more</span>
-<span class='doccomment'>//! features). You might consider using it when starting new project or</span>
+<span class='doccomment'>//! features). You might consider using it when starting a new project or</span>
 <span class='doccomment'>//! evaluating Rust JSON performance.</span>
 
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>JsonEvent</span>::<span class='op'>*</span>;
@@ -5466,6 +5491,8 @@
                 <span class='comment'>// Make sure we don&#39;t underflow.</span>
                 <span class='kw'>if</span> <span class='ident'>res</span> <span class='op'>&gt;</span> (<span class='ident'>i64</span>::<span class='ident'>MAX</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>+</span> <span class='number'>1</span> {
                     <span class='ident'>Error</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>InvalidNumber</span>, <span class='self'>self</span>.<span class='ident'>line</span>, <span class='self'>self</span>.<span class='ident'>col</span>))
+                } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>res</span> <span class='op'>==</span> <span class='number'>0</span> {
+                    <span class='ident'>I64Value</span>(<span class='ident'>res</span> <span class='kw'>as</span> <span class='ident'>i64</span>)
                 } <span class='kw'>else</span> {
                     <span class='ident'>I64Value</span>((<span class='op'>!</span><span class='ident'>res</span> <span class='op'>+</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>i64</span>)
                 }
@@ -5655,7 +5682,7 @@
                         <span class='self'>self</span>.<span class='ident'>bump</span>();
                         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>res</span>);
                     },
-                    <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='kw'>if</span> <span class='ident'>c</span>.<span class='ident'>is_control</span>() <span class='op'>=&gt;</span>
+                    <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='string'>&#39;\u{1F}&#39;</span> <span class='op'>=&gt;</span>
                         <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>error</span>(<span class='ident'>ControlCharacterInString</span>),
                     <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='ident'>res</span>.<span class='ident'>push</span>(<span class='ident'>c</span>),
                     <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
@@ -5906,7 +5933,7 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>token</span>.<span class='ident'>take</span>() {
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {}
             <span class='prelude-val'>Some</span>(<span class='ident'>Error</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>); }
-            <span class='kw-2'>ref</span> <span class='ident'>tok</span> <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;unexpected token {:?}&quot;</span>, <span class='ident'>tok</span>); }
+            _ <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>InvalidSyntax</span>, <span class='self'>self</span>.<span class='ident'>parser</span>.<span class='ident'>line</span>, <span class='self'>self</span>.<span class='ident'>parser</span>.<span class='ident'>col</span>)); }
         }
         <span class='ident'>result</span>
     }
@@ -6529,7 +6556,6 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
     <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>Animal</span>::<span class='op'>*</span>;
-    <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>DecodeEnum</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> {<span class='ident'>Encodable</span>, <span class='ident'>Decodable</span>};
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Json</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>ErrorCode</span>::<span class='op'>*</span>;
@@ -6945,6 +6971,16 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;&quot;</span>),     <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>EOFWhileParsingString</span>, <span class='number'>1</span>, <span class='number'>2</span>)));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;lol&quot;</span>),  <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>EOFWhileParsingString</span>, <span class='number'>1</span>, <span class='number'>5</span>)));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;\n\&quot;&quot;</span>), <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>ControlCharacterInString</span>, <span class='number'>2</span>, <span class='number'>1</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;\0\&quot;&quot;</span>), <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>ControlCharacterInString</span>, <span class='number'>1</span>, <span class='number'>2</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;\u{1}\&quot;&quot;</span>), <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>ControlCharacterInString</span>, <span class='number'>1</span>, <span class='number'>2</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;\u{1F}\&quot;&quot;</span>), <span class='prelude-val'>Err</span>(<span class='ident'>SyntaxError</span>(<span class='ident'>ControlCharacterInString</span>, <span class='number'>1</span>, <span class='number'>2</span>)));
+
+        <span class='comment'>// Only C0 control characters are excluded.</span>
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='string'>&#39;\u{7F}&#39;</span>.<span class='ident'>is_control</span>());
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='string'>&#39;\u{80}&#39;</span>.<span class='ident'>is_control</span>());
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='string'>&#39;\u{9F}&#39;</span>.<span class='ident'>is_control</span>());
+        <span class='kw'>let</span> <span class='ident'>c1_controls</span> <span class='op'>=</span> <span class='string'>&quot;\u{7F}\u{80}\u{9F}&quot;</span>.<span class='ident'>to_string</span>();
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;\&quot;{}\&quot;&quot;</span>, <span class='ident'>c1_controls</span>)), <span class='prelude-val'>Ok</span>(<span class='ident'>String</span>(<span class='ident'>c1_controls</span>)));
 
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;\&quot;&quot;</span>), <span class='prelude-val'>Ok</span>(<span class='ident'>String</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>())));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;\&quot;foo\&quot;&quot;</span>), <span class='prelude-val'>Ok</span>(<span class='ident'>String</span>(<span class='string'>&quot;foo&quot;</span>.<span class='ident'>to_string</span>())));
@@ -7388,6 +7424,11 @@
             <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Unable to parse json_str: {}&quot;</span>, <span class='ident'>json_str</span>),
             _ <span class='op'>=&gt;</span> {} <span class='comment'>// it parsed and we are good to go</span>
         }
+    }
+    
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_negative_zero</span>() {
+        <span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;{\&quot;test\&quot;:-0}&quot;</span>).<span class='ident'>unwrap</span>();
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -7864,7 +7905,7 @@
         <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span> {
             <span class='ident'>phantom_data</span>: <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>
         }
-        
+
         <span class='kw'>let</span> <span class='ident'>f</span>: <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Foo</span> {
             <span class='ident'>phantom_data</span>: <span class='ident'>PhantomData</span>
         };
@@ -7901,6 +7942,14 @@
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>super</span>::<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>f</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='ident'>super</span>::<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>).<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='ident'>d</span>);
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_unexpected_token</span>() {
+        <span class='kw'>match</span> <span class='ident'>Json</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;{\&quot;\&quot;:\&quot;\&quot;,\&quot;\&quot;:{\&quot;\&quot;:\&quot;\&quot;,\&quot;\&quot;:[{\&quot;\&quot;:\&quot;\&quot;,}}}&quot;</span>) {
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>e</span>, <span class='ident'>SyntaxError</span>(<span class='ident'>InvalidSyntax</span>, <span class='number'>1</span>, <span class='number'>32</span>)),
+            _ <span class='op'>=&gt;</span> ()
+        };
     }
 }
 </pre>
@@ -7947,7 +7996,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -7963,6 +8012,6 @@
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>arrayfire::AfError - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'AfError', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-16912' class='srclink' href='../src/arrayfire/defines.rs.html#8-48' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-2428' class='srclink' href='../src/arrayfire/src/defines.rs.html#8-50' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum AfError {
     SUCCESS,
     ERR_NO_MEM,
@@ -57,6 +58,7 @@
     ERR_TYPE,
     ERR_DIFF_TYPE,
     ERR_BATCH,
+    ERR_DEVICE,
     ERR_NOT_SUPPORTED,
     ERR_NOT_CONFIGURED,
     ERR_NO_DBL,
@@ -65,31 +67,34 @@
     ERR_UNKNOWN,
 }</pre><div class='docblock'><p>Error codes</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.SUCCESS'><code>SUCCESS</code></td><td><div class='docblock'><p>The function returned successfully</p>
-</div></td></tr><tr><td id='variant.ERR_NO_MEM'><code>ERR_NO_MEM</code></td><td><div class='docblock'><p>The system or device ran out of memory</p>
-</div></td></tr><tr><td id='variant.ERR_DRIVER'><code>ERR_DRIVER</code></td><td><div class='docblock'><p>There was an error in the device driver</p>
-</div></td></tr><tr><td id='variant.ERR_RUNTIME'><code>ERR_RUNTIME</code></td><td><div class='docblock'><p>There was an error with the runtime environment</p>
-</div></td></tr><tr><td id='variant.ERR_INVALID_ARRAY'><code>ERR_INVALID_ARRAY</code></td><td><div class='docblock'><p>The input array is not a valid af_array object</p>
-</div></td></tr><tr><td id='variant.ERR_ARG'><code>ERR_ARG</code></td><td><div class='docblock'><p>One of the function arguments is incorrect</p>
-</div></td></tr><tr><td id='variant.ERR_SIZE'><code>ERR_SIZE</code></td><td><div class='docblock'><p>The size is incorrect</p>
-</div></td></tr><tr><td id='variant.ERR_TYPE'><code>ERR_TYPE</code></td><td><div class='docblock'><p>The type is not suppported by this function</p>
-</div></td></tr><tr><td id='variant.ERR_DIFF_TYPE'><code>ERR_DIFF_TYPE</code></td><td><div class='docblock'><p>The type of the input arrays are not compatible</p>
-</div></td></tr><tr><td id='variant.ERR_BATCH'><code>ERR_BATCH</code></td><td><div class='docblock'><p>Function does not support GFOR / batch mode</p>
-</div></td></tr><tr><td id='variant.ERR_NOT_SUPPORTED'><code>ERR_NOT_SUPPORTED</code></td><td><div class='docblock'><p>The option is not supported</p>
-</div></td></tr><tr><td id='variant.ERR_NOT_CONFIGURED'><code>ERR_NOT_CONFIGURED</code></td><td><div class='docblock'><p>This build of ArrayFire does not support this feature</p>
-</div></td></tr><tr><td id='variant.ERR_NO_DBL'><code>ERR_NO_DBL</code></td><td><div class='docblock'><p>This device does not support double</p>
-</div></td></tr><tr><td id='variant.ERR_NO_GFX'><code>ERR_NO_GFX</code></td><td><div class='docblock'><p>This build of ArrayFire was not built with graphics or this device does
+<table class='variants_table'><tr><td id='variant.SUCCESS'><code>SUCCESS</code></td><td><div class='docblock'><p>The function returned successfully</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_NO_MEM'><code>ERR_NO_MEM</code></td><td><div class='docblock'><p>The system or device ran out of memory</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_DRIVER'><code>ERR_DRIVER</code></td><td><div class='docblock'><p>There was an error in the device driver</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_RUNTIME'><code>ERR_RUNTIME</code></td><td><div class='docblock'><p>There was an error with the runtime environment</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_INVALID_ARRAY'><code>ERR_INVALID_ARRAY</code></td><td><div class='docblock'><p>The input array is not a valid Array object</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_ARG'><code>ERR_ARG</code></td><td><div class='docblock'><p>One of the function arguments is incorrect</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_SIZE'><code>ERR_SIZE</code></td><td><div class='docblock'><p>The size is incorrect</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_TYPE'><code>ERR_TYPE</code></td><td><div class='docblock'><p>The type is not suppported by this function</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_DIFF_TYPE'><code>ERR_DIFF_TYPE</code></td><td><div class='docblock'><p>The type of the input arrays are not compatible</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_BATCH'><code>ERR_BATCH</code></td><td><div class='docblock'><p>Function does not support GFOR / batch mode</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_DEVICE'><code>ERR_DEVICE</code></td><td><div class='docblock'><p>Input does not belong to the current device</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_NOT_SUPPORTED'><code>ERR_NOT_SUPPORTED</code></td><td><div class='docblock'><p>The option is not supported</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_NOT_CONFIGURED'><code>ERR_NOT_CONFIGURED</code></td><td><div class='docblock'><p>This build of ArrayFire does not support this feature</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_NO_DBL'><code>ERR_NO_DBL</code></td><td><div class='docblock'><p>This device does not support double</p>
+</div></td><td></td></tr><tr><td id='variant.ERR_NO_GFX'><code>ERR_NO_GFX</code></td><td><div class='docblock'><p>This build of ArrayFire was not built with graphics or this device does
 not support graphics</p>
-</div></td></tr><tr><td id='variant.ERR_INTERNAL'><code>ERR_INTERNAL</code></td><td><div class='docblock'><p>There was an internal error either in ArrayFire or in a project
+</div></td><td></td></tr><tr><td id='variant.ERR_INTERNAL'><code>ERR_INTERNAL</code></td><td><div class='docblock'><p>There was an internal error either in ArrayFire or in a project
 upstream</p>
-</div></td></tr><tr><td id='variant.ERR_UNKNOWN'><code>ERR_UNKNOWN</code></td><td><div class='docblock'><p>Unknown Error</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Error.html' title='core::fmt::Error'>FmtError</a>&gt;</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.description' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></h4>
-<h4 id='method.cause' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.cause' class='fnname'>cause</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt;</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt; for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h4>
-</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></td><td></td></tr><tr><td id='variant.ERR_UNKNOWN'><code>ERR_UNKNOWN</code></td><td><div class='docblock'><p>Unknown Error</p>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Error.html' title='core::fmt::Error'>FmtError</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.description' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></h4>
+<h4 id='method.cause' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.cause' class='fnname'>cause</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt; for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(t: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a></code></h4>
-<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+<h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -133,7 +138,7 @@ upstream</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -149,6 +154,6 @@ upstream</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

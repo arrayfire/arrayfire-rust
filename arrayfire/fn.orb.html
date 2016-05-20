@@ -9,6 +9,7 @@
 
     <title>arrayfire::orb - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'orb', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,16 +46,15 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-29908' class='srclink' href='../src/arrayfire/vision/mod.rs.html#255-268' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn orb(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, fast_thr: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, max_feat: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, scl_fctr: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, levels: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, blur_img: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>)</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>ORB feature descriptor</p>
+        </span><a id='src-4973' class='srclink' href='../src/arrayfire/src/vision/mod.rs.html#248-259' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn orb(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, fast_thr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, max_feat: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, scl_fctr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, levels: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, blur_img: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='../arrayfire/struct.Features.html' title='arrayfire::Features'>Features</a>, <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>ORB feature descriptor</p>
 
 <p>Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not
 compute orientation, thus, orientation of features is calculated using the intensity centroid.
 As FAST is also not multi-scale enabled, a multi-scale pyramid is calculated by downsampling
 the input image multiple times followed by FAST feature detection on each scale.</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>input</code> - the input image Array</li>
 <li><code>fast_thr</code> - FAST threshold for which a pixel of the circle around the central pixel is
@@ -67,8 +67,7 @@ level dimensions divided by <code>scl_fctr</code></li>
 increase robustness against noise if true</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>This function returns a tuple of <a href="./struct.Features.html"><code>Features</code></a> and <a href="./struct.Array.html"><code>Array</code></a>. The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -113,7 +112,7 @@ increase robustness against noise if true</li>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -129,6 +128,6 @@ increase robustness against noise if true</li>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

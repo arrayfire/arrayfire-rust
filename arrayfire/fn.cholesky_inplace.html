@@ -9,6 +9,7 @@
 
     <title>arrayfire::cholesky_inplace - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'cholesky_inplace', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,18 +46,16 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-24878' class='srclink' href='../src/arrayfire/lapack/mod.rs.html#255-265' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn cholesky_inplace(input: &amp;mut <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, is_upper: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Perform inplace Cholesky decomposition</p>
+        </span><a id='src-4117' class='srclink' href='../src/arrayfire/src/lapack/mod.rs.html#242-250' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn cholesky_inplace(input: &amp;mut <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, is_upper: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></pre><div class='docblock'><p>Perform inplace Cholesky decomposition</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>input</code> contains the input matrix on entry, and triangular matrix on exit.</li>
 <li><code>is_upper</code> is a boolean to indicate if the output has to be upper or lower triangular matrix</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>A signed 32-bit integer. If the integer is 0, it means the cholesky decomposition passed. Otherwise,
 it will contain the rank at which the decomposition failed.</p>
 </div></section>
@@ -102,7 +101,7 @@ it will contain the rank at which the decomposition failed.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -118,6 +117,6 @@ it will contain the rank at which the decomposition failed.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

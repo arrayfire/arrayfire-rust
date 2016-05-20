@@ -9,6 +9,7 @@
 
     <title>arrayfire::range - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'range', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,22 +46,19 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-15229' class='srclink' href='../src/arrayfire/data/mod.rs.html#224-235' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn range(dims: <a class='struct' href='../arrayfire/struct.Dim4.html' title='arrayfire::Dim4'>Dim4</a>, seq_dim: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, aftype: <a class='enum' href='../arrayfire/enum.Aftype.html' title='arrayfire::Aftype'>Aftype</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, <a class='enum' href='../arrayfire/enum.AfError.html' title='arrayfire::AfError'>AfError</a>&gt;</pre><div class='docblock'><p>Create a Range of values</p>
+        </span><a id='src-2204' class='srclink' href='../src/arrayfire/src/data/mod.rs.html#215-225' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn range&lt;T: <a class='trait' href='../arrayfire/trait.HasAfEnum.html' title='arrayfire::HasAfEnum'>HasAfEnum</a>&gt;(dims: <a class='struct' href='../arrayfire/struct.Dim4.html' title='arrayfire::Dim4'>Dim4</a>, seq_dim: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Create a Range of values</p>
 
 <p>Creates an array with [0, n] values along the <code>seq_dim</code> which is tiled across other dimensions.</p>
 
-<h1 id="parameters" class='section-header'><a
-                           href="#parameters">Parameters</a></h1>
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
 <li><code>dims</code> is the size of Array</li>
 <li><code>seq_dim</code> is the dimension along which range values are populated, all values along other
 dimensions are just repeated</li>
-<li><code>aftype</code> is the type of the Array.</li>
 </ul>
 
-<h1 id="return-values" class='section-header'><a
-                           href="#return-values">Return Values</a></h1>
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
 <p>Array</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -105,7 +103,7 @@ dimensions are just repeated</li>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -121,6 +119,6 @@ dimensions are just repeated</li>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

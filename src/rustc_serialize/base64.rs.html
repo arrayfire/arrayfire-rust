@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-0a35038f75765ae4/rustc-serialize-0.3.16/src/base64.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-88ac128001ac3a9a/rustc-serialize-0.3.19/src/base64.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>base64.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../rustc_serialize/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <a href='../../rustc_serialize/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -508,6 +509,14 @@
 <span id="466">466</span>
 <span id="467">467</span>
 <span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2012-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -530,7 +539,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>;
 
 <span class='doccomment'>/// Available encoding character sets</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CharacterSet</span> {
     <span class='doccomment'>/// The standard character set (uses `+` and `/`)</span>
     <span class='ident'>Standard</span>,
@@ -539,7 +548,7 @@
 }
 
 <span class='doccomment'>/// Available newline types</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Newline</span> {
     <span class='doccomment'>/// A linefeed (i.e. Unix-style newline)</span>
     <span class='ident'>LF</span>,
@@ -548,7 +557,7 @@
 }
 
 <span class='doccomment'>/// Contains configuration parameters for `to_base64`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Config</span> {
     <span class='doccomment'>/// Character set to use</span>
     <span class='kw'>pub</span> <span class='ident'>char_set</span>: <span class='ident'>CharacterSet</span>,
@@ -616,7 +625,10 @@
         <span class='comment'>// Preallocate memory.</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prealloc_len</span> <span class='op'>=</span> (<span class='ident'>len</span> <span class='op'>+</span> <span class='number'>2</span>) <span class='op'>/</span> <span class='number'>3</span> <span class='op'>*</span> <span class='number'>4</span>;
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>line_length</span>) <span class='op'>=</span> <span class='ident'>config</span>.<span class='ident'>line_length</span> {
-            <span class='kw'>let</span> <span class='ident'>num_lines</span> <span class='op'>=</span> (<span class='ident'>prealloc_len</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='op'>/</span> <span class='ident'>line_length</span>;
+            <span class='kw'>let</span> <span class='ident'>num_lines</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>prealloc_len</span> {
+                <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
+                <span class='ident'>n</span> <span class='op'>=&gt;</span> (<span class='ident'>n</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='op'>/</span> <span class='ident'>line_length</span>
+            };
             <span class='ident'>prealloc_len</span> <span class='op'>+=</span> <span class='ident'>num_lines</span> <span class='op'>*</span> <span class='ident'>newline</span>.<span class='ident'>bytes</span>().<span class='ident'>count</span>();
         }
 
@@ -919,6 +931,11 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_to_base64_empty_line_length</span>() {
+        [].<span class='ident'>to_base64</span>(<span class='ident'>Config</span> {<span class='ident'>line_length</span>: <span class='prelude-val'>Some</span>(<span class='number'>72</span>), ..<span class='ident'>STANDARD</span>});
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_from_base64_basic</span>() {
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>from_base64</span>().<span class='ident'>unwrap</span>(), <span class='string'>b&quot;&quot;</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Zg==&quot;</span>.<span class='ident'>from_base64</span>().<span class='ident'>unwrap</span>(), <span class='string'>b&quot;f&quot;</span>);
@@ -1021,7 +1038,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -1037,6 +1054,6 @@
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

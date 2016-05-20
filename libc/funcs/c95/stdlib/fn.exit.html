@@ -9,6 +9,7 @@
 
     <title>libc::funcs::c95::stdlib::exit - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
 
     <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../../../libc/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <a href='../../../../libc/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='../../../index.html'>libc</a>::<wbr><a href='../../index.html'>funcs</a>::<wbr><a href='../index.html'>c95</a>::<wbr><a href='index.html'>stdlib</a></p><script>window.sidebarCurrent = {name: 'exit', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,18 +46,17 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3450' class='srclink' href='../../../../src/libc/lib.rs.html#6184' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-1065' class='srclink' href='../../../../src/libc/lib.rs.html#6184' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub unsafe extern fn exit(status: <a class='type' href='../../../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>) -&gt; !</pre><div class='docblock'><p>Exits the running program in a possibly dangerous manner.</p>
 
-<h1 id="safety" class='section-header'><a
-                           href="#safety">Safety</a></h1>
+<h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
 <p>While this forces your program to exit, it does so in a way that has
 consequences. This will skip all unwinding code, which means that anything
 relying on unwinding for cleanup (such as flushing and closing a buffer to a
 file) may act in an unexpected way.</p>
 
-<h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><span class='rusttest'>extern crate libc;
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<span class='rusttest'>extern crate libc;
 
 fn main() {
     unsafe {
@@ -114,7 +114,7 @@ fn main() {
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -130,6 +130,6 @@ fn main() {
     <script src="../../../../jquery.js"></script>
     <script src="../../../../main.js"></script>
     <script src="../../../../playpen.js"></script>
-    <script async src="../../../../search-index.js"></script>
+    <script defer src="../../../../search-index.js"></script>
 </body>
 </html>

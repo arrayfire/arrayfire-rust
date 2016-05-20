@@ -9,6 +9,7 @@
 
     <title>arrayfire::MatProp - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
@@ -25,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='' width='100'></a>
+        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'MatProp', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -45,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-17982' class='srclink' href='../src/arrayfire/defines.rs.html#220-243' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-2760' class='srclink' href='../src/arrayfire/src/defines.rs.html#224-247' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum MatProp {
     NONE,
     TRANS,
@@ -60,20 +61,23 @@
     BLOCKDIAG,
 }</pre><div class='docblock'><p>Helps determine the type of a Matrix</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.NONE'><code>NONE</code></td><td><div class='docblock'><p>Default (no-op)</p>
-</div></td></tr><tr><td id='variant.TRANS'><code>TRANS</code></td><td><div class='docblock'><p>Data needs to be transposed</p>
-</div></td></tr><tr><td id='variant.CTRANS'><code>CTRANS</code></td><td><div class='docblock'><p>Data needs to be conjugate transposed</p>
-</div></td></tr><tr><td id='variant.UPPER'><code>UPPER</code></td><td><div class='docblock'><p>Matrix is upper triangular</p>
-</div></td></tr><tr><td id='variant.LOWER'><code>LOWER</code></td><td><div class='docblock'><p>Matrix is lower triangular</p>
-</div></td></tr><tr><td id='variant.DIAGUNIT'><code>DIAGUNIT</code></td><td><div class='docblock'><p>Matrix diagonal has unitary values</p>
-</div></td></tr><tr><td id='variant.SYM'><code>SYM</code></td><td><div class='docblock'><p>Matrix is symmetric</p>
-</div></td></tr><tr><td id='variant.POSDEF'><code>POSDEF</code></td><td><div class='docblock'><p>Matrix is positive definite</p>
-</div></td></tr><tr><td id='variant.ORTHOG'><code>ORTHOG</code></td><td><div class='docblock'><p>Matrix is orthogonal</p>
-</div></td></tr><tr><td id='variant.TRIDIAG'><code>TRIDIAG</code></td><td><div class='docblock'><p>Matrix is tri-diagonal</p>
-</div></td></tr><tr><td id='variant.BLOCKDIAG'><code>BLOCKDIAG</code></td><td><div class='docblock'><p>Matrix is block-diagonal</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h4>
-<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'></div></section>
+<table class='variants_table'><tr><td id='variant.NONE'><code>NONE</code></td><td><div class='docblock'><p>Default (no-op)</p>
+</div></td><td></td></tr><tr><td id='variant.TRANS'><code>TRANS</code></td><td><div class='docblock'><p>Data needs to be transposed</p>
+</div></td><td></td></tr><tr><td id='variant.CTRANS'><code>CTRANS</code></td><td><div class='docblock'><p>Data needs to be conjugate transposed</p>
+</div></td><td></td></tr><tr><td id='variant.UPPER'><code>UPPER</code></td><td><div class='docblock'><p>Matrix is upper triangular</p>
+</div></td><td></td></tr><tr><td id='variant.LOWER'><code>LOWER</code></td><td><div class='docblock'><p>Matrix is lower triangular</p>
+</div></td><td></td></tr><tr><td id='variant.DIAGUNIT'><code>DIAGUNIT</code></td><td><div class='docblock'><p>Matrix diagonal has unitary values</p>
+</div></td><td></td></tr><tr><td id='variant.SYM'><code>SYM</code></td><td><div class='docblock'><p>Matrix is symmetric</p>
+</div></td><td></td></tr><tr><td id='variant.POSDEF'><code>POSDEF</code></td><td><div class='docblock'><p>Matrix is positive definite</p>
+</div></td><td></td></tr><tr><td id='variant.ORTHOG'><code>ORTHOG</code></td><td><div class='docblock'><p>Matrix is orthogonal</p>
+</div></td><td></td></tr><tr><td id='variant.TRIDIAG'><code>TRIDIAG</code></td><td><div class='docblock'><p>Matrix is tri-diagonal</p>
+</div></td><td></td></tr><tr><td id='variant.BLOCKDIAG'><code>BLOCKDIAG</code></td><td><div class='docblock'><p>Matrix is block-diagonal</p>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h4>
+<h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -116,7 +120,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -132,6 +136,6 @@
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>
