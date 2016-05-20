@@ -10,6 +10,9 @@ readme        = "./README.md"
 keywords      = ["CUDA", "OpenCL", "ArrayFire", "Compute"]
 license       = "BSD-3-Clause"
 build         = "build.rs"
+exclude = [
+    "arrayfire/*",
+]
 
 [dependencies]
 libc = "0.1.10"
