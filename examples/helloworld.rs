@@ -10,8 +10,8 @@ fn main() {
 
     let num_rows: u64 = 5;
     let num_cols: u64 = 3;
-    let values: &[f32] = &[1.0, 2.0, 3.0];
-    let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1]));
+    let values: [f32; 3] = [1.0, 2.0, 3.0];
+    let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 
     let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
@@ -19,7 +19,7 @@ fn main() {
     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 
     println!("Element-wise arithmetic");
-    let  b = add(&sin(&a), &1.5, false);
+    let  b = add(&sin(&a), &1.5f32, false);
 
     let b2 = add(&sin(&a), &cos(&a), false);
 

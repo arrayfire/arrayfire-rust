@@ -315,8 +315,8 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Array
 ///
 /// ```
 /// use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};
-/// let values: &[f32] = &[1.0, 2.0, 3.0];
-/// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1]));
+/// let values: [f32; 3] = [1.0, 2.0, 3.0];
+/// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 /// let seq4gen = Seq::new(0.0, 2.0, 1.0);
 /// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
 /// // [5 3 1 1]
@@ -354,8 +354,8 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Array {
 ///
 /// ```
 /// use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};
-/// let values: &[f32] = &[1.0, 2.0, 3.0];
-/// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1]));
+/// let values: [f32; 3] = [1.0, 2.0, 3.0];
+/// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 /// let seq4gen = Seq::new(0.0, 2.0, 1.0);
 /// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
 /// // [5 3 1 1]

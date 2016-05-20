@@ -119,8 +119,8 @@ impl Array {
     ///
     /// ```
     /// use arrayfire::{Array, Dim4, print};
-    /// let values: &[f32] = &[1.0, 2.0, 3.0];
-    /// let indices = Array::new(values, Dim4::new(&[3, 1, 1, 1]));
+    /// let values: [f32; 3] = [1.0, 2.0, 3.0];
+    /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
     /// print(&indices);
     /// ```
     #[allow(unused_mut)]
