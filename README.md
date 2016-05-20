@@ -3,7 +3,7 @@
 |:-------:|:-------:|:---:|
 | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-linux/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-windows/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-osx/) |
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.2 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.3 API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
 ## Documentation
 
@@ -16,6 +16,9 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 We recommend using Rust 1.5 and higher.
 
+Rust 1.8 stabilized the traits for compound assignment operations. These are automatically enabled
+based on the rust version you are using.
+
 ## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
 
 To use the rust bindings for ArrayFire from crates.io, the following requirements are to be met
@@ -27,7 +30,7 @@ first.
 3. Make sure you add the path to library files to your path environment variables.
     - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.2.0"` to the dependencies section of your project's Cargo.toml file.
+4. Add `arrayfire = "3.3.0"` to the dependencies section of your project's Cargo.toml file.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
