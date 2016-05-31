@@ -1,8 +1,26 @@
+extern crate libc;
 extern crate num;
 
 use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
+use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
+use self::libc::{uint8_t, c_int, size_t};
+
+#[allow(dead_code)]
+extern {
+    fn af_get_size_of(size: *mut size_t, aftype: uint8_t) -> c_int;
+}
+
+/// Get size, in bytes, of the arrayfire native type
+pub fn get_size(value: DType) -> u64 {
+    unsafe {
+        let mut ret_val: u64 = 0;
+        let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val
+    }
+}
 
 impl From<i32> for AfError {
     fn from(t: i32) -> AfError {

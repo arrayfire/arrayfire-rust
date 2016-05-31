@@ -98,7 +98,7 @@ pub use statistics::{var_all, mean_all, stdev_all, median_all};
 pub use statistics::{mean_all_weighted, var_all_weighted};
 mod statistics;
 
-pub use util::{HasAfEnum};
+pub use util::{HasAfEnum, get_size};
 mod util;
 
 pub use vision::Features;
