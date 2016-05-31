@@ -99,8 +99,8 @@ pub struct Array {
 }
 
 macro_rules! is_func {
-    ($fn_name: ident, $ffi_fn: ident) => (
-        /// Checks if the Array is of specific format/data type.
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
         pub fn $fn_name(&self) -> bool {
             unsafe {
                 let mut ret_val: i32 = 0;
@@ -296,20 +296,20 @@ impl Array {
         }
     }
 
-    is_func!(is_empty, af_is_empty);
-    is_func!(is_scalar, af_is_scalar);
-    is_func!(is_row, af_is_row);
-    is_func!(is_column, af_is_column);
-    is_func!(is_vector, af_is_vector);
-    is_func!(is_complex, af_is_complex);
-    is_func!(is_double, af_is_double);
-    is_func!(is_single, af_is_single);
-    is_func!(is_real, af_is_real);
-    is_func!(is_floating, af_is_floating);
-    is_func!(is_integer, af_is_integer);
-    is_func!(is_bool, af_is_bool);
-    is_func!(is_linear, af_is_linear);
-    is_func!(is_owner, af_is_owner);
+    is_func!("Check if Array is empty", is_empty, af_is_empty);
+    is_func!("Check if Array is scalar", is_scalar, af_is_scalar);
+    is_func!("Check if Array is a row", is_row, af_is_row);
+    is_func!("Check if Array is a column", is_column, af_is_column);
+    is_func!("Check if Array is a vector", is_vector, af_is_vector);
+    is_func!("Check if Array is of complex type", is_complex, af_is_complex);
+    is_func!("Check if Array's numerical type is of double precision", is_double, af_is_double);
+    is_func!("Check if Array's numerical type is of single precision", is_single, af_is_single);
+    is_func!("Check if Array is of real type", is_real, af_is_real);
+    is_func!("Check if Array is of single precision", is_floating, af_is_floating);
+    is_func!("Check if Array is of integral type", is_integer, af_is_integer);
+    is_func!("Check if Array is of boolean type", is_bool, af_is_bool);
+    is_func!("Check if Array's memory layout is continuous and one dimensional", is_linear, af_is_linear);
+    is_func!("Check if Array's memory is owned by it and not a view of another Array", is_owner, af_is_owner);
 
     /// Cast the Array data type to `target_type`
     pub fn cast<T: HasAfEnum>(&self) -> Array {
