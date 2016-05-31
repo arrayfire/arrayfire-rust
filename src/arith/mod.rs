@@ -111,7 +111,10 @@ impl<'f> Not for &'f Array {
 }
 
 macro_rules! unary_func {
-    ($fn_name: ident, $ffi_fn: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
+        ///
+        /// This is an element wise unary operation.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> Array {
             unsafe {
@@ -124,50 +127,53 @@ macro_rules! unary_func {
     )
 }
 
-unary_func!(abs, af_abs);
-unary_func!(arg, af_arg);
-unary_func!(sign, af_sign);
-unary_func!(round, af_round);
-unary_func!(trunc, af_trunc);
-unary_func!(floor, af_floor);
-unary_func!(ceil, af_ceil);
-unary_func!(sin, af_sin);
-unary_func!(cos, af_cos);
-unary_func!(tan, af_tan);
-unary_func!(asin, af_asin);
-unary_func!(acos, af_acos);
-unary_func!(atan, af_atan);
-unary_func!(cplx, af_cplx);
-unary_func!(real, af_real);
-unary_func!(imag, af_imag);
-unary_func!(conjg, af_conjg);
-unary_func!(sinh, af_sinh);
-unary_func!(cosh, af_cosh);
-unary_func!(tanh, af_tanh);
-unary_func!(asinh, af_asinh);
-unary_func!(acosh, af_acosh);
-unary_func!(atanh, af_atanh);
-unary_func!(pow2, af_pow2);
-unary_func!(exp, af_exp);
-unary_func!(sigmoid, af_sigmoid);
-unary_func!(expm1, af_expm1);
-unary_func!(erf, af_erf);
-unary_func!(erfc, af_erfc);
-unary_func!(log, af_log);
-unary_func!(log1p, af_log1p);
-unary_func!(log10, af_log10);
-unary_func!(log2, af_log2);
-unary_func!(sqrt, af_sqrt);
-unary_func!(cbrt, af_cbrt);
-unary_func!(factorial, af_factorial);
-unary_func!(tgamma, af_tgamma);
-unary_func!(lgamma, af_lgamma);
-unary_func!(iszero, af_iszero);
-unary_func!(isinf, af_isinf);
-unary_func!(isnan, af_isnan);
+unary_func!("Computes absolute value", abs, af_abs);
+unary_func!("Computes phase value", arg, af_arg);
+unary_func!("Computes the sign of input Array values", sign, af_sign);
+unary_func!("Round the values in an Array", round, af_round);
+unary_func!("Truncate the values in an Array", trunc, af_trunc);
+unary_func!("Floor the values in an Array", floor, af_floor);
+unary_func!("Ceil the values in an Array", ceil, af_ceil);
+unary_func!("Compute sin", sin, af_sin);
+unary_func!("Compute cos", cos, af_cos);
+unary_func!("Compute tan", tan, af_tan);
+unary_func!("Compute asin", asin, af_asin);
+unary_func!("Compute acos", acos, af_acos);
+unary_func!("Compute atan", atan, af_atan);
+unary_func!("Create a complex Array from real Array", cplx, af_cplx);
+unary_func!("Extract real values from a complex Array", real, af_real);
+unary_func!("Extract imaginary values from a complex Array", imag, af_imag);
+unary_func!("Compute the complex conjugate", conjg, af_conjg);
+unary_func!("Compute sinh", sinh, af_sinh);
+unary_func!("Compute cosh", cosh, af_cosh);
+unary_func!("Compute tanh", tanh, af_tanh);
+unary_func!("Compute asinh", asinh, af_asinh);
+unary_func!("Compute acosh", acosh, af_acosh);
+unary_func!("Compute atanh", atanh, af_atanh);
+unary_func!("Compute two raised to the power of value", pow2, af_pow2);
+unary_func!("Compute e raised to the power of value", exp, af_exp);
+unary_func!("Compute sigmoid function", sigmoid, af_sigmoid);
+unary_func!("Compute e raised to the power of value -1", expm1, af_expm1);
+unary_func!("Compute error function value", erf, af_erf);
+unary_func!("Compute the complementary error function value", erfc, af_erfc);
+unary_func!("Compute the natural logarithm", log, af_log);
+unary_func!("Compute the logarithm of input Array + 1", log1p, af_log1p);
+unary_func!("Compute logarithm base 10", log10, af_log10);
+unary_func!("Compute logarithm base 2", log2, af_log2);
+unary_func!("Compute the square root", sqrt, af_sqrt);
+unary_func!("Compute the cube root", cbrt, af_cbrt);
+unary_func!("Compute the factorial", factorial, af_factorial);
+unary_func!("Compute gamma function", tgamma, af_tgamma);
+unary_func!("Compute the logarithm of absolute values of gamma function", lgamma, af_lgamma);
+unary_func!("Check if values are zero", iszero, af_iszero);
+unary_func!("Check if values are infinity", isinf, af_isinf);
+unary_func!("Check if values are NaN", isnan, af_isnan);
 
 macro_rules! binary_func {
-    ($fn_name: ident, $ffi_fn: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
+        ///
+        /// This is an element wise binary operation.
         #[allow(unused_mut)]
         pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
             unsafe {
@@ -182,15 +188,15 @@ macro_rules! binary_func {
     )
 }
 
-binary_func!(bitand, af_bitand);
-binary_func!(bitor, af_bitor);
-binary_func!(bitxor, af_bitxor);
-binary_func!(neq, af_neq);
-binary_func!(and, af_and);
-binary_func!(or, af_or);
-binary_func!(minof, af_minof);
-binary_func!(maxof, af_maxof);
-binary_func!(hypot, af_hypot);
+binary_func!("Elementwise AND(bit) operation of two Arrays", bitand, af_bitand);
+binary_func!("Elementwise OR(bit) operation of two Arrays", bitor, af_bitor);
+binary_func!("Elementwise XOR(bit) operation of two Arrays", bitxor, af_bitxor);
+binary_func!("Elementwise not equals comparison of two Arrays", neq, af_neq);
+binary_func!("Elementwise logical and operation of two Arrays", and, af_and);
+binary_func!("Elementwise logical or operation of two Arrays", or, af_or);
+binary_func!("Elementwise minimum operation of two Arrays", minof, af_minof);
+binary_func!("Elementwise maximum operation of two Arrays", maxof, af_maxof);
+binary_func!("Compute length of hypotenuse of two Arrays", hypot, af_hypot);
 
 pub trait Convertable {
     fn convert(&self) -> Array;
@@ -221,7 +227,7 @@ impl Convertable for Array {
 }
 
 macro_rules! overloaded_binary_func {
-    ($fn_name: ident, $help_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $help_name: ident, $ffi_name: ident) => (
         fn $help_name(lhs: &Array, rhs: &Array, batch: bool) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
@@ -233,6 +239,22 @@ macro_rules! overloaded_binary_func {
             }
         }
 
+        #[doc=$doc_str]
+        ///
+        /// This is a binary elementwise operation.
+        ///
+        ///# Parameters
+        ///
+        /// - `arg1`is an argument that implements an internal trait `Convertable`.
+        /// - `arg2`is an argument that implements an internal trait `Convertable`.
+        /// - `batch` is an boolean that indicates if the current operation is an batch operation.
+        ///
+        /// Both parameters `arg1` and `arg2` can be either an Array or a value of rust integral
+        /// type.
+        ///
+        ///# Return Values
+        ///
+        /// An Array with results of the binary operation.
         pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Array where T: Convertable, U: Convertable {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
@@ -253,23 +275,23 @@ macro_rules! overloaded_binary_func {
 
 // thanks to Umar Arshad for the idea on how to
 // implement overloaded function
-overloaded_binary_func!(add, add_helper, af_add);
-overloaded_binary_func!(sub, sub_helper, af_sub);
-overloaded_binary_func!(mul, mul_helper, af_mul);
-overloaded_binary_func!(div, div_helper, af_div);
-overloaded_binary_func!(rem, rem_helper, af_rem);
-overloaded_binary_func!(shiftl, shiftl_helper, af_bitshiftl);
-overloaded_binary_func!(shiftr, shiftr_helper, af_bitshiftr);
-overloaded_binary_func!(lt, lt_helper, af_lt);
-overloaded_binary_func!(gt, gt_helper, af_gt);
-overloaded_binary_func!(le, le_helper, af_le);
-overloaded_binary_func!(ge, ge_helper, af_ge);
-overloaded_binary_func!(eq, eq_helper, af_eq);
-overloaded_binary_func!(modulo, modulo_helper, af_mod);
-overloaded_binary_func!(atan2, atan2_helper, af_atan2);
-overloaded_binary_func!(cplx2, cplx2_helper, af_cplx2);
-overloaded_binary_func!(root, root_helper, af_root);
-overloaded_binary_func!(pow, pow_helper, af_pow);
+overloaded_binary_func!("Addition of two Arrays", add, add_helper, af_add);
+overloaded_binary_func!("Subtraction of two Arrays", sub, sub_helper, af_sub);
+overloaded_binary_func!("Multiplication of two Arrays", mul, mul_helper, af_mul);
+overloaded_binary_func!("Division of two Arrays", div, div_helper, af_div);
+overloaded_binary_func!("Compute remainder from two Arrays", rem, rem_helper, af_rem);
+overloaded_binary_func!("Compute left shift", shiftl, shiftl_helper, af_bitshiftl);
+overloaded_binary_func!("Compute right shift", shiftr, shiftr_helper, af_bitshiftr);
+overloaded_binary_func!("Perform `less than` comparison operation", lt, lt_helper, af_lt);
+overloaded_binary_func!("Perform `greater than` comparison operation", gt, gt_helper, af_gt);
+overloaded_binary_func!("Perform `less than equals` comparison operation", le, le_helper, af_le);
+overloaded_binary_func!("Perform `greater than equals` comparison operation", ge, ge_helper, af_ge);
+overloaded_binary_func!("Perform `equals` comparison operation", eq, eq_helper, af_eq);
+overloaded_binary_func!("Compute modulo of two Arrays", modulo, modulo_helper, af_mod);
+overloaded_binary_func!("Calculate atan2 of two Arrays", atan2, atan2_helper, af_atan2);
+overloaded_binary_func!("Create complex array from two Arrays", cplx2, cplx2_helper, af_cplx2);
+overloaded_binary_func!("Compute root", root, root_helper, af_root);
+overloaded_binary_func!("Computer power", pow, pow_helper, af_pow);
 
 macro_rules! arith_scalar_func {
     ($rust_type: ty, $op_name:ident, $fn_name: ident, $ffi_fn: ident) => (
