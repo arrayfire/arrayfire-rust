@@ -49,17 +49,8 @@ extern {
 }
 
 macro_rules! dim_reduce_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Reduction operation along specific dimension
-        ///
-        /// # Parameters
-        ///
-        /// - `input` - Input Array
-        /// - `dim` - Dimension along which the input Array will be reduced
-        ///
-        /// # Return Values
-        ///
-        /// Reduced Array
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dim: i32) -> Array {
             unsafe {
@@ -73,21 +64,263 @@ macro_rules! dim_reduce_func_def {
     )
 }
 
-dim_reduce_func_def!(sum, af_sum);
-dim_reduce_func_def!(product, af_product);
-dim_reduce_func_def!(min, af_min);
-dim_reduce_func_def!(max, af_max);
-dim_reduce_func_def!(all_true, af_all_true);
-dim_reduce_func_def!(any_true, af_any_true);
-dim_reduce_func_def!(count, af_count);
-dim_reduce_func_def!(accum, af_accum);
-dim_reduce_func_def!(diff1, af_diff1);
-dim_reduce_func_def!(diff2, af_diff2);
+dim_reduce_func_def!("
+    Sum elements along a given dimension
 
-/// Reduction operation along specific dimension
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    Result Array after summing all elements along given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, sum};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = sum(&a, 0);
+    print(&b);
+    let c = sum(&a, 1);
+    print(&c);
+    ```
+    ",
+    sum, af_sum);
+
+dim_reduce_func_def!("
+    Compute product of elements along a given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    Result Array after multiplying all elements along given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, product};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = product(&a, 0);
+    print(&b);
+    let c = product(&a, 1);
+    print(&c);
+    ```
+    ", product, af_product);
+
+dim_reduce_func_def!("
+    Find minimum among elements of given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    Result Array after finding minimum among elements along a given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, min};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = min(&a, 0);
+    print(&b);
+    let c = min(&a, 1);
+    print(&c);
+    ", min, af_min);
+
+dim_reduce_func_def!("
+    Find maximum among elements of given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    Result Array after finding maximum among elements along a given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, max};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = max(&a, 0);
+    print(&b);
+    let c = max(&a, 1);
+    print(&c);
+    ", max, af_max);
+
+dim_reduce_func_def!("
+    Find if all of the values along a given dimension in the Array are true
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the predicate is evaluated
+
+    # Return Values
+
+    Result Array that contains the result of `AND` operation of all elements along given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, all_true};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = all_true(&a, 0);
+    print(&b);
+    let c = all_true(&a, 1);
+    print(&c);
+    ", all_true, af_all_true);
+
+dim_reduce_func_def!("
+    Find if any of the values along a given dimension in the Array are true
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the predicate is evaluated
+
+    # Return Values
+
+    Result Array that contains the result of `OR` operation of all elements along given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, any_true};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = any_true(&a, 0);
+    print(&b);
+    let c = any_true(&a, 1);
+    print(&c);
+    ", any_true, af_any_true);
+
+dim_reduce_func_def!("
+    Count number of non-zero elements along a given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the non-zero elements are counted
+
+    # Return Values
+
+    Result Array with number of non-zero elements along a given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, gt, print, randu, count};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = gt(&randu::<f32>(dims), &0.5, false);
+    print(&a);
+    let b = count(&a, 0);
+    print(&b);
+    let c = count(&a, 1);
+    print(&c);
+    ", count, af_count);
+
+dim_reduce_func_def!("
+    Perform exclusive sum of elements along a given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which the exclusive scan operation is carried out
+
+    # Return Values
+
+    Result Array with exclusive sums of input Array elements along a given dimension
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, accum};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = accum(&a, 0);
+    print(&b);
+    let c = accum(&a, 1);
+    print(&c);
+    ", accum, af_accum);
+
+dim_reduce_func_def!("
+    Calculate first order numerical difference along a given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which first order difference is calculated
+
+    # Return Values
+
+    Result Array with first order difference values
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, diff1};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = diff1(&a, 0);
+    print(&b);
+    let c = diff1(&a, 1);
+    print(&c);
+    ", diff1, af_diff1);
+
+dim_reduce_func_def!("
+    Calculate second order numerical difference along a given dimension
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim`   - Dimension along which second order difference is calculated
+
+    # Return Values
+
+    Result Array with second order difference values
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, diff2};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    let b = diff2(&a, 0);
+    print(&b);
+    let c = diff2(&a, 1);
+    print(&c);
+    ", diff2, af_diff2);
+
+/// Sum along specific dimension using user specified value instead of `NAN` values
 ///
 /// Sum values of the `input` Array along `dim` dimension after replacing any `NAN` values in the
-/// Array with `nanval` value.
+/// Array with the value of the parameter `nanval`.
 ///
 /// # Parameters
 ///
@@ -97,7 +330,7 @@ dim_reduce_func_def!(diff2, af_diff2);
 ///
 /// # Return Values
 ///
-/// Reduced Array
+/// Array that is reduced along given dimension via addition operation
 pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -108,7 +341,7 @@ pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
     }
 }
 
-/// Reduction operation along specific dimension
+/// Product of elements along specific dimension using user specified value instead of `NAN` values
 ///
 /// Compute product of the values of the `input` Array along `dim` dimension after replacing any `NAN` values in the Array with `nanval` value.
 ///
@@ -120,7 +353,7 @@ pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
 ///
 /// # Return Values
 ///
-/// Reduced Array
+/// Array that is reduced along given dimension via multiplication operation
 pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
@@ -132,17 +365,8 @@ pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
 }
 
 macro_rules! all_reduce_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Reduction operation of all values
-        ///
-        /// # Parameters
-        ///
-        /// - `input` is the input Array
-        ///
-        /// # Return Values
-        ///
-        /// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
-        /// zero.
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> (f64, f64) {
             unsafe {
@@ -157,15 +381,168 @@ macro_rules! all_reduce_func_def {
     )
 }
 
-all_reduce_func_def!(sum_all, af_sum_all);
-all_reduce_func_def!(product_all, af_product_all);
-all_reduce_func_def!(min_all, af_min_all);
-all_reduce_func_def!(max_all, af_max_all);
-all_reduce_func_def!(all_true_all, af_all_true_all);
-all_reduce_func_def!(any_true_all, af_any_true_all);
-all_reduce_func_def!(count_all, af_count_all);
+all_reduce_func_def!("
+    Sum all values of the Array
 
-/// Reduction operation of all values
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the summation result.
+
+    Note: For non-complex data type Arrays, second value of tuple is zero.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, sum_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", sum_all(&a));
+    ```
+    ", sum_all, af_sum_all);
+
+all_reduce_func_def!("
+    Product of all values of the Array
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the product result.
+
+    Note: For non-complex data type Arrays, second value of tuple is zero.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, product_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", product_all(&a));
+    ```
+    ", product_all, af_product_all);
+
+all_reduce_func_def!("
+    Find minimum among all values of the Array
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the minimum value.
+
+    Note: For non-complex data type Arrays, second value of tuple is zero.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, min_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", min_all(&a));
+    ```
+    ", min_all, af_min_all);
+
+all_reduce_func_def!("
+    Find maximum among all values of the Array
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the maximum value.
+
+    Note: For non-complex data type Arrays, second value of tuple is zero.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, max_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", max_all(&a));
+    ```
+    ", max_all, af_max_all);
+
+all_reduce_func_def!("
+    Find if all values of Array are non-zero
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the result of `AND` operation on all values of Array.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, all_true_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", all_true_all(&a));
+    ```
+    ", all_true_all, af_all_true_all);
+
+all_reduce_func_def!("
+    Find if any value of Array is non-zero
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the result of `OR` operation on all values of Array.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, any_true_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", any_true_all(&a));
+    ", any_true_all, af_any_true_all);
+
+all_reduce_func_def!("
+    Count number of non-zero values in the Array
+
+    # Parameters
+
+    - `input` is the input Array
+
+    # Return Values
+
+    A tuple containing the count of non-zero values in the Array.
+
+    # Examples
+
+    ```
+    use arrayfire::{Dim4, print, randu, count_all};
+    let dims = Dim4::new(&[5, 5, 1, 1]);
+    let a = randu::<f32>(dims);
+    print(&a);
+    println!(\"Result : {:?}\", count_all(&a));
+    ```
+    ", count_all, af_count_all);
+
+/// Sum all values using user provided value for `NAN`
 ///
 /// Sum all the values of the `input` Array after replacing any `NAN` values with `val`.
 ///
@@ -177,8 +554,9 @@ all_reduce_func_def!(count_all, af_count_all);
 ///
 /// # Return Values
 ///
-/// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
-/// zero.
+/// A tuple of summation result.
+///
+/// Note: For non-complex data type Arrays, second value of tuple is zero.
 pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -190,9 +568,9 @@ pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
     }
 }
 
-/// Reduction operation of all values
+/// Product of all values using user provided value for `NAN`
 ///
-/// Compute the product of all the values of the `input` Array after replacing any `NAN` values with `val`.
+/// Compute the product of all the values of the `input` Array after replacing any `NAN` values with `val`
 ///
 /// # Parameters
 ///
@@ -202,8 +580,9 @@ pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
 ///
 /// # Return Values
 ///
-/// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
-/// zero.
+/// A tuple of product result.
+///
+/// Note: For non-complex data type Arrays, second value of tuple is zero.
 pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
@@ -216,19 +595,8 @@ pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
 }
 
 macro_rules! dim_ireduce_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Reduction operation along specific dimension
-        ///
-        /// # Parameters
-        ///
-        /// - `input` - Input Array
-        /// - `dim` - Dimension along which the input Array will be reduced
-        ///
-        /// # Return Values
-        ///
-        /// A tuple of Arrays: Reduced Array and Indices Array.
-        ///
-        /// The indices Array has the index of the result element along the reduction dimension.
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dim: i32) -> (Array, Array) {
             unsafe {
@@ -243,24 +611,35 @@ macro_rules! dim_ireduce_func_def {
     )
 }
 
-dim_ireduce_func_def!(imin, af_imin);
-dim_ireduce_func_def!(imax, af_imax);
+dim_ireduce_func_def!("
+    Find minimum value along given dimension and their corresponding indices
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim` - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    A tuple of Arrays: Array minimum values and Array containing their index along the reduced dimension.
+    ", imin, af_imin);
+
+dim_ireduce_func_def!("
+    Find maximum value along given dimension and their corresponding indices
+
+    # Parameters
+
+    - `input` - Input Array
+    - `dim` - Dimension along which the input Array will be reduced
+
+    # Return Values
+
+    A tuple of Arrays: Array maximum values and Array containing their index along the reduced dimension.
+    ", imax, af_imax);
 
 macro_rules! all_ireduce_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Reduction operation of all values
-        ///
-        /// # Parameters
-        ///
-        /// `input` - Input Array
-        ///
-        /// # Return Values
-        ///
-        /// A triplet of reduction result.
-        ///
-        /// The second value of the tuple is zero for non-complex data type Arrays.
-        ///
-        /// The third value of triplet is the index of result element from reduction operation.
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> (f64, f64, u32) {
             unsafe {
@@ -276,8 +655,36 @@ macro_rules! all_ireduce_func_def {
     )
 }
 
-all_ireduce_func_def!(imin_all, af_imin_all);
-all_ireduce_func_def!(imax_all, af_imax_all);
+all_ireduce_func_def!("
+    Find minimum and it's index in the whole Array
+
+    # Parameters
+
+    `input` - Input Array
+
+    # Return Values
+
+    A triplet with
+
+      * minimum element of Array in the first component.
+      * second component of value zero if Array is of non-complex type.
+      * index of minimum element in the third component.
+    ", imin_all, af_imin_all);
+all_ireduce_func_def!("
+    Find maximum and it's index in the whole Array
+
+    # Parameters
+
+    `input` - Input Array
+
+    # Return Values
+
+    A triplet with
+
+      - maximum element of Array in the first component.
+      - second component of value zero if Array is of non-complex type.
+      - index of maximum element in the third component.
+    ", imax_all, af_imax_all);
 
 /// Locate the indices of non-zero elements.
 ///
