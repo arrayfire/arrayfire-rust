@@ -364,7 +364,7 @@ impl Drop for Array {
 /// ```
 /// use arrayfire::{Dim4, print, randu};
 /// println!("Create a 5-by-3 matrix of random floats on the GPU");
-/// let dims = Dim4::new(&[3, 1, 1, 1]);
+/// let dims = Dim4::new(&[5, 3, 1, 1]);
 /// let a = randu::<f32>(dims);
 /// print(&a);
 /// ```
