@@ -42,12 +42,12 @@ pub fn get_available_backends() -> Vec<Backend> {
         let mut temp: i32 = 0;
         let err_val = af_get_available_backends(&mut temp as *mut c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        
+
         let mut b = Vec::new();
         if temp & 0b0100 == 0b0100 { b.push(Backend::OPENCL); }
         if temp & 0b0010 == 0b0010 { b.push(Backend::CUDA); }
         if temp & 0b0001 == 0b0001 { b.push(Backend::CPU); }
-        
+
         b
     }
 }
