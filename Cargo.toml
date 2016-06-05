@@ -15,9 +15,8 @@ exclude = [
 ]
 
 [dependencies]
-libc = "0.1.10"
+libc = "0.2"
 num  = "0.1.27"
-time = "0.1.32"
 lazy_static = "0.2.1"
 
 [build-dependencies]
