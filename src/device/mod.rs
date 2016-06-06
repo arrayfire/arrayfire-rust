@@ -131,12 +131,12 @@ pub fn get_device() -> i32 {
 /// * Number of buffers allocated
 /// * Number of bytes locked
 /// * Number of buffers locked
-pub fn device_mem_info() -> (u64, u64, u64, u64) {
+pub fn device_mem_info() -> (usize, usize, usize, usize) {
     unsafe {
-        let mut o0: u64 = 0;
-        let mut o1: u64 = 0;
-        let mut o2: u64 = 0;
-        let mut o3: u64 = 0;
+        let mut o0: usize = 0;
+        let mut o1: usize = 0;
+        let mut o2: usize = 0;
+        let mut o3: usize = 0;
         let err_val = af_device_mem_info(&mut o0 as *mut size_t,
                                          &mut o1 as *mut size_t,
                                          &mut o2 as *mut size_t,
@@ -181,7 +181,7 @@ pub fn print_mem_info(msg: String, device: i32) {
 /// # Return Values
 ///
 /// None
-pub fn set_mem_step_size(step_bytes: u64) {
+pub fn set_mem_step_size(step_bytes: usize) {
     unsafe {
         let err_val = af_set_mem_step_size(step_bytes as size_t);
         HANDLE_ERROR(AfError::from(err_val));
@@ -197,9 +197,9 @@ pub fn set_mem_step_size(step_bytes: u64) {
 /// # Return Values
 ///
 /// Returns is the size of minimum memory chunk in bytes
-pub fn get_mem_step_size() -> u64 {
+pub fn get_mem_step_size() -> usize {
     unsafe {
-        let mut temp: u64 = 0;
+        let mut temp: usize = 0;
         let err_val = af_get_mem_step_size(&mut temp as *mut size_t);
         HANDLE_ERROR(AfError::from(err_val));
         temp

@@ -1,8 +1,7 @@
 #[macro_use(mem_info)]
 extern crate arrayfire as af;
-extern crate time;
 
-use time::PreciseTime;
+use std::time::Instant;
 use af::*;
 
 #[allow(unused_must_use)]
@@ -16,7 +15,7 @@ fn main() {
     let x = &randu::<f32>(dims);
     let y = &randu::<f32>(dims);
 
-    let start = PreciseTime::now();
+    let start = Instant::now();
 
     mem_info!("Before benchmark");
 
@@ -30,9 +29,7 @@ fn main() {
         let pi_val = real*4.0/(samples as f64);
     }
 
-    let end = PreciseTime::now();
-
-    println!("Estimated Pi Value in {} seconds", start.to(end) / 100);
+    println!("Estimated Pi Value in {:?}", start.elapsed());
 
     mem_info!("After benchmark");
 }
