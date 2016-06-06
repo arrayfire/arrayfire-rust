@@ -160,7 +160,7 @@ pub fn row(input: &Array, row_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Set row `row_num` in `input` Array to a new Array `new_row`
+/// Set `row_num`^th row in `input` Array to a new Array `new_row`
 pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Array {
     assign_seq(input,
                &[Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()],
@@ -168,7 +168,7 @@ pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Get all rows from `first` to `last` in the `input` Array
+/// Get an Array with all rows from `first` to `last` in the `input` Array
 pub fn rows(input: &Array, first: u64, last: u64) -> Array {
     index(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()])
 }
@@ -197,7 +197,7 @@ pub fn col(input: &Array, col_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Set col `col_num` in `input` Array to a new Array `new_col`
+/// Set `col_num`^th col in `input` Array to a new Array `new_col`
 pub fn set_col(input: &Array, new_col: &Array, col_num: u64) -> Array {
     assign_seq(input,
                &[Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)],
@@ -217,11 +217,11 @@ pub fn set_cols(input: &Array, new_cols: &Array, first: u64, last: u64) -> Array
 }
 
 #[allow(dead_code)]
-/// Get slice `slice_num` from `input` Array
+/// Get `slice_num`^th slice from `input` Array
 ///
-/// Slices indicate that the indexing is along 3rd dimension
+/// Note. Slices indicate that the indexing is along 3rd dimension
 pub fn slice(input: &Array, slice_num: u64) -> Array {
-    index(input, 
+    index(input,
           &[Seq::default(), Seq::default(), Seq::new(slice_num as f64, slice_num as f64, 1.0)])
 }
 

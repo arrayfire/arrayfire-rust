@@ -270,7 +270,16 @@ pub fn get_seed() -> u64 {
 }
 
 macro_rules! data_gen_def {
-    ($fn_name:ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
+        ///
+        ///# Parameters
+        ///
+        /// - `dims` is the output dimensions
+        ///
+        ///# Return Values
+        ///
+        /// An Array with modified data.
         #[allow(unused_mut)]
         pub fn $fn_name<T: HasAfEnum>(dims: Dim4) -> Array {
             unsafe {
@@ -286,9 +295,9 @@ macro_rules! data_gen_def {
     )
 }
 
-data_gen_def!(randu, af_randu);
-data_gen_def!(randn, af_randn);
-data_gen_def!(identity, af_identity);
+data_gen_def!("Create random numbers from uniform distribution", randu, af_randu);
+data_gen_def!("Create random numbers from normal distribution", randn, af_randn);
+data_gen_def!("Create an identity array with 1's in diagonal", identity, af_identity);
 
 /// Create a diagonal matrix
 ///
@@ -380,7 +389,17 @@ pub fn join_many(dim: i32, inputs: Vec<&Array>) -> Array {
 }
 
 macro_rules! data_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
+        ///
+        ///# Parameters
+        ///
+        /// - `input` is the input Array
+        /// - `dims` is the target(output) dimensions
+        ///
+        ///# Return Values
+        ///
+        /// An Array with modified data.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dims: Dim4) -> Array {
             unsafe {
@@ -395,9 +414,9 @@ macro_rules! data_func_def {
     )
 }
 
-data_func_def!(tile, af_tile);
-data_func_def!(reorder, af_reorder);
-data_func_def!(shift, af_shift);
+data_func_def!("Tile the input array along specified dimension", tile, af_tile);
+data_func_def!("Reorder the array in specified order", reorder, af_reorder);
+data_func_def!("Circular shift of values along specified dimension", shift, af_shift);
 
 /// Change the shape of the Array
 ///

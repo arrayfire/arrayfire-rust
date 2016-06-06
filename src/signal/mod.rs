@@ -270,28 +270,21 @@ pub fn ifft3(input: &Array, norm_factor: f64,
 }
 
 macro_rules! conv_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
-        /// Convolution
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         ///
-        /// The numeric suffix to the function name indicates the dimension in which the
-        /// convolution operation is going to take place.
-        ///
-        /// - 1 - Indicates 1d convolution
-        /// - 2 - Indicates 2d convolution
-        /// - 3 - Indicates 3d convolution
-        ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `signal` is the input signal
         /// - `filter` is the signal that shall be flipped for convolution operation
         /// - `mode` indicates if the convolution should be expanded or not(where output size
-        /// equals input)
+        /// equals input). It takes a value of type [ConvMode](./enum.ConvMode.html)
         /// - `domain` indicates if the convolution should be performed in frequencey or spatial
-        /// domain
+        /// domain. It takes a value of type [ConvDomain](./enum.ConvDomain.html)
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// The convolved Array
+        /// Convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
                         mode: ConvMode, domain: ConvDomain) -> Array {
@@ -307,9 +300,9 @@ macro_rules! conv_func_def {
     )
 }
 
-conv_func_def!(convolve1, af_convolve1);
-conv_func_def!(convolve2, af_convolve2);
-conv_func_def!(convolve3, af_convolve3);
+conv_func_def!("1d convolution", convolve1, af_convolve1);
+conv_func_def!("2d convolution", convolve2, af_convolve2);
+conv_func_def!("3d convolution", convolve3, af_convolve3);
 
 /// Separable convolution for 2d signals
 ///
@@ -337,26 +330,19 @@ pub fn convolve2_sep(cfilt: &Array, rfilt: &Array, signal: &Array,
 }
 
 macro_rules! fft_conv_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
-        /// Convolution using Fast-fourier transform
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         ///
-        /// The numeric suffix to the function name indicates the dimension in which the
-        /// convolution operation is going to take place.
-        ///
-        /// - 1 - Indicates 1d convolution
-        /// - 2 - Indicates 2d convolution
-        /// - 3 - Indicates 3d convolution
-        ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `signal` is the input signal
         /// - `filter` is the signal that shall be used for convolution operation
         /// - `mode` indicates if the convolution should be expanded or not(where output size
-        /// equals input)
+        /// equals input). It takes values of type [ConvMode](./enum.ConvMode.html)
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// The convolved Array
+        /// Convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
                         mode: ConvMode) -> Array {
@@ -371,9 +357,9 @@ macro_rules! fft_conv_func_def {
     )
 }
 
-fft_conv_func_def!(fft_convolve1, af_fft_convolve1);
-fft_conv_func_def!(fft_convolve2, af_fft_convolve2);
-fft_conv_func_def!(fft_convolve3, af_fft_convolve3);
+fft_conv_func_def!("1d convolution using fast-fourier transform", fft_convolve1, af_fft_convolve1);
+fft_conv_func_def!("2d convolution using fast-fourier transform", fft_convolve2, af_fft_convolve2);
+fft_conv_func_def!("3d convolution using fast-fourier transform", fft_convolve3, af_fft_convolve3);
 
 /// Finite impulse filter
 ///

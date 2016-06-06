@@ -652,7 +652,19 @@ pub fn mean_shift(input: &Array, spatial_sigma: f32, chromatic_sigma: f32,
 }
 
 macro_rules! filt_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
+        ///
+        ///# Parameters
+        ///
+        /// - `input` is the input image(Array)
+        /// - `wlen` is the horizontal length of the filter
+        /// - `hlen` is the vertical length of the filter
+        /// - `etype` is enum of type [BorderType](./enum.BorderType.html)
+        ///
+        ///# Return Values
+        ///
+        /// An Array with filtered image data.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, wlen: u64, wwid: u64,
                         etype: BorderType) -> Array {
@@ -667,9 +679,9 @@ macro_rules! filt_func_def {
     )
 }
 
-filt_func_def!(medfilt, af_medfilt);
-filt_func_def!(minfilt, af_minfilt);
-filt_func_def!(maxfilt, af_maxfilt);
+filt_func_def!("Median filter", medfilt, af_medfilt);
+filt_func_def!("Box filter with minimum as box operation", minfilt, af_minfilt);
+filt_func_def!("Box filter with maximum as box operation", maxfilt, af_maxfilt);
 
 /// Creates a Gaussian Kernel.
 ///
@@ -830,14 +842,18 @@ pub fn hist_equal(input: &Array, hist: &Array) -> Array {
 }
 
 macro_rules! grayrgb_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Color space conversion functions
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `r` is fraction of red channel to appear in output
         /// - `g` is fraction of green channel to appear in output
         /// - `b` is fraction of blue channel to appear in output
+        ///
+        ///#Return Values
+        ///
+        ///An Array with image data in target color space
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, r: f32, g: f32, b: f32) -> Array {
             unsafe {
@@ -851,12 +867,12 @@ macro_rules! grayrgb_func_def {
     )
 }
 
-grayrgb_func_def!(rgb2gray, af_rgb2gray);
-grayrgb_func_def!(gray2rgb, af_gray2rgb);
+grayrgb_func_def!("Color(RGB) to Grayscale conversion", rgb2gray, af_rgb2gray);
+grayrgb_func_def!("Grayscale to Color(RGB) conversion", gray2rgb, af_gray2rgb);
 
 macro_rules! hsvrgb_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
-        /// Color space conversion functions
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array) -> Array {
             unsafe {
@@ -869,8 +885,8 @@ macro_rules! hsvrgb_func_def {
     )
 }
 
-hsvrgb_func_def!(hsv2rgb, af_hsv2rgb);
-hsvrgb_func_def!(rgb2hsv, af_rgb2hsv);
+hsvrgb_func_def!("HSV to RGB color space conversion", hsv2rgb, af_hsv2rgb);
+hsvrgb_func_def!("RGB to HSV color space conversion", rgb2hsv, af_rgb2hsv);
 
 /// Generate an array with image windows as columns
 ///

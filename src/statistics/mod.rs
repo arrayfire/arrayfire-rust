@@ -34,18 +34,18 @@ extern {
 }
 
 macro_rules! stat_func_def {
-    ($fn_name: ident, $ffi_fn: ident) => (
-        /// Compute a statistic along given dimension for an Array
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
         ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `input` is the input Array
         /// - `dim` is dimension along which the current stat has to be computed
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// An Array whose size is equal to input except along the dimension which the stat
-        /// operation is performed. Array size along `dim` will be reduced to one.
+        /// An Array whose size is equal to input except along the dimension which
+        /// the stat operation is performed. Array size along `dim` will be reduced to one.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dim: i64) -> Array {
             unsafe {
@@ -58,24 +58,24 @@ macro_rules! stat_func_def {
     )
 }
 
-stat_func_def!(mean, af_mean);
-stat_func_def!(stdev, af_stdev);
-stat_func_def!(median, af_median);
+stat_func_def!("Mean along specified dimension", mean, af_mean);
+stat_func_def!("Standard deviation along specified dimension", stdev, af_stdev);
+stat_func_def!("Median along specified dimension", median, af_median);
 
 macro_rules! stat_wtd_func_def {
-    ($fn_name: ident, $ffi_fn: ident) => (
-        /// Compute a weighted statistic along given dimension for an Array
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
         ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `input` is the input Array
         /// - `weights` Array has the weights to be used during the stat computation
         /// - `dim` is dimension along which the current stat has to be computed
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// An Array whose size is equal to input except along the dimension which the stat
-        /// operation is performed. Array size along `dim` will be reduced to one.
+        /// An Array whose size is equal to input except along the dimension which
+        /// the stat operation is performed. Array size along `dim` will be reduced to one.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, weights: &Array, dim: i64) -> Array {
             unsafe {
@@ -89,8 +89,8 @@ macro_rules! stat_wtd_func_def {
     )
 }
 
-stat_wtd_func_def!(mean_weighted, af_mean_weighted);
-stat_wtd_func_def!(var_weighted, af_var_weighted);
+stat_wtd_func_def!("Weighted mean along specified dimension", mean_weighted, af_mean_weighted);
+stat_wtd_func_def!("Weight variance along specified dimension", var_weighted, af_var_weighted);
 
 /// Compute Variance along a specific dimension
 ///
@@ -159,14 +159,14 @@ pub fn var_all(input: &Array, isbiased: bool) -> (f64, f64) {
 }
 
 macro_rules! stat_all_func_def {
-    ($fn_name: ident, $ffi_fn: ident) => (
-        /// Compute statistic for all elements of Array
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
         ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `input` is the input Array
         ///
-        /// # Return Values
+        ///# Return Values
         ///
         /// A tuple of 64-bit floating point values with the stat values.
         #[allow(unused_mut)]
@@ -183,20 +183,20 @@ macro_rules! stat_all_func_def {
     )
 }
 
-stat_all_func_def!(mean_all, af_mean_all);
-stat_all_func_def!(stdev_all, af_stdev_all);
-stat_all_func_def!(median_all, af_median_all);
+stat_all_func_def!("Compute mean of all data", mean_all, af_mean_all);
+stat_all_func_def!("Compute standard deviation of all data", stdev_all, af_stdev_all);
+stat_all_func_def!("Compute median of all data", median_all, af_median_all);
 
 macro_rules! stat_wtd_all_func_def {
-    ($fn_name: ident, $ffi_fn: ident) => (
-        /// Compute weighted statistic for all elements of Array
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+        #[doc=$doc_str]
         ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `input` is the input Array
         /// - `weights` Array has the weights
         ///
-        /// # Return Values
+        ///# Return Values
         ///
         /// A tuple of 64-bit floating point values with the stat values.
         #[allow(unused_mut)]
@@ -213,8 +213,8 @@ macro_rules! stat_wtd_all_func_def {
     )
 }
 
-stat_wtd_all_func_def!(mean_all_weighted, af_mean_all_weighted);
-stat_wtd_all_func_def!(var_all_weighted, af_var_all_weighted);
+stat_wtd_all_func_def!("Compute weighted mean of all data", mean_all_weighted, af_mean_all_weighted);
+stat_wtd_all_func_def!("Compute weighted variance of all data", var_all_weighted, af_var_all_weighted);
 
 /// Compute correlation coefficient
 ///
