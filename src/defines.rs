@@ -106,6 +106,7 @@ impl Error for AfError {
 }
 
 /// Types of Array data type
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DType {
     /// 32 bit float
@@ -135,6 +136,7 @@ pub enum DType {
 }
 
 /// Dictates the interpolation method to be used by a function
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
@@ -148,6 +150,7 @@ pub enum InterpType {
 }
 
 /// Helps determine how to pad kernels along borders
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BorderType {
     /// Pad using zeros
@@ -157,6 +160,7 @@ pub enum BorderType {
 }
 
 /// Used by `regions` function to identify type of connectivity
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
@@ -166,6 +170,7 @@ pub enum Connectivity {
 }
 
 /// Helps determine the size of output of convolution
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
@@ -175,6 +180,7 @@ pub enum ConvMode {
 }
 
 /// Helps determine if convolution is in Spatial or Frequency domain
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
@@ -186,6 +192,7 @@ pub enum ConvDomain {
 }
 
 /// Error metric used by `matchTemplate` function
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatchType {
     /// Sum of Absolute Differences
@@ -209,6 +216,7 @@ pub enum MatchType {
 }
 
 /// Identify the color space of given image(Array)
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorSpace {
     /// Grayscale color space
@@ -220,6 +228,7 @@ pub enum ColorSpace {
 }
 
 /// Helps determine the type of a Matrix
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatProp {
     /// Default (no-op)
@@ -248,6 +257,7 @@ pub enum MatProp {
 
 /// Norm type
 #[allow(non_camel_case_types)]
+#[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum NormType {
     /// Treats input as a vector and return sum of absolute values

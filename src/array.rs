@@ -26,7 +26,7 @@ extern {
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
-    fn af_get_type(out: *mut uint8_t, arr: AfArray) -> c_int;
+    fn af_get_type(out: *mut c_int, arr: AfArray) -> c_int;
 
     fn af_get_dims(dim0: *mut c_longlong, dim1: *mut c_longlong, dim2: *mut c_longlong,
                    dim3: *mut c_longlong, arr: AfArray) -> c_int;
@@ -206,8 +206,8 @@ impl Array {
     /// Returns the Array data type
     pub fn get_type(&self) -> DType {
         unsafe {
-            let mut ret_val: u8 = 0;
-            let err_val = af_get_type(&mut ret_val as *mut uint8_t, self.handle as AfArray);
+            let mut ret_val: i32 = 0;
+            let err_val = af_get_type(&mut ret_val as *mut c_int, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
             DType::from(ret_val)
         }
