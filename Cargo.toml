@@ -15,13 +15,12 @@ exclude = [
 ]
 
 [dependencies]
-libc = "0.1.10"
-num  = "0.1.27"
-time = "0.1.32"
+libc = "0.2.11"
+num  = "0.1.32"
 lazy_static = "0.2.1"
 
 [build-dependencies]
-rustc-serialize = "0.3.16"
+rustc-serialize = "0.3.19"
 rustc_version = "0.1.7"
 
 [lib]

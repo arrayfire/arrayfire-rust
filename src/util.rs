@@ -13,9 +13,9 @@ extern {
 }
 
 /// Get size, in bytes, of the arrayfire native type
-pub fn get_size(value: DType) -> u64 {
+pub fn get_size(value: DType) -> usize {
     unsafe {
-        let mut ret_val: u64 = 0;
+        let mut ret_val: usize = 0;
         let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as uint8_t);
         HANDLE_ERROR(AfError::from(err_val));
         ret_val
@@ -29,37 +29,37 @@ impl From<i32> for AfError {
     }
 }
 
-impl From<u8> for DType {
-    fn from(t: u8) -> DType {
-        assert!(DType::F32 as u8 <= t && t <= DType::U64 as u8);
+impl From<i32> for DType {
+    fn from(t: i32) -> DType {
+        assert!(DType::F32 as i32 <= t && t <= DType::U64 as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for InterpType {
-    fn from(t: u8) -> InterpType {
-        assert!(InterpType::NEAREST as u8 <= t && t <= InterpType::CUBIC as u8);
+impl From<i32> for InterpType {
+    fn from(t: i32) -> InterpType {
+        assert!(InterpType::NEAREST as i32 <= t && t <= InterpType::CUBIC as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for ConvMode {
-    fn from(t: u8) -> ConvMode {
-        assert!(ConvMode::DEFAULT as u8 <= t && t <= ConvMode::EXPAND as u8);
+impl From<i32> for ConvMode {
+    fn from(t: i32) -> ConvMode {
+        assert!(ConvMode::DEFAULT as i32 <= t && t <= ConvMode::EXPAND as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for ConvDomain {
-    fn from(t: u8) -> ConvDomain {
-        assert!(ConvDomain::AUTO as u8 <= t && t <= ConvDomain::FREQUENCY as u8);
+impl From<i32> for ConvDomain {
+    fn from(t: i32) -> ConvDomain {
+        assert!(ConvDomain::AUTO as i32 <= t && t <= ConvDomain::FREQUENCY as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for MatchType {
-    fn from(t: u8) -> MatchType {
-        assert!(MatchType::SAD as u8 <= t && t <= MatchType::SHD as u8);
+impl From<i32> for MatchType {
+    fn from(t: i32) -> MatchType {
+        assert!(MatchType::SAD as i32 <= t && t <= MatchType::SHD as i32);
         unsafe { mem::transmute(t) }
     }
 }
