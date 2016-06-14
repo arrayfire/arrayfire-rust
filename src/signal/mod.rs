@@ -3,7 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, ConvDomain, ConvMode, InterpType};
 use error::HANDLE_ERROR;
-use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong};
+use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong, size_t};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type AfArray    = self::libc::c_longlong;
@@ -15,6 +15,8 @@ extern {
 
     fn af_approx2(out: MutAfArray, inp: AfArray, pos0: AfArray, pos1: AfArray,
                   method: c_int, off_grid: c_float) -> c_int;
+
+    fn af_set_fft_plan_cache_size(cache_size: size_t) -> c_int;
 
     fn af_fft(out: MutAfArray, arr: AfArray,
               nfac: c_double, odim0: c_longlong) -> c_int;
@@ -112,6 +114,18 @@ pub fn approx2(input: &Array, pos0: &Array, pos1: &Array,
                                  method as c_int, off_grid as c_float);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
+    }
+}
+
+/// Set fft plan cache size
+///
+/// Though this is a low overhead function, it is advised not to change
+/// the fft plan cache size a mid program execution unless that is what
+/// you intend to do.
+pub fn set_fft_plan_cache_size(cache_size: usize) {
+    unsafe {
+        let err_val = af_set_fft_plan_cache_size(cache_size as size_t);
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 

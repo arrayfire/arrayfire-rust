@@ -82,7 +82,7 @@ mod lapack;
 mod macros;
 mod num;
 
-pub use signal::{approx1, approx2};
+pub use signal::{approx1, approx2, set_fft_plan_cache_size};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
 pub use signal::{fft_r2c, fft2_r2c, fft3_r2c, fft_c2r, fft2_c2r, fft3_c2r};
 pub use signal::{fft_inplace, fft2_inplace, fft3_inplace};
