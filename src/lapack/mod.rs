@@ -1,8 +1,8 @@
 extern crate libc;
 
 use array::Array;
-use defines::AfError;
-use defines::{MatProp, NormType};
+use defines::{AfError, MatProp, NormType};
+use error::HANDLE_ERROR;
 use util::to_u32;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 
@@ -26,6 +26,7 @@ extern {
     fn af_rank(rank: *mut c_uint, input: AfArray, tol: c_double) -> c_int;
     fn af_det(det_real: MutDouble, det_imag: MutDouble, input: AfArray) -> c_int;
     fn af_norm(out: MutDouble, input: AfArray, ntype: uint8_t, p: c_double, q: c_double) -> c_int;
+    fn af_is_lapack_available(out: *mut c_int) -> c_int;
 }
 
 /// Perform Singular Value Decomposition
@@ -52,17 +53,15 @@ extern {
 ///
 /// The third Array is the output array containing V ^ H
 #[allow(unused_mut)]
-pub fn svd(input: &Array) -> Result<(Array, Array, Array), AfError> {
+pub fn svd(input: &Array) -> (Array, Array, Array) {
     unsafe {
         let mut u: i64 = 0;
         let mut s: i64 = 0;
         let mut vt: i64 = 0;
         let err_val = af_svd(&mut u as MutAfArray, &mut s as MutAfArray, &mut vt as MutAfArray,
                              input.get() as AfArray);
-        match err_val {
-            0 => Ok((Array::from(u), Array::from(s), Array::from(vt))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(u), Array::from(s), Array::from(vt))
     }
 }
 
@@ -91,17 +90,15 @@ pub fn svd(input: &Array) -> Result<(Array, Array, Array), AfError> {
 ///
 /// The third Array is the output array containing V ^ H
 #[allow(unused_mut)]
-pub fn svd_inplace(input: &mut Array) -> Result<(Array, Array, Array), AfError> {
+pub fn svd_inplace(input: &mut Array) -> (Array, Array, Array) {
     unsafe {
         let mut u: i64 = 0;
         let mut s: i64 = 0;
         let mut vt: i64 = 0;
         let err_val = af_svd_inplace(&mut u as MutAfArray, &mut s as MutAfArray,
                                      &mut vt as MutAfArray, input.get() as AfArray);
-        match err_val {
-            0 => Ok((Array::from(u), Array::from(s), Array::from(vt))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(u), Array::from(s), Array::from(vt))
     }
 }
 
@@ -121,17 +118,15 @@ pub fn svd_inplace(input: &mut Array) -> Result<(Array, Array, Array), AfError> 
 ///
 /// The third Array will contain the permutation indices to map the input to the decomposition.
 #[allow(unused_mut)]
-pub fn lu(input: &Array) -> Result<(Array, Array, Array), AfError> {
+pub fn lu(input: &Array) -> (Array, Array, Array) {
     unsafe {
         let mut lower: i64 = 0;
         let mut upper: i64 = 0;
         let mut pivot: i64 = 0;
         let err_val = af_lu(&mut lower as MutAfArray, &mut upper as MutAfArray,
                             &mut pivot as MutAfArray, input.get() as AfArray);
-        match err_val {
-            0 => Ok((Array::from(lower), Array::from(upper), Array::from(pivot))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(lower), Array::from(upper), Array::from(pivot))
     }
 }
 
@@ -147,15 +142,13 @@ pub fn lu(input: &Array) -> Result<(Array, Array, Array), AfError> {
 /// An Array with permutation indices to map the input to the decomposition. Since, the input
 /// matrix is modified in place, only pivot values are returned.
 #[allow(unused_mut)]
-pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Result<Array, AfError> {
+pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Array {
     unsafe {
         let mut pivot: i64 = 0;
         let err_val = af_lu_inplace(&mut pivot as MutAfArray, input.get() as AfArray,
                                     is_lapack_piv as c_int);
-        match err_val {
-            0 => Ok(Array::from(pivot)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(pivot)
     }
 }
 
@@ -176,17 +169,15 @@ pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Result<Array, AfErr
 /// The third Array will contain additional information needed for solving a least squares problem
 /// using q and r
 #[allow(unused_mut)]
-pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
+pub fn qr(input: &Array) -> (Array, Array, Array) {
     unsafe {
         let mut q: i64 = 0;
         let mut r: i64 = 0;
         let mut tau: i64 = 0;
         let err_val = af_qr(&mut q as MutAfArray, &mut r as MutAfArray,
                             &mut tau as MutAfArray, input.get() as AfArray);
-        match err_val {
-            0 => Ok((Array::from(q), Array::from(r), Array::from(tau))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(q), Array::from(r), Array::from(tau))
     }
 }
 
@@ -200,14 +191,12 @@ pub fn qr(input: &Array) -> Result<(Array, Array, Array), AfError> {
 ///
 /// An Array with additional information needed for unpacking the data.
 #[allow(unused_mut)]
-pub fn qr_inplace(input: &mut Array) -> Result<Array, AfError> {
+pub fn qr_inplace(input: &mut Array) -> Array {
     unsafe {
         let mut tau: i64 = 0;
         let err_val = af_qr_inplace(&mut tau as MutAfArray, input.get() as AfArray);
-        match err_val {
-            0 => Ok(Array::from(tau)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(tau)
     }
 }
 
@@ -227,16 +216,14 @@ pub fn qr_inplace(input: &mut Array) -> Result<Array, AfError> {
 /// If the integer is 0, it means the cholesky decomposition passed. Otherwise, it will contain the rank at
 /// which the decomposition failed.
 #[allow(unused_mut)]
-pub fn cholesky(input: &Array, is_upper: bool) -> Result<(Array, i32), AfError> {
+pub fn cholesky(input: &Array, is_upper: bool) -> (Array, i32) {
     unsafe {
         let mut temp: i64 = 0;
         let mut info: i32 = 0;
         let err_val = af_cholesky(&mut temp as MutAfArray, &mut info as *mut c_int,
                                   input.get() as AfArray, is_upper as c_int);
-        match err_val {
-            0 => Ok((Array::from(temp), info)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(temp), info)
     }
 }
 
@@ -252,15 +239,13 @@ pub fn cholesky(input: &Array, is_upper: bool) -> Result<(Array, i32), AfError> 
 /// A signed 32-bit integer. If the integer is 0, it means the cholesky decomposition passed. Otherwise,
 /// it will contain the rank at which the decomposition failed.
 #[allow(unused_mut)]
-pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> Result<i32, AfError> {
+pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> i32 {
     unsafe {
         let mut info: i32 = 0;
         let err_val = af_cholesky_inplace(&mut info as *mut c_int, input.get() as AfArray,
                                           is_upper as c_int);
-        match err_val {
-            0 => Ok(info),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        info
     }
 }
 
@@ -278,15 +263,13 @@ pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> Result<i32, AfErro
 ///
 /// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
-pub fn solve(a: &Array, b: &Array, options: MatProp) -> Result<Array, AfError> {
+pub fn solve(a: &Array, b: &Array, options: MatProp) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_solve(&mut temp as MutAfArray, a.get() as AfArray,
                                b.get() as AfArray, to_u32(options) as c_uint);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -306,15 +289,13 @@ pub fn solve(a: &Array, b: &Array, options: MatProp) -> Result<Array, AfError> {
 /// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
 pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
-                options: MatProp) -> Result<Array, AfError> {
+                options: MatProp) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_solve_lu(&mut temp as MutAfArray, a.get() as AfArray, piv.get() as AfArray,
                     b.get() as AfArray, to_u32(options) as c_uint);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -331,14 +312,12 @@ pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
 ///
 /// An Array with values of the inverse of input matrix.
 #[allow(unused_mut)]
-pub fn inverse(input: &Array, options: MatProp) -> Result<Array, AfError> {
+pub fn inverse(input: &Array, options: MatProp) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_inverse(&mut temp as MutAfArray, input.get() as AfArray, to_u32(options) as c_uint);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -353,14 +332,12 @@ pub fn inverse(input: &Array, options: MatProp) -> Result<Array, AfError> {
 ///
 /// An unsigned 32-bit integer which is the rank of the input matrix.
 #[allow(unused_mut)]
-pub fn rank(input: &Array, tol: f64) -> Result<u32, AfError> {
+pub fn rank(input: &Array, tol: f64) -> u32 {
     unsafe {
         let mut temp: u32 = 0;
         let err_val = af_rank(&mut temp as *mut c_uint, input.get() as AfArray, tol as c_double);
-        match err_val {
-            0 => Ok(temp),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 }
 
@@ -376,15 +353,13 @@ pub fn rank(input: &Array, tol: f64) -> Result<u32, AfError> {
 ///
 /// If the input matrix is non-complex type, only first values of tuple contains the result.
 #[allow(unused_mut)]
-pub fn det(input: &Array) -> Result<(f64, f64), AfError> {
+pub fn det(input: &Array) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
         let mut imag: f64 = 0.0;
         let err_val = af_det(&mut real as MutDouble, &mut imag as MutDouble, input.get() as AfArray);
-        match err_val {
-            0 => Ok((real, imag)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (real, imag)
     }
 }
 
@@ -403,14 +378,29 @@ pub fn det(input: &Array) -> Result<(f64, f64), AfError> {
 ///
 /// A 64-bit floating point value that contains the norm of input matrix.
 #[allow(unused_mut)]
-pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> Result<f64, AfError> {
+pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> f64 {
     unsafe {
         let mut out: f64 = 0.0;
         let err_val = af_norm(&mut out as MutDouble, input.get() as AfArray, ntype as uint8_t,
                               p as c_double, q as c_double);
-        match err_val {
-            0 => Ok(out),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        out
+    }
+}
+
+/// Function to check if lapack support is available
+///
+/// # Parameters
+///
+/// None
+///
+/// # Return Values
+///
+/// Return a boolean indicating if ArrayFire was compiled with lapack support
+pub fn is_lapack_available() -> bool {
+    unsafe {
+        let mut temp: i32 = 0;
+        af_is_lapack_available(&mut temp as *mut c_int);
+        temp > 0 // Return boolean fla
     }
 }

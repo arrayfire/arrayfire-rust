@@ -1,7 +1,7 @@
 [package]
 name          = "arrayfire"
 description   = "ArrayFire is a high performance software library for parallel computing with an easy-to-use API. Its array based function set makes parallel programming simple. ArrayFire's multiple backends (CUDA, OpenCL and native CPU) make it platform independent and highly portable. A few lines of code in ArrayFire can replace dozens of lines of parallel computing code, saving you valuable time and lowering development costs. This crate provides Rust bindings for ArrayFire library."
-version       = "3.2.0"
+version       = "3.3.2"
 documentation = "http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html"
 homepage      = "https://github.com/arrayfire/arrayfire"
 repository    = "https://github.com/arrayfire/arrayfire-rust"
@@ -10,14 +10,18 @@ readme        = "./README.md"
 keywords      = ["CUDA", "OpenCL", "ArrayFire", "Compute"]
 license       = "BSD-3-Clause"
 build         = "build.rs"
+exclude = [
+    "arrayfire/*",
+]
 
 [dependencies]
-libc = "0.1.10"
-num  = "0.1.27"
-time = "0.1.32"
+libc = "0.2.11"
+num  = "0.1.32"
+lazy_static = "0.2.1"
 
-[build-dependencies.rustc-serialize]
-rustc-serialize = "0.3.16"
+[build-dependencies]
+rustc-serialize = "0.3.19"
+rustc_version = "0.1.7"
 
 [lib]
 name = "arrayfire"

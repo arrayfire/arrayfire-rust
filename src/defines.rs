@@ -4,7 +4,7 @@ use std::fmt::Error as FmtError;
 
 /// Error codes
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum AfError {
     /// The function returned successfully
     SUCCESS            =   0,
@@ -16,7 +16,7 @@ pub enum AfError {
     /// There was an error with the runtime environment
     ERR_RUNTIME        = 103,
     // 200-299 Errors in input parameters
-    /// The input array is not a valid af_array object
+    /// The input array is not a valid Array object
     ERR_INVALID_ARRAY  = 201,
     /// One of the function arguments is incorrect
     ERR_ARG            = 202,
@@ -28,6 +28,8 @@ pub enum AfError {
     ERR_DIFF_TYPE      = 205,
     /// Function does not support GFOR / batch mode
     ERR_BATCH          = 207,
+    /// Input does not belong to the current device
+    ERR_DEVICE         = 208,
     // 300-399 Errors for missing software features
     /// The option is not supported
     ERR_NOT_SUPPORTED  = 301,
@@ -47,26 +49,27 @@ pub enum AfError {
     ERR_UNKNOWN        = 999
 }
 
+/// Compute/Acceleration Backend
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Backend {
     /// Default backend order: OpenCL -> CUDA -> CPU
-    AF_BACKEND_DEFAULT = 0,
+    DEFAULT = 0,
     /// CPU a.k.a sequential algorithms
-    AF_BACKEND_CPU     = 1,
+    CPU     = 1,
     /// CUDA Compute Backend
-    AF_BACKEND_CUDA    = 2,
+    CUDA    = 2,
     /// OpenCL Compute Backend
-    AF_BACKEND_OPENCL  = 4
+    OPENCL  = 4
 }
 
 impl Display for Backend {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
         let text = match *self {
-            Backend::AF_BACKEND_OPENCL  => "OpenCL",
-            Backend::AF_BACKEND_CUDA    => "Cuda",
-            Backend::AF_BACKEND_CPU     => "CPU",
-            Backend::AF_BACKEND_DEFAULT => "Default",
+            Backend::OPENCL  => "OpenCL",
+            Backend::CUDA    => "Cuda",
+            Backend::CPU     => "CPU",
+            Backend::DEFAULT => "Default",
         };
         write!(f, "{}", text)
     }
@@ -81,29 +84,31 @@ impl Display for AfError {
 impl Error for AfError {
     fn description(&self) -> &str {
         match *self {
-            AfError::SUCCESS => "Function returned successfully",
-            AfError::ERR_NO_MEM => "The system or device ran out of memory",
-            AfError::ERR_DRIVER => "Device driver error",
-            AfError::ERR_RUNTIME => "Error in runtime environment",
-            AfError::ERR_INVALID_ARRAY => "Input is not a valid Array Object",
-            AfError::ERR_ARG => "One of the function arguments is incorrect",
-            AfError::ERR_SIZE => "The size is incorrect",
-            AfError::ERR_TYPE => "The type is not supported by this function",
-            AfError::ERR_DIFF_TYPE => "The type of input arrays are not compatible",
-            AfError::ERR_BATCH => "Function does not support GFOR / batch mode",
-            AfError::ERR_NOT_SUPPORTED => "The option is not supported",
+            AfError::SUCCESS            => "Function returned successfully",
+            AfError::ERR_NO_MEM         => "System or Device ran out of memory",
+            AfError::ERR_DRIVER         => "Error in the device driver",
+            AfError::ERR_RUNTIME        => "Error with the runtime environment",
+            AfError::ERR_INVALID_ARRAY  => "Iput Array is not a valid object",
+            AfError::ERR_ARG            => "One of the function arguments is incorrect",
+            AfError::ERR_SIZE           => "Size is incorrect",
+            AfError::ERR_TYPE           => "Type is not suppported by this function",
+            AfError::ERR_DIFF_TYPE      => "Type of the input arrays are not compatible",
+            AfError::ERR_BATCH          => "Function does not support GFOR / batch mode",
+            AfError::ERR_DEVICE         => "Input does not belong to the current device",
+            AfError::ERR_NOT_SUPPORTED  => "Unsupported operation/parameter option",
             AfError::ERR_NOT_CONFIGURED => "This build of ArrayFire does not support this feature",
-            AfError::ERR_NO_DBL => "This device does not support double",
-            AfError::ERR_NO_GFX => "This build of ArrayFire was not built with graphics or this device does not support graphics",
-            AfError::ERR_INTERNAL => "There was an internal error in either ArrayFire or upstream project",
-            AfError::ERR_UNKNOWN => "Unkown Error",
+            AfError::ERR_NO_DBL         => "This device does not support double",
+            AfError::ERR_NO_GFX         => "This build of ArrayFire has no graphics support",
+            AfError::ERR_INTERNAL       => "Eror either in ArrayFire or in a project upstream",
+            AfError::ERR_UNKNOWN        => "Unknown Error",
         }
     }
 }
 
 /// Types of Array data type
-#[derive(Copy, Clone)]
-pub enum Aftype {
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DType {
     /// 32 bit float
     F32 = 0,
     /// 32 bit complex float
@@ -131,7 +136,8 @@ pub enum Aftype {
 }
 
 /// Dictates the interpolation method to be used by a function
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
     NEAREST = 0,
@@ -144,7 +150,8 @@ pub enum InterpType {
 }
 
 /// Helps determine how to pad kernels along borders
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BorderType {
     /// Pad using zeros
     ZERO = 0,
@@ -153,7 +160,8 @@ pub enum BorderType {
 }
 
 /// Used by `regions` function to identify type of connectivity
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
     FOUR = 4,
@@ -162,7 +170,8 @@ pub enum Connectivity {
 }
 
 /// Helps determine the size of output of convolution
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
     DEFAULT = 0,
@@ -171,7 +180,8 @@ pub enum ConvMode {
 }
 
 /// Helps determine if convolution is in Spatial or Frequency domain
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
     AUTO     = 0,
@@ -182,7 +192,8 @@ pub enum ConvDomain {
 }
 
 /// Error metric used by `matchTemplate` function
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatchType {
     /// Sum of Absolute Differences
     SAD = 0,
@@ -205,7 +216,8 @@ pub enum MatchType {
 }
 
 /// Identify the color space of given image(Array)
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorSpace {
     /// Grayscale color space
     GRAY = 0,
@@ -216,7 +228,8 @@ pub enum ColorSpace {
 }
 
 /// Helps determine the type of a Matrix
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatProp {
     /// Default (no-op)
     NONE,
@@ -244,7 +257,8 @@ pub enum MatProp {
 
 /// Norm type
 #[allow(non_camel_case_types)]
-#[derive(Copy, Clone)]
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum NormType {
     /// Treats input as a vector and return sum of absolute values
     VECTOR_1    = 0,
@@ -266,7 +280,7 @@ pub enum NormType {
 
 /// Dictates what color map is used for Image rendering
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorMap {
     /// Default color map is grayscale range [0-1]
     DEFAULT = 0,
@@ -286,7 +300,7 @@ pub enum ColorMap {
 
 /// YCbCr Standards
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum YCCStd {
     /// ITU-R BT.601 (formerly CCIR 601) standard
     YCC_601 = 601,
@@ -298,10 +312,24 @@ pub enum YCCStd {
 
 /// Homography type
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HomographyType {
     /// RANdom SAmple Consensus algorithm
     RANSAC = 0,
     /// Least Median of Squares
     LMEDS  = 1,
+}
+
+/// Plotting markers
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum MarkerType {
+    NONE     = 0,
+    POINT    = 1,
+    CIRCLE   = 2,
+    SQUARE   = 3,
+    TRIANGLE = 4,
+    CROSS    = 5,
+    PLUS     = 6,
+    STAR     = 7
 }

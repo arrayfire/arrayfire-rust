@@ -2,6 +2,9 @@
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
 
+#[macro_use]
+extern crate lazy_static;
+
 pub use array::Array;
 pub use array::{print};
 mod array;
@@ -23,7 +26,7 @@ pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root
 pub use arith::{cbrt, factorial, tgamma, lgamma, iszero, isinf, isnan};
 mod arith;
 
-pub use backend::{set_backend, get_backend_count, get_available_backends};
+pub use backend::{set_backend, get_backend_count, get_available_backends, get_active_backend};
 mod backend;
 
 pub use blas::{matmul, dot, transpose, transpose_inplace};
@@ -37,16 +40,21 @@ pub use data::{reorder, shift, moddims, flat, flip};
 pub use data::{select, selectl, selectr, replace, replace_scalar};
 mod data;
 
-pub use device::{get_version, info, device_count, is_double_available, set_device, get_device, sync};
+pub use device::{get_version, info, init, device_count, is_double_available, set_device, get_device};
+pub use device::{device_mem_info, print_mem_info, set_mem_step_size, get_mem_step_size, device_gc, sync};
 mod device;
 
-pub use defines::{Aftype, AfError, Backend, ColorMap, YCCStd, HomographyType};
+pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
+pub use defines::{MarkerType};
 mod defines;
 
 pub use dim4::Dim4;
 mod dim4;
+
+pub use error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
+mod error;
 
 pub use index::{Indexer, index, row, rows, col, cols, slice, slices,
                 set_row, set_rows, set_col, set_cols, set_slice, set_slices,
@@ -65,12 +73,14 @@ pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
 pub use image::{gradient, histogram, hist_equal, regions};
 pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
 pub use image::{bilateral, mean_shift, medfilt, sobel};
-pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb};
+pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb, is_imageio_available, transform_coords};
 mod image;
 
 pub use lapack::{svd, lu, qr, cholesky, solve, solve_lu, inverse, det, rank, norm};
-pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace};
+pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace, is_lapack_available};
 mod lapack;
+mod macros;
+mod num;
 
 pub use signal::{approx1, approx2};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};
@@ -88,6 +98,7 @@ pub use statistics::{var_all, mean_all, stdev_all, median_all};
 pub use statistics::{mean_all_weighted, var_all_weighted};
 mod statistics;
 
+pub use util::{HasAfEnum};
 mod util;
 
 pub use vision::Features;

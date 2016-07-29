@@ -2,6 +2,7 @@ extern crate libc;
 
 use array::Array;
 use defines::AfError;
+use error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_double};
 
 type MutAfArray = *mut self::libc::c_longlong;
@@ -60,15 +61,13 @@ macro_rules! dim_reduce_func_def {
         ///
         /// Reduced Array
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, dim: i32) -> Result<Array, AfError> {
+        pub fn $fn_name(input: &Array, dim: i32) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         input.get() as AfArray, dim as c_int);
-                match err_val {
-                    0 => Ok(Array::from(temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                Array::from(temp)
             }
         }
     )
@@ -99,15 +98,13 @@ dim_reduce_func_def!(diff2, af_diff2);
 /// # Return Values
 ///
 /// Reduced Array
-pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Result<Array, AfError> {
+pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
                                  dim as c_int, nanval as c_double);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -124,15 +121,13 @@ pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Result<Array, AfError> {
 /// # Return Values
 ///
 /// Reduced Array
-pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Result<Array, AfError> {
+pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
                                      dim as c_int, nanval as c_double);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -149,16 +144,14 @@ macro_rules! all_reduce_func_def {
         /// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
         /// zero.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Result<(f64, f64), AfError> {
+        pub fn $fn_name(input: &Array) -> (f64, f64) {
             unsafe {
                 let mut real: f64 = 0.0;
                 let mut imag: f64 = 0.0;
                 let err_val = $ffi_name(&mut real as MutDouble, &mut imag as MutDouble,
                                         input.get() as AfArray);
-                match err_val {
-                    0 => Ok((real, imag)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                (real, imag)
             }
         }
     )
@@ -186,16 +179,14 @@ all_reduce_func_def!(count_all, af_count_all);
 ///
 /// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
 /// zero.
-pub fn sum_nan_all(input: &Array, val: f64) -> Result<(f64, f64), AfError> {
+pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
         let mut imag: f64 = 0.0;
         let err_val = af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
                                      input.get() as AfArray, val as c_double);
-        match err_val {
-            0 => Ok((real, imag)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (real, imag)
     }
 }
 
@@ -213,16 +204,14 @@ pub fn sum_nan_all(input: &Array, val: f64) -> Result<(f64, f64), AfError> {
 ///
 /// A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
 /// zero.
-pub fn product_nan_all(input: &Array, val: f64) -> Result<(f64, f64), AfError> {
+pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
     unsafe {
         let mut real: f64 = 0.0;
         let mut imag: f64 = 0.0;
         let err_val = af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
                                          input.get() as AfArray, val as c_double);
-        match err_val {
-            0 => Ok((real, imag)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (real, imag)
     }
 }
 
@@ -241,16 +230,14 @@ macro_rules! dim_ireduce_func_def {
         ///
         /// The indices Array has the index of the result element along the reduction dimension.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, dim: i32) -> Result<(Array, Array), AfError> {
+        pub fn $fn_name(input: &Array, dim: i32) -> (Array, Array) {
             unsafe {
                 let mut temp: i64 = 0;
                 let mut idx: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, &mut idx as MutAfArray,
                                         input.get() as AfArray, dim as c_int);
-                match err_val {
-                    0 => Ok((Array::from(temp), Array::from(idx))),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                (Array::from(temp), Array::from(idx))
             }
         }
     )
@@ -275,17 +262,15 @@ macro_rules! all_ireduce_func_def {
         ///
         /// The third value of triplet is the index of result element from reduction operation.
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> Result<(f64, f64, u32), AfError> {
+        pub fn $fn_name(input: &Array) -> (f64, f64, u32) {
             unsafe {
                 let mut real: f64 = 0.0;
                 let mut imag: f64 = 0.0;
                 let mut temp: u32 = 0;
                 let err_val = $ffi_name(&mut real as MutDouble, &mut imag as MutDouble,
                                         &mut temp as MutUint, input.get() as AfArray);
-                match err_val {
-                    0 => Ok((real, imag, temp)),
-                    _ => Err(AfError::from(err_val)),
-                }
+                HANDLE_ERROR(AfError::from(err_val));
+                (real, imag, temp)
             }
         }
     )
@@ -306,14 +291,12 @@ all_ireduce_func_def!(imax_all, af_imax_all);
 ///
 /// Array of indices where the input Array has non-zero values.
 #[allow(unused_mut)]
-pub fn locate(input: &Array) -> Result<Array, AfError> {
+pub fn locate(input: &Array) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_where(&mut temp as MutAfArray, input.get() as AfArray);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -331,15 +314,13 @@ pub fn locate(input: &Array) -> Result<Array, AfError> {
 ///
 /// Sorted Array.
 #[allow(unused_mut)]
-pub fn sort(input: &Array, dim: u32, ascending: bool) -> Result<Array, AfError> {
+pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_sort(&mut temp as MutAfArray, input.get() as AfArray,
-                dim as c_uint, ascending as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+                              dim as c_uint, ascending as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -359,17 +340,15 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Result<Array, AfError> 
 ///
 /// The second Array contains the original indices of the sorted values.
 #[allow(unused_mut)]
-pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> Result<(Array, Array), AfError> {
+pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
         let mut idx: i64 = 0;
         let err_val = af_sort_index(&mut temp as MutAfArray, &mut idx as MutAfArray,
                                     input.get() as AfArray,
                                     dim as c_uint, ascending as c_int);
-        match err_val {
-            0 => Ok((Array::from(temp), Array::from(idx))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(temp), Array::from(idx))
     }
 }
 
@@ -393,17 +372,15 @@ pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> Result<(Array, Ar
 /// The second Array contains the sorted values.
 #[allow(unused_mut)]
 pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
-                   ascending: bool) -> Result<(Array, Array), AfError> {
+                   ascending: bool) -> (Array, Array) {
     unsafe {
         let mut temp: i64 = 0;
         let mut temp2: i64 = 0;
         let err_val = af_sort_by_key(&mut temp as MutAfArray, &mut temp2 as MutAfArray,
                                      keys.get() as AfArray, vals.get() as AfArray,
                                      dim as c_uint, ascending as c_int);
-        match err_val {
-            0 => Ok((Array::from(temp), Array::from(temp2))),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(temp), Array::from(temp2))
     }
 }
 
@@ -418,15 +395,13 @@ pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
 ///
 /// An Array of unique values from the input Array.
 #[allow(unused_mut)]
-pub fn set_unique(input: &Array, is_sorted: bool) -> Result<Array, AfError> {
+pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_set_unique(&mut temp as MutAfArray, input.get() as AfArray,
                                     is_sorted as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -442,15 +417,13 @@ pub fn set_unique(input: &Array, is_sorted: bool) -> Result<Array, AfError> {
 ///
 /// An Array with union of the input sets
 #[allow(unused_mut)]
-pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Result<Array, AfError> {
+pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_set_union(&mut temp as MutAfArray, first.get() as AfArray,
-                     second.get() as AfArray, is_unique as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+                                   second.get() as AfArray, is_unique as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
 
@@ -466,14 +439,12 @@ pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Result<Array
 ///
 /// An Array with intersection of the input sets
 #[allow(unused_mut)]
-pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Result<Array, AfError> {
+pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
     unsafe {
         let mut temp: i64 = 0;
         let err_val = af_set_intersect(&mut temp as MutAfArray, first.get() as AfArray,
-                         second.get() as AfArray, is_unique as c_int);
-        match err_val {
-            0 => Ok(Array::from(temp)),
-            _ => Err(AfError::from(err_val)),
-        }
+                                       second.get() as AfArray, is_unique as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }

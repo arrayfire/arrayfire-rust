@@ -1,12 +1,8 @@
-use defines::AfError;
-use defines::Aftype;
-use defines::InterpType;
-use defines::ConvMode;
-use defines::ConvDomain;
-use defines::MatProp;
-use defines::MatchType;
-use defines::ColorMap;
+extern crate num;
+
+use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
 use std::mem;
+use self::num::Complex;
 
 impl From<i32> for AfError {
     fn from(t: i32) -> AfError {
@@ -15,37 +11,37 @@ impl From<i32> for AfError {
     }
 }
 
-impl From<u8> for Aftype {
-    fn from(t: u8) -> Aftype {
-        assert!(Aftype::F32 as u8 <= t && t <= Aftype::U64 as u8);
+impl From<i32> for DType {
+    fn from(t: i32) -> DType {
+        assert!(DType::F32 as i32 <= t && t <= DType::U64 as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for InterpType {
-    fn from(t: u8) -> InterpType {
-        assert!(InterpType::NEAREST as u8 <= t && t <= InterpType::CUBIC as u8);
+impl From<i32> for InterpType {
+    fn from(t: i32) -> InterpType {
+        assert!(InterpType::NEAREST as i32 <= t && t <= InterpType::CUBIC as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for ConvMode {
-    fn from(t: u8) -> ConvMode {
-        assert!(ConvMode::DEFAULT as u8 <= t && t <= ConvMode::EXPAND as u8);
+impl From<i32> for ConvMode {
+    fn from(t: i32) -> ConvMode {
+        assert!(ConvMode::DEFAULT as i32 <= t && t <= ConvMode::EXPAND as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for ConvDomain {
-    fn from(t: u8) -> ConvDomain {
-        assert!(ConvDomain::AUTO as u8 <= t && t <= ConvDomain::FREQUENCY as u8);
+impl From<i32> for ConvDomain {
+    fn from(t: i32) -> ConvDomain {
+        assert!(ConvDomain::AUTO as i32 <= t && t <= ConvDomain::FREQUENCY as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<u8> for MatchType {
-    fn from(t: u8) -> MatchType {
-        assert!(MatchType::SAD as u8 <= t && t <= MatchType::SHD as u8);
+impl From<i32> for MatchType {
+    fn from(t: i32) -> MatchType {
+        assert!(MatchType::SAD as i32 <= t && t <= MatchType::SHD as i32);
         unsafe { mem::transmute(t) }
     }
 }
@@ -72,3 +68,52 @@ impl From<i32> for ColorMap {
         unsafe { mem::transmute(t) }
     }
 }
+
+/// Types of the data that can be generated using ArrayFire data generation functions.
+///
+/// The trait HasAfEnum has been defined internally for the following types. We strongly suggest
+/// not to implement this trait in your program for user defined types because ArrayFire functions
+/// will only work for the following data types currently. Any such trait implementation for types
+/// other than the ones listed below will result in undefined behavior.
+///
+/// - f32
+/// - f64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - bool
+/// - i32
+/// - u32
+/// - u8
+/// - i64
+/// - u64
+/// - i16
+/// - u16
+///
+pub trait HasAfEnum {
+    fn get_af_dtype() -> DType;
+}
+
+macro_rules! impl_has_af_enum {
+    ($rust_t: ty, $af_dtype: expr) => (
+        impl HasAfEnum for $rust_t {
+            fn get_af_dtype() -> DType {
+                $af_dtype
+            }
+        }
+    )
+}
+
+impl_has_af_enum!(f32, DType::F32);
+impl_has_af_enum!(Complex<f32>, DType::C32);
+impl_has_af_enum!(f64, DType::F64);
+impl_has_af_enum!(Complex<f64>, DType::C64);
+// FIXME: Rust bool may become incompatible in memory layout with C-ABI
+// Currently, it is of size 1-byte
+impl_has_af_enum!(bool, DType::B8);
+impl_has_af_enum!(i32, DType::S32);
+impl_has_af_enum!(u32, DType::U32);
+impl_has_af_enum!(u8, DType::U8);
+impl_has_af_enum!(i64, DType::S64);
+impl_has_af_enum!(u64, DType::U64);
+impl_has_af_enum!(i16, DType::S16);
+impl_has_af_enum!(u16, DType::U16);

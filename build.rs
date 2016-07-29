@@ -1,5 +1,6 @@
 /* -- Lots of reuse from: https://github.com/alexcrichton/git2-rs/blob/master/libgit2-sys/build.rs */
 extern crate rustc_serialize;
+extern crate rustc_version;
 
 use std::env;
 use std::fs;
@@ -449,5 +450,9 @@ fn main() {
     }
     for backend_dir in backend_dirs.iter() {
         println!("cargo:rustc-link-search=native={}", backend_dir);
+    }
+    // Directly check a semver version requirment
+    if rustc_version::version_matches(">= 1.8.0") {
+        println!("cargo:rustc-cfg=op_assign");
     }
 }
