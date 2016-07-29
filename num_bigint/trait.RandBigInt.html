@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num_bigint</a>::<wbr><a class='trait' href=''>RandBigInt</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-1543' class='srclink' href='../src/num_bigint/lib.rs.html#2661-2681' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1502' class='srclink' href='../src/num_bigint/lib.rs.html#2700-2720' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait RandBigInt {
     fn <a href='#tymethod.gen_biguint' class='fnname'>gen_biguint</a>(&amp;mut self, bit_size: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='struct' href='../num_bigint/struct.BigUint.html' title='num_bigint::BigUint'>BigUint</a>;
     fn <a href='#tymethod.gen_bigint' class='fnname'>gen_bigint</a>(&amp;mut self, bit_size: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='struct' href='../num_bigint/struct.BigInt.html' title='num_bigint::BigInt'>BigInt</a>;
@@ -69,9 +70,10 @@ the upper bound is not greater than the lower bound.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    </ul><script type="text/javascript" async
-                              src="../implementors/num_bigint/trait.RandBigInt.js">
-                      </script></section>
+    <li><code>impl&lt;R: <a class='trait' href='../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt; RandBigInt for R</code></li>
+</ul><script type="text/javascript" async
+                         src="../implementors/num_bigint/trait.RandBigInt.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -94,6 +96,8 @@ the upper bound is not greater than the lower bound.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

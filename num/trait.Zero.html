@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num</a>::<wbr><a class='trait' href=''>Zero</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-16' class='srclink' href='../num_traits/identities/trait.Zero.html?gotosrc=16' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-17' class='srclink' href='../num_traits/identities/trait.Zero.html?gotosrc=17' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Zero: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;Self, Output=Self&gt; {
     fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self;
     fn <a href='#tymethod.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
@@ -69,25 +70,25 @@ external mutable state, for example values stored in TLS or in
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='struct' href='../num/bigint/struct.BigUint.html' title='num::bigint::BigUint'>BigUint</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='struct' href='../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></li>
-<li><code>impl&lt;T&gt; <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='struct' href='../num/rational/struct.Ratio.html' title='num::rational::Ratio'>Ratio</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/integer/trait.Integer.html' title='num::integer::Integer'>Integer</a></span></code></li>
-<li><code>impl&lt;T&gt; <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='struct' href='../num/complex/struct.Complex.html' title='num::complex::Complex'>Complex</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/traits/trait.Num.html' title='num::traits::Num'>Num</a></span></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.isize.html'>isize</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
-<li><code>impl <a class='trait' href='../num/traits/trait.Zero.html' title='num::traits::Zero'>Zero</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
+    <li><code>impl Zero for <a class='struct' href='../num/struct.BigUint.html' title='num::BigUint'>BigUint</a></code></li>
+<li><code>impl Zero for <a class='struct' href='../num/struct.BigInt.html' title='num::BigInt'>BigInt</a></code></li>
+<li><code>impl&lt;T&gt; Zero for <a class='struct' href='../num_rational/struct.Ratio.html' title='num_rational::Ratio'>Ratio</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Integer.html' title='num::Integer'>Integer</a></span></code></li>
+<li><code>impl&lt;T&gt; Zero for <a class='struct' href='../num/struct.Complex.html' title='num::Complex'>Complex</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Num.html' title='num::Num'>Num</a></span></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.isize.html'>isize</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
+<li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
 </ul><script type="text/javascript" async
-                              src="../implementors/num_traits/identities/trait.Zero.js">
-                      </script></section>
+                         src="../implementors/num_traits/identities/trait.Zero.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -110,6 +111,8 @@ external mutable state, for example values stored in TLS or in
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

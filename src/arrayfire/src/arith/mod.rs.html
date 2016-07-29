@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -679,11 +680,11 @@
             <span class='kw'>let</span> <span class='ident'>lhs</span> <span class='op'>=</span> <span class='ident'>arg1</span>.<span class='ident'>convert</span>();
             <span class='kw'>let</span> <span class='ident'>rhs</span> <span class='op'>=</span> <span class='ident'>arg2</span>.<span class='ident'>convert</span>();
             <span class='kw'>match</span> (<span class='ident'>lhs</span>.<span class='ident'>is_scalar</span>(), <span class='ident'>rhs</span>.<span class='ident'>is_scalar</span>()) {
-                ( <span class='boolval'>true</span>, <span class='boolval'>false</span>) <span class='op'>=&gt;</span> {
+                ( <span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>lhs</span>, <span class='ident'>rhs</span>.<span class='ident'>dims</span>());
                     <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>(<span class='kw-2'>&amp;</span><span class='ident'>l</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='ident'>batch</span>)
                 },
-                (<span class='boolval'>false</span>,  <span class='boolval'>true</span>) <span class='op'>=&gt;</span> {
+                (<span class='boolvalue'>false</span>,  <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='ident'>lhs</span>.<span class='ident'>dims</span>());
                     <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>(<span class='kw-2'>&amp;</span><span class='ident'>lhs</span>, <span class='kw-2'>&amp;</span><span class='ident'>r</span>, <span class='ident'>batch</span>)
                 },
@@ -784,7 +785,7 @@
 <span class='kw'>mod</span> <span class='ident'>op_assign</span> {
 
 <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>assign_gen</span>};
 <span class='kw'>use</span> <span class='ident'>seq</span>::<span class='ident'>Seq</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
@@ -799,10 +800,10 @@
             <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
             <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Array</span>) {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idxrs</span> <span class='op'>=</span> <span class='ident'>Indexer</span>::<span class='ident'>new</span>();
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>));
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
                 <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>assign_gen</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>idxrs</span>,
-                                     <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='boolval'>false</span>));
+                                     <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='boolvalue'>false</span>));
                 <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='self'>self</span>, <span class='ident'>tmp</span>);
             }
         }
@@ -824,8 +825,8 @@
             <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
             <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Array</span>) {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idxrs</span> <span class='op'>=</span> <span class='ident'>Indexer</span>::<span class='ident'>new</span>();
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>));
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
                 <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>assign_gen</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>idxrs</span>, <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>));
                 <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='self'>self</span>, <span class='ident'>tmp</span>);
             }
@@ -862,6 +863,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

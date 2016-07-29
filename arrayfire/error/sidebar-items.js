@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["handle_error_general",""],["register_error_handler",""]],"type":[["ErrorCallback",""]]});
+initSidebarItems({"fn":[["handle_error_general",""],["register_error_handler","Register user provided error handler"]],"struct":[["Callback","Wrap ErrorCallback function pointer inside a structure to enable implementing Send, Sync traits on it."]],"type":[["ErrorCallback",""]]});

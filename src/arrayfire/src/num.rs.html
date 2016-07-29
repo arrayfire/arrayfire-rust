@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -89,16 +90,16 @@
 <span id="46">46</span>
 </pre><pre class='rust '>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Zero</span> {
-    <span class='kw'>fn</span> <span class='ident'>zero</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>zero</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>One</span> {
-    <span class='kw'>fn</span> <span class='ident'>one</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>one</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>zero_impl</span> {
     ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span>:<span class='ident'>expr</span> ) <span class='op'>=&gt;</span> (
-        <span class='kw'>impl</span> <span class='ident'>Zero</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='kw'>fn</span> <span class='ident'>zero</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span> } }
+        <span class='kw'>impl</span> <span class='ident'>Zero</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='kw'>fn</span> <span class='ident'>zero</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>z</span> } }
     )
 }
 
@@ -118,7 +119,7 @@
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>one_impl</span> {
     ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>o</span>:<span class='ident'>expr</span> ) <span class='op'>=&gt;</span> (
-        <span class='kw'>impl</span> <span class='ident'>One</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='kw'>fn</span> <span class='ident'>one</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>o</span> } }
+        <span class='kw'>impl</span> <span class='ident'>One</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='kw'>fn</span> <span class='ident'>one</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>o</span> } }
     )
 }
 
@@ -158,6 +159,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

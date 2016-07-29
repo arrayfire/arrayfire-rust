@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -174,37 +175,37 @@
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>DType</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>DType</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>DType</span>::<span class='ident'>F32</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>DType</span>::<span class='ident'>U64</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>DType</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>DType</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>DType</span>::<span class='ident'>F32</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>DType</span>::<span class='ident'>U64</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>t</span>) }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>InterpType</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>InterpType</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>InterpType</span>::<span class='ident'>NEAREST</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>InterpType</span>::<span class='ident'>CUBIC</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>InterpType</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>InterpType</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>InterpType</span>::<span class='ident'>NEAREST</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>InterpType</span>::<span class='ident'>CUBIC</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>t</span>) }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ConvMode</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>ConvMode</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>ConvMode</span>::<span class='ident'>DEFAULT</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>ConvMode</span>::<span class='ident'>EXPAND</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ConvMode</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>ConvMode</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>ConvMode</span>::<span class='ident'>DEFAULT</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>ConvMode</span>::<span class='ident'>EXPAND</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>t</span>) }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ConvDomain</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>ConvDomain</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>ConvDomain</span>::<span class='ident'>AUTO</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>ConvDomain</span>::<span class='ident'>FREQUENCY</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ConvDomain</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>ConvDomain</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>ConvDomain</span>::<span class='ident'>AUTO</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>ConvDomain</span>::<span class='ident'>FREQUENCY</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>t</span>) }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MatchType</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>MatchType</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>MatchType</span>::<span class='ident'>SAD</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>MatchType</span>::<span class='ident'>SHD</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MatchType</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>MatchType</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>MatchType</span>::<span class='ident'>SAD</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>&lt;=</span> <span class='ident'>t</span> <span class='op'>&amp;&amp;</span> <span class='ident'>t</span> <span class='op'>&lt;=</span> <span class='ident'>MatchType</span>::<span class='ident'>SHD</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>t</span>) }
     }
 }
@@ -304,6 +305,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

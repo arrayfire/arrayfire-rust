@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -111,7 +112,7 @@
 
 <span class='doccomment'>/// Default `Seq` spans all the elements along a dimension</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>One</span><span class='op'>+</span><span class='ident'>Zero</span><span class='op'>&gt;</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Seq</span> { <span class='ident'>begin</span>: <span class='ident'>One</span>::<span class='ident'>one</span>(), <span class='ident'>end</span>: <span class='ident'>One</span>::<span class='ident'>one</span>(), <span class='ident'>step</span>: <span class='ident'>Zero</span>::<span class='ident'>zero</span>() }
     }
 }
@@ -125,7 +126,7 @@
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Copy</span><span class='op'>&gt;</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Create a `Seq` that goes from `begin` to `end` at a step size of `step`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>begin</span>: <span class='ident'>T</span>, <span class='ident'>end</span>: <span class='ident'>T</span>, <span class='ident'>step</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>begin</span>: <span class='ident'>T</span>, <span class='ident'>end</span>: <span class='ident'>T</span>, <span class='ident'>step</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Seq</span> { <span class='ident'>begin</span>: <span class='ident'>begin</span>, <span class='ident'>end</span>: <span class='ident'>end</span>, <span class='ident'>step</span>: <span class='ident'>step</span>, }
     }
 
@@ -168,6 +169,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

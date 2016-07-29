@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -406,12 +407,12 @@
 <span class='doccomment'>/// * Number of buffers allocated</span>
 <span class='doccomment'>/// * Number of bytes locked</span>
 <span class='doccomment'>/// * Number of buffers locked</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_mem_info</span>() <span class='op'>-&gt;</span> (<span class='ident'>u64</span>, <span class='ident'>u64</span>, <span class='ident'>u64</span>, <span class='ident'>u64</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_mem_info</span>() <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>usize</span>, <span class='ident'>usize</span>, <span class='ident'>usize</span>) {
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o0</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o1</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o2</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o3</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o0</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o1</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o2</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o3</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_mem_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
                                          <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o1</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
                                          <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o2</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
@@ -456,7 +457,7 @@
 <span class='doccomment'>/// # Return Values</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// None</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='ident'>u64</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='ident'>usize</span>) {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_mem_step_size</span>(<span class='ident'>step_bytes</span> <span class='kw'>as</span> <span class='ident'>size_t</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
@@ -472,9 +473,9 @@
 <span class='doccomment'>/// # Return Values</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Returns is the size of minimum memory chunk in bytes</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_mem_step_size</span>() <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_mem_step_size</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_mem_step_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>temp</span>
@@ -503,7 +504,8 @@
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sync</span>(<span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
-}</pre>
+}
+</pre>
 </section>
     <section id='search' class="content hidden"></section>
 
@@ -527,6 +529,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

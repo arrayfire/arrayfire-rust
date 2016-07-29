@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
@@ -211,7 +212,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
 <span class='kw'>mod</span> <span class='ident'>dim4</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>ErrorCallback</span>, <span class='ident'>register_error_handler</span>, <span class='ident'>handle_error_general</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>Callback</span>, <span class='ident'>ErrorCallback</span>, <span class='ident'>register_error_handler</span>, <span class='ident'>handle_error_general</span>};
 <span class='kw'>mod</span> <span class='ident'>error</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>index</span>, <span class='ident'>row</span>, <span class='ident'>rows</span>, <span class='ident'>col</span>, <span class='ident'>cols</span>, <span class='ident'>slice</span>, <span class='ident'>slices</span>,
@@ -294,6 +295,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
