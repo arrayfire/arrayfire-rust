@@ -1,7 +1,7 @@
 extern crate libc;
 
 use array::Array;
-use defines::{AfError, BorderType, ColorSpace, Connectivity, InterpType, YCCStd};
+use defines::{AfError, BorderType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
 use error::HANDLE_ERROR;
 use util::HasAfEnum;
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
@@ -93,6 +93,9 @@ extern {
     fn af_rgb2ycbcr(out: MutAfArray, input: AfArray, stnd: c_int) -> c_int;
     fn af_is_image_io_available(out: *mut c_int) -> c_int;
     fn af_transform_coordinates(out: MutAfArray, tf: AfArray, d0: c_float, d1: c_float) -> c_int;
+
+    fn af_moments(out: MutAfArray, input: AfArray, moment: c_int) ->c_int;
+    fn af_moments_all(out: *mut c_double, input: AfArray, moment: c_int) ->c_int;
 }
 
 /// Calculate the gradients
@@ -1134,5 +1137,49 @@ pub fn transform_coords(tf: &Array, d0: f32, d1: f32) -> Array {
                                                d0 as c_float, d1 as c_float);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
+    }
+}
+
+/// Find Image moments
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `moment` is the type of moment to be computed, takes a value of
+/// [enum](./enum.MomentType.html)
+///
+/// # Return Values
+///
+/// Moments Array
+pub fn moments(input: &Array, moment: MomentType) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_moments(&mut temp as MutAfArray,
+                                 input.get() as AfArray,
+                                 moment as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Find Image moment for whole image
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `moment` is the type of moment to be computed, takes a value of
+/// [enum](./enum.MomentType.html)
+///
+/// # Return Values
+///
+/// Moment value of the whole image
+pub fn moments_all(input: &Array, moment: MomentType) -> f64 {
+    unsafe {
+        let mut temp: f64 = 0.0;
+        let err_val = af_moments_all(&mut temp as *mut c_double,
+                                     input.get() as AfArray,
+                                     moment as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 }

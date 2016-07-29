@@ -47,7 +47,7 @@ mod device;
 pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
-pub use defines::{MarkerType};
+pub use defines::{MarkerType, MomentType};
 mod defines;
 
 pub use dim4::Dim4;
@@ -74,6 +74,7 @@ pub use image::{gradient, histogram, hist_equal, regions};
 pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
 pub use image::{bilateral, mean_shift, medfilt, sobel};
 pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb, is_imageio_available, transform_coords};
+pub use image::{moments, moments_all};
 mod image;
 
 pub use lapack::{svd, lu, qr, cholesky, solve, solve_lu, inverse, det, rank, norm};

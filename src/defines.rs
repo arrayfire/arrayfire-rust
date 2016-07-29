@@ -333,3 +333,14 @@ pub enum MarkerType {
     PLUS     = 6,
     STAR     = 7
 }
+
+/// Image moment types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum MomentType {
+    M00 = 1,    // 1<<0
+    M01 = 2,    // 1<<1
+    M10 = 4,    // 1<<2
+    M11 = 8,    // 1<<3
+    FIRST_ORDER = 1<<0 | 1<<1 | 1<<2 | 1<<3
+}
