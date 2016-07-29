@@ -22,23 +22,48 @@ unsafe impl<'cblifetime> Send for Callback<'cblifetime> {}
 unsafe impl<'cblifetime> Sync for Callback<'cblifetime> {}
 
 
-pub static DEFAULT_HANDLE_ERROR: &'static ErrorCallback = &handle_error_general;
+pub const DEFAULT_HANDLE_ERROR: Callback<'static> = Callback{cb: &handle_error_general};
 
 
 lazy_static! {
     static ref ERROR_HANDLER_LOCK: RwLock< Callback<'static> > =
-        RwLock::new(Callback{cb: DEFAULT_HANDLE_ERROR});
+        RwLock::new(DEFAULT_HANDLE_ERROR);
 }
 
 
+/// Register user provided error handler
+///
+/// # Examples
+/// ```
+/// #[macro_use]
+/// extern crate arrayfire;
+///
+/// use arrayfire::{AfError, Callback, info, register_error_handler};
+/// use std::error::Error;
+///
+/// fn handleError(error_code: AfError) {
+///     match error_code {
+///         AfError::SUCCESS => {}, /* No-op */
+///         _ => panic!("Error message: {}", error_code.description()),
+///     }
+/// }
+///
+/// pub const ERR_HANDLE: Callback<'static> = Callback{ cb: &handleError};
+///
+/// fn main() {
+///     register_error_handler(ERR_HANDLE);
+///
+///     info();
+/// }
+/// ```
 #[allow(unused_must_use)]
-pub fn register_error_handler(cb_value: &'static ErrorCallback) {
+pub fn register_error_handler(cb_value: Callback<'static>) {
     let mut gaurd = match ERROR_HANDLER_LOCK.write() {
         Ok(g) => g,
         Err(_)=> panic!("Failed to acquire lock to register error handler"),
     };
 
-    *gaurd.deref_mut() = Callback{cb:cb_value};
+    *gaurd.deref_mut() = cb_value;
 }
 
 pub fn handle_error_general(error_code: AfError) {

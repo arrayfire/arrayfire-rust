@@ -53,7 +53,7 @@ mod defines;
 pub use dim4::Dim4;
 mod dim4;
 
-pub use error::{ErrorCallback, register_error_handler, handle_error_general};
+pub use error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
 mod error;
 
 pub use index::{Indexer, index, row, rows, col, cols, slice, slices,
