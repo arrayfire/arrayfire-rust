@@ -128,3 +128,17 @@ macro_rules! af_print {
         }
     };
 }
+
+/// Evaluate arbitrary number of arrays
+#[macro_export]
+macro_rules! eval {
+    [$($x:ident),+] => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+             )*
+            eval_multiple(temp_vec)
+        }
+    };
+}

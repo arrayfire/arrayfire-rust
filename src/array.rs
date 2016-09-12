@@ -63,6 +63,12 @@ extern {
 
     fn af_eval(arr: AfArray) -> c_int;
 
+    fn af_eval_multiple(num: c_int, arrays: *const AfArray) -> c_int;
+
+    fn af_set_manual_eval_flag(flag: c_int) -> c_int;
+
+    fn af_get_manual_eval_flag(flag: *mut c_int) -> c_int;
+
     fn af_retain_array(out: MutAfArray, arr: AfArray) -> c_int;
 
     fn af_copy_array(out: MutAfArray, arr: AfArray) -> c_int;
@@ -383,5 +389,55 @@ pub fn print(input: &Array) {
     unsafe {
         let err_val = af_print_array(input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// evaluate multiple arrays
+///
+/// Use this function to evaluate multiple arrays in single call
+///
+/// # Parameters
+///
+/// - `inputs` are the list of arrays to be evaluated
+pub fn eval_multiple(inputs: Vec<&Array>) {
+    unsafe {
+        let mut v = Vec::new();
+        for i in inputs {
+            v.push(i.get());
+        }
+
+        let err_val = af_eval_multiple(v.len() as c_int, v.as_ptr() as *const AfArray);
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Set eval flag value
+///
+/// This function can be used to toggle on/off the manual evaluation of arrays.
+///
+/// # Parameters
+///
+/// - `flag` is a boolean value indicating manual evaluation setting
+pub fn set_manual_eval(flag: bool) {
+    unsafe {
+        let err_val = af_set_manual_eval_flag(flag as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Get eval flag value
+///
+/// This function can be used to find out if manual evaluation of arrays is
+/// turned on or off.
+///
+/// # Return Values
+///
+/// A boolean indicating manual evaluation setting.
+pub fn is_eval_manual() -> bool {
+    unsafe {
+        let mut ret_val: i32 = 0;
+        let err_val = af_get_manual_eval_flag(&mut ret_val as *mut c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val > 0
     }
 }

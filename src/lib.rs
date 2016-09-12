@@ -6,7 +6,7 @@
 extern crate lazy_static;
 
 pub use array::Array;
-pub use array::{print};
+pub use array::{print, eval_multiple, is_eval_manual, set_manual_eval};
 mod array;
 
 //pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};
