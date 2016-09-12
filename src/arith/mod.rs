@@ -42,6 +42,7 @@ extern {
     fn af_bitshiftr(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
     fn af_minof(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
     fn af_maxof(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_clamp(out: MutAfArray, inp: AfArray, lo: AfArray, hi: AfArray, batch: c_int) -> c_int;
 
     fn af_not(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_abs(out: MutAfArray, arr: AfArray) -> c_int;
@@ -292,6 +293,35 @@ overloaded_binary_func!("Calculate atan2 of two Arrays", atan2, atan2_helper, af
 overloaded_binary_func!("Create complex array from two Arrays", cplx2, cplx2_helper, af_cplx2);
 overloaded_binary_func!("Compute root", root, root_helper, af_root);
 overloaded_binary_func!("Computer power", pow, pow_helper, af_pow);
+
+pub fn clamp<T, U> (input: &Array, arg1: &T, arg2: &U, batch: bool) -> Array
+    where T: Convertable, U: Convertable
+{
+    let clamp_helper = |lo: &Array, hi: &Array| {
+        unsafe {
+            let mut temp: i64 = 0;
+            let err_val = af_clamp(&mut temp as MutAfArray, input.get() as AfArray,
+                                   lo.get() as AfArray, hi.get() as AfArray,
+                                   batch as c_int);
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
+        }
+    };
+
+    let lo = arg1.convert();
+    let hi = arg2.convert();
+    match (lo.is_scalar(), hi.is_scalar()) {
+        ( true, false) => {
+            let l = tile(&lo, hi.dims());
+            clamp_helper(&l, &hi)
+        },
+        (false,  true) => {
+            let r = tile(&hi, lo.dims());
+            clamp_helper(&lo, &r)
+        },
+        _ => clamp_helper(&lo, &hi),
+    }
+}
 
 macro_rules! arith_scalar_func {
     ($rust_type: ty, $op_name:ident, $fn_name: ident, $ffi_fn: ident) => (

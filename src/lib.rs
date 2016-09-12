@@ -19,7 +19,7 @@ mod algorithm;
 
 pub use arith::{add, sub, div, mul, lt, gt, le, ge, eq, neq, and, or, minof, maxof, rem};
 pub use arith::{bitand, bitor, bitxor, shiftl, shiftr};
-pub use arith::{abs, sign, round, trunc, floor, ceil, modulo, sigmoid};
+pub use arith::{abs, sign, round, trunc, floor, ceil, modulo, sigmoid, clamp};
 pub use arith::{sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh};
 pub use arith::{atan2, cplx2, arg, cplx, real, imag, conjg, hypot};
 pub use arith::{sqrt, log, log1p, log10, log2, pow2, exp, expm1, erf, erfc, root, pow};
