@@ -72,7 +72,7 @@ pub use image::{resize, transform, rotate, translate, scale, skew};
 pub use image::{dilate, dilate3, erode, erode3, minfilt, maxfilt};
 pub use image::{gradient, histogram, hist_equal, regions};
 pub use image::{gray2rgb, rgb2gray, hsv2rgb, rgb2hsv, color_space};
-pub use image::{bilateral, mean_shift, medfilt, sobel};
+pub use image::{bilateral, mean_shift, medfilt, sobel, medfilt1};
 pub use image::{unwrap, wrap, sat, rgb2ycbcr, ycbcr2rgb, is_imageio_available, transform_coords};
 pub use image::{moments, moments_all};
 mod image;

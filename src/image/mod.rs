@@ -65,6 +65,8 @@ extern {
     fn af_medfilt(out: MutAfArray, input: AfArray,
                   wlen: DimT, wwid: DimT, etype: uint8_t) -> c_int;
 
+    fn af_medfilt1(out: MutAfArray, input: AfArray, wlen: DimT, etype: uint8_t) -> c_int;
+
     fn af_minfilt(out: MutAfArray, input: AfArray,
                   wlen: DimT, wwid: DimT, etype: uint8_t) -> c_int;
 
@@ -1181,5 +1183,26 @@ pub fn moments_all(input: &Array, moment: MomentType) -> f64 {
                                      moment as c_int);
         HANDLE_ERROR(AfError::from(err_val));
         temp
+    }
+}
+
+/// One dimensional median filter on image
+///
+/// # Parameters
+///
+///  - `input` is the input image(Array)
+///  - `wlen` is the horizontal length of the filter
+///  - `etype` is enum of type [BorderType](./enum.BorderType.html)
+///
+/// # Return Values
+///
+/// An Array with filtered image data.
+pub fn medfilt1(input: &Array, wlen: u64, etype: BorderType) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_medfilt1(&mut temp as MutAfArray, input.get() as AfArray,
+                                  wlen as DimT, etype as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
