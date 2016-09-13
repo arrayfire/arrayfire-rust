@@ -86,7 +86,7 @@ extern {
 
     fn af_create_strided_array(arr: MutAfArray, data: *const c_void, offset: DimT,
                                ndims: c_uint, dims: *const DimT, strides: *const DimT,
-                               aftype: uint8_t) -> c_int;
+                               aftype: uint8_t, stype: uint8_t) -> c_int;
 
     fn af_get_strides(s0: *mut DimT, s1: *mut DimT, s2: *mut DimT, s3: *mut DimT,
                       arr: AfArray) -> c_int;
@@ -168,7 +168,7 @@ impl Array {
                                                   dims.ndims() as c_uint,
                                                   dims.get().as_ptr() as * const c_longlong,
                                                   strides.get().as_ptr() as * const c_longlong,
-                                                  aftype as uint8_t);
+                                                  aftype as uint8_t, 1);
             HANDLE_ERROR(AfError::from(err_val));
             Array::from(temp)
         }
