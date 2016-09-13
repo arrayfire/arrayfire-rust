@@ -344,3 +344,17 @@ pub enum MomentType {
     M11 = 8,    // 1<<3
     FIRST_ORDER = 1<<0 | 1<<1 | 1<<2 | 1<<3
 }
+
+/// Sparse storage format type
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum SparseFormat {
+    /// Dense format
+    DENSE = 0,
+    /// Compressed sparse row format
+    CSR   = 1,
+    /// Compressed sparse coloumn format
+    CSC   = 2,
+    /// Coordinate list (row, coloumn, value) tuples.
+    COO   = 3
+}

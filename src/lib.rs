@@ -47,7 +47,7 @@ mod device;
 pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
-pub use defines::{MarkerType, MomentType};
+pub use defines::{MarkerType, MomentType, SparseFormat};
 mod defines;
 
 pub use dim4::Dim4;
@@ -92,6 +92,11 @@ pub use signal::{convolve1, convolve2, convolve3, convolve2_sep};
 pub use signal::{fft_convolve1, fft_convolve2, fft_convolve3};
 pub use signal::{fir, iir};
 mod signal;
+
+pub use sparse::{sparse, sparse_from_host, sparse_from_dense, sparse_convert_to};
+pub use sparse::{sparse_to_dense, sparse_get_info, sparse_get_values, sparse_get_nnz};
+pub use sparse::{sparse_get_row_indices, sparse_get_col_indices, sparse_get_format};
+mod sparse;
 
 pub use statistics::{mean, stdev, median, var, cov, corrcoef};
 pub use statistics::{mean_weighted, var_weighted};

@@ -97,6 +97,8 @@ extern {
 
     fn af_is_owner(result: *mut c_int, arr: AfArray) -> c_int;
 
+    fn af_is_sparse(result: *mut c_int, arr: AfArray) -> c_int;
+
     fn af_lock_array(arr: AfArray) -> c_int;
 
     fn af_unlock_array(arr: AfArray) -> c_int;
@@ -332,6 +334,16 @@ impl Array {
             let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
             Array::from(temp)
+        }
+    }
+
+    /// Find if the current array is sparse
+    pub fn is_sparse(&self) -> bool {
+        unsafe {
+            let mut temp: i32 = 0;
+            let err_val = af_is_sparse(&mut temp as *mut c_int, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            temp > 0
         }
     }
 

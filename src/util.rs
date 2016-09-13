@@ -2,6 +2,7 @@ extern crate libc;
 extern crate num;
 
 use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
+use defines::{SparseFormat};
 use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
@@ -135,3 +136,10 @@ impl_has_af_enum!(i64, DType::S64);
 impl_has_af_enum!(u64, DType::U64);
 impl_has_af_enum!(i16, DType::S16);
 impl_has_af_enum!(u16, DType::U16);
+
+impl From<i32> for SparseFormat {
+    fn from(t: i32) -> SparseFormat {
+        assert!(SparseFormat::DENSE as i32 <= t && t <= SparseFormat::COO as i32);
+        unsafe { mem::transmute(t) }
+    }
+}
