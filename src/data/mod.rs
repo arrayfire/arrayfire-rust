@@ -38,12 +38,6 @@ extern {
     fn af_iota(out: MutAfArray, ndims: c_uint, dims: *const DimT,
                t_ndims: c_uint, tdims: *const DimT, afdtype: uint8_t) -> c_int;
 
-    fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
-    fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
-
-    fn af_set_seed(seed: Uintl) -> c_int;
-    fn af_get_seed(seed: *mut Uintl) -> c_int;
-
     fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
     fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_diag_extract(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
@@ -250,54 +244,27 @@ pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Array {
     }
 }
 
-/// Set seed for random number generation
-pub fn set_seed(seed: u64) {
-    unsafe {
-        let err_val = af_set_seed(seed as Uintl);
-        HANDLE_ERROR(AfError::from(err_val));
-    }
-}
-
-/// Get the seed of random number generator
+/// Create an identity array with 1's in diagonal
+///
+/// # Parameters
+///
+/// - `dims` is the output Array dimensions
+///
+/// # Return Values
+///
+/// Identity matrix
 #[allow(unused_mut)]
-pub fn get_seed() -> u64 {
+pub fn identity<T: HasAfEnum>(dims: Dim4) -> Array {
     unsafe {
-        let mut temp: u64 = 0;
-        let err_val = af_get_seed(&mut temp as *mut Uintl);
+        let aftype = T::get_af_dtype();
+        let mut temp: i64 = 0;
+        let err_val = af_identity(&mut temp as MutAfArray,
+                                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
+                                  aftype as uint8_t);
         HANDLE_ERROR(AfError::from(err_val));
-        temp
+        Array::from(temp)
     }
 }
-
-macro_rules! data_gen_def {
-    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
-        #[doc=$doc_str]
-        ///
-        ///# Parameters
-        ///
-        /// - `dims` is the output dimensions
-        ///
-        ///# Return Values
-        ///
-        /// An Array with modified data.
-        #[allow(unused_mut)]
-        pub fn $fn_name<T: HasAfEnum>(dims: Dim4) -> Array {
-            unsafe {
-                let aftype = T::get_af_dtype();
-                let mut temp: i64 = 0;
-                let err_val = $ffi_name(&mut temp as MutAfArray,
-                                        dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                                        aftype as uint8_t);
-                HANDLE_ERROR(AfError::from(err_val));
-                Array::from(temp)
-            }
-        }
-    )
-}
-
-data_gen_def!("Create random numbers from uniform distribution", randu, af_randu);
-data_gen_def!("Create random numbers from normal distribution", randn, af_randn);
-data_gen_def!("Create an identity array with 1's in diagonal", identity, af_identity);
 
 /// Create a diagonal matrix
 ///

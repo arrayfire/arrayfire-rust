@@ -380,3 +380,20 @@ pub enum BinaryOp {
     MIN = 2,
     MAX = 3
 }
+
+/// Random engine types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum RandomEngineType {
+    ///Philox variant with N=4, W=32 and Rounds=10
+    PHILOX_4X32_10      = 100,
+    ///Threefry variant with N=2, W=32 and Rounds=16
+    THREEFRY_2X32_16    = 200,
+    ///Mersenne variant with MEXP = 11213
+    MERSENNE_GP11213    = 300
+}
+
+pub const PHILOX   : RandomEngineType = RandomEngineType::PHILOX_4X32_10;
+pub const THREEFRY : RandomEngineType = RandomEngineType::THREEFRY_2X32_16;
+pub const MERSENNE : RandomEngineType = RandomEngineType::MERSENNE_GP11213;
+pub const DEFAULT_RANDOM_ENGINE : RandomEngineType = PHILOX;

@@ -33,7 +33,6 @@ pub use blas::{matmul, dot, transpose, transpose_inplace};
 mod blas;
 
 pub use data::{constant, range, iota};
-pub use data::{set_seed, get_seed, randu, randn};
 pub use data::{identity, diag_create, diag_extract, lower, upper};
 pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
@@ -47,7 +46,8 @@ mod device;
 pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
-pub use defines::{MarkerType, MomentType, SparseFormat, BinaryOp};
+pub use defines::{MarkerType, MomentType, SparseFormat, BinaryOp, RandomEngineType};
+pub use defines::{PHILOX, THREEFRY, MERSENNE, DEFAULT_RANDOM_ENGINE};
 mod defines;
 
 pub use dim4::Dim4;
@@ -82,6 +82,11 @@ pub use lapack::{svd_inplace, lu_inplace, qr_inplace, cholesky_inplace, is_lapac
 mod lapack;
 mod macros;
 mod num;
+
+pub use random::RandomEngine;
+pub use random::{set_seed, get_seed, randu, randn, random_uniform, random_normal};
+pub use random::{get_default_random_engine, set_default_random_engine_type};
+mod random;
 
 pub use signal::{approx1, approx2, set_fft_plan_cache_size};
 pub use signal::{fft, fft2, fft3, ifft, ifft2, ifft3};

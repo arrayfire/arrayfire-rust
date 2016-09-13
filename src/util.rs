@@ -2,7 +2,7 @@ extern crate libc;
 extern crate num;
 
 use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
-use defines::{SparseFormat, BinaryOp};
+use defines::{SparseFormat, BinaryOp, RandomEngineType};
 use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
@@ -147,6 +147,13 @@ impl From<i32> for SparseFormat {
 impl From<i32> for BinaryOp {
     fn from(t: i32) -> BinaryOp {
         assert!(BinaryOp::ADD as i32 <= t && t <= BinaryOp::MAX as i32);
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl From<i32> for RandomEngineType {
+    fn from(t: i32) -> RandomEngineType {
+        assert!(RandomEngineType::PHILOX_4X32_10 as i32 <= t && t <= RandomEngineType::MERSENNE_GP11213 as i32);
         unsafe { mem::transmute(t) }
     }
 }
