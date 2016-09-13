@@ -11,12 +11,13 @@ type MutDouble  = *mut self::libc::c_double;
 type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
+type MutVoidPtr = *mut self::libc::c_ulonglong;
+type VoidPtr    = self::libc::c_ulonglong;
 
 // Some unused functions from array.h in C-API of ArrayFire
 // af_create_handle
 // af_copy_array
 // af_write_array
-// af_get_data_ptr
 // af_get_data_ref_count
 
 #[allow(dead_code)]
@@ -95,6 +96,12 @@ extern {
     fn af_is_linear(result: *mut c_int, arr: AfArray) -> c_int;
 
     fn af_is_owner(result: *mut c_int, arr: AfArray) -> c_int;
+
+    fn af_lock_array(arr: AfArray) -> c_int;
+
+    fn af_unlock_array(arr: AfArray) -> c_int;
+
+    fn af_get_device_ptr(ptr: MutVoidPtr, arr: AfArray) -> c_int;
 }
 
 /// A multidimensional data container
@@ -325,6 +332,39 @@ impl Array {
             let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
             Array::from(temp)
+        }
+    }
+
+    /// Lock the device buffer in the memory manager
+    ///
+    /// Locked buffers are not freed by memory manager until unlock is called.
+    pub fn lock(&self) {
+        unsafe {
+            let err_val = af_lock_array(self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+        }
+    }
+
+    /// Unlock the device buffer in the memory manager
+    ///
+    /// This function will give back the control over the device pointer to the
+    /// memory manager.
+    pub fn unlock(&self) {
+        unsafe {
+            let err_val = af_unlock_array(self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+        }
+    }
+
+    /// Get the device pointer and lock the buffer in memory manager
+    ///
+    /// The device pointer is not freed by memory manager until unlock is called.
+    pub fn device_ptr(&self) -> u64 {
+        unsafe {
+            let mut temp: u64 = 0;
+            let err_val = af_get_device_ptr(&mut temp as MutVoidPtr, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            temp
         }
     }
 }
