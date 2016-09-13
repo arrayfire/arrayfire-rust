@@ -370,3 +370,13 @@ pub enum SparseFormat {
     /// Coordinate list (row, coloumn, value) tuples.
     COO   = 3
 }
+
+/// Binary operation types for generalized scan functions
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum BinaryOp {
+    ADD = 0,
+    MUL = 1,
+    MIN = 2,
+    MAX = 3
+}

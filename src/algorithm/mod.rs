@@ -1,9 +1,9 @@
 extern crate libc;
 
 use array::Array;
-use defines::AfError;
+use defines::{AfError, BinaryOp};
 use error::HANDLE_ERROR;
-use self::libc::{c_int, c_uint, c_double};
+use self::libc::{c_int, uint8_t, c_uint, c_double};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -46,6 +46,10 @@ extern {
 
     fn af_sort_by_key(out_keys: MutAfArray, out_vals: MutAfArray,
                       in_keys: AfArray, in_vals: AfArray, dim: c_uint, ascend: c_int) -> c_int;
+
+    fn af_scan(out: MutAfArray, inp: AfArray, dim: c_int, op: uint8_t, inclusive: c_int) -> c_int;
+    fn af_scan_by_key(out: MutAfArray, key: AfArray, inp: AfArray,
+                      dim: c_int, op: uint8_t, inclusive: c_int) -> c_int;
 }
 
 macro_rules! dim_reduce_func_def {
@@ -851,6 +855,54 @@ pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
         let mut temp: i64 = 0;
         let err_val = af_set_intersect(&mut temp as MutAfArray, first.get() as AfArray,
                                        second.get() as AfArray, is_unique as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Generalized scan
+///
+/// # Parameters
+///
+/// - `input` is the data on which scan is to be performed
+/// - `dim` is the dimension along which scan operation is to be performed
+/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating
+///    the type of scan operation
+/// - `inclusive` says if inclusive/exclusive scan is to be performed
+///
+/// # Return Values
+///
+/// Output Array of scanned input
+pub fn scan(input: &Array, dim: i32, op: BinaryOp, inclusive: bool) -> Array {
+    unsafe {
+        let mut temp : i64 = 0;
+        let err_val = af_scan(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int,
+                              op as uint8_t, inclusive as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Generalized scan by key
+///
+/// # Parameters
+///
+/// - `key` is the key Array
+/// - `input` is the data on which scan is to be performed
+/// - `dim` is the dimension along which scan operation is to be performed
+/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating
+///    the type of scan operation
+/// - `inclusive` says if inclusive/exclusive scan is to be performed
+///
+/// # Return Values
+///
+/// Output Array of scanned input
+pub fn scan_by_key(key: &Array, input: &Array, dim: i32, op: BinaryOp, inclusive: bool) -> Array {
+    unsafe {
+        let mut temp : i64 = 0;
+        let err_val = af_scan_by_key(&mut temp as MutAfArray,
+                                     key.get() as AfArray, input.get() as AfArray, dim as c_int,
+                                     op as uint8_t, inclusive as c_int);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }

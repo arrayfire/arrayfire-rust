@@ -14,7 +14,7 @@ pub use algorithm::{sum, product, min, max, all_true, any_true, count, sum_nan, 
 pub use algorithm::{sum_all, product_all, min_all, max_all, sum_nan_all, product_nan_all};
 pub use algorithm::{all_true_all, any_true_all, count_all, imin, imax, imin_all, imax_all};
 pub use algorithm::{accum, locate, diff1, diff2, sort, sort_index, sort_by_key};
-pub use algorithm::{set_unique, set_union, set_intersect};
+pub use algorithm::{set_unique, set_union, set_intersect, scan, scan_by_key};
 mod algorithm;
 
 pub use arith::{add, sub, div, mul, lt, gt, le, ge, eq, neq, and, or, minof, maxof, rem};
@@ -47,7 +47,7 @@ mod device;
 pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
-pub use defines::{MarkerType, MomentType, SparseFormat};
+pub use defines::{MarkerType, MomentType, SparseFormat, BinaryOp};
 mod defines;
 
 pub use dim4::Dim4;
