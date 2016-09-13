@@ -147,6 +147,18 @@ pub enum InterpType {
     BILINEAR= 2,
     /// Cubic interpolation method
     CUBIC   = 3,
+    /// Floor indexed
+    LOWER   = 4,
+    /// Linear interpolation with cosine smoothing
+    LINEAR_COSINE   = 5,
+    /// Bilinear interpolation with cosine smoothing
+    BILINEAR_COSINE = 6,
+    /// Bicubic interpolation
+    BICUBIC         = 7,
+    /// Cubic interpolation with Catmull-Rom splines
+    CUBIC_SPLINE    = 8,
+    /// Bicubic interpolation with Catmull-Rom splines
+    BICUBIC_SPLINE  = 9
 }
 
 /// Helps determine how to pad kernels along borders

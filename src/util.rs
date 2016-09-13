@@ -39,7 +39,7 @@ impl From<i32> for DType {
 
 impl From<i32> for InterpType {
     fn from(t: i32) -> InterpType {
-        assert!(InterpType::NEAREST as i32 <= t && t <= InterpType::CUBIC as i32);
+        assert!(InterpType::NEAREST as i32 <= t && t <= InterpType::BICUBIC_SPLINE as i32);
         unsafe { mem::transmute(t) }
     }
 }
