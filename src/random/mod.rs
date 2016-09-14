@@ -117,7 +117,7 @@ impl RandomEngine {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_create_random_engine(&mut temp as MutRandEngine, rengine as uint8_t,
-                                                  match seed {Some(s) => s, None => 0} as c_ulong);
+                                                  match seed {Some(s) => s, None => 0} as Uintl);
             HANDLE_ERROR(AfError::from(err_val));
             RandomEngine::from(temp)
         }
