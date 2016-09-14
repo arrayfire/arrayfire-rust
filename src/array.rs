@@ -4,7 +4,8 @@ use dim4::Dim4;
 use defines::{AfError, DType, Backend};
 use error::HANDLE_ERROR;
 use util::HasAfEnum;
-use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong};
+use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
+use std::ffi::CString;
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -77,6 +78,8 @@ extern {
     fn af_release_array(arr: AfArray) -> c_int;
 
     fn af_print_array(arr: AfArray) -> c_int;
+
+    fn af_print_array_gen(exp: *const c_char, arr: AfArray, precision: c_int) -> c_int;
 
     fn af_cast(out: MutAfArray, arr: AfArray, aftype: uint8_t) -> c_int;
 
@@ -417,6 +420,10 @@ impl Drop for Array {
 
 /// Print data in the Array
 ///
+/// # Parameters
+///
+/// - `input` is the Array to be printed
+///
 /// # Examples
 ///
 /// ```rust
@@ -438,8 +445,52 @@ impl Drop for Array {
 ///     0.9251     0.5132     0.6814
 /// ```
 pub fn print(input: &Array) {
+    let emptystring = CString::new("").unwrap();
     unsafe {
-        let err_val = af_print_array(input.get() as AfArray);
+        let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
+                                         input.get() as AfArray, 4);
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Generalized Array print function
+///
+/// Use this function to print Array data with arbitrary preicsion
+///
+/// # Parameters
+///
+/// - `msg` is message to be printed before printing the Array data
+/// - `input` is the Array to be printed
+/// - `precision` is data precision with which Array has to be printed
+///
+/// # Examples
+///
+/// ```rust
+/// use arrayfire::{Dim4, print_gen, randu};
+/// println!("Create a 5-by-3 matrix of random floats on the GPU");
+/// let dims = Dim4::new(&[5, 3, 1, 1]);
+/// let a = randu::<f32>(dims);
+/// print_gen(String::from("Random Array"), &a, Some(6));
+/// ```
+///
+/// The sample output will look like below:
+///
+/// ```text
+/// Random Array
+///
+/// [5 3 1 1]
+///     0.740276     0.446440     0.776202
+///     0.921094     0.667321     0.294810
+///     0.039014     0.109939     0.714090
+///     0.969058     0.470269     0.358590
+///     0.925181     0.513225     0.681451
+/// ```
+pub fn print_gen(msg: String, input: &Array, precision: Option<i32>) {
+    let emptystring = CString::new(msg.as_bytes()).unwrap();
+    unsafe {
+        let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
+                                         input.get() as AfArray,
+                                         match precision {Some(p)=>p, None=>4} as c_int);
         HANDLE_ERROR(AfError::from(err_val));
     }
 }

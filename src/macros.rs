@@ -112,7 +112,7 @@ macro_rules! join_many {
 /// # #[macro_use] extern crate arrayfire;
 ///
 /// # fn main() {
-///     use arrayfire::{Dim4, print, randu};
+///     use arrayfire::{Dim4, print_gen, randu};
 ///     let dims = Dim4::new(&[3, 1, 1, 1]);
 ///     let a = randu::<f32>(dims);
 ///     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
@@ -123,8 +123,7 @@ macro_rules! join_many {
 macro_rules! af_print {
     [$msg: expr, $x: ident] => {
         {
-            println!("{}", $msg);
-            print(&$x);
+            print_gen(String::from($msg), &$x, Some(4));
         }
     };
 }
