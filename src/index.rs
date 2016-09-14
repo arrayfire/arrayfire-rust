@@ -117,7 +117,7 @@ impl Drop for Indexer {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, Seq, index, randu, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -145,7 +145,7 @@ pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, randu, row, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -183,7 +183,7 @@ pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, randu, col, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -274,7 +274,7 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Array {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{constant, Dim4, Seq, assign_seq, print};
 /// let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
 /// let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
@@ -313,7 +313,7 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};
 /// let values: [f32; 3] = [1.0, 2.0, 3.0];
 /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -352,7 +352,7 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Array {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};
 /// let values: [f32; 3] = [1.0, 2.0, 3.0];
 /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));

@@ -35,7 +35,7 @@
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use(mem_info)] extern crate arrayfire;
 /// # fn main() {
 ///     use arrayfire::{Dim4, device_mem_info, print, randu};
@@ -49,7 +49,7 @@
 ///
 /// Sample Output:
 ///
-/// ```ignore
+/// ```text
 /// AF Memory: Here
 /// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]
 /// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]
@@ -72,7 +72,7 @@ macro_rules! mem_info {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use] extern crate arrayfire;
 ///
 /// # fn main() {
@@ -108,7 +108,7 @@ macro_rules! join_many {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use] extern crate arrayfire;
 ///
 /// # fn main() {

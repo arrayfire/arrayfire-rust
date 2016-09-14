@@ -132,7 +132,7 @@ impl Array {
     ///
     /// # Examples
     ///
-    /// ```
+    /// ```rust
     /// use arrayfire::{Array, Dim4, print};
     /// let values: [f32; 3] = [1.0, 2.0, 3.0];
     /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -419,7 +419,7 @@ impl Drop for Array {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, print, randu};
 /// println!("Create a 5-by-3 matrix of random floats on the GPU");
 /// let dims = Dim4::new(&[5, 3, 1, 1]);
@@ -429,7 +429,7 @@ impl Drop for Array {
 ///
 /// The sample output will look like below:
 ///
-/// ```bash
+/// ```text
 /// [5 3 1 1]
 ///     0.7402     0.4464     0.7762
 ///     0.9210     0.6673     0.2948

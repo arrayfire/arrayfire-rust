@@ -85,7 +85,7 @@ pub struct Cell {
 ///
 /// # Examples
 ///
-/// ```no_run
+/// ```rust,no_run
 /// use arrayfire::{histogram, load_image, Window};
 /// let mut wnd = Window::new(1280, 720, String::from("Image Histogram"));
 /// let img = load_image("Path to image".to_string(), true/*If color image, 'false' otherwise*/);

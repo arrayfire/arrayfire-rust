@@ -82,7 +82,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, sum};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -109,7 +109,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, product};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -135,7 +135,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, min};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -144,6 +144,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = min(&a, 1);
     print(&c);
+    ```
     ", min, af_min);
 
 dim_reduce_func_def!("
@@ -160,7 +161,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, max};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -169,6 +170,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = max(&a, 1);
     print(&c);
+    ```
     ", max, af_max);
 
 dim_reduce_func_def!("
@@ -185,7 +187,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, all_true};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -194,6 +196,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = all_true(&a, 1);
     print(&c);
+    ```
     ", all_true, af_all_true);
 
 dim_reduce_func_def!("
@@ -210,7 +213,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, any_true};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -219,6 +222,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = any_true(&a, 1);
     print(&c);
+    ```
     ", any_true, af_any_true);
 
 dim_reduce_func_def!("
@@ -235,7 +239,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, gt, print, randu, count};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = gt(&randu::<f32>(dims), &0.5, false);
@@ -244,6 +248,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = count(&a, 1);
     print(&c);
+    ```
     ", count, af_count);
 
 dim_reduce_func_def!("
@@ -260,7 +265,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, accum};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -269,6 +274,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = accum(&a, 1);
     print(&c);
+    ```
     ", accum, af_accum);
 
 dim_reduce_func_def!("
@@ -285,7 +291,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, diff1};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -294,6 +300,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = diff1(&a, 1);
     print(&c);
+    ```
     ", diff1, af_diff1);
 
 dim_reduce_func_def!("
@@ -310,7 +317,7 @@ dim_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, diff2};
     let dims = Dim4::new(&[5, 3, 1, 1]);
     let a = randu::<f32>(dims);
@@ -319,6 +326,7 @@ dim_reduce_func_def!("
     print(&b);
     let c = diff2(&a, 1);
     print(&c);
+    ```
     ", diff2, af_diff2);
 
 /// Sum along specific dimension using user specified value instead of `NAN` values
@@ -400,7 +408,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, sum_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
@@ -424,7 +432,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, product_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
@@ -448,7 +456,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, min_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
@@ -472,7 +480,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, max_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
@@ -494,7 +502,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, all_true_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
@@ -516,12 +524,13 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, any_true_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
     print(&a);
     println!(\"Result : {:?}\", any_true_all(&a));
+    ```
     ", any_true_all, af_any_true_all);
 
 all_reduce_func_def!("
@@ -537,7 +546,7 @@ all_reduce_func_def!("
 
     # Examples
 
-    ```
+    ```rust
     use arrayfire::{Dim4, print, randu, count_all};
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);

@@ -931,7 +931,7 @@ hsvrgb_func_def!("RGB to HSV color space conversion", rgb2hsv, af_rgb2hsv);
 ///
 /// # Examples
 ///
-/// ```ignore
+/// ```text
 /// A [5 5 1 1]
 /// 10 15 20 25 30
 /// 11 16 21 26 31
