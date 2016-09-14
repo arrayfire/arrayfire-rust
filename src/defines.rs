@@ -147,6 +147,18 @@ pub enum InterpType {
     BILINEAR= 2,
     /// Cubic interpolation method
     CUBIC   = 3,
+    /// Floor indexed
+    LOWER   = 4,
+    /// Linear interpolation with cosine smoothing
+    LINEAR_COSINE   = 5,
+    /// Bilinear interpolation with cosine smoothing
+    BILINEAR_COSINE = 6,
+    /// Bicubic interpolation
+    BICUBIC         = 7,
+    /// Cubic interpolation with Catmull-Rom splines
+    CUBIC_SPLINE    = 8,
+    /// Bicubic interpolation with Catmull-Rom splines
+    BICUBIC_SPLINE  = 9
 }
 
 /// Helps determine how to pad kernels along borders
@@ -333,3 +345,55 @@ pub enum MarkerType {
     PLUS     = 6,
     STAR     = 7
 }
+
+/// Image moment types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum MomentType {
+    M00 = 1,    // 1<<0
+    M01 = 2,    // 1<<1
+    M10 = 4,    // 1<<2
+    M11 = 8,    // 1<<3
+    FIRST_ORDER = 1<<0 | 1<<1 | 1<<2 | 1<<3
+}
+
+/// Sparse storage format type
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum SparseFormat {
+    /// Dense format
+    DENSE = 0,
+    /// Compressed sparse row format
+    CSR   = 1,
+    /// Compressed sparse coloumn format
+    CSC   = 2,
+    /// Coordinate list (row, coloumn, value) tuples.
+    COO   = 3
+}
+
+/// Binary operation types for generalized scan functions
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum BinaryOp {
+    ADD = 0,
+    MUL = 1,
+    MIN = 2,
+    MAX = 3
+}
+
+/// Random engine types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum RandomEngineType {
+    ///Philox variant with N=4, W=32 and Rounds=10
+    PHILOX_4X32_10      = 100,
+    ///Threefry variant with N=2, W=32 and Rounds=16
+    THREEFRY_2X32_16    = 200,
+    ///Mersenne variant with MEXP = 11213
+    MERSENNE_GP11213    = 300
+}
+
+pub const PHILOX   : RandomEngineType = RandomEngineType::PHILOX_4X32_10;
+pub const THREEFRY : RandomEngineType = RandomEngineType::THREEFRY_2X32_16;
+pub const MERSENNE : RandomEngineType = RandomEngineType::MERSENNE_GP11213;
+pub const DEFAULT_RANDOM_ENGINE : RandomEngineType = PHILOX;

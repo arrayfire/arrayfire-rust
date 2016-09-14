@@ -3,7 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, ConvDomain, ConvMode, InterpType};
 use error::HANDLE_ERROR;
-use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong};
+use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong, size_t};
 
 type MutAfArray = *mut self::libc::c_longlong;
 type AfArray    = self::libc::c_longlong;
@@ -15,6 +15,8 @@ extern {
 
     fn af_approx2(out: MutAfArray, inp: AfArray, pos0: AfArray, pos1: AfArray,
                   method: c_int, off_grid: c_float) -> c_int;
+
+    fn af_set_fft_plan_cache_size(cache_size: size_t) -> c_int;
 
     fn af_fft(out: MutAfArray, arr: AfArray,
               nfac: c_double, odim0: c_longlong) -> c_int;
@@ -112,6 +114,18 @@ pub fn approx2(input: &Array, pos0: &Array, pos1: &Array,
                                  method as c_int, off_grid as c_float);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
+    }
+}
+
+/// Set fft plan cache size
+///
+/// Though this is a low overhead function, it is advised not to change
+/// the fft plan cache size a mid program execution unless that is what
+/// you intend to do.
+pub fn set_fft_plan_cache_size(cache_size: usize) {
+    unsafe {
+        let err_val = af_set_fft_plan_cache_size(cache_size as size_t);
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 
@@ -270,28 +284,21 @@ pub fn ifft3(input: &Array, norm_factor: f64,
 }
 
 macro_rules! conv_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
-        /// Convolution
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         ///
-        /// The numeric suffix to the function name indicates the dimension in which the
-        /// convolution operation is going to take place.
-        ///
-        /// - 1 - Indicates 1d convolution
-        /// - 2 - Indicates 2d convolution
-        /// - 3 - Indicates 3d convolution
-        ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `signal` is the input signal
         /// - `filter` is the signal that shall be flipped for convolution operation
         /// - `mode` indicates if the convolution should be expanded or not(where output size
-        /// equals input)
+        /// equals input). It takes a value of type [ConvMode](./enum.ConvMode.html)
         /// - `domain` indicates if the convolution should be performed in frequencey or spatial
-        /// domain
+        /// domain. It takes a value of type [ConvDomain](./enum.ConvDomain.html)
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// The convolved Array
+        /// Convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
                         mode: ConvMode, domain: ConvDomain) -> Array {
@@ -307,9 +314,9 @@ macro_rules! conv_func_def {
     )
 }
 
-conv_func_def!(convolve1, af_convolve1);
-conv_func_def!(convolve2, af_convolve2);
-conv_func_def!(convolve3, af_convolve3);
+conv_func_def!("1d convolution", convolve1, af_convolve1);
+conv_func_def!("2d convolution", convolve2, af_convolve2);
+conv_func_def!("3d convolution", convolve3, af_convolve3);
 
 /// Separable convolution for 2d signals
 ///
@@ -337,26 +344,19 @@ pub fn convolve2_sep(cfilt: &Array, rfilt: &Array, signal: &Array,
 }
 
 macro_rules! fft_conv_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
-        /// Convolution using Fast-fourier transform
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         ///
-        /// The numeric suffix to the function name indicates the dimension in which the
-        /// convolution operation is going to take place.
-        ///
-        /// - 1 - Indicates 1d convolution
-        /// - 2 - Indicates 2d convolution
-        /// - 3 - Indicates 3d convolution
-        ///
-        /// # Parameters
+        ///# Parameters
         ///
         /// - `signal` is the input signal
         /// - `filter` is the signal that shall be used for convolution operation
         /// - `mode` indicates if the convolution should be expanded or not(where output size
-        /// equals input)
+        /// equals input). It takes values of type [ConvMode](./enum.ConvMode.html)
         ///
-        /// # Return Values
+        ///# Return Values
         ///
-        /// The convolved Array
+        /// Convolved Array
         #[allow(unused_mut)]
         pub fn $fn_name(signal: &Array, filter: &Array,
                         mode: ConvMode) -> Array {
@@ -371,9 +371,9 @@ macro_rules! fft_conv_func_def {
     )
 }
 
-fft_conv_func_def!(fft_convolve1, af_fft_convolve1);
-fft_conv_func_def!(fft_convolve2, af_fft_convolve2);
-fft_conv_func_def!(fft_convolve3, af_fft_convolve3);
+fft_conv_func_def!("1d convolution using fast-fourier transform", fft_convolve1, af_fft_convolve1);
+fft_conv_func_def!("2d convolution using fast-fourier transform", fft_convolve2, af_fft_convolve2);
+fft_conv_func_def!("3d convolution using fast-fourier transform", fft_convolve3, af_fft_convolve3);
 
 /// Finite impulse filter
 ///

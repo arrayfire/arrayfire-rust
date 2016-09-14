@@ -18,7 +18,7 @@ impl Default for Dim4 {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::Dim4;
 ///
 /// let dims = Dim4::new(&[4, 4, 2, 1]);
@@ -39,7 +39,7 @@ impl Index<usize> for Dim4 {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::Dim4;
 ///
 /// let dims = Dim4::new(&[4, 4, 2, 1]);
@@ -56,7 +56,7 @@ impl Dim4 {
     ///
     /// # Examples
     ///
-    /// ```
+    /// ```rust
     /// use arrayfire::Dim4;
     /// let dims = Dim4::new(&[4, 4, 2, 1]);
     /// ```

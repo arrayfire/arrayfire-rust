@@ -38,12 +38,6 @@ extern {
     fn af_iota(out: MutAfArray, ndims: c_uint, dims: *const DimT,
                t_ndims: c_uint, tdims: *const DimT, afdtype: uint8_t) -> c_int;
 
-    fn af_randu(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
-    fn af_randn(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
-
-    fn af_set_seed(seed: Uintl) -> c_int;
-    fn af_get_seed(seed: *mut Uintl) -> c_int;
-
     fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
     fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_diag_extract(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
@@ -250,45 +244,27 @@ pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Array {
     }
 }
 
-/// Set seed for random number generation
-pub fn set_seed(seed: u64) {
-    unsafe {
-        let err_val = af_set_seed(seed as Uintl);
-        HANDLE_ERROR(AfError::from(err_val));
-    }
-}
-
-/// Get the seed of random number generator
+/// Create an identity array with 1's in diagonal
+///
+/// # Parameters
+///
+/// - `dims` is the output Array dimensions
+///
+/// # Return Values
+///
+/// Identity matrix
 #[allow(unused_mut)]
-pub fn get_seed() -> u64 {
+pub fn identity<T: HasAfEnum>(dims: Dim4) -> Array {
     unsafe {
-        let mut temp: u64 = 0;
-        let err_val = af_get_seed(&mut temp as *mut Uintl);
+        let aftype = T::get_af_dtype();
+        let mut temp: i64 = 0;
+        let err_val = af_identity(&mut temp as MutAfArray,
+                                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
+                                  aftype as uint8_t);
         HANDLE_ERROR(AfError::from(err_val));
-        temp
+        Array::from(temp)
     }
 }
-
-macro_rules! data_gen_def {
-    ($fn_name:ident, $ffi_name: ident) => (
-        #[allow(unused_mut)]
-        pub fn $fn_name<T: HasAfEnum>(dims: Dim4) -> Array {
-            unsafe {
-                let aftype = T::get_af_dtype();
-                let mut temp: i64 = 0;
-                let err_val = $ffi_name(&mut temp as MutAfArray,
-                                        dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                                        aftype as uint8_t);
-                HANDLE_ERROR(AfError::from(err_val));
-                Array::from(temp)
-            }
-        }
-    )
-}
-
-data_gen_def!(randu, af_randu);
-data_gen_def!(randn, af_randn);
-data_gen_def!(identity, af_identity);
 
 /// Create a diagonal matrix
 ///
@@ -380,7 +356,17 @@ pub fn join_many(dim: i32, inputs: Vec<&Array>) -> Array {
 }
 
 macro_rules! data_func_def {
-    ($fn_name:ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
+        ///
+        ///# Parameters
+        ///
+        /// - `input` is the input Array
+        /// - `dims` is the target(output) dimensions
+        ///
+        ///# Return Values
+        ///
+        /// An Array with modified data.
         #[allow(unused_mut)]
         pub fn $fn_name(input: &Array, dims: Dim4) -> Array {
             unsafe {
@@ -395,9 +381,9 @@ macro_rules! data_func_def {
     )
 }
 
-data_func_def!(tile, af_tile);
-data_func_def!(reorder, af_reorder);
-data_func_def!(shift, af_shift);
+data_func_def!("Tile the input array along specified dimension", tile, af_tile);
+data_func_def!("Reorder the array in specified order", reorder, af_reorder);
+data_func_def!("Circular shift of values along specified dimension", shift, af_shift);
 
 /// Change the shape of the Array
 ///
@@ -495,7 +481,7 @@ pub fn upper(input: &Array, is_unit_diag: bool) -> Array {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```ignore
+/// ```text
 /// c = cond ? a : b; /// where cond, a & b are all objects of type Array
 /// ```
 ///
@@ -526,7 +512,7 @@ pub fn select(a: &Array, cond: &Array, b: &Array) -> Array {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```ignore
+/// ```text
 /// c = cond ? a : b; /// where  a is a scalar(f64) and b is Array
 /// ```
 ///
@@ -557,7 +543,7 @@ pub fn selectl(a: f64, cond: &Array, b: &Array) -> Array {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```ignore
+/// ```text
 /// c = cond ? a : b; /// where a is Array and b is a scalar(f64)
 /// ```
 ///
@@ -588,7 +574,7 @@ pub fn selectr(a: &Array, cond: &Array, b: f64) -> Array {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```ignore
+/// ```text
 /// a = cond ? a : b; /// where cond, a & b are all objects of type Array
 /// ```
 ///
@@ -615,7 +601,7 @@ pub fn replace(a: &mut Array, cond: &Array, b: &Array) {
 /// This function does the C-equivalent of the following statement, except that the operation
 /// happens on a GPU for all elements simultaneously.
 ///
-/// ```ignore
+/// ```text
 /// a = cond ? a : b; /// where cond, a are Arrays and b is scalar(f64)
 /// ```
 ///
