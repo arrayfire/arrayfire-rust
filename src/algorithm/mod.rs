@@ -242,7 +242,8 @@ dim_reduce_func_def!("
     ```rust
     use arrayfire::{Dim4, gt, print, randu, count};
     let dims = Dim4::new(&[5, 3, 1, 1]);
-    let a = gt(&randu::<f32>(dims), &0.5, false);
+    let cnst: f32 = 0.5;
+    let a = gt(&randu::<f32>(dims), &cnst, false);
     print(&a);
     let b = count(&a, 0);
     print(&b);
