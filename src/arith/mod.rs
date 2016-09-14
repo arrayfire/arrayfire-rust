@@ -333,7 +333,22 @@ macro_rules! arith_scalar_func {
                 unsafe {
                     let mut temp: i64 = 0;
                     let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
-                                          cnst_arr.get() as AfArray, 0); 
+                                          cnst_arr.get() as AfArray, 0);
+                    HANDLE_ERROR(AfError::from(err_val));
+                    Array::from(temp)
+                }
+            }
+        }
+
+        impl $op_name<$rust_type> for Array {
+            type Output = Array;
+
+            fn $fn_name(self, rhs: $rust_type) -> Array {
+                let cnst_arr = constant(rhs, self.dims());
+                unsafe {
+                    let mut temp: i64 = 0;
+                    let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
+                                          cnst_arr.get() as AfArray, 0);
                     HANDLE_ERROR(AfError::from(err_val));
                     Array::from(temp)
                 }
