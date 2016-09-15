@@ -256,6 +256,10 @@ macro_rules! overloaded_binary_func {
         ///# Return Values
         ///
         /// An Array with results of the binary operation.
+        ///
+        ///# Note
+        ///
+        /// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
         pub fn $fn_name<T, U> (arg1: &T, arg2: &U, batch: bool) -> Array where T: Convertable, U: Convertable {
             let lhs = arg1.convert();
             let rhs = arg2.convert();
@@ -294,6 +298,24 @@ overloaded_binary_func!("Create complex array from two Arrays", cplx2, cplx2_hel
 overloaded_binary_func!("Compute root", root, root_helper, af_root);
 overloaded_binary_func!("Computer power", pow, pow_helper, af_pow);
 
+/// Clamp the values of Array
+///
+/// # Parameters
+///
+/// - `arg1`is an argument that implements an internal trait `Convertable`.
+/// - `arg2`is an argument that implements an internal trait `Convertable`.
+/// - `batch` is an boolean that indicates if the current operation is an batch operation.
+///
+/// Both parameters `arg1` and `arg2` can be either an Array or a value of rust integral
+/// type.
+///
+/// # Return Values
+///
+/// An Array with results of the binary operation.
+///
+/// # Note
+///
+/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
 pub fn clamp<T, U> (input: &Array, arg1: &T, arg2: &U, batch: bool) -> Array
     where T: Convertable, U: Convertable
 {
