@@ -4,7 +4,7 @@ use array::Array;
 use dim4::Dim4;
 use defines::{AfError, RandomEngineType};
 use error::HANDLE_ERROR;
-use self::libc::{uint8_t, c_int, c_uint, c_ulong};
+use self::libc::{uint8_t, c_int, c_uint};
 use util::HasAfEnum;
 
 type MutAfArray = *mut self::libc::c_longlong;
