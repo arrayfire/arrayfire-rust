@@ -674,7 +674,7 @@
 <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
 <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>ConvDomain</span>, <span class='ident'>ConvMode</span>, <span class='ident'>InterpType</span>};
 <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_longlong</span>};
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_longlong</span>, <span class='ident'>size_t</span>};
 
 <span class='kw'>type</span> <span class='ident'>MutAfArray</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>type</span> <span class='ident'>AfArray</span>    <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
@@ -686,6 +686,8 @@
 
     <span class='kw'>fn</span> <span class='ident'>af_approx2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>pos0</span>: <span class='ident'>AfArray</span>, <span class='ident'>pos1</span>: <span class='ident'>AfArray</span>,
                   <span class='ident'>method</span>: <span class='ident'>c_int</span>, <span class='ident'>off_grid</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>af_set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span>: <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_fft</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
               <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
@@ -783,6 +785,18 @@
                                  <span class='ident'>method</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>off_grid</span> <span class='kw'>as</span> <span class='ident'>c_float</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    }
+}
+
+<span class='doccomment'>/// Set fft plan cache size</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Though this is a low overhead function, it is advised not to change</span>
+<span class='doccomment'>/// the fft plan cache size a mid program execution unless that is what</span>
+<span class='doccomment'>/// you intend to do.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span>: <span class='ident'>usize</span>) {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span> <span class='kw'>as</span> <span class='ident'>size_t</span>);
+        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
 }
 
@@ -941,28 +955,21 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>conv_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='doccomment'>/// Convolution</span>
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// The numeric suffix to the function name indicates the dimension in which the</span>
-        <span class='doccomment'>/// convolution operation is going to take place.</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// - 1 - Indicates 1d convolution</span>
-        <span class='doccomment'>/// - 2 - Indicates 2d convolution</span>
-        <span class='doccomment'>/// - 3 - Indicates 3d convolution</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// # Parameters</span>
+        <span class='doccomment'>///# Parameters</span>
         <span class='doccomment'>///</span>
         <span class='doccomment'>/// - `signal` is the input signal</span>
         <span class='doccomment'>/// - `filter` is the signal that shall be flipped for convolution operation</span>
         <span class='doccomment'>/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
-        <span class='doccomment'>/// equals input)</span>
+        <span class='doccomment'>/// equals input). It takes a value of type [ConvMode](./enum.ConvMode.html)</span>
         <span class='doccomment'>/// - `domain` indicates if the convolution should be performed in frequencey or spatial</span>
-        <span class='doccomment'>/// domain</span>
+        <span class='doccomment'>/// domain. It takes a value of type [ConvDomain](./enum.ConvDomain.html)</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// # Return Values</span>
+        <span class='doccomment'>///# Return Values</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// The convolved Array</span>
+        <span class='doccomment'>/// Convolved Array</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>signal</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
                         <span class='ident'>mode</span>: <span class='ident'>ConvMode</span>, <span class='ident'>domain</span>: <span class='ident'>ConvDomain</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
@@ -978,9 +985,9 @@
     )
 }
 
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='ident'>convolve1</span>, <span class='ident'>af_convolve1</span>);
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='ident'>convolve2</span>, <span class='ident'>af_convolve2</span>);
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='ident'>convolve3</span>, <span class='ident'>af_convolve3</span>);
+<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;1d convolution&quot;</span>, <span class='ident'>convolve1</span>, <span class='ident'>af_convolve1</span>);
+<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;2d convolution&quot;</span>, <span class='ident'>convolve2</span>, <span class='ident'>af_convolve2</span>);
+<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;3d convolution&quot;</span>, <span class='ident'>convolve3</span>, <span class='ident'>af_convolve3</span>);
 
 <span class='doccomment'>/// Separable convolution for 2d signals</span>
 <span class='doccomment'>///</span>
@@ -1008,26 +1015,19 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>fft_conv_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='doccomment'>/// Convolution using Fast-fourier transform</span>
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// The numeric suffix to the function name indicates the dimension in which the</span>
-        <span class='doccomment'>/// convolution operation is going to take place.</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// - 1 - Indicates 1d convolution</span>
-        <span class='doccomment'>/// - 2 - Indicates 2d convolution</span>
-        <span class='doccomment'>/// - 3 - Indicates 3d convolution</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// # Parameters</span>
+        <span class='doccomment'>///# Parameters</span>
         <span class='doccomment'>///</span>
         <span class='doccomment'>/// - `signal` is the input signal</span>
         <span class='doccomment'>/// - `filter` is the signal that shall be used for convolution operation</span>
         <span class='doccomment'>/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
-        <span class='doccomment'>/// equals input)</span>
+        <span class='doccomment'>/// equals input). It takes values of type [ConvMode](./enum.ConvMode.html)</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// # Return Values</span>
+        <span class='doccomment'>///# Return Values</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// The convolved Array</span>
+        <span class='doccomment'>/// Convolved Array</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>signal</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
                         <span class='ident'>mode</span>: <span class='ident'>ConvMode</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
@@ -1042,9 +1042,9 @@
     )
 }
 
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='ident'>fft_convolve1</span>, <span class='ident'>af_fft_convolve1</span>);
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='ident'>fft_convolve2</span>, <span class='ident'>af_fft_convolve2</span>);
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='ident'>fft_convolve3</span>, <span class='ident'>af_fft_convolve3</span>);
+<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;1d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve1</span>, <span class='ident'>af_fft_convolve1</span>);
+<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;2d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve2</span>, <span class='ident'>af_fft_convolve2</span>);
+<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;3d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve3</span>, <span class='ident'>af_fft_convolve3</span>);
 
 <span class='doccomment'>/// Finite impulse filter</span>
 <span class='doccomment'>///</span>
@@ -1294,7 +1294,8 @@
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
     }
-}</pre>
+}
+</pre>
 </section>
     <section id='search' class="content hidden"></section>
 

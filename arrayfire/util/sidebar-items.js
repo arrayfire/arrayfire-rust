@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["HasAfEnum","Types of the data that can be generated using ArrayFire data generation functions."]]});

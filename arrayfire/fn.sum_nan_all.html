@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-540' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#182-191' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sum_nan_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, val: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Reduction operation of all values</p>
+               </span><a id='src-610' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#574-583' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn sum_nan_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, val: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Sum all values using user provided value for <code>NAN</code></p>
 
 <p>Sum all the values of the <code>input</code> Array after replacing any <code>NAN</code> values with <code>val</code>.</p>
 
@@ -60,8 +60,9 @@ performed.</li>
 </ul>
 
 <h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
-<p>A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
-zero.</p>
+<p>A tuple of summation result.</p>
+
+<p>Note: For non-complex data type Arrays, second value of tuple is zero.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 

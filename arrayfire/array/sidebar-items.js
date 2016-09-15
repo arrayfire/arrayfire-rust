@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["print","Print data in the Array"]],"struct":[["Array","A multidimensional data container"]]});

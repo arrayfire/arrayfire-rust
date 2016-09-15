@@ -440,6 +440,95 @@
 <span id="396">396</span>
 <span id="397">397</span>
 <span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num</span>;
@@ -485,6 +574,7 @@
     <span class='kw'>fn</span> <span class='ident'>af_bitshiftr</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>lhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>rhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>batch</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_minof</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>lhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>rhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>batch</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_maxof</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>lhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>rhs</span>: <span class='ident'>AfArray</span>, <span class='ident'>batch</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_clamp</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>lo</span>: <span class='ident'>AfArray</span>, <span class='ident'>hi</span>: <span class='ident'>AfArray</span>, <span class='ident'>batch</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_not</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_abs</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
@@ -554,7 +644,10 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>unary_func</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// This is an element wise unary operation.</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
             <span class='kw'>unsafe</span> {
@@ -567,50 +660,53 @@
     )
 }
 
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>abs</span>, <span class='ident'>af_abs</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>arg</span>, <span class='ident'>af_arg</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>sign</span>, <span class='ident'>af_sign</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>round</span>, <span class='ident'>af_round</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>trunc</span>, <span class='ident'>af_trunc</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>floor</span>, <span class='ident'>af_floor</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>ceil</span>, <span class='ident'>af_ceil</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>sin</span>, <span class='ident'>af_sin</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>cos</span>, <span class='ident'>af_cos</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>tan</span>, <span class='ident'>af_tan</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>asin</span>, <span class='ident'>af_asin</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>acos</span>, <span class='ident'>af_acos</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>atan</span>, <span class='ident'>af_atan</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>cplx</span>, <span class='ident'>af_cplx</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>real</span>, <span class='ident'>af_real</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>imag</span>, <span class='ident'>af_imag</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>conjg</span>, <span class='ident'>af_conjg</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>sinh</span>, <span class='ident'>af_sinh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>cosh</span>, <span class='ident'>af_cosh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>tanh</span>, <span class='ident'>af_tanh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>asinh</span>, <span class='ident'>af_asinh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>acosh</span>, <span class='ident'>af_acosh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>atanh</span>, <span class='ident'>af_atanh</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>pow2</span>, <span class='ident'>af_pow2</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>exp</span>, <span class='ident'>af_exp</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>sigmoid</span>, <span class='ident'>af_sigmoid</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>expm1</span>, <span class='ident'>af_expm1</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>erf</span>, <span class='ident'>af_erf</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>erfc</span>, <span class='ident'>af_erfc</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='ident'>af_log</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>log1p</span>, <span class='ident'>af_log1p</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>log10</span>, <span class='ident'>af_log10</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>log2</span>, <span class='ident'>af_log2</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>sqrt</span>, <span class='ident'>af_sqrt</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>cbrt</span>, <span class='ident'>af_cbrt</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>factorial</span>, <span class='ident'>af_factorial</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>tgamma</span>, <span class='ident'>af_tgamma</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>lgamma</span>, <span class='ident'>af_lgamma</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>iszero</span>, <span class='ident'>af_iszero</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>isinf</span>, <span class='ident'>af_isinf</span>);
-<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='ident'>isnan</span>, <span class='ident'>af_isnan</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Computes absolute value&quot;</span>, <span class='ident'>abs</span>, <span class='ident'>af_abs</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Computes phase value&quot;</span>, <span class='ident'>arg</span>, <span class='ident'>af_arg</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Computes the sign of input Array values&quot;</span>, <span class='ident'>sign</span>, <span class='ident'>af_sign</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Round the values in an Array&quot;</span>, <span class='ident'>round</span>, <span class='ident'>af_round</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Truncate the values in an Array&quot;</span>, <span class='ident'>trunc</span>, <span class='ident'>af_trunc</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Floor the values in an Array&quot;</span>, <span class='ident'>floor</span>, <span class='ident'>af_floor</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Ceil the values in an Array&quot;</span>, <span class='ident'>ceil</span>, <span class='ident'>af_ceil</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute sin&quot;</span>, <span class='ident'>sin</span>, <span class='ident'>af_sin</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute cos&quot;</span>, <span class='ident'>cos</span>, <span class='ident'>af_cos</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute tan&quot;</span>, <span class='ident'>tan</span>, <span class='ident'>af_tan</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute asin&quot;</span>, <span class='ident'>asin</span>, <span class='ident'>af_asin</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute acos&quot;</span>, <span class='ident'>acos</span>, <span class='ident'>af_acos</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute atan&quot;</span>, <span class='ident'>atan</span>, <span class='ident'>af_atan</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Create a complex Array from real Array&quot;</span>, <span class='ident'>cplx</span>, <span class='ident'>af_cplx</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Extract real values from a complex Array&quot;</span>, <span class='ident'>real</span>, <span class='ident'>af_real</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Extract imaginary values from a complex Array&quot;</span>, <span class='ident'>imag</span>, <span class='ident'>af_imag</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the complex conjugate&quot;</span>, <span class='ident'>conjg</span>, <span class='ident'>af_conjg</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute sinh&quot;</span>, <span class='ident'>sinh</span>, <span class='ident'>af_sinh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute cosh&quot;</span>, <span class='ident'>cosh</span>, <span class='ident'>af_cosh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute tanh&quot;</span>, <span class='ident'>tanh</span>, <span class='ident'>af_tanh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute asinh&quot;</span>, <span class='ident'>asinh</span>, <span class='ident'>af_asinh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute acosh&quot;</span>, <span class='ident'>acosh</span>, <span class='ident'>af_acosh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute atanh&quot;</span>, <span class='ident'>atanh</span>, <span class='ident'>af_atanh</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute two raised to the power of value&quot;</span>, <span class='ident'>pow2</span>, <span class='ident'>af_pow2</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute e raised to the power of value&quot;</span>, <span class='ident'>exp</span>, <span class='ident'>af_exp</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute sigmoid function&quot;</span>, <span class='ident'>sigmoid</span>, <span class='ident'>af_sigmoid</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute e raised to the power of value -1&quot;</span>, <span class='ident'>expm1</span>, <span class='ident'>af_expm1</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute error function value&quot;</span>, <span class='ident'>erf</span>, <span class='ident'>af_erf</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the complementary error function value&quot;</span>, <span class='ident'>erfc</span>, <span class='ident'>af_erfc</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the natural logarithm&quot;</span>, <span class='ident'>log</span>, <span class='ident'>af_log</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the logarithm of input Array + 1&quot;</span>, <span class='ident'>log1p</span>, <span class='ident'>af_log1p</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute logarithm base 10&quot;</span>, <span class='ident'>log10</span>, <span class='ident'>af_log10</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute logarithm base 2&quot;</span>, <span class='ident'>log2</span>, <span class='ident'>af_log2</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the square root&quot;</span>, <span class='ident'>sqrt</span>, <span class='ident'>af_sqrt</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the cube root&quot;</span>, <span class='ident'>cbrt</span>, <span class='ident'>af_cbrt</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the factorial&quot;</span>, <span class='ident'>factorial</span>, <span class='ident'>af_factorial</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute gamma function&quot;</span>, <span class='ident'>tgamma</span>, <span class='ident'>af_tgamma</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute the logarithm of absolute values of gamma function&quot;</span>, <span class='ident'>lgamma</span>, <span class='ident'>af_lgamma</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if values are zero&quot;</span>, <span class='ident'>iszero</span>, <span class='ident'>af_iszero</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if values are infinity&quot;</span>, <span class='ident'>isinf</span>, <span class='ident'>af_isinf</span>);
+<span class='macro'>unary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if values are NaN&quot;</span>, <span class='ident'>isnan</span>, <span class='ident'>af_isnan</span>);
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>binary_func</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// This is an element wise binary operation.</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>lhs</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>rhs</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
             <span class='kw'>unsafe</span> {
@@ -625,15 +721,15 @@
     )
 }
 
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>bitand</span>, <span class='ident'>af_bitand</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>bitor</span>, <span class='ident'>af_bitor</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>bitxor</span>, <span class='ident'>af_bitxor</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>neq</span>, <span class='ident'>af_neq</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>and</span>, <span class='ident'>af_and</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>or</span>, <span class='ident'>af_or</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>minof</span>, <span class='ident'>af_minof</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>maxof</span>, <span class='ident'>af_maxof</span>);
-<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='ident'>hypot</span>, <span class='ident'>af_hypot</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise AND(bit) operation of two Arrays&quot;</span>, <span class='ident'>bitand</span>, <span class='ident'>af_bitand</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise OR(bit) operation of two Arrays&quot;</span>, <span class='ident'>bitor</span>, <span class='ident'>af_bitor</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise XOR(bit) operation of two Arrays&quot;</span>, <span class='ident'>bitxor</span>, <span class='ident'>af_bitxor</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise not equals comparison of two Arrays&quot;</span>, <span class='ident'>neq</span>, <span class='ident'>af_neq</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise logical and operation of two Arrays&quot;</span>, <span class='ident'>and</span>, <span class='ident'>af_and</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise logical or operation of two Arrays&quot;</span>, <span class='ident'>or</span>, <span class='ident'>af_or</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise minimum operation of two Arrays&quot;</span>, <span class='ident'>minof</span>, <span class='ident'>af_minof</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Elementwise maximum operation of two Arrays&quot;</span>, <span class='ident'>maxof</span>, <span class='ident'>af_maxof</span>);
+<span class='macro'>binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute length of hypotenuse of two Arrays&quot;</span>, <span class='ident'>hypot</span>, <span class='ident'>af_hypot</span>);
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Convertable</span> {
     <span class='kw'>fn</span> <span class='ident'>convert</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span>;
@@ -664,7 +760,7 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>overloaded_binary_func</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
         <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>(<span class='ident'>lhs</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>rhs</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>batch</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
             <span class='kw'>unsafe</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
@@ -676,15 +772,35 @@
             }
         }
 
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// This is a binary elementwise operation.</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///# Parameters</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// - `arg1`is an argument that implements an internal trait `Convertable`.</span>
+        <span class='doccomment'>/// - `arg2`is an argument that implements an internal trait `Convertable`.</span>
+        <span class='doccomment'>/// - `batch` is an boolean that indicates if the current operation is an batch operation.</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// Both parameters `arg1` and `arg2` can be either an Array or a value of rust integral</span>
+        <span class='doccomment'>/// type.</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///# Return Values</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// An Array with results of the binary operation.</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///# Note</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>U</span><span class='op'>&gt;</span> (<span class='ident'>arg1</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>, <span class='ident'>arg2</span>: <span class='kw-2'>&amp;</span><span class='ident'>U</span>, <span class='ident'>batch</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Convertable</span>, <span class='ident'>U</span>: <span class='ident'>Convertable</span> {
             <span class='kw'>let</span> <span class='ident'>lhs</span> <span class='op'>=</span> <span class='ident'>arg1</span>.<span class='ident'>convert</span>();
             <span class='kw'>let</span> <span class='ident'>rhs</span> <span class='op'>=</span> <span class='ident'>arg2</span>.<span class='ident'>convert</span>();
             <span class='kw'>match</span> (<span class='ident'>lhs</span>.<span class='ident'>is_scalar</span>(), <span class='ident'>rhs</span>.<span class='ident'>is_scalar</span>()) {
-                ( <span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
+                ( <span class='bool-val'>true</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>lhs</span>, <span class='ident'>rhs</span>.<span class='ident'>dims</span>());
                     <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>(<span class='kw-2'>&amp;</span><span class='ident'>l</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='ident'>batch</span>)
                 },
-                (<span class='boolvalue'>false</span>,  <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
+                (<span class='bool-val'>false</span>,  <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='ident'>lhs</span>.<span class='ident'>dims</span>());
                     <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>help_name</span>(<span class='kw-2'>&amp;</span><span class='ident'>lhs</span>, <span class='kw-2'>&amp;</span><span class='ident'>r</span>, <span class='ident'>batch</span>)
                 },
@@ -696,23 +812,70 @@
 
 <span class='comment'>// thanks to Umar Arshad for the idea on how to</span>
 <span class='comment'>// implement overloaded function</span>
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>add</span>, <span class='ident'>add_helper</span>, <span class='ident'>af_add</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>sub</span>, <span class='ident'>sub_helper</span>, <span class='ident'>af_sub</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>mul</span>, <span class='ident'>mul_helper</span>, <span class='ident'>af_mul</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>div</span>, <span class='ident'>div_helper</span>, <span class='ident'>af_div</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>rem</span>, <span class='ident'>rem_helper</span>, <span class='ident'>af_rem</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>shiftl</span>, <span class='ident'>shiftl_helper</span>, <span class='ident'>af_bitshiftl</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>shiftr</span>, <span class='ident'>shiftr_helper</span>, <span class='ident'>af_bitshiftr</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>lt</span>, <span class='ident'>lt_helper</span>, <span class='ident'>af_lt</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>gt</span>, <span class='ident'>gt_helper</span>, <span class='ident'>af_gt</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>le</span>, <span class='ident'>le_helper</span>, <span class='ident'>af_le</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>ge</span>, <span class='ident'>ge_helper</span>, <span class='ident'>af_ge</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>eq</span>, <span class='ident'>eq_helper</span>, <span class='ident'>af_eq</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>modulo</span>, <span class='ident'>modulo_helper</span>, <span class='ident'>af_mod</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>atan2</span>, <span class='ident'>atan2_helper</span>, <span class='ident'>af_atan2</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>cplx2</span>, <span class='ident'>cplx2_helper</span>, <span class='ident'>af_cplx2</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>root</span>, <span class='ident'>root_helper</span>, <span class='ident'>af_root</span>);
-<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='ident'>pow</span>, <span class='ident'>pow_helper</span>, <span class='ident'>af_pow</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Addition of two Arrays&quot;</span>, <span class='ident'>add</span>, <span class='ident'>add_helper</span>, <span class='ident'>af_add</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Subtraction of two Arrays&quot;</span>, <span class='ident'>sub</span>, <span class='ident'>sub_helper</span>, <span class='ident'>af_sub</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Multiplication of two Arrays&quot;</span>, <span class='ident'>mul</span>, <span class='ident'>mul_helper</span>, <span class='ident'>af_mul</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Division of two Arrays&quot;</span>, <span class='ident'>div</span>, <span class='ident'>div_helper</span>, <span class='ident'>af_div</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute remainder from two Arrays&quot;</span>, <span class='ident'>rem</span>, <span class='ident'>rem_helper</span>, <span class='ident'>af_rem</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute left shift&quot;</span>, <span class='ident'>shiftl</span>, <span class='ident'>shiftl_helper</span>, <span class='ident'>af_bitshiftl</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute right shift&quot;</span>, <span class='ident'>shiftr</span>, <span class='ident'>shiftr_helper</span>, <span class='ident'>af_bitshiftr</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Perform `less than` comparison operation&quot;</span>, <span class='ident'>lt</span>, <span class='ident'>lt_helper</span>, <span class='ident'>af_lt</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Perform `greater than` comparison operation&quot;</span>, <span class='ident'>gt</span>, <span class='ident'>gt_helper</span>, <span class='ident'>af_gt</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Perform `less than equals` comparison operation&quot;</span>, <span class='ident'>le</span>, <span class='ident'>le_helper</span>, <span class='ident'>af_le</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Perform `greater than equals` comparison operation&quot;</span>, <span class='ident'>ge</span>, <span class='ident'>ge_helper</span>, <span class='ident'>af_ge</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Perform `equals` comparison operation&quot;</span>, <span class='ident'>eq</span>, <span class='ident'>eq_helper</span>, <span class='ident'>af_eq</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute modulo of two Arrays&quot;</span>, <span class='ident'>modulo</span>, <span class='ident'>modulo_helper</span>, <span class='ident'>af_mod</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Calculate atan2 of two Arrays&quot;</span>, <span class='ident'>atan2</span>, <span class='ident'>atan2_helper</span>, <span class='ident'>af_atan2</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Create complex array from two Arrays&quot;</span>, <span class='ident'>cplx2</span>, <span class='ident'>cplx2_helper</span>, <span class='ident'>af_cplx2</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Compute root&quot;</span>, <span class='ident'>root</span>, <span class='ident'>root_helper</span>, <span class='ident'>af_root</span>);
+<span class='macro'>overloaded_binary_func</span><span class='macro'>!</span>(<span class='string'>&quot;Computer power&quot;</span>, <span class='ident'>pow</span>, <span class='ident'>pow_helper</span>, <span class='ident'>af_pow</span>);
+
+<span class='doccomment'>/// Clamp the values of Array</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `arg1`is an argument that implements an internal trait `Convertable`.</span>
+<span class='doccomment'>/// - `arg2`is an argument that implements an internal trait `Convertable`.</span>
+<span class='doccomment'>/// - `batch` is an boolean that indicates if the current operation is an batch operation.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Both parameters `arg1` and `arg2` can be either an Array or a value of rust integral</span>
+<span class='doccomment'>/// type.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// An Array with results of the binary operation.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Note</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>clamp</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>U</span><span class='op'>&gt;</span> (<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>arg1</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>, <span class='ident'>arg2</span>: <span class='kw-2'>&amp;</span><span class='ident'>U</span>, <span class='ident'>batch</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span>
+    <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Convertable</span>, <span class='ident'>U</span>: <span class='ident'>Convertable</span>
+{
+    <span class='kw'>let</span> <span class='ident'>clamp_helper</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>lo</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>hi</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span><span class='op'>|</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
+            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_clamp</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                   <span class='ident'>lo</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>hi</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                   <span class='ident'>batch</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+            <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+        }
+    };
+
+    <span class='kw'>let</span> <span class='ident'>lo</span> <span class='op'>=</span> <span class='ident'>arg1</span>.<span class='ident'>convert</span>();
+    <span class='kw'>let</span> <span class='ident'>hi</span> <span class='op'>=</span> <span class='ident'>arg2</span>.<span class='ident'>convert</span>();
+    <span class='kw'>match</span> (<span class='ident'>lo</span>.<span class='ident'>is_scalar</span>(), <span class='ident'>hi</span>.<span class='ident'>is_scalar</span>()) {
+        ( <span class='bool-val'>true</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
+            <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>lo</span>, <span class='ident'>hi</span>.<span class='ident'>dims</span>());
+            <span class='ident'>clamp_helper</span>(<span class='kw-2'>&amp;</span><span class='ident'>l</span>, <span class='kw-2'>&amp;</span><span class='ident'>hi</span>)
+        },
+        (<span class='bool-val'>false</span>,  <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
+            <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>tile</span>(<span class='kw-2'>&amp;</span><span class='ident'>hi</span>, <span class='ident'>lo</span>.<span class='ident'>dims</span>());
+            <span class='ident'>clamp_helper</span>(<span class='kw-2'>&amp;</span><span class='ident'>lo</span>, <span class='kw-2'>&amp;</span><span class='ident'>r</span>)
+        },
+        _ <span class='op'>=&gt;</span> <span class='ident'>clamp_helper</span>(<span class='kw-2'>&amp;</span><span class='ident'>lo</span>, <span class='kw-2'>&amp;</span><span class='ident'>hi</span>),
+    }
+}
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>arith_scalar_func</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rust_type</span>: <span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>op_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
@@ -724,7 +887,22 @@
                 <span class='kw'>unsafe</span> {
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
                     <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                          <span class='ident'>cnst_arr</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='number'>0</span>); 
+                                          <span class='ident'>cnst_arr</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='number'>0</span>);
+                    <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+                    <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+                }
+            }
+        }
+
+        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>op_name</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rust_type</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Array</span> {
+            <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>Array</span>;
+
+            <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rust_type</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
+                <span class='kw'>let</span> <span class='ident'>cnst_arr</span> <span class='op'>=</span> <span class='ident'>constant</span>(<span class='ident'>rhs</span>, <span class='self'>self</span>.<span class='ident'>dims</span>());
+                <span class='kw'>unsafe</span> {
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
+                    <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                          <span class='ident'>cnst_arr</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='number'>0</span>);
                     <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
                     <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
                 }
@@ -800,10 +978,10 @@
             <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
             <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Array</span>) {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idxrs</span> <span class='op'>=</span> <span class='ident'>Indexer</span>::<span class='ident'>new</span>();
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>));
                 <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>assign_gen</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>idxrs</span>,
-                                     <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='boolvalue'>false</span>));
+                                     <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>, <span class='bool-val'>false</span>));
                 <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='self'>self</span>, <span class='ident'>tmp</span>);
             }
         }
@@ -825,8 +1003,8 @@
             <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
             <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Array</span>) {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idxrs</span> <span class='op'>=</span> <span class='ident'>Indexer</span>::<span class='ident'>new</span>();
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
-                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>));
+                <span class='ident'>idxrs</span>.<span class='ident'>set_index</span>(<span class='kw-2'>&amp;</span><span class='ident'>Seq</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>::<span class='ident'>default</span>(), <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>));
                 <span class='kw'>let</span> <span class='ident'>tmp</span> <span class='op'>=</span> <span class='ident'>assign_gen</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>idxrs</span>, <span class='kw-2'>&amp;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>func</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='kw-2'>&amp;</span><span class='ident'>rhs</span>));
                 <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='self'>self</span>, <span class='ident'>tmp</span>);
             }

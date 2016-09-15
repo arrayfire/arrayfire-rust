@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-rational-0.1.32/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-rational-0.1.35/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -1154,6 +1154,29 @@
 <span id="1110">1110</span>
 <span id="1111">1111</span>
 <span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -1185,9 +1208,6 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Add</span>, <span class='ident'>Div</span>, <span class='ident'>Mul</span>, <span class='ident'>Neg</span>, <span class='ident'>Rem</span>, <span class='ident'>Sub</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>serde</span>;
-
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-bigint&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>bigint</span>::{<span class='ident'>BigInt</span>, <span class='ident'>BigUint</span>, <span class='ident'>Sign</span>};
 
@@ -1213,13 +1233,24 @@
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>BigRational</span> <span class='op'>=</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>BigInt</span><span class='op'>&gt;</span>;
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Integer</span><span class='op'>&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Creates a ratio representing the integer `t`.</span>
+    <span class='doccomment'>/// Creates a new `Ratio`. Fails if `denom` is zero.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>numer</span>: <span class='ident'>T</span>, <span class='ident'>denom</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+        <span class='kw'>if</span> <span class='ident'>denom</span>.<span class='ident'>is_zero</span>() {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;denominator == 0&quot;</span>);
+        }
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>numer</span>, <span class='ident'>denom</span>);
+        <span class='ident'>ret</span>.<span class='ident'>reduce</span>();
+        <span class='ident'>ret</span>
+    }
+
+    <span class='doccomment'>/// Creates a `Ratio` representing the integer `t`.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_integer</span>(<span class='ident'>t</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>t</span>, <span class='ident'>One</span>::<span class='ident'>one</span>())
     }
 
-    <span class='doccomment'>/// Creates a ratio without checking for `denom == 0` or reducing.</span>
+    <span class='doccomment'>/// Creates a `Ratio` without checking for `denom == 0` or reducing.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_raw</span>(<span class='ident'>numer</span>: <span class='ident'>T</span>, <span class='ident'>denom</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='ident'>Ratio</span> {
@@ -1228,18 +1259,7 @@
         }
     }
 
-    <span class='doccomment'>/// Create a new Ratio. Fails if `denom == 0`.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>numer</span>: <span class='ident'>T</span>, <span class='ident'>denom</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='ident'>denom</span> <span class='op'>==</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
-            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;denominator == 0&quot;</span>);
-        }
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>numer</span>, <span class='ident'>denom</span>);
-        <span class='ident'>ret</span>.<span class='ident'>reduce</span>();
-        <span class='ident'>ret</span>
-    }
-
-    <span class='doccomment'>/// Converts to an integer.</span>
+    <span class='doccomment'>/// Converts to an integer, rounding towards zero.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_integer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
         <span class='self'>self</span>.<span class='ident'>trunc</span>().<span class='ident'>numer</span>
@@ -1263,7 +1283,7 @@
         <span class='self'>self</span>.<span class='ident'>denom</span> <span class='op'>==</span> <span class='ident'>One</span>::<span class='ident'>one</span>()
     }
 
-    <span class='doccomment'>/// Put self into lowest terms, with denom &gt; 0.</span>
+    <span class='doccomment'>/// Puts self into lowest terms, with denom &gt; 0.</span>
     <span class='kw'>fn</span> <span class='ident'>reduce</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>g</span>: <span class='ident'>T</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>gcd</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>denom</span>);
 
@@ -1281,7 +1301,10 @@
         }
     }
 
-    <span class='doccomment'>/// Returns a `reduce`d copy of self.</span>
+    <span class='doccomment'>/// Returns a reduced copy of self.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// In general, it is not necessary to use this method, as the only</span>
+    <span class='doccomment'>/// method of procuring a non-reduced fraction is through `new_raw`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reduced</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>clone</span>();
         <span class='ident'>ret</span>.<span class='ident'>reduce</span>();
@@ -1289,9 +1312,16 @@
     }
 
     <span class='doccomment'>/// Returns the reciprocal.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Fails if the `Ratio` is zero.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>recip</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>())
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>T</span>::<span class='ident'>zero</span>()) {
+            <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Equal</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;numerator == 0&quot;</span>),
+            <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Greater</span> <span class='op'>=&gt;</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>()),
+            <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Less</span> <span class='op'>=&gt;</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>T</span>::<span class='ident'>zero</span>() <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(),
+                                                  <span class='ident'>T</span>::<span class='ident'>zero</span>() <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>())
+        }
     }
 
     <span class='doccomment'>/// Rounds towards minus infinity.</span>
@@ -1358,7 +1388,9 @@
         <span class='ident'>Ratio</span>::<span class='ident'>from_integer</span>(<span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>() <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>())
     }
 
-    <span class='doccomment'>/// Returns the fractional part of a number.</span>
+    <span class='doccomment'>/// Returns the fractional part of a number, with division rounded towards zero.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Satisfies `self == self.trunc() + self.fract()`.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fract</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>() <span class='op'>%</span> <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>())
@@ -1366,7 +1398,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Integer</span> <span class='op'>+</span> <span class='ident'>PrimInt</span><span class='op'>&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Raises the ratio to the power of an exponent</span>
+    <span class='doccomment'>/// Raises the `Ratio` to the power of an exponent.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>expon</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='ident'>expon</span>.<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='number'>0</span>) {
@@ -1445,10 +1477,10 @@
             <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Less</span> <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Less</span>,
             <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Equal</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> (<span class='ident'>self_rem</span>.<span class='ident'>is_zero</span>(), <span class='ident'>other_rem</span>.<span class='ident'>is_zero</span>()) {
-                    (<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>,
-                    (<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Less</span>,
-                    (<span class='boolvalue'>false</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>,
-                    (<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
+                    (<span class='bool-val'>true</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>,
+                    (<span class='bool-val'>true</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Less</span>,
+                    (<span class='bool-val'>false</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>cmp</span>::<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>,
+                    (<span class='bool-val'>false</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
                         <span class='comment'>// Compare the reciprocals of the remaining fractions in reverse</span>
                         <span class='kw'>let</span> <span class='ident'>self_recip</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(), <span class='ident'>self_rem</span>);
                         <span class='kw'>let</span> <span class='ident'>other_recip</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>other</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>(), <span class='ident'>other_rem</span>);
@@ -1749,8 +1781,8 @@
     <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>deserializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>D</span>: <span class='ident'>serde</span>::<span class='ident'>Deserializer</span>
     {
-        <span class='kw'>let</span> (<span class='ident'>numer</span>, <span class='ident'>denom</span>) <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>serde</span>::<span class='ident'>Deserialize</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>if</span> <span class='ident'>denom</span> <span class='op'>==</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
+        <span class='kw'>let</span> (<span class='ident'>numer</span>, <span class='ident'>denom</span>): (<span class='ident'>T</span>,<span class='ident'>T</span>) <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>serde</span>::<span class='ident'>Deserialize</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
+        <span class='kw'>if</span> <span class='ident'>denom</span>.<span class='ident'>is_zero</span>() {
             <span class='prelude-val'>Err</span>(<span class='ident'>serde</span>::<span class='ident'>de</span>::<span class='ident'>Error</span>::<span class='ident'>invalid_value</span>(<span class='string'>&quot;denominator is zero&quot;</span>))
         } <span class='kw'>else</span> {
             <span class='prelude-val'>Ok</span>(<span class='ident'>Ratio</span>::<span class='ident'>new_raw</span>(<span class='ident'>numer</span>, <span class='ident'>denom</span>))
@@ -1819,6 +1851,10 @@
     };
     <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>_2</span>: <span class='ident'>Rational</span> <span class='op'>=</span> <span class='ident'>Ratio</span> {
         <span class='ident'>numer</span>: <span class='number'>2</span>,
+        <span class='ident'>denom</span>: <span class='number'>1</span>,
+    };
+    <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>_NEG2</span>: <span class='ident'>Rational</span> <span class='op'>=</span> <span class='ident'>Ratio</span> {
+        <span class='ident'>numer</span>: <span class='op'>-</span><span class='number'>2</span>,
         <span class='ident'>denom</span>: <span class='number'>1</span>,
     };
     <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>_1_2</span>: <span class='ident'>Rational</span> <span class='op'>=</span> <span class='ident'>Ratio</span> {
@@ -2159,6 +2195,16 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_1_2</span> <span class='op'>*</span> <span class='ident'>_1_2</span>.<span class='ident'>recip</span>(), <span class='ident'>_1</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_3_2</span> <span class='op'>*</span> <span class='ident'>_3_2</span>.<span class='ident'>recip</span>(), <span class='ident'>_1</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_NEG1_2</span> <span class='op'>*</span> <span class='ident'>_NEG1_2</span>.<span class='ident'>recip</span>(), <span class='ident'>_1</span>);
+
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_3_2</span>.<span class='ident'>recip</span>(), <span class='ident'>_2_3</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_NEG1_2</span>.<span class='ident'>recip</span>(), <span class='ident'>_NEG2</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_NEG1_2</span>.<span class='ident'>recip</span>().<span class='ident'>denom</span>(), <span class='kw-2'>&amp;</span><span class='number'>1</span>);
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='attribute'>#[<span class='ident'>should_panic</span> <span class='op'>=</span> <span class='string'>&quot;== 0&quot;</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_recip_fail</span>() {
+        <span class='kw'>let</span> <span class='ident'>_a</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='number'>1</span>).<span class='ident'>recip</span>();
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>

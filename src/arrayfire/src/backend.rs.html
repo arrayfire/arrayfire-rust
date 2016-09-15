@@ -157,12 +157,12 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_available_backends</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        
+
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='kw'>if</span> <span class='ident'>temp</span> <span class='kw-2'>&amp;</span> <span class='number'>0b0100</span> <span class='op'>==</span> <span class='number'>0b0100</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>OPENCL</span>); }
         <span class='kw'>if</span> <span class='ident'>temp</span> <span class='kw-2'>&amp;</span> <span class='number'>0b0010</span> <span class='op'>==</span> <span class='number'>0b0010</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>CUDA</span>); }
         <span class='kw'>if</span> <span class='ident'>temp</span> <span class='kw-2'>&amp;</span> <span class='number'>0b0001</span> <span class='op'>==</span> <span class='number'>0b0001</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>CPU</span>); }
-        
+
         <span class='ident'>b</span>
     }
 }
@@ -182,7 +182,8 @@
             _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid backend retrieved, undefined behavior.&quot;</span>),
         }
     }
-}</pre>
+}
+</pre>
 </section>
     <section id='search' class="content hidden"></section>
 

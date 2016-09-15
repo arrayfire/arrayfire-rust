@@ -1164,11 +1164,97 @@
 <span id="1120">1120</span>
 <span id="1121">1121</span>
 <span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
 <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>BorderType</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>Connectivity</span>, <span class='ident'>InterpType</span>, <span class='ident'>YCCStd</span>};
+<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>BorderType</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>Connectivity</span>, <span class='ident'>InterpType</span>, <span class='ident'>YCCStd</span>, <span class='ident'>MomentType</span>};
 <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>HasAfEnum</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>};
@@ -1232,6 +1318,8 @@
     <span class='kw'>fn</span> <span class='ident'>af_medfilt</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>,
                   <span class='ident'>wlen</span>: <span class='ident'>DimT</span>, <span class='ident'>wwid</span>: <span class='ident'>DimT</span>, <span class='ident'>etype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
+    <span class='kw'>fn</span> <span class='ident'>af_medfilt1</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>wlen</span>: <span class='ident'>DimT</span>, <span class='ident'>etype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
     <span class='kw'>fn</span> <span class='ident'>af_minfilt</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>,
                   <span class='ident'>wlen</span>: <span class='ident'>DimT</span>, <span class='ident'>wwid</span>: <span class='ident'>DimT</span>, <span class='ident'>etype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
@@ -1260,6 +1348,9 @@
     <span class='kw'>fn</span> <span class='ident'>af_rgb2ycbcr</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>stnd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_is_image_io_available</span>(<span class='ident'>out</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_transform_coordinates</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>tf</span>: <span class='ident'>AfArray</span>, <span class='ident'>d0</span>: <span class='ident'>c_float</span>, <span class='ident'>d1</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>af_moments</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>moment</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span><span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_moments_all</span>(<span class='ident'>out</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>moment</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span><span class='ident'>c_int</span>;
 }
 
 <span class='doccomment'>/// Calculate the gradients</span>
@@ -1819,7 +1910,19 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>filt_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///# Parameters</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// - `input` is the input image(Array)</span>
+        <span class='doccomment'>/// - `wlen` is the horizontal length of the filter</span>
+        <span class='doccomment'>/// - `hlen` is the vertical length of the filter</span>
+        <span class='doccomment'>/// - `etype` is enum of type [BorderType](./enum.BorderType.html)</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///# Return Values</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>/// An Array with filtered image data.</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>wlen</span>: <span class='ident'>u64</span>, <span class='ident'>wwid</span>: <span class='ident'>u64</span>,
                         <span class='ident'>etype</span>: <span class='ident'>BorderType</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
@@ -1834,9 +1937,9 @@
     )
 }
 
-<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='ident'>medfilt</span>, <span class='ident'>af_medfilt</span>);
-<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='ident'>minfilt</span>, <span class='ident'>af_minfilt</span>);
-<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='ident'>maxfilt</span>, <span class='ident'>af_maxfilt</span>);
+<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Median filter&quot;</span>, <span class='ident'>medfilt</span>, <span class='ident'>af_medfilt</span>);
+<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Box filter with minimum as box operation&quot;</span>, <span class='ident'>minfilt</span>, <span class='ident'>af_minfilt</span>);
+<span class='macro'>filt_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Box filter with maximum as box operation&quot;</span>, <span class='ident'>maxfilt</span>, <span class='ident'>af_maxfilt</span>);
 
 <span class='doccomment'>/// Creates a Gaussian Kernel.</span>
 <span class='doccomment'>///</span>
@@ -1997,14 +2100,18 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>grayrgb_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='doccomment'>/// Color space conversion functions</span>
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
         <span class='doccomment'>///</span>
-        <span class='doccomment'>/// # Parameters</span>
+        <span class='doccomment'>///# Parameters</span>
         <span class='doccomment'>///</span>
         <span class='doccomment'>/// - `r` is fraction of red channel to appear in output</span>
         <span class='doccomment'>/// - `g` is fraction of green channel to appear in output</span>
         <span class='doccomment'>/// - `b` is fraction of blue channel to appear in output</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///#Return Values</span>
+        <span class='doccomment'>///</span>
+        <span class='doccomment'>///An Array with image data in target color space</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>r</span>: <span class='ident'>f32</span>, <span class='ident'>g</span>: <span class='ident'>f32</span>, <span class='ident'>b</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
             <span class='kw'>unsafe</span> {
@@ -2018,12 +2125,12 @@
     )
 }
 
-<span class='macro'>grayrgb_func_def</span><span class='macro'>!</span>(<span class='ident'>rgb2gray</span>, <span class='ident'>af_rgb2gray</span>);
-<span class='macro'>grayrgb_func_def</span><span class='macro'>!</span>(<span class='ident'>gray2rgb</span>, <span class='ident'>af_gray2rgb</span>);
+<span class='macro'>grayrgb_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Color(RGB) to Grayscale conversion&quot;</span>, <span class='ident'>rgb2gray</span>, <span class='ident'>af_rgb2gray</span>);
+<span class='macro'>grayrgb_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Grayscale to Color(RGB) conversion&quot;</span>, <span class='ident'>gray2rgb</span>, <span class='ident'>af_gray2rgb</span>);
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>hsvrgb_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='doccomment'>/// Color space conversion functions</span>
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
             <span class='kw'>unsafe</span> {
@@ -2036,8 +2143,8 @@
     )
 }
 
-<span class='macro'>hsvrgb_func_def</span><span class='macro'>!</span>(<span class='ident'>hsv2rgb</span>, <span class='ident'>af_hsv2rgb</span>);
-<span class='macro'>hsvrgb_func_def</span><span class='macro'>!</span>(<span class='ident'>rgb2hsv</span>, <span class='ident'>af_rgb2hsv</span>);
+<span class='macro'>hsvrgb_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;HSV to RGB color space conversion&quot;</span>, <span class='ident'>hsv2rgb</span>, <span class='ident'>af_hsv2rgb</span>);
+<span class='macro'>hsvrgb_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;RGB to HSV color space conversion&quot;</span>, <span class='ident'>rgb2hsv</span>, <span class='ident'>af_rgb2hsv</span>);
 
 <span class='doccomment'>/// Generate an array with image windows as columns</span>
 <span class='doccomment'>///</span>
@@ -2077,7 +2184,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```ignore</span>
+<span class='doccomment'>/// ```text</span>
 <span class='doccomment'>/// A [5 5 1 1]</span>
 <span class='doccomment'>/// 10 15 20 25 30</span>
 <span class='doccomment'>/// 11 16 21 26 31</span>
@@ -2286,7 +2393,73 @@
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
     }
-}</pre>
+}
+
+<span class='doccomment'>/// Find Image moments</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `input` is the input image</span>
+<span class='doccomment'>/// - `moment` is the type of moment to be computed, takes a value of</span>
+<span class='doccomment'>/// [enum](./enum.MomentType.html)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Moments Array</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>moments</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>moment</span>: <span class='ident'>MomentType</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_moments</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
+                                 <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                 <span class='ident'>moment</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    }
+}
+
+<span class='doccomment'>/// Find Image moment for whole image</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// - `input` is the input image</span>
+<span class='doccomment'>/// - `moment` is the type of moment to be computed, takes a value of</span>
+<span class='doccomment'>/// [enum](./enum.MomentType.html)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Moment value of the whole image</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>moments_all</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>moment</span>: <span class='ident'>MomentType</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_moments_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>,
+                                     <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                     <span class='ident'>moment</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+        <span class='ident'>temp</span>
+    }
+}
+
+<span class='doccomment'>/// One dimensional median filter on image</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Parameters</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - `input` is the input image(Array)</span>
+<span class='doccomment'>///  - `wlen` is the horizontal length of the filter</span>
+<span class='doccomment'>///  - `etype` is enum of type [BorderType](./enum.BorderType.html)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return Values</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// An Array with filtered image data.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>medfilt1</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>wlen</span>: <span class='ident'>u64</span>, <span class='ident'>etype</span>: <span class='ident'>BorderType</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_medfilt1</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
+                                  <span class='ident'>wlen</span> <span class='kw'>as</span> <span class='ident'>DimT</span>, <span class='ident'>etype</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
+        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    }
+}
+</pre>
 </section>
     <section id='search' class="content hidden"></section>
 

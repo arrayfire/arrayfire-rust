@@ -377,6 +377,70 @@
 <span id="333">333</span>
 <span id="334">334</span>
 <span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Display</span>, <span class='ident'>Formatter</span>};
@@ -527,6 +591,18 @@
     <span class='ident'>BILINEAR</span><span class='op'>=</span> <span class='number'>2</span>,
     <span class='doccomment'>/// Cubic interpolation method</span>
     <span class='ident'>CUBIC</span>   <span class='op'>=</span> <span class='number'>3</span>,
+    <span class='doccomment'>/// Floor indexed</span>
+    <span class='ident'>LOWER</span>   <span class='op'>=</span> <span class='number'>4</span>,
+    <span class='doccomment'>/// Linear interpolation with cosine smoothing</span>
+    <span class='ident'>LINEAR_COSINE</span>   <span class='op'>=</span> <span class='number'>5</span>,
+    <span class='doccomment'>/// Bilinear interpolation with cosine smoothing</span>
+    <span class='ident'>BILINEAR_COSINE</span> <span class='op'>=</span> <span class='number'>6</span>,
+    <span class='doccomment'>/// Bicubic interpolation</span>
+    <span class='ident'>BICUBIC</span>         <span class='op'>=</span> <span class='number'>7</span>,
+    <span class='doccomment'>/// Cubic interpolation with Catmull-Rom splines</span>
+    <span class='ident'>CUBIC_SPLINE</span>    <span class='op'>=</span> <span class='number'>8</span>,
+    <span class='doccomment'>/// Bicubic interpolation with Catmull-Rom splines</span>
+    <span class='ident'>BICUBIC_SPLINE</span>  <span class='op'>=</span> <span class='number'>9</span>
 }
 
 <span class='doccomment'>/// Helps determine how to pad kernels along borders</span>
@@ -713,6 +789,58 @@
     <span class='ident'>PLUS</span>     <span class='op'>=</span> <span class='number'>6</span>,
     <span class='ident'>STAR</span>     <span class='op'>=</span> <span class='number'>7</span>
 }
+
+<span class='doccomment'>/// Image moment types</span>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MomentType</span> {
+    <span class='ident'>M00</span> <span class='op'>=</span> <span class='number'>1</span>,    <span class='comment'>// 1&lt;&lt;0</span>
+    <span class='ident'>M01</span> <span class='op'>=</span> <span class='number'>2</span>,    <span class='comment'>// 1&lt;&lt;1</span>
+    <span class='ident'>M10</span> <span class='op'>=</span> <span class='number'>4</span>,    <span class='comment'>// 1&lt;&lt;2</span>
+    <span class='ident'>M11</span> <span class='op'>=</span> <span class='number'>8</span>,    <span class='comment'>// 1&lt;&lt;3</span>
+    <span class='ident'>FIRST_ORDER</span> <span class='op'>=</span> <span class='number'>1</span><span class='op'>&lt;&lt;</span><span class='number'>0</span> <span class='op'>|</span> <span class='number'>1</span><span class='op'>&lt;&lt;</span><span class='number'>1</span> <span class='op'>|</span> <span class='number'>1</span><span class='op'>&lt;&lt;</span><span class='number'>2</span> <span class='op'>|</span> <span class='number'>1</span><span class='op'>&lt;&lt;</span><span class='number'>3</span>
+}
+
+<span class='doccomment'>/// Sparse storage format type</span>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>SparseFormat</span> {
+    <span class='doccomment'>/// Dense format</span>
+    <span class='ident'>DENSE</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Compressed sparse row format</span>
+    <span class='ident'>CSR</span>   <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='doccomment'>/// Compressed sparse coloumn format</span>
+    <span class='ident'>CSC</span>   <span class='op'>=</span> <span class='number'>2</span>,
+    <span class='doccomment'>/// Coordinate list (row, coloumn, value) tuples.</span>
+    <span class='ident'>COO</span>   <span class='op'>=</span> <span class='number'>3</span>
+}
+
+<span class='doccomment'>/// Binary operation types for generalized scan functions</span>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BinaryOp</span> {
+    <span class='ident'>ADD</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='ident'>MUL</span> <span class='op'>=</span> <span class='number'>1</span>,
+    <span class='ident'>MIN</span> <span class='op'>=</span> <span class='number'>2</span>,
+    <span class='ident'>MAX</span> <span class='op'>=</span> <span class='number'>3</span>
+}
+
+<span class='doccomment'>/// Random engine types</span>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>RandomEngineType</span> {
+    <span class='doccomment'>///Philox variant with N=4, W=32 and Rounds=10</span>
+    <span class='ident'>PHILOX_4X32_10</span>      <span class='op'>=</span> <span class='number'>100</span>,
+    <span class='doccomment'>///Threefry variant with N=2, W=32 and Rounds=16</span>
+    <span class='ident'>THREEFRY_2X32_16</span>    <span class='op'>=</span> <span class='number'>200</span>,
+    <span class='doccomment'>///Mersenne variant with MEXP = 11213</span>
+    <span class='ident'>MERSENNE_GP11213</span>    <span class='op'>=</span> <span class='number'>300</span>
+}
+
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PHILOX</span>   : <span class='ident'>RandomEngineType</span> <span class='op'>=</span> <span class='ident'>RandomEngineType</span>::<span class='ident'>PHILOX_4X32_10</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>THREEFRY</span> : <span class='ident'>RandomEngineType</span> <span class='op'>=</span> <span class='ident'>RandomEngineType</span>::<span class='ident'>THREEFRY_2X32_16</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MERSENNE</span> : <span class='ident'>RandomEngineType</span> <span class='op'>=</span> <span class='ident'>RandomEngineType</span>::<span class='ident'>MERSENNE_GP11213</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>DEFAULT_RANDOM_ENGINE</span> : <span class='ident'>RandomEngineType</span> <span class='op'>=</span> <span class='ident'>PHILOX</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

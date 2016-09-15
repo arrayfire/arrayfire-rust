@@ -47,13 +47,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3121' class='srclink' href='../src/arrayfire/src/index.rs.html#30-33' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3605' class='srclink' href='../src/arrayfire/src/index.rs.html#30-33' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Indexer {
     // some fields omitted
 }</pre><div class='docblock'><p>Struct to manage an array of resources of type <code>af_indexer_t</code>(ArrayFire C struct)</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3145' class='srclink' href='../src/arrayfire/src/index.rs.html#74-102' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3629' class='srclink' href='../src/arrayfire/src/index.rs.html#74-102' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a></code></h4>
-<h4 id='method.set_index' class='method'><code>fn <a href='#method.set_index' class='fnname'>set_index</a>&lt;T: Indexable&gt;(&amp;mut self, idx: &amp;T, dim: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, is_batch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>&gt;)</code></h4>
+<h4 id='method.set_index' class='method'><code>fn <a href='#method.set_index' class='fnname'>set_index</a>&lt;T:&nbsp;Indexable&gt;(&amp;mut self, idx: &amp;T, dim: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, is_batch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>&gt;)</code></h4>
 <div class='docblock'><p>Set either <a href="./struct.Array.html">Array</a> or <a href="./struct.Seq.html">Seq</a> to index an Array along <code>idx</code> dimension</p>
 </div><h4 id='method.get' class='method'><code>fn <a href='#method.get' class='fnname'>get</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></h4>
 <div class='docblock'><p>Get native(ArrayFire) resource handle</p>
@@ -61,7 +61,7 @@
 <div class='docblock'><p>Get number of indexers</p>
 
 <p>This can be a maximum of four since currently ArrayFire supports maximum of four dimensions</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3159' class='srclink' href='../src/arrayfire/src/index.rs.html#104-114' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Indexer.html' title='arrayfire::Indexer'>Indexer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3643' class='srclink' href='../src/arrayfire/src/index.rs.html#104-114' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
 </div></div></section>

@@ -571,7 +571,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{Dim4, Seq, index, randu, print};</span>
 <span class='doccomment'>/// let dims = Dim4::new(&amp;[5, 5, 1, 1]);</span>
 <span class='doccomment'>/// let a = randu::&lt;f32&gt;(dims);</span>
@@ -599,7 +599,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{Dim4, randu, row, print};</span>
 <span class='doccomment'>/// let dims = Dim4::new(&amp;[5, 5, 1, 1]);</span>
 <span class='doccomment'>/// let a = randu::&lt;f32&gt;(dims);</span>
@@ -614,7 +614,7 @@
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='doccomment'>/// Set row `row_num` in `input` Array to a new Array `new_row`</span>
+<span class='doccomment'>/// Set `row_num`^th row in `input` Array to a new Array `new_row`</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_row</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>new_row</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>row_num</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
     <span class='ident'>assign_seq</span>(<span class='ident'>input</span>,
                <span class='kw-2'>&amp;</span>[<span class='ident'>Seq</span>::<span class='ident'>new</span>(<span class='ident'>row_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='ident'>row_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='number'>1.0</span>), <span class='ident'>Seq</span>::<span class='ident'>default</span>()],
@@ -622,7 +622,7 @@
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='doccomment'>/// Get all rows from `first` to `last` in the `input` Array</span>
+<span class='doccomment'>/// Get an Array with all rows from `first` to `last` in the `input` Array</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rows</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>first</span>: <span class='ident'>u64</span>, <span class='ident'>last</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
     <span class='ident'>index</span>(<span class='ident'>input</span>, <span class='kw-2'>&amp;</span>[<span class='ident'>Seq</span>::<span class='ident'>new</span>(<span class='ident'>first</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='ident'>last</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='number'>1.0</span>), <span class='ident'>Seq</span>::<span class='ident'>default</span>()])
 }
@@ -637,7 +637,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{Dim4, randu, col, print};</span>
 <span class='doccomment'>/// let dims = Dim4::new(&amp;[5, 5, 1, 1]);</span>
 <span class='doccomment'>/// let a = randu::&lt;f32&gt;(dims);</span>
@@ -651,7 +651,7 @@
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='doccomment'>/// Set col `col_num` in `input` Array to a new Array `new_col`</span>
+<span class='doccomment'>/// Set `col_num`^th col in `input` Array to a new Array `new_col`</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_col</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>new_col</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>col_num</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
     <span class='ident'>assign_seq</span>(<span class='ident'>input</span>,
                <span class='kw-2'>&amp;</span>[<span class='ident'>Seq</span>::<span class='ident'>default</span>(), <span class='ident'>Seq</span>::<span class='ident'>new</span>(<span class='ident'>col_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='ident'>col_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='number'>1.0</span>)],
@@ -671,11 +671,11 @@
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='doccomment'>/// Get slice `slice_num` from `input` Array</span>
+<span class='doccomment'>/// Get `slice_num`^th slice from `input` Array</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// Slices indicate that the indexing is along 3rd dimension</span>
+<span class='doccomment'>/// Note. Slices indicate that the indexing is along 3rd dimension</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>slice</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>slice_num</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='ident'>index</span>(<span class='ident'>input</span>, 
+    <span class='ident'>index</span>(<span class='ident'>input</span>,
           <span class='kw-2'>&amp;</span>[<span class='ident'>Seq</span>::<span class='ident'>default</span>(), <span class='ident'>Seq</span>::<span class='ident'>default</span>(), <span class='ident'>Seq</span>::<span class='ident'>new</span>(<span class='ident'>slice_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='ident'>slice_num</span> <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='number'>1.0</span>)])
 }
 
@@ -728,7 +728,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{constant, Dim4, Seq, assign_seq, print};</span>
 <span class='doccomment'>/// let a    = constant(2.0 as f32, Dim4::new(&amp;[5, 3, 1, 1]));</span>
 <span class='doccomment'>/// let b    = constant(1.0 as f32, Dim4::new(&amp;[3, 3, 1, 1]));</span>
@@ -767,7 +767,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};</span>
 <span class='doccomment'>/// let values: [f32; 3] = [1.0, 2.0, 3.0];</span>
 <span class='doccomment'>/// let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));</span>
@@ -806,7 +806,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};</span>
 <span class='doccomment'>/// let values: [f32; 3] = [1.0, 2.0, 3.0];</span>
 <span class='doccomment'>/// let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));</span>

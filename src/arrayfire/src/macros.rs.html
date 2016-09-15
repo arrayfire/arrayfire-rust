@@ -172,6 +172,19 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// Macro to print the current stats of ArrayFire&#39;s memory manager.</span>
 <span class='doccomment'>///</span>
@@ -210,7 +223,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// # #[macro_use(mem_info)] extern crate arrayfire;</span>
 <span class='doccomment'>/// # fn main() {</span>
 <span class='doccomment'>///     use arrayfire::{Dim4, device_mem_info, print, randu};</span>
@@ -224,7 +237,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Sample Output:</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```ignore</span>
+<span class='doccomment'>/// ```text</span>
 <span class='doccomment'>/// AF Memory: Here</span>
 <span class='doccomment'>/// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]</span>
 <span class='doccomment'>/// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]</span>
@@ -247,7 +260,7 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// # #[macro_use] extern crate arrayfire;</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # fn main() {</span>
@@ -283,11 +296,11 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// ```rust</span>
 <span class='doccomment'>/// # #[macro_use] extern crate arrayfire;</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # fn main() {</span>
-<span class='doccomment'>///     use arrayfire::{Dim4, print, randu};</span>
+<span class='doccomment'>///     use arrayfire::{Dim4, print_gen, randu};</span>
 <span class='doccomment'>///     let dims = Dim4::new(&amp;[3, 1, 1, 1]);</span>
 <span class='doccomment'>///     let a = randu::&lt;f32&gt;(dims);</span>
 <span class='doccomment'>///     af_print!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;, a);</span>
@@ -298,8 +311,21 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>af_print</span> {
     [<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>: <span class='ident'>ident</span>] <span class='op'>=&gt;</span> {
         {
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>);
-            <span class='ident'>print</span>(<span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>);
+            <span class='ident'>print_gen</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>), <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>, <span class='prelude-val'>Some</span>(<span class='number'>4</span>));
+        }
+    };
+}
+
+<span class='doccomment'>/// Evaluate arbitrary number of arrays</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>eval</span> {
+    [$(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>:<span class='ident'>ident</span>),<span class='op'>+</span>] <span class='op'>=&gt;</span> {
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp_vec</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            $(
+                <span class='ident'>temp_vec</span>.<span class='ident'>push</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>);
+             )<span class='op'>*</span>
+            <span class='ident'>eval_multiple</span>(<span class='ident'>temp_vec</span>)
         }
     };
 }

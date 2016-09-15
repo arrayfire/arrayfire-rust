@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/arrayfire/src/lib.rs.html#1-107' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-0' class='srclink' href='../src/arrayfire/src/lib.rs.html#1-118' title='goto source code'>[src]</a></span></h1>
 <h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -55,6 +55,13 @@
                                   title='arrayfire::af_print!'>af_print!</a></td>
                            <td class='docblock short'>
                                 <p>Print given message before printing out the Array to standard output</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.eval!.html'
+                                  title='arrayfire::eval!'>eval!</a></td>
+                           <td class='docblock short'>
+                                <p>Evaluate arbitrary number of arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -109,6 +116,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='struct' href='struct.RandomEngine.html'
+                                  title='arrayfire::RandomEngine'>RandomEngine</a></td>
+                           <td class='docblock short'>
+                                <p>Random number generator engine</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='struct' href='struct.Seq.html'
                                   title='arrayfire::Seq'>Seq</a></td>
                            <td class='docblock short'>
@@ -135,6 +149,13 @@ to enable implementing Send, Sync traits on it.</p>
                                   title='arrayfire::Backend'>Backend</a></td>
                            <td class='docblock short'>
                                 <p>Compute/Acceleration Backend</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.BinaryOp.html'
+                                  title='arrayfire::BinaryOp'>BinaryOp</a></td>
+                           <td class='docblock short'>
+                                <p>Binary operation types for generalized scan functions</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -222,6 +243,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MomentType.html'
+                                  title='arrayfire::MomentType'>MomentType</a></td>
+                           <td class='docblock short'>
+                                <p>Image moment types</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='enum' href='enum.NormType.html'
                                   title='arrayfire::NormType'>NormType</a></td>
                            <td class='docblock short'>
@@ -229,10 +257,53 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='enum' href='enum.RandomEngineType.html'
+                                  title='arrayfire::RandomEngineType'>RandomEngineType</a></td>
+                           <td class='docblock short'>
+                                <p>Random engine types</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.SparseFormat.html'
+                                  title='arrayfire::SparseFormat'>SparseFormat</a></td>
+                           <td class='docblock short'>
+                                <p>Sparse storage format type</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='enum' href='enum.YCCStd.html'
                                   title='arrayfire::YCCStd'>YCCStd</a></td>
                            <td class='docblock short'>
                                 <p>YCbCr Standards</p>
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.DEFAULT_RANDOM_ENGINE.html'
+                                  title='arrayfire::DEFAULT_RANDOM_ENGINE'>DEFAULT_RANDOM_ENGINE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MERSENNE.html'
+                                  title='arrayfire::MERSENNE'>MERSENNE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.PHILOX.html'
+                                  title='arrayfire::PHILOX'>PHILOX</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.THREEFRY.html'
+                                  title='arrayfire::THREEFRY'>THREEFRY</a></td>
+                           <td class='docblock short'>
+                                
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -248,70 +319,70 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.abs.html'
                                   title='arrayfire::abs'>abs</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Computes absolute value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.accum.html'
                                   title='arrayfire::accum'>accum</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Perform exclusive sum of elements along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.acos.html'
                                   title='arrayfire::acos'>acos</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute acos</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.acosh.html'
                                   title='arrayfire::acosh'>acosh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute acosh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.add.html'
                                   title='arrayfire::add'>add</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Addition of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.all_true.html'
                                   title='arrayfire::all_true'>all_true</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find if all of the values along a given dimension in the Array are true</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.all_true_all.html'
                                   title='arrayfire::all_true_all'>all_true_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find if all values of Array are non-zero</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.and.html'
                                   title='arrayfire::and'>and</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise logical and operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.any_true.html'
                                   title='arrayfire::any_true'>any_true</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find if any of the values along a given dimension in the Array are true</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.any_true_all.html'
                                   title='arrayfire::any_true_all'>any_true_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find if any value of Array is non-zero</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -332,21 +403,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.arg.html'
                                   title='arrayfire::arg'>arg</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Computes phase value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.asin.html'
                                   title='arrayfire::asin'>asin</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute asin</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.asinh.html'
                                   title='arrayfire::asinh'>asinh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute asinh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -367,21 +438,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.atan.html'
                                   title='arrayfire::atan'>atan</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute atan</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.atan2.html'
                                   title='arrayfire::atan2'>atan2</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Calculate atan2 of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.atanh.html'
                                   title='arrayfire::atanh'>atanh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute atanh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -395,35 +466,35 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.bitand.html'
                                   title='arrayfire::bitand'>bitand</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise AND(bit) operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.bitor.html'
                                   title='arrayfire::bitor'>bitor</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise OR(bit) operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.bitxor.html'
                                   title='arrayfire::bitxor'>bitxor</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise XOR(bit) operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.cbrt.html'
                                   title='arrayfire::cbrt'>cbrt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the cube root</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.ceil.html'
                                   title='arrayfire::ceil'>ceil</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Ceil the values in an Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -438,6 +509,13 @@ to enable implementing Send, Sync traits on it.</p>
                                   title='arrayfire::cholesky_inplace'>cholesky_inplace</a></td>
                            <td class='docblock short'>
                                 <p>Perform inplace Cholesky decomposition</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.clamp.html'
+                                  title='arrayfire::clamp'>clamp</a></td>
+                           <td class='docblock short'>
+                                <p>Clamp the values of Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -465,7 +543,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.conjg.html'
                                   title='arrayfire::conjg'>conjg</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the complex conjugate</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -479,14 +557,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.convolve1.html'
                                   title='arrayfire::convolve1'>convolve1</a></td>
                            <td class='docblock short'>
-                                <p>Convolution</p>
+                                <p>1d convolution</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.convolve2.html'
                                   title='arrayfire::convolve2'>convolve2</a></td>
                            <td class='docblock short'>
-                                <p>Convolution</p>
+                                <p>2d convolution</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -500,7 +578,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.convolve3.html'
                                   title='arrayfire::convolve3'>convolve3</a></td>
                            <td class='docblock short'>
-                                <p>Convolution</p>
+                                <p>3d convolution</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -514,28 +592,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.cos.html'
                                   title='arrayfire::cos'>cos</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute cos</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.cosh.html'
                                   title='arrayfire::cosh'>cosh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute cosh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.count.html'
                                   title='arrayfire::count'>count</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Count number of non-zero elements along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.count_all.html'
                                   title='arrayfire::count_all'>count_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Count number of non-zero values in the Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -549,14 +627,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.cplx.html'
                                   title='arrayfire::cplx'>cplx</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Create a complex Array from real Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.cplx2.html'
                                   title='arrayfire::cplx2'>cplx2</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Create complex array from two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -605,14 +683,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.diff1.html'
                                   title='arrayfire::diff1'>diff1</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Calculate first order numerical difference along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.diff2.html'
                                   title='arrayfire::diff2'>diff2</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Calculate second order numerical difference along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -633,7 +711,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.div.html'
                                   title='arrayfire::div'>div</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Division of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -654,21 +732,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.eq.html'
                                   title='arrayfire::eq'>eq</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Perform <code>equals</code> comparison operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.erf.html'
                                   title='arrayfire::erf'>erf</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute error function value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.erfc.html'
                                   title='arrayfire::erfc'>erfc</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the complementary error function value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -686,24 +764,31 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.eval_multiple.html'
+                                  title='arrayfire::eval_multiple'>eval_multiple</a></td>
+                           <td class='docblock short'>
+                                <p>evaluate multiple arrays</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.exp.html'
                                   title='arrayfire::exp'>exp</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute e raised to the power of value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.expm1.html'
                                   title='arrayfire::expm1'>expm1</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute e raised to the power of value -1</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.factorial.html'
                                   title='arrayfire::factorial'>factorial</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the factorial</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -787,21 +872,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.fft_convolve1.html'
                                   title='arrayfire::fft_convolve1'>fft_convolve1</a></td>
                            <td class='docblock short'>
-                                <p>Convolution using Fast-fourier transform</p>
+                                <p>1d convolution using fast-fourier transform</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.fft_convolve2.html'
                                   title='arrayfire::fft_convolve2'>fft_convolve2</a></td>
                            <td class='docblock short'>
-                                <p>Convolution using Fast-fourier transform</p>
+                                <p>2d convolution using fast-fourier transform</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.fft_convolve3.html'
                                   title='arrayfire::fft_convolve3'>fft_convolve3</a></td>
                            <td class='docblock short'>
-                                <p>Convolution using Fast-fourier transform</p>
+                                <p>3d convolution using fast-fourier transform</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -843,7 +928,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.floor.html'
                                   title='arrayfire::floor'>floor</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Floor the values in an Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -857,7 +942,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.ge.html'
                                   title='arrayfire::ge'>ge</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Perform <code>greater than equals</code> comparison operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -882,6 +967,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_default_random_engine.html'
+                                  title='arrayfire::get_default_random_engine'>get_default_random_engine</a></td>
+                           <td class='docblock short'>
+                                <p>Get default random engine</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.get_device.html'
                                   title='arrayfire::get_device'>get_device</a></td>
                            <td class='docblock short'>
@@ -903,6 +995,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_size.html'
+                                  title='arrayfire::get_size'>get_size</a></td>
+                           <td class='docblock short'>
+                                <p>Get size, in bytes, of the arrayfire native type</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.get_version.html'
                                   title='arrayfire::get_version'>get_version</a></td>
                            <td class='docblock short'>
@@ -920,14 +1019,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.gray2rgb.html'
                                   title='arrayfire::gray2rgb'>gray2rgb</a></td>
                            <td class='docblock short'>
-                                <p>Color space conversion functions</p>
+                                <p>Grayscale to Color(RGB) conversion</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.gt.html'
                                   title='arrayfire::gt'>gt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Perform <code>greater than</code> comparison operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -976,21 +1075,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.hsv2rgb.html'
                                   title='arrayfire::hsv2rgb'>hsv2rgb</a></td>
                            <td class='docblock short'>
-                                <p>Color space conversion functions</p>
+                                <p>HSV to RGB color space conversion</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.hypot.html'
                                   title='arrayfire::hypot'>hypot</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute length of hypotenuse of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.identity.html'
                                   title='arrayfire::identity'>identity</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Create an identity array with 1&#39;s in diagonal</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1046,35 +1145,35 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.imag.html'
                                   title='arrayfire::imag'>imag</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Extract imaginary values from a complex Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.imax.html'
                                   title='arrayfire::imax'>imax</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find maximum value along given dimension and their corresponding indices</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.imax_all.html'
                                   title='arrayfire::imax_all'>imax_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find maximum and it&#39;s index in the whole Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.imin.html'
                                   title='arrayfire::imin'>imin</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find minimum value along given dimension and their corresponding indices</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.imin_all.html'
                                   title='arrayfire::imin_all'>imin_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find minimum and it&#39;s index in the whole Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1127,6 +1226,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.is_eval_manual.html'
+                                  title='arrayfire::is_eval_manual'>is_eval_manual</a></td>
+                           <td class='docblock short'>
+                                <p>Get eval flag value</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.is_imageio_available.html'
                                   title='arrayfire::is_imageio_available'>is_imageio_available</a></td>
                            <td class='docblock short'>
@@ -1144,21 +1250,21 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.isinf.html'
                                   title='arrayfire::isinf'>isinf</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Check if values are infinity</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.isnan.html'
                                   title='arrayfire::isnan'>isnan</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Check if values are NaN</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.iszero.html'
                                   title='arrayfire::iszero'>iszero</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Check if values are zero</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1179,14 +1285,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.le.html'
                                   title='arrayfire::le'>le</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Perform <code>less than equals</code> comparison operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.lgamma.html'
                                   title='arrayfire::lgamma'>lgamma</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the logarithm of absolute values of gamma function</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1214,28 +1320,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.log.html'
                                   title='arrayfire::log'>log</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the natural logarithm</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.log10.html'
                                   title='arrayfire::log10'>log10</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute logarithm base 10</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.log1p.html'
                                   title='arrayfire::log1p'>log1p</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the logarithm of input Array + 1</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.log2.html'
                                   title='arrayfire::log2'>log2</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute logarithm base 2</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1256,7 +1362,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.lt.html'
                                   title='arrayfire::lt'>lt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Perform <code>less than</code> comparison operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1291,49 +1397,49 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.max.html'
                                   title='arrayfire::max'>max</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find maximum among elements of given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.max_all.html'
                                   title='arrayfire::max_all'>max_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find maximum among all values of the Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.maxfilt.html'
                                   title='arrayfire::maxfilt'>maxfilt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Box filter with maximum as box operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.maxof.html'
                                   title='arrayfire::maxof'>maxof</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise maximum operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.mean.html'
                                   title='arrayfire::mean'>mean</a></td>
                            <td class='docblock short'>
-                                <p>Compute a statistic along given dimension for an Array</p>
+                                <p>Mean along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.mean_all.html'
                                   title='arrayfire::mean_all'>mean_all</a></td>
                            <td class='docblock short'>
-                                <p>Compute statistic for all elements of Array</p>
+                                <p>Compute mean of all data</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.mean_all_weighted.html'
                                   title='arrayfire::mean_all_weighted'>mean_all_weighted</a></td>
                            <td class='docblock short'>
-                                <p>Compute weighted statistic for all elements of Array</p>
+                                <p>Compute weighted mean of all data</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1347,56 +1453,63 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.mean_weighted.html'
                                   title='arrayfire::mean_weighted'>mean_weighted</a></td>
                            <td class='docblock short'>
-                                <p>Compute a weighted statistic along given dimension for an Array</p>
+                                <p>Weighted mean along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.medfilt.html'
                                   title='arrayfire::medfilt'>medfilt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Median filter</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.medfilt1.html'
+                                  title='arrayfire::medfilt1'>medfilt1</a></td>
+                           <td class='docblock short'>
+                                <p>One dimensional median filter on image</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.median.html'
                                   title='arrayfire::median'>median</a></td>
                            <td class='docblock short'>
-                                <p>Compute a statistic along given dimension for an Array</p>
+                                <p>Median along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.median_all.html'
                                   title='arrayfire::median_all'>median_all</a></td>
                            <td class='docblock short'>
-                                <p>Compute statistic for all elements of Array</p>
+                                <p>Compute median of all data</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.min.html'
                                   title='arrayfire::min'>min</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Find minimum among elements of given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.min_all.html'
                                   title='arrayfire::min_all'>min_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Find minimum among all values of the Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.minfilt.html'
                                   title='arrayfire::minfilt'>minfilt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Box filter with minimum as box operation</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.minof.html'
                                   title='arrayfire::minof'>minof</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise minimum operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1410,14 +1523,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.modulo.html'
                                   title='arrayfire::modulo'>modulo</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute modulo of two Arrays</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.moments.html'
+                                  title='arrayfire::moments'>moments</a></td>
+                           <td class='docblock short'>
+                                <p>Find Image moments</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.moments_all.html'
+                                  title='arrayfire::moments_all'>moments_all</a></td>
+                           <td class='docblock short'>
+                                <p>Find Image moment for whole image</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.mul.html'
                                   title='arrayfire::mul'>mul</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Multiplication of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1431,7 +1558,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.neq.html'
                                   title='arrayfire::neq'>neq</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise not equals comparison of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1445,7 +1572,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.or.html'
                                   title='arrayfire::or'>or</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Elementwise logical or operation of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1459,14 +1586,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.pow.html'
                                   title='arrayfire::pow'>pow</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Computer power</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.pow2.html'
                                   title='arrayfire::pow2'>pow2</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute two raised to the power of value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1474,6 +1601,13 @@ to enable implementing Send, Sync traits on it.</p>
                                   title='arrayfire::print'>print</a></td>
                            <td class='docblock short'>
                                 <p>Print data in the Array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.print_gen.html'
+                                  title='arrayfire::print_gen'>print_gen</a></td>
+                           <td class='docblock short'>
+                                <p>Generalized Array print function</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1487,28 +1621,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.product.html'
                                   title='arrayfire::product'>product</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Compute product of elements along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.product_all.html'
                                   title='arrayfire::product_all'>product_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Product of all values of the Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.product_nan.html'
                                   title='arrayfire::product_nan'>product_nan</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Product of elements along specific dimension using user specified value instead of <code>NAN</code> values</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.product_nan_all.html'
                                   title='arrayfire::product_nan_all'>product_nan_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Product of all values using user provided value for <code>NAN</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1529,14 +1663,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.randn.html'
                                   title='arrayfire::randn'>randn</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Create random numbers from normal distribution</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.random_normal.html'
+                                  title='arrayfire::random_normal'>random_normal</a></td>
+                           <td class='docblock short'>
+                                <p>Generate array of normal numbers using a random engine</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.random_uniform.html'
+                                  title='arrayfire::random_uniform'>random_uniform</a></td>
+                           <td class='docblock short'>
+                                <p>Generate array of uniform numbers using a random engine</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.randu.html'
                                   title='arrayfire::randu'>randu</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Create random numbers from uniform distribution</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1557,7 +1705,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.real.html'
                                   title='arrayfire::real'>real</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Extract real values from a complex Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1578,14 +1726,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.rem.html'
                                   title='arrayfire::rem'>rem</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute remainder from two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.reorder.html'
                                   title='arrayfire::reorder'>reorder</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Reorder the array in specified order</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1613,14 +1761,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.rgb2gray.html'
                                   title='arrayfire::rgb2gray'>rgb2gray</a></td>
                            <td class='docblock short'>
-                                <p>Color space conversion functions</p>
+                                <p>Color(RGB) to Grayscale conversion</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.rgb2hsv.html'
                                   title='arrayfire::rgb2hsv'>rgb2hsv</a></td>
                            <td class='docblock short'>
-                                <p>Color space conversion functions</p>
+                                <p>RGB to HSV color space conversion</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1634,7 +1782,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.root.html'
                                   title='arrayfire::root'>root</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute root</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1648,7 +1796,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.round.html'
                                   title='arrayfire::round'>round</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Round the values in an Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1662,7 +1810,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.rows.html'
                                   title='arrayfire::rows'>rows</a></td>
                            <td class='docblock short'>
-                                <p>Get all rows from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
+                                <p>Get an Array with all rows from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1691,6 +1839,20 @@ to enable implementing Send, Sync traits on it.</p>
                                   title='arrayfire::scale'>scale</a></td>
                            <td class='docblock short'>
                                 <p>Scale an Image</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.scan.html'
+                                  title='arrayfire::scan'>scan</a></td>
+                           <td class='docblock short'>
+                                <p>Generalized scan</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.scan_by_key.html'
+                                  title='arrayfire::scan_by_key'>scan_by_key</a></td>
+                           <td class='docblock short'>
+                                <p>Generalized scan by key</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1725,7 +1887,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.set_col.html'
                                   title='arrayfire::set_col'>set_col</a></td>
                            <td class='docblock short'>
-                                <p>Set col <code>col_num</code> in <code>input</code> Array to a new Array <code>new_col</code></p>
+                                <p>Set <code>col_num</code><sup>th</sup> col in <code>input</code> Array to a new Array <code>new_col</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1736,6 +1898,13 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.set_default_random_engine_type.html'
+                                  title='arrayfire::set_default_random_engine_type'>set_default_random_engine_type</a></td>
+                           <td class='docblock short'>
+                                <p>Set the random engine type for default random number generator</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.set_device.html'
                                   title='arrayfire::set_device'>set_device</a></td>
                            <td class='docblock short'>
@@ -1743,10 +1912,24 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.set_fft_plan_cache_size.html'
+                                  title='arrayfire::set_fft_plan_cache_size'>set_fft_plan_cache_size</a></td>
+                           <td class='docblock short'>
+                                <p>Set fft plan cache size</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.set_intersect.html'
                                   title='arrayfire::set_intersect'>set_intersect</a></td>
                            <td class='docblock short'>
                                 <p>Find intersection of two sets</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.set_manual_eval.html'
+                                  title='arrayfire::set_manual_eval'>set_manual_eval</a></td>
+                           <td class='docblock short'>
+                                <p>Set eval flag value</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1760,7 +1943,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.set_row.html'
                                   title='arrayfire::set_row'>set_row</a></td>
                            <td class='docblock short'>
-                                <p>Set row <code>row_num</code> in <code>input</code> Array to a new Array <code>new_row</code></p>
+                                <p>Set <code>row_num</code><sup>th</sup> row in <code>input</code> Array to a new Array <code>new_row</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1809,49 +1992,49 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.shift.html'
                                   title='arrayfire::shift'>shift</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Circular shift of values along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.shiftl.html'
                                   title='arrayfire::shiftl'>shiftl</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute left shift</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.shiftr.html'
                                   title='arrayfire::shiftr'>shiftr</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute right shift</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sigmoid.html'
                                   title='arrayfire::sigmoid'>sigmoid</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute sigmoid function</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sign.html'
                                   title='arrayfire::sign'>sign</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Computes the sign of input Array values</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sin.html'
                                   title='arrayfire::sin'>sin</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute sin</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sinh.html'
                                   title='arrayfire::sinh'>sinh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute sinh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1865,7 +2048,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.slice.html'
                                   title='arrayfire::slice'>slice</a></td>
                            <td class='docblock short'>
-                                <p>Get slice <code>slice_num</code> from <code>input</code> Array</p>
+                                <p>Get <code>slice_num</code><sup>th</sup> slice from <code>input</code> Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1918,59 +2101,136 @@ to enable implementing Send, Sync traits on it.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse.html'
+                                  title='arrayfire::sparse'>sparse</a></td>
+                           <td class='docblock short'>
+                                <p>Create sprase matrix from arrays</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_convert_to.html'
+                                  title='arrayfire::sparse_convert_to'>sparse_convert_to</a></td>
+                           <td class='docblock short'>
+                                <p>Convert between sparse formats</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_from_dense.html'
+                                  title='arrayfire::sparse_from_dense'>sparse_from_dense</a></td>
+                           <td class='docblock short'>
+                                <p>Convert dense array to sparse array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_from_host.html'
+                                  title='arrayfire::sparse_from_host'>sparse_from_host</a></td>
+                           <td class='docblock short'>
+                                <p>Create sprase matrix from data on host memory</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_col_indices.html'
+                                  title='arrayfire::sparse_get_col_indices'>sparse_get_col_indices</a></td>
+                           <td class='docblock short'>
+                                <p>Get cololumn indices Array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_format.html'
+                                  title='arrayfire::sparse_get_format'>sparse_get_format</a></td>
+                           <td class='docblock short'>
+                                <p>Get sparse format</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_info.html'
+                                  title='arrayfire::sparse_get_info'>sparse_get_info</a></td>
+                           <td class='docblock short'>
+                                <p>Get sparse Array information</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_nnz.html'
+                                  title='arrayfire::sparse_get_nnz'>sparse_get_nnz</a></td>
+                           <td class='docblock short'>
+                                <p>Get number of non-zero elements in sparse array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_row_indices.html'
+                                  title='arrayfire::sparse_get_row_indices'>sparse_get_row_indices</a></td>
+                           <td class='docblock short'>
+                                <p>Get row indices Array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_get_values.html'
+                                  title='arrayfire::sparse_get_values'>sparse_get_values</a></td>
+                           <td class='docblock short'>
+                                <p>Get values of sparse Array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.sparse_to_dense.html'
+                                  title='arrayfire::sparse_to_dense'>sparse_to_dense</a></td>
+                           <td class='docblock short'>
+                                <p>Convert sparse array to dense array</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.sqrt.html'
                                   title='arrayfire::sqrt'>sqrt</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute the square root</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.stdev.html'
                                   title='arrayfire::stdev'>stdev</a></td>
                            <td class='docblock short'>
-                                <p>Compute a statistic along given dimension for an Array</p>
+                                <p>Standard deviation along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.stdev_all.html'
                                   title='arrayfire::stdev_all'>stdev_all</a></td>
                            <td class='docblock short'>
-                                <p>Compute statistic for all elements of Array</p>
+                                <p>Compute standard deviation of all data</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sub.html'
                                   title='arrayfire::sub'>sub</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Subtraction of two Arrays</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sum.html'
                                   title='arrayfire::sum'>sum</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Sum elements along a given dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sum_all.html'
                                   title='arrayfire::sum_all'>sum_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Sum all values of the Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sum_nan.html'
                                   title='arrayfire::sum_nan'>sum_nan</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation along specific dimension</p>
+                                <p>Sum along specific dimension using user specified value instead of <code>NAN</code> values</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.sum_nan_all.html'
                                   title='arrayfire::sum_nan_all'>sum_nan_all</a></td>
                            <td class='docblock short'>
-                                <p>Reduction operation of all values</p>
+                                <p>Sum all values using user provided value for <code>NAN</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2005,28 +2265,28 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.tan.html'
                                   title='arrayfire::tan'>tan</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute tan</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.tanh.html'
                                   title='arrayfire::tanh'>tanh</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute tanh</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.tgamma.html'
                                   title='arrayfire::tgamma'>tgamma</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Compute gamma function</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.tile.html'
                                   title='arrayfire::tile'>tile</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Tile the input array along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2068,7 +2328,7 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.trunc.html'
                                   title='arrayfire::trunc'>trunc</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Truncate the values in an Array</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2103,14 +2363,14 @@ to enable implementing Send, Sync traits on it.</p>
                            <td><a class='fn' href='fn.var_all_weighted.html'
                                   title='arrayfire::var_all_weighted'>var_all_weighted</a></td>
                            <td class='docblock short'>
-                                <p>Compute weighted statistic for all elements of Array</p>
+                                <p>Compute weighted variance of all data</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.var_weighted.html'
                                   title='arrayfire::var_weighted'>var_weighted</a></td>
                            <td class='docblock short'>
-                                <p>Compute a weighted statistic along given dimension for an Array</p>
+                                <p>Weight variance along specified dimension</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

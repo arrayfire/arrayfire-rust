@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["lazy_static"] = [];implementors["libc"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];
+implementors["lazy_static"] = [];implementors["libc"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

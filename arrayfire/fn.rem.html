@@ -47,8 +47,27 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1211' class='srclink' href='../src/arrayfire/src/arith/mod.rs.html#236-250' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn rem&lt;T, U&gt;(arg1: &amp;T, arg2: &amp;U, batch: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a> <span class='where'>where T: Convertable, U: Convertable</span></pre></section>
+               </span><a id='src-1301' class='srclink' href='../src/arrayfire/src/arith/mod.rs.html#263-277' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn rem&lt;T,&nbsp;U&gt;(arg1: &amp;T, arg2: &amp;U, batch: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a> <span class='where'>where T: Convertable, U: Convertable</span></pre><div class='docblock'><p>Compute remainder from two Arrays</p>
+
+<p>This is a binary elementwise operation.</p>
+
+<h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
+<ul>
+<li><code>arg1</code>is an argument that implements an internal trait <code>Convertable</code>.</li>
+<li><code>arg2</code>is an argument that implements an internal trait <code>Convertable</code>.</li>
+<li><p><code>batch</code> is an boolean that indicates if the current operation is an batch operation.</p>
+
+<p>Both parameters <code>arg1</code> and <code>arg2</code> can be either an Array or a value of rust integral
+type.</p></li>
+</ul>
+
+<h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
+<p>An Array with results of the binary operation.</p>
+
+<h1 id='note' class='section-header'><a href='#note'>Note</a></h1>
+<p>The trait <code>Convertable</code> essentially translates to a scalar native type on rust or Array.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

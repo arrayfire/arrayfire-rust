@@ -47,18 +47,20 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-570' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#265-275' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn imax_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Reduction operation of all values</p>
+               </span><a id='src-640' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#658-668' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn imax_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Find maximum and it&#39;s index in the whole Array</p>
 
 <h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <p><code>input</code> - Input Array</p>
 
 <h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
-<p>A triplet of reduction result.</p>
+<p>A triplet with</p>
 
-<p>The second value of the tuple is zero for non-complex data type Arrays.</p>
-
-<p>The third value of triplet is the index of result element from reduction operation.</p>
+<ul>
+<li>maximum element of Array in the first component.</li>
+<li>second component of value zero if Array is of non-complex type.</li>
+<li>index of maximum element in the third component.</li>
+</ul>
 </div></section>
     <section id='search' class="content hidden"></section>
 

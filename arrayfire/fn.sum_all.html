@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-505' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#147-156' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sum_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Reduction operation of all values</p>
+               </span><a id='src-575' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#384-393' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn sum_all(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></pre><div class='docblock'><p>Sum all values of the Array</p>
 
 <h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
@@ -56,8 +56,17 @@
 </ul>
 
 <h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
-<p>A tuple of reduction result. For non-complex data type Arrays, second value of tuple is
-zero.</p>
+<p>A tuple containing the summation result.</p>
+
+<p>Note: For non-complex data type Arrays, second value of tuple is zero.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>arrayfire</span>::{<span class='ident'>Dim4</span>, <span class='ident'>print</span>, <span class='ident'>randu</span>, <span class='ident'>sum_all</span>};
+<span class='kw'>let</span> <span class='ident'>dims</span> <span class='op'>=</span> <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='number'>5</span>, <span class='number'>5</span>, <span class='number'>1</span>, <span class='number'>1</span>]);
+<span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>randu</span>::<span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>(<span class='ident'>dims</span>);
+<span class='ident'>print</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Result : {:?}&quot;</span>, <span class='ident'>sum_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>));</pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

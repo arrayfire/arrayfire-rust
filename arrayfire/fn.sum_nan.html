@@ -47,11 +47,11 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-493' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#101-109' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sum_nan(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dim: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, nanval: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Reduction operation along specific dimension</p>
+               </span><a id='src-563' class='srclink' href='../src/arrayfire/src/algorithm/mod.rs.html#347-355' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn sum_nan(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, dim: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, nanval: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Sum along specific dimension using user specified value instead of <code>NAN</code> values</p>
 
 <p>Sum values of the <code>input</code> Array along <code>dim</code> dimension after replacing any <code>NAN</code> values in the
-Array with <code>nanval</code> value.</p>
+Array with the value of the parameter <code>nanval</code>.</p>
 
 <h1 id='parameters' class='section-header'><a href='#parameters'>Parameters</a></h1>
 <ul>
@@ -61,7 +61,7 @@ Array with <code>nanval</code> value.</p>
 </ul>
 
 <h1 id='return-values' class='section-header'><a href='#return-values'>Return Values</a></h1>
-<p>Reduced Array</p>
+<p>Array that is reduced along given dimension via addition operation</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 
