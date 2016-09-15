@@ -117,7 +117,7 @@ impl Drop for Indexer {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, Seq, index, randu, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -145,7 +145,7 @@ pub fn index<T: Copy>(input: &Array, seqs: &[Seq<T>]) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, randu, row, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -160,7 +160,7 @@ pub fn row(input: &Array, row_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Set row `row_num` in `input` Array to a new Array `new_row`
+/// Set `row_num`^th row in `input` Array to a new Array `new_row`
 pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Array {
     assign_seq(input,
                &[Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()],
@@ -168,7 +168,7 @@ pub fn set_row(input: &Array, new_row: &Array, row_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Get all rows from `first` to `last` in the `input` Array
+/// Get an Array with all rows from `first` to `last` in the `input` Array
 pub fn rows(input: &Array, first: u64, last: u64) -> Array {
     index(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()])
 }
@@ -183,7 +183,7 @@ pub fn set_rows(input: &Array, new_rows: &Array, first: u64, last: u64) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Dim4, randu, col, print};
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 /// let a = randu::<f32>(dims);
@@ -197,7 +197,7 @@ pub fn col(input: &Array, col_num: u64) -> Array {
 }
 
 #[allow(dead_code)]
-/// Set col `col_num` in `input` Array to a new Array `new_col`
+/// Set `col_num`^th col in `input` Array to a new Array `new_col`
 pub fn set_col(input: &Array, new_col: &Array, col_num: u64) -> Array {
     assign_seq(input,
                &[Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)],
@@ -217,11 +217,11 @@ pub fn set_cols(input: &Array, new_cols: &Array, first: u64, last: u64) -> Array
 }
 
 #[allow(dead_code)]
-/// Get slice `slice_num` from `input` Array
+/// Get `slice_num`^th slice from `input` Array
 ///
-/// Slices indicate that the indexing is along 3rd dimension
+/// Note. Slices indicate that the indexing is along 3rd dimension
 pub fn slice(input: &Array, slice_num: u64) -> Array {
-    index(input, 
+    index(input,
           &[Seq::default(), Seq::default(), Seq::new(slice_num as f64, slice_num as f64, 1.0)])
 }
 
@@ -274,7 +274,7 @@ pub fn lookup(input: &Array, indices: &Array, seq_dim: i32) -> Array {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{constant, Dim4, Seq, assign_seq, print};
 /// let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
 /// let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
@@ -313,7 +313,7 @@ pub fn assign_seq<T: Copy>(lhs: &Array, seqs: &[Seq<T>], rhs: &Array) -> Array
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};
 /// let values: [f32; 3] = [1.0, 2.0, 3.0];
 /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -352,7 +352,7 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Array {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};
 /// let values: [f32; 3] = [1.0, 2.0, 3.0];
 /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));

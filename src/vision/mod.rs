@@ -75,7 +75,8 @@ pub struct Features {
 }
 
 macro_rules! feat_func_def {
-    ($fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+        #[doc=$doc_str]
         pub fn $fn_name(&self) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
@@ -84,7 +85,7 @@ macro_rules! feat_func_def {
                 let temp_array = Array::from(temp);
                 let retained = temp_array.clone();
                 mem::forget(temp_array);
-                
+
                 HANDLE_ERROR(AfError::from(err_val));
                 retained
             }
@@ -93,6 +94,9 @@ macro_rules! feat_func_def {
 }
 
 impl Features {
+    /// Create and return an object of type Features
+    ///
+    /// This object is basically a bunch of Arrays.
     #[allow(unused_mut)]
     pub fn new(n: u64) -> Features {
         unsafe {
@@ -115,12 +119,13 @@ impl Features {
         }
     }
 
-    feat_func_def!(xpos, af_get_features_xpos);
-    feat_func_def!(ypos, af_get_features_ypos);
-    feat_func_def!(score, af_get_features_score);
-    feat_func_def!(orientation, af_get_features_orientation);
-    feat_func_def!(size, af_get_features_size);
+    feat_func_def!("Get x coordinates Array", xpos, af_get_features_xpos);
+    feat_func_def!("Get y coordinates Array", ypos, af_get_features_ypos);
+    feat_func_def!("Get score Array", score, af_get_features_score);
+    feat_func_def!("Get orientation Array", orientation, af_get_features_orientation);
+    feat_func_def!("Get features size Array", size, af_get_features_size);
 
+    /// Get the internal handle for [Features](./struct.Features.html) object
     pub fn get(&self) -> i64 {
         self.feat
     }

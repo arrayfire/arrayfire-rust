@@ -35,7 +35,7 @@
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use(mem_info)] extern crate arrayfire;
 /// # fn main() {
 ///     use arrayfire::{Dim4, device_mem_info, print, randu};
@@ -49,7 +49,7 @@
 ///
 /// Sample Output:
 ///
-/// ```ignore
+/// ```text
 /// AF Memory: Here
 /// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]
 /// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]
@@ -72,7 +72,7 @@ macro_rules! mem_info {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use] extern crate arrayfire;
 ///
 /// # fn main() {
@@ -108,11 +108,11 @@ macro_rules! join_many {
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
 /// # #[macro_use] extern crate arrayfire;
 ///
 /// # fn main() {
-///     use arrayfire::{Dim4, print, randu};
+///     use arrayfire::{Dim4, print_gen, randu};
 ///     let dims = Dim4::new(&[3, 1, 1, 1]);
 ///     let a = randu::<f32>(dims);
 ///     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
@@ -123,8 +123,21 @@ macro_rules! join_many {
 macro_rules! af_print {
     [$msg: expr, $x: ident] => {
         {
-            println!("{}", $msg);
-            print(&$x);
+            print_gen(String::from($msg), &$x, Some(4));
+        }
+    };
+}
+
+/// Evaluate arbitrary number of arrays
+#[macro_export]
+macro_rules! eval {
+    [$($x:ident),+] => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+             )*
+            eval_multiple(temp_vec)
         }
     };
 }

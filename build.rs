@@ -6,7 +6,7 @@ use std::env;
 use std::fs;
 use rustc_serialize::json;
 use std::fs::OpenOptions;
-use std::io::{ErrorKind, Read, Write};
+use std::io::{ErrorKind, Read};
 use std::path::PathBuf;
 use std::process::Command;
 use std::convert::AsRef;

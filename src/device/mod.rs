@@ -44,7 +44,7 @@ pub fn get_version() -> (i32, i32, i32) {
 ///
 /// An example output of `af::info` call looks like below
 ///
-/// ```ignore
+/// ```text
 /// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
 /// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
 /// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
