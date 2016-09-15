@@ -58,12 +58,8 @@ cargo build
 let num_rows: u64 = 5;
 let num_cols: u64 = 3;
 let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
-println!("Create a 5-by-3 matrix of random floats on the GPU");
-let a = match randu(dims, Aftype::F32) {
-    Ok(value) => value,
-    Err(error) => panic!("{}", error),
-};
-print(&a);
+let a = randu::<f32>(dims);
+af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 ```
 
 ### Sample output
@@ -72,9 +68,10 @@ print(&a);
 ~/p/arrayfire_rust> cargo run --example helloworld
 ...
      running 1 test
-ArrayFire v3.2.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
-Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
-[0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
+ArrayFire v3.4.0 (CUDA, 64-bit Linux, build 10d9716)
+Platform: CUDA Toolkit 7.5, Driver: 361.42
+[0] GeForce GT 650M, 2048 MB, CUDA Compute 3.0
+
 Create a 5-by-3 matrix of random floats on the GPU
 [5 3 1 1]
     0.7402     0.4464     0.7762
@@ -82,7 +79,6 @@ Create a 5-by-3 matrix of random floats on the GPU
     0.0390     0.1099     0.7140
     0.9690     0.4702     0.3585
     0.9251     0.5132     0.6814
-
 ...
 ```
 
