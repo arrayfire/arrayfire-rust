@@ -134,6 +134,16 @@ impl Drop for Window {
 
 impl Window {
     /// Creates new Window object
+    ///
+    /// # Parameters
+    ///
+    /// - `width` is width of the window
+    /// - `height` is the height of window
+    /// - `title` is the string displayed on window title bar
+    ///
+    /// # Return Values
+    ///
+    /// Window Object
     #[allow(unused_mut)]
     pub fn new(width: i32, height: i32, title: String) ->  Window {
         unsafe {
@@ -153,6 +163,11 @@ impl Window {
     }
 
     /// Set window starting position on the screen
+    ///
+    /// # Parameters
+    ///
+    /// - `x` is the horiontal coordinate where window is to be placed
+    /// - `y` is the vertical coordinate where window is to be placed
     pub fn set_position(&self, x: u32, y: u32) {
         unsafe {
             let err_val = af_set_position(self.handle as WndHandle, x as c_uint, y as c_uint);
@@ -161,6 +176,10 @@ impl Window {
     }
 
     /// Set window title
+    ///
+    /// # Parameters
+    ///
+    /// - `title` is the string to be displayed on window title bar
     pub fn set_title(&self, title: String) {
         unsafe {
             let cstr_ret = CString::new(title.as_bytes());
@@ -220,7 +239,12 @@ impl Window {
         }
     }
 
-    /// Used to setup display layout in multiview mode
+    /// Setup display layout in multiview mode
+    ///
+    /// # Parameters
+    ///
+    /// - `rows` is the number of rows into which whole window is split into in multiple view mode
+    /// - `cols` is the number of cols into which whole window is split into in multiple view mode
     pub fn grid(&self, rows: i32, cols: i32) {
         unsafe {
             let err_val = af_grid(self.handle as WndHandle, rows as c_int, cols as c_int);
@@ -239,8 +263,14 @@ impl Window {
         }
     }
 
-    /// Used in multiview mode to set the current sub-region to which the subsequence draw call
-    /// renders to
+    /// Set the current sub-region to render
+    ///
+    /// This function is only to be used into multiview mode
+    ///
+    /// # Parameters
+    ///
+    /// - `r` is the target row id
+    /// - `c` is the target row id
     pub fn set_view(&mut self, r: i32, c: i32) {
         self.row = r;
         self.col = c;
@@ -351,6 +381,12 @@ impl Window {
     }
 
     /// Render given Array as an image
+    ///
+    /// # Parameters
+    ///
+    /// - `input` image
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_image(&self, input: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -365,6 +401,13 @@ impl Window {
     }
 
     /// Render given two Array's `x` and `y` as a 2d line plot
+    ///
+    /// # Parameters
+    ///
+    /// - `x` is the x coordinates of the plot
+    /// - `y` is the y coordinates of the plot
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_plot2(&self, x: &Array, y: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -380,6 +423,14 @@ impl Window {
     }
 
     /// Render given Array's `x`, `y` and `z` as a 3d line plot
+    ///
+    /// # Parameters
+    ///
+    /// - `x` is the x coordinates of the plot
+    /// - `y` is the y coordinates of the plot
+    /// - `z` is the z coordinates of the plot
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_plot3(&self, x: &Array, y: &Array, z: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -395,6 +446,12 @@ impl Window {
     }
 
     /// Render give Arrays of points as a 3d line plot
+    ///
+    /// # Parameters
+    ///
+    /// - `points` is an Array containing list of points of plot
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_plot(&self, points: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -409,6 +466,14 @@ impl Window {
     }
 
     /// Render given Array as a histogram
+    ///
+    /// # Parameters
+    ///
+    /// - `hst` is an Array containing histogram data
+    /// - `minval` is the minimum bin value of histogram
+    /// - `maxval` is the maximum bin value of histogram
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_hist(&self, hst: &Array, minval: f64, maxval: f64, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -424,6 +489,14 @@ impl Window {
     }
 
     /// Render give Arrays as 3d surface
+    ///
+    /// # Parameters
+    ///
+    /// - `x` is the x coordinates of the surface plot
+    /// - `y` is the y coordinates of the surface plot
+    /// - `z` is the z coordinates of the surface plot
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_surface(&self, xvals: &Array, yvals: &Array, zvals: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -441,6 +514,14 @@ impl Window {
     }
 
     /// Render given Arrays as 2d scatter plot
+    ///
+    /// # Parameters
+    ///
+    /// - `xvals` is the x coordinates of the scatter plot
+    /// - `yvals` is the y coordinates of the scatter plot
+    /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_scatter2(&self, xvals: &Array, yvals: &Array,
                          marker: MarkerType, title: Option<String>) {
         let tstr = match title {
@@ -457,6 +538,15 @@ impl Window {
     }
 
     /// Render given Arrays as 3d scatter plot
+    ///
+    /// # Parameters
+    ///
+    /// - `xvals` is the x coordinates of the scatter plot
+    /// - `yvals` is the y coordinates of the scatter plot
+    /// - `zvals` is the z coordinates of the scatter plot
+    /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_scatter3(&self, xvals: &Array, yvals: &Array, zvals: &Array,
                          marker: MarkerType, title: Option<String>) {
         let tstr = match title {
@@ -473,6 +563,13 @@ impl Window {
     }
 
     /// Render give Array as 3d scatter plot
+    ///
+    /// # Parameters
+    ///
+    /// - `points` is an Array containing list of points of plot
+    /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_scatter(&self, vals: &Array, marker: MarkerType, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
@@ -487,6 +584,15 @@ impl Window {
     }
 
     /// Render given Arrays as 2d vector field
+    ///
+    /// # Parameters
+    ///
+    /// - `xpnts` is an Array containing list of x coordinates
+    /// - `xdirs` is an Array containing direction component of x coord
+    /// - `ypnts` is an Array containing list of y coordinates
+    /// - `ydirs` is an Array containing direction component of y coord
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_vector_field2(&self, xpnts: &Array, ypnts: &Array,
                               xdirs: &Array, ydirs: &Array, title: Option<String>) {
         let tstr = match title {
@@ -504,6 +610,17 @@ impl Window {
     }
 
     /// Render given Arrays as 3d vector field
+    ///
+    /// # Parameters
+    ///
+    /// - `xpnts` is an Array containing list of x coordinates
+    /// - `xdirs` is an Array containing direction component of x coord
+    /// - `ypnts` is an Array containing list of y coordinates
+    /// - `ydirs` is an Array containing direction component of y coord
+    /// - `zpnts` is an Array containing list of z coordinates
+    /// - `zdirs` is an Array containing direction component of z coord
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_vector_field3(&self, xpnts: &Array, ypnts: &Array, zpnts: &Array,
                               xdirs: &Array, ydirs: &Array, zdirs: &Array,
                               title: Option<String>) {
@@ -523,6 +640,14 @@ impl Window {
     }
 
     /// Render given Array as vector field
+    ///
+    /// # Parameters
+    ///
+    /// - `points` is an Array containing list of coordinates of vector field
+    /// - `directions` is an Array containing directions at the coordinates specified in `points`
+    /// Array.
+    /// - `title` parameter has effect only in multiview mode, where this string
+    ///    is displayed as the respective cell/view title.
     pub fn draw_vector_field(&self, points: &Array, directions: &Array, title: Option<String>) {
         let tstr = match title {
             Some(s) => s,
