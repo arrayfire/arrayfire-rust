@@ -148,12 +148,12 @@ impl Window {
     pub fn new(width: i32, height: i32, title: String) ->  Window {
         unsafe {
             let mut temp: u64 = 0;
-            let cstr_ret = CString::new(title.as_bytes());
+            let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
                     let err_val = af_create_window(&mut temp as MutWndHandle,
                                                    width as c_int, height as c_int,
-                                                   cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                                                   cstr.as_ptr());
                     HANDLE_ERROR(AfError::from(err_val));
                     Window::from(temp)
                 },
@@ -182,11 +182,11 @@ impl Window {
     /// - `title` is the string to be displayed on window title bar
     pub fn set_title(&self, title: String) {
         unsafe {
-            let cstr_ret = CString::new(title.as_bytes());
+            let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
                     let err_val = af_set_title(self.handle as WndHandle,
-                                               cstr.to_bytes_with_nul().as_ptr() as *const c_char);
+                                               cstr.as_ptr());
                     HANDLE_ERROR(AfError::from(err_val));
                 },
                 Err(_)   => HANDLE_ERROR(AfError::ERR_INTERNAL),
@@ -285,14 +285,14 @@ impl Window {
     /// - `zlabel` is z axis title
     pub fn set_axes_titles(&mut self, xlabel: String, ylabel: String, zlabel: String) {
         let cprops = &Cell {row: self.row, col: self.col, title: String::from(""), cmap: self.cmap};
-        let xstr = CString::new(xlabel.as_bytes()).unwrap();
-        let ystr = CString::new(ylabel.as_bytes()).unwrap();
-        let zstr = CString::new(zlabel.as_bytes()).unwrap();
+        let xstr = CString::new(xlabel).unwrap();
+        let ystr = CString::new(ylabel).unwrap();
+        let zstr = CString::new(zlabel).unwrap();
         unsafe {
             let err_val = af_set_axes_titles(self.handle as WndHandle,
-                                             xstr.to_bytes_with_nul().as_ptr() as *const c_char,
-                                             ystr.to_bytes_with_nul().as_ptr() as *const c_char,
-                                             zstr.to_bytes_with_nul().as_ptr() as *const c_char,
+                                             xstr.as_ptr(),
+                                             ystr.as_ptr(),
+                                             zstr.as_ptr(),
                                              cprops as *const Cell as CellPtr);
             HANDLE_ERROR(AfError::from(err_val));
         }
