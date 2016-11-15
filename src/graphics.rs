@@ -73,7 +73,7 @@ extern {
 pub struct Cell {
     pub row: i32,
     pub col: i32,
-    pub title: String,
+    pub title: *const c_char,
     pub cmap: ColorMap,
 }
 
@@ -284,7 +284,7 @@ impl Window {
     /// - `ylabel` is y axis title
     /// - `zlabel` is z axis title
     pub fn set_axes_titles(&mut self, xlabel: String, ylabel: String, zlabel: String) {
-        let cprops = &Cell {row: self.row, col: self.col, title: String::from(""), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
@@ -314,7 +314,7 @@ impl Window {
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_compute(&mut self, xrange: &Array, yrange: &Array,
                                    zrange: Option<&Array>, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: String::from(""), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_compute(self.handle as WndHandle,
                                                      xrange.get() as AfArray,
@@ -343,7 +343,7 @@ impl Window {
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_2d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: String::from(""), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_2d(self.handle as WndHandle, xmin as c_float,
                                                 xmax as c_float, ymin as c_float, ymax as c_float,
@@ -370,7 +370,7 @@ impl Window {
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_3d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32,
                               zmin: f32, zmax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: String::from(""), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_3d(self.handle as WndHandle, xmin as c_float,
                                                 xmax as c_float, ymin as c_float, ymax as c_float,
@@ -392,7 +392,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_image(self.handle as WndHandle, input.get() as AfArray,
                                         cprops as *const Cell as CellPtr);
@@ -413,7 +414,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_plot_2d(self.handle as WndHandle,
                                           x.get() as AfArray, y.get() as AfArray,
@@ -436,7 +438,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_plot_3d(self.handle as WndHandle,
                                           x.get() as AfArray, y.get() as AfArray, z.get() as AfArray,
@@ -457,7 +460,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_plot_nd(self.handle as WndHandle, points.get() as AfArray,
                                           cprops as *const Cell as CellPtr);
@@ -479,7 +483,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_hist(self.handle as WndHandle, hst.get() as AfArray,
                                        minval as c_double, maxval as c_double,
@@ -502,7 +507,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_surface(self.handle as WndHandle,
                                           xvals.get() as AfArray,
@@ -528,7 +534,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_scatter_2d(self.handle as WndHandle,
                                              xvals.get() as AfArray, yvals.get() as AfArray,
@@ -553,7 +560,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_scatter_3d(self.handle as WndHandle, xvals.get() as AfArray,
                                              yvals.get() as AfArray, zvals.get() as AfArray,
@@ -575,7 +583,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_scatter_nd(self.handle as WndHandle, vals.get() as AfArray,
                                              marker as c_int, cprops as *const Cell as CellPtr);
@@ -599,7 +608,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_vector_field_2d(self.handle as WndHandle,
                                                   xpnts.get() as AfArray, ypnts.get() as AfArray,
@@ -628,7 +638,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_vector_field_3d(self.handle as WndHandle, xpnts.get() as AfArray,
                                                   ypnts.get() as AfArray, zpnts.get() as AfArray,
@@ -653,7 +664,8 @@ impl Window {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
         };
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.clone(), cmap: self.cmap};
+        let tstr = CString::new(tstr).unwrap();
+        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
         unsafe {
             let err_val = af_draw_vector_field_nd(self.handle as WndHandle,
                                                   points.get() as AfArray, directions.get() as AfArray,
