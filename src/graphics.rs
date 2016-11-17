@@ -6,6 +6,7 @@ use defines::{ColorMap, MarkerType};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_float, c_double, c_char};
 use std::ffi::CString;
+use std::ptr;
 
 type MutWndHandle = *mut self::libc::c_ulonglong;
 type WndHandle    = self::libc::c_ulonglong;
@@ -284,7 +285,7 @@ impl Window {
     /// - `ylabel` is y axis title
     /// - `zlabel` is z axis title
     pub fn set_axes_titles(&mut self, xlabel: String, ylabel: String, zlabel: String) {
-        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
@@ -314,7 +315,7 @@ impl Window {
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_compute(&mut self, xrange: &Array, yrange: &Array,
                                    zrange: Option<&Array>, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_compute(self.handle as WndHandle,
                                                      xrange.get() as AfArray,
@@ -343,7 +344,7 @@ impl Window {
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_2d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_2d(self.handle as WndHandle, xmin as c_float,
                                                 xmax as c_float, ymin as c_float, ymax as c_float,
@@ -370,7 +371,7 @@ impl Window {
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_3d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32,
                               zmin: f32, zmax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: [0].as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_3d(self.handle as WndHandle, xmin as c_float,
                                                 xmax as c_float, ymin as c_float, ymax as c_float,
