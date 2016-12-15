@@ -6,8 +6,10 @@ use array::Array;
 use defines::AfError;
 use error::HANDLE_ERROR;
 use self::libc::{c_int};
-use data::{constant, tile};
+use data::{constant, constant_like, tile};
 use self::num::Complex;
+
+use std::ops::Neg;
 
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
@@ -484,4 +486,13 @@ bit_assign_func!(BitAndAssign, bitand_assign, bitand);
 bit_assign_func!(BitOrAssign, bitor_assign, bitor);
 bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);
 
+}
+
+///Implement negation trait for Array
+impl Neg for Array {
+    type Output = Array;
+
+    fn neg(self) -> Self::Output {
+        constant_like(0.0, &self) - self
+    }
 }
