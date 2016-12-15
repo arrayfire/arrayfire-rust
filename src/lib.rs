@@ -32,7 +32,7 @@ mod backend;
 pub use blas::{matmul, dot, transpose, transpose_inplace};
 mod blas;
 
-pub use data::{constant, range, iota};
+pub use data::{constant, constant_like, range, iota};
 pub use data::{identity, diag_create, diag_extract, lower, upper};
 pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};

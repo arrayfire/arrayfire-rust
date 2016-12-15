@@ -622,3 +622,26 @@ pub fn replace_scalar(a: &mut Array, cond: &Array, b: f64) {
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
+
+/// Create an array filled with given constant retaining type/shape of another Array.
+///
+/// # Parameters
+///
+/// - `value` is the constant with which output Array is to be filled
+/// - `input` is the Array whose shape the output Array has to maintain
+///
+/// # Return Values
+///
+/// Array with given constant value and input Array's shape and similar internal data type.
+pub fn constant_like(value: f64, input: &Array) -> Array {
+    let dims = input.dims();
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_constant(&mut temp as MutAfArray, value as c_double,
+                                  dims.ndims() as c_uint,
+                                  dims.get().as_ptr() as *const DimT,
+                                  input.get_type() as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
