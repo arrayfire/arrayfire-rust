@@ -1,6 +1,9 @@
+extern crate num;
+
 use std::error::Error;
 use std::fmt::{Display, Formatter};
 use std::fmt::Error as FmtError;
+use self::num::Complex;
 
 /// Error codes
 #[repr(C)]
@@ -397,3 +400,32 @@ pub const PHILOX   : RandomEngineType = RandomEngineType::PHILOX_4X32_10;
 pub const THREEFRY : RandomEngineType = RandomEngineType::THREEFRY_2X32_16;
 pub const MERSENNE : RandomEngineType = RandomEngineType::MERSENNE_GP11213;
 pub const DEFAULT_RANDOM_ENGINE : RandomEngineType = PHILOX;
+
+/// Scalar value types
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Scalar {
+    /// 32 bit float
+    F32(f32),
+    /// 32 bit complex float
+    C32(Complex<f32>),
+    /// 64 bit float
+    F64(f64),
+    /// 64 bit complex float
+    C64(Complex<f64>),
+    /// 8 bit boolean
+    B8(bool),
+    /// 32 bit signed integer
+    S32(i32),
+    /// 32 bit unsigned integer
+    U32(u32),
+    /// 8 bit unsigned integer
+    U8(u8),
+    /// 64 bit signed integer
+    S64(i64),
+    /// 64 bit unsigned integer
+    U64(u64),
+    /// 16 bit signed integer
+    S16(i16),
+    /// 16 bit unsigned integer
+    U16(u16),
+}
