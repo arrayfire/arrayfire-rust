@@ -3,7 +3,7 @@ extern crate num;
 
 use array::Array;
 use dim4::Dim4;
-use defines::AfError;
+use defines::{AfError, DType, Scalar};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 use self::num::Complex;
@@ -620,5 +620,141 @@ pub fn replace_scalar(a: &mut Array, cond: &Array, b: f64) {
     unsafe {
         let err_val = af_replace_scalar(a.get() as AfArray, cond.get() as AfArray, b as c_double);
         HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Create a range of values of given type([DType](./enum.DType.html))
+///
+/// Creates an array with [0, n] values along the `seq_dim` which is tiled across other dimensions.
+///
+/// # Parameters
+///
+/// - `dims` is the size of Array
+/// - `seq_dim` is the dimension along which range values are populated, all values along other
+/// dimensions are just repeated
+/// - `dtype` indicates whats the type of the Array to be created
+///
+/// # Return Values
+/// Array
+#[allow(unused_mut)]
+pub fn range_t(dims: Dim4, seq_dim: i32, dtype: DType) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_range(&mut temp as MutAfArray,
+                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
+                              seq_dim as c_int, dtype as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Create a range of values of given type([DType](./enum.DType.html))
+///
+/// Create an sequence [0, dims.elements() - 1] and modify to specified dimensions dims and then tile it according to tile_dims.
+///
+/// # Parameters
+///
+/// - `dims` is the dimensions of the sequence to be generated
+/// - `tdims` is the number of repitions of the unit dimensions
+/// - `dtype` indicates whats the type of the Array to be created
+///
+/// # Return Values
+///
+/// Array
+#[allow(unused_mut)]
+pub fn iota_t(dims: Dim4, tdims: Dim4, dtype: DType) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val =af_iota(&mut temp as MutAfArray,
+                             dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
+                             tdims.ndims() as c_uint, tdims.get().as_ptr() as *const DimT,
+                             dtype as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Create an identity array with 1's in diagonal of given type([DType](./enum.DType.html))
+///
+/// # Parameters
+///
+/// - `dims` is the output Array dimensions
+/// - `dtype` indicates whats the type of the Array to be created
+///
+/// # Return Values
+///
+/// Identity matrix
+#[allow(unused_mut)]
+pub fn identity_t(dims: Dim4, dtype: DType) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_identity(&mut temp as MutAfArray,
+                                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
+                                  dtype as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Create a constant array of given type([DType](./enum.DType.html))
+///
+/// You can use this function to create arrays of type dictated by the enum
+/// [DType](./enum.DType.html) using the scalar `value` that has the shape similar
+/// to `dims`.
+///
+/// # Parameters
+///
+/// - `value` is the [Scalar](./enum.Scalar.html) to be filled into the array
+/// - `dims` is the output Array dimensions
+/// - `dtype` indicates the type of Array to be created and is the type of the scalar to be passed
+/// via the paramter `value`.
+///
+/// # Return Values
+///
+/// Array of `dims` shape and filed with given constant `value`.
+#[allow(unused_mut)]
+pub fn constant_t(value: Scalar, dims: Dim4, dtype: DType) -> Array {
+    use Scalar::*;
+
+    // Below macro is only visible to this function
+    // and it is used to abbreviate the repetitive const calls
+    macro_rules! expand_const_call {
+        ($ffi_name: ident, $temp: expr, $v: expr, $dims: expr, $dt: expr) => ({
+            $ffi_name(&mut $temp as MutAfArray, $v as c_double,
+                      $dims.ndims() as c_uint, $dims.get().as_ptr() as *const DimT, $dt)
+        })
+    }
+
+    unsafe {
+        let dt = dtype as c_int;
+        let mut temp: i64 = 0;
+        let err_val = match value {
+            C32(v) => {
+                af_constant_complex(&mut temp as MutAfArray, v.re as c_double, v.im as c_double,
+                                    dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, dt)
+            },
+            C64(v) => {
+                af_constant_complex(&mut temp as MutAfArray, v.re as c_double, v.im as c_double,
+                                    dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT, dt)
+            },
+            S64(v) => {
+                af_constant_long(&mut temp as MutAfArray, v as Intl,
+                                 dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT)
+            },
+            U64(v) => {
+                af_constant_ulong(&mut temp as MutAfArray, v as Uintl,
+                                  dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT)
+            },
+            F32(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+            F64(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+            B8(v)  => expand_const_call!(af_constant, temp, v as i32, dims, dt),
+            S32(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+            U32(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+            U8(v)  => expand_const_call!(af_constant, temp, v, dims, dt),
+            S16(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+            U16(v) => expand_const_call!(af_constant, temp, v, dims, dt),
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
     }
 }
