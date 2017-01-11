@@ -3,12 +3,16 @@ extern crate num;
 
 use dim4::Dim4;
 use array::Array;
-use defines::AfError;
+use defines::{AfError, DType, Scalar};
 use error::HANDLE_ERROR;
 use self::libc::{c_int};
-use data::{constant, tile};
+use data::{constant, constant_t, tile};
 use self::num::Complex;
 
+use std::ops::Neg;
+
+type Complex32  = Complex<f32>;
+type Complex64  = Complex<f64>;
 type MutAfArray = *mut self::libc::c_longlong;
 type MutDouble  = *mut self::libc::c_double;
 type MutUint    = *mut self::libc::c_uint;
@@ -484,4 +488,26 @@ bit_assign_func!(BitAndAssign, bitand_assign, bitand);
 bit_assign_func!(BitOrAssign, bitor_assign, bitor);
 bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);
 
+}
+
+///Implement negation trait for Array
+impl Neg for Array {
+    type Output = Array;
+
+    fn neg(self) -> Self::Output {
+        match self.get_type() {
+            DType::S64 => (constant_t(Scalar::S64(0 as i64), self.dims(), DType::S64) - self),
+            DType::U64 => (constant_t(Scalar::U64(0 as u64), self.dims(), DType::U64) - self),
+            DType::C32 => (constant_t(Scalar::C32(Complex32::new(0.0, 0.0)), self.dims(), DType::C32) - self),
+            DType::C64 => (constant_t(Scalar::C64(Complex64::new(0.0, 0.0)), self.dims(), DType::C64) - self),
+            DType::F32 => (constant_t(Scalar::F32(0 as f32), self.dims(), DType::F32) - self),
+            DType::F64 => (constant_t(Scalar::F64(0 as f64), self.dims(), DType::F64) - self),
+            DType::B8  => (constant_t(Scalar::B8 (false   ), self.dims(), DType::B8 ) - self),
+            DType::S32 => (constant_t(Scalar::S32(0 as i32), self.dims(), DType::S32) - self),
+            DType::U32 => (constant_t(Scalar::U32(0 as u32), self.dims(), DType::U32) - self),
+            DType::U8  => (constant_t(Scalar::U8 (0 as u8 ), self.dims(), DType::U8 ) - self),
+            DType::S16 => (constant_t(Scalar::S16(0 as i16), self.dims(), DType::S16) - self),
+            DType::U16 => (constant_t(Scalar::U16(0 as u16), self.dims(), DType::U16) - self),
+        }
+    }
 }

@@ -32,11 +32,12 @@ mod backend;
 pub use blas::{matmul, dot, transpose, transpose_inplace};
 mod blas;
 
-pub use data::{constant, range, iota};
-pub use data::{identity, diag_create, diag_extract, lower, upper};
+pub use data::{constant, range, iota, identity};
+pub use data::{diag_create, diag_extract, lower, upper};
 pub use data::{join, join_many, tile};
 pub use data::{reorder, shift, moddims, flat, flip};
 pub use data::{select, selectl, selectr, replace, replace_scalar};
+pub use data::{range_t, iota_t, identity_t, constant_t};
 mod data;
 
 pub use device::{get_version, info, init, device_count, is_double_available, set_device, get_device};
@@ -47,7 +48,7 @@ pub use defines::{DType, AfError, Backend, ColorMap, YCCStd, HomographyType};
 pub use defines::{InterpType, BorderType, MatchType, NormType};
 pub use defines::{Connectivity, ConvMode, ConvDomain, ColorSpace, MatProp};
 pub use defines::{MarkerType, MomentType, SparseFormat, BinaryOp, RandomEngineType};
-pub use defines::{PHILOX, THREEFRY, MERSENNE, DEFAULT_RANDOM_ENGINE};
+pub use defines::{PHILOX, THREEFRY, MERSENNE, DEFAULT_RANDOM_ENGINE, Scalar};
 mod defines;
 
 pub use dim4::Dim4;
