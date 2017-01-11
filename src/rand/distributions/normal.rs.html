@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.14/src/distributions/normal.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.15/src/distributions/normal.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>normal.rs.html -- source</title>
@@ -347,6 +347,7 @@
     <span class='doccomment'>/// # Panics</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Panics if `std_dev &lt; 0`.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>mean</span>: <span class='ident'>f64</span>, <span class='ident'>std_dev</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Normal</span> {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>std_dev</span> <span class='op'>&gt;=</span> <span class='number'>0.0</span>, <span class='string'>&quot;Normal::new called with `std_dev` &lt; 0&quot;</span>);
         <span class='ident'>Normal</span> {
@@ -393,6 +394,7 @@
     <span class='doccomment'>/// # Panics</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Panics if `std_dev &lt; 0`.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>mean</span>: <span class='ident'>f64</span>, <span class='ident'>std_dev</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>LogNormal</span> {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>std_dev</span> <span class='op'>&gt;=</span> <span class='number'>0.0</span>, <span class='string'>&quot;LogNormal::new called with `std_dev` &lt; 0&quot;</span>);
         <span class='ident'>LogNormal</span> { <span class='ident'>norm</span>: <span class='ident'>Normal</span>::<span class='ident'>new</span>(<span class='ident'>mean</span>, <span class='ident'>std_dev</span>) }
@@ -423,7 +425,6 @@
     }
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_normal_invalid_sd</span>() {
         <span class='ident'>Normal</span>::<span class='ident'>new</span>(<span class='number'>10.0</span>, <span class='op'>-</span><span class='number'>1.0</span>);
     }
@@ -440,7 +441,6 @@
     }
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_log_normal_invalid_sd</span>() {
         <span class='ident'>LogNormal</span>::<span class='ident'>new</span>(<span class='number'>10.0</span>, <span class='op'>-</span><span class='number'>1.0</span>);
     }
@@ -502,11 +502,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rand";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

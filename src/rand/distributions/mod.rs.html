@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.14/src/distributions/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.15/src/distributions/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -441,11 +441,6 @@
 <span id="397">397</span>
 <span id="398">398</span>
 <span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -812,7 +807,6 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span> <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_weighted_clone_change_weight</span>() {
         <span class='kw'>let</span> <span class='ident'>initial</span> : <span class='ident'>Weighted</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Weighted</span> {<span class='ident'>weight</span>: <span class='number'>1</span>, <span class='ident'>item</span>: <span class='number'>1</span>};
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>initial</span>.<span class='ident'>clone</span>();
@@ -821,7 +815,6 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span> <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_weighted_clone_change_item</span>() {
         <span class='kw'>let</span> <span class='ident'>initial</span> : <span class='ident'>Weighted</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Weighted</span> {<span class='ident'>weight</span>: <span class='number'>1</span>, <span class='ident'>item</span>: <span class='number'>1</span>};
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>initial</span>.<span class='ident'>clone</span>();
@@ -831,18 +824,15 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span> <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_weighted_choice_no_items</span>() {
         <span class='ident'>WeightedChoice</span>::<span class='op'>&lt;</span><span class='ident'>isize</span><span class='op'>&gt;</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> []);
     }
     <span class='attribute'>#[<span class='ident'>test</span>]</span> <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_weighted_choice_zero_weight</span>() {
         <span class='ident'>WeightedChoice</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>Weighted</span> { <span class='ident'>weight</span>: <span class='number'>0</span>, <span class='ident'>item</span>: <span class='number'>0</span>},
                                   <span class='ident'>Weighted</span> { <span class='ident'>weight</span>: <span class='number'>0</span>, <span class='ident'>item</span>: <span class='number'>1</span>}]);
     }
     <span class='attribute'>#[<span class='ident'>test</span>]</span> <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_weighted_choice_weight_overflows</span>() {
         <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>u32</span>::<span class='ident'>MAX</span> <span class='op'>/</span> <span class='number'>2</span>; <span class='comment'>// x + x + 2 is the overflow</span>
         <span class='ident'>WeightedChoice</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>Weighted</span> { <span class='ident'>weight</span>: <span class='ident'>x</span>, <span class='ident'>item</span>: <span class='number'>0</span> },
@@ -908,11 +898,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "rand";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

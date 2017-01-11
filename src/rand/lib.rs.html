@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.14/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.15/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -1268,6 +1268,22 @@
 <span id="1224">1224</span>
 <span id="1225">1225</span>
 <span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -1788,6 +1804,18 @@
         }
     }
 
+    <span class='doccomment'>/// Return a mutable pointer to a random element from `values`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Return `None` if `values` is empty.</span>
+    <span class='kw'>fn</span> <span class='ident'>choose_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>values</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='self'>Self</span>: <span class='ident'>Sized</span> {
+        <span class='kw'>if</span> <span class='ident'>values</span>.<span class='ident'>is_empty</span>() {
+            <span class='prelude-val'>None</span>
+        } <span class='kw'>else</span> {
+            <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='ident'>values</span>.<span class='ident'>len</span>();
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>values</span>[<span class='self'>self</span>.<span class='ident'>gen_range</span>(<span class='number'>0</span>, <span class='ident'>len</span>)])
+        }
+    }
+
     <span class='doccomment'>/// Shuffle a mutable slice in place.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Example</span>
@@ -1813,7 +1841,7 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span>: ?<span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>Rng</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>R</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Rng</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span>: <span class='question-mark'>?</span><span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>Rng</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>R</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Rng</span> {
     <span class='kw'>fn</span> <span class='ident'>next_u32</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
         (<span class='op'>*</span><span class='op'>*</span><span class='self'>self</span>).<span class='ident'>next_u32</span>()
     }
@@ -1835,7 +1863,7 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>Rng</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Rng</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='question-mark'>?</span><span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>Rng</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Rng</span> {
     <span class='kw'>fn</span> <span class='ident'>next_u32</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
         (<span class='op'>*</span><span class='op'>*</span><span class='self'>self</span>).<span class='ident'>next_u32</span>()
     }
@@ -1859,7 +1887,10 @@
 
 <span class='doccomment'>/// Iterator which will generate a stream of random items.</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// This iterator is created via the `gen_iter` method on `Rng`.</span>
+<span class='doccomment'>/// This iterator is created via the [`gen_iter`] method on [`Rng`].</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// [`gen_iter`]: trait.Rng.html#method.gen_iter</span>
+<span class='doccomment'>/// [`Rng`]: trait.Rng.html</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Generator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>, <span class='ident'>R</span>:<span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='ident'>rng</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>R</span>,
     <span class='ident'>_marker</span>: <span class='ident'>marker</span>::<span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='kw'>fn</span>() <span class='op'>-&gt;</span> <span class='ident'>T</span><span class='op'>&gt;</span>,
@@ -1875,7 +1906,10 @@
 
 <span class='doccomment'>/// Iterator which will continuously generate random ascii characters.</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// This iterator is created via the `gen_ascii_chars` method on `Rng`.</span>
+<span class='doccomment'>/// This iterator is created via the [`gen_ascii_chars`] method on [`Rng`].</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// [`gen_ascii_chars`]: trait.Rng.html#method.gen_ascii_chars</span>
+<span class='doccomment'>/// [`Rng`]: trait.Rng.html</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AsciiGenerator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span>:<span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='ident'>rng</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>R</span>,
 }
@@ -2332,7 +2366,6 @@
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_gen_range_panic_int</span>() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
         <span class='ident'>r</span>.<span class='ident'>gen_range</span>(<span class='number'>5</span>, <span class='op'>-</span><span class='number'>2</span>);
@@ -2340,7 +2373,6 @@
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='attribute'>#[<span class='ident'>should_panic</span>]</span>
-    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>target_env</span> <span class='op'>=</span> <span class='string'>&quot;msvc&quot;</span>, <span class='ident'>ignore</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_gen_range_panic_usize</span>() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>thread_rng</span>();
         <span class='ident'>r</span>.<span class='ident'>gen_range</span>(<span class='number'>5</span>, <span class='number'>2</span>);
@@ -2552,11 +2584,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rand";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

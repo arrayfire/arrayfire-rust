@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3166' class='srclink' href='../src/arrayfire/src/defines.rs.html#245-268' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-5406' class='srclink' href='../src/arrayfire/src/defines.rs.html#248-271' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum MatProp {
     NONE,
     TRANS,
@@ -62,31 +62,31 @@
     BLOCKDIAG,
 }</pre><div class='docblock'><p>Helps determine the type of a Matrix</p>
 </div><h2 class='variants'>Variants</h2>
-<span id='variant.NONE' class='variant'><code>NONE</code></span><div class='docblock'><p>Default (no-op)</p>
-</div><span id='variant.TRANS' class='variant'><code>TRANS</code></span><div class='docblock'><p>Data needs to be transposed</p>
-</div><span id='variant.CTRANS' class='variant'><code>CTRANS</code></span><div class='docblock'><p>Data needs to be conjugate transposed</p>
-</div><span id='variant.UPPER' class='variant'><code>UPPER</code></span><div class='docblock'><p>Matrix is upper triangular</p>
-</div><span id='variant.LOWER' class='variant'><code>LOWER</code></span><div class='docblock'><p>Matrix is lower triangular</p>
-</div><span id='variant.DIAGUNIT' class='variant'><code>DIAGUNIT</code></span><div class='docblock'><p>Matrix diagonal has unitary values</p>
-</div><span id='variant.SYM' class='variant'><code>SYM</code></span><div class='docblock'><p>Matrix is symmetric</p>
-</div><span id='variant.POSDEF' class='variant'><code>POSDEF</code></span><div class='docblock'><p>Matrix is positive definite</p>
-</div><span id='variant.ORTHOG' class='variant'><code>ORTHOG</code></span><div class='docblock'><p>Matrix is orthogonal</p>
-</div><span id='variant.TRIDIAG' class='variant'><code>TRIDIAG</code></span><div class='docblock'><p>Matrix is tri-diagonal</p>
-</div><span id='variant.BLOCKDIAG' class='variant'><code>BLOCKDIAG</code></span><div class='docblock'><p>Matrix is block-diagonal</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3141' class='srclink' href='../src/arrayfire/src/defines.rs.html#244' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
-<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
-</div><h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
-<div class='docblock'><p>This method tests for <code>!=</code>.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3147' class='srclink' href='../src/arrayfire/src/defines.rs.html#244' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3162' class='srclink' href='../src/arrayfire/src/defines.rs.html#244' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3163' class='srclink' href='../src/arrayfire/src/defines.rs.html#244' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></h4>
+<span id='variant.NONE' class='variant'><span id='NONE.v' class='invisible'><code>NONE</code></span></span><div class='docblock'><p>Default (no-op)</p>
+</div><span id='variant.TRANS' class='variant'><span id='TRANS.v' class='invisible'><code>TRANS</code></span></span><div class='docblock'><p>Data needs to be transposed</p>
+</div><span id='variant.CTRANS' class='variant'><span id='CTRANS.v' class='invisible'><code>CTRANS</code></span></span><div class='docblock'><p>Data needs to be conjugate transposed</p>
+</div><span id='variant.UPPER' class='variant'><span id='UPPER.v' class='invisible'><code>UPPER</code></span></span><div class='docblock'><p>Matrix is upper triangular</p>
+</div><span id='variant.LOWER' class='variant'><span id='LOWER.v' class='invisible'><code>LOWER</code></span></span><div class='docblock'><p>Matrix is lower triangular</p>
+</div><span id='variant.DIAGUNIT' class='variant'><span id='DIAGUNIT.v' class='invisible'><code>DIAGUNIT</code></span></span><div class='docblock'><p>Matrix diagonal has unitary values</p>
+</div><span id='variant.SYM' class='variant'><span id='SYM.v' class='invisible'><code>SYM</code></span></span><div class='docblock'><p>Matrix is symmetric</p>
+</div><span id='variant.POSDEF' class='variant'><span id='POSDEF.v' class='invisible'><code>POSDEF</code></span></span><div class='docblock'><p>Matrix is positive definite</p>
+</div><span id='variant.ORTHOG' class='variant'><span id='ORTHOG.v' class='invisible'><code>ORTHOG</code></span></span><div class='docblock'><p>Matrix is orthogonal</p>
+</div><span id='variant.TRIDIAG' class='variant'><span id='TRIDIAG.v' class='invisible'><code>TRIDIAG</code></span></span><div class='docblock'><p>Matrix is tri-diagonal</p>
+</div><span id='variant.BLOCKDIAG' class='variant'><span id='BLOCKDIAG.v' class='invisible'><code>BLOCKDIAG</code></span></span><div class='docblock'><p>Matrix is block-diagonal</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-5418' class='srclink' href='../src/arrayfire/src/defines.rs.html#247' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
-</div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
+</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-5421' class='srclink' href='../src/arrayfire/src/defines.rs.html#247' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-5422' class='srclink' href='../src/arrayfire/src/defines.rs.html#247' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-5437' class='srclink' href='../src/arrayfire/src/defines.rs.html#247' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class='method'><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../arrayfire/enum.MatProp.html' title='arrayfire::MatProp'>MatProp</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class='method'><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
@@ -143,11 +143,9 @@
     <script>
         window.rootPath = "../";
         window.currentCrate = "arrayfire";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

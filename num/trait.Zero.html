@@ -48,14 +48,14 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-16' class='srclink' href='../num_traits/identities/trait.Zero.html?gotosrc=16' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Zero: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;Self,&nbsp;Output=Self&gt; {
+<pre class='rust trait'>pub trait Zero: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;Self, Output=Self&gt; {
     fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self;
     fn <a href='#tymethod.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
 }</pre><div class='docblock'><p>Defines an additive identity element for <code>Self</code>.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.zero' class='method stab '><code>fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self</code></h3><div class='docblock'><p>Returns the additive identity element of <code>Self</code>, <code>0</code>.</p>
+        <h3 id='tymethod.zero' class='method stab '><span id='zero.v' class='invisible'><code>fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self</code></span></h3><div class='docblock'><p>Returns the additive identity element of <code>Self</code>, <code>0</code>.</p>
 
 <h1 id='laws' class='section-header'><a href='#laws'>Laws</a></h1>
 <pre><code class="language-{.text}">a + 0 = a       ∀ a ∈ Self
@@ -66,14 +66,14 @@
 <p>This function should return the same result at all times regardless of
 external mutable state, for example values stored in TLS or in
 <code>static mut</code>s.</p>
-</div><h3 id='tymethod.is_zero' class='method stab '><code>fn <a href='#tymethod.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns <code>true</code> if <code>self</code> is equal to the additive identity.</p>
+</div><h3 id='tymethod.is_zero' class='method stab '><span id='is_zero.v' class='invisible'><code>fn <a href='#tymethod.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Returns <code>true</code> if <code>self</code> is equal to the additive identity.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl Zero for <a class='struct' href='../num/struct.BigUint.html' title='num::BigUint'>BigUint</a></code></li>
-<li><code>impl Zero for <a class='struct' href='../num/struct.BigInt.html' title='num::BigInt'>BigInt</a></code></li>
-<li><code>impl&lt;T&gt; Zero for <a class='struct' href='../num_rational/struct.Ratio.html' title='num_rational::Ratio'>Ratio</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Integer.html' title='num::Integer'>Integer</a></span></code></li>
+    <li><code>impl&lt;T&gt; Zero for <a class='struct' href='../num_rational/struct.Ratio.html' title='num_rational::Ratio'>Ratio</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Integer.html' title='num::Integer'>Integer</a></span></code></li>
 <li><code>impl&lt;T&gt; Zero for <a class='struct' href='../num/struct.Complex.html' title='num::Complex'>Complex</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Num.html' title='num::Num'>Num</a></span></code></li>
+<li><code>impl Zero for <a class='struct' href='../num/struct.BigUint.html' title='num::BigUint'>BigUint</a></code></li>
+<li><code>impl Zero for <a class='struct' href='../num/struct.BigInt.html' title='num::BigInt'>BigInt</a></code></li>
 <li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></li>
 <li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
 <li><code>impl Zero for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
@@ -144,11 +144,9 @@ external mutable state, for example values stored in TLS or in
     <script>
         window.rootPath = "../";
         window.currentCrate = "num";
-        window.playgroundUrl = "http://play.rust-lang.org/";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    <script src="../playpen.js"></script>
     <script defer src="../search-index.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.14/src/chacha.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/rand-0.3.15/src/chacha.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>chacha.rs.html -- source</title>
@@ -332,6 +332,34 @@
 <span id="288">288</span>
 <span id="289">289</span>
 <span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -416,6 +444,23 @@
 
     <span class='doccomment'>/// Create an ChaCha random number generator using the default</span>
     <span class='doccomment'>/// fixed key of 8 zero words.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// use rand::{Rng, ChaChaRng};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let mut ra = ChaChaRng::new_unseeded();</span>
+    <span class='doccomment'>/// println!(&quot;{:?}&quot;, ra.next_u32());</span>
+    <span class='doccomment'>/// println!(&quot;{:?}&quot;, ra.next_u32());</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Since this equivalent to a RNG with a fixed seed, repeated executions</span>
+    <span class='doccomment'>/// of an unseeded RNG will produce the same result. This code sample will</span>
+    <span class='doccomment'>/// consistently produce:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// - 2917185654</span>
+    <span class='doccomment'>/// - 2419978656</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_unseeded</span>() <span class='op'>-&gt;</span> <span class='ident'>ChaChaRng</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>EMPTY</span>;
         <span class='ident'>rng</span>.<span class='ident'>init</span>(<span class='kw-2'>&amp;</span>[<span class='number'>0</span>; <span class='ident'>KEY_WORDS</span>]);
@@ -430,6 +475,17 @@
     <span class='doccomment'>/// users wishing to obtain the conventional ChaCha pseudorandom stream</span>
     <span class='doccomment'>/// associated with a particular nonce can call this function with</span>
     <span class='doccomment'>/// arguments `0, desired_nonce`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// use rand::{Rng, ChaChaRng};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let mut ra = ChaChaRng::new_unseeded();</span>
+    <span class='doccomment'>/// ra.set_counter(0u64, 1234567890u64);</span>
+    <span class='doccomment'>/// println!(&quot;{:?}&quot;, ra.next_u32());</span>
+    <span class='doccomment'>/// println!(&quot;{:?}&quot;, ra.next_u32());</span>
+    <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_counter</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>counter_low</span>: <span class='ident'>u64</span>, <span class='ident'>counter_high</span>: <span class='ident'>u64</span>) {
         <span class='self'>self</span>.<span class='ident'>state</span>[<span class='number'>12</span>] <span class='op'>=</span> <span class='ident'>w</span>((<span class='ident'>counter_low</span> <span class='op'>&gt;&gt;</span>  <span class='number'>0</span>) <span class='kw'>as</span> <span class='ident'>u32</span>);
         <span class='self'>self</span>.<span class='ident'>state</span>[<span class='number'>13</span>] <span class='op'>=</span> <span class='ident'>w</span>((<span class='ident'>counter_low</span> <span class='op'>&gt;&gt;</span> <span class='number'>32</span>) <span class='kw'>as</span> <span class='ident'>u32</span>);
@@ -680,11 +736,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "rand";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

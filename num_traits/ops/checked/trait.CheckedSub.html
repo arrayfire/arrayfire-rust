@@ -47,14 +47,14 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-344' class='srclink' href='../../../src/num_traits/ops/checked.rs.html#35-39' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait CheckedSub: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Sub.html' title='core::ops::Sub'>Sub</a>&lt;Self,&nbsp;Output=Self&gt; {
+               </span><a id='src-68' class='srclink' href='../../../src/num_traits/ops/checked.rs.html#35-39' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait CheckedSub: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Sub.html' title='core::ops::Sub'>Sub</a>&lt;Self, Output=Self&gt; {
     fn <a href='#tymethod.checked_sub' class='fnname'>checked_sub</a>(&amp;self, v: &amp;Self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
 }</pre><div class='docblock'><p>Performs subtraction that returns <code>None</code> instead of wrapping around on underflow.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.checked_sub' class='method stab '><code>fn <a href='#tymethod.checked_sub' class='fnname'>checked_sub</a>(&amp;self, v: &amp;Self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h3><div class='docblock'><p>Subtracts two numbers, checking for underflow. If underflow happens,
+        <h3 id='tymethod.checked_sub' class='method stab '><span id='checked_sub.v' class='invisible'><code>fn <a href='#tymethod.checked_sub' class='fnname'>checked_sub</a>(&amp;self, v: &amp;Self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></span></h3><div class='docblock'><p>Subtracts two numbers, checking for underflow. If underflow happens,
 <code>None</code> is returned.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
@@ -127,11 +127,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "num_traits";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

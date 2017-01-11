@@ -167,6 +167,7 @@
 <span id="123">123</span>
 <span id="124">124</span>
 <span id="125">125</span>
+<span id="126">126</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
        <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
@@ -202,11 +203,12 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>blas</span>::{<span class='ident'>matmul</span>, <span class='ident'>dot</span>, <span class='ident'>transpose</span>, <span class='ident'>transpose_inplace</span>};
 <span class='kw'>mod</span> <span class='ident'>blas</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>constant</span>, <span class='ident'>range</span>, <span class='ident'>iota</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>identity</span>, <span class='ident'>diag_create</span>, <span class='ident'>diag_extract</span>, <span class='ident'>lower</span>, <span class='ident'>upper</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>constant</span>, <span class='ident'>range</span>, <span class='ident'>iota</span>, <span class='ident'>identity</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>diag_create</span>, <span class='ident'>diag_extract</span>, <span class='ident'>lower</span>, <span class='ident'>upper</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>join</span>, <span class='ident'>join_many</span>, <span class='ident'>tile</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>reorder</span>, <span class='ident'>shift</span>, <span class='ident'>moddims</span>, <span class='ident'>flat</span>, <span class='ident'>flip</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>select</span>, <span class='ident'>selectl</span>, <span class='ident'>selectr</span>, <span class='ident'>replace</span>, <span class='ident'>replace_scalar</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>range_t</span>, <span class='ident'>iota_t</span>, <span class='ident'>identity_t</span>, <span class='ident'>constant_t</span>};
 <span class='kw'>mod</span> <span class='ident'>data</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>get_version</span>, <span class='ident'>info</span>, <span class='ident'>init</span>, <span class='ident'>device_count</span>, <span class='ident'>is_double_available</span>, <span class='ident'>set_device</span>, <span class='ident'>get_device</span>};
@@ -217,7 +219,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>InterpType</span>, <span class='ident'>BorderType</span>, <span class='ident'>MatchType</span>, <span class='ident'>NormType</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>Connectivity</span>, <span class='ident'>ConvMode</span>, <span class='ident'>ConvDomain</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>MatProp</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>MarkerType</span>, <span class='ident'>MomentType</span>, <span class='ident'>SparseFormat</span>, <span class='ident'>BinaryOp</span>, <span class='ident'>RandomEngineType</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>PHILOX</span>, <span class='ident'>THREEFRY</span>, <span class='ident'>MERSENNE</span>, <span class='ident'>DEFAULT_RANDOM_ENGINE</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>PHILOX</span>, <span class='ident'>THREEFRY</span>, <span class='ident'>MERSENNE</span>, <span class='ident'>DEFAULT_RANDOM_ENGINE</span>, <span class='ident'>Scalar</span>};
 <span class='kw'>mod</span> <span class='ident'>defines</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
@@ -350,11 +352,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "arrayfire";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>
