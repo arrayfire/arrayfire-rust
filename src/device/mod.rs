@@ -1,6 +1,6 @@
 extern crate libc;
 
-use defines::AfError;
+use defines::{AfError, DType};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char, c_void};
 use std::ffi::CString;
@@ -22,7 +22,8 @@ extern {
     fn af_device_gc() -> c_int;
     fn af_sync(device: c_int) -> c_int;
 
-    fn af_free_host (ptr: *mut c_void) -> c_int;
+    fn af_alloc_host(elements: size_t, _type: DType) -> *mut c_void;
+    fn af_free_host(ptr: *mut c_void) -> c_int;
 }
 
 /// Get ArrayFire Version Number
@@ -76,7 +77,7 @@ pub fn info_string(verbose: bool) -> String {
         let err_val = af_info_string(&mut tmp, verbose);
         HANDLE_ERROR(AfError::from(err_val));
 
-        let result = CString::from_raw(tmp).into_string().unwrap();
+        let result = (*CString::from_raw(tmp)).to_str().unwrap().to_owned();
 
         let err_val = af_free_host(tmp as *mut c_void);
         HANDLE_ERROR(AfError::from(err_val));
