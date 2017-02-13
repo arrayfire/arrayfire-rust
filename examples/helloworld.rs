@@ -7,6 +7,7 @@ use af::*;
 fn main() {
     set_device(0);
     info();
+    print!("Info String:\n{}", info_string(true));
 
     let num_rows: u64 = 5;
     let num_cols: u64 = 3;
