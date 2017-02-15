@@ -352,13 +352,13 @@ pub fn clamp<T, U> (input: &Array, arg1: &T, arg2: &U, batch: bool) -> Array
 }
 
 macro_rules! arith_scalar_func {
-    ($rust_type: ty, $op_name:ident, $fn_name: ident, $ffi_fn: ident) => (
+    ($rust_type: ty, $op_name:ident, $fn_name: ident) => (
         impl<'f> $op_name<$rust_type> for &'f Array {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
                 let temp = rhs.clone();
-                add(self, &temp, false)
+                $fn_name(self, &temp, false)
             }
         }
 
@@ -367,7 +367,7 @@ macro_rules! arith_scalar_func {
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
                 let temp = rhs.clone();
-                add(&self, &temp, false)
+                $fn_name(&self, &temp, false)
             }
         }
     )
@@ -375,10 +375,10 @@ macro_rules! arith_scalar_func {
 
 macro_rules! arith_scalar_spec {
     ($ty_name:ty) => (
-        arith_scalar_func!($ty_name, Add, add, af_add);
-        arith_scalar_func!($ty_name, Sub, sub, af_sub);
-        arith_scalar_func!($ty_name, Mul, mul, af_mul);
-        arith_scalar_func!($ty_name, Div, div, af_div);
+        arith_scalar_func!($ty_name, Add, add);
+        arith_scalar_func!($ty_name, Sub, sub);
+        arith_scalar_func!($ty_name, Mul, mul);
+        arith_scalar_func!($ty_name, Div, div);
     )
 }
 
@@ -393,12 +393,12 @@ arith_scalar_spec!(i32);
 arith_scalar_spec!(u8);
 
 macro_rules! arith_func {
-    ($op_name:ident, $fn_name:ident) => (
+    ($op_name:ident, $fn_name:ident, $delegate:ident) => (
         impl $op_name<Array> for Array {
             type Output = Array;
 
             fn $fn_name(self, rhs: Array) -> Array {
-                add(&self, &rhs, false)
+                $delegate(&self, &rhs, false)
             }
         }
 
@@ -406,7 +406,7 @@ macro_rules! arith_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: &'a Array) -> Array {
-                add(&self, rhs, false)
+                $delegate(&self, rhs, false)
             }
         }
 
@@ -414,7 +414,7 @@ macro_rules! arith_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: Array) -> Array {
-                add(self, &rhs, false)
+                $delegate(self, &rhs, false)
             }
         }
 
@@ -422,22 +422,22 @@ macro_rules! arith_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: &'a Array) -> Array {
-                add(self, rhs, false)
+                $delegate(self, rhs, false)
             }
         }
     )
 }
 
-arith_func!(Add   , add   );
-arith_func!(Sub   , sub   );
-arith_func!(Mul   , mul   );
-arith_func!(Div   , div   );
-arith_func!(Rem   , rem   );
-arith_func!(BitAnd, bitand);
-arith_func!(BitOr , bitor );
-arith_func!(BitXor, bitxor);
-arith_func!(Shl   , shl   );
-arith_func!(Shr   , shr   );
+arith_func!(Add   , add   , add   );
+arith_func!(Sub   , sub   , sub   );
+arith_func!(Mul   , mul   , mul   );
+arith_func!(Div   , div   , div   );
+arith_func!(Rem   , rem   , rem   );
+arith_func!(Shl   , shl   , shiftl);
+arith_func!(Shr   , shr   , shiftr);
+arith_func!(BitAnd, bitand, bitand);
+arith_func!(BitOr , bitor , bitor );
+arith_func!(BitXor, bitxor, bitxor);
 
 #[cfg(op_assign)]
 mod op_assign {
