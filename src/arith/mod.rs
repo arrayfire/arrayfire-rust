@@ -217,6 +217,8 @@ macro_rules! convertable_type_def {
     )
 }
 
+convertable_type_def!(Complex<f64>);
+convertable_type_def!(Complex<f32>);
 convertable_type_def!(u64);
 convertable_type_def!(i64);
 convertable_type_def!(f64);
@@ -355,14 +357,8 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims());
-                unsafe {
-                    let mut temp: i64 = 0;
-                    let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
-                                          cnst_arr.get() as AfArray, 0);
-                    HANDLE_ERROR(AfError::from(err_val));
-                    Array::from(temp)
-                }
+                let temp = rhs.clone();
+                add(self, &temp, false)
             }
         }
 
@@ -370,14 +366,8 @@ macro_rules! arith_scalar_func {
             type Output = Array;
 
             fn $fn_name(self, rhs: $rust_type) -> Array {
-                let cnst_arr = constant(rhs, self.dims());
-                unsafe {
-                    let mut temp: i64 = 0;
-                    let err_val = $ffi_fn(&mut temp as MutAfArray, self.get() as AfArray,
-                                          cnst_arr.get() as AfArray, 0);
-                    HANDLE_ERROR(AfError::from(err_val));
-                    Array::from(temp)
-                }
+                let temp = rhs.clone();
+                add(&self, &temp, false)
             }
         }
     )
