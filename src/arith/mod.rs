@@ -403,33 +403,51 @@ arith_scalar_spec!(i32);
 arith_scalar_spec!(u8);
 
 macro_rules! arith_func {
-    ($op_name:ident, $fn_name:ident, $ffi_fn: ident) => (
+    ($op_name:ident, $fn_name:ident) => (
         impl $op_name<Array> for Array {
             type Output = Array;
 
             fn $fn_name(self, rhs: Array) -> Array {
-                unsafe {
-                    let mut temp: i64 = 0;
-                    let err_val = $ffi_fn(&mut temp as MutAfArray,
-                                          self.get() as AfArray, rhs.get() as AfArray, 0);
-                    HANDLE_ERROR(AfError::from(err_val));
-                    Array::from(temp)
-                }
+                add(&self, &rhs, false)
+            }
+        }
+
+        impl<'a> $op_name<&'a Array> for Array {
+            type Output = Array;
+
+            fn $fn_name(self, rhs: &'a Array) -> Array {
+                add(&self, rhs, false)
+            }
+        }
+
+        impl<'a> $op_name<Array> for &'a Array {
+            type Output = Array;
+
+            fn $fn_name(self, rhs: Array) -> Array {
+                add(self, &rhs, false)
+            }
+        }
+
+        impl<'a, 'b> $op_name<&'a Array> for &'b Array {
+            type Output = Array;
+
+            fn $fn_name(self, rhs: &'a Array) -> Array {
+                add(self, rhs, false)
             }
         }
     )
 }
 
-arith_func!(Add, add, af_add);
-arith_func!(Sub, sub, af_sub);
-arith_func!(Mul, mul, af_mul);
-arith_func!(Div, div, af_div);
-arith_func!(Rem, rem, af_rem);
-arith_func!(BitAnd, bitand, af_bitand);
-arith_func!(BitOr, bitor, af_bitor);
-arith_func!(BitXor, bitxor, af_bitxor);
-arith_func!(Shl, shl, af_bitshiftl);
-arith_func!(Shr, shr, af_bitshiftr);
+arith_func!(Add   , add   );
+arith_func!(Sub   , sub   );
+arith_func!(Mul   , mul   );
+arith_func!(Div   , div   );
+arith_func!(Rem   , rem   );
+arith_func!(BitAnd, bitand);
+arith_func!(BitOr , bitor );
+arith_func!(BitXor, bitxor);
+arith_func!(Shl   , shl   );
+arith_func!(Shr   , shr   );
 
 #[cfg(op_assign)]
 mod op_assign {
