@@ -3,7 +3,8 @@ extern crate libc;
 use defines::{AfError, DType};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char, c_void};
-use std::ffi::CString;
+use std::ffi::{CStr, CString};
+use util::free_host;
 
 extern {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
@@ -21,9 +22,6 @@ extern {
     fn af_get_mem_step_size(step_bytes: *mut size_t) -> c_int;
     fn af_device_gc() -> c_int;
     fn af_sync(device: c_int) -> c_int;
-
-    fn af_alloc_host(elements: size_t, _type: DType) -> *mut c_void;
-    fn af_free_host(ptr: *mut c_void) -> c_int;
 }
 
 /// Get ArrayFire Version Number
@@ -72,17 +70,15 @@ pub fn info() {
 /// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
 /// ```
 pub fn info_string(verbose: bool) -> String {
-    let mut tmp: *mut c_char = 0 as *mut c_char;
+    let result: String;
     unsafe {
+        let mut tmp: *mut c_char = 0 as *mut c_char;
         let err_val = af_info_string(&mut tmp, verbose);
         HANDLE_ERROR(AfError::from(err_val));
-
-        let result = (*CString::from_raw(tmp)).to_str().unwrap().to_owned();
-
-        let err_val = af_free_host(tmp as *mut c_void);
-        HANDLE_ERROR(AfError::from(err_val));
-        result
+        result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+        free_host(tmp);
     }
+    result
 }
 
 /// Initialize ArrayFire library
