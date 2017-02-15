@@ -180,12 +180,12 @@ macro_rules! binary_func {
         ///
         /// This is an element wise binary operation.
         #[allow(unused_mut)]
-        pub fn $fn_name(lhs: &Array, rhs: &Array) -> Array {
+        pub fn $fn_name(lhs: &Array, rhs: &Array, batch: bool) -> Array {
             unsafe {
                 let mut temp: i64 = 0;
                 let err_val = $ffi_fn(&mut temp as MutAfArray,
                                       lhs.get() as AfArray, rhs.get() as AfArray,
-                                      0);
+                                      batch as c_int);
                 HANDLE_ERROR(AfError::from(err_val));
                 Array::from(temp)
             }
@@ -485,7 +485,7 @@ macro_rules! bit_assign_func {
                 let mut idxrs = Indexer::new();
                 idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
                 idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
-                let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs));
+                let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs, false));
                 mem::replace(self, tmp);
             }
         }
