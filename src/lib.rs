@@ -40,7 +40,7 @@ pub use data::{select, selectl, selectr, replace, replace_scalar};
 pub use data::{range_t, iota_t, identity_t, constant_t};
 mod data;
 
-pub use device::{get_version, info, init, device_count, is_double_available, set_device, get_device};
+pub use device::{get_version, info, info_string, init, device_count, is_double_available, set_device, get_device};
 pub use device::{device_mem_info, print_mem_info, set_mem_step_size, get_mem_step_size, device_gc, sync};
 mod device;
 

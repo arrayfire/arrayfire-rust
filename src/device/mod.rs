@@ -1,13 +1,15 @@
 extern crate libc;
 
-use defines::AfError;
+use defines::{AfError, DType};
 use error::HANDLE_ERROR;
-use self::libc::{c_int, size_t, c_char};
-use std::ffi::CString;
+use self::libc::{c_int, size_t, c_char, c_void};
+use std::ffi::{CStr, CString};
+use util::free_host;
 
 extern {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
     fn af_info() -> c_int;
+    fn af_info_string(str: *mut *mut c_char, verbose: bool) -> c_int;
     fn af_init() -> c_int;
     fn af_get_device_count(nDevices: *mut c_int) -> c_int;
     fn af_get_dbl_support(available: *mut c_int, device: c_int) -> c_int;
@@ -54,6 +56,29 @@ pub fn info() {
         let err_val = af_info();
         HANDLE_ERROR(AfError::from(err_val));
     }
+}
+
+/// Return library meta-info as `String`
+///
+/// # Examples
+///
+/// An example output of `af::info_string` call looks like below
+///
+/// ```text
+/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
+/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
+/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
+/// ```
+pub fn info_string(verbose: bool) -> String {
+    let result: String;
+    unsafe {
+        let mut tmp: *mut c_char = ::std::ptr::null_mut();
+        let err_val = af_info_string(&mut tmp, verbose);
+        HANDLE_ERROR(AfError::from(err_val));
+        result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+        free_host(tmp);
+    }
+    result
 }
 
 /// Initialize ArrayFire library
