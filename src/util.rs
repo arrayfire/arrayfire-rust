@@ -32,7 +32,7 @@ pub fn get_size(value: DType) -> usize {
 
 /// Allocates space using Arrayfire allocator in host memory
 pub fn alloc_host<T>(elements: usize, _type: DType) -> *const T {
-    let ptr = 0 as *const T;
+    let ptr: *const T = ::std::ptr::null();
     let bytes = (elements * get_size(_type)) as DimT;
     unsafe {
         let err_val = af_alloc_host(&mut (ptr as *const c_void), bytes);

@@ -72,7 +72,7 @@ pub fn info() {
 pub fn info_string(verbose: bool) -> String {
     let result: String;
     unsafe {
-        let mut tmp: *mut c_char = 0 as *mut c_char;
+        let mut tmp: *mut c_char = ::std::ptr::null_mut();
         let err_val = af_info_string(&mut tmp, verbose);
         HANDLE_ERROR(AfError::from(err_val));
         result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
