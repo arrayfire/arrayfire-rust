@@ -7,14 +7,8 @@ use defines::{AfError, DType, Scalar};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 use self::num::Complex;
-use util::HasAfEnum;
+use util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
 use std::vec::Vec;
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
-type DimT       = self::libc::c_longlong;
-type Intl       = self::libc::c_longlong;
-type Uintl      = self::libc::c_ulonglong;
 
 #[allow(dead_code)]
 extern {

@@ -8,9 +8,26 @@ use std::mem;
 use self::num::Complex;
 use self::libc::{uint8_t, c_int, size_t, c_void};
 
-// This is private in array
-// use array::DimT;
-type DimT = self::libc::c_longlong;
+pub type AfArray       = self::libc::c_longlong;
+pub type CellPtr       = *const self::libc::c_void;
+pub type Complex32     = Complex<f32>;
+pub type Complex64     = Complex<f64>;
+pub type DimT          = self::libc::c_longlong;
+pub type Feat          = *const self::libc::c_void;
+pub type IndexT        = self::libc::c_longlong;
+pub type Intl          = self::libc::c_longlong;
+pub type MutAfArray    = *mut self::libc::c_longlong;
+pub type MutAfIndex    = *mut self::libc::c_longlong;
+pub type MutDimT       = *mut self::libc::c_longlong;
+pub type MutDouble     = *mut self::libc::c_double;
+pub type MutFeat       = *mut *mut self::libc::c_void;
+pub type MutRandEngine = *mut self::libc::c_longlong;
+pub type MutUint       = *mut self::libc::c_uint;
+pub type MutVoidPtr    = *mut self::libc::c_ulonglong;
+pub type MutWndHandle  = *mut self::libc::c_ulonglong;
+pub type RandEngine    = self::libc::c_longlong;
+pub type Uintl         = self::libc::c_ulonglong;
+pub type WndHandle     = self::libc::c_ulonglong;
 
 #[allow(dead_code)]
 extern {

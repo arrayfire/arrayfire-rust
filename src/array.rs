@@ -3,14 +3,9 @@ extern crate libc;
 use dim4::Dim4;
 use defines::{AfError, DType, Backend};
 use error::HANDLE_ERROR;
-use util::HasAfEnum;
+use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
 use std::ffi::CString;
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
-type DimT       = self::libc::c_longlong;
-type MutVoidPtr = *mut self::libc::c_ulonglong;
 
 // Some unused functions from array.h in C-API of ArrayFire
 // af_create_handle

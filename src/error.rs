@@ -4,9 +4,7 @@ use std::error::Error;
 use std::marker::{Send, Sync};
 use std::sync::RwLock;
 
-
 pub type ErrorCallback = Fn(AfError);
-
 
 /// Wrap ErrorCallback function pointer inside a structure
 /// to enable implementing Send, Sync traits on it.
@@ -14,22 +12,18 @@ pub struct Callback<'cblifetime> {
     pub cb: &'cblifetime ErrorCallback,
 }
 
-
 // Implement Send, Sync traits for Callback structure to
 // enable the user of Callback function pointer in conjunction
 // with threads using a mutex.
 unsafe impl<'cblifetime> Send for Callback<'cblifetime> {}
 unsafe impl<'cblifetime> Sync for Callback<'cblifetime> {}
 
-
 pub const DEFAULT_HANDLE_ERROR: Callback<'static> = Callback{cb: &handle_error_general};
-
 
 lazy_static! {
     static ref ERROR_HANDLER_LOCK: RwLock< Callback<'static> > =
         RwLock::new(DEFAULT_HANDLE_ERROR);
 }
-
 
 /// Register user provided error handler
 ///

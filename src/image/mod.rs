@@ -3,12 +3,8 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, BorderType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
 use error::HANDLE_ERROR;
-use util::HasAfEnum;
+use util::{AfArray, DimT, HasAfEnum, MutAfArray};
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
-type DimT       = self::libc::c_longlong;
 
 // unused functions from image.h header
 // af_load_image_memory

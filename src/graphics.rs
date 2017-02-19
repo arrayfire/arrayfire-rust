@@ -7,11 +7,7 @@ use error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_float, c_double, c_char};
 use std::ffi::CString;
 use std::ptr;
-
-type MutWndHandle = *mut self::libc::c_ulonglong;
-type WndHandle    = self::libc::c_ulonglong;
-type AfArray      = self::libc::c_longlong;
-type CellPtr      = *const self::libc::c_void;
+use util::{AfArray, CellPtr, MutWndHandle, WndHandle};
 
 #[allow(dead_code)]
 extern {

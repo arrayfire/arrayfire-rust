@@ -3,12 +3,8 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, MatProp, NormType};
 use error::HANDLE_ERROR;
-use util::to_u32;
+use util::{AfArray, MutAfArray, MutDouble, to_u32};
 use self::libc::{uint8_t, c_int, c_uint, c_double};
-
-type MutAfArray = *mut self::libc::c_longlong;
-type MutDouble  = *mut self::libc::c_double;
-type AfArray    = self::libc::c_longlong;
 
 #[allow(dead_code)]
 extern {

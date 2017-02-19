@@ -5,13 +5,7 @@ use dim4::Dim4;
 use defines::{AfError, RandomEngineType};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_uint};
-use util::HasAfEnum;
-
-type MutAfArray = *mut self::libc::c_longlong;
-type MutRandEngine = *mut self::libc::c_longlong;
-type RandEngine    = self::libc::c_longlong;
-type DimT    = self::libc::c_longlong;
-type Uintl   = self::libc::c_ulonglong;
+use util::{DimT, HasAfEnum, MutAfArray, MutRandEngine, RandEngine, Uintl};
 
 #[allow(dead_code)]
 extern {
