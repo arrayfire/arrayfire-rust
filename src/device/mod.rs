@@ -4,12 +4,16 @@ use defines::{AfError, DType};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char, c_void};
 use std::ffi::{CStr, CString};
+use std::borrow::Cow;
 use util::free_host;
 
 extern {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
+    fn af_get_revision() -> *const c_char;
     fn af_info() -> c_int;
     fn af_info_string(str: *mut *mut c_char, verbose: bool) -> c_int;
+    fn af_device_info(d_name: *mut c_char, d_platform: *mut c_char,
+                      d_toolkit: *mut c_char, d_compute: *mut c_char) -> c_int;
     fn af_init() -> c_int;
     fn af_get_device_count(nDevices: *mut c_int) -> c_int;
     fn af_get_dbl_support(available: *mut c_int, device: c_int) -> c_int;
@@ -37,6 +41,16 @@ pub fn get_version() -> (i32, i32, i32) {
                                      &mut min as *mut c_int, &mut pat as *mut c_int);
         HANDLE_ERROR(AfError::from(err_val));
         (maj, min, pat)
+    }
+}
+
+/// Get ArrayFire Revision (commit) information of the library.
+///
+/// # Return Values
+/// This returns a `Cow<'static, str>` as the string is constructed at compile time.
+pub fn get_revision() -> Cow<'static, str> {
+    unsafe {
+        CStr::from_ptr(af_get_revision()).to_string_lossy()
     }
 }
 
@@ -79,6 +93,28 @@ pub fn info_string(verbose: bool) -> String {
         free_host(tmp);
     }
     result
+}
+
+/// Gets the information about device and platform as strings.
+///
+/// # Return Values
+/// A tuple of `String` indicating the name, platform, toolkit and compute.
+pub fn device_info() -> (String, String, String, String) {
+    let mut name = [0 as c_char; 64];
+    let mut platform = [0 as c_char; 10];
+    let mut toolkit = [0 as c_char; 64];
+    let mut compute = [0 as c_char; 10];
+    unsafe {
+        let err_val = af_device_info(&mut name[0],
+                                     &mut platform[0],
+                                     &mut toolkit[0],
+                                     &mut compute[0]);
+        HANDLE_ERROR(AfError::from(err_val));
+        (CStr::from_ptr(name.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(platform.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(toolkit.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(compute.as_mut_ptr()).to_string_lossy().into_owned())
+    }
 }
 
 /// Initialize ArrayFire library
