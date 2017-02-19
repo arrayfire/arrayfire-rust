@@ -11,8 +11,6 @@ use util::HasAfEnum;
 use std::vec::Vec;
 
 type MutAfArray = *mut self::libc::c_longlong;
-type MutDouble  = *mut self::libc::c_double;
-type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
 type Intl       = self::libc::c_longlong;

@@ -8,12 +8,9 @@ use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
 use std::ffi::CString;
 
 type MutAfArray = *mut self::libc::c_longlong;
-type MutDouble  = *mut self::libc::c_double;
-type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 type DimT       = self::libc::c_longlong;
 type MutVoidPtr = *mut self::libc::c_ulonglong;
-type VoidPtr    = self::libc::c_ulonglong;
 
 // Some unused functions from array.h in C-API of ArrayFire
 // af_create_handle

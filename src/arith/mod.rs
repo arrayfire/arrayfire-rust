@@ -14,8 +14,6 @@ use std::ops::Neg;
 type Complex32  = Complex<f32>;
 type Complex64  = Complex<f64>;
 type MutAfArray = *mut self::libc::c_longlong;
-type MutDouble  = *mut self::libc::c_double;
-type MutUint    = *mut self::libc::c_uint;
 type AfArray    = self::libc::c_longlong;
 
 use std::ops::{Add, Sub, Div, Mul, BitAnd, BitOr, BitXor, Not, Rem, Shl, Shr};

@@ -1,8 +1,8 @@
 extern crate libc;
 
-use defines::{AfError, DType};
+use defines::{AfError};
 use error::HANDLE_ERROR;
-use self::libc::{c_int, size_t, c_char, c_void};
+use self::libc::{c_int, size_t, c_char};
 use std::ffi::{CStr, CString};
 use std::borrow::Cow;
 use util::free_host;
