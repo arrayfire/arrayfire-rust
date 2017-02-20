@@ -5,12 +5,7 @@ use defines::AfError;
 use error::HANDLE_ERROR;
 use seq::Seq;
 use self::libc::{c_double, c_int, c_uint};
-
-type MutAfIndex    = *mut self::libc::c_longlong;
-type MutAfArray    = *mut self::libc::c_longlong;
-type AfArray       = self::libc::c_longlong;
-type DimT          = self::libc::c_longlong;
-type IndexT        = self::libc::c_longlong;
+use util::{AfArray, DimT, IndexT, MutAfArray, MutAfIndex};
 
 #[allow(dead_code)]
 extern {

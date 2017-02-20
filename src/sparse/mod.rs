@@ -4,12 +4,7 @@ use array::Array;
 use defines::{AfError, SparseFormat};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_void, c_int};
-use util::HasAfEnum;
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
-type DimT       = self::libc::c_longlong;
-type MutDimT    = *mut self::libc::c_longlong;
+use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutDimT};
 
 #[allow(dead_code)]
 extern {

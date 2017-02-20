@@ -4,14 +4,8 @@ use std::mem;
 use array::Array;
 use defines::{AfError, HomographyType, MatchType};
 use error::HANDLE_ERROR;
-use util::HasAfEnum;
+use util::{AfArray, DimT, Feat, HasAfEnum, MutAfArray, MutFeat};
 use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_double, c_longlong};
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
-type DimT       = self::libc::c_longlong;
-type MutFeat    = *mut *mut self::libc::c_void;
-type Feat       = *const self::libc::c_void;
 
 // af_sift and af_gloh uses patented algorithms, so didn't add them
 // they are built using installer builds
