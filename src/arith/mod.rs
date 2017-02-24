@@ -450,8 +450,9 @@ macro_rules! arith_assign_func {
             #[allow(unused_variables)]
             fn $fn_name(&mut self, rhs: Array) {
                 let mut idxrs = Indexer::new();
-                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
-                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                for n in 0..self.numdims() {
+                    idxrs.set_index(&Seq::<f32>::default(), n, Some(false));
+                }
                 let tmp = assign_gen(self as &Array, &idxrs,
                                      & $func(self as &Array, &rhs, false));
                 mem::replace(self, tmp);
