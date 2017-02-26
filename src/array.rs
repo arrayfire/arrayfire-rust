@@ -400,6 +400,12 @@ impl Clone for Array {
 /// To free resources when Array goes out of scope
 impl Drop for Array {
     fn drop(&mut self) {
+        let swap_code = set_backend(self.get_backend());
+        match swap_code {
+            Ok(_) => (),
+            Err(error) => panic!("Failed to swap backend during drop : {}", error),
+        }
+
         unsafe {
             let ret_val = af_release_array(self.handle);
             match ret_val {
