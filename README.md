@@ -3,7 +3,14 @@
 |:-------:|:-------:|:---:|
 | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-linux/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-windows/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-osx/) |
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. The wrapper is currently compliant with ArrayFire 3.4.x API.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire.  If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
+
+| ArrayFire Upstream | Rust Crate |
+|:------------------:|:---------------:|
+| 3.3.x | 3.3.x |
+| 3.4.x | 3.4.x |
+
+Only, Major & Minor version numbers need to match.
 
 ## Documentation
 
@@ -30,7 +37,8 @@ first.
 3. Make sure you add the path to library files to your path environment variables.
     - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.4.1"` to the dependencies section of your project's Cargo.toml file.
+4. Add `arrayfire = "3.4.2"` to the dependencies section of your project's Cargo.toml file - 3.4.2
+   is the lastest version of crate.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
@@ -68,10 +76,6 @@ af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 ~/p/arrayfire_rust> cargo run --example helloworld
 ...
      running 1 test
-ArrayFire v3.4.0 (CUDA, 64-bit Linux, build 10d9716)
-Platform: CUDA Toolkit 7.5, Driver: 361.42
-[0] GeForce GT 650M, 2048 MB, CUDA Compute 3.0
-
 Create a 5-by-3 matrix of random floats on the GPU
 [5 3 1 1]
     0.7402     0.4464     0.7762

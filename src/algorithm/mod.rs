@@ -4,11 +4,7 @@ use array::Array;
 use defines::{AfError, BinaryOp};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, uint8_t, c_uint, c_double};
-
-type MutAfArray = *mut self::libc::c_longlong;
-type MutDouble  = *mut self::libc::c_double;
-type MutUint    = *mut self::libc::c_uint;
-type AfArray    = self::libc::c_longlong;
+use util::{AfArray, MutAfArray, MutDouble, MutUint};
 
 #[allow(dead_code)]
 extern {

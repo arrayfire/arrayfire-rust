@@ -7,6 +7,11 @@ use af::*;
 fn main() {
     set_device(0);
     info();
+    print!("Info String:\n{}", info_string(true));
+    println!("Arrayfire version: {:?}", get_version());
+    let (name, platform, toolkit, compute) = device_info();
+    print!("Name: {}\nPlatform: {}\nToolkit: {}\nCompute: {}\n", name, platform, toolkit, compute);
+    println!("Revision: {}", get_revision());
 
     let num_rows: u64 = 5;
     let num_cols: u64 = 3;

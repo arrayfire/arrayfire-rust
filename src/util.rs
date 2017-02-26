@@ -6,11 +6,35 @@ use defines::{SparseFormat, BinaryOp, RandomEngineType};
 use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
-use self::libc::{uint8_t, c_int, size_t};
+use self::libc::{uint8_t, c_int, size_t, c_void};
+
+pub type AfArray       = self::libc::c_longlong;
+pub type CellPtr       = *const self::libc::c_void;
+pub type Complex32     = Complex<f32>;
+pub type Complex64     = Complex<f64>;
+pub type DimT          = self::libc::c_longlong;
+pub type Feat          = *const self::libc::c_void;
+pub type IndexT        = self::libc::c_longlong;
+pub type Intl          = self::libc::c_longlong;
+pub type MutAfArray    = *mut self::libc::c_longlong;
+pub type MutAfIndex    = *mut self::libc::c_longlong;
+pub type MutDimT       = *mut self::libc::c_longlong;
+pub type MutDouble     = *mut self::libc::c_double;
+pub type MutFeat       = *mut *mut self::libc::c_void;
+pub type MutRandEngine = *mut self::libc::c_longlong;
+pub type MutUint       = *mut self::libc::c_uint;
+pub type MutVoidPtr    = *mut self::libc::c_ulonglong;
+pub type MutWndHandle  = *mut self::libc::c_ulonglong;
+pub type RandEngine    = self::libc::c_longlong;
+pub type Uintl         = self::libc::c_ulonglong;
+pub type WndHandle     = self::libc::c_ulonglong;
 
 #[allow(dead_code)]
 extern {
     fn af_get_size_of(size: *mut size_t, aftype: uint8_t) -> c_int;
+
+    fn af_alloc_host(ptr: *mut *const c_void, bytes: DimT) -> c_int;
+    fn af_free_host(ptr: *mut c_void) -> c_int;
 }
 
 /// Get size, in bytes, of the arrayfire native type
@@ -20,6 +44,26 @@ pub fn get_size(value: DType) -> usize {
         let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as uint8_t);
         HANDLE_ERROR(AfError::from(err_val));
         ret_val
+    }
+}
+
+/// Allocates space using Arrayfire allocator in host memory
+#[allow(dead_code)]
+pub fn alloc_host<T>(elements: usize, _type: DType) -> *const T {
+    let ptr: *const T = ::std::ptr::null();
+    let bytes = (elements * get_size(_type)) as DimT;
+    unsafe {
+        let err_val = af_alloc_host(&mut (ptr as *const c_void), bytes);
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    ptr
+}
+
+/// Frees memory allocated by Arrayfire allocator in host memory
+pub fn free_host<T>(ptr: *mut T) {
+    unsafe {
+        let err_val = af_free_host(ptr as *mut c_void);
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }
 

@@ -5,10 +5,7 @@ use defines::AfError;
 use defines::MatProp;
 use error::HANDLE_ERROR;
 use self::libc::{c_uint, c_int};
-use util::to_u32;
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
+use util::{AfArray, MutAfArray, to_u32};
 
 #[allow(dead_code)]
 extern {

@@ -4,9 +4,7 @@ use array::Array;
 use defines::{AfError, ConvDomain, ConvMode, InterpType};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong, size_t};
-
-type MutAfArray = *mut self::libc::c_longlong;
-type AfArray    = self::libc::c_longlong;
+use util::{AfArray, MutAfArray};
 
 #[allow(dead_code)]
 extern {

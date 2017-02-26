@@ -2,7 +2,6 @@ extern crate libc;
 
 use std::fmt;
 use std::default::Default;
-
 use num::{One, Zero};
 
 /// Sequences are used for indexing Arrays

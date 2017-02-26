@@ -1,13 +1,19 @@
 extern crate libc;
 
-use defines::AfError;
+use defines::{AfError};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char};
-use std::ffi::CString;
+use std::ffi::{CStr, CString};
+use std::borrow::Cow;
+use util::free_host;
 
 extern {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
+    fn af_get_revision() -> *const c_char;
     fn af_info() -> c_int;
+    fn af_info_string(str: *mut *mut c_char, verbose: bool) -> c_int;
+    fn af_device_info(d_name: *mut c_char, d_platform: *mut c_char,
+                      d_toolkit: *mut c_char, d_compute: *mut c_char) -> c_int;
     fn af_init() -> c_int;
     fn af_get_device_count(nDevices: *mut c_int) -> c_int;
     fn af_get_dbl_support(available: *mut c_int, device: c_int) -> c_int;
@@ -38,6 +44,16 @@ pub fn get_version() -> (i32, i32, i32) {
     }
 }
 
+/// Get ArrayFire Revision (commit) information of the library.
+///
+/// # Return Values
+/// This returns a `Cow<'static, str>` as the string is constructed at compile time.
+pub fn get_revision() -> Cow<'static, str> {
+    unsafe {
+        CStr::from_ptr(af_get_revision()).to_string_lossy()
+    }
+}
+
 /// Print library meta-info
 ///
 /// # Examples
@@ -53,6 +69,51 @@ pub fn info() {
     unsafe {
         let err_val = af_info();
         HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Return library meta-info as `String`
+///
+/// # Examples
+///
+/// An example output of `af::info_string` call looks like below
+///
+/// ```text
+/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)
+/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000
+/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
+/// ```
+pub fn info_string(verbose: bool) -> String {
+    let result: String;
+    unsafe {
+        let mut tmp: *mut c_char = ::std::ptr::null_mut();
+        let err_val = af_info_string(&mut tmp, verbose);
+        HANDLE_ERROR(AfError::from(err_val));
+        result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+        free_host(tmp);
+    }
+    result
+}
+
+/// Gets the information about device and platform as strings.
+///
+/// # Return Values
+/// A tuple of `String` indicating the name, platform, toolkit and compute.
+pub fn device_info() -> (String, String, String, String) {
+    let mut name = [0 as c_char; 64];
+    let mut platform = [0 as c_char; 10];
+    let mut toolkit = [0 as c_char; 64];
+    let mut compute = [0 as c_char; 10];
+    unsafe {
+        let err_val = af_device_info(&mut name[0],
+                                     &mut platform[0],
+                                     &mut toolkit[0],
+                                     &mut compute[0]);
+        HANDLE_ERROR(AfError::from(err_val));
+        (CStr::from_ptr(name.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(platform.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(toolkit.as_mut_ptr()).to_string_lossy().into_owned(),
+         CStr::from_ptr(compute.as_mut_ptr()).to_string_lossy().into_owned())
     }
 }
 
