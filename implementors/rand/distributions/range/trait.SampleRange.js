@@ -1,5 +1,7 @@
 (function() {var implementors = {};
-implementors["rand"] = [];implementors["num"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];implementors["arrayfire"] = [];
+implementors["arrayfire"] = [];
+implementors["num"] = [];
+implementors["rand"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);
