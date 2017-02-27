@@ -296,7 +296,7 @@ impl Array {
 
     /// Makes an copy of the Array
     ///
-    /// Internally, this is handled by reference counting
+    /// This does a deep copy of the data into a new Array
     pub fn copy(&self) -> Array {
         unsafe {
             let mut temp: i64 = 0;
@@ -383,7 +383,14 @@ impl From<i64> for Array {
     }
 }
 
-/// Used for incrementing the reference count of Array's native resource
+/// Returns a new Array object after incrementing the reference count of native resource
+///
+/// Cloning an Array does not do a deep copy of the underlying array data. It increments the
+/// reference count of native resource and returns you the new reference in the form a new Array
+/// object.
+///
+/// To create a deep copy use
+/// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)
 impl Clone for Array {
     fn clone(&self) -> Array {
         unsafe {
