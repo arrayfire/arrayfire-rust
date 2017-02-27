@@ -580,6 +580,13 @@
 <span id="536">536</span>
 <span id="537">537</span>
 <span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
@@ -879,7 +886,7 @@
 
     <span class='doccomment'>/// Makes an copy of the Array</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Internally, this is handled by reference counting</span>
+    <span class='doccomment'>/// This does a deep copy of the data into a new Array</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>copy</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
@@ -966,7 +973,14 @@
     }
 }
 
-<span class='doccomment'>/// Used for incrementing the reference count of Array&#39;s native resource</span>
+<span class='doccomment'>/// Returns a new Array object after incrementing the reference count of native resource</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Cloning an Array does not do a deep copy of the underlying array data. It increments the</span>
+<span class='doccomment'>/// reference count of native resource and returns you the new reference in the form a new Array</span>
+<span class='doccomment'>/// object.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// To create a deep copy use</span>
+<span class='doccomment'>/// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)</span>
 <span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Array</span> {
     <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
         <span class='kw'>unsafe</span> {
