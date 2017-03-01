@@ -4,7 +4,8 @@ use array::Array;
 use defines::{AfError, BorderType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray};
-use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
+use self::libc::{uint8_t, c_uint, c_int, c_float, c_double, c_char};
+use std::ffi::CString;
 
 // unused functions from image.h header
 // af_load_image_memory
@@ -14,10 +15,10 @@ use self::libc::{uint8_t, c_uint, c_int, c_float, c_double};
 #[allow(dead_code)]
 extern {
     fn af_gradient(dx: MutAfArray, dy: MutAfArray, arr: AfArray) -> c_int;
-    fn af_load_image(out: MutAfArray, filename: *const u8, iscolor: c_int) -> c_int;
-    fn af_save_image(filename: *const u8, input: AfArray) -> c_int;
-    fn af_load_image_native(out: MutAfArray, filename: *const u8) -> c_int;
-    fn af_save_image_native(filename: *const u8, input: AfArray) -> c_int;
+    fn af_load_image(out: MutAfArray, filename: *const c_char, iscolor: c_int) -> c_int;
+    fn af_save_image(filename: *const c_char, input: AfArray) -> c_int;
+    fn af_load_image_native(out: MutAfArray, filename: *const c_char) -> c_int;
+    fn af_save_image_native(filename: *const c_char, input: AfArray) -> c_int;
 
     fn af_resize(out: MutAfArray, input: AfArray,
                  odim0: DimT, odim1: DimT, method: uint8_t) -> c_int;
@@ -135,11 +136,13 @@ pub fn gradient(input: &Array) -> (Array, Array) {
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
 pub fn load_image(filename: String, is_color: bool) -> Array {
+    let cstr_param = match CString::new(filename) {
+        Ok(cstr) => cstr,
+        Err(_)   => panic!("CString creation from input filename failed"),
+    };
     unsafe {
         let mut temp: i64 = 0;
-        let err_val = af_load_image(&mut temp as MutAfArray,
-                                    filename.clone().as_bytes().as_ptr() as *const u8,
-                                    is_color as c_int);
+        let err_val = af_load_image(&mut temp as MutAfArray, cstr_param.as_ptr(), is_color as c_int);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }
@@ -165,10 +168,13 @@ pub fn load_image(filename: String, is_color: bool) -> Array {
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
 pub fn load_image_native(filename: String) -> Array {
+    let cstr_param = match CString::new(filename) {
+        Ok(cstr) => cstr,
+        Err(_)   => panic!("CString creation from input filename failed"),
+    };
     unsafe {
         let mut temp: i64 = 0;
-        let err_val = af_load_image_native(&mut temp as MutAfArray,
-                                    filename.clone().as_bytes().as_ptr() as *const u8);
+        let err_val = af_load_image_native(&mut temp as MutAfArray, cstr_param.as_ptr());
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }
@@ -182,9 +188,12 @@ pub fn load_image_native(filename: String) -> Array {
 /// - `input` is the Array to be stored into the image file
 #[allow(unused_mut)]
 pub fn save_image(filename: String, input: &Array) {
+    let cstr_param = match CString::new(filename) {
+        Ok(cstr) => cstr,
+        Err(_)   => panic!("CString creation from input filename failed"),
+    };
     unsafe {
-        let err_val = af_save_image(filename.clone().as_bytes().as_ptr() as *const u8,
-                                    input.get() as AfArray);
+        let err_val = af_save_image(cstr_param.as_ptr(), input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
@@ -207,9 +216,12 @@ pub fn save_image(filename: String, input: &Array) {
 /// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.
 #[allow(unused_mut)]
 pub fn save_image_native(filename: String, input: &Array) {
+    let cstr_param = match CString::new(filename) {
+        Ok(cstr) => cstr,
+        Err(_)   => panic!("CString creation from input filename failed"),
+    };
     unsafe {
-        let err_val = af_save_image_native(filename.clone().as_bytes().as_ptr() as *const u8,
-                                    input.get() as AfArray);
+        let err_val = af_save_image_native(cstr_param.as_ptr(), input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
