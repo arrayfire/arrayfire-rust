@@ -38,7 +38,7 @@ extern {
 
     fn af_tile(out: MutAfArray, arr: AfArray, x: c_uint, y: c_uint, z: c_uint, w: c_uint) -> c_int;
     fn af_reorder(o: MutAfArray, a: AfArray, x: c_uint, y: c_uint, z: c_uint, w: c_uint) -> c_int;
-    fn af_shift(o: MutAfArray, a: AfArray, x: c_uint, y: c_uint, z: c_uint, w: c_uint) -> c_int;
+    fn af_shift(o: MutAfArray, a: AfArray, x: c_int, y: c_int, z: c_int, w: c_int) -> c_int;
     fn af_moddims(out: MutAfArray, arr: AfArray, ndims: c_uint, dims: *const DimT) -> c_int;
 
     fn af_flat(out: MutAfArray, arr: AfArray) -> c_int;
@@ -375,7 +375,42 @@ macro_rules! data_func_def {
 
 data_func_def!("Tile the input array along specified dimension", tile, af_tile);
 data_func_def!("Reorder the array in specified order", reorder, af_reorder);
-data_func_def!("Circular shift of values along specified dimension", shift, af_shift);
+
+
+///"Circular shift of values along specified dimension
+///
+///# Parameters
+///
+/// - `input` is the input Array
+/// - `offsets` is 4-value tuple that specifies the shift along respective dimension
+///
+///# Return Values
+///
+/// An Array with shifted data.
+///
+///# Examples
+///
+/// ```rust
+/// use arrayfire::{Array, Dim4, print, randu, shift};
+/// let a  = randu::<f32>(Dim4::new(&[5, 1, 1, 1]));
+/// let _a = shift(&a, &[-1i32, 1 , 1, 1]); //shift data one step backward
+/// let a_ = shift(&a, &[ 1i32, 1 , 1, 1]); //shift data one step forward
+/// print(& a);
+/// print(&_a);
+/// print(&a_);
+/// ```
+#[allow(unused_mut)]
+pub fn shift(input: &Array, offsets: &[i32; 4]) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_shift(&mut temp as MutAfArray, input.get() as AfArray,
+                               offsets[0] as c_int, offsets[1] as c_int,
+                               offsets[2] as c_int, offsets[3] as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
 
 /// Change the shape of the Array
 ///
