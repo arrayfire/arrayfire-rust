@@ -104,6 +104,12 @@ extern {
 /// A multidimensional data container
 ///
 /// Currently, Array objects can store only data until four dimensions
+///
+/// ### NOTE
+///
+/// All operators(traits) from std::ops module implemented for Array object
+/// carry out element wise operations. For example, `*` does multiplication of
+/// elements at corresponding locations in two different Arrays.
 pub struct Array {
     handle: i64,
 }
