@@ -46,7 +46,7 @@ pub fn matmul(lhs: &Array, rhs: &Array,
 
 /// Calculate the dot product of vectors.
 ///
-/// Scalar dot product between two vectors. Also referred to as the inner product. This function returns the scalar product of two equal sized vectors or between a matrix and a vector. The second operand needs to be a vector in either case.
+/// Scalar dot product between two vectors. Also referred to as the inner product. This function returns the scalar product of two equal sized vectors.
 ///
 /// # Parameters
 ///

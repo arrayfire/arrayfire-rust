@@ -357,19 +357,49 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     if conf.use_lib {
         let afpath  = match env::var("AF_PATH") {
             Ok(af_path) => PathBuf::from(&af_path),
-            Err(_)      => panic!("Error use_lib is defined, but AF_PATH is not defined"),
+            Err(_)      => {
+                println!("WARNING! USE_LIB IS DEFINED, BUT AF_PATH IS NOT FOUND,");
+                println!("         TRYING TO FIND LIBRARIES FROM KNOWN DEFAULT LOCATIONS");
+
+                if cfg!(target_os = "windows") {
+                    PathBuf::from("C:/Program Files/ArrayFire/v3/")
+                } else {
+                    PathBuf::from("/usr/local/")
+                }
+            },
         };
+
         let libpath = afpath.join("lib");
         backend_dirs.push(libpath.to_str().to_owned().unwrap().to_string());
+
+        if !cfg!(target_os = "windows") {
+            backend_dirs.push(String::from("/opt/arrayfire-3/lib"));
+            backend_dirs.push(String::from("/usr/lib"));
+        }
     } else {
         backend_dirs.push(build_dir.join("package/lib").to_str().to_owned().unwrap().to_string());
     }
 
-    let lib_dir = PathBuf::from(backend_dirs.last().unwrap());
+    let mut uni_lib_exists = false;
+    let mut cud_lib_exists = false;
+    let mut ocl_lib_exists = false;
+
+    for backend_dir in backend_dirs.iter() {
+        let lib_dir = PathBuf::from(backend_dir);
+
+        let cud_lib_file_to_check = if cfg!(windows) {WIN_CUDA_LIB_NAME} else {UNIX_CUDA_LIB_NAME};
+        cud_lib_exists = cud_lib_exists || backend_exists(&lib_dir.join(cud_lib_file_to_check).to_string_lossy());
+
+        let ocl_lib_file_to_check = if cfg!(windows) {WIN_OCL_LIB_NAME} else {UNIX_OCL_LIB_NAME};
+        ocl_lib_exists = ocl_lib_exists || backend_exists(&lib_dir.join(ocl_lib_file_to_check).to_string_lossy());
+
+        let uni_lib_file_to_check = if cfg!(windows) {WIN_UNI_LIB_NAME} else {UNIX_UNI_LIB_NAME};
+        uni_lib_exists = uni_lib_exists || backend_exists(&lib_dir.join(uni_lib_file_to_check).to_string_lossy());
+    }
+
     if ! conf.use_lib {
         // blob in cuda deps
-        let mut lib_file_to_check = if cfg!(windows) {WIN_CUDA_LIB_NAME} else {UNIX_CUDA_LIB_NAME};
-        if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
+        if cud_lib_exists {
             if cfg!(windows) {
                 backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
                 backend_dirs.push(format!("{}\\nvvm\\lib\\x64", conf.cuda_sdk));
@@ -389,8 +419,8 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         }
 
         //blob in opencl deps
-        lib_file_to_check = if cfg!(windows) {WIN_OCL_LIB_NAME} else {UNIX_OCL_LIB_NAME};
-        if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
+
+        if ocl_lib_exists {
             if ! cfg!(target_os = "macos"){
                 backends.push("OpenCL".to_string());
             }
@@ -413,14 +443,12 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
 
         if conf.build_graphics=="ON" {
             if !conf.use_lib {
-                backend_dirs.push(build_dir.join("third_party/forge/lib")
-                .to_str().to_owned().unwrap().to_string());
+                backend_dirs.push(build_dir.join("third_party/forge/lib").to_str().to_owned().unwrap().to_string());
             }
         }
     }
 
-    let lib_file_to_check = if cfg!(windows) {WIN_UNI_LIB_NAME} else {UNIX_UNI_LIB_NAME};
-    if backend_exists(&lib_dir.join(lib_file_to_check).to_string_lossy()) {
+    if uni_lib_exists {
         backends.push("af".to_string());
         if !conf.use_lib && conf.build_graphics=="ON" {
             backends.push("forge".to_string());

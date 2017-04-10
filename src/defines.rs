@@ -102,7 +102,7 @@ impl Error for AfError {
             AfError::ERR_NOT_CONFIGURED => "This build of ArrayFire does not support this feature",
             AfError::ERR_NO_DBL         => "This device does not support double",
             AfError::ERR_NO_GFX         => "This build of ArrayFire has no graphics support",
-            AfError::ERR_INTERNAL       => "Eror either in ArrayFire or in a project upstream",
+            AfError::ERR_INTERNAL       => "Error either in ArrayFire or in a project upstream",
             AfError::ERR_UNKNOWN        => "Unknown Error",
         }
     }
