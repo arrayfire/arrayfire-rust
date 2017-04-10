@@ -9,11 +9,12 @@
 
     <title>num_bigint - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../num_bigint/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'></p><script>window.sidebarCurrent = {name: 'num_bigint', ty: 'mod', relpath: '../'};</script>
     </nav>
 
@@ -47,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/num_bigint/lib.rs.html#11-139' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/num_bigint/lib.rs.html#11-143' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A Big integer (signed version: <code>BigInt</code>, unsigned version: <code>BigUint</code>).</p>
 
 <p>A <code>BigUint</code> is represented as a vector of <code>BigDigit</code>s.
@@ -78,7 +79,7 @@ the same way we treat other numbers.</p>
 }
 
 <span class='comment'>// This is a very large number.</span>
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;fib(1000) = {}&quot;</span>, <span class='ident'>fib</span>(<span class='number'>1000</span>));</pre>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;fib(1000) = {}&quot;</span>, <span class='ident'>fib</span>(<span class='number'>1000</span>));<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20num_bigint%3B%0Aextern%20crate%20num_traits%3B%0A%0Afn%20main()%20%7B%0Ause%20num_bigint%3A%3ABigUint%3B%0Ause%20num_traits%3A%3A%7BZero%2C%20One%7D%3B%0Ause%20std%3A%3Amem%3A%3Areplace%3B%0A%0A%2F%2F%20Calculate%20large%20fibonacci%20numbers.%0Afn%20fib(n%3A%20usize)%20-%3E%20BigUint%20%7B%0A%20%20%20%20let%20mut%20f0%3A%20BigUint%20%3D%20Zero%3A%3Azero()%3B%0A%20%20%20%20let%20mut%20f1%3A%20BigUint%20%3D%20One%3A%3Aone()%3B%0A%20%20%20%20for%20_%20in%200..n%20%7B%0A%20%20%20%20%20%20%20%20let%20f2%20%3D%20f0%20%2B%20%26f1%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20This%20is%20a%20low%20cost%20way%20of%20swapping%20f0%20with%20f1%20and%20f1%20with%20f2.%0A%20%20%20%20%20%20%20%20f0%20%3D%20replace(%26mut%20f1%2C%20f2)%3B%0A%20%20%20%20%7D%0A%20%20%20%20f0%0A%7D%0A%0A%2F%2F%20This%20is%20a%20very%20large%20number.%0Aprintln!(%22fib(1000)%20%3D%20%7B%7D%22%2C%20fib(1000))%3B%0A%7D%0A">Run</a></pre>
 
 <p>It&#39;s easy to generate large random numbers:</p>
 
@@ -97,7 +98,7 @@ the same way we treat other numbers.</p>
 
 <span class='comment'>// Probably an even larger number.</span>
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>a</span> <span class='op'>*</span> <span class='ident'>b</span>);
-</pre>
+<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20rand%3B%0Aextern%20crate%20num_bigint%20as%20bigint%3B%0A%0A%23%5Bcfg(feature%20%3D%20%22rand%22)%5D%0Afn%20main()%20%7B%0Ause%20bigint%3A%3A%7BToBigInt%2C%20RandBigInt%7D%3B%0A%0Alet%20mut%20rng%20%3D%20rand%3A%3Athread_rng()%3B%0Alet%20a%20%3D%20rng.gen_bigint(1000)%3B%0A%0Alet%20low%20%3D%20-10000.to_bigint().unwrap()%3B%0Alet%20high%20%3D%2010000.to_bigint().unwrap()%3B%0Alet%20b%20%3D%20rng.gen_bigint_range(%26low%2C%20%26high)%3B%0A%0A%2F%2F%20Probably%20an%20even%20larger%20number.%0Aprintln!(%22%7B%7D%22%2C%20a%20*%20b)%3B%0A%7D%0A%0A%23%5Bcfg(not(feature%20%3D%20%22rand%22))%5D%0Afn%20main()%20%7B%0A%7D%0A">Run</a></pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>

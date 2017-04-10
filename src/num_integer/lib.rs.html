@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-integer-0.1.32/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-integer-0.1.33/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_integer/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -732,6 +733,10 @@
 <span id="688">688</span>
 <span id="689">689</span>
 <span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -744,6 +749,10 @@
 <span class='comment'>// except according to those terms.</span>
 
 <span class='doccomment'>//! Integer trait and functions.</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/&quot;</span>,
+       <span class='ident'>html_playground_url</span> <span class='op'>=</span> <span class='string'>&quot;http://play.integer32.com/&quot;</span>)]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span> <span class='kw'>as</span> <span class='ident'>traits</span>;
 
@@ -934,8 +943,8 @@
                 <span class='comment'>// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class='comment'>// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>div_rem</span>(<span class='ident'>other</span>) {
-                    (<span class='ident'>d</span>, <span class='ident'>r</span>) <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
-                           <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='ident'>d</span> <span class='op'>-</span> <span class='number'>1</span>,
+                    (<span class='ident'>d</span>, <span class='ident'>r</span>) <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
+                           <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='ident'>d</span> <span class='op'>-</span> <span class='number'>1</span>,
                     (<span class='ident'>d</span>, _)                          <span class='op'>=&gt;</span> <span class='ident'>d</span>,
                 }
             }
@@ -945,9 +954,9 @@
             <span class='kw'>fn</span> <span class='ident'>mod_floor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
                 <span class='comment'>// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class='comment'>// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
-                <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span> {
-                    <span class='ident'>r</span> <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
-                      <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span> <span class='op'>+</span> <span class='op'>*</span><span class='ident'>other</span>,
+                <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span> {
+                    <span class='ident'>r</span> <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
+                      <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span> <span class='op'>+</span> <span class='kw-2'>*</span><span class='ident'>other</span>,
                     <span class='ident'>r</span>                          <span class='op'>=&gt;</span> <span class='ident'>r</span>,
                 }
             }
@@ -958,8 +967,8 @@
                 <span class='comment'>// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class='comment'>// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>div_rem</span>(<span class='ident'>other</span>) {
-                    (<span class='ident'>d</span>, <span class='ident'>r</span>) <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
-                           <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> (<span class='ident'>d</span> <span class='op'>-</span> <span class='number'>1</span>, <span class='ident'>r</span> <span class='op'>+</span> <span class='op'>*</span><span class='ident'>other</span>),
+                    (<span class='ident'>d</span>, <span class='ident'>r</span>) <span class='kw'>if</span> (<span class='ident'>r</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&lt;</span> <span class='number'>0</span>)
+                           <span class='op'>||</span> (<span class='ident'>r</span> <span class='op'>&lt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>&gt;</span> <span class='number'>0</span>) <span class='op'>=&gt;</span> (<span class='ident'>d</span> <span class='op'>-</span> <span class='number'>1</span>, <span class='ident'>r</span> <span class='op'>+</span> <span class='kw-2'>*</span><span class='ident'>other</span>),
                     (<span class='ident'>d</span>, <span class='ident'>r</span>)                          <span class='op'>=&gt;</span> (<span class='ident'>d</span>, <span class='ident'>r</span>),
                 }
             }
@@ -969,8 +978,8 @@
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>gcd</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
                 <span class='comment'>// Use Stein&#39;s algorithm</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='op'>*</span><span class='ident'>other</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>other</span>;
                 <span class='kw'>if</span> <span class='ident'>m</span> <span class='op'>==</span> <span class='number'>0</span> <span class='op'>||</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> (<span class='ident'>m</span> <span class='op'>|</span> <span class='ident'>n</span>).<span class='ident'>abs</span>() }
 
                 <span class='comment'>// find common factors of 2</span>
@@ -1010,7 +1019,7 @@
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>lcm</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
                 <span class='comment'>// should not have to recalculate abs</span>
-                (<span class='op'>*</span><span class='self'>self</span> <span class='op'>*</span> (<span class='op'>*</span><span class='ident'>other</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>gcd</span>(<span class='ident'>other</span>))).<span class='ident'>abs</span>()
+                (<span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>*</span> (<span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>gcd</span>(<span class='ident'>other</span>))).<span class='ident'>abs</span>()
             }
 
             <span class='doccomment'>/// Deprecated, use `is_multiple_of` instead.</span>
@@ -1022,12 +1031,12 @@
             <span class='doccomment'>/// Returns `true` if the number is a multiple of `other`.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>is_multiple_of</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>==</span> <span class='number'>0</span>
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>==</span> <span class='number'>0</span>
             }
 
             <span class='doccomment'>/// Returns `true` if the number is divisible by `2`</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>is_even</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { (<span class='op'>*</span><span class='self'>self</span>) <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> }
+            <span class='kw'>fn</span> <span class='ident'>is_even</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { (<span class='kw-2'>*</span><span class='self'>self</span>) <span class='op'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> }
 
             <span class='doccomment'>/// Returns `true` if the number is not divisible by `2`</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -1036,7 +1045,7 @@
             <span class='doccomment'>/// Simultaneous truncated integer division and modulus.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>div_rem</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> (<span class='self'>Self</span>, <span class='self'>Self</span>) {
-                (<span class='op'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='op'>*</span><span class='ident'>other</span>, <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span>)
+                (<span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='kw-2'>*</span><span class='ident'>other</span>, <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span>)
             }
         }
 
@@ -1231,21 +1240,21 @@
             <span class='doccomment'>/// Unsigned integer division. Returns the same result as `div` (`/`).</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>div_floor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='op'>*</span><span class='ident'>other</span>
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='kw-2'>*</span><span class='ident'>other</span>
             }
 
             <span class='doccomment'>/// Unsigned integer modulo operation. Returns the same result as `rem` (`%`).</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>mod_floor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span>
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span>
             }
 
             <span class='doccomment'>/// Calculates the Greatest Common Divisor (GCD) of the number and `other`</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>gcd</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
                 <span class='comment'>// Use Stein&#39;s algorithm</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='op'>*</span><span class='ident'>other</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>other</span>;
                 <span class='kw'>if</span> <span class='ident'>m</span> <span class='op'>==</span> <span class='number'>0</span> <span class='op'>||</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='ident'>m</span> <span class='op'>|</span> <span class='ident'>n</span> }
 
                 <span class='comment'>// find common factors of 2</span>
@@ -1267,7 +1276,7 @@
             <span class='doccomment'>/// Calculates the Lowest Common Multiple (LCM) of the number and `other`.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>lcm</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>*</span> (<span class='op'>*</span><span class='ident'>other</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>gcd</span>(<span class='ident'>other</span>))
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>*</span> (<span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>gcd</span>(<span class='ident'>other</span>))
             }
 
             <span class='doccomment'>/// Deprecated, use `is_multiple_of` instead.</span>
@@ -1279,13 +1288,13 @@
             <span class='doccomment'>/// Returns `true` if the number is a multiple of `other`.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>is_multiple_of</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span> <span class='op'>==</span> <span class='number'>0</span>
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span> <span class='op'>==</span> <span class='number'>0</span>
             }
 
             <span class='doccomment'>/// Returns `true` if the number is divisible by `2`.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>is_even</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-                <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span>
+                <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span>
             }
 
             <span class='doccomment'>/// Returns `true` if the number is not divisible by `2`.</span>
@@ -1297,7 +1306,7 @@
             <span class='doccomment'>/// Simultaneous truncated integer division and modulus.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>div_rem</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> (<span class='self'>Self</span>, <span class='self'>Self</span>) {
-                (<span class='op'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='op'>*</span><span class='ident'>other</span>, <span class='op'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='op'>*</span><span class='ident'>other</span>)
+                (<span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>/</span> <span class='kw-2'>*</span><span class='ident'>other</span>, <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>%</span> <span class='kw-2'>*</span><span class='ident'>other</span>)
             }
         }
 

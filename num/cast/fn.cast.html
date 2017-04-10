@@ -9,11 +9,12 @@
 
     <title>num::cast::cast - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='../index.html'>num</a>::<wbr><a href='index.html'>cast</a></p><script>window.sidebarCurrent = {name: 'cast', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -48,12 +49,12 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/num_traits/cast.rs.html#399-401' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn cast&lt;T, U&gt;(n: T) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;U&gt; <span class='where'>where T: <a class='trait' href='../../num/cast/trait.NumCast.html' title='num::cast::NumCast'>NumCast</a>, U: <a class='trait' href='../../num/cast/trait.NumCast.html' title='num::cast::NumCast'>NumCast</a></span></pre><div class='docblock'><p>Cast from one machine scalar to another.</p>
+<pre class='rust fn'>pub fn cast&lt;T, U&gt;(n: T) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;U&gt; <span class='where fmt-newline'>where T: <a class='trait' href='../../num/cast/trait.NumCast.html' title='num::cast::NumCast'>NumCast</a>, U: <a class='trait' href='../../num/cast/trait.NumCast.html' title='num::cast::NumCast'>NumCast</a></span></pre><div class='docblock'><p>Cast from one machine scalar to another.</p>
 
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>twenty</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='ident'>num</span>::<span class='ident'>cast</span>(<span class='number'>0x14</span>).<span class='ident'>unwrap</span>();
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>twenty</span>, <span class='number'>20f32</span>);<a class="test-arrow" target="_blank" href="http://play.rust-lang.org/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Ause%20num_traits%20as%20num%3B%0Alet%20twenty%3A%20f32%20%3D%20num%3A%3Acast(0x14).unwrap()%3B%0Aassert_eq!(twenty%2C%2020f32)%3B%0A%7D">Run</a></pre>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>twenty</span>, <span class='number'>20f32</span>);<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Ause%20num_traits%20as%20num%3B%0Alet%20twenty%3A%20f32%20%3D%20num%3A%3Acast(0x14).unwrap()%3B%0Aassert_eq!(twenty%2C%2020f32)%3B%0A%7D">Run</a></pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

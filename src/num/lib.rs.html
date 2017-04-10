@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-0.1.36/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-0.1.37/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -208,10 +209,10 @@
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! [newt]: https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
-       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/favicon.ico&quot;</span>,
-       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://rust-num.github.io/num/&quot;</span>,
-       <span class='ident'>html_playground_url</span> <span class='op'>=</span> <span class='string'>&quot;http://play.rust-lang.org/&quot;</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/&quot;</span>,
+       <span class='ident'>html_playground_url</span> <span class='op'>=</span> <span class='string'>&quot;http://play.integer32.com/&quot;</span>)]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_integer</span>;
@@ -237,33 +238,33 @@
                      <span class='ident'>one</span>, <span class='ident'>zero</span>, <span class='ident'>abs</span>, <span class='ident'>abs_sub</span>, <span class='ident'>signum</span>,
                      <span class='ident'>Saturating</span>, <span class='ident'>CheckedAdd</span>, <span class='ident'>CheckedSub</span>, <span class='ident'>CheckedMul</span>, <span class='ident'>CheckedDiv</span>,
                      <span class='ident'>PrimInt</span>, <span class='ident'>Float</span>, <span class='ident'>ToPrimitive</span>, <span class='ident'>FromPrimitive</span>, <span class='ident'>NumCast</span>, <span class='ident'>cast</span>,
-                     <span class='ident'>pow</span>, <span class='ident'>checked_pow</span>};
+                     <span class='ident'>pow</span>, <span class='ident'>checked_pow</span>, <span class='ident'>clamp</span>};
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-bigint&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bigint</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_bigint</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_bigint</span>::<span class='kw-2'>*</span>;
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-complex&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>complex</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_complex</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_complex</span>::<span class='kw-2'>*</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>integer</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_integer</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_integer</span>::<span class='kw-2'>*</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>iter</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_iter</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_iter</span>::<span class='kw-2'>*</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>traits</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='kw-2'>*</span>;
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;num-rational&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>rational</span> {
-    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_rational</span>::<span class='op'>*</span>;
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>num_rational</span>::<span class='kw-2'>*</span>;
 }
 </pre>
 </section>

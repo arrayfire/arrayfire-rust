@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-rational-0.1.35/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-rational-0.1.36/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_rational/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -1177,6 +1178,47 @@
 <span id="1133">1133</span>
 <span id="1134">1134</span>
 <span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -1189,6 +1231,10 @@
 <span class='comment'>// except according to those terms.</span>
 
 <span class='doccomment'>//! Rational numbers</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://rust-num.github.io/num/&quot;</span>,
+       <span class='ident'>html_playground_url</span> <span class='op'>=</span> <span class='string'>&quot;http://play.integer32.com/&quot;</span>)]</span>
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
@@ -1327,7 +1373,7 @@
     <span class='doccomment'>/// Rounds towards minus infinity.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>floor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
+        <span class='kw'>if</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
             <span class='kw'>let</span> <span class='ident'>one</span>: <span class='ident'>T</span> <span class='op'>=</span> <span class='ident'>One</span>::<span class='ident'>one</span>();
             <span class='ident'>Ratio</span>::<span class='ident'>from_integer</span>((<span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>() <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>() <span class='op'>+</span> <span class='ident'>one</span>) <span class='op'>/</span>
                                 <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>())
@@ -1339,7 +1385,7 @@
     <span class='doccomment'>/// Rounds towards plus infinity.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ceil</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
+        <span class='kw'>if</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
             <span class='ident'>Ratio</span>::<span class='ident'>from_integer</span>(<span class='self'>self</span>.<span class='ident'>numer</span>.<span class='ident'>clone</span>() <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>denom</span>.<span class='ident'>clone</span>())
         } <span class='kw'>else</span> {
             <span class='kw'>let</span> <span class='ident'>one</span>: <span class='ident'>T</span> <span class='op'>=</span> <span class='ident'>One</span>::<span class='ident'>one</span>();
@@ -1365,14 +1411,14 @@
         <span class='comment'>// is, a/b &gt;= 1/2, or a &gt;= b/2. For odd denominators, we use</span>
         <span class='comment'>// a &gt;= (b/2)+1. This avoids overflow issues.</span>
         <span class='kw'>let</span> <span class='ident'>half_or_larger</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>fractional</span>.<span class='ident'>denom</span>().<span class='ident'>is_even</span>() {
-            <span class='op'>*</span><span class='ident'>fractional</span>.<span class='ident'>numer</span>() <span class='op'>&gt;=</span> <span class='ident'>fractional</span>.<span class='ident'>denom</span>().<span class='ident'>clone</span>() <span class='op'>/</span> <span class='ident'>two</span>.<span class='ident'>clone</span>()
+            <span class='kw-2'>*</span><span class='ident'>fractional</span>.<span class='ident'>numer</span>() <span class='op'>&gt;=</span> <span class='ident'>fractional</span>.<span class='ident'>denom</span>().<span class='ident'>clone</span>() <span class='op'>/</span> <span class='ident'>two</span>.<span class='ident'>clone</span>()
         } <span class='kw'>else</span> {
-            <span class='op'>*</span><span class='ident'>fractional</span>.<span class='ident'>numer</span>() <span class='op'>&gt;=</span> (<span class='ident'>fractional</span>.<span class='ident'>denom</span>().<span class='ident'>clone</span>() <span class='op'>/</span> <span class='ident'>two</span>.<span class='ident'>clone</span>()) <span class='op'>+</span> <span class='ident'>one</span>.<span class='ident'>clone</span>()
+            <span class='kw-2'>*</span><span class='ident'>fractional</span>.<span class='ident'>numer</span>() <span class='op'>&gt;=</span> (<span class='ident'>fractional</span>.<span class='ident'>denom</span>().<span class='ident'>clone</span>() <span class='op'>/</span> <span class='ident'>two</span>.<span class='ident'>clone</span>()) <span class='op'>+</span> <span class='ident'>one</span>.<span class='ident'>clone</span>()
         };
 
         <span class='kw'>if</span> <span class='ident'>half_or_larger</span> {
             <span class='kw'>let</span> <span class='ident'>one</span>: <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>One</span>::<span class='ident'>one</span>();
-            <span class='kw'>if</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>&gt;=</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
+            <span class='kw'>if</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&gt;=</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>() {
                 <span class='self'>self</span>.<span class='ident'>trunc</span>() <span class='op'>+</span> <span class='ident'>one</span>
             } <span class='kw'>else</span> {
                 <span class='self'>self</span>.<span class='ident'>trunc</span>() <span class='op'>-</span> <span class='ident'>one</span>
@@ -1434,6 +1480,21 @@
             <span class='ident'>numer</span> <span class='op'>=</span> <span class='ident'>numer</span> <span class='op'>&lt;&lt;</span> (<span class='ident'>exponent</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
             <span class='prelude-val'>Some</span>(<span class='ident'>Ratio</span>::<span class='ident'>from_integer</span>(<span class='ident'>BigInt</span>::<span class='ident'>from_biguint</span>(<span class='ident'>bigint_sign</span>, <span class='ident'>numer</span>)))
         }
+    }
+}
+
+<span class='comment'>// From integer</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Integer</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>x</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+        <span class='ident'>Ratio</span>::<span class='ident'>from_integer</span>(<span class='ident'>x</span>)
+    }
+}
+
+
+<span class='comment'>// From pair (through the `new` constructor)</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span>(<span class='ident'>T</span>, <span class='ident'>T</span>)<span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Integer</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>pair</span>: (<span class='ident'>T</span>, <span class='ident'>T</span>)) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+        <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='ident'>pair</span>.<span class='number'>0</span>, <span class='ident'>pair</span>.<span class='number'>1</span>)
     }
 }
 
@@ -1695,7 +1756,7 @@
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>abs_sub</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;=</span> <span class='op'>*</span><span class='ident'>other</span> {
+        <span class='kw'>if</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;=</span> <span class='kw-2'>*</span><span class='ident'>other</span> {
             <span class='ident'>Zero</span>::<span class='ident'>zero</span>()
         } <span class='kw'>else</span> {
             <span class='self'>self</span> <span class='op'>-</span> <span class='ident'>other</span>
@@ -1763,6 +1824,12 @@
     }
 }
 
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Into</span><span class='op'>&lt;</span>(<span class='ident'>T</span>, <span class='ident'>T</span>)<span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>into</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>T</span>, <span class='ident'>T</span>) {
+        (<span class='self'>self</span>.<span class='ident'>numer</span>, <span class='self'>self</span>.<span class='ident'>denom</span>)
+    }
+}
+
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde&quot;</span>)]</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>serde</span>::<span class='ident'>Serialize</span> <span class='kw'>for</span> <span class='ident'>Ratio</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>serde</span>::<span class='ident'>Serialize</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Integer</span> <span class='op'>+</span> <span class='ident'>PartialOrd</span>
@@ -1816,7 +1883,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>RatioErrorKind</span> {
     <span class='kw'>fn</span> <span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>RatioErrorKind</span>::<span class='ident'>ParseError</span> <span class='op'>=&gt;</span> <span class='string'>&quot;failed to parse integer&quot;</span>,
             <span class='ident'>RatioErrorKind</span>::<span class='ident'>ZeroDenominator</span> <span class='op'>=&gt;</span> <span class='string'>&quot;zero value denominator&quot;</span>,
         }
@@ -1914,6 +1981,7 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_1_2</span>, <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='number'>1</span>, <span class='number'>2</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_3_2</span>, <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='number'>3</span>, <span class='number'>2</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_NEG1_2</span>, <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='op'>-</span><span class='number'>1</span>, <span class='number'>2</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>_2</span>, <span class='ident'>From</span>::<span class='ident'>from</span>(<span class='number'>2</span>));
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -2202,7 +2270,7 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='attribute'>#[<span class='ident'>should_panic</span> <span class='op'>=</span> <span class='string'>&quot;== 0&quot;</span>]</span>
+    <span class='attribute'>#[<span class='ident'>should_panic</span>(<span class='ident'>expected</span> <span class='op'>=</span> <span class='string'>&quot;== 0&quot;</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>test_recip_fail</span>() {
         <span class='kw'>let</span> <span class='ident'>_a</span> <span class='op'>=</span> <span class='ident'>Ratio</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='number'>1</span>).<span class='ident'>recip</span>();
     }
@@ -2311,6 +2379,21 @@
     <span class='kw'>fn</span> <span class='ident'>test_hash</span>() {
         <span class='macro'>assert</span><span class='macro'>!</span>(::<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>_0</span>) <span class='op'>!=</span> ::<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>_1</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(::<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>_0</span>) <span class='op'>!=</span> ::<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>_3_2</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_into_pair</span>() {
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> ((<span class='number'>0</span>, <span class='number'>1</span>), <span class='ident'>_0</span>.<span class='ident'>into</span>());
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> ((<span class='op'>-</span><span class='number'>2</span>, <span class='number'>1</span>), <span class='ident'>_NEG2</span>.<span class='ident'>into</span>());
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> ((<span class='number'>1</span>, <span class='op'>-</span><span class='number'>2</span>), <span class='ident'>_1_NEG2</span>.<span class='ident'>into</span>());
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_from_pair</span>() {
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> (<span class='ident'>_0</span>, <span class='ident'>Ratio</span>::<span class='ident'>from</span> ((<span class='number'>0</span>, <span class='number'>1</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> (<span class='ident'>_1</span>, <span class='ident'>Ratio</span>::<span class='ident'>from</span> ((<span class='number'>1</span>, <span class='number'>1</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> (<span class='ident'>_NEG2</span>, <span class='ident'>Ratio</span>::<span class='ident'>from</span> ((<span class='op'>-</span><span class='number'>2</span>, <span class='number'>1</span>)));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span> (<span class='ident'>_1_NEG2</span>, <span class='ident'>Ratio</span>::<span class='ident'>from</span> ((<span class='number'>1</span>, <span class='op'>-</span><span class='number'>2</span>)));
     }
 }
 </pre>

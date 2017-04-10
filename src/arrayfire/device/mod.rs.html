@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -345,22 +346,22 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>free_host</span>;
 
 <span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_get_version</span>(<span class='ident'>major</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>minor</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>patch</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_revision</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_version</span>(<span class='ident'>major</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>minor</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>patch</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_revision</span>() <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
     <span class='kw'>fn</span> <span class='ident'>af_info</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_info_string</span>(<span class='ident'>str</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>verbose</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_device_info</span>(<span class='ident'>d_name</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_platform</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>,
-                      <span class='ident'>d_toolkit</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_compute</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_info_string</span>(<span class='ident'>str</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>verbose</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_device_info</span>(<span class='ident'>d_name</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_platform</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>,
+                      <span class='ident'>d_toolkit</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_compute</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_init</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_device_count</span>(<span class='ident'>nDevices</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_dbl_support</span>(<span class='ident'>available</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_device_count</span>(<span class='ident'>nDevices</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_dbl_support</span>(<span class='ident'>available</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_set_device</span>(<span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_device</span>(<span class='ident'>device</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_device_mem_info</span>(<span class='ident'>alloc_bytes</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>alloc_buffers</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                          <span class='ident'>lock_bytes</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>lock_buffers</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_print_mem_info</span>(<span class='ident'>msg</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>device_id</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_device</span>(<span class='ident'>device</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_device_mem_info</span>(<span class='ident'>alloc_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>alloc_buffers</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
+                          <span class='ident'>lock_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>lock_buffers</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_print_mem_info</span>(<span class='ident'>msg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>device_id</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_set_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_device_gc</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_sync</span>(<span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
@@ -374,8 +375,8 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>maj</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>min</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pat</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_version</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>maj</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>,
-                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>min</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pat</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_version</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>maj</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>,
+                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>min</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pat</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         (<span class='ident'>maj</span>, <span class='ident'>min</span>, <span class='ident'>pat</span>)
     }
@@ -423,7 +424,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>info_string</span>(<span class='ident'>verbose</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>String</span>;
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tmp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tmp</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
         <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_info_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>tmp</span>, <span class='ident'>verbose</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>tmp</span>).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>();
@@ -469,7 +470,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_count</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device_count</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device_count</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>temp</span>
     }
@@ -487,7 +488,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_double_available</span>(<span class='ident'>device</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_dbl_support</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_dbl_support</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>temp</span> <span class='op'>&gt;</span> <span class='number'>0</span>
     }
@@ -509,7 +510,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_device</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>temp</span>
     }
@@ -535,10 +536,10 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o1</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o2</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o3</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_mem_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o1</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o2</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o3</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_mem_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o0</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
+                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o1</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
+                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o2</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
+                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o3</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         (<span class='ident'>o0</span>, <span class='ident'>o1</span>, <span class='ident'>o2</span>, <span class='ident'>o3</span>)
     }
@@ -598,7 +599,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_mem_step_size</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_mem_step_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_mem_step_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>temp</span>
     }

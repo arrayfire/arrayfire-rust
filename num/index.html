@@ -9,11 +9,12 @@
 
     <title>num - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
 
-    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        <a href='../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'></p><script>window.sidebarCurrent = {name: 'num', ty: 'mod', relpath: '../'};</script>
     </nav>
 
@@ -80,7 +81,7 @@ approximate a square root to arbitrary precision:</p>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>approx_sqrt</span>(<span class='number'>10</span>, <span class='number'>4</span>)); <span class='comment'>// prints 4057691201/1283082416</span>
 }
-<a class="test-arrow" target="_blank" href="http://play.rust-lang.org/?code=extern%20crate%20num%3B%0A%23%5Bcfg(all(feature%20%3D%20%22bigint%22%2C%20feature%3D%22rational%22))%5D%0Amod%20test%20%7B%0A%0Ause%20num%3A%3AFromPrimitive%3B%0Ause%20num%3A%3Abigint%3A%3ABigInt%3B%0Ause%20num%3A%3Arational%3A%3A%7BRatio%2C%20BigRational%7D%3B%0A%0Apub%0Afn%20approx_sqrt(number%3A%20u64%2C%20iterations%3A%20usize)%20-%3E%20BigRational%20%7B%0A%20%20%20%20let%20start%3A%20Ratio%3CBigInt%3E%20%3D%20Ratio%3A%3Afrom_integer(FromPrimitive%3A%3Afrom_u64(number).unwrap())%3B%0A%20%20%20%20let%20mut%20approx%20%3D%20start.clone()%3B%0A%0A%20%20%20%20for%20_%20in%200..iterations%20%7B%0A%20%20%20%20%20%20%20%20approx%20%3D%20(%26approx%20%2B%20(%26start%20%2F%20%26approx))%20%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20Ratio%3A%3Afrom_integer(FromPrimitive%3A%3Afrom_u64(2).unwrap())%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20approx%0A%7D%0A%7D%0A%23%5Bcfg(not(all(feature%20%3D%20%22bigint%22%2C%20feature%3D%22rational%22)))%5D%0Amod%20test%20%7B%20pub%20fn%20approx_sqrt(n%3A%20u64%2C%20_%3A%20usize)%20-%3E%20u64%20%7B%20n%20%7D%20%7D%0Ause%20test%3A%3Aapprox_sqrt%3B%0A%0Afn%20main()%20%7B%0A%20%20%20%20println!(%22%7B%7D%22%2C%20approx_sqrt(10%2C%204))%3B%20%2F%2F%20prints%204057691201%2F1283082416%0A%7D%0A">Run</a></pre>
+<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20num%3B%0A%23%5Bcfg(all(feature%20%3D%20%22bigint%22%2C%20feature%3D%22rational%22))%5D%0Amod%20test%20%7B%0A%0Ause%20num%3A%3AFromPrimitive%3B%0Ause%20num%3A%3Abigint%3A%3ABigInt%3B%0Ause%20num%3A%3Arational%3A%3A%7BRatio%2C%20BigRational%7D%3B%0A%0Apub%0Afn%20approx_sqrt(number%3A%20u64%2C%20iterations%3A%20usize)%20-%3E%20BigRational%20%7B%0A%20%20%20%20let%20start%3A%20Ratio%3CBigInt%3E%20%3D%20Ratio%3A%3Afrom_integer(FromPrimitive%3A%3Afrom_u64(number).unwrap())%3B%0A%20%20%20%20let%20mut%20approx%20%3D%20start.clone()%3B%0A%0A%20%20%20%20for%20_%20in%200..iterations%20%7B%0A%20%20%20%20%20%20%20%20approx%20%3D%20(%26approx%20%2B%20(%26start%20%2F%20%26approx))%20%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20Ratio%3A%3Afrom_integer(FromPrimitive%3A%3Afrom_u64(2).unwrap())%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20approx%0A%7D%0A%7D%0A%23%5Bcfg(not(all(feature%20%3D%20%22bigint%22%2C%20feature%3D%22rational%22)))%5D%0Amod%20test%20%7B%20pub%20fn%20approx_sqrt(n%3A%20u64%2C%20_%3A%20usize)%20-%3E%20u64%20%7B%20n%20%7D%20%7D%0Ause%20test%3A%3Aapprox_sqrt%3B%0A%0Afn%20main()%20%7B%0A%20%20%20%20println!(%22%7B%7D%22%2C%20approx_sqrt(10%2C%204))%3B%20%2F%2F%20prints%204057691201%2F1283082416%0A%7D%0A">Run</a></pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -304,6 +305,13 @@ overflow.</p>
                                   title='num::checked_pow'>checked_pow</a></td>
                            <td class='docblock-short'>
                                 <p>Raises a value to the power of exp, returning <code>None</code> if an overflow occurred.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.clamp.html'
+                                  title='num::clamp'>clamp</a></td>
+                           <td class='docblock-short'>
+                                <p>A value bounded by a minimum and a maximum</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

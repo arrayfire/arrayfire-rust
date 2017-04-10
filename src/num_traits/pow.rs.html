@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/pow.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/pow.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>pow.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -133,7 +134,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pow</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>One</span> <span class='op'>+</span> <span class='ident'>Mul</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>base</span>: <span class='ident'>T</span>, <span class='kw-2'>mut</span> <span class='ident'>exp</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
     <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='ident'>T</span>::<span class='ident'>one</span>() }
 
-    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
         <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>() <span class='op'>*</span> <span class='ident'>base</span>;
         <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
     }
@@ -143,7 +144,7 @@
     <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
         <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
         <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>clone</span>() <span class='op'>*</span> <span class='ident'>base</span>;
-        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
+        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
             <span class='ident'>acc</span> <span class='op'>=</span> <span class='ident'>acc</span> <span class='op'>*</span> <span class='ident'>base</span>.<span class='ident'>clone</span>();
         }
     }
@@ -173,7 +174,7 @@
         }
     }
 
-    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
+    <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>0</span> {
         <span class='ident'>base</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>base</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
         <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
     }
@@ -183,7 +184,7 @@
     <span class='kw'>while</span> <span class='ident'>exp</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
         <span class='ident'>exp</span> <span class='op'>&gt;&gt;=</span> <span class='number'>1</span>;
         <span class='ident'>base</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>base</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
-        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
+        <span class='kw'>if</span> <span class='ident'>exp</span> <span class='op'>&amp;</span> <span class='number'>1</span> <span class='op'>==</span> <span class='number'>1</span> {
             <span class='ident'>acc</span> <span class='op'>=</span> <span class='macro'>optry</span><span class='macro'>!</span>(<span class='ident'>acc</span>.<span class='ident'>checked_mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>base</span>));
         }
     }

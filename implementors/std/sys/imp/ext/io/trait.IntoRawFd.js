@@ -1,6 +1,5 @@
 (function() {var implementors = {};
 implementors["arrayfire"] = [];
-implementors["lazy_static"] = [];
 implementors["libc"] = [];
 implementors["num"] = [];
 

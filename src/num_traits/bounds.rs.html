@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/bounds.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/bounds.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>bounds.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -170,14 +171,14 @@
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bounded_tuple</span> {
     ( $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>)<span class='op'>*</span> ) <span class='op'>=&gt;</span> (
-        <span class='kw'>impl</span><span class='op'>&lt;</span>$(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>Bounded</span>,)<span class='op'>*</span><span class='op'>&gt;</span> <span class='ident'>Bounded</span> <span class='kw'>for</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>,)<span class='op'>*</span>) {
+        <span class='kw'>impl</span><span class='op'>&lt;</span>$(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>Bounded</span>,)<span class='kw-2'>*</span><span class='op'>&gt;</span> <span class='ident'>Bounded</span> <span class='kw'>for</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>,)<span class='kw-2'>*</span>) {
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>min_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>min_value</span>(),)<span class='op'>*</span>)
+                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>min_value</span>(),)<span class='kw-2'>*</span>)
             }
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>max_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>max_value</span>(),)<span class='op'>*</span>)
+                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>max_value</span>(),)<span class='kw-2'>*</span>)
             }
         }
     );

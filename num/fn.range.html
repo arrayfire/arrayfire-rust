@@ -9,11 +9,12 @@
 
     <title>num::range - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
 
-    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        <a href='../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>num</a></p><script>window.sidebarCurrent = {name: 'range', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -47,8 +48,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/num_iter/lib.rs.html#42-46' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn range&lt;A&gt;(start: A, stop: A) -&gt; <a class='struct' href='../num_iter/struct.Range.html' title='num_iter::Range'>Range</a>&lt;A&gt; <span class='where'>where A: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;A, Output=A&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a>&lt;A&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.One.html' title='num::One'>One</a></span></pre><div class='docblock'><p>Returns an iterator over the given range [start, stop) (that is, starting
+               </span><a class='srclink' href='../src/num_iter/lib.rs.html#46-50' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn range&lt;A&gt;(start: A, stop: A) -&gt; <a class='struct' href='../num_iter/struct.Range.html' title='num_iter::Range'>Range</a>&lt;A&gt; <span class='where fmt-newline'>where A: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;A, Output=A&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a>&lt;A&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.One.html' title='num::One'>One</a></span></pre><div class='docblock'><p>Returns an iterator over the given range [start, stop) (that is, starting
 at start (inclusive), and ending at stop (exclusive)).</p>
 
 <h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
@@ -58,7 +59,7 @@ at start (inclusive), and ending at stop (exclusive)).</p>
 <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='ident'>num_iter</span>::<span class='ident'>range</span>(<span class='number'>0</span>, <span class='number'>5</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>i</span>);
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>i</span>,  <span class='ident'>array</span>[<span class='ident'>i</span>]);
-}<a class="test-arrow" target="_blank" href="http://play.rust-lang.org/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Alet%20array%20%3D%20%5B0%2C%201%2C%202%2C%203%2C%204%5D%3B%0A%0Afor%20i%20in%20num_iter%3A%3Arange(0%2C%205)%20%7B%0A%20%20%20%20println!(%22%7B%7D%22%2C%20i)%3B%0A%20%20%20%20assert_eq!(i%2C%20%20array%5Bi%5D)%3B%0A%7D%0A%7D">Run</a></pre>
+}<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Alet%20array%20%3D%20%5B0%2C%201%2C%202%2C%203%2C%204%5D%3B%0A%0Afor%20i%20in%20num_iter%3A%3Arange(0%2C%205)%20%7B%0A%20%20%20%20println!(%22%7B%7D%22%2C%20i)%3B%0A%20%20%20%20assert_eq!(i%2C%20%20array%5Bi%5D)%3B%0A%7D%0A%7D">Run</a></pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

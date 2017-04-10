@@ -9,6 +9,7 @@
 
     <title>error.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -182,7 +183,7 @@
         <span class='prelude-val'>Err</span>(_)<span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to acquire lock to register error handler&quot;</span>),
     };
 
-    <span class='op'>*</span><span class='ident'>gaurd</span>.<span class='ident'>deref_mut</span>() <span class='op'>=</span> <span class='ident'>cb_value</span>;
+    <span class='kw-2'>*</span><span class='ident'>gaurd</span>.<span class='ident'>deref_mut</span>() <span class='op'>=</span> <span class='ident'>cb_value</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>handle_error_general</span>(<span class='ident'>error_code</span>: <span class='ident'>AfError</span>) {

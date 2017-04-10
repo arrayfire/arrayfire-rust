@@ -9,6 +9,7 @@
 
     <title>arrayfire::Array - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -47,11 +48,16 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/arrayfire/array.rs.html#107-109' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/arrayfire/array.rs.html#113-115' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Array { /* fields omitted */ }</pre><div class='docblock'><p>A multidimensional data container</p>
 
 <p>Currently, Array objects can store only data until four dimensions</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#125-377' title='goto source code'>[src]</a></span></h3>
+
+<h3 id='note' class='section-header'><a href='#note'>NOTE</a></h3>
+<p>All operators(traits) from std::ops module implemented for Array object
+carry out element wise operations. For example, <code>*</code> does multiplication of
+elements at corresponding locations in two different Arrays.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#131-383' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;T:&nbsp;<a class='trait' href='../arrayfire/trait.HasAfEnum.html' title='arrayfire::HasAfEnum'>HasAfEnum</a>&gt;(slice: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a>T<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, dims: <a class='struct' href='../arrayfire/struct.Dim4.html' title='arrayfire::Dim4'>Dim4</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span></h4>
 <div class='docblock'><p>Constructs a new Array object</p>
 
@@ -143,11 +149,11 @@ memory manager.</p>
 <div class='docblock'><p>Get the device pointer and lock the buffer in memory manager</p>
 
 <p>The device pointer is not freed by memory manager until unlock is called.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>&gt; for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#380-384' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>&gt; for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#386-390' title='goto source code'>[src]</a></span></h3>
 <div class='docblock'><p>Used for creating Array object from native resource id</p>
 </div><div class='impl-items'><h4 id='method.from' class='method'><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(t: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span></h4>
 <div class='docblock'><p>Performs the conversion.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#394-405' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#400-411' title='goto source code'>[src]</a></span></h3>
 <div class='docblock'><p>Returns a new Array object after incrementing the reference count of native resource</p>
 
 <p>Cloning an Array does not do a deep copy of the underlying array data. It increments the
@@ -160,7 +166,7 @@ object.</p>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#408-418' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/array.rs.html#414-424' title='goto source code'>[src]</a></span></h3>
 <div class='docblock'><p>To free resources when Array goes out of scope</p>
 </div><div class='impl-items'><h4 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span></h4>
 <div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>

@@ -9,6 +9,7 @@
 
     <title>graphics.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -729,15 +730,15 @@
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_create_window</span>(<span class='ident'>out</span>: <span class='ident'>MutWndHandle</span>, <span class='ident'>w</span>: <span class='ident'>c_int</span>, <span class='ident'>h</span>: <span class='ident'>c_int</span>, <span class='ident'>title</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_create_window</span>(<span class='ident'>out</span>: <span class='ident'>MutWndHandle</span>, <span class='ident'>w</span>: <span class='ident'>c_int</span>, <span class='ident'>h</span>: <span class='ident'>c_int</span>, <span class='ident'>title</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_set_position</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>x</span>: <span class='ident'>c_uint</span>, <span class='ident'>y</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_title</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>title</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_set_title</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>title</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_set_size</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>w</span>: <span class='ident'>c_uint</span>, <span class='ident'>h</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_set_visibility</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>is_visible</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_set_axes_titles</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>,
-                          <span class='ident'>xtitle</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>ytitle</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>ztitle</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
+                          <span class='ident'>xtitle</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>ytitle</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>ztitle</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
                           <span class='ident'>props</span>: <span class='ident'>CellPtr</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_set_axes_limits_compute</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>x</span>: <span class='ident'>AfArray</span>, <span class='ident'>y</span>: <span class='ident'>AfArray</span>, <span class='ident'>z</span>: <span class='ident'>AfArray</span>,
                                   <span class='ident'>exact</span>: <span class='ident'>c_int</span>, <span class='ident'>props</span>: <span class='ident'>CellPtr</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
@@ -775,7 +776,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>af_grid</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>, <span class='ident'>rows</span>: <span class='ident'>c_int</span>, <span class='ident'>cols</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_show</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_is_window_closed</span>(<span class='ident'>out</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_is_window_closed</span>(<span class='ident'>out</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_destroy_window</span>(<span class='ident'>wnd</span>: <span class='ident'>WndHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
 
@@ -788,7 +789,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Cell</span> {
     <span class='kw'>pub</span> <span class='ident'>row</span>: <span class='ident'>i32</span>,
     <span class='kw'>pub</span> <span class='ident'>col</span>: <span class='ident'>i32</span>,
-    <span class='kw'>pub</span> <span class='ident'>title</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
+    <span class='kw'>pub</span> <span class='ident'>title</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
     <span class='kw'>pub</span> <span class='ident'>cmap</span>: <span class='ident'>ColorMap</span>,
 }
 
@@ -948,7 +949,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_closed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>1</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_is_window_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>);
+            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_is_window_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
             <span class='ident'>temp</span> <span class='op'>&gt;</span> <span class='number'>0</span>
         }
@@ -1008,7 +1009,7 @@
                                              <span class='ident'>xstr</span>.<span class='ident'>as_ptr</span>(),
                                              <span class='ident'>ystr</span>.<span class='ident'>as_ptr</span>(),
                                              <span class='ident'>zstr</span>.<span class='ident'>as_ptr</span>(),
-                                             <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                             <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1038,7 +1039,7 @@
                                                          <span class='prelude-val'>Some</span>(<span class='ident'>z</span>) <span class='op'>=&gt;</span> <span class='ident'>z</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                                          <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
                                                      }, <span class='ident'>exact</span> <span class='kw'>as</span> <span class='ident'>c_int</span>,
-                                                     <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                     <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1062,7 +1063,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_axes_limits_2d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>xmin</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
                                                 <span class='ident'>xmax</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>ymin</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>ymax</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
-                                                <span class='ident'>exact</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                <span class='ident'>exact</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1090,7 +1091,7 @@
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_axes_limits_3d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>xmin</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
                                                 <span class='ident'>xmax</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>ymin</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>ymax</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
                                                 <span class='ident'>zmin</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>zmax</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
-                                                <span class='ident'>exact</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                <span class='ident'>exact</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1111,7 +1112,7 @@
         <span class='kw'>let</span> <span class='ident'>cprops</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>Cell</span> {<span class='ident'>row</span>: <span class='self'>self</span>.<span class='ident'>row</span>, <span class='ident'>col</span>: <span class='self'>self</span>.<span class='ident'>col</span>, <span class='ident'>title</span>: <span class='ident'>tstr</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>cmap</span>: <span class='self'>self</span>.<span class='ident'>cmap</span>};
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_image</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                        <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                        <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1134,7 +1135,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_plot_2d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>,
                                           <span class='ident'>x</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1158,7 +1159,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_plot_3d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>,
                                           <span class='ident'>x</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>z</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1179,7 +1180,7 @@
         <span class='kw'>let</span> <span class='ident'>cprops</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>Cell</span> {<span class='ident'>row</span>: <span class='self'>self</span>.<span class='ident'>row</span>, <span class='ident'>col</span>: <span class='self'>self</span>.<span class='ident'>col</span>, <span class='ident'>title</span>: <span class='ident'>tstr</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>cmap</span>: <span class='self'>self</span>.<span class='ident'>cmap</span>};
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_plot_nd</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>points</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1203,7 +1204,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_hist</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>hst</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                        <span class='ident'>minval</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>maxval</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                                       <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                       <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1229,7 +1230,7 @@
                                           <span class='ident'>xvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                           <span class='ident'>yvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                           <span class='ident'>zvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                          <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1254,7 +1255,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_scatter_2d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>,
                                              <span class='ident'>xvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>yvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1280,7 +1281,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_scatter_3d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>xvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                              <span class='ident'>yvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>zvals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1302,7 +1303,7 @@
         <span class='kw'>let</span> <span class='ident'>cprops</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>Cell</span> {<span class='ident'>row</span>: <span class='self'>self</span>.<span class='ident'>row</span>, <span class='ident'>col</span>: <span class='self'>self</span>.<span class='ident'>col</span>, <span class='ident'>title</span>: <span class='ident'>tstr</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>cmap</span>: <span class='self'>self</span>.<span class='ident'>cmap</span>};
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_scatter_nd</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>, <span class='ident'>vals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                             <span class='ident'>marker</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1329,7 +1330,7 @@
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_vector_field_2d</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>,
                                                   <span class='ident'>xpnts</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>ypnts</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                                   <span class='ident'>xdirs</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>ydirs</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1360,7 +1361,7 @@
                                                   <span class='ident'>ypnts</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>zpnts</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                                   <span class='ident'>xdirs</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>ydirs</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                                   <span class='ident'>zdirs</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }
@@ -1384,7 +1385,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_draw_vector_field_nd</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>WndHandle</span>,
                                                   <span class='ident'>points</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>directions</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
+                                                  <span class='ident'>cprops</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>Cell</span> <span class='kw'>as</span> <span class='ident'>CellPtr</span>);
             <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         }
     }

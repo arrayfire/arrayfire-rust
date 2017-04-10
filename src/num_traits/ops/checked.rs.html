@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/ops/checked.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/ops/checked.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>checked.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -149,7 +150,7 @@
         <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>trait_name</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>method</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>v</span>: <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span> {
-                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>method</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='op'>*</span><span class='ident'>v</span>)
+                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>method</span>(<span class='kw-2'>*</span><span class='self'>self</span>, <span class='kw-2'>*</span><span class='ident'>v</span>)
             }
         }
     }

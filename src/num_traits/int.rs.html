@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/int.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/int.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>int.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -423,7 +424,7 @@
 
 <span class='kw'>use</span> {<span class='ident'>Num</span>, <span class='ident'>NumCast</span>};
 <span class='kw'>use</span> <span class='ident'>bounds</span>::<span class='ident'>Bounded</span>;
-<span class='kw'>use</span> <span class='ident'>ops</span>::<span class='ident'>checked</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>ops</span>::<span class='ident'>checked</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>ops</span>::<span class='ident'>saturating</span>::<span class='ident'>Saturating</span>;
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>PrimInt</span>
@@ -695,7 +696,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert_eq!(2i32.pow(4), 16);</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>fn</span> <span class='ident'>pow</span>(<span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>exp</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>pow</span>(<span class='self'>self</span>, <span class='ident'>exp</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>prim_int_impl</span> {

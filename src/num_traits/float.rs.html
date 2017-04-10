@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/float.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/float.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>float.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -2619,11 +2620,11 @@
     } <span class='kw'>else</span> {
         <span class='op'>-</span><span class='number'>1</span>
     };
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>exponent</span>: <span class='ident'>i16</span> <span class='op'>=</span> ((<span class='ident'>bits</span> <span class='op'>&gt;&gt;</span> <span class='number'>23</span>) <span class='kw-2'>&amp;</span> <span class='number'>0xff</span>) <span class='kw'>as</span> <span class='ident'>i16</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>exponent</span>: <span class='ident'>i16</span> <span class='op'>=</span> ((<span class='ident'>bits</span> <span class='op'>&gt;&gt;</span> <span class='number'>23</span>) <span class='op'>&amp;</span> <span class='number'>0xff</span>) <span class='kw'>as</span> <span class='ident'>i16</span>;
     <span class='kw'>let</span> <span class='ident'>mantissa</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>exponent</span> <span class='op'>==</span> <span class='number'>0</span> {
-        (<span class='ident'>bits</span> <span class='kw-2'>&amp;</span> <span class='number'>0x7fffff</span>) <span class='op'>&lt;&lt;</span> <span class='number'>1</span>
+        (<span class='ident'>bits</span> <span class='op'>&amp;</span> <span class='number'>0x7fffff</span>) <span class='op'>&lt;&lt;</span> <span class='number'>1</span>
     } <span class='kw'>else</span> {
-        (<span class='ident'>bits</span> <span class='kw-2'>&amp;</span> <span class='number'>0x7fffff</span>) <span class='op'>|</span> <span class='number'>0x800000</span>
+        (<span class='ident'>bits</span> <span class='op'>&amp;</span> <span class='number'>0x7fffff</span>) <span class='op'>|</span> <span class='number'>0x800000</span>
     };
     <span class='comment'>// Exponent bias + mantissa shift</span>
     <span class='ident'>exponent</span> <span class='op'>-=</span> <span class='number'>127</span> <span class='op'>+</span> <span class='number'>23</span>;
@@ -2637,11 +2638,11 @@
     } <span class='kw'>else</span> {
         <span class='op'>-</span><span class='number'>1</span>
     };
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>exponent</span>: <span class='ident'>i16</span> <span class='op'>=</span> ((<span class='ident'>bits</span> <span class='op'>&gt;&gt;</span> <span class='number'>52</span>) <span class='kw-2'>&amp;</span> <span class='number'>0x7ff</span>) <span class='kw'>as</span> <span class='ident'>i16</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>exponent</span>: <span class='ident'>i16</span> <span class='op'>=</span> ((<span class='ident'>bits</span> <span class='op'>&gt;&gt;</span> <span class='number'>52</span>) <span class='op'>&amp;</span> <span class='number'>0x7ff</span>) <span class='kw'>as</span> <span class='ident'>i16</span>;
     <span class='kw'>let</span> <span class='ident'>mantissa</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>exponent</span> <span class='op'>==</span> <span class='number'>0</span> {
-        (<span class='ident'>bits</span> <span class='kw-2'>&amp;</span> <span class='number'>0xfffffffffffff</span>) <span class='op'>&lt;&lt;</span> <span class='number'>1</span>
+        (<span class='ident'>bits</span> <span class='op'>&amp;</span> <span class='number'>0xfffffffffffff</span>) <span class='op'>&lt;&lt;</span> <span class='number'>1</span>
     } <span class='kw'>else</span> {
-        (<span class='ident'>bits</span> <span class='kw-2'>&amp;</span> <span class='number'>0xfffffffffffff</span>) <span class='op'>|</span> <span class='number'>0x10000000000000</span>
+        (<span class='ident'>bits</span> <span class='op'>&amp;</span> <span class='number'>0xfffffffffffff</span>) <span class='op'>|</span> <span class='number'>0x10000000000000</span>
     };
     <span class='comment'>// Exponent bias + mantissa shift</span>
     <span class='ident'>exponent</span> <span class='op'>-=</span> <span class='number'>1023</span> <span class='op'>+</span> <span class='number'>52</span>;

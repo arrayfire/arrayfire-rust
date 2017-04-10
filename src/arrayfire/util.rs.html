@@ -9,6 +9,7 @@
 
     <title>util.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -257,39 +258,39 @@
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_int</span>, <span class='ident'>size_t</span>, <span class='ident'>c_void</span>};
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>AfArray</span>       <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>CellPtr</span>       <span class='op'>=</span> <span class='op'>*</span><span class='kw'>const</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>CellPtr</span>       <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Complex32</span>     <span class='op'>=</span> <span class='ident'>Complex</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Complex64</span>     <span class='op'>=</span> <span class='ident'>Complex</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>DimT</span>          <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Feat</span>          <span class='op'>=</span> <span class='op'>*</span><span class='kw'>const</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Feat</span>          <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>IndexT</span>        <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Intl</span>          <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutAfArray</span>    <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutAfIndex</span>    <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutDimT</span>       <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutDouble</span>     <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_double</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutFeat</span>       <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutRandEngine</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutUint</span>       <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_uint</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutVoidPtr</span>    <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutWndHandle</span>  <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutAfArray</span>    <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutAfIndex</span>    <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutDimT</span>       <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutDouble</span>     <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_double</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutFeat</span>       <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_void</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutRandEngine</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutUint</span>       <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_uint</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutVoidPtr</span>    <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>MutWndHandle</span>  <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>RandEngine</span>    <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_longlong</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Uintl</span>         <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>WndHandle</span>     <span class='op'>=</span> <span class='self'>self</span>::<span class='ident'>libc</span>::<span class='ident'>c_ulonglong</span>;
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_get_size_of</span>(<span class='ident'>size</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_get_size_of</span>(<span class='ident'>size</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_alloc_host</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>, <span class='ident'>bytes</span>: <span class='ident'>DimT</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_free_host</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_alloc_host</span>(<span class='ident'>ptr</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>, <span class='ident'>bytes</span>: <span class='ident'>DimT</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_free_host</span>(<span class='ident'>ptr</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
 
 <span class='doccomment'>/// Get size, in bytes, of the arrayfire native type</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='ident'>value</span>: <span class='ident'>DType</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_size_of</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>value</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_size_of</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>value</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>ret_val</span>
     }
@@ -297,20 +298,20 @@
 
 <span class='doccomment'>/// Allocates space using Arrayfire allocator in host memory</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>alloc_host</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>elements</span>: <span class='ident'>usize</span>, <span class='ident'>_type</span>: <span class='ident'>DType</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span> {
-    <span class='kw'>let</span> <span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null</span>();
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>alloc_host</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>elements</span>: <span class='ident'>usize</span>, <span class='ident'>_type</span>: <span class='ident'>DType</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>T</span> {
+    <span class='kw'>let</span> <span class='ident'>ptr</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>T</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null</span>();
     <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> (<span class='ident'>elements</span> <span class='op'>*</span> <span class='ident'>get_size</span>(<span class='ident'>_type</span>)) <span class='kw'>as</span> <span class='ident'>DimT</span>;
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_alloc_host</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>), <span class='ident'>bytes</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_alloc_host</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>), <span class='ident'>bytes</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
     <span class='ident'>ptr</span>
 }
 
 <span class='doccomment'>/// Frees memory allocated by Arrayfire allocator in host memory</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>free_host</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>T</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>free_host</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>ptr</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>T</span>) {
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_free_host</span>(<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_free_host</span>(<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
 }

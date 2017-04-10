@@ -9,11 +9,12 @@
 
     <title>num::pow::pow - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    <link rel="shortcut icon" href="http://rust-num.github.io/num/favicon.ico">
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../num/index.html'><img src='http://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='../index.html'>num</a>::<wbr><a href='index.html'>pow</a></p><script>window.sidebarCurrent = {name: 'pow', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -48,14 +49,14 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/num_traits/pow.rs.html#15-33' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn pow&lt;T&gt;(base: T, exp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; T <span class='where'>where T: <a class='trait' href='../../num/trait.One.html' title='num::One'>One</a>&lt;Output=T&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Mul.html' title='core::ops::Mul'>Mul</a>&lt;T&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a></span></pre><div class='docblock'><p>Raises a value to the power of exp, using exponentiation by squaring.</p>
+<pre class='rust fn'>pub fn pow&lt;T&gt;(base: T, exp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; T <span class='where fmt-newline'>where T: <a class='trait' href='../../num/trait.One.html' title='num::One'>One</a>&lt;Output=T&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Mul.html' title='core::ops::Mul'>Mul</a>&lt;T&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a></span></pre><div class='docblock'><p>Raises a value to the power of exp, using exponentiation by squaring.</p>
 
 <h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>pow</span>;
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pow</span>(<span class='number'>2i8</span>, <span class='number'>4</span>), <span class='number'>16</span>);
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pow</span>(<span class='number'>6u8</span>, <span class='number'>3</span>), <span class='number'>216</span>);<a class="test-arrow" target="_blank" href="http://play.rust-lang.org/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Ause%20num_traits%3A%3Apow%3B%0A%0Aassert_eq!(pow(2i8%2C%204)%2C%2016)%3B%0Aassert_eq!(pow(6u8%2C%203)%2C%20216)%3B%0A%7D">Run</a></pre>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pow</span>(<span class='number'>6u8</span>, <span class='number'>3</span>), <span class='number'>216</span>);<a class="test-arrow" target="_blank" href="http://play.integer32.com/?code=extern%20crate%20num%3B%0Afn%20main()%20%7B%0Ause%20num_traits%3A%3Apow%3B%0A%0Aassert_eq!(pow(2i8%2C%204)%2C%2016)%3B%0Aassert_eq!(pow(6u8%2C%203)%2C%20216)%3B%0A%7D">Run</a></pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

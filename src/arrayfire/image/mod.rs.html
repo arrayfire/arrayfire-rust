@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -1246,6 +1247,18 @@
 <span id="1202">1202</span>
 <span id="1203">1203</span>
 <span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
@@ -1253,7 +1266,8 @@
 <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>BorderType</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>Connectivity</span>, <span class='ident'>InterpType</span>, <span class='ident'>YCCStd</span>, <span class='ident'>MomentType</span>};
 <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>AfArray</span>, <span class='ident'>DimT</span>, <span class='ident'>HasAfEnum</span>, <span class='ident'>MutAfArray</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>};
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_char</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>;
 
 <span class='comment'>// unused functions from image.h header</span>
 <span class='comment'>// af_load_image_memory</span>
@@ -1263,10 +1277,10 @@
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>extern</span> {
     <span class='kw'>fn</span> <span class='ident'>af_gradient</span>(<span class='ident'>dx</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>dy</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_load_image</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>filename</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>iscolor</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_save_image</span>(<span class='ident'>filename</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_load_image_native</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>filename</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_save_image_native</span>(<span class='ident'>filename</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_load_image</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>filename</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>iscolor</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_save_image</span>(<span class='ident'>filename</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_load_image_native</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>filename</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_save_image_native</span>(<span class='ident'>filename</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_resize</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>,
                  <span class='ident'>odim0</span>: <span class='ident'>DimT</span>, <span class='ident'>odim1</span>: <span class='ident'>DimT</span>, <span class='ident'>method</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
@@ -1338,11 +1352,11 @@
 
     <span class='kw'>fn</span> <span class='ident'>af_ycbcr2rgb</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>stnd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_rgb2ycbcr</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>stnd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_is_image_io_available</span>(<span class='ident'>out</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_is_image_io_available</span>(<span class='ident'>out</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
     <span class='kw'>fn</span> <span class='ident'>af_transform_coordinates</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>tf</span>: <span class='ident'>AfArray</span>, <span class='ident'>d0</span>: <span class='ident'>c_float</span>, <span class='ident'>d1</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='kw'>fn</span> <span class='ident'>af_moments</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>moment</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span><span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_moments_all</span>(<span class='ident'>out</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>moment</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span><span class='ident'>c_int</span>;
+    <span class='kw'>fn</span> <span class='ident'>af_moments_all</span>(<span class='ident'>out</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>moment</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span><span class='ident'>c_int</span>;
 }
 
 <span class='doccomment'>/// Calculate the gradients</span>
@@ -1384,11 +1398,13 @@
 <span class='doccomment'>/// An Array with pixel values loaded from the image</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_image</span>(<span class='ident'>filename</span>: <span class='ident'>String</span>, <span class='ident'>is_color</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
+    <span class='kw'>let</span> <span class='ident'>cstr_param</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>filename</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>cstr</span>) <span class='op'>=&gt;</span> <span class='ident'>cstr</span>,
+        <span class='prelude-val'>Err</span>(_)   <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;CString creation from input filename failed&quot;</span>),
+    };
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_load_image</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                    <span class='ident'>filename</span>.<span class='ident'>clone</span>().<span class='ident'>as_bytes</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>,
-                                    <span class='ident'>is_color</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_load_image</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>cstr_param</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>is_color</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
     }
@@ -1414,10 +1430,13 @@
 <span class='doccomment'>/// An Array with pixel values loaded from the image</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_image_native</span>(<span class='ident'>filename</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
+    <span class='kw'>let</span> <span class='ident'>cstr_param</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>filename</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>cstr</span>) <span class='op'>=&gt;</span> <span class='ident'>cstr</span>,
+        <span class='prelude-val'>Err</span>(_)   <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;CString creation from input filename failed&quot;</span>),
+    };
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_load_image_native</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                    <span class='ident'>filename</span>.<span class='ident'>clone</span>().<span class='ident'>as_bytes</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_load_image_native</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>cstr_param</span>.<span class='ident'>as_ptr</span>());
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
         <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
     }
@@ -1431,9 +1450,12 @@
 <span class='doccomment'>/// - `input` is the Array to be stored into the image file</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>save_image</span>(<span class='ident'>filename</span>: <span class='ident'>String</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) {
+    <span class='kw'>let</span> <span class='ident'>cstr_param</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>filename</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>cstr</span>) <span class='op'>=&gt;</span> <span class='ident'>cstr</span>,
+        <span class='prelude-val'>Err</span>(_)   <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;CString creation from input filename failed&quot;</span>),
+    };
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_save_image</span>(<span class='ident'>filename</span>.<span class='ident'>clone</span>().<span class='ident'>as_bytes</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>,
-                                    <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_save_image</span>(<span class='ident'>cstr_param</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
 }
@@ -1456,9 +1478,12 @@
 <span class='doccomment'>/// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>save_image_native</span>(<span class='ident'>filename</span>: <span class='ident'>String</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) {
+    <span class='kw'>let</span> <span class='ident'>cstr_param</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>filename</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>cstr</span>) <span class='op'>=&gt;</span> <span class='ident'>cstr</span>,
+        <span class='prelude-val'>Err</span>(_)   <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;CString creation from input filename failed&quot;</span>),
+    };
     <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_save_image_native</span>(<span class='ident'>filename</span>.<span class='ident'>clone</span>().<span class='ident'>as_bytes</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>,
-                                    <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_save_image_native</span>(<span class='ident'>cstr_param</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
     }
 }
@@ -2354,7 +2379,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_imageio_available</span>() <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='ident'>af_is_image_io_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
+        <span class='ident'>af_is_image_io_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
         <span class='ident'>temp</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='comment'>// Return boolean flag</span>
     }
 }
@@ -2423,7 +2448,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>moments_all</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>moment</span>: <span class='ident'>MomentType</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_moments_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>,
+        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_moments_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_double</span>,
                                      <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
                                      <span class='ident'>moment</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
         <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));

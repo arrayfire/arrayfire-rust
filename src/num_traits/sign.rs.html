@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.36/src/sign.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/sign.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>sign.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
-    
+    <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -27,7 +28,7 @@
     
 
     <nav class="sidebar">
-        
+        <a href='../../num_traits/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
@@ -247,21 +248,21 @@
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>signed_impl</span> {
-    ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> ($(
+    ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='kw-2'>*</span>) <span class='op'>=&gt;</span> ($(
         <span class='kw'>impl</span> <span class='ident'>Signed</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>abs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_negative</span>() { <span class='op'>-</span><span class='op'>*</span><span class='self'>self</span> } <span class='kw'>else</span> { <span class='op'>*</span><span class='self'>self</span> }
+                <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_negative</span>() { <span class='op'>-</span><span class='kw-2'>*</span><span class='self'>self</span> } <span class='kw'>else</span> { <span class='kw-2'>*</span><span class='self'>self</span> }
             }
 
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>abs_sub</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='kw'>if</span> <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;=</span> <span class='op'>*</span><span class='ident'>other</span> { <span class='number'>0</span> } <span class='kw'>else</span> { <span class='op'>*</span><span class='self'>self</span> <span class='op'>-</span> <span class='op'>*</span><span class='ident'>other</span> }
+                <span class='kw'>if</span> <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;=</span> <span class='kw-2'>*</span><span class='ident'>other</span> { <span class='number'>0</span> } <span class='kw'>else</span> { <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>-</span> <span class='kw-2'>*</span><span class='ident'>other</span> }
             }
 
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>signum</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+                <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
                     <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
                     <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
                     _ <span class='op'>=&gt;</span> <span class='op'>-</span><span class='number'>1</span>,
@@ -269,12 +270,12 @@
             }
 
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>is_positive</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='op'>*</span><span class='self'>self</span> <span class='op'>&gt;</span> <span class='number'>0</span> }
+            <span class='kw'>fn</span> <span class='ident'>is_positive</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&gt;</span> <span class='number'>0</span> }
 
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>is_negative</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='number'>0</span> }
+            <span class='kw'>fn</span> <span class='ident'>is_negative</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='number'>0</span> }
         }
-    )<span class='op'>*</span>)
+    )<span class='kw-2'>*</span>)
 }
 
 <span class='macro'>signed_impl</span><span class='macro'>!</span>(<span class='ident'>isize</span> <span class='ident'>i8</span> <span class='ident'>i16</span> <span class='ident'>i32</span> <span class='ident'>i64</span>);
@@ -285,7 +286,7 @@
             <span class='doccomment'>/// Computes the absolute value. Returns `NAN` if the number is `NAN`.</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>abs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>abs</span>(<span class='op'>*</span><span class='self'>self</span>)
+                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>abs</span>(<span class='kw-2'>*</span><span class='self'>self</span>)
             }
 
             <span class='doccomment'>/// The positive difference of two numbers. Returns `0.0` if the number is</span>
@@ -294,7 +295,7 @@
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>deprecated</span>)]</span>
             <span class='kw'>fn</span> <span class='ident'>abs_sub</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>abs_sub</span>(<span class='op'>*</span><span class='self'>self</span>, <span class='op'>*</span><span class='ident'>other</span>)
+                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>abs_sub</span>(<span class='kw-2'>*</span><span class='self'>self</span>, <span class='kw-2'>*</span><span class='ident'>other</span>)
             }
 
             <span class='doccomment'>/// # Returns</span>
@@ -304,16 +305,16 @@
             <span class='doccomment'>/// - `NAN` if the number is NaN</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
             <span class='kw'>fn</span> <span class='ident'>signum</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>signum</span>(<span class='op'>*</span><span class='self'>self</span>)
+                <span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span>::<span class='ident'>signum</span>(<span class='kw-2'>*</span><span class='self'>self</span>)
             }
 
             <span class='doccomment'>/// Returns `true` if the number is positive, including `+0.0` and `INFINITY`</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>is_positive</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='op'>*</span><span class='self'>self</span> <span class='op'>&gt;</span> <span class='number'>0.0</span> <span class='op'>||</span> (<span class='number'>1.0</span> <span class='op'>/</span> <span class='op'>*</span><span class='self'>self</span>) <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inf</span> }
+            <span class='kw'>fn</span> <span class='ident'>is_positive</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&gt;</span> <span class='number'>0.0</span> <span class='op'>||</span> (<span class='number'>1.0</span> <span class='op'>/</span> <span class='kw-2'>*</span><span class='self'>self</span>) <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inf</span> }
 
             <span class='doccomment'>/// Returns `true` if the number is negative, including `-0.0` and `NEG_INFINITY`</span>
             <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>is_negative</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='op'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='number'>0.0</span> <span class='op'>||</span> (<span class='number'>1.0</span> <span class='op'>/</span> <span class='op'>*</span><span class='self'>self</span>) <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>neg_inf</span> }
+            <span class='kw'>fn</span> <span class='ident'>is_negative</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='kw-2'>*</span><span class='self'>self</span> <span class='op'>&lt;</span> <span class='number'>0.0</span> <span class='op'>||</span> (<span class='number'>1.0</span> <span class='op'>/</span> <span class='kw-2'>*</span><span class='self'>self</span>) <span class='op'>==</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>neg_inf</span> }
         }
     }
 }
@@ -359,9 +360,9 @@
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Unsigned</span>: <span class='ident'>Num</span> {}
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>empty_trait_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> <span class='kw'>for</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> ($(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> <span class='kw'>for</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='kw-2'>*</span>) <span class='op'>=&gt;</span> ($(
         <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {}
-    )<span class='op'>*</span>)
+    )<span class='kw-2'>*</span>)
 }
 
 <span class='macro'>empty_trait_impl</span><span class='macro'>!</span>(<span class='ident'>Unsigned</span> <span class='kw'>for</span> <span class='ident'>usize</span> <span class='ident'>u8</span> <span class='ident'>u16</span> <span class='ident'>u32</span> <span class='ident'>u64</span>);
