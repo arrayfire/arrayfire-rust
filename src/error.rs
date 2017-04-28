@@ -4,11 +4,14 @@ use std::error::Error;
 use std::marker::{Send, Sync};
 use std::sync::RwLock;
 
+/// Signature of callback function to be called to handle errors
 pub type ErrorCallback = Fn(AfError);
 
 /// Wrap ErrorCallback function pointer inside a structure
 /// to enable implementing Send, Sync traits on it.
 pub struct Callback<'cblifetime> {
+    ///Reference to a valid error callback function
+    ///Make sure this callback stays relevant throughout the lifetime of application.
     pub cb: &'cblifetime ErrorCallback,
 }
 
@@ -60,6 +63,7 @@ pub fn register_error_handler(cb_value: Callback<'static>) {
     *gaurd.deref_mut() = cb_value;
 }
 
+/// Default error handling callback provided by ArrayFire crate
 pub fn handle_error_general(error_code: AfError) {
     match error_code {
         AfError::SUCCESS => {}, /* No-op */

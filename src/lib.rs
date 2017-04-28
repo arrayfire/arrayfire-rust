@@ -1,6 +1,26 @@
+//! ArrayFire is a high performance software library for parallel computing with
+//! an easy-to-use API. ArrayFire abstracts away much of the details of
+//! programming parallel architectures by providing a high-level container object,
+//! the [Array](./struct.Array.html), that represents data stored on a CPU, GPU, FPGA,
+//! or other type of accelerator. This abstraction permits developers to write
+//! massively parallel applications in a high-level language where they need
+//! not be concerned about low-level optimizations that are frequently required to
+//! achieve high throughput on most parallel architectures.
+
+//! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).
+//!
+//!
+//! | ArrayFire Upstream | Rust Crate |
+//! |:------------------:|:---------------:|
+//! | 3.3.x | 3.3.x |
+//! | 3.4.x | 3.4.x |
+//!
+//! Only, Major & Minor version numbers need to match.
+
 #![doc(html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
+#![warn(missing_docs)]
 
 #[macro_use]
 extern crate lazy_static;
