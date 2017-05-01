@@ -16,6 +16,14 @@
 //! | 3.4.x | 3.4.x |
 //!
 //! Only, Major & Minor version numbers need to match.
+//!
+//! ## Tutorials
+//!
+//! - [Getting Started with ArrayFire](./getting_started.html)
+//! - [Introduction to Vectorization](./vectorization.html)
+//! - [Array and Matrix Manipulation](./array_and_matrix_manipulation.html)
+//! - [Indexing](./indexing.html)
+//! - [Configure ArrayFire Environment](./configuring_arrayfire_environment.html)
 
 #![doc(html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
