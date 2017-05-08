@@ -38,7 +38,7 @@ impl<T: Copy> Seq<T> {
         self.begin
     }
 
-    /// Get begin index of Seq
+    /// Get end index of Seq
     pub fn end(&self) -> T {
         self.end
     }

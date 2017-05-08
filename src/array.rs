@@ -18,6 +18,8 @@ extern {
     fn af_create_array(out: MutAfArray, data: *const c_void,
                        ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
 
+    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
+
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
     fn af_get_type(out: *mut c_int, arr: AfArray) -> c_int;
@@ -170,6 +172,27 @@ impl Array {
                                                   dims.get().as_ptr() as * const c_longlong,
                                                   strides.get().as_ptr() as * const c_longlong,
                                                   aftype as uint8_t, 1);
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
+        }
+    }
+
+    /// Constructs a new Array object of specified dimensions and type
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use arrayfire::{Array, Dim4, DType};
+    /// let garbageVals = Array::new_empty(Dim4::new(&[3, 1, 1, 1]), DType::F32);
+    /// ```
+    #[allow(unused_mut)]
+    pub fn new_empty(dims: Dim4, aftype: DType) -> Array {
+        unsafe {
+            let mut temp: i64 = 0;
+            let err_val = af_create_handle(&mut temp as MutAfArray,
+                                           dims.ndims() as c_uint,
+                                           dims.get().as_ptr() as * const c_longlong,
+                                           aftype as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
             Array::from(temp)
         }

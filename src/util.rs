@@ -153,6 +153,7 @@ impl From<i32> for ColorMap {
 /// - u16
 ///
 pub trait HasAfEnum {
+    /// Return trait implmentors corresponding [DType](./enum.DType.html)
     fn get_af_dtype() -> DType;
 }
 

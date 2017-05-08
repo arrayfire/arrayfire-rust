@@ -68,6 +68,7 @@ impl<T: Copy> Indexable for Seq<T> where c_double: From<T> {
 
 impl Indexer {
     #[allow(unused_mut)]
+    /// Create a new Indexer object and set the dimension specific index objects later
     pub fn new() -> Indexer {
         unsafe {
             let mut temp: i64 = 0;
