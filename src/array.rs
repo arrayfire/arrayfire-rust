@@ -308,7 +308,10 @@ impl Array {
     }
 
     /// Copies the data from the Array to the mutable slice `data`
-    pub fn host<T>(&self, data: &mut [T]) {
+    pub fn host<T: HasAfEnum>(&self, data: &mut [T]) {
+        if data.len() != self.elements() {
+            HANDLE_ERROR(AfError::ERR_SIZE);
+        }
         unsafe {
             let err_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
