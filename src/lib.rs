@@ -29,6 +29,7 @@
        html_favicon_url = "http://www.rust-lang.org/favicon.ico",
        html_root_url = "http://arrayfire.com/docs/rust")]
 #![warn(missing_docs)]
+#![allow(non_camel_case_types)]
 
 #[macro_use]
 extern crate lazy_static;
