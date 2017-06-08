@@ -18,13 +18,7 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 ## Supported platforms
 
-- Linux and OSX: The bindings have been tested with Rust 1.x.
-- Windows: Rust 1.5 (MSVC ABI) is the first version that works with our bindings and ArrayFire library(built using MSVC compiler).
-
-We recommend using Rust 1.5 and higher.
-
-Rust 1.8 stabilized the traits for compound assignment operations. These are automatically enabled
-based on the rust version you are using.
+Linux, Windows and OSX. We recommend using Rust 1.15.1 or higher.
 
 ## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
 
