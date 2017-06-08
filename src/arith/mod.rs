@@ -255,6 +255,17 @@ macro_rules! overloaded_binary_func {
         ///
         /// An Array with results of the binary operation.
         ///
+        /// In the case of comparison operations such as the following, the type of output
+        /// Array is [DType::B8](./enum.DType.html). To retrieve the results of such boolean output
+        /// to host, an array of 8-bit wide types(eg. u8, i8) should be used since ArrayFire's internal
+        /// implementation uses char for boolean.
+        ///
+        /// * [gt](./fn.gt.html)
+        /// * [lt](./fn.lt.html)
+        /// * [ge](./fn.ge.html)
+        /// * [le](./fn.le.html)
+        /// * [eq](./fn.eq.html)
+        ///
         ///# Note
         ///
         /// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
