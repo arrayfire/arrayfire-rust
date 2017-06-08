@@ -233,12 +233,12 @@ impl Array {
     }
 
     /// Returns the number of elements in the Array
-    pub fn elements(&self) -> i64 {
+    pub fn elements(&self) -> usize {
         unsafe {
             let mut ret_val: i64 = 0;
             let err_val = af_get_elements(&mut ret_val as MutAfArray, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
-            ret_val
+            ret_val as usize
         }
     }
 
