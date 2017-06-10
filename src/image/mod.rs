@@ -126,6 +126,8 @@ pub fn gradient(input: &Array) -> (Array, Array) {
 
 /// Load Image into Array
 ///
+/// Only, Images with 8/16/32 bits per channel can be loaded using this function.
+///
 /// # Parameters
 ///
 /// - `filename` is aboslute path of the image to be loaded.
