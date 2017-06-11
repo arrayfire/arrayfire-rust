@@ -7,6 +7,8 @@ use seq::Seq;
 use self::libc::{c_double, c_int, c_uint};
 use util::{AfArray, AfIndex, DimT, MutAfArray, MutAfIndex};
 
+use std::marker::PhantomData;
+
 #[allow(dead_code)]
 extern {
     fn af_create_indexers(indexers: MutAfIndex) -> c_int;
@@ -22,8 +24,60 @@ extern {
 }
 
 /// Struct to manage an array of resources of type `af_indexer_t`(ArrayFire C struct)
-pub struct Indexer {
+///
+/// # Examples
+///
+/// Given below are examples illustrating correct and incorrect usage of Indexer struct.
+///
+/// <h3> Correct Usage </h3>
+///
+/// ```rust
+/// use arrayfire::{Array, Dim4, randu, index_gen, Indexer};
+///
+/// // Always be aware of the fact that, the `Seq` or `Array` objects
+/// // that we intend to use for indexing via `Indexer` have to outlive
+/// // the `Indexer` object created in this context.
+///
+/// let dims   = Dim4::new(&[1, 3, 1, 1]);
+/// let bools  = Array::new(&[1, 0, 1], dims);
+/// let values = Array::new(&[2, 5, 6], dims);
+///
+/// let mut idxr = Indexer::new();
+///
+/// // `bools` is created much before idxr, thus will
+/// // stay in scope at least as long as idxr
+/// idxr.set_index(&bools, 0, None);
+///
+/// index_gen(&values, idxr);
+/// ```
+///
+/// <h3> Incorrect Usage </h3>
+///
+/// ```rust,ignore
+/// // Say, you create an Array on the fly and try
+/// // to call set_index, it will throw the given below
+/// // error or something similar to that
+/// idxr.set_index(&Array::new(&[1, 0, 1], dims), 0, None);
+/// ```
+///
+/// ```text
+/// error: borrowed value does not live long enough
+///   --> <anon>:16:55
+///   |
+///16 | idxr.set_index(&Array::new(&[1, 0, 1], dims), 0, None);
+///   |                 ----------------------------          ^ temporary value dropped here while still borrowed
+///   |                 |
+///   |                 temporary value created here
+///...
+///19 | }
+///   | - temporary value needs to live until here
+///   |
+///   = note: consider using a `let` binding to increase its lifetime
+/// ```
+pub struct Indexer<'object> {
     handle: i64,
+    count: usize,
+    marker: PhantomData<&'object ()>,
 }
 
 // Trait that indicates that object can be used for indexing
@@ -42,7 +96,7 @@ impl Indexable for Array {
     #[allow(unused_variables)]
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
-            let err_val = af_set_array_indexer(idxr.get() as AfIndex, self.clone().get() as AfArray,
+            let err_val = af_set_array_indexer(idxr.get() as AfIndex, self.get() as AfArray,
                                                dim as DimT);
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -64,21 +118,28 @@ impl<T: Copy> Indexable for Seq<T> where c_double: From<T> {
     }
 }
 
-impl Indexer {
+impl<'object> Indexer<'object> {
     #[allow(unused_mut)]
     /// Create a new Indexer object and set the dimension specific index objects later
-    pub fn new() -> Indexer {
+    pub fn new() -> Indexer<'object> {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_create_indexers(&mut temp as MutAfIndex);
             HANDLE_ERROR(AfError::from(err_val));
-            Indexer{handle: temp}
+            Indexer{handle: temp, count: 0, marker: PhantomData}
         }
     }
 
     /// Set either [Array](./struct.Array.html) or [Seq](./struct.Seq.html) to index an Array along `idx` dimension
-    pub fn set_index<T: Indexable>(&mut self, idx: &T, dim: u32, is_batch: Option<bool>) {
-        idx.set(self, dim, is_batch)
+    pub fn set_index<'s, T>(&'s mut self, idx: &'object T, dim: u32, is_batch: Option<bool>)
+    where T : Indexable + 'object {
+        idx.set(self, dim, is_batch);
+        self.count = self.count+1;
+    }
+
+    /// Get number of indexing objects set
+    pub fn len(&self) -> usize {
+        self.count
     }
 
     /// Get native(ArrayFire) resource handle
@@ -87,7 +148,7 @@ impl Indexer {
     }
 }
 
-impl Drop for Indexer {
+impl<'object> Drop for Indexer<'object> {
     fn drop(&mut self) {
         unsafe {
             let ret_val = af_release_indexers(self.handle as AfIndex);
@@ -328,7 +389,7 @@ pub fn index_gen(input: &Array, indices: Indexer) -> Array {
     unsafe{
         let mut temp: i64 = 0;
         let err_val = af_index_gen(&mut temp as MutAfArray, input.get() as AfArray,
-                                   4, indices.get() as AfIndex);
+                                   indices.len() as DimT, indices.get() as AfIndex);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }
@@ -370,7 +431,7 @@ pub fn assign_gen(lhs: &Array, indices: &Indexer, rhs: &Array) -> Array {
     unsafe{
         let mut temp: i64 = 0;
         let err_val = af_assign_gen(&mut temp as MutAfArray, lhs.get() as AfArray,
-                                    4, indices.get() as AfIndex,
+                                    indices.len() as DimT, indices.get() as AfIndex,
                                     rhs.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
