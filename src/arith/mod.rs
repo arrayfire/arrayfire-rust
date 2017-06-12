@@ -462,10 +462,9 @@ macro_rules! arith_assign_func {
             fn $fn_name(&mut self, rhs: Array) {
                 let tmp_seq   = Seq::<f32>::default();
                 let mut idxrs = Indexer::new();
-                idxrs.set_index(&tmp_seq, 0, Some(false));
-                idxrs.set_index(&tmp_seq, 1, Some(false));
-                idxrs.set_index(&tmp_seq, 2, Some(false));
-                idxrs.set_index(&tmp_seq, 3, Some(false));
+                for n in 0..self.numdims() {
+                    idxrs.set_index(&tmp_seq, n, Some(false));
+                }
                 let tmp = assign_gen(self as &Array, &idxrs,
                                      & $func(self as &Array, &rhs, false));
                 let old = mem::replace(self, tmp);
@@ -490,10 +489,9 @@ macro_rules! bit_assign_func {
             fn $fn_name(&mut self, rhs: Array) {
                 let tmp_seq   = Seq::<f32>::default();
                 let mut idxrs = Indexer::new();
-                idxrs.set_index(&tmp_seq, 0, Some(false));
-                idxrs.set_index(&tmp_seq, 1, Some(false));
-                idxrs.set_index(&tmp_seq, 2, Some(false));
-                idxrs.set_index(&tmp_seq, 3, Some(false));
+                for n in 0..self.numdims() {
+                    idxrs.set_index(&tmp_seq, n, Some(false));
+                }
                 let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs, false));
                 let old = mem::replace(self, tmp);
             }
