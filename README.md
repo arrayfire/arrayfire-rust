@@ -18,7 +18,7 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 ## Supported platforms
 
-Linux, Windows and OSX. We recommend using Rust 1.15.1 or higher.
+Linux, Windows and OSX. Rust 1.15.1 or higher is required.
 
 ## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
 
@@ -69,7 +69,6 @@ af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 ```bash
 ~/p/arrayfire_rust> cargo run --example helloworld
 ...
-     running 1 test
 Create a 5-by-3 matrix of random floats on the GPU
 [5 3 1 1]
     0.7402     0.4464     0.7762
