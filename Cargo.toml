@@ -14,6 +14,24 @@ exclude = [
     "arrayfire/*",
 ]
 
+[features]
+algorithm = []
+arithmetic = []
+blas = []
+data = []
+indexing = []
+graphics = []
+image = []
+lapack = []
+macros = []
+random = []
+signal = []
+sparse = []
+statistics = []
+vision = []
+default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
+"macros", "random", "signal", "sparse", "statistics", "vision"]
+
 [dependencies]
 libc = "0.2.11"
 num  = "0.1.32"
