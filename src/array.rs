@@ -8,7 +8,6 @@ use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
 use std::ffi::CString;
 
 // Some unused functions from array.h in C-API of ArrayFire
-// af_create_handle
 // af_copy_array
 // af_write_array
 // af_get_data_ref_count
