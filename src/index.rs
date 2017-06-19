@@ -38,17 +38,19 @@ extern {
 /// // that we intend to use for indexing via `Indexer` have to outlive
 /// // the `Indexer` object created in this context.
 ///
-/// let dims   = Dim4::new(&[1, 3, 1, 1]);
-/// let bools  = Array::new(&[1.0f32, 0.0, 1.0], dims);
-/// let values = Array::new(&[2.0f32, 5.0, 6.0], dims);
+/// let dims    = Dim4::new(&[1, 3, 1, 1]);
+/// let indices = [1u8, 0, 1];
+/// let idx     = Array::new(&indices, dims);
+/// let values  = [2.0f32, 5.0, 6.0];
+/// let arr     = Array::new(&values, dims);
 ///
 /// let mut idxr = Indexer::new();
 ///
-/// // `bools` is created much before idxr, thus will
+/// // `idx` is created much before idxr, thus will
 /// // stay in scope at least as long as idxr
-/// idxr.set_index(&bools, 0, None);
+/// idxr.set_index(&idx, 0, None);
 ///
-/// index_gen(&values, idxr);
+/// index_gen(&arr, idxr);
 /// ```
 ///
 /// <h3> Incorrect Usage </h3>
