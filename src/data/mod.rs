@@ -54,7 +54,29 @@ extern {
     fn af_replace_scalar(a: AfArray, cond: AfArray, b: c_double) -> c_int;
 }
 
+/// Type Trait to generate a constant [Array](./struct.Array.html) of given size
+///
+/// Internally, ConstGenerator trait is implemented by following types.
+///
+/// - f32
+/// - f64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - bool
+/// - i32
+/// - u32
+/// - u8
+/// - i64
+/// - u64
+/// - i16
+/// - u16
+///
 pub trait ConstGenerator {
+    /// Create an Array of `dims` size from scalar value `self`.
+    ///
+    /// # Parameters
+    ///
+    /// - `dims` are the dimensions of the output constant [Array](./struct.Array.html)
     fn generate(&self, dims: Dim4) -> Array;
 }
 
