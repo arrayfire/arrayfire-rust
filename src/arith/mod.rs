@@ -195,7 +195,29 @@ binary_func!("Elementwise minimum operation of two Arrays", minof, af_minof);
 binary_func!("Elementwise maximum operation of two Arrays", maxof, af_maxof);
 binary_func!("Compute length of hypotenuse of two Arrays", hypot, af_hypot);
 
+/// Type Trait to convert to an [Array](./struct.Array.html)
+///
+/// Generic functions that overload the binary operations such as add, div, mul, rem, ge etc. are
+/// bound by this trait to allow combinations of scalar values and Array objects as parameters
+/// to those functions.
+///
+/// Internally, Convertable trait is implemented by following types.
+///
+/// - f32
+/// - f64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - bool
+/// - i32
+/// - u32
+/// - u8
+/// - i64
+/// - u64
+/// - i16
+/// - u16
+///
 pub trait Convertable {
+    /// Get an Array from given type
     fn convert(&self) -> Array;
 }
 
