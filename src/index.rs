@@ -80,11 +80,19 @@ pub struct Indexer<'object> {
     marker: PhantomData<&'object ()>,
 }
 
-// Trait that indicates that object can be used for indexing
-//
-// Any object to be able to be passed on to [./struct.Indexer.html#method.set_index] method
-// should implement this trait with appropriate implementation
+/// Trait bound indicating indexability
+///
+/// Any object to be able to be passed on to [Indexer::set_index()](./struct.Indexer.html#method.set_index) method  should implement this trait with appropriate implementation of `set` method.
 pub trait Indexable {
+    /// Set indexing object for a given dimension
+    ///
+    /// # Parameters
+    ///
+    /// - `idxr` is mutable reference to [Indexer](./struct.Indexer.html) object which will
+    ///   be modified to set `self` indexable along `dim` dimension.
+    /// - `dim` is the dimension along which `self` indexable will be used for indexing.
+    /// - `is_batch` is only used if `self` is [Seq](./struct.Seq.html) to indicate if indexing
+    ///   along `dim` is a batched operation.
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>);
 }
 
