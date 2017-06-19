@@ -39,8 +39,8 @@ extern {
 /// // the `Indexer` object created in this context.
 ///
 /// let dims   = Dim4::new(&[1, 3, 1, 1]);
-/// let bools  = Array::new(&[1, 0, 1], dims);
-/// let values = Array::new(&[2, 5, 6], dims);
+/// let bools  = Array::new(&[1.0f32, 0.0, 1.0], dims);
+/// let values = Array::new(&[2.0f32, 5.0, 6.0], dims);
 ///
 /// let mut idxr = Indexer::new();
 ///
