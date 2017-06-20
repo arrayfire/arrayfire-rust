@@ -84,7 +84,7 @@ impl Dim4 {
         }
     }
 
-    // Get the dimensions as a slice of 4 values
+    /// Get the dimensions as a slice of 4 values
     pub fn get(&self) -> &[u64; 4] {
         &self.dims
     }

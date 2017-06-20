@@ -195,7 +195,29 @@ binary_func!("Elementwise minimum operation of two Arrays", minof, af_minof);
 binary_func!("Elementwise maximum operation of two Arrays", maxof, af_maxof);
 binary_func!("Compute length of hypotenuse of two Arrays", hypot, af_hypot);
 
+/// Type Trait to convert to an [Array](./struct.Array.html)
+///
+/// Generic functions that overload the binary operations such as add, div, mul, rem, ge etc. are
+/// bound by this trait to allow combinations of scalar values and Array objects as parameters
+/// to those functions.
+///
+/// Internally, Convertable trait is implemented by following types.
+///
+/// - f32
+/// - f64
+/// - num::Complex\<f32\>
+/// - num::Complex\<f64\>
+/// - bool
+/// - i32
+/// - u32
+/// - u8
+/// - i64
+/// - u64
+/// - i16
+/// - u16
+///
 pub trait Convertable {
+    /// Get an Array from given type
     fn convert(&self) -> Array;
 }
 
@@ -254,6 +276,17 @@ macro_rules! overloaded_binary_func {
         ///# Return Values
         ///
         /// An Array with results of the binary operation.
+        ///
+        /// In the case of comparison operations such as the following, the type of output
+        /// Array is [DType::B8](./enum.DType.html). To retrieve the results of such boolean output
+        /// to host, an array of 8-bit wide types(eg. u8, i8) should be used since ArrayFire's internal
+        /// implementation uses char for boolean.
+        ///
+        /// * [gt](./fn.gt.html)
+        /// * [lt](./fn.lt.html)
+        /// * [ge](./fn.ge.html)
+        /// * [le](./fn.le.html)
+        /// * [eq](./fn.eq.html)
         ///
         ///# Note
         ///
@@ -449,13 +482,14 @@ macro_rules! arith_assign_func {
 
             #[allow(unused_variables)]
             fn $fn_name(&mut self, rhs: Array) {
+                let tmp_seq   = Seq::<f32>::default();
                 let mut idxrs = Indexer::new();
                 for n in 0..self.numdims() {
-                    idxrs.set_index(&Seq::<f32>::default(), n, Some(false));
+                    idxrs.set_index(&tmp_seq, n, Some(false));
                 }
                 let tmp = assign_gen(self as &Array, &idxrs,
                                      & $func(self as &Array, &rhs, false));
-                mem::replace(self, tmp);
+                let old = mem::replace(self, tmp);
             }
         }
     )
@@ -475,11 +509,13 @@ macro_rules! bit_assign_func {
 
             #[allow(unused_variables)]
             fn $fn_name(&mut self, rhs: Array) {
+                let tmp_seq   = Seq::<f32>::default();
                 let mut idxrs = Indexer::new();
-                idxrs.set_index(&Seq::<f32>::default(), 0, Some(false));
-                idxrs.set_index(&Seq::<f32>::default(), 1, Some(false));
+                for n in 0..self.numdims() {
+                    idxrs.set_index(&tmp_seq, n, Some(false));
+                }
                 let tmp = assign_gen(self as &Array, &idxrs, & $func(self as &Array, &rhs, false));
-                mem::replace(self, tmp);
+                let old = mem::replace(self, tmp);
             }
         }
     )

@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate arrayfire as af;
 
 use std::error::Error;
