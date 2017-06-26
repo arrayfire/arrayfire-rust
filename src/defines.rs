@@ -450,3 +450,13 @@ pub enum Scalar {
     /// 16 bit unsigned integer
     U16(u16),
 }
+
+/// Canny edge detector threshold operations types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum CannyThresholdType {
+    /// User has to define canny thresholds manually
+    MANUAL = 0,
+    /// Determine canny algorithm high threshold using Otsu algorithm automatically
+    OTSU = 1,
+}

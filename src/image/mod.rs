@@ -1,7 +1,7 @@
 extern crate libc;
 
 use array::Array;
-use defines::{AfError, BorderType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
+use defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray};
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double, c_char};
@@ -95,6 +95,9 @@ extern {
 
     fn af_moments(out: MutAfArray, input: AfArray, moment: c_int) ->c_int;
     fn af_moments_all(out: *mut c_double, input: AfArray, moment: c_int) ->c_int;
+
+    fn af_canny(out: MutAfArray, input: AfArray, thres_type: c_int, low: c_float, high: c_float,
+                swindow: c_uint, is_fast: c_int) -> c_int;
 }
 
 /// Calculate the gradients
@@ -1212,6 +1215,35 @@ pub fn medfilt1(input: &Array, wlen: u64, etype: BorderType) -> Array {
         let mut temp: i64 = 0;
         let err_val = af_medfilt1(&mut temp as MutAfArray, input.get() as AfArray,
                                   wlen as DimT, etype as uint8_t);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Canny edge detection operator
+///
+/// The Canny edge detector is an edge detection operator that uses a multi-stage algorithm to detect a wide range of edges in images. A more in depth discussion on it can be found [here](https://en.wikipedia.org/wiki/Canny_edge_detector).
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `threshold_type` helps determine if user set high threshold is to be used or not. It can take values defined by the enum [CannyThresholdType](./enum.CannyThresholdType.html)
+/// - `low` is the lower threshold % of the maximum or auto-derived high
+/// - `hight` is the higher threshold % of maximum value in gradient image used in hysteresis procedure. This value is ignored if [CannyThresholdType::OTSU](./enum.CannyThresholdType.html) is chosen.
+/// - `sobel_window` is the window size of sobel kernel for computing gradient direction and magnitude.
+/// - `is_fast` indicates if L<SUB>1</SUB> norm(faster but less accurate) is used to compute image gradient magnitude instead of L<SUB>2</SUB> norm.
+///
+/// # Return Values
+///
+/// An Array of binary type [DType::B8](./enum.DType.html) indicating edges(All pixels with
+/// non-zero values are edges).
+pub fn canny(input: &Array, threshold_type: CannyThresholdType, low: f32, hight: f32,
+             sobel_window: u32, is_fast: bool) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_canny(&mut temp as MutAfArray, input.get() as AfArray,
+                               threshold_type as c_int, low as c_float, hight as c_float,
+                               sobel_window as c_uint, is_fast as c_int);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }
