@@ -58,13 +58,6 @@ struct Config {
     opencl_sdk: String,
 }
 
-macro_rules! t {
-    ($e:expr) => (match $e {
-            Ok(n) => n,
-            Err(e) => fail(&format!("\n{} failed with {}\n", stringify!($e), e)),
-        })
-}
-
 fn fail(s: &str) -> ! {
     panic!("\n{}\n\nbuild script failed, must exit now", s)
 }
