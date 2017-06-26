@@ -4,7 +4,7 @@ use dim4::Dim4;
 use defines::{AfError, DType, Backend};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
-use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
+use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_ulong, c_char};
 use std::ffi::CString;
 
 // Some unused functions from array.h in C-API of ArrayFire
@@ -100,6 +100,8 @@ extern {
     fn af_unlock_array(arr: AfArray) -> c_int;
 
     fn af_get_device_ptr(ptr: MutVoidPtr, arr: AfArray) -> c_int;
+
+    fn af_get_allocated_bytes(result: *mut c_ulong, arr: AfArray) -> c_int;
 }
 
 /// A multidimensional data container
@@ -401,6 +403,19 @@ impl Array {
         unsafe {
             let mut temp: u64 = 0;
             let err_val = af_get_device_ptr(&mut temp as MutVoidPtr, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            temp
+        }
+    }
+
+    /// Get the size of physical allocated bytes.
+    ///
+    /// This function will return the size of the parent/owner if the current Array object is an
+    /// indexed Array.
+    pub fn get_allocated_bytes(&self) -> u64 {
+        unsafe {
+            let mut temp: u64 = 0;
+            let err_val = af_get_allocated_bytes(&mut temp as *mut c_ulong, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
             temp
         }
