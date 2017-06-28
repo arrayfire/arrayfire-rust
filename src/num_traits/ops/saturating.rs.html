@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/ops/saturating.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.39/src/ops/saturating.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>saturating.rs.html -- source</title>
@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -71,35 +71,35 @@
 <span id="26">26</span>
 <span id="27">27</span>
 <span id="28">28</span>
-</pre><pre class='rust '>
-<span class='doccomment'>/// Saturating math operations</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Saturating</span> {
-    <span class='doccomment'>/// Saturating addition operator.</span>
-    <span class='doccomment'>/// Returns a+b, saturating at the numeric bounds instead of overflowing.</span>
-    <span class='kw'>fn</span> <span class='ident'>saturating_add</span>(<span class='self'>self</span>, <span class='ident'>v</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+</pre><pre class="rust ">
+<span class="doccomment">/// Saturating math operations</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Saturating</span> {
+    <span class="doccomment">/// Saturating addition operator.</span>
+    <span class="doccomment">/// Returns a+b, saturating at the numeric bounds instead of overflowing.</span>
+    <span class="kw">fn</span> <span class="ident">saturating_add</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
-    <span class='doccomment'>/// Saturating subtraction operator.</span>
-    <span class='doccomment'>/// Returns a-b, saturating at the numeric bounds instead of overflowing.</span>
-    <span class='kw'>fn</span> <span class='ident'>saturating_sub</span>(<span class='self'>self</span>, <span class='ident'>v</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class="doccomment">/// Saturating subtraction operator.</span>
+    <span class="doccomment">/// Returns a-b, saturating at the numeric bounds instead of overflowing.</span>
+    <span class="kw">fn</span> <span class="ident">saturating_sub</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>saturating_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>trait_name</span>:<span class='ident'>ident</span> <span class='kw'>for</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>)<span class='kw-2'>*</span>) <span class='op'>=&gt;</span> {$(
-        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>trait_name</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>saturating_add</span>(<span class='self'>self</span>, <span class='ident'>v</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                <span class='self'>Self</span>::<span class='ident'>saturating_add</span>(<span class='self'>self</span>, <span class='ident'>v</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">saturating_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">trait_name</span>:<span class="ident">ident</span> <span class="kw">for</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {$(
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">trait_name</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">saturating_add</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+                <span class="self">Self</span>::<span class="ident">saturating_add</span>(<span class="self">self</span>, <span class="ident">v</span>)
             }
 
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>saturating_sub</span>(<span class='self'>self</span>, <span class='ident'>v</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                <span class='self'>Self</span>::<span class='ident'>saturating_sub</span>(<span class='self'>self</span>, <span class='ident'>v</span>)
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">saturating_sub</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+                <span class="self">Self</span>::<span class="ident">saturating_sub</span>(<span class="self">self</span>, <span class="ident">v</span>)
             }
         }
-    )<span class='kw-2'>*</span>}
+    )<span class="kw-2">*</span>}
 }
 
-<span class='macro'>saturating_impl</span><span class='macro'>!</span>(<span class='ident'>Saturating</span> <span class='kw'>for</span> <span class='ident'>isize</span> <span class='ident'>usize</span> <span class='ident'>i8</span> <span class='ident'>u8</span> <span class='ident'>i16</span> <span class='ident'>u16</span> <span class='ident'>i32</span> <span class='ident'>u32</span> <span class='ident'>i64</span> <span class='ident'>u64</span>);
+<span class="macro">saturating_impl</span><span class="macro">!</span>(<span class="ident">Saturating</span> <span class="kw">for</span> <span class="ident">isize</span> <span class="ident">usize</span> <span class="ident">i8</span> <span class="ident">u8</span> <span class="ident">i16</span> <span class="ident">u16</span> <span class="ident">i32</span> <span class="ident">u32</span> <span class="ident">i64</span> <span class="ident">u64</span>);
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

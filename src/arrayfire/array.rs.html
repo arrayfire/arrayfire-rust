@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -594,556 +594,636 @@
 <span id="549">549</span>
 <span id="550">550</span>
 <span id="551">551</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>DType</span>, <span class='ident'>Backend</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>AfArray</span>, <span class='ident'>DimT</span>, <span class='ident'>HasAfEnum</span>, <span class='ident'>MutAfArray</span>, <span class='ident'>MutVoidPtr</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_void</span>, <span class='ident'>c_int</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_longlong</span>, <span class='ident'>c_char</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>;
+<span class="kw">use</span> <span class="ident">dim4</span>::<span class="ident">Dim4</span>;
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">DType</span>, <span class="ident">Backend</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">DimT</span>, <span class="ident">HasAfEnum</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutVoidPtr</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">uint8_t</span>, <span class="ident">c_void</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>, <span class="ident">c_longlong</span>, <span class="ident">c_char</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
 
-<span class='comment'>// Some unused functions from array.h in C-API of ArrayFire</span>
-<span class='comment'>// af_create_handle</span>
-<span class='comment'>// af_copy_array</span>
-<span class='comment'>// af_write_array</span>
-<span class='comment'>// af_get_data_ref_count</span>
+<span class="comment">// Some unused functions from array.h in C-API of ArrayFire</span>
+<span class="comment">// af_copy_array</span>
+<span class="comment">// af_write_array</span>
+<span class="comment">// af_get_data_ref_count</span>
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_create_array</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>data</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>,
-                       <span class='ident'>ndims</span>: <span class='ident'>c_uint</span>, <span class='ident'>dims</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>DimT</span>, <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_create_array</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">data</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>,
+                       <span class="ident">ndims</span>: <span class="ident">c_uint</span>, <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>, <span class="ident">aftype</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_elements</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_create_handle</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">ndims</span>: <span class="ident">c_uint</span>, <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>, <span class="ident">aftype</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_type</span>(<span class='ident'>out</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_elements</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_dims</span>(<span class='ident'>dim0</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span>, <span class='ident'>dim1</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span>, <span class='ident'>dim2</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span>,
-                   <span class='ident'>dim3</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_type</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_numdims</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_uint</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_dims</span>(<span class="ident">dim0</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span>, <span class="ident">dim1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span>, <span class="ident">dim2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span>,
+                   <span class="ident">dim3</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_empty</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_numdims</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_scalar</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_empty</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_row</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_scalar</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_column</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_row</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_vector</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_column</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_complex</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_vector</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_real</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_complex</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_double</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_real</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_single</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_double</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_realfloating</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_single</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_floating</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_realfloating</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_integer</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_floating</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_bool</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_integer</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_data_ptr</span>(<span class='ident'>data</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_bool</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_eval</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_data_ptr</span>(<span class="ident">data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_eval_multiple</span>(<span class='ident'>num</span>: <span class='ident'>c_int</span>, <span class='ident'>arrays</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_eval</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_set_manual_eval_flag</span>(<span class='ident'>flag</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_eval_multiple</span>(<span class="ident">num</span>: <span class="ident">c_int</span>, <span class="ident">arrays</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_manual_eval_flag</span>(<span class='ident'>flag</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_manual_eval_flag</span>(<span class="ident">flag</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_retain_array</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_manual_eval_flag</span>(<span class="ident">flag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_copy_array</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_retain_array</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_release_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_copy_array</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_print_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_release_array</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_print_array_gen</span>(<span class='ident'>exp</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>precision</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_print_array</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_cast</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_print_array_gen</span>(<span class="ident">exp</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">precision</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_backend_id</span>(<span class='ident'>backend</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_cast</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">aftype</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_device_id</span>(<span class='ident'>device</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_backend_id</span>(<span class="ident">backend</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_create_strided_array</span>(<span class='ident'>arr</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>data</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>, <span class='ident'>offset</span>: <span class='ident'>DimT</span>,
-                               <span class='ident'>ndims</span>: <span class='ident'>c_uint</span>, <span class='ident'>dims</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>DimT</span>, <span class='ident'>strides</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>DimT</span>,
-                               <span class='ident'>aftype</span>: <span class='ident'>uint8_t</span>, <span class='ident'>stype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_device_id</span>(<span class="ident">device</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_strides</span>(<span class='ident'>s0</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='ident'>s1</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='ident'>s2</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='ident'>s3</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                      <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_create_strided_array</span>(<span class="ident">arr</span>: <span class="ident">MutAfArray</span>, <span class="ident">data</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>, <span class="ident">offset</span>: <span class="ident">DimT</span>,
+                               <span class="ident">ndims</span>: <span class="ident">c_uint</span>, <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>, <span class="ident">strides</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
+                               <span class="ident">aftype</span>: <span class="ident">uint8_t</span>, <span class="ident">stype</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_offset</span>(<span class='ident'>offset</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_strides</span>(<span class="ident">s0</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="ident">s1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="ident">s2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="ident">s3</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                      <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_linear</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_offset</span>(<span class="ident">offset</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_owner</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_linear</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_is_sparse</span>(<span class='ident'>result</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_owner</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_lock_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_sparse</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_unlock_array</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_lock_array</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_get_device_ptr</span>(<span class='ident'>ptr</span>: <span class='ident'>MutVoidPtr</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_unlock_array</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+
+    <span class="kw">fn</span> <span class="ident">af_get_device_ptr</span>(<span class="ident">ptr</span>: <span class="ident">MutVoidPtr</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+
+    <span class="kw">fn</span> <span class="ident">af_get_allocated_bytes</span>(<span class="ident">result</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">usize</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='doccomment'>/// A multidimensional data container</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Currently, Array objects can store only data until four dimensions</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ### NOTE</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// All operators(traits) from std::ops module implemented for Array object</span>
-<span class='doccomment'>/// carry out element wise operations. For example, `*` does multiplication of</span>
-<span class='doccomment'>/// elements at corresponding locations in two different Arrays.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Array</span> {
-    <span class='ident'>handle</span>: <span class='ident'>i64</span>,
+<span class="doccomment">/// A multidimensional data container</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Currently, Array objects can store only data until four dimensions</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ### NOTE</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// All operators(traits) from std::ops module implemented for Array object</span>
+<span class="doccomment">/// carry out element wise operations. For example, `*` does multiplication of</span>
+<span class="doccomment">/// elements at corresponding locations in two different Arrays.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Array</span> {
+    <span class="ident">handle</span>: <span class="ident">i64</span>,
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>is_func</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_fn</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                <span class='ident'>ret_val</span><span class='op'>&gt;</span><span class='number'>0</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">is_func</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">ret_val</span><span class="op">&gt;</span><span class="number">0</span>
             }
         }
     )
 }
 
-<span class='kw'>impl</span> <span class='ident'>Array</span> {
-    <span class='doccomment'>/// Constructs a new Array object</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// use arrayfire::{Array, Dim4, print};</span>
-    <span class='doccomment'>/// let values: [f32; 3] = [1.0, 2.0, 3.0];</span>
-    <span class='doccomment'>/// let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));</span>
-    <span class='doccomment'>/// print(&amp;indices);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>HasAfEnum</span><span class='op'>&gt;</span>(<span class='ident'>slice</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>], <span class='ident'>dims</span>: <span class='ident'>Dim4</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>aftype</span> <span class='op'>=</span> <span class='ident'>T</span>::<span class='ident'>get_af_dtype</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_create_array</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                          <span class='ident'>slice</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>,
-                                          <span class='ident'>dims</span>.<span class='ident'>ndims</span>() <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                                          <span class='ident'>dims</span>.<span class='ident'>get</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span> <span class='kw'>const</span> <span class='ident'>c_longlong</span>,
-                                          <span class='ident'>aftype</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="kw">impl</span> <span class="ident">Array</span> {
+    <span class="doccomment">/// Constructs a new Array object</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use arrayfire::{Array, Dim4, print};</span>
+    <span class="doccomment">/// let values: [f32; 3] = [1.0, 2.0, 3.0];</span>
+    <span class="doccomment">/// let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));</span>
+    <span class="doccomment">/// print(&amp;indices);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="ident">dims</span>: <span class="ident">Dim4</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">aftype</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_array</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                          <span class="ident">slice</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>,
+                                          <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>,
+                                          <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="op">*</span> <span class="kw">const</span> <span class="ident">c_longlong</span>,
+                                          <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
     }
 
-    <span class='doccomment'>/// Constructs a new Array object from strided data</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_strided</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>HasAfEnum</span><span class='op'>&gt;</span>(<span class='ident'>slice</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>], <span class='ident'>offset</span>: <span class='ident'>i64</span>,
-                                     <span class='ident'>dims</span>: <span class='ident'>Dim4</span>, <span class='ident'>strides</span>: <span class='ident'>Dim4</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>aftype</span> <span class='op'>=</span> <span class='ident'>T</span>::<span class='ident'>get_af_dtype</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_create_strided_array</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                                  <span class='ident'>slice</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>,
-                                                  <span class='ident'>offset</span> <span class='kw'>as</span> <span class='ident'>DimT</span>,
-                                                  <span class='ident'>dims</span>.<span class='ident'>ndims</span>() <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                                                  <span class='ident'>dims</span>.<span class='ident'>get</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span> <span class='kw'>const</span> <span class='ident'>c_longlong</span>,
-                                                  <span class='ident'>strides</span>.<span class='ident'>get</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span> <span class='kw'>const</span> <span class='ident'>c_longlong</span>,
-                                                  <span class='ident'>aftype</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>, <span class='number'>1</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    <span class="doccomment">/// Constructs a new Array object from strided data</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_strided</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="ident">offset</span>: <span class="ident">i64</span>,
+                                     <span class="ident">dims</span>: <span class="ident">Dim4</span>, <span class="ident">strides</span>: <span class="ident">Dim4</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">aftype</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_strided_array</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                                  <span class="ident">slice</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>,
+                                                  <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+                                                  <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>,
+                                                  <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="op">*</span> <span class="kw">const</span> <span class="ident">c_longlong</span>,
+                                                  <span class="ident">strides</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="op">*</span> <span class="kw">const</span> <span class="ident">c_longlong</span>,
+                                                  <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">uint8_t</span>, <span class="number">1</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
     }
 
-    <span class='doccomment'>/// Returns the backend of the Array</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Return Values</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Returns an value of type `Backend` which indicates which backend</span>
-    <span class='doccomment'>/// was active when Array was created.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_backend</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Backend</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_backend_id</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='kw'>match</span> (<span class='ident'>err_val</span>, <span class='ident'>ret_val</span>) {
-                (<span class='number'>0</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>CPU</span>,
-                (<span class='number'>0</span>, <span class='number'>2</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>CUDA</span>,
-                (<span class='number'>0</span>, <span class='number'>3</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>OPENCL</span>,
-                _      <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>DEFAULT</span>,
+    <span class="doccomment">/// Constructs a new Array object of specified dimensions and type</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use arrayfire::{Array, Dim4, DType};</span>
+    <span class="doccomment">/// let garbageVals = Array::new_empty(Dim4::new(&amp;[3, 1, 1, 1]), DType::F32);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_empty</span>(<span class="ident">dims</span>: <span class="ident">Dim4</span>, <span class="ident">aftype</span>: <span class="ident">DType</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_handle</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                           <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>,
+                                           <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="op">*</span> <span class="kw">const</span> <span class="ident">c_longlong</span>,
+                                           <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
+        }
+    }
+
+    <span class="doccomment">/// Returns the backend of the Array</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Return Values</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an value of type `Backend` which indicates which backend</span>
+    <span class="doccomment">/// was active when Array was created.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_backend</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Backend</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_backend_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="kw">match</span> (<span class="ident">err_val</span>, <span class="ident">ret_val</span>) {
+                (<span class="number">0</span>, <span class="number">1</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">CPU</span>,
+                (<span class="number">0</span>, <span class="number">2</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">CUDA</span>,
+                (<span class="number">0</span>, <span class="number">3</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">OPENCL</span>,
+                _      <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">DEFAULT</span>,
             }
         }
     }
 
-    <span class='doccomment'>/// Returns the device identifier(integer) on which the Array was created</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Return Values</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Return the device id on which Array was created.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_device_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device_id</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>ret_val</span>
+    <span class="doccomment">/// Returns the device identifier(integer) on which the Array was created</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Return Values</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Return the device id on which Array was created.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_device_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">ret_val</span>
         }
     }
 
-    <span class='doccomment'>/// Returns the number of elements in the Array</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>elements</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i64</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_elements</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>ret_val</span>
+    <span class="doccomment">/// Returns the number of elements in the Array</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_elements</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">ret_val</span> <span class="kw">as</span> <span class="ident">usize</span>
         }
     }
 
-    <span class='doccomment'>/// Returns the Array data type</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_type</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DType</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_type</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>DType</span>::<span class='ident'>from</span>(<span class='ident'>ret_val</span>)
+    <span class="doccomment">/// Returns the Array data type</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DType</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">DType</span>::<span class="ident">from</span>(<span class="ident">ret_val</span>)
         }
     }
 
-    <span class='doccomment'>/// Returns the dimensions of the Array</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dims</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Dim4</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret0</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret1</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret2</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret3</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_dims</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret0</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret1</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                                      <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret2</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret3</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                                      <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>ret0</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret1</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret2</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret3</span> <span class='kw'>as</span> <span class='ident'>u64</span>])
+    <span class="doccomment">/// Returns the dimensions of the Array</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dims</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Dim4</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret0</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret1</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret2</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret3</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_dims</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret1</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                                      <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret2</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret3</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                                      <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Dim4</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="ident">ret0</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret1</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret2</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret3</span> <span class="kw">as</span> <span class="ident">u64</span>])
         }
     }
 
-    <span class='doccomment'>/// Returns the strides of the Array</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>strides</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Dim4</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret0</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret1</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret2</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret3</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_strides</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret0</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret1</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret2</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret3</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                                         <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Dim4</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>ret0</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret1</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret2</span> <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='ident'>ret3</span> <span class='kw'>as</span> <span class='ident'>u64</span>])
+    <span class="doccomment">/// Returns the strides of the Array</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">strides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Dim4</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret0</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret1</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret2</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret3</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_strides</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret1</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret2</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret3</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                                         <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Dim4</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="ident">ret0</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret1</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret2</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">ret3</span> <span class="kw">as</span> <span class="ident">u64</span>])
         }
     }
 
-    <span class='doccomment'>/// Returns the number of dimensions of the Array</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>numdims</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_numdims</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_uint</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>ret_val</span>
+    <span class="doccomment">/// Returns the number of dimensions of the Array</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">numdims</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_numdims</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">ret_val</span>
         }
     }
 
-    <span class='doccomment'>/// Returns the offset to the pointer from where data begins</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>offset</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i64</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_offset</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>ret_val</span>
+    <span class="doccomment">/// Returns the offset to the pointer from where data begins</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offset</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_offset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">ret_val</span>
         }
     }
 
-    <span class='doccomment'>/// Returns the native FFI handle for Rust object `Array`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i64</span> {
-        <span class='self'>self</span>.<span class='ident'>handle</span>
+    <span class="doccomment">/// Returns the native FFI handle for Rust object `Array`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+        <span class="self">self</span>.<span class="ident">handle</span>
     }
 
-    <span class='doccomment'>/// Copies the data from the Array to the mutable slice `data`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>host</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>T</span>]) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_data_ptr</span>(<span class='ident'>data</span>.<span class='ident'>as_mut_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+    <span class="doccomment">/// Copies the data from the Array to the mutable slice `data`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]) {
+        <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="self">self</span>.<span class="ident">elements</span>() {
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">ERR_SIZE</span>);
+        }
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_data_ptr</span>(<span class="ident">data</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
 
-    <span class='doccomment'>/// Evaluates any pending lazy expressions that represent the data in the Array object</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>eval</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_eval</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+    <span class="doccomment">/// Evaluates any pending lazy expressions that represent the data in the Array object</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_eval</span>(<span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
 
-    <span class='doccomment'>/// Makes an copy of the Array</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This does a deep copy of the data into a new Array</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>copy</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_copy_array</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    <span class="doccomment">/// Makes an copy of the Array</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This does a deep copy of the data into a new Array</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">copy</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_copy_array</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
     }
 
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is empty&quot;</span>, <span class='ident'>is_empty</span>, <span class='ident'>af_is_empty</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is scalar&quot;</span>, <span class='ident'>is_scalar</span>, <span class='ident'>af_is_scalar</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is a row&quot;</span>, <span class='ident'>is_row</span>, <span class='ident'>af_is_row</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is a column&quot;</span>, <span class='ident'>is_column</span>, <span class='ident'>af_is_column</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is a vector&quot;</span>, <span class='ident'>is_vector</span>, <span class='ident'>af_is_vector</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is of complex type&quot;</span>, <span class='ident'>is_complex</span>, <span class='ident'>af_is_complex</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array&#39;s numerical type is of double precision&quot;</span>, <span class='ident'>is_double</span>, <span class='ident'>af_is_double</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array&#39;s numerical type is of single precision&quot;</span>, <span class='ident'>is_single</span>, <span class='ident'>af_is_single</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is of real type&quot;</span>, <span class='ident'>is_real</span>, <span class='ident'>af_is_real</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is of single precision&quot;</span>, <span class='ident'>is_floating</span>, <span class='ident'>af_is_floating</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is of integral type&quot;</span>, <span class='ident'>is_integer</span>, <span class='ident'>af_is_integer</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array is of boolean type&quot;</span>, <span class='ident'>is_bool</span>, <span class='ident'>af_is_bool</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array&#39;s memory layout is continuous and one dimensional&quot;</span>, <span class='ident'>is_linear</span>, <span class='ident'>af_is_linear</span>);
-    <span class='macro'>is_func</span><span class='macro'>!</span>(<span class='string'>&quot;Check if Array&#39;s memory is owned by it and not a view of another Array&quot;</span>, <span class='ident'>is_owner</span>, <span class='ident'>af_is_owner</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is empty&quot;</span>, <span class="ident">is_empty</span>, <span class="ident">af_is_empty</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is scalar&quot;</span>, <span class="ident">is_scalar</span>, <span class="ident">af_is_scalar</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is a row&quot;</span>, <span class="ident">is_row</span>, <span class="ident">af_is_row</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is a column&quot;</span>, <span class="ident">is_column</span>, <span class="ident">af_is_column</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is a vector&quot;</span>, <span class="ident">is_vector</span>, <span class="ident">af_is_vector</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is of complex type&quot;</span>, <span class="ident">is_complex</span>, <span class="ident">af_is_complex</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array&#39;s numerical type is of double precision&quot;</span>, <span class="ident">is_double</span>, <span class="ident">af_is_double</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array&#39;s numerical type is of single precision&quot;</span>, <span class="ident">is_single</span>, <span class="ident">af_is_single</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is of real type&quot;</span>, <span class="ident">is_real</span>, <span class="ident">af_is_real</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is of single precision&quot;</span>, <span class="ident">is_floating</span>, <span class="ident">af_is_floating</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is of integral type&quot;</span>, <span class="ident">is_integer</span>, <span class="ident">af_is_integer</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array is of boolean type&quot;</span>, <span class="ident">is_bool</span>, <span class="ident">af_is_bool</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array&#39;s memory layout is continuous and one dimensional&quot;</span>, <span class="ident">is_linear</span>, <span class="ident">af_is_linear</span>);
+    <span class="macro">is_func</span><span class="macro">!</span>(<span class="string">&quot;Check if Array&#39;s memory is owned by it and not a view of another Array&quot;</span>, <span class="ident">is_owner</span>, <span class="ident">af_is_owner</span>);
 
-    <span class='doccomment'>/// Cast the Array data type to `target_type`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cast</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>HasAfEnum</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>trgt_type</span> <span class='op'>=</span> <span class='ident'>T</span>::<span class='ident'>get_af_dtype</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_cast</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>trgt_type</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+    <span class="doccomment">/// Cast the Array data type to `target_type`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cast</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">trgt_type</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_cast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">trgt_type</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
     }
 
-    <span class='doccomment'>/// Find if the current array is sparse</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_sparse</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_is_sparse</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>temp</span> <span class='op'>&gt;</span> <span class='number'>0</span>
+    <span class="doccomment">/// Find if the current array is sparse</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_sparse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_is_sparse</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">temp</span> <span class="op">&gt;</span> <span class="number">0</span>
         }
     }
 
-    <span class='doccomment'>/// Lock the device buffer in the memory manager</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Locked buffers are not freed by memory manager until unlock is called.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_lock_array</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+    <span class="doccomment">/// Lock the device buffer in the memory manager</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Locked buffers are not freed by memory manager until unlock is called.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_lock_array</span>(<span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
 
-    <span class='doccomment'>/// Unlock the device buffer in the memory manager</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This function will give back the control over the device pointer to the</span>
-    <span class='doccomment'>/// memory manager.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unlock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_unlock_array</span>(<span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+    <span class="doccomment">/// Unlock the device buffer in the memory manager</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function will give back the control over the device pointer to the</span>
+    <span class="doccomment">/// memory manager.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unlock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_unlock_array</span>(<span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
 
-    <span class='doccomment'>/// Get the device pointer and lock the buffer in memory manager</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The device pointer is not freed by memory manager until unlock is called.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device_ptr</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutVoidPtr</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>temp</span>
+    <span class="doccomment">/// Get the device pointer and lock the buffer in memory manager</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The device pointer is not freed by memory manager until unlock is called.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device_ptr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutVoidPtr</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">temp</span>
+        }
+    }
+
+    <span class="doccomment">/// Get the size of physical allocated bytes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function will return the size of the parent/owner if the current Array object is an</span>
+    <span class="doccomment">/// indexed Array.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_allocated_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_allocated_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">usize</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">temp</span>
         }
     }
 }
 
-<span class='doccomment'>/// Used for creating Array object from native resource id</span>
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Array</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>t</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='ident'>Array</span> {<span class='ident'>handle</span>: <span class='ident'>t</span>}
+<span class="doccomment">/// Used for creating Array object from native resource id</span>
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">t</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="ident">Array</span> {<span class="ident">handle</span>: <span class="ident">t</span>}
     }
 }
 
-<span class='doccomment'>/// Returns a new Array object after incrementing the reference count of native resource</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Cloning an Array does not do a deep copy of the underlying array data. It increments the</span>
-<span class='doccomment'>/// reference count of native resource and returns you the new reference in the form a new Array</span>
-<span class='doccomment'>/// object.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// To create a deep copy use</span>
-<span class='doccomment'>/// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)</span>
-<span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Array</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>ret_val</span> <span class='op'>=</span> <span class='ident'>af_retain_array</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>handle</span> <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-            <span class='kw'>match</span> <span class='ident'>ret_val</span> {
-                <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='ident'>Array</span> {<span class='ident'>handle</span>: <span class='ident'>temp</span>},
-                _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Weak copy of Array failed with error code: {}&quot;</span>, <span class='ident'>ret_val</span>),
+<span class="doccomment">/// Returns a new Array object after incrementing the reference count of native resource</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Cloning an Array does not do a deep copy of the underlying array data. It increments the</span>
+<span class="doccomment">/// reference count of native resource and returns you the new reference in the form a new Array</span>
+<span class="doccomment">/// object.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To create a deep copy use</span>
+<span class="doccomment">/// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)</span>
+<span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Array</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">ret_val</span> <span class="op">=</span> <span class="ident">af_retain_array</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="kw">match</span> <span class="ident">ret_val</span> {
+                <span class="number">0</span> <span class="op">=&gt;</span> <span class="ident">Array</span> {<span class="ident">handle</span>: <span class="ident">temp</span>},
+                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Weak copy of Array failed with error code: {}&quot;</span>, <span class="ident">ret_val</span>),
             }
         }
     }
 }
 
-<span class='doccomment'>/// To free resources when Array goes out of scope</span>
-<span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Array</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>ret_val</span> <span class='op'>=</span> <span class='ident'>af_release_array</span>(<span class='self'>self</span>.<span class='ident'>handle</span>);
-            <span class='kw'>match</span> <span class='ident'>ret_val</span> {
-                <span class='number'>0</span> <span class='op'>=&gt;</span> (),
-                _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Weak copy of Array failed with error code: {}&quot;</span>, <span class='ident'>ret_val</span>),
+<span class="doccomment">/// To free resources when Array goes out of scope</span>
+<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Array</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ret_val</span> <span class="op">=</span> <span class="ident">af_release_array</span>(<span class="self">self</span>.<span class="ident">handle</span>);
+            <span class="kw">match</span> <span class="ident">ret_val</span> {
+                <span class="number">0</span> <span class="op">=&gt;</span> (),
+                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Weak copy of Array failed with error code: {}&quot;</span>, <span class="ident">ret_val</span>),
             }
         }
     }
 }
 
-<span class='doccomment'>/// Print data in the Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the Array to be printed</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// use arrayfire::{Dim4, print, randu};</span>
-<span class='doccomment'>/// println!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;);</span>
-<span class='doccomment'>/// let dims = Dim4::new(&amp;[5, 3, 1, 1]);</span>
-<span class='doccomment'>/// let a = randu::&lt;f32&gt;(dims);</span>
-<span class='doccomment'>/// print(&amp;a);</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The sample output will look like below:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```text</span>
-<span class='doccomment'>/// [5 3 1 1]</span>
-<span class='doccomment'>///     0.7402     0.4464     0.7762</span>
-<span class='doccomment'>///     0.9210     0.6673     0.2948</span>
-<span class='doccomment'>///     0.0390     0.1099     0.7140</span>
-<span class='doccomment'>///     0.9690     0.4702     0.3585</span>
-<span class='doccomment'>///     0.9251     0.5132     0.6814</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>print</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) {
-    <span class='kw'>let</span> <span class='ident'>emptystring</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>();
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_print_array_gen</span>(<span class='ident'>emptystring</span>.<span class='ident'>to_bytes_with_nul</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
-                                         <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='number'>4</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Print data in the Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the Array to be printed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// use arrayfire::{Dim4, print, randu};</span>
+<span class="doccomment">/// println!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;);</span>
+<span class="doccomment">/// let dims = Dim4::new(&amp;[5, 3, 1, 1]);</span>
+<span class="doccomment">/// let a = randu::&lt;f32&gt;(dims);</span>
+<span class="doccomment">/// print(&amp;a);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The sample output will look like below:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// [5 3 1 1]</span>
+<span class="doccomment">///     0.7402     0.4464     0.7762</span>
+<span class="doccomment">///     0.9210     0.6673     0.2948</span>
+<span class="doccomment">///     0.0390     0.1099     0.7140</span>
+<span class="doccomment">///     0.9690     0.4702     0.3585</span>
+<span class="doccomment">///     0.9251     0.5132     0.6814</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) {
+    <span class="kw">let</span> <span class="ident">emptystring</span> <span class="op">=</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_print_array_gen</span>(<span class="ident">emptystring</span>.<span class="ident">to_bytes_with_nul</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
+                                         <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="number">4</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Generalized Array print function</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Use this function to print Array data with arbitrary preicsion</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `msg` is message to be printed before printing the Array data</span>
-<span class='doccomment'>/// - `input` is the Array to be printed</span>
-<span class='doccomment'>/// - `precision` is data precision with which Array has to be printed</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// use arrayfire::{Dim4, print_gen, randu};</span>
-<span class='doccomment'>/// println!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;);</span>
-<span class='doccomment'>/// let dims = Dim4::new(&amp;[5, 3, 1, 1]);</span>
-<span class='doccomment'>/// let a = randu::&lt;f32&gt;(dims);</span>
-<span class='doccomment'>/// print_gen(String::from(&quot;Random Array&quot;), &amp;a, Some(6));</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The sample output will look like below:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```text</span>
-<span class='doccomment'>/// Random Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// [5 3 1 1]</span>
-<span class='doccomment'>///     0.740276     0.446440     0.776202</span>
-<span class='doccomment'>///     0.921094     0.667321     0.294810</span>
-<span class='doccomment'>///     0.039014     0.109939     0.714090</span>
-<span class='doccomment'>///     0.969058     0.470269     0.358590</span>
-<span class='doccomment'>///     0.925181     0.513225     0.681451</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>print_gen</span>(<span class='ident'>msg</span>: <span class='ident'>String</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>precision</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) {
-    <span class='kw'>let</span> <span class='ident'>emptystring</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>msg</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>unwrap</span>();
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_print_array_gen</span>(<span class='ident'>emptystring</span>.<span class='ident'>to_bytes_with_nul</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
-                                         <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                         <span class='kw'>match</span> <span class='ident'>precision</span> {<span class='prelude-val'>Some</span>(<span class='ident'>p</span>)<span class='op'>=&gt;</span><span class='ident'>p</span>, <span class='prelude-val'>None</span><span class='op'>=&gt;</span><span class='number'>4</span>} <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Generalized Array print function</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use this function to print Array data with arbitrary preicsion</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `msg` is message to be printed before printing the Array data</span>
+<span class="doccomment">/// - `input` is the Array to be printed</span>
+<span class="doccomment">/// - `precision` is data precision with which Array has to be printed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// use arrayfire::{Dim4, print_gen, randu};</span>
+<span class="doccomment">/// println!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;);</span>
+<span class="doccomment">/// let dims = Dim4::new(&amp;[5, 3, 1, 1]);</span>
+<span class="doccomment">/// let a = randu::&lt;f32&gt;(dims);</span>
+<span class="doccomment">/// print_gen(String::from(&quot;Random Array&quot;), &amp;a, Some(6));</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The sample output will look like below:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// Random Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [5 3 1 1]</span>
+<span class="doccomment">///     0.740276     0.446440     0.776202</span>
+<span class="doccomment">///     0.921094     0.667321     0.294810</span>
+<span class="doccomment">///     0.039014     0.109939     0.714090</span>
+<span class="doccomment">///     0.969058     0.470269     0.358590</span>
+<span class="doccomment">///     0.925181     0.513225     0.681451</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print_gen</span>(<span class="ident">msg</span>: <span class="ident">String</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">precision</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>) {
+    <span class="kw">let</span> <span class="ident">emptystring</span> <span class="op">=</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="ident">msg</span>.<span class="ident">as_bytes</span>()).<span class="ident">unwrap</span>();
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_print_array_gen</span>(<span class="ident">emptystring</span>.<span class="ident">to_bytes_with_nul</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
+                                         <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                         <span class="kw">match</span> <span class="ident">precision</span> {<span class="prelude-val">Some</span>(<span class="ident">p</span>)<span class="op">=&gt;</span><span class="ident">p</span>, <span class="prelude-val">None</span><span class="op">=&gt;</span><span class="number">4</span>} <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// evaluate multiple arrays</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Use this function to evaluate multiple arrays in single call</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `inputs` are the list of arrays to be evaluated</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>eval_multiple</span>(<span class='ident'>inputs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Array</span><span class='op'>&gt;</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='ident'>inputs</span> {
-            <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>i</span>.<span class='ident'>get</span>());
+<span class="doccomment">/// evaluate multiple arrays</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use this function to evaluate multiple arrays in single call</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `inputs` are the list of arrays to be evaluated</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">eval_multiple</span>(<span class="ident">inputs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&gt;</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">inputs</span> {
+            <span class="ident">v</span>.<span class="ident">push</span>(<span class="ident">i</span>.<span class="ident">get</span>());
         }
 
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_eval_multiple</span>(<span class='ident'>v</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>v</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>AfArray</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_eval_multiple</span>(<span class="ident">v</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">v</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">AfArray</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Set eval flag value</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function can be used to toggle on/off the manual evaluation of arrays.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `flag` is a boolean value indicating manual evaluation setting</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_manual_eval</span>(<span class='ident'>flag</span>: <span class='ident'>bool</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_manual_eval_flag</span>(<span class='ident'>flag</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Set eval flag value</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function can be used to toggle on/off the manual evaluation of arrays.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `flag` is a boolean value indicating manual evaluation setting</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_manual_eval</span>(<span class="ident">flag</span>: <span class="ident">bool</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_manual_eval_flag</span>(<span class="ident">flag</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Get eval flag value</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function can be used to find out if manual evaluation of arrays is</span>
-<span class='doccomment'>/// turned on or off.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A boolean indicating manual evaluation setting.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_eval_manual</span>() <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret_val</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_manual_eval_flag</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ret_val</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>ret_val</span> <span class='op'>&gt;</span> <span class='number'>0</span>
+<span class="doccomment">/// Get eval flag value</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function can be used to find out if manual evaluation of arrays is</span>
+<span class="doccomment">/// turned on or off.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A boolean indicating manual evaluation setting.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_eval_manual</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret_val</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_manual_eval_flag</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ret_val</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">ret_val</span> <span class="op">&gt;</span> <span class="number">0</span>
     }
 }
 </pre>

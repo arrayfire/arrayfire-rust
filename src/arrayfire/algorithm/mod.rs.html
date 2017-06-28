@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -958,74 +958,74 @@
 <span id="913">913</span>
 <span id="914">914</span>
 <span id="915">915</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>BinaryOp</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_int</span>, <span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_double</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>AfArray</span>, <span class='ident'>MutAfArray</span>, <span class='ident'>MutDouble</span>, <span class='ident'>MutUint</span>};
+<span class="kw">use</span> <span class="ident">array</span>::<span class="ident">Array</span>;
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">BinaryOp</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">uint8_t</span>, <span class="ident">c_uint</span>, <span class="ident">c_double</span>};
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutDouble</span>, <span class="ident">MutUint</span>};
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_sum</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sum_nan</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>, <span class='ident'>nanval</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_product</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_product_nan</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>, <span class='ident'>val</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_min</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_max</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_all_true</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_any_true</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_count</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sum_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sum_nan_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>val</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_product_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_product_nan_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>val</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_min_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_max_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_all_true_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_any_true_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_count_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_imin</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>idx</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_imax</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>idx</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_imin_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>idx</span>: <span class='ident'>MutUint</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_imax_all</span>(<span class='ident'>r</span>: <span class='ident'>MutDouble</span>, <span class='ident'>i</span>: <span class='ident'>MutDouble</span>, <span class='ident'>idx</span>: <span class='ident'>MutUint</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_accum</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_where</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_diff1</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_diff2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sort</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_uint</span>, <span class='ident'>ascend</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sort_index</span>(<span class='ident'>o</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>i</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>d</span>: <span class='ident'>c_uint</span>, <span class='ident'>a</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_unique</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>is_sorted</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_union</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>first</span>: <span class='ident'>AfArray</span>, <span class='ident'>second</span>: <span class='ident'>AfArray</span>, <span class='ident'>is_unq</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_intersect</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>one</span>: <span class='ident'>AfArray</span>, <span class='ident'>two</span>: <span class='ident'>AfArray</span>, <span class='ident'>is_unq</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_sum</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sum_nan</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>, <span class="ident">nanval</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_product</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_product_nan</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>, <span class="ident">val</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_min</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_max</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_all_true</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_any_true</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_count</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sum_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sum_nan_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">val</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_product_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_product_nan_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">val</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_min_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_max_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_all_true_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_any_true_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_count_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_imin</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">idx</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_imax</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">idx</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_imin_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">idx</span>: <span class="ident">MutUint</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_imax_all</span>(<span class="ident">r</span>: <span class="ident">MutDouble</span>, <span class="ident">i</span>: <span class="ident">MutDouble</span>, <span class="ident">idx</span>: <span class="ident">MutUint</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_accum</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_where</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_diff1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_diff2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sort</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_uint</span>, <span class="ident">ascend</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sort_index</span>(<span class="ident">o</span>: <span class="ident">MutAfArray</span>, <span class="ident">i</span>: <span class="ident">MutAfArray</span>, <span class="ident">inp</span>: <span class="ident">AfArray</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>, <span class="ident">a</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_unique</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">is_sorted</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_union</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">first</span>: <span class="ident">AfArray</span>, <span class="ident">second</span>: <span class="ident">AfArray</span>, <span class="ident">is_unq</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_intersect</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">one</span>: <span class="ident">AfArray</span>, <span class="ident">two</span>: <span class="ident">AfArray</span>, <span class="ident">is_unq</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_sort_by_key</span>(<span class='ident'>out_keys</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>out_vals</span>: <span class='ident'>MutAfArray</span>,
-                      <span class='ident'>in_keys</span>: <span class='ident'>AfArray</span>, <span class='ident'>in_vals</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_uint</span>, <span class='ident'>ascend</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sort_by_key</span>(<span class="ident">out_keys</span>: <span class="ident">MutAfArray</span>, <span class="ident">out_vals</span>: <span class="ident">MutAfArray</span>,
+                      <span class="ident">in_keys</span>: <span class="ident">AfArray</span>, <span class="ident">in_vals</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_uint</span>, <span class="ident">ascend</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_scan</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>dim</span>: <span class='ident'>c_int</span>, <span class='ident'>op</span>: <span class='ident'>uint8_t</span>, <span class='ident'>inclusive</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_scan_by_key</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>key</span>: <span class='ident'>AfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>,
-                      <span class='ident'>dim</span>: <span class='ident'>c_int</span>, <span class='ident'>op</span>: <span class='ident'>uint8_t</span>, <span class='ident'>inclusive</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_scan</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">inp</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">c_int</span>, <span class="ident">op</span>: <span class="ident">uint8_t</span>, <span class="ident">inclusive</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_scan_by_key</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">key</span>: <span class="ident">AfArray</span>, <span class="ident">inp</span>: <span class="ident">AfArray</span>,
+                      <span class="ident">dim</span>: <span class="ident">c_int</span>, <span class="ident">op</span>: <span class="ident">uint8_t</span>, <span class="ident">inclusive</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>dim_reduce_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                        <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">dim_reduce_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                        <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
         }
     )
 }
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Sum elements along a given dimension
 
     # Parameters
@@ -1050,9 +1050,9 @@
     print(&amp;c);
     ```
     &quot;</span>,
-    <span class='ident'>sum</span>, <span class='ident'>af_sum</span>);
+    <span class="ident">sum</span>, <span class="ident">af_sum</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Compute product of elements along a given dimension
 
     # Parameters
@@ -1076,9 +1076,9 @@
     let c = product(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>product</span>, <span class='ident'>af_product</span>);
+    &quot;</span>, <span class="ident">product</span>, <span class="ident">af_product</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find minimum among elements of given dimension
 
     # Parameters
@@ -1102,9 +1102,9 @@
     let c = min(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>min</span>, <span class='ident'>af_min</span>);
+    &quot;</span>, <span class="ident">min</span>, <span class="ident">af_min</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find maximum among elements of given dimension
 
     # Parameters
@@ -1128,9 +1128,9 @@
     let c = max(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>max</span>, <span class='ident'>af_max</span>);
+    &quot;</span>, <span class="ident">max</span>, <span class="ident">af_max</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find if all of the values along a given dimension in the Array are true
 
     # Parameters
@@ -1154,9 +1154,9 @@
     let c = all_true(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>all_true</span>, <span class='ident'>af_all_true</span>);
+    &quot;</span>, <span class="ident">all_true</span>, <span class="ident">af_all_true</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find if any of the values along a given dimension in the Array are true
 
     # Parameters
@@ -1180,9 +1180,9 @@
     let c = any_true(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>any_true</span>, <span class='ident'>af_any_true</span>);
+    &quot;</span>, <span class="ident">any_true</span>, <span class="ident">af_any_true</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Count number of non-zero elements along a given dimension
 
     # Parameters
@@ -1207,9 +1207,9 @@
     let c = count(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>count</span>, <span class='ident'>af_count</span>);
+    &quot;</span>, <span class="ident">count</span>, <span class="ident">af_count</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Perform exclusive sum of elements along a given dimension
 
     # Parameters
@@ -1233,9 +1233,9 @@
     let c = accum(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>accum</span>, <span class='ident'>af_accum</span>);
+    &quot;</span>, <span class="ident">accum</span>, <span class="ident">af_accum</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Calculate first order numerical difference along a given dimension
 
     # Parameters
@@ -1259,9 +1259,9 @@
     let c = diff1(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>diff1</span>, <span class='ident'>af_diff1</span>);
+    &quot;</span>, <span class="ident">diff1</span>, <span class="ident">af_diff1</span>);
 
-<span class='macro'>dim_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Calculate second order numerical difference along a given dimension
 
     # Parameters
@@ -1285,73 +1285,73 @@
     let c = diff2(&amp;a, 1);
     print(&amp;c);
     ```
-    &quot;</span>, <span class='ident'>diff2</span>, <span class='ident'>af_diff2</span>);
+    &quot;</span>, <span class="ident">diff2</span>, <span class="ident">af_diff2</span>);
 
-<span class='doccomment'>/// Sum along specific dimension using user specified value instead of `NAN` values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sum values of the `input` Array along `dim` dimension after replacing any `NAN` values in the</span>
-<span class='doccomment'>/// Array with the value of the parameter `nanval`.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `dim` is reduction dimension</span>
-<span class='doccomment'>/// - `nanval` is value with which all the `NAN` values of Array are replaced with</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Array that is reduced along given dimension via addition operation</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sum_nan</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>, <span class='ident'>nanval</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sum_nan</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>nanval</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Sum along specific dimension using user specified value instead of `NAN` values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sum values of the `input` Array along `dim` dimension after replacing any `NAN` values in the</span>
+<span class="doccomment">/// Array with the value of the parameter `nanval`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `dim` is reduction dimension</span>
+<span class="doccomment">/// - `nanval` is value with which all the `NAN` values of Array are replaced with</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Array that is reduced along given dimension via addition operation</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sum_nan</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>, <span class="ident">nanval</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sum_nan</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">nanval</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Product of elements along specific dimension using user specified value instead of `NAN` values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Compute product of the values of the `input` Array along `dim` dimension after replacing any `NAN` values in the Array with `nanval` value.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `dim` is reduction dimension</span>
-<span class='doccomment'>/// - `nanval` is value with which all the `NAN` values of Array are replaced with</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Array that is reduced along given dimension via multiplication operation</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>product_nan</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>, <span class='ident'>nanval</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_product_nan</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                     <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>nanval</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Product of elements along specific dimension using user specified value instead of `NAN` values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Compute product of the values of the `input` Array along `dim` dimension after replacing any `NAN` values in the Array with `nanval` value.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `dim` is reduction dimension</span>
+<span class="doccomment">/// - `nanval` is value with which all the `NAN` values of Array are replaced with</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Array that is reduced along given dimension via multiplication operation</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">product_nan</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>, <span class="ident">nanval</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_product_nan</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                     <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">nanval</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>all_reduce_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> (<span class='ident'>f64</span>, <span class='ident'>f64</span>) {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>imag</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>real</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>imag</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>,
-                                        <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                (<span class='ident'>real</span>, <span class='ident'>imag</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">all_reduce_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>) {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
+                                        <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                (<span class="ident">real</span>, <span class="ident">imag</span>)
             }
         }
     )
 }
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Sum all values of the Array
 
     # Parameters
@@ -1373,9 +1373,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, sum_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>sum_all</span>, <span class='ident'>af_sum_all</span>);
+    &quot;</span>, <span class="ident">sum_all</span>, <span class="ident">af_sum_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Product of all values of the Array
 
     # Parameters
@@ -1397,9 +1397,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, product_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>product_all</span>, <span class='ident'>af_product_all</span>);
+    &quot;</span>, <span class="ident">product_all</span>, <span class="ident">af_product_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find minimum among all values of the Array
 
     # Parameters
@@ -1421,9 +1421,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, min_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>min_all</span>, <span class='ident'>af_min_all</span>);
+    &quot;</span>, <span class="ident">min_all</span>, <span class="ident">af_min_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find maximum among all values of the Array
 
     # Parameters
@@ -1445,9 +1445,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, max_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>max_all</span>, <span class='ident'>af_max_all</span>);
+    &quot;</span>, <span class="ident">max_all</span>, <span class="ident">af_max_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find if all values of Array are non-zero
 
     # Parameters
@@ -1467,9 +1467,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, all_true_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>all_true_all</span>, <span class='ident'>af_all_true_all</span>);
+    &quot;</span>, <span class="ident">all_true_all</span>, <span class="ident">af_all_true_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find if any value of Array is non-zero
 
     # Parameters
@@ -1489,9 +1489,9 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, any_true_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>any_true_all</span>, <span class='ident'>af_any_true_all</span>);
+    &quot;</span>, <span class="ident">any_true_all</span>, <span class="ident">af_any_true_all</span>);
 
-<span class='macro'>all_reduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_reduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Count number of non-zero values in the Array
 
     # Parameters
@@ -1511,78 +1511,78 @@
     print(&amp;a);
     println!(\&quot;Result : {:?}\&quot;, count_all(&amp;a));
     ```
-    &quot;</span>, <span class='ident'>count_all</span>, <span class='ident'>af_count_all</span>);
+    &quot;</span>, <span class="ident">count_all</span>, <span class="ident">af_count_all</span>);
 
-<span class='doccomment'>/// Sum all values using user provided value for `NAN`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sum all the values of the `input` Array after replacing any `NAN` values with `val`.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is</span>
-<span class='doccomment'>/// performed.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A tuple of summation result.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Note: For non-complex data type Arrays, second value of tuple is zero.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sum_nan_all</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>val</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> (<span class='ident'>f64</span>, <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>imag</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sum_nan_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>real</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>imag</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>,
-                                     <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>val</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>real</span>, <span class='ident'>imag</span>)
+<span class="doccomment">/// Sum all values using user provided value for `NAN`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sum all the values of the `input` Array after replacing any `NAN` values with `val`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is</span>
+<span class="doccomment">/// performed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A tuple of summation result.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: For non-complex data type Arrays, second value of tuple is zero.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sum_nan_all</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">val</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sum_nan_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
+                                     <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">val</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">real</span>, <span class="ident">imag</span>)
     }
 }
 
-<span class='doccomment'>/// Product of all values using user provided value for `NAN`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Compute the product of all the values of the `input` Array after replacing any `NAN` values with `val`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is</span>
-<span class='doccomment'>/// performed.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A tuple of product result.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Note: For non-complex data type Arrays, second value of tuple is zero.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>product_nan_all</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>val</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> (<span class='ident'>f64</span>, <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>imag</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_product_nan_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>real</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>imag</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>,
-                                         <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>val</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>real</span>, <span class='ident'>imag</span>)
+<span class="doccomment">/// Product of all values using user provided value for `NAN`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Compute the product of all the values of the `input` Array after replacing any `NAN` values with `val`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `val` is the val that replaces all `NAN` values of the Array before reduction operation is</span>
+<span class="doccomment">/// performed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A tuple of product result.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: For non-complex data type Arrays, second value of tuple is zero.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">product_nan_all</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">val</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_product_nan_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
+                                         <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">val</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">real</span>, <span class="ident">imag</span>)
     }
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>dim_ireduce_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>Array</span>) {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idx</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>idx</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                        <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>), <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>idx</span>))
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">dim_ireduce_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">Array</span>) {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">idx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                        <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>), <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">idx</span>))
             }
         }
     )
 }
 
-<span class='macro'>dim_ireduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_ireduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find minimum value along given dimension and their corresponding indices
 
     # Parameters
@@ -1593,9 +1593,9 @@
     # Return Values
 
     A tuple of Arrays: Array minimum values and Array containing their index along the reduced dimension.
-    &quot;</span>, <span class='ident'>imin</span>, <span class='ident'>af_imin</span>);
+    &quot;</span>, <span class="ident">imin</span>, <span class="ident">af_imin</span>);
 
-<span class='macro'>dim_ireduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">dim_ireduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find maximum value along given dimension and their corresponding indices
 
     # Parameters
@@ -1606,27 +1606,27 @@
     # Return Values
 
     A tuple of Arrays: Array maximum values and Array containing their index along the reduced dimension.
-    &quot;</span>, <span class='ident'>imax</span>, <span class='ident'>af_imax</span>);
+    &quot;</span>, <span class="ident">imax</span>, <span class="ident">af_imax</span>);
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>all_ireduce_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> (<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>u32</span>) {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>imag</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>real</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>imag</span> <span class='kw'>as</span> <span class='ident'>MutDouble</span>,
-                                        <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutUint</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                (<span class='ident'>real</span>, <span class='ident'>imag</span>, <span class='ident'>temp</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">all_ireduce_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">u32</span>) {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
+                                        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutUint</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                (<span class="ident">real</span>, <span class="ident">imag</span>, <span class="ident">temp</span>)
             }
         }
     )
 }
 
-<span class='macro'>all_ireduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+<span class="macro">all_ireduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find minimum and it&#39;s index in the whole Array
 
     # Parameters
@@ -1640,8 +1640,8 @@
       * minimum element of Array in the first component.
       * second component of value zero if Array is of non-complex type.
       * index of minimum element in the third component.
-    &quot;</span>, <span class='ident'>imin_all</span>, <span class='ident'>af_imin_all</span>);
-<span class='macro'>all_ireduce_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;
+    &quot;</span>, <span class="ident">imin_all</span>, <span class="ident">af_imin_all</span>);
+<span class="macro">all_ireduce_func_def</span><span class="macro">!</span>(<span class="string">&quot;
     Find maximum and it&#39;s index in the whole Array
 
     # Parameters
@@ -1655,223 +1655,223 @@
       - maximum element of Array in the first component.
       - second component of value zero if Array is of non-complex type.
       - index of maximum element in the third component.
-    &quot;</span>, <span class='ident'>imax_all</span>, <span class='ident'>af_imax_all</span>);
+    &quot;</span>, <span class="ident">imax_all</span>, <span class="ident">af_imax_all</span>);
 
-<span class='doccomment'>/// Locate the indices of non-zero elements.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The locations are provided by flattening the input into a linear array.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - Input Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Array of indices where the input Array has non-zero values.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>locate</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_where</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Locate the indices of non-zero elements.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The locations are provided by flattening the input into a linear array.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - Input Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Array of indices where the input Array has non-zero values.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">locate</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_where</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Sort the values in input Arrays</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sort an multidimensional Array along a given dimension</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - Input Array</span>
-<span class='doccomment'>/// - `dim` - Dimension along which to sort</span>
-<span class='doccomment'>/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sorted Array.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sort</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>u32</span>, <span class='ident'>ascending</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sort</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                              <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>ascending</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Sort the values in input Arrays</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sort an multidimensional Array along a given dimension</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - Input Array</span>
+<span class="doccomment">/// - `dim` - Dimension along which to sort</span>
+<span class="doccomment">/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sorted Array.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sort</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">u32</span>, <span class="ident">ascending</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sort</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                              <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">ascending</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Sort the values in input Arrays</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - Input Array</span>
-<span class='doccomment'>/// - `dim` - Dimension along which to sort</span>
-<span class='doccomment'>/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A tuple of Arrays.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The first Array contains the keys based on sorted values.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The second Array contains the original indices of the sorted values.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sort_index</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>u32</span>, <span class='ident'>ascending</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>Array</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idx</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sort_index</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>idx</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                    <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                    <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>ascending</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>), <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>idx</span>))
+<span class="doccomment">/// Sort the values in input Arrays</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - Input Array</span>
+<span class="doccomment">/// - `dim` - Dimension along which to sort</span>
+<span class="doccomment">/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A tuple of Arrays.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The first Array contains the keys based on sorted values.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The second Array contains the original indices of the sorted values.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sort_index</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">u32</span>, <span class="ident">ascending</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">Array</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sort_index</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">idx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                    <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">ascending</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>), <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">idx</span>))
     }
 }
 
-<span class='doccomment'>/// Sort the values in input Arrays</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sort an multidimensional Array based on keys</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `keys` - Array with key values</span>
-<span class='doccomment'>/// - `vals` - Array with input values</span>
-<span class='doccomment'>/// - `dim` - Dimension along which to sort</span>
-<span class='doccomment'>/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A tuple of Arrays.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The first Array contains the keys based on sorted values.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The second Array contains the sorted values.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sort_by_key</span>(<span class='ident'>keys</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>vals</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>u32</span>,
-                   <span class='ident'>ascending</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>Array</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp2</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sort_by_key</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp2</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                     <span class='ident'>keys</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>vals</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                     <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>ascending</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>), <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp2</span>))
+<span class="doccomment">/// Sort the values in input Arrays</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sort an multidimensional Array based on keys</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `keys` - Array with key values</span>
+<span class="doccomment">/// - `vals` - Array with input values</span>
+<span class="doccomment">/// - `dim` - Dimension along which to sort</span>
+<span class="doccomment">/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A tuple of Arrays.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The first Array contains the keys based on sorted values.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The second Array contains the sorted values.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sort_by_key</span>(<span class="ident">keys</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">vals</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">u32</span>,
+                   <span class="ident">ascending</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">Array</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp2</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sort_by_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp2</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                     <span class="ident">keys</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">vals</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                     <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">ascending</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>), <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp2</span>))
     }
 }
 
-<span class='doccomment'>/// Find unique values from a Set</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - Input Array</span>
-<span class='doccomment'>/// - `is_sorted` - is a boolean variable. If ```True`` indicates, the `input` Array is sorted.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An Array of unique values from the input Array.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_unique</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>is_sorted</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_unique</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                    <span class='ident'>is_sorted</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Find unique values from a Set</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - Input Array</span>
+<span class="doccomment">/// - `is_sorted` - is a boolean variable. If ```True`` indicates, the `input` Array is sorted.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An Array of unique values from the input Array.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_unique</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">is_sorted</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_unique</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                    <span class="ident">is_sorted</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Find union of two sets</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `first` is one of the input sets</span>
-<span class='doccomment'>/// - `second` is the other of the input sets</span>
-<span class='doccomment'>/// - `is_unique` is a boolean value indicates if the input sets are unique</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An Array with union of the input sets</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_union</span>(<span class='ident'>first</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>second</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>is_unique</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_union</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>first</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                   <span class='ident'>second</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>is_unique</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Find union of two sets</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `first` is one of the input sets</span>
+<span class="doccomment">/// - `second` is the other of the input sets</span>
+<span class="doccomment">/// - `is_unique` is a boolean value indicates if the input sets are unique</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An Array with union of the input sets</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_union</span>(<span class="ident">first</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">second</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">is_unique</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_union</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">first</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                   <span class="ident">second</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">is_unique</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Find intersection of two sets</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `first` is one of the input sets</span>
-<span class='doccomment'>/// - `second` is the other of the input sets</span>
-<span class='doccomment'>/// - `is_unique` is a boolean value indicates if the input sets are unique</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An Array with intersection of the input sets</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_intersect</span>(<span class='ident'>first</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>second</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>is_unique</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_intersect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>first</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                       <span class='ident'>second</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>is_unique</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Find intersection of two sets</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `first` is one of the input sets</span>
+<span class="doccomment">/// - `second` is the other of the input sets</span>
+<span class="doccomment">/// - `is_unique` is a boolean value indicates if the input sets are unique</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An Array with intersection of the input sets</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_intersect</span>(<span class="ident">first</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">second</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">is_unique</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_intersect</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">first</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                       <span class="ident">second</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">is_unique</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Generalized scan</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the data on which scan is to be performed</span>
-<span class='doccomment'>/// - `dim` is the dimension along which scan operation is to be performed</span>
-<span class='doccomment'>/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating</span>
-<span class='doccomment'>///    the type of scan operation</span>
-<span class='doccomment'>/// - `inclusive` says if inclusive/exclusive scan is to be performed</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Output Array of scanned input</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>, <span class='ident'>op</span>: <span class='ident'>BinaryOp</span>, <span class='ident'>inclusive</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span> : <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_scan</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>,
-                              <span class='ident'>op</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>, <span class='ident'>inclusive</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Generalized scan</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the data on which scan is to be performed</span>
+<span class="doccomment">/// - `dim` is the dimension along which scan operation is to be performed</span>
+<span class="doccomment">/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating</span>
+<span class="doccomment">///    the type of scan operation</span>
+<span class="doccomment">/// - `inclusive` says if inclusive/exclusive scan is to be performed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Output Array of scanned input</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>, <span class="ident">op</span>: <span class="ident">BinaryOp</span>, <span class="ident">inclusive</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_scan</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+                              <span class="ident">op</span> <span class="kw">as</span> <span class="ident">uint8_t</span>, <span class="ident">inclusive</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Generalized scan by key</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `key` is the key Array</span>
-<span class='doccomment'>/// - `input` is the data on which scan is to be performed</span>
-<span class='doccomment'>/// - `dim` is the dimension along which scan operation is to be performed</span>
-<span class='doccomment'>/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating</span>
-<span class='doccomment'>///    the type of scan operation</span>
-<span class='doccomment'>/// - `inclusive` says if inclusive/exclusive scan is to be performed</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Output Array of scanned input</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_by_key</span>(<span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dim</span>: <span class='ident'>i32</span>, <span class='ident'>op</span>: <span class='ident'>BinaryOp</span>, <span class='ident'>inclusive</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span> : <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_scan_by_key</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                     <span class='ident'>key</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>dim</span> <span class='kw'>as</span> <span class='ident'>c_int</span>,
-                                     <span class='ident'>op</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>, <span class='ident'>inclusive</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Generalized scan by key</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `key` is the key Array</span>
+<span class="doccomment">/// - `input` is the data on which scan is to be performed</span>
+<span class="doccomment">/// - `dim` is the dimension along which scan operation is to be performed</span>
+<span class="doccomment">/// - `op` takes value of [BinaryOp](./enum.BinaryOp.html) enum indicating</span>
+<span class="doccomment">///    the type of scan operation</span>
+<span class="doccomment">/// - `inclusive` says if inclusive/exclusive scan is to be performed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Output Array of scanned input</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_by_key</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dim</span>: <span class="ident">i32</span>, <span class="ident">op</span>: <span class="ident">BinaryOp</span>, <span class="ident">inclusive</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_scan_by_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                     <span class="ident">key</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+                                     <span class="ident">op</span> <span class="kw">as</span> <span class="ident">uint8_t</span>, <span class="ident">inclusive</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 </pre>

@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -667,629 +667,629 @@
 <span id="622">622</span>
 <span id="623">623</span>
 <span id="624">624</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>ConvDomain</span>, <span class='ident'>ConvMode</span>, <span class='ident'>InterpType</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>uint8_t</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_longlong</span>, <span class='ident'>size_t</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>AfArray</span>, <span class='ident'>MutAfArray</span>};
+<span class="kw">use</span> <span class="ident">array</span>::<span class="ident">Array</span>;
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">ConvDomain</span>, <span class="ident">ConvMode</span>, <span class="ident">InterpType</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">uint8_t</span>, <span class="ident">c_int</span>, <span class="ident">c_float</span>, <span class="ident">c_double</span>, <span class="ident">c_longlong</span>, <span class="ident">size_t</span>};
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">MutAfArray</span>};
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_approx1</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>pos</span>: <span class='ident'>AfArray</span>,
-                  <span class='ident'>method</span>: <span class='ident'>c_int</span>, <span class='ident'>off_grid</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_approx1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">inp</span>: <span class="ident">AfArray</span>, <span class="ident">pos</span>: <span class="ident">AfArray</span>,
+                  <span class="ident">method</span>: <span class="ident">c_int</span>, <span class="ident">off_grid</span>: <span class="ident">c_float</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_approx2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inp</span>: <span class='ident'>AfArray</span>, <span class='ident'>pos0</span>: <span class='ident'>AfArray</span>, <span class='ident'>pos1</span>: <span class='ident'>AfArray</span>,
-                  <span class='ident'>method</span>: <span class='ident'>c_int</span>, <span class='ident'>off_grid</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_approx2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">inp</span>: <span class="ident">AfArray</span>, <span class="ident">pos0</span>: <span class="ident">AfArray</span>, <span class="ident">pos1</span>: <span class="ident">AfArray</span>,
+                  <span class="ident">method</span>: <span class="ident">c_int</span>, <span class="ident">off_grid</span>: <span class="ident">c_float</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span>: <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_fft_plan_cache_size</span>(<span class="ident">cache_size</span>: <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
-              <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+              <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>,
-               <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>,
+               <span class="ident">odim0</span>: <span class="ident">c_longlong</span>, <span class="ident">odim1</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft3</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>,
-               <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim2</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>,
+               <span class="ident">odim0</span>: <span class="ident">c_longlong</span>, <span class="ident">odim1</span>: <span class="ident">c_longlong</span>, <span class="ident">odim2</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_ifft</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
-               <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+               <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_ifft2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>,
-                <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>,
+                <span class="ident">odim0</span>: <span class="ident">c_longlong</span>, <span class="ident">odim1</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_ifft3</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>,
-                <span class='ident'>odim0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span>: <span class='ident'>c_longlong</span>, <span class='ident'>odim2</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>,
+                <span class="ident">odim0</span>: <span class="ident">c_longlong</span>, <span class="ident">odim1</span>: <span class="ident">c_longlong</span>, <span class="ident">odim2</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft2_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft3_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_ifft_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_ifft2_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_ifft3_inplace</span>(<span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft_r2c</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
-                  <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>pad0</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft2_r2c</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
-                   <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>pad0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>pad1</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft3_r2c</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>,
-                   <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>pad0</span>: <span class='ident'>c_longlong</span>, <span class='ident'>pad1</span>: <span class='ident'>c_longlong</span>, <span class='ident'>pad2</span>: <span class='ident'>c_longlong</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_r2c</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+                  <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">pad0</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2_r2c</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+                   <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">pad0</span>: <span class="ident">c_longlong</span>, <span class="ident">pad1</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3_r2c</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+                   <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">pad0</span>: <span class="ident">c_longlong</span>, <span class="ident">pad1</span>: <span class="ident">c_longlong</span>, <span class="ident">pad2</span>: <span class="ident">c_longlong</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fft_c2r</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>is_odd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft2_c2r</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>is_odd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft3_c2r</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>nfac</span>: <span class='ident'>c_double</span>, <span class='ident'>is_odd</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_convolve1</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>, <span class='ident'>d</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_convolve2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>, <span class='ident'>d</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_convolve3</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>, <span class='ident'>d</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_convolve2_sep</span>(<span class='ident'>o</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>c</span>: <span class='ident'>AfArray</span>, <span class='ident'>r</span>: <span class='ident'>AfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft_convolve1</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft_convolve2</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fft_convolve3</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>s</span>: <span class='ident'>AfArray</span>, <span class='ident'>f</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_fir</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>b</span>: <span class='ident'>AfArray</span>, <span class='ident'>x</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_iir</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>b</span>: <span class='ident'>AfArray</span>, <span class='ident'>a</span>: <span class='ident'>AfArray</span>, <span class='ident'>x</span>: <span class='ident'>AfArray</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>, <span class="ident">d</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>, <span class="ident">d</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>, <span class="ident">d</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve2_sep</span>(<span class="ident">o</span>: <span class="ident">MutAfArray</span>, <span class="ident">c</span>: <span class="ident">AfArray</span>, <span class="ident">r</span>: <span class="ident">AfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fir</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">b</span>: <span class="ident">AfArray</span>, <span class="ident">x</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_iir</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">b</span>: <span class="ident">AfArray</span>, <span class="ident">a</span>: <span class="ident">AfArray</span>, <span class="ident">x</span>: <span class="ident">AfArray</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='doccomment'>/// Perform signal interpolation for 1d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `pos` Array contains the interpolation locations</span>
-<span class='doccomment'>/// - `method` indicates the type of interpolation method that be used. It is of type enum</span>
-<span class='doccomment'>/// [InterpType](./enum.InterpType.html)</span>
-<span class='doccomment'>/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An Array with interpolated values</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>approx1</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>pos</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-               <span class='ident'>method</span>: <span class='ident'>InterpType</span>, <span class='ident'>off_grid</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_approx1</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>pos</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>method</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>off_grid</span> <span class='kw'>as</span> <span class='ident'>c_float</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Perform signal interpolation for 1d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `pos` Array contains the interpolation locations</span>
+<span class="doccomment">/// - `method` indicates the type of interpolation method that be used. It is of type enum</span>
+<span class="doccomment">/// [InterpType](./enum.InterpType.html)</span>
+<span class="doccomment">/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An Array with interpolated values</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">approx1</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">pos</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+               <span class="ident">method</span>: <span class="ident">InterpType</span>, <span class="ident">off_grid</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx1</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">pos</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='doccomment'>/// Perform signal interpolation for 2d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `pos0` Array contains the interpolation locations for first dimension</span>
-<span class='doccomment'>/// - `pos1` Array contains the interpolation locations for second dimension</span>
-<span class='doccomment'>/// - `method` indicates the type of interpolation method that be used. It is of type enum</span>
-<span class='doccomment'>/// [InterpType](./enum.InterpType.html)</span>
-<span class='doccomment'>/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An Array with interpolated values</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>approx2</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>pos0</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>pos1</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-               <span class='ident'>method</span>: <span class='ident'>InterpType</span>, <span class='ident'>off_grid</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_approx2</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>pos0</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>pos1</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>method</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>off_grid</span> <span class='kw'>as</span> <span class='ident'>c_float</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="doccomment">/// Perform signal interpolation for 2d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `pos0` Array contains the interpolation locations for first dimension</span>
+<span class="doccomment">/// - `pos1` Array contains the interpolation locations for second dimension</span>
+<span class="doccomment">/// - `method` indicates the type of interpolation method that be used. It is of type enum</span>
+<span class="doccomment">/// [InterpType](./enum.InterpType.html)</span>
+<span class="doccomment">/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An Array with interpolated values</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">approx2</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">pos0</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">pos1</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+               <span class="ident">method</span>: <span class="ident">InterpType</span>, <span class="ident">off_grid</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">pos0</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">pos1</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Set fft plan cache size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Though this is a low overhead function, it is advised not to change</span>
-<span class='doccomment'>/// the fft plan cache size a mid program execution unless that is what</span>
-<span class='doccomment'>/// you intend to do.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span>: <span class='ident'>usize</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_fft_plan_cache_size</span>(<span class='ident'>cache_size</span> <span class='kw'>as</span> <span class='ident'>size_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Set fft plan cache size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Though this is a low overhead function, it is advised not to change</span>
+<span class="doccomment">/// the fft plan cache size a mid program execution unless that is what</span>
+<span class="doccomment">/// you intend to do.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_fft_plan_cache_size</span>(<span class="ident">cache_size</span>: <span class="ident">usize</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_fft_plan_cache_size</span>(<span class="ident">cache_size</span> <span class="kw">as</span> <span class="ident">size_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Fast fourier transform for 1d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signals - used for either truncating or padding the input</span>
-<span class='doccomment'>/// signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>odim0</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                             <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                             <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Fast fourier transform for 1d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signals - used for either truncating or padding the input</span>
+<span class="doccomment">/// signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                             <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                             <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Fast fourier transform for 2d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft2</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>odim0</span>: <span class='ident'>i64</span>, <span class='ident'>odim1</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft2</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                              <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                              <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Fast fourier transform for 2d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft2</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>, <span class="ident">odim1</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                              <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                              <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Fast fourier transform for 3d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim2` is the length of output signal third dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft3</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>,
-            <span class='ident'>odim0</span>: <span class='ident'>i64</span>, <span class='ident'>odim1</span>: <span class='ident'>i64</span>, <span class='ident'>odim2</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft3</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                              <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                              <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim2</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Fast fourier transform for 3d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim2` is the length of output signal third dimension - used for either truncating or padding the input</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft3</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
+            <span class="ident">odim0</span>: <span class="ident">i64</span>, <span class="ident">odim1</span>: <span class="ident">i64</span>, <span class="ident">odim2</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                              <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                              <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Inverse fast fourier transform for 1d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signals - used for either truncating or padding the input</span>
-<span class='doccomment'>/// signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>odim0</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                              <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                              <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Inverse fast fourier transform for 1d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signals - used for either truncating or padding the input</span>
+<span class="doccomment">/// signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                              <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                              <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Inverse fast fourier transform for 1d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft2</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>odim0</span>: <span class='ident'>i64</span>, <span class='ident'>odim1</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft2</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                               <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                               <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Inverse fast fourier transform for 1d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft2</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>, <span class="ident">odim1</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                               <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                               <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Inverse fast fourier transform for 1d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
-<span class='doccomment'>/// transformation is applied</span>
-<span class='doccomment'>/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>/// - `odim2` is the length of output signal third dimension - used for either truncating or padding the input</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Transformed Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft3</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>,
-             <span class='ident'>odim0</span>: <span class='ident'>i64</span>, <span class='ident'>odim1</span>: <span class='ident'>i64</span>, <span class='ident'>odim2</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft3</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                               <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>,
-                               <span class='ident'>odim0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>odim2</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Inverse fast fourier transform for 1d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor with which the input is scaled before the</span>
+<span class="doccomment">/// transformation is applied</span>
+<span class="doccomment">/// - `odim0` is the length of output signal first dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim1` is the length of output signal second dimension - used for either truncating or padding the input</span>
+<span class="doccomment">/// - `odim2` is the length of output signal third dimension - used for either truncating or padding the input</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Transformed Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft3</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
+             <span class="ident">odim0</span>: <span class="ident">i64</span>, <span class="ident">odim1</span>: <span class="ident">i64</span>, <span class="ident">odim2</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                               <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+                               <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">odim2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>conv_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>///# Parameters</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// - `signal` is the input signal</span>
-        <span class='doccomment'>/// - `filter` is the signal that shall be flipped for convolution operation</span>
-        <span class='doccomment'>/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
-        <span class='doccomment'>/// equals input). It takes a value of type [ConvMode](./enum.ConvMode.html)</span>
-        <span class='doccomment'>/// - `domain` indicates if the convolution should be performed in frequencey or spatial</span>
-        <span class='doccomment'>/// domain. It takes a value of type [ConvDomain](./enum.ConvDomain.html)</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>///# Return Values</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// Convolved Array</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>signal</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                        <span class='ident'>mode</span>: <span class='ident'>ConvMode</span>, <span class='ident'>domain</span>: <span class='ident'>ConvDomain</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                        <span class='ident'>signal</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>filter</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                        <span class='ident'>mode</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>, <span class='ident'>domain</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">conv_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///# Parameters</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// - `signal` is the input signal</span>
+        <span class="doccomment">/// - `filter` is the signal that shall be flipped for convolution operation</span>
+        <span class="doccomment">/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
+        <span class="doccomment">/// equals input). It takes a value of type [ConvMode](./enum.ConvMode.html)</span>
+        <span class="doccomment">/// - `domain` indicates if the convolution should be performed in frequencey or spatial</span>
+        <span class="doccomment">/// domain. It takes a value of type [ConvDomain](./enum.ConvDomain.html)</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///# Return Values</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Convolved Array</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">signal</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                        <span class="ident">mode</span>: <span class="ident">ConvMode</span>, <span class="ident">domain</span>: <span class="ident">ConvDomain</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                        <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">filter</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                        <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">uint8_t</span>, <span class="ident">domain</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
         }
     )
 }
 
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;1d convolution&quot;</span>, <span class='ident'>convolve1</span>, <span class='ident'>af_convolve1</span>);
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;2d convolution&quot;</span>, <span class='ident'>convolve2</span>, <span class='ident'>af_convolve2</span>);
-<span class='macro'>conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;3d convolution&quot;</span>, <span class='ident'>convolve3</span>, <span class='ident'>af_convolve3</span>);
+<span class="macro">conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;1d convolution&quot;</span>, <span class="ident">convolve1</span>, <span class="ident">af_convolve1</span>);
+<span class="macro">conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;2d convolution&quot;</span>, <span class="ident">convolve2</span>, <span class="ident">af_convolve2</span>);
+<span class="macro">conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;3d convolution&quot;</span>, <span class="ident">convolve3</span>, <span class="ident">af_convolve3</span>);
 
-<span class='doccomment'>/// Separable convolution for 2d signals</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `cfilt` is the filter to be applied along coloumns</span>
-<span class='doccomment'>/// - `rfilt` is the filter to be applied along rows</span>
-<span class='doccomment'>/// - `signal` is the input signal</span>
-<span class='doccomment'>/// - `mode` indicates if the convolution should be expanded or not(where output size equals input)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The convolved Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>convolve2_sep</span>(<span class='ident'>cfilt</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>rfilt</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>signal</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                     <span class='ident'>mode</span>: <span class='ident'>ConvMode</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_convolve2_sep</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                       <span class='ident'>cfilt</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>rfilt</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                       <span class='ident'>signal</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>mode</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Separable convolution for 2d signals</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `cfilt` is the filter to be applied along coloumns</span>
+<span class="doccomment">/// - `rfilt` is the filter to be applied along rows</span>
+<span class="doccomment">/// - `signal` is the input signal</span>
+<span class="doccomment">/// - `mode` indicates if the convolution should be expanded or not(where output size equals input)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The convolved Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">convolve2_sep</span>(<span class="ident">cfilt</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">rfilt</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">signal</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                     <span class="ident">mode</span>: <span class="ident">ConvMode</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_convolve2_sep</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                       <span class="ident">cfilt</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">rfilt</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                       <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>fft_conv_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>///# Parameters</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// - `signal` is the input signal</span>
-        <span class='doccomment'>/// - `filter` is the signal that shall be used for convolution operation</span>
-        <span class='doccomment'>/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
-        <span class='doccomment'>/// equals input). It takes values of type [ConvMode](./enum.ConvMode.html)</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>///# Return Values</span>
-        <span class='doccomment'>///</span>
-        <span class='doccomment'>/// Convolved Array</span>
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='ident'>signal</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                        <span class='ident'>mode</span>: <span class='ident'>ConvMode</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>signal</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                        <span class='ident'>filter</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>mode</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">fft_conv_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///# Parameters</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// - `signal` is the input signal</span>
+        <span class="doccomment">/// - `filter` is the signal that shall be used for convolution operation</span>
+        <span class="doccomment">/// - `mode` indicates if the convolution should be expanded or not(where output size</span>
+        <span class="doccomment">/// equals input). It takes values of type [ConvMode](./enum.ConvMode.html)</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///# Return Values</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Convolved Array</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">signal</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                        <span class="ident">mode</span>: <span class="ident">ConvMode</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                        <span class="ident">filter</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
         }
     )
 }
 
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;1d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve1</span>, <span class='ident'>af_fft_convolve1</span>);
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;2d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve2</span>, <span class='ident'>af_fft_convolve2</span>);
-<span class='macro'>fft_conv_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;3d convolution using fast-fourier transform&quot;</span>, <span class='ident'>fft_convolve3</span>, <span class='ident'>af_fft_convolve3</span>);
+<span class="macro">fft_conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;1d convolution using fast-fourier transform&quot;</span>, <span class="ident">fft_convolve1</span>, <span class="ident">af_fft_convolve1</span>);
+<span class="macro">fft_conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;2d convolution using fast-fourier transform&quot;</span>, <span class="ident">fft_convolve2</span>, <span class="ident">af_fft_convolve2</span>);
+<span class="macro">fft_conv_func_def</span><span class="macro">!</span>(<span class="string">&quot;3d convolution using fast-fourier transform&quot;</span>, <span class="ident">fft_convolve3</span>, <span class="ident">af_fft_convolve3</span>);
 
-<span class='doccomment'>/// Finite impulse filter</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `b` is the Array containing the coefficients of the filter</span>
-<span class='doccomment'>/// - `x` is the input signal to filter</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Filtered Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fir</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fir</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>b</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>x</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Finite impulse filter</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `b` is the Array containing the coefficients of the filter</span>
+<span class="doccomment">/// - `x` is the input signal to filter</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Filtered Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fir</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">b</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Infinite impulse response filter</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `b` is the Array containing the feedforward coefficients</span>
-<span class='doccomment'>/// - `a` is the Array containing the feedback coefficients</span>
-<span class='doccomment'>/// - `x` is the input signal to filter</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Filtered Array</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>iir</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>a</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_iir</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                             <span class='ident'>b</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>a</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>x</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Infinite impulse response filter</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `b` is the Array containing the feedforward coefficients</span>
+<span class="doccomment">/// - `a` is the Array containing the feedback coefficients</span>
+<span class="doccomment">/// - `x` is the input signal to filter</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Filtered Array</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iir</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_iir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                             <span class="ident">b</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">a</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// In place 1d dimensional Fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 1d dimensional Fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// In place 2d dimensional Fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft2_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft2_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 2d dimensional Fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft2_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// In place 3d dimensional Fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft3_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft3_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 3d dimensional Fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft3_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// In place 1d dimensional inverse fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 1d dimensional inverse fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// In place 2d dimensional inverse fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft2_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft2_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 2d dimensional inverse fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft2_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// In place 3d dimensional inverse fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ifft3_inplace</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_ifft3_inplace</span>(<span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// In place 3d dimensional inverse fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft3_inplace</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// 1d Real to Complex fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `pad0` is the padding along 0th dimension of Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft_r2c</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>pad0</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft_r2c</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>pad0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 1d Real to Complex fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `pad0` is the padding along 0th dimension of Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft_r2c</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">pad0</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_r2c</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// 2d Real to Complex fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `pad0` is the padding along 0th dimension of Array</span>
-<span class='doccomment'>/// - `pad1` is the padding along 1st dimension of Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft2_r2c</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>pad0</span>: <span class='ident'>i64</span>, <span class='ident'>pad1</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft2_r2c</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                  <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>pad0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>pad1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 2d Real to Complex fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `pad0` is the padding along 0th dimension of Array</span>
+<span class="doccomment">/// - `pad1` is the padding along 1st dimension of Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft2_r2c</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">pad0</span>: <span class="ident">i64</span>, <span class="ident">pad1</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_r2c</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                  <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">pad1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// 3d Real to Complex fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `pad0` is the padding along 0th dimension of Array</span>
-<span class='doccomment'>/// - `pad1` is the padding along 1st dimension of Array</span>
-<span class='doccomment'>/// - `pad2` is the padding along 2nd dimension of Array</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft3_r2c</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>pad0</span>: <span class='ident'>i64</span>, <span class='ident'>pad1</span>: <span class='ident'>i64</span>, <span class='ident'>pad2</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft3_r2c</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                  <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>pad0</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>,
-                                  <span class='ident'>pad1</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>, <span class='ident'>pad2</span> <span class='kw'>as</span> <span class='ident'>c_longlong</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 3d Real to Complex fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `pad0` is the padding along 0th dimension of Array</span>
+<span class="doccomment">/// - `pad1` is the padding along 1st dimension of Array</span>
+<span class="doccomment">/// - `pad2` is the padding along 2nd dimension of Array</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft3_r2c</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">pad0</span>: <span class="ident">i64</span>, <span class="ident">pad1</span>: <span class="ident">i64</span>, <span class="ident">pad2</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_r2c</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                  <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+                                  <span class="ident">pad1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>, <span class="ident">pad2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// 1d Complex to Real fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `is_odd` signifies if the output should be even or odd size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft_c2r</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>is_odd</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft_c2r</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                 <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>is_odd</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 1d Complex to Real fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `is_odd` signifies if the output should be even or odd size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft_c2r</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                 <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// 2d Complex to Real fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `is_odd` signifies if the output should be even or odd size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft2_c2r</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>is_odd</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft2_c2r</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                  <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>is_odd</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 2d Complex to Real fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `is_odd` signifies if the output should be even or odd size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft2_c2r</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                  <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// 3d Complex to Real fast fourier transform</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input Array</span>
-<span class='doccomment'>/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
-<span class='doccomment'>/// - `is_odd` signifies if the output should be even or odd size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Complex Array</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fft3_c2r</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>norm_factor</span>: <span class='ident'>f64</span>, <span class='ident'>is_odd</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fft3_c2r</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                  <span class='ident'>norm_factor</span> <span class='kw'>as</span> <span class='ident'>c_double</span>, <span class='ident'>is_odd</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// 3d Complex to Real fast fourier transform</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input Array</span>
+<span class="doccomment">/// - `norm_factor` is the normalization factor to be applied before fft is applied</span>
+<span class="doccomment">/// - `is_odd` signifies if the output should be even or odd size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Complex Array</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft3_c2r</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                  <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>, <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 </pre>

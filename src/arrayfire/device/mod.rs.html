@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -335,297 +335,297 @@
 <span id="290">290</span>
 <span id="291">291</span>
 <span id="292">292</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_int</span>, <span class='ident'>size_t</span>, <span class='ident'>c_char</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>CStr</span>, <span class='ident'>CString</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>free_host</span>;
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">size_t</span>, <span class="ident">c_char</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
+<span class="kw">use</span> <span class="ident">util</span>::<span class="ident">free_host</span>;
 
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_get_version</span>(<span class='ident'>major</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>minor</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>patch</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_revision</span>() <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_info</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_info_string</span>(<span class='ident'>str</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>verbose</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_device_info</span>(<span class='ident'>d_name</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_platform</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>,
-                      <span class='ident'>d_toolkit</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>, <span class='ident'>d_compute</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_init</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_device_count</span>(<span class='ident'>nDevices</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_dbl_support</span>(<span class='ident'>available</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_device</span>(<span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_device</span>(<span class='ident'>device</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_device_mem_info</span>(<span class='ident'>alloc_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>alloc_buffers</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                          <span class='ident'>lock_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>, <span class='ident'>lock_buffers</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_print_mem_info</span>(<span class='ident'>msg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>, <span class='ident'>device_id</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_set_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_device_gc</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_sync</span>(<span class='ident'>device</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_get_version</span>(<span class="ident">major</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">minor</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">patch</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_revision</span>() <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
+    <span class="kw">fn</span> <span class="ident">af_info</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_info_string</span>(<span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_device_info</span>(<span class="ident">d_name</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">d_platform</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
+                      <span class="ident">d_toolkit</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">d_compute</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_init</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_device_count</span>(<span class="ident">nDevices</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_dbl_support</span>(<span class="ident">available</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_device</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_device</span>(<span class="ident">device</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_device_mem_info</span>(<span class="ident">alloc_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>, <span class="ident">alloc_buffers</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
+                          <span class="ident">lock_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>, <span class="ident">lock_buffers</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_print_mem_info</span>(<span class="ident">msg</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">device_id</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_device_gc</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sync</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='doccomment'>/// Get ArrayFire Version Number</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>/// A triplet of integers indicating major, minor &amp; fix release version numbers.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_version</span>() <span class='op'>-&gt;</span> (<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>maj</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>min</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pat</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_version</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>maj</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>,
-                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>min</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pat</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>maj</span>, <span class='ident'>min</span>, <span class='ident'>pat</span>)
+<span class="doccomment">/// Get ArrayFire Version Number</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">/// A triplet of integers indicating major, minor &amp; fix release version numbers.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_version</span>() <span class="op">-&gt;</span> (<span class="ident">i32</span>, <span class="ident">i32</span>, <span class="ident">i32</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maj</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">min</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pat</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_version</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">maj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>,
+                                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">min</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pat</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">maj</span>, <span class="ident">min</span>, <span class="ident">pat</span>)
     }
 }
 
-<span class='doccomment'>/// Get ArrayFire Revision (commit) information of the library.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>/// This returns a `Cow&lt;&#39;static, str&gt;` as the string is constructed at compile time.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_revision</span>() <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>af_get_revision</span>()).<span class='ident'>to_string_lossy</span>()
+<span class="doccomment">/// Get ArrayFire Revision (commit) information of the library.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">/// This returns a `Cow&lt;&#39;static, str&gt;` as the string is constructed at compile time.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_revision</span>() <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> {
+        <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">af_get_revision</span>()).<span class="ident">to_string_lossy</span>()
     }
 }
 
-<span class='doccomment'>/// Print library meta-info</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An example output of `af::info` call looks like below</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```text</span>
-<span class='doccomment'>/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)</span>
-<span class='doccomment'>/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000</span>
-<span class='doccomment'>/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>info</span>() {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_info</span>();
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Print library meta-info</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An example output of `af::info` call looks like below</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)</span>
+<span class="doccomment">/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000</span>
+<span class="doccomment">/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>() {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_info</span>();
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Return library meta-info as `String`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An example output of `af::info_string` call looks like below</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```text</span>
-<span class='doccomment'>/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)</span>
-<span class='doccomment'>/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000</span>
-<span class='doccomment'>/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>info_string</span>(<span class='ident'>verbose</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>String</span>;
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tmp</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_char</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_info_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>tmp</span>, <span class='ident'>verbose</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>tmp</span>).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>();
-        <span class='ident'>free_host</span>(<span class='ident'>tmp</span>);
+<span class="doccomment">/// Return library meta-info as `String`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An example output of `af::info_string` call looks like below</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// ArrayFire v3.0.0 (CUDA, 64-bit Mac OSX, build d8d4b38)</span>
+<span class="doccomment">/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000</span>
+<span class="doccomment">/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info_string</span>(<span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">String</span>;
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_info_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tmp</span>, <span class="ident">verbose</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">result</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">tmp</span>).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>();
+        <span class="ident">free_host</span>(<span class="ident">tmp</span>);
     }
-    <span class='ident'>result</span>
+    <span class="ident">result</span>
 }
 
-<span class='doccomment'>/// Gets the information about device and platform as strings.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>/// A tuple of `String` indicating the name, platform, toolkit and compute.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_info</span>() <span class='op'>-&gt;</span> (<span class='ident'>String</span>, <span class='ident'>String</span>, <span class='ident'>String</span>, <span class='ident'>String</span>) {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>name</span> <span class='op'>=</span> [<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>c_char</span>; <span class='number'>64</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>platform</span> <span class='op'>=</span> [<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>c_char</span>; <span class='number'>10</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>toolkit</span> <span class='op'>=</span> [<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>c_char</span>; <span class='number'>64</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>compute</span> <span class='op'>=</span> [<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>c_char</span>; <span class='number'>10</span>];
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>name</span>[<span class='number'>0</span>],
-                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>platform</span>[<span class='number'>0</span>],
-                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>toolkit</span>[<span class='number'>0</span>],
-                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>compute</span>[<span class='number'>0</span>]);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>name</span>.<span class='ident'>as_mut_ptr</span>()).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>(),
-         <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>platform</span>.<span class='ident'>as_mut_ptr</span>()).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>(),
-         <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>toolkit</span>.<span class='ident'>as_mut_ptr</span>()).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>(),
-         <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>compute</span>.<span class='ident'>as_mut_ptr</span>()).<span class='ident'>to_string_lossy</span>().<span class='ident'>into_owned</span>())
-    }
-}
-
-<span class='doccomment'>/// Initialize ArrayFire library</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// 0th device will be the default device unless init call</span>
-<span class='doccomment'>/// is followed by set_device</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init</span>() {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_init</span>();
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Gets the information about device and platform as strings.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">/// A tuple of `String` indicating the name, platform, toolkit and compute.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_info</span>() <span class="op">-&gt;</span> (<span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>) {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">name</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">64</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">platform</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">10</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toolkit</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">64</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">compute</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">10</span>];
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_device_info</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">name</span>[<span class="number">0</span>],
+                                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">platform</span>[<span class="number">0</span>],
+                                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">toolkit</span>[<span class="number">0</span>],
+                                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">compute</span>[<span class="number">0</span>]);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">name</span>.<span class="ident">as_mut_ptr</span>()).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
+         <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">platform</span>.<span class="ident">as_mut_ptr</span>()).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
+         <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">toolkit</span>.<span class="ident">as_mut_ptr</span>()).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
+         <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">compute</span>.<span class="ident">as_mut_ptr</span>()).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>())
     }
 }
 
-<span class='doccomment'>/// Get total number of available devices</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_count</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device_count</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>temp</span>
+<span class="doccomment">/// Initialize ArrayFire library</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// 0th device will be the default device unless init call</span>
+<span class="doccomment">/// is followed by set_device</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>() {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_init</span>();
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Check if a device has double support</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `device` is the device for which double support is checked for</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// `True` if `device` device has double support, `False` otherwise.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_double_available</span>(<span class='ident'>device</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_dbl_support</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>temp</span> <span class='op'>&gt;</span> <span class='number'>0</span>
+<span class="doccomment">/// Get total number of available devices</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_count</span>() <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device_count</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>
     }
 }
 
-<span class='doccomment'>/// Set active device</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `device` is the value of the device identifier which has to be set as active</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_device</span>(<span class='ident'>device</span>: <span class='ident'>i32</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_device</span>(<span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Check if a device has double support</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `device` is the device for which double support is checked for</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `True` if `device` device has double support, `False` otherwise.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_double_available</span>(<span class="ident">device</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_dbl_support</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span> <span class="op">&gt;</span> <span class="number">0</span>
     }
 }
 
-<span class='doccomment'>/// Get the current active device id</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_device</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>temp</span>
+<span class="doccomment">/// Set active device</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `device` is the value of the device identifier which has to be set as active</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_device</span>(<span class="ident">device</span>: <span class="ident">i32</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_device</span>(<span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Get memory information from the memory manager for the current active device</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function doesn&#39;t take any input parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A quadruple of values regarding the following information.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// * Number of bytes allocated</span>
-<span class='doccomment'>/// * Number of buffers allocated</span>
-<span class='doccomment'>/// * Number of bytes locked</span>
-<span class='doccomment'>/// * Number of buffers locked</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_mem_info</span>() <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>usize</span>, <span class='ident'>usize</span>, <span class='ident'>usize</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o0</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o1</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o2</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>o3</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_mem_info</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o0</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o1</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o2</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>,
-                                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>o3</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>o0</span>, <span class='ident'>o1</span>, <span class='ident'>o2</span>, <span class='ident'>o3</span>)
+<span class="doccomment">/// Get the current active device id</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_device</span>() <span class="op">-&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>
     }
 }
 
-<span class='doccomment'>/// Print buffer details from the ArrayFire device manager</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This information is printed in the form of a table.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `msg` is a message to print before the table</span>
-<span class='doccomment'>/// - `device` is the id of the device for which buffer details are to be printed</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// None</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>print_mem_info</span>(<span class='ident'>msg</span>: <span class='ident'>String</span>, <span class='ident'>device</span>: <span class='ident'>i32</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>cmsg</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>msg</span>.<span class='ident'>as_bytes</span>());
-        <span class='kw'>match</span> <span class='ident'>cmsg</span> {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_print_mem_info</span>(<span class='ident'>v</span>.<span class='ident'>to_bytes_with_nul</span>().<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span> <span class='kw'>const</span> <span class='ident'>c_char</span>,
-                                                <span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Get memory information from the memory manager for the current active device</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function doesn&#39;t take any input parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A quadruple of values regarding the following information.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * Number of bytes allocated</span>
+<span class="doccomment">/// * Number of buffers allocated</span>
+<span class="doccomment">/// * Number of bytes locked</span>
+<span class="doccomment">/// * Number of buffers locked</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_mem_info</span>() <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o0</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o1</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o2</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o3</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_device_mem_info</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">o0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
+                                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">o1</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
+                                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">o2</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
+                                         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">o3</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">o0</span>, <span class="ident">o1</span>, <span class="ident">o2</span>, <span class="ident">o3</span>)
+    }
+}
+
+<span class="doccomment">/// Print buffer details from the ArrayFire device manager</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This information is printed in the form of a table.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `msg` is a message to print before the table</span>
+<span class="doccomment">/// - `device` is the id of the device for which buffer details are to be printed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// None</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print_mem_info</span>(<span class="ident">msg</span>: <span class="ident">String</span>, <span class="ident">device</span>: <span class="ident">i32</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">cmsg</span> <span class="op">=</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="ident">msg</span>.<span class="ident">as_bytes</span>());
+        <span class="kw">match</span> <span class="ident">cmsg</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_print_mem_info</span>(<span class="ident">v</span>.<span class="ident">to_bytes_with_nul</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="op">*</span> <span class="kw">const</span> <span class="ident">c_char</span>,
+                                                <span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
             },
-            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>ERR_INTERNAL</span>),
+            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">ERR_INTERNAL</span>),
         }
     }
 }
 
-<span class='doccomment'>/// Set the minimum memory chunk size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `step_bytes` is the size of minimum memory chunk in bytes</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// None</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_mem_step_size</span>(<span class='ident'>step_bytes</span>: <span class='ident'>usize</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_mem_step_size</span>(<span class='ident'>step_bytes</span> <span class='kw'>as</span> <span class='ident'>size_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Set the minimum memory chunk size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `step_bytes` is the size of minimum memory chunk in bytes</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// None</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="ident">usize</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_mem_step_size</span>(<span class="ident">step_bytes</span> <span class="kw">as</span> <span class="ident">size_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Get the minimum memory chunk size</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// None</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Returns is the size of minimum memory chunk in bytes</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_mem_step_size</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_mem_step_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>size_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>temp</span>
+<span class="doccomment">/// Get the minimum memory chunk size</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// None</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns is the size of minimum memory chunk in bytes</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mem_step_size</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_mem_step_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>
     }
 }
 
-<span class='doccomment'>/// Call the garbage collection routine</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>device_gc</span>() {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_device_gc</span>();
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Call the garbage collection routine</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_gc</span>() {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_device_gc</span>();
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Sync all operations on given device</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `device` on which the operations are to be synced</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// None</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sync</span>(<span class='ident'>device</span>: <span class='ident'>i32</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_sync</span>(<span class='ident'>device</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Sync all operations on given device</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `device` on which the operations are to be synced</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// None</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sync</span>(<span class="ident">device</span>: <span class="ident">i32</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sync</span>(<span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 </pre>

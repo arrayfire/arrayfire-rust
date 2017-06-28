@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -93,55 +93,55 @@
 <span id="48">48</span>
 <span id="49">49</span>
 <span id="50">50</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
-<span class='kw'>use</span> <span class='ident'>num</span>::{<span class='ident'>One</span>, <span class='ident'>Zero</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">default</span>::<span class="ident">Default</span>;
+<span class="kw">use</span> <span class="ident">num</span>::{<span class="ident">One</span>, <span class="ident">Zero</span>};
 
-<span class='doccomment'>/// Sequences are used for indexing Arrays</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='ident'>begin</span>: <span class='ident'>T</span>,
-    <span class='ident'>end</span>: <span class='ident'>T</span>,
-    <span class='ident'>step</span>: <span class='ident'>T</span>,
+<span class="doccomment">/// Sequences are used for indexing Arrays</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="ident">begin</span>: <span class="ident">T</span>,
+    <span class="ident">end</span>: <span class="ident">T</span>,
+    <span class="ident">step</span>: <span class="ident">T</span>,
 }
 
-<span class='doccomment'>/// Default `Seq` spans all the elements along a dimension</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>One</span><span class='op'>+</span><span class='ident'>Zero</span><span class='op'>&gt;</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Seq</span> { <span class='ident'>begin</span>: <span class='ident'>One</span>::<span class='ident'>one</span>(), <span class='ident'>end</span>: <span class='ident'>One</span>::<span class='ident'>one</span>(), <span class='ident'>step</span>: <span class='ident'>Zero</span>::<span class='ident'>zero</span>() }
-    }
-}
-
-<span class='doccomment'>/// Enables use of `Seq` with `{}` format in print statements</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Display</span><span class='op'>&gt;</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;[begin: {}, end: {}, step: {}]&quot;</span>, <span class='self'>self</span>.<span class='ident'>begin</span>, <span class='self'>self</span>.<span class='ident'>end</span>, <span class='self'>self</span>.<span class='ident'>step</span>)
+<span class="doccomment">/// Default `Seq` spans all the elements along a dimension</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">One</span><span class="op">+</span><span class="ident">Zero</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Seq</span> { <span class="ident">begin</span>: <span class="ident">One</span>::<span class="ident">one</span>(), <span class="ident">end</span>: <span class="ident">One</span>::<span class="ident">one</span>(), <span class="ident">step</span>: <span class="ident">Zero</span>::<span class="ident">zero</span>() }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Copy</span><span class='op'>&gt;</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Create a `Seq` that goes from `begin` to `end` at a step size of `step`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>begin</span>: <span class='ident'>T</span>, <span class='ident'>end</span>: <span class='ident'>T</span>, <span class='ident'>step</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Seq</span> { <span class='ident'>begin</span>: <span class='ident'>begin</span>, <span class='ident'>end</span>: <span class='ident'>end</span>, <span class='ident'>step</span>: <span class='ident'>step</span>, }
+<span class="doccomment">/// Enables use of `Seq` with `{}` format in print statements</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;[begin: {}, end: {}, step: {}]&quot;</span>, <span class="self">self</span>.<span class="ident">begin</span>, <span class="self">self</span>.<span class="ident">end</span>, <span class="self">self</span>.<span class="ident">step</span>)
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span> <span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Create a `Seq` that goes from `begin` to `end` at a step size of `step`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">begin</span>: <span class="ident">T</span>, <span class="ident">end</span>: <span class="ident">T</span>, <span class="ident">step</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Seq</span> { <span class="ident">begin</span>: <span class="ident">begin</span>, <span class="ident">end</span>: <span class="ident">end</span>, <span class="ident">step</span>: <span class="ident">step</span>, }
     }
 
-    <span class='doccomment'>/// Get begin index of Seq</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>begin</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-        <span class='self'>self</span>.<span class='ident'>begin</span>
+    <span class="doccomment">/// Get begin index of Seq</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">begin</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="self">self</span>.<span class="ident">begin</span>
     }
 
-    <span class='doccomment'>/// Get begin index of Seq</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>end</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-        <span class='self'>self</span>.<span class='ident'>end</span>
+    <span class="doccomment">/// Get end index of Seq</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">end</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="self">self</span>.<span class="ident">end</span>
     }
 
-    <span class='doccomment'>/// Get step size of Seq</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>step</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-        <span class='self'>self</span>.<span class='ident'>step</span>
+    <span class="doccomment">/// Get step size of Seq</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">step</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="self">self</span>.<span class="ident">step</span>
     }
 }
 </pre>

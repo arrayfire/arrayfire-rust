@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         <a href='../num_bigint/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
-        <p class='location'><a href='index.html'>num_bigint</a></p><script>window.sidebarCurrent = {name: 'ToBigInt', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait ToBigInt</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='index.html'>num_bigint</a></p><script>window.sidebarCurrent = {name: 'ToBigInt', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,36 +43,36 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num_bigint</a>::<wbr><a class='trait' href=''>ToBigInt</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num_bigint</a>::<wbr><a class="trait" href=''>ToBigInt</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/num_bigint/bigint.rs.html#777-780' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ToBigInt {
-    fn <a href='#tymethod.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../num_bigint/struct.BigInt.html' title='num_bigint::BigInt'>BigInt</a>&gt;;
+    fn <a href='#tymethod.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../num_bigint/struct.BigInt.html" title="struct num_bigint::BigInt">BigInt</a>&gt;;
 }</pre><div class='docblock'><p>A generic trait for converting a value to a <code>BigInt</code>.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.to_bigint' class='method'><span id='to_bigint.v' class='invisible'><code>fn <a href='#tymethod.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../num_bigint/struct.BigInt.html' title='num_bigint::BigInt'>BigInt</a>&gt;</code></span></h3><div class='docblock'><p>Converts the value of <code>self</code> to a <code>BigInt</code>.</p>
+        <h3 id='tymethod.to_bigint' class='method'><span id='to_bigint.v' class='invisible'><code>fn <a href='#tymethod.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../num_bigint/struct.BigInt.html" title="struct num_bigint::BigInt">BigInt</a>&gt;</code></span></h3><div class='docblock'><p>Converts the value of <code>self</code> to a <code>BigInt</code>.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl ToBigInt for <a class='struct' href='../num_bigint/struct.BigInt.html' title='num_bigint::BigInt'>BigInt</a></code></li>
-<li><code>impl ToBigInt for <a class='struct' href='../num_bigint/struct.BigUint.html' title='num_bigint::BigUint'>BigUint</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.isize.html'>isize</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
-<li><code>impl ToBigInt for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
+    <li><code>impl ToBigInt for <a class="struct" href="../num_bigint/struct.BigInt.html" title="struct num_bigint::BigInt">BigInt</a></code></li>
+<li><code>impl ToBigInt for <a class="struct" href="../num_bigint/struct.BigUint.html" title="struct num_bigint::BigUint">BigUint</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.isize.html">isize</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></li>
+<li><code>impl ToBigInt for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></li>
 </ul><script type="text/javascript" async
                          src="../implementors/num_bigint/trait.ToBigInt.js">
                  </script></section>

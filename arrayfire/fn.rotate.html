@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class='fn' href=''>rotate</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class="fn" href=''>rotate</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/arrayfire/image/mod.rs.html#334-343' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn rotate(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; theta: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; crop: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; method: <a class='enum' href='../arrayfire/enum.InterpType.html' title='arrayfire::InterpType'>InterpType</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Rotate an Image</p>
+               </span><a class='srclink' href='../src/arrayfire/image/mod.rs.html#339-348' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn rotate(<br>&nbsp;&nbsp;&nbsp;&nbsp;input: &amp;<a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;theta: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;crop: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;method: <a class="enum" href="../arrayfire/enum.InterpType.html" title="enum arrayfire::InterpType">InterpType</a><br>) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a></pre><div class='docblock'><p>Rotate an Image</p>
 
 <p>Rotating an input image can be done using either NEAREST or BILINEAR interpolations.
 Nearest interpolation will pick the nearest value to the location, whereas bilinear

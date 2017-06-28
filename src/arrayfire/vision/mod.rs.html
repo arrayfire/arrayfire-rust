@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -545,507 +545,507 @@
 <span id="500">500</span>
 <span id="501">501</span>
 <span id="502">502</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
-<span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>HomographyType</span>, <span class='ident'>MatchType</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>AfArray</span>, <span class='ident'>DimT</span>, <span class='ident'>Feat</span>, <span class='ident'>HasAfEnum</span>, <span class='ident'>MutAfArray</span>, <span class='ident'>MutFeat</span>};
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_void</span>, <span class='ident'>uint8_t</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_int</span>, <span class='ident'>c_float</span>, <span class='ident'>c_double</span>, <span class='ident'>c_longlong</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="kw">use</span> <span class="ident">array</span>::<span class="ident">Array</span>;
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">HomographyType</span>, <span class="ident">MatchType</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">DimT</span>, <span class="ident">Feat</span>, <span class="ident">HasAfEnum</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutFeat</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_void</span>, <span class="ident">uint8_t</span>, <span class="ident">c_uint</span>, <span class="ident">c_int</span>, <span class="ident">c_float</span>, <span class="ident">c_double</span>, <span class="ident">c_longlong</span>};
 
-<span class='comment'>// af_sift and af_gloh uses patented algorithms, so didn&#39;t add them</span>
-<span class='comment'>// they are built using installer builds</span>
+<span class="comment">// af_sift and af_gloh uses patented algorithms, so didn&#39;t add them</span>
+<span class="comment">// they are built using installer builds</span>
 
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_create_features</span>(<span class='ident'>feat</span>: <span class='ident'>MutFeat</span>, <span class='ident'>num</span>: <span class='ident'>DimT</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_retain_features</span>(<span class='ident'>feat</span>: <span class='ident'>MutFeat</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_num</span>(<span class='ident'>num</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_xpos</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_ypos</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_score</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_orientation</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_features_size</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>feat</span>: <span class='ident'>Feat</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_release_features</span>(<span class='ident'>feat</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_create_features</span>(<span class="ident">feat</span>: <span class="ident">MutFeat</span>, <span class="ident">num</span>: <span class="ident">DimT</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_retain_features</span>(<span class="ident">feat</span>: <span class="ident">MutFeat</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_num</span>(<span class="ident">num</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_xpos</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_ypos</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_score</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_orientation</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_features_size</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">feat</span>: <span class="ident">Feat</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_release_features</span>(<span class="ident">feat</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_fast</span>(<span class='ident'>out</span>: <span class='ident'>MutFeat</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>thr</span>: <span class='ident'>c_float</span>, <span class='ident'>arc_len</span>: <span class='ident'>c_uint</span>, <span class='ident'>non_max</span>: <span class='ident'>c_int</span>,
-               <span class='ident'>feature_ratio</span>: <span class='ident'>c_float</span>, <span class='ident'>edge</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fast</span>(<span class="ident">out</span>: <span class="ident">MutFeat</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">thr</span>: <span class="ident">c_float</span>, <span class="ident">arc_len</span>: <span class="ident">c_uint</span>, <span class="ident">non_max</span>: <span class="ident">c_int</span>,
+               <span class="ident">feature_ratio</span>: <span class="ident">c_float</span>, <span class="ident">edge</span>: <span class="ident">c_uint</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_harris</span>(<span class='ident'>out</span>: <span class='ident'>MutFeat</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>m</span>: <span class='ident'>c_uint</span>, <span class='ident'>r</span>: <span class='ident'>c_float</span>, <span class='ident'>s</span>: <span class='ident'>c_float</span>, <span class='ident'>bs</span>: <span class='ident'>c_uint</span>, <span class='ident'>k</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_harris</span>(<span class="ident">out</span>: <span class="ident">MutFeat</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">r</span>: <span class="ident">c_float</span>, <span class="ident">s</span>: <span class="ident">c_float</span>, <span class="ident">bs</span>: <span class="ident">c_uint</span>, <span class="ident">k</span>: <span class="ident">c_float</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_orb</span>(<span class='ident'>out</span>: <span class='ident'>MutFeat</span>, <span class='ident'>desc</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>arr</span>: <span class='ident'>AfArray</span>, <span class='ident'>fast_thr</span>: <span class='ident'>c_float</span>, <span class='ident'>max_feat</span>: <span class='ident'>c_uint</span>,
-              <span class='ident'>scl_fctr</span>: <span class='ident'>c_float</span>, <span class='ident'>levels</span>: <span class='ident'>c_uint</span>, <span class='ident'>blur_img</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_orb</span>(<span class="ident">out</span>: <span class="ident">MutFeat</span>, <span class="ident">desc</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">fast_thr</span>: <span class="ident">c_float</span>, <span class="ident">max_feat</span>: <span class="ident">c_uint</span>,
+              <span class="ident">scl_fctr</span>: <span class="ident">c_float</span>, <span class="ident">levels</span>: <span class="ident">c_uint</span>, <span class="ident">blur_img</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_hamming_matcher</span>(<span class='ident'>idx</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>dist</span>: <span class='ident'>MutAfArray</span>,
-                          <span class='ident'>query</span>: <span class='ident'>AfArray</span>, <span class='ident'>train</span>: <span class='ident'>AfArray</span>,
-                          <span class='ident'>dist_dim</span>: <span class='ident'>DimT</span>, <span class='ident'>n_dist</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_hamming_matcher</span>(<span class="ident">idx</span>: <span class="ident">MutAfArray</span>, <span class="ident">dist</span>: <span class="ident">MutAfArray</span>,
+                          <span class="ident">query</span>: <span class="ident">AfArray</span>, <span class="ident">train</span>: <span class="ident">AfArray</span>,
+                          <span class="ident">dist_dim</span>: <span class="ident">DimT</span>, <span class="ident">n_dist</span>: <span class="ident">c_uint</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_nearest_neighbour</span>(<span class='ident'>idx</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>dist</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>q</span>: <span class='ident'>AfArray</span>, <span class='ident'>t</span>: <span class='ident'>AfArray</span>,
-                            <span class='ident'>dist_dim</span>: <span class='ident'>DimT</span>, <span class='ident'>n_dist</span>: <span class='ident'>c_uint</span>, <span class='ident'>dist_type</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_nearest_neighbour</span>(<span class="ident">idx</span>: <span class="ident">MutAfArray</span>, <span class="ident">dist</span>: <span class="ident">MutAfArray</span>, <span class="ident">q</span>: <span class="ident">AfArray</span>, <span class="ident">t</span>: <span class="ident">AfArray</span>,
+                            <span class="ident">dist_dim</span>: <span class="ident">DimT</span>, <span class="ident">n_dist</span>: <span class="ident">c_uint</span>, <span class="ident">dist_type</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_match_template</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>search_img</span>: <span class='ident'>AfArray</span>, <span class='ident'>template_img</span>: <span class='ident'>AfArray</span>,
-                         <span class='ident'>mtype</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_match_template</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">search_img</span>: <span class="ident">AfArray</span>, <span class="ident">template_img</span>: <span class="ident">AfArray</span>,
+                         <span class="ident">mtype</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_susan</span>(<span class='ident'>feat</span>: <span class='ident'>MutFeat</span>, <span class='ident'>i</span>: <span class='ident'>AfArray</span>, <span class='ident'>r</span>: <span class='ident'>c_uint</span>, <span class='ident'>d</span>: <span class='ident'>c_float</span>, <span class='ident'>g</span>: <span class='ident'>c_float</span>, <span class='ident'>f</span>: <span class='ident'>c_float</span>, <span class='ident'>e</span>: <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_susan</span>(<span class="ident">feat</span>: <span class="ident">MutFeat</span>, <span class="ident">i</span>: <span class="ident">AfArray</span>, <span class="ident">r</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_float</span>, <span class="ident">g</span>: <span class="ident">c_float</span>, <span class="ident">f</span>: <span class="ident">c_float</span>, <span class="ident">e</span>: <span class="ident">c_uint</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_dog</span>(<span class='ident'>out</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>i</span>: <span class='ident'>AfArray</span>, <span class='ident'>r1</span>: <span class='ident'>c_int</span>, <span class='ident'>r2</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_dog</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">i</span>: <span class="ident">AfArray</span>, <span class="ident">r1</span>: <span class="ident">c_int</span>, <span class="ident">r2</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_homography</span>(<span class='ident'>H</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>inliers</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>, <span class='ident'>x_src</span>: <span class='ident'>AfArray</span>, <span class='ident'>y_src</span>: <span class='ident'>AfArray</span>,
-                     <span class='ident'>x_dst</span>: <span class='ident'>AfArray</span>, <span class='ident'>y_dst</span>: <span class='ident'>AfArray</span>, <span class='ident'>htype</span>: <span class='ident'>c_int</span>, <span class='ident'>inlier_thr</span>: <span class='ident'>c_float</span>,
-                     <span class='ident'>iterations</span>: <span class='ident'>c_uint</span>, <span class='ident'>otype</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_homography</span>(<span class="ident">H</span>: <span class="ident">MutAfArray</span>, <span class="ident">inliers</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">x_src</span>: <span class="ident">AfArray</span>, <span class="ident">y_src</span>: <span class="ident">AfArray</span>,
+                     <span class="ident">x_dst</span>: <span class="ident">AfArray</span>, <span class="ident">y_dst</span>: <span class="ident">AfArray</span>, <span class="ident">htype</span>: <span class="ident">c_int</span>, <span class="ident">inlier_thr</span>: <span class="ident">c_float</span>,
+                     <span class="ident">iterations</span>: <span class="ident">c_uint</span>, <span class="ident">otype</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>af_gloh</span>(<span class='ident'>out</span>: <span class='ident'>MutFeat</span>, <span class='ident'>desc</span>: <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>: <span class='ident'>AfArray</span>, <span class='ident'>n_layers</span>: <span class='ident'>c_uint</span>,
-               <span class='ident'>contrast_thr</span>: <span class='ident'>c_float</span>, <span class='ident'>edge_thr</span>: <span class='ident'>c_float</span>, <span class='ident'>init_sigma</span>: <span class='ident'>c_float</span>,
-               <span class='ident'>double_input</span>: <span class='ident'>c_double</span>, <span class='ident'>intensity_scale</span>: <span class='ident'>c_float</span>, <span class='ident'>feature_ratio</span>: <span class='ident'>c_float</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_gloh</span>(<span class="ident">out</span>: <span class="ident">MutFeat</span>, <span class="ident">desc</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">n_layers</span>: <span class="ident">c_uint</span>,
+               <span class="ident">contrast_thr</span>: <span class="ident">c_float</span>, <span class="ident">edge_thr</span>: <span class="ident">c_float</span>, <span class="ident">init_sigma</span>: <span class="ident">c_float</span>,
+               <span class="ident">double_input</span>: <span class="ident">c_double</span>, <span class="ident">intensity_scale</span>: <span class="ident">c_float</span>, <span class="ident">feature_ratio</span>: <span class="ident">c_float</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='doccomment'>/// A set of Array objects (usually, used in Computer vision context)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// `Features` struct is used by computer vision functions</span>
-<span class='doccomment'>/// to return the outcome of their operation. Typically, such output</span>
-<span class='doccomment'>/// has the following Arrays:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - X positions of the features</span>
-<span class='doccomment'>/// - Y positions of the features</span>
-<span class='doccomment'>/// - Scores of the features</span>
-<span class='doccomment'>/// - Orientations of the features</span>
-<span class='doccomment'>/// - Sizes of the features</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Features</span> {
-    <span class='ident'>feat</span>: <span class='ident'>i64</span>,
+<span class="doccomment">/// A set of Array objects (usually, used in Computer vision context)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `Features` struct is used by computer vision functions</span>
+<span class="doccomment">/// to return the outcome of their operation. Typically, such output</span>
+<span class="doccomment">/// has the following Arrays:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - X positions of the features</span>
+<span class="doccomment">/// - Y positions of the features</span>
+<span class="doccomment">/// - Scores of the features</span>
+<span class="doccomment">/// - Orientations of the features</span>
+<span class="doccomment">/// - Sizes of the features</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Features</span> {
+    <span class="ident">feat</span>: <span class="ident">i64</span>,
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>feat_func_def</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
-        <span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>doc_str</span>]</span>
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>fn_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-            <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>ffi_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='self'>self</span>.<span class='ident'>feat</span> <span class='kw'>as</span> <span class='ident'>Feat</span>);
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">feat_func_def</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">feat</span> <span class="kw">as</span> <span class="ident">Feat</span>);
 
-                <span class='kw'>let</span> <span class='ident'>temp_array</span> <span class='op'>=</span> <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>);
-                <span class='kw'>let</span> <span class='ident'>retained</span> <span class='op'>=</span> <span class='ident'>temp_array</span>.<span class='ident'>clone</span>();
-                <span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>temp_array</span>);
+                <span class="kw">let</span> <span class="ident">temp_array</span> <span class="op">=</span> <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>);
+                <span class="kw">let</span> <span class="ident">retained</span> <span class="op">=</span> <span class="ident">temp_array</span>.<span class="ident">clone</span>();
+                <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">temp_array</span>);
 
-                <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-                <span class='ident'>retained</span>
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">retained</span>
             }
         }
     )
 }
 
-<span class='kw'>impl</span> <span class='ident'>Features</span> {
-    <span class='doccomment'>/// Create and return an object of type Features</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This object is basically a bunch of Arrays.</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>n</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Features</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_create_features</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>,
-                                             <span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>DimT</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>temp</span>}
+<span class="kw">impl</span> <span class="ident">Features</span> {
+    <span class="doccomment">/// Create and return an object of type Features</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This object is basically a bunch of Arrays.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Features</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_features</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>,
+                                             <span class="ident">n</span> <span class="kw">as</span> <span class="ident">DimT</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">temp</span>}
         }
     }
 
-    <span class='doccomment'>/// Get total number of features found</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>num_features</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i64</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_features_num</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>DimT</span>,
-                                              <span class='self'>self</span>.<span class='ident'>feat</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>Feat</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-            <span class='ident'>temp</span>
+    <span class="doccomment">/// Get total number of features found</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_features</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_features_num</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>,
+                                              <span class="self">self</span>.<span class="ident">feat</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">Feat</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            <span class="ident">temp</span>
         }
     }
 
-    <span class='macro'>feat_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Get x coordinates Array&quot;</span>, <span class='ident'>xpos</span>, <span class='ident'>af_get_features_xpos</span>);
-    <span class='macro'>feat_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Get y coordinates Array&quot;</span>, <span class='ident'>ypos</span>, <span class='ident'>af_get_features_ypos</span>);
-    <span class='macro'>feat_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Get score Array&quot;</span>, <span class='ident'>score</span>, <span class='ident'>af_get_features_score</span>);
-    <span class='macro'>feat_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Get orientation Array&quot;</span>, <span class='ident'>orientation</span>, <span class='ident'>af_get_features_orientation</span>);
-    <span class='macro'>feat_func_def</span><span class='macro'>!</span>(<span class='string'>&quot;Get features size Array&quot;</span>, <span class='ident'>size</span>, <span class='ident'>af_get_features_size</span>);
+    <span class="macro">feat_func_def</span><span class="macro">!</span>(<span class="string">&quot;Get x coordinates Array&quot;</span>, <span class="ident">xpos</span>, <span class="ident">af_get_features_xpos</span>);
+    <span class="macro">feat_func_def</span><span class="macro">!</span>(<span class="string">&quot;Get y coordinates Array&quot;</span>, <span class="ident">ypos</span>, <span class="ident">af_get_features_ypos</span>);
+    <span class="macro">feat_func_def</span><span class="macro">!</span>(<span class="string">&quot;Get score Array&quot;</span>, <span class="ident">score</span>, <span class="ident">af_get_features_score</span>);
+    <span class="macro">feat_func_def</span><span class="macro">!</span>(<span class="string">&quot;Get orientation Array&quot;</span>, <span class="ident">orientation</span>, <span class="ident">af_get_features_orientation</span>);
+    <span class="macro">feat_func_def</span><span class="macro">!</span>(<span class="string">&quot;Get features size Array&quot;</span>, <span class="ident">size</span>, <span class="ident">af_get_features_size</span>);
 
-    <span class='doccomment'>/// Get the internal handle for [Features](./struct.Features.html) object</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i64</span> {
-        <span class='self'>self</span>.<span class='ident'>feat</span>
+    <span class="doccomment">/// Get the internal handle for [Features](./struct.Features.html) object</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+        <span class="self">self</span>.<span class="ident">feat</span>
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Features</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Features</span> {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-            <span class='kw'>let</span> <span class='ident'>ret_val</span> <span class='op'>=</span> <span class='ident'>af_retain_features</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>,
-                                             <span class='self'>self</span>.<span class='ident'>feat</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>Feat</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>ret_val</span>));
-            <span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>temp</span>}
-        }
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Features</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='ident'>ret_val</span> <span class='op'>=</span> <span class='ident'>af_release_features</span>(<span class='self'>self</span>.<span class='ident'>feat</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>);
-            <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>ret_val</span>));
+<span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Features</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Features</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">ret_val</span> <span class="op">=</span> <span class="ident">af_retain_features</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>,
+                                             <span class="self">self</span>.<span class="ident">feat</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">Feat</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">ret_val</span>));
+            <span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">temp</span>}
         }
     }
 }
 
-<span class='doccomment'>/// Fast feature detector</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential</span>
-<span class='doccomment'>/// segments of pixels much brighter or much darker than the central one. For a pixel p to be</span>
-<span class='doccomment'>/// considered a feature, there must exist a sequential segment of arc_length pixels in the circle</span>
-<span class='doccomment'>/// around it such that all are greather than (p + thr) or smaller than (p - thr). After all</span>
-<span class='doccomment'>/// features in the image are detected, if nonmax is true, the non-maximal suppression is applied,</span>
-<span class='doccomment'>/// checking all detected features and the features detected in its 8-neighborhood and discard it</span>
-<span class='doccomment'>/// if its score is non maximal.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - the input image Array</span>
-<span class='doccomment'>/// - `thr` - FAST threshold for which pixel of the circle around the center pixel is considered to</span>
-<span class='doccomment'>/// be greater or smaller</span>
-<span class='doccomment'>/// - `arc_len` - length of arc (or sequential segment) to be tested, must be within range [9-16]</span>
-<span class='doccomment'>/// - `non_max` - performs non-maximal supression if true</span>
-<span class='doccomment'>/// - `feat_ratio` - maximum ratio of features to detect, the maximum number of features is</span>
-<span class='doccomment'>/// calculated by `feature_ratio * num of elements`. The maximum number of features is not based on</span>
-<span class='doccomment'>/// the score, instead, features detected after the limit is reached are discarded.</span>
-<span class='doccomment'>/// - `edge` - is the length of the edges in the image to be discarded by FAST(minimum is 3, as the</span>
-<span class='doccomment'>/// radius of the circle)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays</span>
-<span class='doccomment'>/// for x and y coordinates and score, while array oreientation is set to 0 as FAST does not</span>
-<span class='doccomment'>/// compute orientation. Size is set to 1 as FAST does not compute multiple scales.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fast</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>thr</span>: <span class='ident'>f32</span>, <span class='ident'>arc_len</span>: <span class='ident'>u32</span>,
-            <span class='ident'>non_max</span>: <span class='ident'>bool</span>, <span class='ident'>feat_ratio</span>: <span class='ident'>f32</span>, <span class='ident'>edge</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Features</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_fast</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>,
-                <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>arc_len</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                <span class='ident'>non_max</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>feat_ratio</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>edge</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>temp</span>}
+<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Features</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ret_val</span> <span class="op">=</span> <span class="ident">af_release_features</span>(<span class="self">self</span>.<span class="ident">feat</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>);
+            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">ret_val</span>));
+        }
     }
 }
 
-<span class='doccomment'>/// Harris corner detector.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Compute corners using the Harris corner detector approach. For each pixel, a small window is</span>
-<span class='doccomment'>/// used to calculate the determinant and trace of such a window, from which a response is</span>
-<span class='doccomment'>/// calculated. Pixels are considered corners if they are local maximas and have a high positive</span>
-<span class='doccomment'>/// response.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the array containing a grayscale image (color images are not supported)</span>
-<span class='doccomment'>/// - `max_corners` is the maximum number of corners to keep, only retains those with highest Harris responses</span>
-<span class='doccomment'>/// - `min_response` is the minimum response in order for a corner to be retained, only used if max_corners = 0</span>
-<span class='doccomment'>/// - `sigma` is the standard deviation of a circular window (its dimensions will be calculated according to the standard deviation), the covariation matrix will be calculated to a circular neighborhood of this standard deviation (only used when block_size == 0, must be &gt;= 0.5f and &lt;= 5.0f)</span>
-<span class='doccomment'>/// - `block_size` is square window size, the covariation matrix will be calculated to a square neighborhood of this size (must be &gt;= 3 and &lt;= 31)</span>
-<span class='doccomment'>/// - `k_thr` is the Harris constant, usually set empirically to 0.04f (must be &gt;= 0.01f)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays</span>
-<span class='doccomment'>/// for x and y coordinates and score, while array oreientation &amp; size are set to 0 &amp; 1,</span>
-<span class='doccomment'>/// respectively, since harris doesn&#39;t compute that information</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>harris</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>max_corners</span>: <span class='ident'>u32</span>, <span class='ident'>min_response</span>: <span class='ident'>f32</span>, <span class='ident'>sigma</span>: <span class='ident'>f32</span>, <span class='ident'>block_size</span>: <span class='ident'>u32</span>, <span class='ident'>k_thr</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>Features</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_harris</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>,
-                                <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>max_corners</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                                <span class='ident'>min_response</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>sigma</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>block_size</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                                <span class='ident'>k_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>temp</span>}
+<span class="doccomment">/// Fast feature detector</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A circle of radius 3 pixels, translating into a total of 16 pixels, is checked for sequential</span>
+<span class="doccomment">/// segments of pixels much brighter or much darker than the central one. For a pixel p to be</span>
+<span class="doccomment">/// considered a feature, there must exist a sequential segment of arc_length pixels in the circle</span>
+<span class="doccomment">/// around it such that all are greather than (p + thr) or smaller than (p - thr). After all</span>
+<span class="doccomment">/// features in the image are detected, if nonmax is true, the non-maximal suppression is applied,</span>
+<span class="doccomment">/// checking all detected features and the features detected in its 8-neighborhood and discard it</span>
+<span class="doccomment">/// if its score is non maximal.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - the input image Array</span>
+<span class="doccomment">/// - `thr` - FAST threshold for which pixel of the circle around the center pixel is considered to</span>
+<span class="doccomment">/// be greater or smaller</span>
+<span class="doccomment">/// - `arc_len` - length of arc (or sequential segment) to be tested, must be within range [9-16]</span>
+<span class="doccomment">/// - `non_max` - performs non-maximal supression if true</span>
+<span class="doccomment">/// - `feat_ratio` - maximum ratio of features to detect, the maximum number of features is</span>
+<span class="doccomment">/// calculated by `feature_ratio * num of elements`. The maximum number of features is not based on</span>
+<span class="doccomment">/// the score, instead, features detected after the limit is reached are discarded.</span>
+<span class="doccomment">/// - `edge` - is the length of the edges in the image to be discarded by FAST(minimum is 3, as the</span>
+<span class="doccomment">/// radius of the circle)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays</span>
+<span class="doccomment">/// for x and y coordinates and score, while array oreientation is set to 0 as FAST does not</span>
+<span class="doccomment">/// compute orientation. Size is set to 1 as FAST does not compute multiple scales.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fast</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">thr</span>: <span class="ident">f32</span>, <span class="ident">arc_len</span>: <span class="ident">u32</span>,
+            <span class="ident">non_max</span>: <span class="ident">bool</span>, <span class="ident">feat_ratio</span>: <span class="ident">f32</span>, <span class="ident">edge</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Features</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>,
+                <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">thr</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">arc_len</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+                <span class="ident">non_max</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">feat_ratio</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">edge</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">temp</span>}
     }
 }
 
-<span class='doccomment'>/// ORB feature descriptor</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not</span>
-<span class='doccomment'>/// compute orientation, thus, orientation of features is calculated using the intensity centroid.</span>
-<span class='doccomment'>/// As FAST is also not multi-scale enabled, a multi-scale pyramid is calculated by downsampling</span>
-<span class='doccomment'>/// the input image multiple times followed by FAST feature detection on each scale.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` - the input image Array</span>
-<span class='doccomment'>/// - `fast_thr` - FAST threshold for which a pixel of the circle around the central pixel is</span>
-<span class='doccomment'>/// considered to be brighter or darker</span>
-<span class='doccomment'>/// - `max_feat` - maximum number of features to hold</span>
-<span class='doccomment'>/// - `scl_fctr` - factor to downsample the input image, meaning that each level with hold prior</span>
-<span class='doccomment'>/// level dimensions divided by `scl_fctr`</span>
-<span class='doccomment'>/// - `levels` - number of levels to be computed for the image pyramid</span>
-<span class='doccomment'>/// - `blur_img` - blur image with a Gaussian filter with sigma=2 before computing descriptors to</span>
-<span class='doccomment'>/// increase robustness against noise if true</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>orb</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>fast_thr</span>: <span class='ident'>f32</span>, <span class='ident'>max_feat</span>: <span class='ident'>u32</span>,
-           <span class='ident'>scl_fctr</span>: <span class='ident'>f32</span>, <span class='ident'>levels</span>: <span class='ident'>u32</span>, <span class='ident'>blur_img</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> (<span class='ident'>Features</span>, <span class='ident'>Array</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>f</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>d</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_orb</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>f</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-               <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>fast_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
-               <span class='ident'>max_feat</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>scl_fctr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>levels</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>blur_img</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>f</span>}, <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>d</span>))
+<span class="doccomment">/// Harris corner detector.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Compute corners using the Harris corner detector approach. For each pixel, a small window is</span>
+<span class="doccomment">/// used to calculate the determinant and trace of such a window, from which a response is</span>
+<span class="doccomment">/// calculated. Pixels are considered corners if they are local maximas and have a high positive</span>
+<span class="doccomment">/// response.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the array containing a grayscale image (color images are not supported)</span>
+<span class="doccomment">/// - `max_corners` is the maximum number of corners to keep, only retains those with highest Harris responses</span>
+<span class="doccomment">/// - `min_response` is the minimum response in order for a corner to be retained, only used if max_corners = 0</span>
+<span class="doccomment">/// - `sigma` is the standard deviation of a circular window (its dimensions will be calculated according to the standard deviation), the covariation matrix will be calculated to a circular neighborhood of this standard deviation (only used when block_size == 0, must be &gt;= 0.5f and &lt;= 5.0f)</span>
+<span class="doccomment">/// - `block_size` is square window size, the covariation matrix will be calculated to a square neighborhood of this size (must be &gt;= 3 and &lt;= 31)</span>
+<span class="doccomment">/// - `k_thr` is the Harris constant, usually set empirically to 0.04f (must be &gt;= 0.01f)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function returns an object of struct [Features](./struct.Features.html) containing Arrays</span>
+<span class="doccomment">/// for x and y coordinates and score, while array oreientation &amp; size are set to 0 &amp; 1,</span>
+<span class="doccomment">/// respectively, since harris doesn&#39;t compute that information</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">harris</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">max_corners</span>: <span class="ident">u32</span>, <span class="ident">min_response</span>: <span class="ident">f32</span>, <span class="ident">sigma</span>: <span class="ident">f32</span>, <span class="ident">block_size</span>: <span class="ident">u32</span>, <span class="ident">k_thr</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">Features</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_harris</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>,
+                                <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">max_corners</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+                                <span class="ident">min_response</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">sigma</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">block_size</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+                                <span class="ident">k_thr</span> <span class="kw">as</span> <span class="ident">c_float</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">temp</span>}
     }
 }
 
-<span class='doccomment'>/// Hamming feature matcher</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Calculates Hamming distances between two 2-dimensional arrays containing features, one of the</span>
-<span class='doccomment'>/// arrays containing the training data and the other the query data. One of the dimensions of the</span>
-<span class='doccomment'>/// both arrays must be equal among them, identifying the length of each feature. The other</span>
-<span class='doccomment'>/// dimension indicates the total number of features in each of the training and query arrays. Two</span>
-<span class='doccomment'>/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query</span>
-<span class='doccomment'>/// array and another containing the indices of these distances in the training array. The</span>
-<span class='doccomment'>/// resulting 1-dimensional arrays have length equal to the number of features contained in the</span>
-<span class='doccomment'>/// query array.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `query` - Array containing the data to be queried</span>
-<span class='doccomment'>/// - `train` - Array containing the data to be used as training data</span>
-<span class='doccomment'>/// - `dist_dims` - indicates the dimension to analyze for distance (the dimension indicated here</span>
-<span class='doccomment'>/// must be of equal length for both query and train arrays)</span>
-<span class='doccomment'>/// - `n_dist` - is the number of smallest distances to return (currently, only 1 is supported)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function returns a tuple of [Array](./struct.Array.html)&#39;s.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// First Array is an array of MxN size, where M is equal to the number of query features and N is</span>
-<span class='doccomment'>/// equal to n_dist. The value at position IxJ indicates the index of the Jth smallest distance to</span>
-<span class='doccomment'>/// the Ith query value in the train data array. the index of the Ith smallest distance of the Mth</span>
-<span class='doccomment'>/// query.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Second Array is an array of MxN size, where M is equal to the number of query features and N is</span>
-<span class='doccomment'>/// equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest</span>
-<span class='doccomment'>/// distance to the Ith query value in the train data array.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hamming_matcher</span>(<span class='ident'>query</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>train</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                       <span class='ident'>dist_dims</span>: <span class='ident'>i64</span>, <span class='ident'>n_dist</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>Array</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idx</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dist</span>:<span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_hamming_matcher</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>idx</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>dist</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                           <span class='ident'>query</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>train</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                           <span class='ident'>dist_dims</span> <span class='kw'>as</span> <span class='ident'>DimT</span>, <span class='ident'>n_dist</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>idx</span>), <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>dist</span>))
+<span class="doccomment">/// ORB feature descriptor</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Extract ORB descriptors from FAST features that hold higher Harris responses. FAST does not</span>
+<span class="doccomment">/// compute orientation, thus, orientation of features is calculated using the intensity centroid.</span>
+<span class="doccomment">/// As FAST is also not multi-scale enabled, a multi-scale pyramid is calculated by downsampling</span>
+<span class="doccomment">/// the input image multiple times followed by FAST feature detection on each scale.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` - the input image Array</span>
+<span class="doccomment">/// - `fast_thr` - FAST threshold for which a pixel of the circle around the central pixel is</span>
+<span class="doccomment">/// considered to be brighter or darker</span>
+<span class="doccomment">/// - `max_feat` - maximum number of features to hold</span>
+<span class="doccomment">/// - `scl_fctr` - factor to downsample the input image, meaning that each level with hold prior</span>
+<span class="doccomment">/// level dimensions divided by `scl_fctr`</span>
+<span class="doccomment">/// - `levels` - number of levels to be computed for the image pyramid</span>
+<span class="doccomment">/// - `blur_img` - blur image with a Gaussian filter with sigma=2 before computing descriptors to</span>
+<span class="doccomment">/// increase robustness against noise if true</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">orb</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">fast_thr</span>: <span class="ident">f32</span>, <span class="ident">max_feat</span>: <span class="ident">u32</span>,
+           <span class="ident">scl_fctr</span>: <span class="ident">f32</span>, <span class="ident">levels</span>: <span class="ident">u32</span>, <span class="ident">blur_img</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> (<span class="ident">Features</span>, <span class="ident">Array</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">d</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_orb</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">f</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">d</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+               <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">fast_thr</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+               <span class="ident">max_feat</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">scl_fctr</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">levels</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">blur_img</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">f</span>}, <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">d</span>))
     }
 }
 
-<span class='doccomment'>/// Nearest Neighbour.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Calculates nearest distances between two 2-dimensional arrays containing features based on the</span>
-<span class='doccomment'>/// type of distance computation chosen. Currently, AF_SAD (sum of absolute differences), AF_SSD</span>
-<span class='doccomment'>/// (sum of squared differences) and AF_SHD (hamming distance) are supported. One of the arrays</span>
-<span class='doccomment'>/// containing the training data and the other the query data. One of the dimensions of the both</span>
-<span class='doccomment'>/// arrays must be equal among them, identifying the length of each feature. The other dimension</span>
-<span class='doccomment'>/// indicates the total number of features in each of the training and query arrays. Two</span>
-<span class='doccomment'>/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query</span>
-<span class='doccomment'>/// array and another containing the indices of these distances in the training array. The resulting</span>
-<span class='doccomment'>/// 1-dimensional arrays have length equal to the number of features contained in the query array.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `query` is the array containing the data to be queried</span>
-<span class='doccomment'>/// - `train` is the array containing the data used as training data</span>
-<span class='doccomment'>/// - `dist_dim` indicates the dimension to analyze for distance (the dimension indicated here must be of equal length for both query and train arrays)</span>
-<span class='doccomment'>/// - `n_dist` is the number of smallest distances to return (currently, only 1 is supported)</span>
-<span class='doccomment'>/// - `dist_type` is the distance computation type. Currently [`MatchType::SAD`](./enum.MatchType.html), [`MatchType::SSD`](./enum.MatchType.html), and [`MatchType::SHD`](./enum.MatchType.html) are supported.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// A tuple of Arrays.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The first Array is is an array of MxN size, where M is equal to the number of query features</span>
-<span class='doccomment'>/// and N is equal to `n_dist`. The value at position IxJ indicates the index of the Jth smallest</span>
-<span class='doccomment'>/// distance to the Ith query value in the train data array. the index of the Ith smallest distance</span>
-<span class='doccomment'>/// of the Mth query.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The second Array is is an array of MxN size, where M is equal to the number of query features</span>
-<span class='doccomment'>/// and N is equal to `n_dist`. The value at position IxJ indicates the distance of the Jth smallest</span>
-<span class='doccomment'>/// distance to the Ith query value in the train data array based on the `dist_type` chosen.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>nearest_neighbour</span>(<span class='ident'>query</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>train</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>dist_dim</span>: <span class='ident'>i64</span>, <span class='ident'>n_dist</span>: <span class='ident'>u32</span>, <span class='ident'>dist_type</span>: <span class='ident'>MatchType</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>Array</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>idx</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dist</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_nearest_neighbour</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>idx</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>dist</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                                           <span class='ident'>query</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>train</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                           <span class='ident'>dist_dim</span> <span class='kw'>as</span> <span class='ident'>DimT</span>, <span class='ident'>n_dist</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>dist_type</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>idx</span>), <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>dist</span>))
+<span class="doccomment">/// Hamming feature matcher</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Calculates Hamming distances between two 2-dimensional arrays containing features, one of the</span>
+<span class="doccomment">/// arrays containing the training data and the other the query data. One of the dimensions of the</span>
+<span class="doccomment">/// both arrays must be equal among them, identifying the length of each feature. The other</span>
+<span class="doccomment">/// dimension indicates the total number of features in each of the training and query arrays. Two</span>
+<span class="doccomment">/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query</span>
+<span class="doccomment">/// array and another containing the indices of these distances in the training array. The</span>
+<span class="doccomment">/// resulting 1-dimensional arrays have length equal to the number of features contained in the</span>
+<span class="doccomment">/// query array.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `query` - Array containing the data to be queried</span>
+<span class="doccomment">/// - `train` - Array containing the data to be used as training data</span>
+<span class="doccomment">/// - `dist_dims` - indicates the dimension to analyze for distance (the dimension indicated here</span>
+<span class="doccomment">/// must be of equal length for both query and train arrays)</span>
+<span class="doccomment">/// - `n_dist` - is the number of smallest distances to return (currently, only 1 is supported)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function returns a tuple of [Array](./struct.Array.html)&#39;s.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// First Array is an array of MxN size, where M is equal to the number of query features and N is</span>
+<span class="doccomment">/// equal to n_dist. The value at position IxJ indicates the index of the Jth smallest distance to</span>
+<span class="doccomment">/// the Ith query value in the train data array. the index of the Ith smallest distance of the Mth</span>
+<span class="doccomment">/// query.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Second Array is an array of MxN size, where M is equal to the number of query features and N is</span>
+<span class="doccomment">/// equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest</span>
+<span class="doccomment">/// distance to the Ith query value in the train data array.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hamming_matcher</span>(<span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">train</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                       <span class="ident">dist_dims</span>: <span class="ident">i64</span>, <span class="ident">n_dist</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">Array</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dist</span>:<span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_hamming_matcher</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">idx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dist</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                           <span class="ident">query</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">train</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                           <span class="ident">dist_dims</span> <span class="kw">as</span> <span class="ident">DimT</span>, <span class="ident">n_dist</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">idx</span>), <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">dist</span>))
     }
 }
 
-<span class='doccomment'>/// Image matching</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Template matching is an image processing technique to find small patches of an image which</span>
-<span class='doccomment'>/// match a given template image. A more in depth discussion on the topic can be found</span>
-<span class='doccomment'>/// [here](https://en.wikipedia.org/wiki/Template_matching).</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `search_img` is an array with image data</span>
-<span class='doccomment'>/// - `template_img` is the template we are looking for in the image</span>
-<span class='doccomment'>/// - `mtype` is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function returns an Array with disparity values for the window starting at corresponding pixel position.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_template</span>(<span class='ident'>search_img</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>template_img</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                      <span class='ident'>mtype</span>: <span class='ident'>MatchType</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_match_template</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>,
-                          <span class='ident'>search_img</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>template_img</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                          <span class='ident'>mtype</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// Nearest Neighbour.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Calculates nearest distances between two 2-dimensional arrays containing features based on the</span>
+<span class="doccomment">/// type of distance computation chosen. Currently, AF_SAD (sum of absolute differences), AF_SSD</span>
+<span class="doccomment">/// (sum of squared differences) and AF_SHD (hamming distance) are supported. One of the arrays</span>
+<span class="doccomment">/// containing the training data and the other the query data. One of the dimensions of the both</span>
+<span class="doccomment">/// arrays must be equal among them, identifying the length of each feature. The other dimension</span>
+<span class="doccomment">/// indicates the total number of features in each of the training and query arrays. Two</span>
+<span class="doccomment">/// 1-dimensional arrays are created as results, one containg the smallest N distances of the query</span>
+<span class="doccomment">/// array and another containing the indices of these distances in the training array. The resulting</span>
+<span class="doccomment">/// 1-dimensional arrays have length equal to the number of features contained in the query array.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `query` is the array containing the data to be queried</span>
+<span class="doccomment">/// - `train` is the array containing the data used as training data</span>
+<span class="doccomment">/// - `dist_dim` indicates the dimension to analyze for distance (the dimension indicated here must be of equal length for both query and train arrays)</span>
+<span class="doccomment">/// - `n_dist` is the number of smallest distances to return (currently, only 1 is supported)</span>
+<span class="doccomment">/// - `dist_type` is the distance computation type. Currently [`MatchType::SAD`](./enum.MatchType.html), [`MatchType::SSD`](./enum.MatchType.html), and [`MatchType::SHD`](./enum.MatchType.html) are supported.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A tuple of Arrays.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The first Array is is an array of MxN size, where M is equal to the number of query features</span>
+<span class="doccomment">/// and N is equal to `n_dist`. The value at position IxJ indicates the index of the Jth smallest</span>
+<span class="doccomment">/// distance to the Ith query value in the train data array. the index of the Ith smallest distance</span>
+<span class="doccomment">/// of the Mth query.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The second Array is is an array of MxN size, where M is equal to the number of query features</span>
+<span class="doccomment">/// and N is equal to `n_dist`. The value at position IxJ indicates the distance of the Jth smallest</span>
+<span class="doccomment">/// distance to the Ith query value in the train data array based on the `dist_type` chosen.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">nearest_neighbour</span>(<span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">train</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">dist_dim</span>: <span class="ident">i64</span>, <span class="ident">n_dist</span>: <span class="ident">u32</span>, <span class="ident">dist_type</span>: <span class="ident">MatchType</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">Array</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dist</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_nearest_neighbour</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">idx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dist</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                           <span class="ident">query</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">train</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                           <span class="ident">dist_dim</span> <span class="kw">as</span> <span class="ident">DimT</span>, <span class="ident">n_dist</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">dist_type</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">idx</span>), <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">dist</span>))
     }
 }
 
-<span class='doccomment'>/// SUSAN corner detector.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// SUSAN is an acronym standing for Smallest Univalue Segment Assimilating Nucleus. This method</span>
-<span class='doccomment'>/// places a circular disc over the pixel to be tested (a.k.a nucleus) to compute the corner</span>
-<span class='doccomment'>/// measure of that corresponding pixel. The region covered by the circular disc is M, and a pixel</span>
-<span class='doccomment'>/// in this region is represented by m⃗ ∈M where m⃗ 0 is the nucleus. Every pixel in the region is</span>
-<span class='doccomment'>/// compared to the nucleus using the following comparison function:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// c(m⃗ )=e^−((I(m⃗)−I(m⃗_0))/t)^6</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// where t is radius of the region, I is the brightness of the pixel.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Response of SUSAN operator is given by the following equation:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// R(M) = g−n(M) if n(M) &lt; g</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// R(M) = 0 otherwise,</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// where n(M)=∑c(m⃗) m⃗∈M, g is named the geometric threshold and n is the number of pixels in the</span>
-<span class='doccomment'>/// mask which are within t of the nucleus.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Importance of the parameters, t and g is explained below:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - t determines how similar points have to be to the nucleusbefore they are considered to be a</span>
-<span class='doccomment'>/// part of the univalue segment</span>
-<span class='doccomment'>/// - g determines the minimum size of the univalue segment. For a large enough g, SUSAN operator</span>
-<span class='doccomment'>/// becomes an edge dectector.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is input grayscale/intensity image</span>
-<span class='doccomment'>/// - `radius` is the nucleus radius for each pixel neighborhood</span>
-<span class='doccomment'>/// - `diff_thr` is intensity difference threshold a.k.a **t** from equations in description</span>
-<span class='doccomment'>/// - `geom_thr` is the geometric threshold</span>
-<span class='doccomment'>/// - `feature_ratio` is maximum number of features that will be returned by the function</span>
-<span class='doccomment'>/// - `edge` indicates how many pixels width area should be skipped for corner detection</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>/// An object of type [Features](./struct.Features.html) composed of arrays for x and y coordinates, score, orientation and size of selected features.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>susan</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>radius</span>: <span class='ident'>u32</span>, <span class='ident'>diff_thr</span>: <span class='ident'>f32</span>, <span class='ident'>geom_thr</span>: <span class='ident'>f32</span>, <span class='ident'>feature_ratio</span>: <span class='ident'>f32</span>, <span class='ident'>edge</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Features</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_susan</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_longlong</span> <span class='kw'>as</span> <span class='ident'>MutFeat</span>,
-                               <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>radius</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>,
-                               <span class='ident'>diff_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>geom_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>, <span class='ident'>feature_ratio</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
-                               <span class='ident'>edge</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Features</span> {<span class='ident'>feat</span>: <span class='ident'>temp</span>}
+<span class="doccomment">/// Image matching</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Template matching is an image processing technique to find small patches of an image which</span>
+<span class="doccomment">/// match a given template image. A more in depth discussion on the topic can be found</span>
+<span class="doccomment">/// [here](https://en.wikipedia.org/wiki/Template_matching).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `search_img` is an array with image data</span>
+<span class="doccomment">/// - `template_img` is the template we are looking for in the image</span>
+<span class="doccomment">/// - `mtype` is metric that should be used to calculate the disparity between window in the image and the template image. It can be one of the values defined by the enum [MatchType](./enum.MatchType.html).</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function returns an Array with disparity values for the window starting at corresponding pixel position.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">match_template</span>(<span class="ident">search_img</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">template_img</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                      <span class="ident">mtype</span>: <span class="ident">MatchType</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_match_template</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                          <span class="ident">search_img</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">template_img</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                          <span class="ident">mtype</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
 }
 
-<span class='doccomment'>/// Difference of Gaussians.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Given an image, this function computes two different versions of smoothed input image using the</span>
-<span class='doccomment'>/// difference smoothing parameters and subtracts one from the other and returns the result.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `input` is the input image</span>
-<span class='doccomment'>/// - `radius1` is the radius of the first gaussian kernel</span>
-<span class='doccomment'>/// - `radius2` is the radius of the second gaussian kernel</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Difference of smoothed inputs - An Array.</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dog</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>radius1</span>: <span class='ident'>i32</span>, <span class='ident'>radius2</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>Array</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_dog</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='ident'>input</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                             <span class='ident'>radius1</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>radius2</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>)
+<span class="doccomment">/// SUSAN corner detector.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// SUSAN is an acronym standing for Smallest Univalue Segment Assimilating Nucleus. This method</span>
+<span class="doccomment">/// places a circular disc over the pixel to be tested (a.k.a nucleus) to compute the corner</span>
+<span class="doccomment">/// measure of that corresponding pixel. The region covered by the circular disc is M, and a pixel</span>
+<span class="doccomment">/// in this region is represented by m⃗ ∈M where m⃗ 0 is the nucleus. Every pixel in the region is</span>
+<span class="doccomment">/// compared to the nucleus using the following comparison function:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// c(m⃗ )=e^−((I(m⃗)−I(m⃗_0))/t)^6</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// where t is radius of the region, I is the brightness of the pixel.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Response of SUSAN operator is given by the following equation:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// R(M) = g−n(M) if n(M) &lt; g</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// R(M) = 0 otherwise,</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// where n(M)=∑c(m⃗) m⃗∈M, g is named the geometric threshold and n is the number of pixels in the</span>
+<span class="doccomment">/// mask which are within t of the nucleus.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Importance of the parameters, t and g is explained below:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - t determines how similar points have to be to the nucleusbefore they are considered to be a</span>
+<span class="doccomment">/// part of the univalue segment</span>
+<span class="doccomment">/// - g determines the minimum size of the univalue segment. For a large enough g, SUSAN operator</span>
+<span class="doccomment">/// becomes an edge dectector.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is input grayscale/intensity image</span>
+<span class="doccomment">/// - `radius` is the nucleus radius for each pixel neighborhood</span>
+<span class="doccomment">/// - `diff_thr` is intensity difference threshold a.k.a **t** from equations in description</span>
+<span class="doccomment">/// - `geom_thr` is the geometric threshold</span>
+<span class="doccomment">/// - `feature_ratio` is maximum number of features that will be returned by the function</span>
+<span class="doccomment">/// - `edge` indicates how many pixels width area should be skipped for corner detection</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">/// An object of type [Features](./struct.Features.html) composed of arrays for x and y coordinates, score, orientation and size of selected features.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">susan</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">radius</span>: <span class="ident">u32</span>, <span class="ident">diff_thr</span>: <span class="ident">f32</span>, <span class="ident">geom_thr</span>: <span class="ident">f32</span>, <span class="ident">feature_ratio</span>: <span class="ident">f32</span>, <span class="ident">edge</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Features</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_susan</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_longlong</span> <span class="kw">as</span> <span class="ident">MutFeat</span>,
+                               <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">radius</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+                               <span class="ident">diff_thr</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">geom_thr</span> <span class="kw">as</span> <span class="ident">c_float</span>, <span class="ident">feature_ratio</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+                               <span class="ident">edge</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Features</span> {<span class="ident">feat</span>: <span class="ident">temp</span>}
     }
 }
 
-<span class='doccomment'>/// Homography estimation</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Homography estimation find a perspective transform between two sets of 2D points.</span>
-<span class='doccomment'>/// Currently, two methods are supported for the estimation, RANSAC (RANdom SAmple Consensus)</span>
-<span class='doccomment'>/// and LMedS (Least Median of Squares). Both methods work by randomly selecting a subset</span>
-<span class='doccomment'>/// of 4 points of the set of source points, computing the eigenvectors of that set and</span>
-<span class='doccomment'>/// finding the perspective transform. The process is repeated several times, a maximum of</span>
-<span class='doccomment'>/// times given by the value passed to the iterations arguments for RANSAC (for the CPU</span>
-<span class='doccomment'>/// backend, usually less than that, depending on the quality of the dataset, but for CUDA</span>
-<span class='doccomment'>/// and OpenCL backends the transformation will be computed exactly the amount of times</span>
-<span class='doccomment'>/// passed via the iterations parameter), the returned value is the one that matches the</span>
-<span class='doccomment'>/// best number of inliers, which are all of the points that fall within a maximum L2</span>
-<span class='doccomment'>/// distance from the value passed to the inlier_thr argument.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `x_src` is the x coordinates of the source points.</span>
-<span class='doccomment'>/// - `y_src` is the y coordinates of the source points.</span>
-<span class='doccomment'>/// - `x_dst` is the x coordinates of the destination points.</span>
-<span class='doccomment'>/// - `y_dst` is the y coordinates of the destination points.</span>
-<span class='doccomment'>/// - `htype` can be AF_HOMOGRAPHY_RANSAC, for which a RANdom SAmple Consensus will be used to evaluate the homography quality (e.g., number of inliers), or AF_HOMOGRAPHY_LMEDS, which will use Least Median of Squares method to evaluate homography quality</span>
-<span class='doccomment'>/// - `inlier_thr` - if htype is AF_HOMOGRAPHY_RANSAC, this parameter will five the maximum L2-distance for a point to be considered an inlier.</span>
-<span class='doccomment'>/// - `iterations` is the maximum number of iterations when htype is AF_HOMOGRAPHY_RANSAC and backend is CPU,if backend is CUDA or OpenCL, iterations is the total number of iterations, an iteration is a selection of 4 random points for which the homography is estimated and evaluated for number of inliers.</span>
-<span class='doccomment'>/// - `otype` is the array type for the homography output.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Return Values</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Returns a tuple of Array and int.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `H` is a 3x3 array containing the estimated homography.</span>
-<span class='doccomment'>/// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>homography</span><span class='op'>&lt;</span><span class='ident'>OutType</span>: <span class='ident'>HasAfEnum</span><span class='op'>&gt;</span>(<span class='ident'>x_src</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>y_src</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                                      <span class='ident'>x_dst</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>, <span class='ident'>y_dst</span>: <span class='kw-2'>&amp;</span><span class='ident'>Array</span>,
-                                      <span class='ident'>htype</span>: <span class='ident'>HomographyType</span>, <span class='ident'>inlier_thr</span>: <span class='ident'>f32</span>,
-                                      <span class='ident'>iterations</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> (<span class='ident'>Array</span>, <span class='ident'>i32</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>otype</span> <span class='op'>=</span> <span class='ident'>OutType</span>::<span class='ident'>get_af_dtype</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inliers</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i64</span>    <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_homography</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='ident'>MutAfArray</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>inliers</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>,
-                                    <span class='ident'>x_src</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y_src</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                    <span class='ident'>x_dst</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>, <span class='ident'>y_dst</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>AfArray</span>,
-                                    <span class='ident'>htype</span> <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>inlier_thr</span> <span class='kw'>as</span> <span class='ident'>c_float</span>,
-                                    <span class='ident'>iterations</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>otype</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        (<span class='ident'>Array</span>::<span class='ident'>from</span>(<span class='ident'>temp</span>), <span class='ident'>inliers</span>)
+<span class="doccomment">/// Difference of Gaussians.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Given an image, this function computes two different versions of smoothed input image using the</span>
+<span class="doccomment">/// difference smoothing parameters and subtracts one from the other and returns the result.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input image</span>
+<span class="doccomment">/// - `radius1` is the radius of the first gaussian kernel</span>
+<span class="doccomment">/// - `radius2` is the radius of the second gaussian kernel</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Difference of smoothed inputs - An Array.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dog</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">radius1</span>: <span class="ident">i32</span>, <span class="ident">radius2</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_dog</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                             <span class="ident">radius1</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">radius2</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
+    }
+}
+
+<span class="doccomment">/// Homography estimation</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Homography estimation find a perspective transform between two sets of 2D points.</span>
+<span class="doccomment">/// Currently, two methods are supported for the estimation, RANSAC (RANdom SAmple Consensus)</span>
+<span class="doccomment">/// and LMedS (Least Median of Squares). Both methods work by randomly selecting a subset</span>
+<span class="doccomment">/// of 4 points of the set of source points, computing the eigenvectors of that set and</span>
+<span class="doccomment">/// finding the perspective transform. The process is repeated several times, a maximum of</span>
+<span class="doccomment">/// times given by the value passed to the iterations arguments for RANSAC (for the CPU</span>
+<span class="doccomment">/// backend, usually less than that, depending on the quality of the dataset, but for CUDA</span>
+<span class="doccomment">/// and OpenCL backends the transformation will be computed exactly the amount of times</span>
+<span class="doccomment">/// passed via the iterations parameter), the returned value is the one that matches the</span>
+<span class="doccomment">/// best number of inliers, which are all of the points that fall within a maximum L2</span>
+<span class="doccomment">/// distance from the value passed to the inlier_thr argument.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `x_src` is the x coordinates of the source points.</span>
+<span class="doccomment">/// - `y_src` is the y coordinates of the source points.</span>
+<span class="doccomment">/// - `x_dst` is the x coordinates of the destination points.</span>
+<span class="doccomment">/// - `y_dst` is the y coordinates of the destination points.</span>
+<span class="doccomment">/// - `htype` can be AF_HOMOGRAPHY_RANSAC, for which a RANdom SAmple Consensus will be used to evaluate the homography quality (e.g., number of inliers), or AF_HOMOGRAPHY_LMEDS, which will use Least Median of Squares method to evaluate homography quality</span>
+<span class="doccomment">/// - `inlier_thr` - if htype is AF_HOMOGRAPHY_RANSAC, this parameter will five the maximum L2-distance for a point to be considered an inlier.</span>
+<span class="doccomment">/// - `iterations` is the maximum number of iterations when htype is AF_HOMOGRAPHY_RANSAC and backend is CPU,if backend is CUDA or OpenCL, iterations is the total number of iterations, an iteration is a selection of 4 random points for which the homography is estimated and evaluated for number of inliers.</span>
+<span class="doccomment">/// - `otype` is the array type for the homography output.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns a tuple of Array and int.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `H` is a 3x3 array containing the estimated homography.</span>
+<span class="doccomment">/// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">homography</span><span class="op">&lt;</span><span class="ident">OutType</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">x_src</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">y_src</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                                      <span class="ident">x_dst</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">y_dst</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>,
+                                      <span class="ident">htype</span>: <span class="ident">HomographyType</span>, <span class="ident">inlier_thr</span>: <span class="ident">f32</span>,
+                                      <span class="ident">iterations</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> (<span class="ident">Array</span>, <span class="ident">i32</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">otype</span> <span class="op">=</span> <span class="ident">OutType</span>::<span class="ident">get_af_dtype</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inliers</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span>    <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_homography</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inliers</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>,
+                                    <span class="ident">x_src</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">y_src</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                    <span class="ident">x_dst</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">y_dst</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                                    <span class="ident">htype</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">inlier_thr</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+                                    <span class="ident">iterations</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">otype</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>), <span class="ident">inliers</span>)
     }
 }
 </pre>

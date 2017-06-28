@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Vectorization</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+<link rel="stylesheet" type="text/css" href="../main.css">
+<link rel="stylesheet" type="text/css" href="../normalize.css">
+<link rel="stylesheet" type="text/css" href="../external_docs.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+    <h1 class="title">Vectorization</h1>
+    <!--
+Programmers and Data Scientists want to take advantage of fast and parallel
+computational devices. Writing vectorized code is necessary to get
+the best performance out of the current generation parallel hardware and
+scientific computing software. However, writing vectorized code may not be
+immediately intuitive. ArrayFire provides many ways to vectorize a given code
+segment. In this tutorial, we present several methods to vectorize code
+using ArrayFire and discuss the benefits and drawbacks associated with each method.
+
+### Generic/Default vectorization
+-->
+
+<p>By its very nature, ArrayFire is a vectorized library. Most functions operate on
+Arrays as a whole -- on all elements in parallel. For example consider the following code:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">af</span>::<span class="ident">range</span>(<span class="ident">Dim</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="number">10</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]));  <span class="comment">// [0,  9]</span>
+<span class="ident">a</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">+</span> <span class="number">1</span>;                                        <span class="comment">// [1, 10]</span></pre>
+
+<p>This code will result in a single backend kernel that operates on all 10 elements
+of <code>a</code> in  parallel.</p>
+
+<p>A small subset of such vectorized ArrayFire functions are given below for quick reference:</p>
+
+<table>
+<thead>
+<tr>
+<th>Operator Category</th>
+<th>Functions</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Arithmetic operations</td>
+<td>+, -, *, /, %, &gt;&gt;, &lt;&lt;</td>
+</tr>
+<tr>
+<td>Logical operations</td>
+<td>&amp;&amp;, ||, &lt;, &gt;, ==, != etc.</td>
+</tr>
+<tr>
+<td>Numeric functions</td>
+<td><a href="./fn.abs.html">abs</a>, <a href="./fn.floor.html">floor</a>, <a href="./fn.round.html">round</a>, <a href="./fn.min.html">min</a>, <a href="./fn.max.html">max</a>, etc.</td>
+</tr>
+<tr>
+<td>Complex operations</td>
+<td><a href="./fn.real.html">real</a>, <a href="./fn.imag.html">imag</a>, <a href="./fn.conj.html">conj</a>, etc.</td>
+</tr>
+<tr>
+<td>Exponential and logarithmic functions</td>
+<td><a href="./fn.exp.html">exp</a>, <a href="./fn.log.html">log</a>, <a href="./fn.expm1.html">expm1</a>, <a href="./fn.log1p.html">log1p</a>, etc.</td>
+</tr>
+<tr>
+<td>Trigonometric functions</td>
+<td><a href="./fn.sin.html">sin</a>, <a href="./fn.cos.html">cos</a>, <a href="./fn.tan.html">tan</a>, etc.</td>
+</tr>
+<tr>
+<td>Hyperbolic functions</td>
+<td><a href="./fn.sinh.html">sinh</a>, <a href="./fn.cosh.html">cosh</a>, <a href="./fn.tanh.html">tanh</a>, etc.</td>
+</tr>
+</tbody>
+</table>
+
+<p>In addition to element-wise operations, many other functions are also
+vectorized in ArrayFire.</p>
+
+<p>Notice that even functions that perform some form of aggregation (e.g.
+<a href="./fn.sum.html">sum</a> or <a href="./fn.min.html">min</a>), signal processing (like
+<a href="./fn.convolve.html">convolve</a>), and image processing functions
+(i.e. <a href="./fn.rotate.html">rotate</a> etc.) - all support vectorization on
+ different columns or images.</p>
+
+<p>For example, if we have <code>NUM</code> images of size <code>WIDTH</code>x<code>HEIGHT</code>, one could
+convolve each image in a vector fashion as follows:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">g_coef</span>: [<span class="ident">f32</span>, <span class="number">9</span>] <span class="op">=</span> { <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span> };
+
+<span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">Array</span>::<span class="ident">new</span>(<span class="ident">g_coef</span>, <span class="ident">Dim4</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>]));
+<span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">f</span> <span class="op">*</span> <span class="number">1.0f32</span><span class="op">/</span><span class="number">16</span>;
+
+<span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">randu</span>(<span class="ident">WIDTH</span>, <span class="ident">HEIGHT</span>, <span class="ident">NUM</span>);
+<span class="kw">let</span> <span class="ident">conv</span>   <span class="op">=</span> <span class="ident">convolve2</span>(<span class="ident">signal</span>, <span class="ident">filter</span>, <span class="ident">ConvMode</span>::<span class="ident">DEFAULT</span>, <span class="ident">ConvDomain</span>::<span class="ident">AUTO</span>);</pre>
+
+<p>Similarly, one can rotate 100 images by 45 degrees in a single call using
+code like the following:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="comment">// Construct an array of 100 WIDTH x HEIGHT images of random numbers</span>
+<span class="kw">let</span> <span class="ident">imgs</span> <span class="op">=</span> <span class="ident">randu</span>(<span class="ident">WIDTH</span>, <span class="ident">HEIGHT</span>, <span class="number">100</span>);
+
+<span class="comment">// Rotate all of the images in a single command</span>
+<span class="kw">let</span> <span class="ident">rot_imgs</span> <span class="op">=</span> <span class="ident">rotate</span>(<span class="ident">imgs</span>, <span class="number">45.0</span>, <span class="ident">False</span>, <span class="ident">InterpType</span>::<span class="ident">LINEAR</span>);</pre>
+
+<p>Although <em>most</em> functions in ArrayFire do support vectorization, some do not.
+Most notably, all linear algebra functions. Even though they are not vectorized
+linear algebra operations still execute in parallel on your hardware.</p>
+
+<p>Using the built in vectorized operations should be the first
+and preferred method of vectorizing any code written with ArrayFire.</p>
+
+<!--
+# Batching
+
+The batchFunc() function allows the broad application of existing ArrayFire
+functions to multiple sets of data. Effectively, batchFunc() allows ArrayFire
+functions to execute in "batch processing" mode. In this mode, functions will
+find a dimension which contains "batches" of data to be processed and will
+parallelize the procedure.
+
+Consider the following example. Here we create a filter which we would like
+to apply to each of the weight vectors. The naive solution would be using a
+for-loop as we have seen previously:
+
+```rust
+// Create the filter and the weight vectors
+af::array filter = randn(1, 5);
+af::array weights = randu(5, 5);
+
+// Apply the filter using a for-loop
+af::array filtered_weights = constant(0, 5, 5);
+for(int i=0; i<weights.dims(1); ++i){
+    filtered_weights.col(i) = filter * weights.col(i);
+}
+```
+
+However, as we have discussed above, this solution will be very inefficient.
+One may be tempted to implement a vectorized solution as follows:
+
+```rust
+// Create the filter and the weight vectors
+af::array filter = randn(1, 5);
+af::array weights = randu(5, 5);
+
+af::array filtered_weights = filter * weights; // fails due to dimension mismatch
+```
+
+However, the dimensions of `filter` and `weights` do not match, thus ArrayFire
+will generate a runtime error.
+
+`batchfunc()` was created to solve this specific problem.
+The signature of the function is as follows:
+
+```
+array batchFunc(const array &lhs, const array &rhs, batchFunc_t func);
+```
+
+where `__batchFunc_t__` is a function pointer of the form:
+
+```
+typedef array (*batchFunc_t) (const array &lhs, const array &rhs);
+```
+
+So, to use batchFunc(), we need to provide the function we wish to apply as a
+batch operation. For illustration's sake, let's "implement" a multiplication
+function following the format.
+
+```
+af::array my_mult (const af::array &lhs, const af::array &rhs){
+    return lhs * rhs;
+}
+```
+
+Our final batch call is not much more difficult than the ideal
+syntax we imagined.
+
+```
+// Create the filter and the weight vectors
+af::array filter = randn(1, 5);
+af::array weights = randu(5, 5);
+
+// Apply the batch function
+af::array filtered_weights = batchFunc( filter, weights, my_mult );
+```
+
+The batch function will work with many previously mentioned vectorized ArrayFire
+functions. It can even work with a combination of those functions if they are
+wrapped inside a helper function matching the `__batchFunc_t__` signature.
+One limitation of `batchfunc()` is that it cannot be used from within a
+`gfor()` loop at the present time.
+
+# Advanced Vectorization
+
+We have seen the different methods ArrayFire provides to vectorize our code. Tying
+them all together is a slightly more involved process that needs to consider data
+dimensionality and layout, memory usage, nesting order, etc. An excellent example
+and discussion of these factors can be found on our blog:
+
+http://arrayfire.com/how-to-write-vectorized-code/
+
+It's worth noting that the content discussed in the blog has since been transformed
+into a convenient af::nearestNeighbour() function. Before writing something from
+scratch, check that ArrayFire doesn't already have an implementation. The default
+vectorized nature of ArrayFire and an extensive collection of functions will
+speed things up in addition to replacing dozens of lines of code!
+-->
+
+    
+</body>
+</html>

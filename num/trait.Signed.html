@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         <a href='../num/index.html'><img src='https://rust-num.github.io/num/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
-        <p class='location'><a href='index.html'>num</a></p><script>window.sidebarCurrent = {name: 'Signed', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait Signed</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='index.html'>num</a></p><script>window.sidebarCurrent = {name: 'Signed', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,18 +43,18 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num</a>::<wbr><a class='trait' href=''>Signed</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>num</a>::<wbr><a class="trait" href=''>Signed</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/num_traits/sign.rs.html#7-41' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Signed: <a class='trait' href='../num/trait.Num.html' title='num::Num'>Num</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html' title='core::ops::Neg'>Neg</a>&lt;Output=Self&gt; {
+               </span><a class='srclink' href='../src/num_traits/sign.rs.html#8-42' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Signed: <a class="trait" href="../num/trait.Num.html" title="trait num::Num">Num</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html" title="trait core::ops::Neg">Neg</a>&lt;Output = Self&gt; {
     fn <a href='#tymethod.abs' class='fnname'>abs</a>(&amp;self) -&gt; Self;
     fn <a href='#tymethod.abs_sub' class='fnname'>abs_sub</a>(&amp;self, other: &amp;Self) -&gt; Self;
     fn <a href='#tymethod.signum' class='fnname'>signum</a>(&amp;self) -&gt; Self;
-    fn <a href='#tymethod.is_positive' class='fnname'>is_positive</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
-    fn <a href='#tymethod.is_negative' class='fnname'>is_negative</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_positive' class='fnname'>is_positive</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>;
+    fn <a href='#tymethod.is_negative' class='fnname'>is_negative</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>;
 }</pre><div class='docblock'><p>Useful functions for signed numbers (i.e. numbers that can be negative).</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
@@ -85,20 +85,21 @@ between <code>self</code> and <code>other</code> is returned.</p>
 <li><code>1</code> if the number is positive</li>
 <li><code>-1</code> if the number is negative</li>
 </ul>
-</div><h3 id='tymethod.is_positive' class='method'><span id='is_positive.v' class='invisible'><code>fn <a href='#tymethod.is_positive' class='fnname'>is_positive</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Returns true if the number is positive and false if the number is zero or negative.</p>
-</div><h3 id='tymethod.is_negative' class='method'><span id='is_negative.v' class='invisible'><code>fn <a href='#tymethod.is_negative' class='fnname'>is_negative</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Returns true if the number is negative and false if the number is zero or positive.</p>
+</div><h3 id='tymethod.is_positive' class='method'><span id='is_positive.v' class='invisible'><code>fn <a href='#tymethod.is_positive' class='fnname'>is_positive</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns true if the number is positive and false if the number is zero or negative.</p>
+</div><h3 id='tymethod.is_negative' class='method'><span id='is_negative.v' class='invisible'><code>fn <a href='#tymethod.is_negative' class='fnname'>is_negative</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns true if the number is negative and false if the number is zero or positive.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;T&gt; Signed for <a class='struct' href='../num_rational/struct.Ratio.html' title='num_rational::Ratio'>Ratio</a>&lt;T&gt; <span class='where fmt-newline'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../num/trait.Integer.html' title='num::Integer'>Integer</a> + <a class='trait' href='../num/trait.Signed.html' title='num::Signed'>Signed</a></span></code></li>
-<li><code>impl Signed for <a class='struct' href='../num/struct.BigInt.html' title='num::BigInt'>BigInt</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.isize.html'>isize</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
-<li><code>impl Signed for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
+    <li><code>impl&lt;T&gt; Signed for <a class="struct" href="../num_rational/struct.Ratio.html" title="struct num_rational::Ratio">Ratio</a>&lt;T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="../num/trait.Integer.html" title="trait num::Integer">Integer</a> + <a class="trait" href="../num/trait.Signed.html" title="trait num::Signed">Signed</a>,&nbsp;</span></code></li>
+<li><code>impl Signed for <a class="struct" href="../num/struct.BigInt.html" title="struct num::BigInt">BigInt</a></code></li>
+<li><code>impl&lt;T&gt; Signed for <a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.Wrapping.html" title="struct core::num::Wrapping">Wrapping</a>&lt;T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../num/trait.Signed.html" title="trait num::Signed">Signed</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.Wrapping.html" title="struct core::num::Wrapping">Wrapping</a>&lt;T&gt;: <a class="trait" href="../num/trait.Num.html" title="trait num::Num">Num</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.Wrapping.html" title="struct core::num::Wrapping">Wrapping</a>&lt;T&gt;: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html" title="trait core::ops::Neg">Neg</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.Wrapping.html" title="struct core::num::Wrapping">Wrapping</a>&lt;T&gt; as <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html" title="trait core::ops::Neg">Neg</a>&gt;::<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html" title="trait core::ops::Neg">Output</a> == <a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.Wrapping.html" title="struct core::num::Wrapping">Wrapping</a>&lt;T&gt;,&nbsp;</span></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.isize.html">isize</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></li>
+<li><code>impl Signed for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></li>
 </ul><script type="text/javascript" async
                          src="../implementors/num_traits/sign/trait.Signed.js">
                  </script></section>

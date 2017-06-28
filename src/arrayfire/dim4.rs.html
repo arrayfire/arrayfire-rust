@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -134,96 +134,96 @@
 <span id="89">89</span>
 <span id="90">90</span>
 <span id="91">91</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Index</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Index</span>;
 
-<span class='doccomment'>/// Dim4 is used to store [Array](./struct.Array.html) dimensions</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Dim4</span> {
-    <span class='ident'>dims</span>: [<span class='ident'>u64</span>; <span class='number'>4</span>],
+<span class="doccomment">/// Dim4 is used to store [Array](./struct.Array.html) dimensions</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Dim4</span> {
+    <span class="ident">dims</span>: [<span class="ident">u64</span>; <span class="number">4</span>],
 }
 
-<span class='doccomment'>/// Default trait for Dim4 returns an Array of dimensions [1, 1, 1, 1]</span>
-<span class='kw'>impl</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Dim4</span> {
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>Dim4</span> {
-        <span class='ident'>Dim4</span> { <span class='ident'>dims</span>:[<span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>] }
-    }
-}
-
-<span class='doccomment'>/// Enables index operation for Dim4</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// use arrayfire::Dim4;</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
-<span class='doccomment'>/// println!(&quot;0th Dimension length is {}&quot;, dims[0]); // -&gt; 4</span>
-<span class='doccomment'>/// println!(&quot;1th Dimension length is {}&quot;, dims[1]); // -&gt; 4</span>
-<span class='doccomment'>/// println!(&quot;2th Dimension length is {}&quot;, dims[2]); // -&gt; 2</span>
-<span class='doccomment'>/// println!(&quot;3th Dimension length is {}&quot;, dims[3]); // -&gt; 1</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>impl</span> <span class='ident'>Index</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Dim4</span> {
-    <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>u64</span>;
-
-    <span class='kw'>fn</span> <span class='ident'>index</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>_index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>u64</span> {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>dims</span>[<span class='ident'>_index</span>]
+<span class="doccomment">/// Default trait for Dim4 returns an Array of dimensions [1, 1, 1, 1]</span>
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Dim4</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Dim4</span> {
+        <span class="ident">Dim4</span> { <span class="ident">dims</span>:[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>] }
     }
 }
 
-<span class='doccomment'>/// Enables use of Dim4 objects for printing it to display</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// use arrayfire::Dim4;</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
-<span class='doccomment'>/// println!(&quot;0th Dimension length is {}&quot;, dims[0]); // -&gt; 4</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Dim4</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;[{} {} {} {}]&quot;</span>, <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>0</span>], <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>1</span>], <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>2</span>], <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>3</span>])
+<span class="doccomment">/// Enables index operation for Dim4</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// use arrayfire::Dim4;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
+<span class="doccomment">/// println!(&quot;0th Dimension length is {}&quot;, dims[0]); // -&gt; 4</span>
+<span class="doccomment">/// println!(&quot;1th Dimension length is {}&quot;, dims[1]); // -&gt; 4</span>
+<span class="doccomment">/// println!(&quot;2th Dimension length is {}&quot;, dims[2]); // -&gt; 2</span>
+<span class="doccomment">/// println!(&quot;3th Dimension length is {}&quot;, dims[3]); // -&gt; 1</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">impl</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Dim4</span> {
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">u64</span>;
+
+    <span class="kw">fn</span> <span class="ident">index</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="ident">_index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">u64</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">dims</span>[<span class="ident">_index</span>]
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Dim4</span> {
-    <span class='doccomment'>/// Create Dim4 object</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// use arrayfire::Dim4;</span>
-    <span class='doccomment'>/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>dims</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u64</span>; <span class='number'>4</span>]) <span class='op'>-&gt;</span> <span class='ident'>Dim4</span> {
-        <span class='ident'>Dim4</span> { <span class='ident'>dims</span>: <span class='ident'>dims</span>.<span class='ident'>clone</span>(), }
+<span class="doccomment">/// Enables use of Dim4 objects for printing it to display</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// use arrayfire::Dim4;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
+<span class="doccomment">/// println!(&quot;0th Dimension length is {}&quot;, dims[0]); // -&gt; 4</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Dim4</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;[{} {} {} {}]&quot;</span>, <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">0</span>], <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">1</span>], <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">2</span>], <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">3</span>])
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Dim4</span> {
+    <span class="doccomment">/// Create Dim4 object</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use arrayfire::Dim4;</span>
+    <span class="doccomment">/// let dims = Dim4::new(&amp;[4, 4, 2, 1]);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">dims</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>; <span class="number">4</span>]) <span class="op">-&gt;</span> <span class="ident">Dim4</span> {
+        <span class="ident">Dim4</span> { <span class="ident">dims</span>: <span class="ident">dims</span>.<span class="ident">clone</span>(), }
     }
 
-    <span class='doccomment'>/// Get the number of elements represented by Dim4 object</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>elements</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
-        <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>0</span>]<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>1</span>]<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>2</span>]<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>3</span>]
+    <span class="doccomment">/// Get the number of elements represented by Dim4 object</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">0</span>]<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">dims</span>[<span class="number">1</span>]<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">dims</span>[<span class="number">2</span>]<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">dims</span>[<span class="number">3</span>]
     }
 
-    <span class='doccomment'>/// Get the number of dimensions of Dim4</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ndims</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='kw'>let</span> <span class='ident'>nelems</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>elements</span>();
-        <span class='kw'>match</span> <span class='ident'>nelems</span> {
-            <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
-            <span class='number'>1</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
-            _ <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>3</span>] <span class='op'>!=</span> <span class='number'>1</span> { <span class='number'>4</span> }
-                <span class='kw'>else</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>2</span>] <span class='op'>!=</span> <span class='number'>1</span> { <span class='number'>3</span> }
-                <span class='kw'>else</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>dims</span>[<span class='number'>1</span>] <span class='op'>!=</span> <span class='number'>1</span> { <span class='number'>2</span> }
-                <span class='kw'>else</span> { <span class='number'>1</span> }
+    <span class="doccomment">/// Get the number of dimensions of Dim4</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ndims</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">let</span> <span class="ident">nelems</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">elements</span>();
+        <span class="kw">match</span> <span class="ident">nelems</span> {
+            <span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="number">1</span> <span class="op">=&gt;</span> <span class="number">1</span>,
+            _ <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">3</span>] <span class="op">!=</span> <span class="number">1</span> { <span class="number">4</span> }
+                <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">2</span>] <span class="op">!=</span> <span class="number">1</span> { <span class="number">3</span> }
+                <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dims</span>[<span class="number">1</span>] <span class="op">!=</span> <span class="number">1</span> { <span class="number">2</span> }
+                <span class="kw">else</span> { <span class="number">1</span> }
             },
         }
     }
 
-    <span class='comment'>// Get the dimensions as a slice of 4 values</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u64</span>; <span class='number'>4</span>] {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>dims</span>
+    <span class="doccomment">/// Get the dimensions as a slice of 4 values</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u64</span>; <span class="number">4</span>] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">dims</span>
     }
 }
 </pre>

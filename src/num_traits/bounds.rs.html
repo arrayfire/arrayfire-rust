@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.37/src/bounds.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/pradeep/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.1.39/src/bounds.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>bounds.rs.html -- source</title>
@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="https://rust-num.github.io/num/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -114,78 +114,134 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>usize</span>, <span class='ident'>u8</span>, <span class='ident'>u16</span>, <span class='ident'>u32</span>, <span class='ident'>u64</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>isize</span>, <span class='ident'>i8</span>, <span class='ident'>i16</span>, <span class='ident'>i32</span>, <span class='ident'>i64</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>f32</span>, <span class='ident'>f64</span>};
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">usize</span>, <span class="ident">u8</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u64</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">isize</span>, <span class="ident">i8</span>, <span class="ident">i16</span>, <span class="ident">i32</span>, <span class="ident">i64</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">f32</span>, <span class="ident">f64</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
 
-<span class='doccomment'>/// Numbers which have upper and lower bounds</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Bounded</span> {
-    <span class='comment'>// FIXME (#5527): These should be associated constants</span>
-    <span class='doccomment'>/// returns the smallest finite number this type can represent</span>
-    <span class='kw'>fn</span> <span class='ident'>min_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='doccomment'>/// returns the largest finite number this type can represent</span>
-    <span class='kw'>fn</span> <span class='ident'>max_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+<span class="doccomment">/// Numbers which have upper and lower bounds</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Bounded</span> {
+    <span class="comment">// FIXME (#5527): These should be associated constants</span>
+    <span class="doccomment">/// returns the smallest finite number this type can represent</span>
+    <span class="kw">fn</span> <span class="ident">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="doccomment">/// returns the largest finite number this type can represent</span>
+    <span class="kw">fn</span> <span class="ident">max_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span>;
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bounded_impl</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>min</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>max</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>impl</span> <span class='ident'>Bounded</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> {
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>min_value</span>() <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>min</span> }
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">bounded_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="kw">impl</span> <span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">min_value</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span> }
 
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>max_value</span>() <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>max</span> }
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">max_value</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span> }
         }
     }
 }
 
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>usize</span>, <span class='ident'>usize</span>::<span class='ident'>MIN</span>, <span class='ident'>usize</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>u8</span>,    <span class='ident'>u8</span>::<span class='ident'>MIN</span>,    <span class='ident'>u8</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>u16</span>,   <span class='ident'>u16</span>::<span class='ident'>MIN</span>,   <span class='ident'>u16</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>u32</span>,   <span class='ident'>u32</span>::<span class='ident'>MIN</span>,   <span class='ident'>u32</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>u64</span>,   <span class='ident'>u64</span>::<span class='ident'>MIN</span>,   <span class='ident'>u64</span>::<span class='ident'>MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">usize</span>, <span class="ident">usize</span>::<span class="ident">MIN</span>, <span class="ident">usize</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">u8</span>,    <span class="ident">u8</span>::<span class="ident">MIN</span>,    <span class="ident">u8</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">u16</span>,   <span class="ident">u16</span>::<span class="ident">MIN</span>,   <span class="ident">u16</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">u32</span>,   <span class="ident">u32</span>::<span class="ident">MIN</span>,   <span class="ident">u32</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">u64</span>,   <span class="ident">u64</span>::<span class="ident">MIN</span>,   <span class="ident">u64</span>::<span class="ident">MAX</span>);
 
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='ident'>isize</span>::<span class='ident'>MIN</span>, <span class='ident'>isize</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>i8</span>,    <span class='ident'>i8</span>::<span class='ident'>MIN</span>,    <span class='ident'>i8</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>i16</span>,   <span class='ident'>i16</span>::<span class='ident'>MIN</span>,   <span class='ident'>i16</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>i32</span>,   <span class='ident'>i32</span>::<span class='ident'>MIN</span>,   <span class='ident'>i32</span>::<span class='ident'>MAX</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>i64</span>,   <span class='ident'>i64</span>::<span class='ident'>MIN</span>,   <span class='ident'>i64</span>::<span class='ident'>MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">isize</span>, <span class="ident">isize</span>::<span class="ident">MIN</span>, <span class="ident">isize</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">i8</span>,    <span class="ident">i8</span>::<span class="ident">MIN</span>,    <span class="ident">i8</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">i16</span>,   <span class="ident">i16</span>::<span class="ident">MIN</span>,   <span class="ident">i16</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">i32</span>,   <span class="ident">i32</span>::<span class="ident">MIN</span>,   <span class="ident">i32</span>::<span class="ident">MAX</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">i64</span>,   <span class="ident">i64</span>::<span class="ident">MIN</span>,   <span class="ident">i64</span>::<span class="ident">MAX</span>);
 
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>f32</span>, <span class='ident'>f32</span>::<span class='ident'>MIN</span>, <span class='ident'>f32</span>::<span class='ident'>MAX</span>);
-
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>for_each_tuple_</span> {
-    ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span>:<span class='ident'>ident</span> <span class='op'>!</span><span class='op'>!</span> ) <span class='op'>=&gt;</span> (
-        <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span><span class='op'>!</span> { }
-    );
-    ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span>:<span class='ident'>ident</span> <span class='op'>!</span><span class='op'>!</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>h</span>:<span class='ident'>ident</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ident</span>,)<span class='op'>*</span> ) <span class='op'>=&gt;</span> (
-        <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span><span class='op'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>h</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>)<span class='op'>*</span> }
-        <span class='macro'>for_each_tuple_</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span> <span class='op'>!</span><span class='op'>!</span> $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>,)<span class='op'>*</span> }
-    );
-}
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>for_each_tuple</span> {
-    ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span>:<span class='ident'>ident</span> ) <span class='op'>=&gt;</span> (
-        <span class='macro'>for_each_tuple_</span><span class='macro'>!</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span> <span class='op'>!</span><span class='op'>!</span> <span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>, <span class='ident'>D</span>, <span class='ident'>E</span>, <span class='ident'>F</span>, <span class='ident'>G</span>, <span class='ident'>H</span>, <span class='ident'>I</span>, <span class='ident'>J</span>, <span class='ident'>K</span>, <span class='ident'>L</span>, <span class='ident'>M</span>, <span class='ident'>N</span>, <span class='ident'>O</span>, <span class='ident'>P</span>, <span class='ident'>Q</span>, <span class='ident'>R</span>, <span class='ident'>S</span>, <span class='ident'>T</span>, }
-    );
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Bounded</span><span class="op">&gt;</span> <span class="ident">Bounded</span> <span class="kw">for</span> <span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> { <span class="ident">Wrapping</span>(<span class="ident">T</span>::<span class="ident">min_value</span>()) }
+    <span class="kw">fn</span> <span class="ident">max_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> { <span class="ident">Wrapping</span>(<span class="ident">T</span>::<span class="ident">max_value</span>()) }
 }
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bounded_tuple</span> {
-    ( $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>)<span class='op'>*</span> ) <span class='op'>=&gt;</span> (
-        <span class='kw'>impl</span><span class='op'>&lt;</span>$(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>Bounded</span>,)<span class='kw-2'>*</span><span class='op'>&gt;</span> <span class='ident'>Bounded</span> <span class='kw'>for</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>,)<span class='kw-2'>*</span>) {
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>min_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>min_value</span>(),)<span class='kw-2'>*</span>)
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">f32</span>, <span class="ident">f32</span>::<span class="ident">MIN</span>, <span class="ident">f32</span>::<span class="ident">MAX</span>);
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">for_each_tuple_</span> {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">ident</span> <span class="op">!</span><span class="op">!</span> ) <span class="op">=&gt;</span> (
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span><span class="op">!</span> { }
+    );
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">ident</span> <span class="op">!</span><span class="op">!</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">h</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ident</span>,)<span class="op">*</span> ) <span class="op">=&gt;</span> (
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span><span class="op">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">h</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)<span class="op">*</span> }
+        <span class="macro">for_each_tuple_</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span> <span class="op">!</span><span class="op">!</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>,)<span class="op">*</span> }
+    );
+}
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">for_each_tuple</span> {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">ident</span> ) <span class="op">=&gt;</span> (
+        <span class="macro">for_each_tuple_</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span> <span class="op">!</span><span class="op">!</span> <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">E</span>, <span class="ident">F</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">I</span>, <span class="ident">J</span>, <span class="ident">K</span>, <span class="ident">L</span>, <span class="ident">M</span>, <span class="ident">N</span>, <span class="ident">O</span>, <span class="ident">P</span>, <span class="ident">Q</span>, <span class="ident">R</span>, <span class="ident">S</span>, <span class="ident">T</span>, }
+    );
+}
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">bounded_tuple</span> {
+    ( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>)<span class="op">*</span> ) <span class="op">=&gt;</span> (
+        <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>: <span class="ident">Bounded</span>,)<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">Bounded</span> <span class="kw">for</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>,)<span class="kw-2">*</span>) {
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+                ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">min_value</span>(),)<span class="kw-2">*</span>)
             }
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>max_value</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-                ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>max_value</span>(),)<span class='kw-2'>*</span>)
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">max_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+                ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">max_value</span>(),)<span class="kw-2">*</span>)
             }
         }
     );
 }
 
-<span class='macro'>for_each_tuple</span><span class='macro'>!</span>(<span class='ident'>bounded_tuple</span>);
-<span class='macro'>bounded_impl</span><span class='macro'>!</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>::<span class='ident'>MIN</span>, <span class='ident'>f64</span>::<span class='ident'>MAX</span>);
+<span class="macro">for_each_tuple</span><span class="macro">!</span>(<span class="ident">bounded_tuple</span>);
+<span class="macro">bounded_impl</span><span class="macro">!</span>(<span class="ident">f64</span>, <span class="ident">f64</span>::<span class="ident">MIN</span>, <span class="ident">f64</span>::<span class="ident">MAX</span>);
+
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">test_wrapping_bounded</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>)<span class="op">+</span>) <span class="op">=&gt;</span> {
+        $(
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Wrapping</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>::<span class="ident">min_value</span>().<span class="number">0</span>, <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>::<span class="ident">min_value</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Wrapping</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>::<span class="ident">max_value</span>().<span class="number">0</span>, <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>::<span class="ident">max_value</span>());
+        )<span class="op">+</span>   
+    };
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">wrapping_bounded</span>() {
+    <span class="macro">test_wrapping_bounded</span><span class="macro">!</span>(<span class="ident">usize</span> <span class="ident">u8</span> <span class="ident">u16</span> <span class="ident">u32</span> <span class="ident">u64</span> <span class="ident">isize</span> <span class="ident">i8</span> <span class="ident">i16</span> <span class="ident">i32</span> <span class="ident">i64</span>);
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">wrapping_is_bounded</span>() {
+    <span class="kw">fn</span> <span class="ident">require_bounded</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Bounded</span><span class="op">&gt;</span>(_: <span class="kw-2">&amp;</span><span class="ident">T</span>) {}
+    <span class="ident">require_bounded</span>(<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="number">42_u32</span>));
+    <span class="ident">require_bounded</span>(<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="op">-</span><span class="number">42</span>));
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

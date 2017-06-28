@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -186,147 +186,147 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
-</pre><pre class='rust '>
-<span class='doccomment'>/// Macro to print the current stats of ArrayFire&#39;s memory manager.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// `mem_info!` print 4 values:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///  Name                    | Description</span>
-<span class='doccomment'>/// -------------------------|-------------------------</span>
-<span class='doccomment'>///  Allocated Bytes         | Total number of bytes allocated by the memory manager</span>
-<span class='doccomment'>///  Allocated Buffers       | Total number of buffers allocated</span>
-<span class='doccomment'>///  Locked (In Use) Bytes   | Number of bytes that are in use by active arrays</span>
-<span class='doccomment'>///  Locked (In Use) Buffers | Number of buffers that are in use by active arrays</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///  The `Allocated Bytes` is always a multiple of the memory step size. The</span>
-<span class='doccomment'>///  default step size is 1024 bytes. This means when a buffer is to be</span>
-<span class='doccomment'>///  allocated, the size is always rounded up to a multiple of the step size.</span>
-<span class='doccomment'>///  You can use [get_mem_step_size](./fn.get_mem_step_size.html) to check the</span>
-<span class='doccomment'>///  current step size and [set_mem_step_size](./fn.set_mem_step_size.html) to</span>
-<span class='doccomment'>///  set a custom resolution size.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///  The `Allocated Buffers` is the number of buffers that use up the allocated</span>
-<span class='doccomment'>///  bytes. This includes buffers currently in scope, as well as buffers marked</span>
-<span class='doccomment'>///  as free, ie, from arrays gone out of scope. The free buffers are available</span>
-<span class='doccomment'>///  for use by new arrays that might be created.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///  The `Locked Bytes` is the number of bytes in use that cannot be</span>
-<span class='doccomment'>///  reallocated at the moment. The difference of Allocated Bytes and Locked</span>
-<span class='doccomment'>///  Bytes is the total bytes available for reallocation.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///  The `Locked Buffers` is the number of buffer in use that cannot be</span>
-<span class='doccomment'>///  reallocated at the moment. The difference of Allocated Buffers and Locked</span>
-<span class='doccomment'>///  Buffers is the number of buffers available for reallocation.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `msg` is the message that is printed to screen before printing stats</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// # #[macro_use(mem_info)] extern crate arrayfire;</span>
-<span class='doccomment'>/// # fn main() {</span>
-<span class='doccomment'>///     use arrayfire::{Dim4, device_mem_info, print, randu};</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     let dims = Dim4::new(&amp;[5, 5, 1, 1]);</span>
-<span class='doccomment'>///     let a = randu::&lt;f32&gt;(dims);</span>
-<span class='doccomment'>///     print(&amp;a);</span>
-<span class='doccomment'>///     mem_info!(&quot;Hello!&quot;);</span>
-<span class='doccomment'>/// # }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Sample Output:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```text</span>
-<span class='doccomment'>/// AF Memory: Here</span>
-<span class='doccomment'>/// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]</span>
-<span class='doccomment'>/// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]</span>
-<span class='doccomment'>/// ```</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>mem_info</span> {
-    [<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>: <span class='ident'>expr</span>] <span class='op'>=&gt;</span> {
+</pre><pre class="rust ">
+<span class="doccomment">/// Macro to print the current stats of ArrayFire&#39;s memory manager.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `mem_info!` print 4 values:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  Name                    | Description</span>
+<span class="doccomment">/// -------------------------|-------------------------</span>
+<span class="doccomment">///  Allocated Bytes         | Total number of bytes allocated by the memory manager</span>
+<span class="doccomment">///  Allocated Buffers       | Total number of buffers allocated</span>
+<span class="doccomment">///  Locked (In Use) Bytes   | Number of bytes that are in use by active arrays</span>
+<span class="doccomment">///  Locked (In Use) Buffers | Number of buffers that are in use by active arrays</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  The `Allocated Bytes` is always a multiple of the memory step size. The</span>
+<span class="doccomment">///  default step size is 1024 bytes. This means when a buffer is to be</span>
+<span class="doccomment">///  allocated, the size is always rounded up to a multiple of the step size.</span>
+<span class="doccomment">///  You can use [get_mem_step_size](./fn.get_mem_step_size.html) to check the</span>
+<span class="doccomment">///  current step size and [set_mem_step_size](./fn.set_mem_step_size.html) to</span>
+<span class="doccomment">///  set a custom resolution size.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  The `Allocated Buffers` is the number of buffers that use up the allocated</span>
+<span class="doccomment">///  bytes. This includes buffers currently in scope, as well as buffers marked</span>
+<span class="doccomment">///  as free, ie, from arrays gone out of scope. The free buffers are available</span>
+<span class="doccomment">///  for use by new arrays that might be created.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  The `Locked Bytes` is the number of bytes in use that cannot be</span>
+<span class="doccomment">///  reallocated at the moment. The difference of Allocated Bytes and Locked</span>
+<span class="doccomment">///  Bytes is the total bytes available for reallocation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///  The `Locked Buffers` is the number of buffer in use that cannot be</span>
+<span class="doccomment">///  reallocated at the moment. The difference of Allocated Buffers and Locked</span>
+<span class="doccomment">///  Buffers is the number of buffers available for reallocation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `msg` is the message that is printed to screen before printing stats</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #[macro_use(mem_info)] extern crate arrayfire;</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">///     use arrayfire::{Dim4, device_mem_info, print, randu};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     let dims = Dim4::new(&amp;[5, 5, 1, 1]);</span>
+<span class="doccomment">///     let a = randu::&lt;f32&gt;(dims);</span>
+<span class="doccomment">///     print(&amp;a);</span>
+<span class="doccomment">///     mem_info!(&quot;Hello!&quot;);</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sample Output:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```text</span>
+<span class="doccomment">/// AF Memory: Here</span>
+<span class="doccomment">/// Allocated [ Bytes | Buffers ] = [ 4096 | 4 ]</span>
+<span class="doccomment">/// In Use    [ Bytes | Buffers ] = [ 2048 | 2 ]</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">mem_info</span> {
+    [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>: <span class="ident">expr</span>] <span class="op">=&gt;</span> {
         {
-            <span class='kw'>let</span> (<span class='ident'>abytes</span>, <span class='ident'>abuffs</span>, <span class='ident'>lbytes</span>, <span class='ident'>lbuffs</span>) <span class='op'>=</span> <span class='ident'>device_mem_info</span>();
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;AF Memory: {:?}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>);
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Allocated [Bytes | Buffers] = [ {} | {} ]&quot;</span>, <span class='ident'>abytes</span>, <span class='ident'>abuffs</span>);
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;In Use    [Bytes | Buffers] = [ {} | {} ]&quot;</span>, <span class='ident'>lbytes</span>, <span class='ident'>lbuffs</span>);
+            <span class="kw">let</span> (<span class="ident">abytes</span>, <span class="ident">abuffs</span>, <span class="ident">lbytes</span>, <span class="ident">lbuffs</span>) <span class="op">=</span> <span class="ident">device_mem_info</span>();
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;AF Memory: {:?}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>);
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Allocated [Bytes | Buffers] = [ {} | {} ]&quot;</span>, <span class="ident">abytes</span>, <span class="ident">abuffs</span>);
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;In Use    [Bytes | Buffers] = [ {} | {} ]&quot;</span>, <span class="ident">lbytes</span>, <span class="ident">lbuffs</span>);
         }
     };
 }
 
-<span class='doccomment'>/// Join multiple Arrays along a given dimension</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// All the Arrays provided to this macro should be of type `&amp;Array`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// # #[macro_use] extern crate arrayfire;</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # fn main() {</span>
-<span class='doccomment'>///     use arrayfire::{Dim4, join_many, print, randu};</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///     let a = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
-<span class='doccomment'>///     let b = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
-<span class='doccomment'>///     let c = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
-<span class='doccomment'>///     let d = join_many![2; a, b, c];</span>
-<span class='doccomment'>///     print(&amp;d);</span>
-<span class='doccomment'>/// # }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Panics</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This macro just calls [join_many](./fn.join_many.html) function after collecting all</span>
-<span class='doccomment'>/// the input arrays into a vector.</span>
-<span class='comment'>// Using macro to implement join many wrapper</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>join_many</span> {
-    [<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dim</span>: <span class='ident'>expr</span>; $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>:<span class='ident'>ident</span>),<span class='op'>+</span>] <span class='op'>=&gt;</span> {
+<span class="doccomment">/// Join multiple Arrays along a given dimension</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// All the Arrays provided to this macro should be of type `&amp;Array`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #[macro_use] extern crate arrayfire;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">///     use arrayfire::{Dim4, join_many, print, randu};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     let a = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
+<span class="doccomment">///     let b = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
+<span class="doccomment">///     let c = &amp;randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));</span>
+<span class="doccomment">///     let d = join_many![2; a, b, c];</span>
+<span class="doccomment">///     print(&amp;d);</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Panics</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This macro just calls [join_many](./fn.join_many.html) function after collecting all</span>
+<span class="doccomment">/// the input arrays into a vector.</span>
+<span class="comment">// Using macro to implement join many wrapper</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">join_many</span> {
+    [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>: <span class="ident">expr</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span>),<span class="op">+</span>] <span class="op">=&gt;</span> {
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp_vec</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
             $(
-                <span class='ident'>temp_vec</span>.<span class='ident'>push</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>);
-             )<span class='op'>*</span>
-            <span class='ident'>join_many</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dim</span>, <span class='ident'>temp_vec</span>)
+                <span class="ident">temp_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>);
+             )<span class="op">*</span>
+            <span class="ident">join_many</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>, <span class="ident">temp_vec</span>)
         }
     };
 }
 
-<span class='doccomment'>/// Print given message before printing out the Array to standard output</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// # #[macro_use] extern crate arrayfire;</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # fn main() {</span>
-<span class='doccomment'>///     use arrayfire::{Dim4, print_gen, randu};</span>
-<span class='doccomment'>///     let dims = Dim4::new(&amp;[3, 1, 1, 1]);</span>
-<span class='doccomment'>///     let a = randu::&lt;f32&gt;(dims);</span>
-<span class='doccomment'>///     af_print!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;, a);</span>
-<span class='doccomment'>/// # }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>af_print</span> {
-    [<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>: <span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>: <span class='ident'>ident</span>] <span class='op'>=&gt;</span> {
+<span class="doccomment">/// Print given message before printing out the Array to standard output</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #[macro_use] extern crate arrayfire;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">///     use arrayfire::{Dim4, print_gen, randu};</span>
+<span class="doccomment">///     let dims = Dim4::new(&amp;[3, 1, 1, 1]);</span>
+<span class="doccomment">///     let a = randu::&lt;f32&gt;(dims);</span>
+<span class="doccomment">///     af_print!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;, a);</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">af_print</span> {
+    [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>: <span class="ident">ident</span>] <span class="op">=&gt;</span> {
         {
-            <span class='ident'>print_gen</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>msg</span>), <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>, <span class='prelude-val'>Some</span>(<span class='number'>4</span>));
+            <span class="ident">print_gen</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>), <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>, <span class="prelude-val">Some</span>(<span class="number">4</span>));
         }
     };
 }
 
-<span class='doccomment'>/// Evaluate arbitrary number of arrays</span>
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>eval</span> {
-    [$(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>:<span class='ident'>ident</span>),<span class='op'>+</span>] <span class='op'>=&gt;</span> {
+<span class="doccomment">/// Evaluate arbitrary number of arrays</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">eval</span> {
+    [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span>),<span class="op">+</span>] <span class="op">=&gt;</span> {
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp_vec</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
             $(
-                <span class='ident'>temp_vec</span>.<span class='ident'>push</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>);
-             )<span class='op'>*</span>
-            <span class='ident'>eval_multiple</span>(<span class='ident'>temp_vec</span>)
+                <span class="ident">temp_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>);
+             )<span class="op">*</span>
+            <span class="ident">eval_multiple</span>(<span class="ident">temp_vec</span>)
         }
     };
 }

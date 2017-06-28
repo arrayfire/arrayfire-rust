@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -169,133 +169,151 @@
 <span id="124">124</span>
 <span id="125">125</span>
 <span id="126">126</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
-       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
-       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://arrayfire.com/docs/rust&quot;</span>)]</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! ArrayFire is a high performance software library for parallel computing with</span>
+<span class="doccomment">//! an easy-to-use API. ArrayFire abstracts away much of the details of</span>
+<span class="doccomment">//! programming parallel architectures by providing a high-level container object,</span>
+<span class="doccomment">//! the [Array](./struct.Array.html), that represents data stored on a CPU, GPU, FPGA,</span>
+<span class="doccomment">//! or other type of accelerator. This abstraction permits developers to write</span>
+<span class="doccomment">//! massively parallel applications in a high-level language where they need</span>
+<span class="doccomment">//! not be concerned about low-level optimizations that are frequently required to</span>
+<span class="doccomment">//! achieve high throughput on most parallel architectures.</span>
 
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>lazy_static</span>;
+<span class="doccomment">//! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! | ArrayFire Upstream | Rust Crate |</span>
+<span class="doccomment">//! |:------------------:|:---------------:|</span>
+<span class="doccomment">//! | 3.3.x | 3.3.x |</span>
+<span class="doccomment">//! | 3.4.x | 3.4.x |</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Only, Major &amp; Minor version numbers need to match.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Tutorials</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - [Getting Started with ArrayFire](./getting_started.html)</span>
+<span class="doccomment">//! - [Introduction to Vectorization](./vectorization.html)</span>
+<span class="doccomment">//! - [Array and Matrix Manipulation](./array_and_matrix_manipulation.html)</span>
+<span class="doccomment">//! - [Indexing](./indexing.html)</span>
+<span class="doccomment">//! - [Configure ArrayFire Environment](./configuring_arrayfire_environment.html)</span>
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>array</span>::<span class='ident'>Array</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>array</span>::{<span class='ident'>print</span>, <span class='ident'>print_gen</span>, <span class='ident'>eval_multiple</span>, <span class='ident'>is_eval_manual</span>, <span class='ident'>set_manual_eval</span>};
-<span class='kw'>mod</span> <span class='ident'>array</span>;
+<span class="attribute">#<span class="op">!</span>[<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
+       <span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
+       <span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;http://arrayfire.com/docs/rust&quot;</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
 
-<span class='comment'>//pub use algorithm::{sum_nan, product_nan, sum_nan_all, product_nan_all};</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithm</span>::{<span class='ident'>sum</span>, <span class='ident'>product</span>, <span class='ident'>min</span>, <span class='ident'>max</span>, <span class='ident'>all_true</span>, <span class='ident'>any_true</span>, <span class='ident'>count</span>, <span class='ident'>sum_nan</span>, <span class='ident'>product_nan</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithm</span>::{<span class='ident'>sum_all</span>, <span class='ident'>product_all</span>, <span class='ident'>min_all</span>, <span class='ident'>max_all</span>, <span class='ident'>sum_nan_all</span>, <span class='ident'>product_nan_all</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithm</span>::{<span class='ident'>all_true_all</span>, <span class='ident'>any_true_all</span>, <span class='ident'>count_all</span>, <span class='ident'>imin</span>, <span class='ident'>imax</span>, <span class='ident'>imin_all</span>, <span class='ident'>imax_all</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithm</span>::{<span class='ident'>accum</span>, <span class='ident'>locate</span>, <span class='ident'>diff1</span>, <span class='ident'>diff2</span>, <span class='ident'>sort</span>, <span class='ident'>sort_index</span>, <span class='ident'>sort_by_key</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithm</span>::{<span class='ident'>set_unique</span>, <span class='ident'>set_union</span>, <span class='ident'>set_intersect</span>, <span class='ident'>scan</span>, <span class='ident'>scan_by_key</span>};
-<span class='kw'>mod</span> <span class='ident'>algorithm</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>add</span>, <span class='ident'>sub</span>, <span class='ident'>div</span>, <span class='ident'>mul</span>, <span class='ident'>lt</span>, <span class='ident'>gt</span>, <span class='ident'>le</span>, <span class='ident'>ge</span>, <span class='ident'>eq</span>, <span class='ident'>neq</span>, <span class='ident'>and</span>, <span class='ident'>or</span>, <span class='ident'>minof</span>, <span class='ident'>maxof</span>, <span class='ident'>rem</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>bitand</span>, <span class='ident'>bitor</span>, <span class='ident'>bitxor</span>, <span class='ident'>shiftl</span>, <span class='ident'>shiftr</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>abs</span>, <span class='ident'>sign</span>, <span class='ident'>round</span>, <span class='ident'>trunc</span>, <span class='ident'>floor</span>, <span class='ident'>ceil</span>, <span class='ident'>modulo</span>, <span class='ident'>sigmoid</span>, <span class='ident'>clamp</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>sin</span>, <span class='ident'>cos</span>, <span class='ident'>tan</span>, <span class='ident'>asin</span>, <span class='ident'>acos</span>, <span class='ident'>atan</span>, <span class='ident'>sinh</span>, <span class='ident'>cosh</span>, <span class='ident'>tanh</span>, <span class='ident'>asinh</span>, <span class='ident'>acosh</span>, <span class='ident'>atanh</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>atan2</span>, <span class='ident'>cplx2</span>, <span class='ident'>arg</span>, <span class='ident'>cplx</span>, <span class='ident'>real</span>, <span class='ident'>imag</span>, <span class='ident'>conjg</span>, <span class='ident'>hypot</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>sqrt</span>, <span class='ident'>log</span>, <span class='ident'>log1p</span>, <span class='ident'>log10</span>, <span class='ident'>log2</span>, <span class='ident'>pow2</span>, <span class='ident'>exp</span>, <span class='ident'>expm1</span>, <span class='ident'>erf</span>, <span class='ident'>erfc</span>, <span class='ident'>root</span>, <span class='ident'>pow</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arith</span>::{<span class='ident'>cbrt</span>, <span class='ident'>factorial</span>, <span class='ident'>tgamma</span>, <span class='ident'>lgamma</span>, <span class='ident'>iszero</span>, <span class='ident'>isinf</span>, <span class='ident'>isnan</span>};
-<span class='kw'>mod</span> <span class='ident'>arith</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">array</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">array</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>backend</span>::{<span class='ident'>set_backend</span>, <span class='ident'>get_backend_count</span>, <span class='ident'>get_available_backends</span>, <span class='ident'>get_active_backend</span>};
-<span class='kw'>mod</span> <span class='ident'>backend</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;algorithm&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">algorithm</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;algorithm&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">algorithm</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>blas</span>::{<span class='ident'>matmul</span>, <span class='ident'>dot</span>, <span class='ident'>transpose</span>, <span class='ident'>transpose_inplace</span>};
-<span class='kw'>mod</span> <span class='ident'>blas</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;arithmetic&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">arith</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;arithmetic&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">arith</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>constant</span>, <span class='ident'>range</span>, <span class='ident'>iota</span>, <span class='ident'>identity</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>diag_create</span>, <span class='ident'>diag_extract</span>, <span class='ident'>lower</span>, <span class='ident'>upper</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>join</span>, <span class='ident'>join_many</span>, <span class='ident'>tile</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>reorder</span>, <span class='ident'>shift</span>, <span class='ident'>moddims</span>, <span class='ident'>flat</span>, <span class='ident'>flip</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>select</span>, <span class='ident'>selectl</span>, <span class='ident'>selectr</span>, <span class='ident'>replace</span>, <span class='ident'>replace_scalar</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>data</span>::{<span class='ident'>range_t</span>, <span class='ident'>iota_t</span>, <span class='ident'>identity_t</span>, <span class='ident'>constant_t</span>};
-<span class='kw'>mod</span> <span class='ident'>data</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">backend</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">backend</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>get_version</span>, <span class='ident'>get_revision</span>, <span class='ident'>info</span>, <span class='ident'>info_string</span>, <span class='ident'>device_info</span>, <span class='ident'>init</span>, <span class='ident'>device_count</span>, <span class='ident'>is_double_available</span>, <span class='ident'>set_device</span>, <span class='ident'>get_device</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>device_mem_info</span>, <span class='ident'>print_mem_info</span>, <span class='ident'>set_mem_step_size</span>, <span class='ident'>get_mem_step_size</span>, <span class='ident'>device_gc</span>, <span class='ident'>sync</span>};
-<span class='kw'>mod</span> <span class='ident'>device</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;blas&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">blas</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;blas&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">blas</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>DType</span>, <span class='ident'>AfError</span>, <span class='ident'>Backend</span>, <span class='ident'>ColorMap</span>, <span class='ident'>YCCStd</span>, <span class='ident'>HomographyType</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>InterpType</span>, <span class='ident'>BorderType</span>, <span class='ident'>MatchType</span>, <span class='ident'>NormType</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>Connectivity</span>, <span class='ident'>ConvMode</span>, <span class='ident'>ConvDomain</span>, <span class='ident'>ColorSpace</span>, <span class='ident'>MatProp</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>MarkerType</span>, <span class='ident'>MomentType</span>, <span class='ident'>SparseFormat</span>, <span class='ident'>BinaryOp</span>, <span class='ident'>RandomEngineType</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>PHILOX</span>, <span class='ident'>THREEFRY</span>, <span class='ident'>MERSENNE</span>, <span class='ident'>DEFAULT_RANDOM_ENGINE</span>, <span class='ident'>Scalar</span>};
-<span class='kw'>mod</span> <span class='ident'>defines</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;data&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">data</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;data&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">data</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dim4</span>::<span class='ident'>Dim4</span>;
-<span class='kw'>mod</span> <span class='ident'>dim4</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">device</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">device</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::{<span class='ident'>Callback</span>, <span class='ident'>ErrorCallback</span>, <span class='ident'>register_error_handler</span>, <span class='ident'>handle_error_general</span>};
-<span class='kw'>mod</span> <span class='ident'>error</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">defines</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">defines</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>index</span>::{<span class='ident'>Indexer</span>, <span class='ident'>index</span>, <span class='ident'>row</span>, <span class='ident'>rows</span>, <span class='ident'>col</span>, <span class='ident'>cols</span>, <span class='ident'>slice</span>, <span class='ident'>slices</span>,
-                <span class='ident'>set_row</span>, <span class='ident'>set_rows</span>, <span class='ident'>set_col</span>, <span class='ident'>set_cols</span>, <span class='ident'>set_slice</span>, <span class='ident'>set_slices</span>,
-                <span class='ident'>lookup</span>, <span class='ident'>assign_seq</span>, <span class='ident'>index_gen</span>, <span class='ident'>assign_gen</span>};
-<span class='kw'>mod</span> <span class='ident'>index</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dim4</span>::<span class="ident">Dim4</span>;
+<span class="kw">mod</span> <span class="ident">dim4</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>seq</span>::<span class='ident'>Seq</span>;
-<span class='kw'>mod</span> <span class='ident'>seq</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">Callback</span>, <span class="ident">ErrorCallback</span>, <span class="ident">register_error_handler</span>, <span class="ident">handle_error_general</span>};
+<span class="kw">mod</span> <span class="ident">error</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>graphics</span>::<span class='ident'>Window</span>;
-<span class='kw'>mod</span> <span class='ident'>graphics</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;indexing&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">index</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;indexing&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">index</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gaussian_kernel</span>, <span class='ident'>load_image</span>, <span class='ident'>load_image_native</span>, <span class='ident'>save_image</span>, <span class='ident'>save_image_native</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>resize</span>, <span class='ident'>transform</span>, <span class='ident'>rotate</span>, <span class='ident'>translate</span>, <span class='ident'>scale</span>, <span class='ident'>skew</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>dilate</span>, <span class='ident'>dilate3</span>, <span class='ident'>erode</span>, <span class='ident'>erode3</span>, <span class='ident'>minfilt</span>, <span class='ident'>maxfilt</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gradient</span>, <span class='ident'>histogram</span>, <span class='ident'>hist_equal</span>, <span class='ident'>regions</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>gray2rgb</span>, <span class='ident'>rgb2gray</span>, <span class='ident'>hsv2rgb</span>, <span class='ident'>rgb2hsv</span>, <span class='ident'>color_space</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>bilateral</span>, <span class='ident'>mean_shift</span>, <span class='ident'>medfilt</span>, <span class='ident'>sobel</span>, <span class='ident'>medfilt1</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>unwrap</span>, <span class='ident'>wrap</span>, <span class='ident'>sat</span>, <span class='ident'>rgb2ycbcr</span>, <span class='ident'>ycbcr2rgb</span>, <span class='ident'>is_imageio_available</span>, <span class='ident'>transform_coords</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>moments</span>, <span class='ident'>moments_all</span>};
-<span class='kw'>mod</span> <span class='ident'>image</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">seq</span>::<span class="ident">Seq</span>;
+<span class="kw">mod</span> <span class="ident">seq</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lapack</span>::{<span class='ident'>svd</span>, <span class='ident'>lu</span>, <span class='ident'>qr</span>, <span class='ident'>cholesky</span>, <span class='ident'>solve</span>, <span class='ident'>solve_lu</span>, <span class='ident'>inverse</span>, <span class='ident'>det</span>, <span class='ident'>rank</span>, <span class='ident'>norm</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>lapack</span>::{<span class='ident'>svd_inplace</span>, <span class='ident'>lu_inplace</span>, <span class='ident'>qr_inplace</span>, <span class='ident'>cholesky_inplace</span>, <span class='ident'>is_lapack_available</span>};
-<span class='kw'>mod</span> <span class='ident'>lapack</span>;
-<span class='kw'>mod</span> <span class='ident'>macros</span>;
-<span class='kw'>mod</span> <span class='ident'>num</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;graphics&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">graphics</span>::<span class="ident">Window</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;graphics&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">graphics</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>random</span>::<span class='ident'>RandomEngine</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>random</span>::{<span class='ident'>set_seed</span>, <span class='ident'>get_seed</span>, <span class='ident'>randu</span>, <span class='ident'>randn</span>, <span class='ident'>random_uniform</span>, <span class='ident'>random_normal</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>random</span>::{<span class='ident'>get_default_random_engine</span>, <span class='ident'>set_default_random_engine_type</span>};
-<span class='kw'>mod</span> <span class='ident'>random</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;image&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">image</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;image&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">image</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>approx1</span>, <span class='ident'>approx2</span>, <span class='ident'>set_fft_plan_cache_size</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fft</span>, <span class='ident'>fft2</span>, <span class='ident'>fft3</span>, <span class='ident'>ifft</span>, <span class='ident'>ifft2</span>, <span class='ident'>ifft3</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fft_r2c</span>, <span class='ident'>fft2_r2c</span>, <span class='ident'>fft3_r2c</span>, <span class='ident'>fft_c2r</span>, <span class='ident'>fft2_c2r</span>, <span class='ident'>fft3_c2r</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fft_inplace</span>, <span class='ident'>fft2_inplace</span>, <span class='ident'>fft3_inplace</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>ifft_inplace</span>, <span class='ident'>ifft2_inplace</span>, <span class='ident'>ifft3_inplace</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>convolve1</span>, <span class='ident'>convolve2</span>, <span class='ident'>convolve3</span>, <span class='ident'>convolve2_sep</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fft_convolve1</span>, <span class='ident'>fft_convolve2</span>, <span class='ident'>fft_convolve3</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>signal</span>::{<span class='ident'>fir</span>, <span class='ident'>iir</span>};
-<span class='kw'>mod</span> <span class='ident'>signal</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;lapack&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lapack</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;lapack&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">lapack</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sparse</span>::{<span class='ident'>sparse</span>, <span class='ident'>sparse_from_host</span>, <span class='ident'>sparse_from_dense</span>, <span class='ident'>sparse_convert_to</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sparse</span>::{<span class='ident'>sparse_to_dense</span>, <span class='ident'>sparse_get_info</span>, <span class='ident'>sparse_get_values</span>, <span class='ident'>sparse_get_nnz</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sparse</span>::{<span class='ident'>sparse_get_row_indices</span>, <span class='ident'>sparse_get_col_indices</span>, <span class='ident'>sparse_get_format</span>};
-<span class='kw'>mod</span> <span class='ident'>sparse</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;macros&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">macros</span>;
+<span class="kw">mod</span> <span class="ident">num</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>statistics</span>::{<span class='ident'>mean</span>, <span class='ident'>stdev</span>, <span class='ident'>median</span>, <span class='ident'>var</span>, <span class='ident'>cov</span>, <span class='ident'>corrcoef</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>statistics</span>::{<span class='ident'>mean_weighted</span>, <span class='ident'>var_weighted</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>statistics</span>::{<span class='ident'>var_all</span>, <span class='ident'>mean_all</span>, <span class='ident'>stdev_all</span>, <span class='ident'>median_all</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>statistics</span>::{<span class='ident'>mean_all_weighted</span>, <span class='ident'>var_all_weighted</span>};
-<span class='kw'>mod</span> <span class='ident'>statistics</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;random&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">random</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;random&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">random</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>HasAfEnum</span>, <span class='ident'>get_size</span>};
-<span class='kw'>mod</span> <span class='ident'>util</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;signal&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">signal</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;signal&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">signal</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::<span class='ident'>Features</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::{<span class='ident'>fast</span>, <span class='ident'>harris</span>, <span class='ident'>orb</span>, <span class='ident'>hamming_matcher</span>, <span class='ident'>nearest_neighbour</span>, <span class='ident'>match_template</span>, <span class='ident'>susan</span>, <span class='ident'>dog</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>vision</span>::{<span class='ident'>homography</span>};
-<span class='kw'>mod</span> <span class='ident'>vision</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;sparse&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sparse</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;sparse&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">sparse</span>;
 
-<span class='comment'>// headers that are not exposed through rust wrapper are as follows:</span>
-<span class='comment'>// compatible.h</span>
-<span class='comment'>// constants.h</span>
-<span class='comment'>// complex.h</span>
-<span class='comment'>// cuda.h</span>
-<span class='comment'>// opencl.h</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;statistics&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">statistics</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;statistics&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">statistics</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">HasAfEnum</span>, <span class="ident">get_size</span>};
+<span class="kw">mod</span> <span class="ident">util</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;vision&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">vision</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;vision&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">vision</span>;
+
+<span class="comment">// headers that are not exposed through rust wrapper are given follows:</span>
+<span class="comment">// compatible.h</span>
+<span class="comment">// constants.h</span>
+<span class="comment">// complex.h</span>
+<span class="comment">// cuda.h</span>
+<span class="comment">// opencl.h</span>
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

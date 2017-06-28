@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'HasAfEnum', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait HasAfEnum</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'HasAfEnum', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,14 +43,14 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>arrayfire</a>::<wbr><a class='trait' href=''>HasAfEnum</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>arrayfire</a>::<wbr><a class="trait" href=''>HasAfEnum</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/arrayfire/util.rs.html#155-157' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/arrayfire/util.rs.html#155-158' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait HasAfEnum {
-    fn <a href='#tymethod.get_af_dtype' class='fnname'>get_af_dtype</a>() -&gt; <a class='enum' href='../arrayfire/enum.DType.html' title='arrayfire::DType'>DType</a>;
+    fn <a href='#tymethod.get_af_dtype' class='fnname'>get_af_dtype</a>() -&gt; <a class="enum" href="../arrayfire/enum.DType.html" title="enum arrayfire::DType">DType</a>;
 }</pre><div class='docblock'><p>Types of the data that can be generated using ArrayFire data generation functions.</p>
 
 <p>The trait HasAfEnum has been defined internally for the following types. We strongly suggest
@@ -75,21 +75,22 @@ other than the ones listed below will result in undefined behavior.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.get_af_dtype' class='method'><span id='get_af_dtype.v' class='invisible'><code>fn <a href='#tymethod.get_af_dtype' class='fnname'>get_af_dtype</a>() -&gt; <a class='enum' href='../arrayfire/enum.DType.html' title='arrayfire::DType'>DType</a></code></span></h3></div>
+        <h3 id='tymethod.get_af_dtype' class='method'><span id='get_af_dtype.v' class='invisible'><code>fn <a href='#tymethod.get_af_dtype' class='fnname'>get_af_dtype</a>() -&gt; <a class="enum" href="../arrayfire/enum.DType.html" title="enum arrayfire::DType">DType</a></code></span></h3><div class='docblock'><p>Return trait implmentors corresponding <a href="./enum.DType.html">DType</a></p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></li>
-<li><code>impl HasAfEnum for num_complex::<a class='struct' href='../num_complex/struct.Complex.html' title='num_complex::Complex'>Complex</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>&gt;</code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></li>
-<li><code>impl HasAfEnum for num_complex::<a class='struct' href='../num_complex/struct.Complex.html' title='num_complex::Complex'>Complex</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;</code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a></code></li>
-<li><code>impl HasAfEnum for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a></code></li>
+    <li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></li>
+<li><code>impl HasAfEnum for <a class="struct" href="../num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;</code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></li>
+<li><code>impl HasAfEnum for <a class="struct" href="../num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a></code></li>
+<li><code>impl HasAfEnum for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></li>
 </ul><script type="text/javascript" async
                          src="../implementors/arrayfire/trait.HasAfEnum.js">
                  </script></section>

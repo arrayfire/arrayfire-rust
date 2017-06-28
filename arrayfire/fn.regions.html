@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class='fn' href=''>regions</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class="fn" href=''>regions</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/arrayfire/image/mod.rs.html#797-806' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn regions&lt;OutType:&nbsp;<a class='trait' href='../arrayfire/trait.HasAfEnum.html' title='arrayfire::HasAfEnum'>HasAfEnum</a>&gt;(input: &amp;<a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>, conn: <a class='enum' href='../arrayfire/enum.Connectivity.html' title='arrayfire::Connectivity'>Connectivity</a>) -&gt; <a class='struct' href='../arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a></pre><div class='docblock'><p>Find blobs in given image.</p>
+               </span><a class='srclink' href='../src/arrayfire/image/mod.rs.html#802-811' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn regions&lt;OutType:&nbsp;<a class="trait" href="../arrayfire/trait.HasAfEnum.html" title="trait arrayfire::HasAfEnum">HasAfEnum</a>&gt;(input: &amp;<a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>, conn: <a class="enum" href="../arrayfire/enum.Connectivity.html" title="enum arrayfire::Connectivity">Connectivity</a>) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a></pre><div class='docblock'><p>Find blobs in given image.</p>
 
 <p>Given a binary image (with zero representing background pixels), regions computes a floating
 point image where each connected component is labeled from 1 to N, the total number of

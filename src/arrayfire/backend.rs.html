@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -113,74 +113,74 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>defines</span>::{<span class='ident'>AfError</span>, <span class='ident'>Backend</span>};
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>HANDLE_ERROR</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>libc</span>::{<span class='ident'>c_int</span>, <span class='ident'>c_uint</span>, <span class='ident'>uint8_t</span>};
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">Backend</span>};
+<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">c_uint</span>, <span class="ident">uint8_t</span>};
 
-<span class='kw'>extern</span> {
-    <span class='kw'>fn</span> <span class='ident'>af_set_backend</span>(<span class='ident'>bknd</span>: <span class='ident'>uint8_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_backend_count</span>(<span class='ident'>num_backends</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_uint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_available_backends</span>(<span class='ident'>backends</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
-    <span class='kw'>fn</span> <span class='ident'>af_get_active_backend</span>(<span class='ident'>backend</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class="kw">extern</span> {
+    <span class="kw">fn</span> <span class="ident">af_set_backend</span>(<span class="ident">bknd</span>: <span class="ident">uint8_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_backend_count</span>(<span class="ident">num_backends</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_available_backends</span>(<span class="ident">backends</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_active_backend</span>(<span class="ident">backend</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
-<span class='doccomment'>/// Toggle backends between cuda, opencl or cpu</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Parameters</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// - `backend` to which to switch to</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_backend</span>(<span class='ident'>backend</span>: <span class='ident'>Backend</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_set_backend</span>(<span class='ident'>backend</span> <span class='kw'>as</span> <span class='ident'>uint8_t</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Toggle backends between cuda, opencl or cpu</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `backend` to which to switch to</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_backend</span>(<span class="ident">backend</span>: <span class="ident">Backend</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_set_backend</span>(<span class="ident">backend</span> <span class="kw">as</span> <span class="ident">uint8_t</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
 
-<span class='doccomment'>/// Get the available backend count</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_backend_count</span>() <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_backend_count</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_uint</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='ident'>temp</span>
+<span class="doccomment">/// Get the available backend count</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_backend_count</span>() <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_backend_count</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>
     }
 }
 
 
-<span class='doccomment'>/// Get the available backends</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_available_backends</span>() <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Backend</span><span class='op'>&gt;</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_available_backends</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
+<span class="doccomment">/// Get the available backends</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_available_backends</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_available_backends</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>if</span> <span class='ident'>temp</span> <span class='op'>&amp;</span> <span class='number'>0b0100</span> <span class='op'>==</span> <span class='number'>0b0100</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>OPENCL</span>); }
-        <span class='kw'>if</span> <span class='ident'>temp</span> <span class='op'>&amp;</span> <span class='number'>0b0010</span> <span class='op'>==</span> <span class='number'>0b0010</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>CUDA</span>); }
-        <span class='kw'>if</span> <span class='ident'>temp</span> <span class='op'>&amp;</span> <span class='number'>0b0001</span> <span class='op'>==</span> <span class='number'>0b0001</span> { <span class='ident'>b</span>.<span class='ident'>push</span>(<span class='ident'>Backend</span>::<span class='ident'>CPU</span>); }
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">if</span> <span class="ident">temp</span> <span class="op">&amp;</span> <span class="number">0b0100</span> <span class="op">==</span> <span class="number">0b0100</span> { <span class="ident">b</span>.<span class="ident">push</span>(<span class="ident">Backend</span>::<span class="ident">OPENCL</span>); }
+        <span class="kw">if</span> <span class="ident">temp</span> <span class="op">&amp;</span> <span class="number">0b0010</span> <span class="op">==</span> <span class="number">0b0010</span> { <span class="ident">b</span>.<span class="ident">push</span>(<span class="ident">Backend</span>::<span class="ident">CUDA</span>); }
+        <span class="kw">if</span> <span class="ident">temp</span> <span class="op">&amp;</span> <span class="number">0b0001</span> <span class="op">==</span> <span class="number">0b0001</span> { <span class="ident">b</span>.<span class="ident">push</span>(<span class="ident">Backend</span>::<span class="ident">CPU</span>); }
 
-        <span class='ident'>b</span>
+        <span class="ident">b</span>
     }
 }
 
-<span class='doccomment'>/// Get current active backend</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_mut</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_active_backend</span>() <span class='op'>-&gt;</span> <span class='ident'>Backend</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>err_val</span> <span class='op'>=</span> <span class='ident'>af_get_active_backend</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>temp</span> <span class='kw'>as</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_int</span>);
-        <span class='ident'>HANDLE_ERROR</span>(<span class='ident'>AfError</span>::<span class='ident'>from</span>(<span class='ident'>err_val</span>));
-        <span class='kw'>match</span> (<span class='ident'>err_val</span>, <span class='ident'>temp</span>) {
-            (<span class='number'>0</span>, <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>DEFAULT</span>,
-            (<span class='number'>0</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>CPU</span>,
-            (<span class='number'>0</span>, <span class='number'>2</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>CUDA</span>,
-            (<span class='number'>0</span>, <span class='number'>4</span>) <span class='op'>=&gt;</span> <span class='ident'>Backend</span>::<span class='ident'>OPENCL</span>,
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid backend retrieved, undefined behavior.&quot;</span>),
+<span class="doccomment">/// Get current active backend</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_active_backend</span>() <span class="op">-&gt;</span> <span class="ident">Backend</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_active_backend</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="kw">match</span> (<span class="ident">err_val</span>, <span class="ident">temp</span>) {
+            (<span class="number">0</span>, <span class="number">0</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">DEFAULT</span>,
+            (<span class="number">0</span>, <span class="number">1</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">CPU</span>,
+            (<span class="number">0</span>, <span class="number">2</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">CUDA</span>,
+            (<span class="number">0</span>, <span class="number">4</span>) <span class="op">=&gt;</span> <span class="ident">Backend</span>::<span class="ident">OPENCL</span>,
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid backend retrieved, undefined behavior.&quot;</span>),
         }
     }
 }

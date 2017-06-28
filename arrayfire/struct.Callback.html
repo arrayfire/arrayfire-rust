@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        <p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Callback', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct Callback</p><div class="block items"><ul><li><a href="#methods">Methods</a></li></ul></div><p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Callback', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,22 +43,19 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>arrayfire</a>::<wbr><a class='struct' href=''>Callback</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>arrayfire</a>::<wbr><a class="struct" href=''>Callback</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/arrayfire/error.rs.html#11-13' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Callback&lt;'cblifetime&gt; {
-    pub cb: &amp;'cblifetime <a class='type' href='../arrayfire/type.ErrorCallback.html' title='arrayfire::ErrorCallback'>ErrorCallback</a>,
-}</pre><div class='docblock'><p>Wrap ErrorCallback function pointer inside a structure
-to enable implementing Send, Sync traits on it.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.cb' class='structfield'>
-                           <span id='cb.v' class='invisible'>
-                           <code>cb: &amp;'cblifetime <a class='type' href='../arrayfire/type.ErrorCallback.html' title='arrayfire::ErrorCallback'>ErrorCallback</a></code>
-                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'cblifetime&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../arrayfire/struct.Callback.html' title='arrayfire::Callback'>Callback</a>&lt;'cblifetime&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/error.rs.html#18' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl&lt;'cblifetime&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../arrayfire/struct.Callback.html' title='arrayfire::Callback'>Callback</a>&lt;'cblifetime&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/error.rs.html#19' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div></section>
+               </span><a class='srclink' href='../src/arrayfire/error.rs.html#10-12' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Callback { /* fields omitted */ }</pre><div class='docblock'><p>Structure holding handle to callback function</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../arrayfire/struct.Callback.html" title="struct arrayfire::Callback">Callback</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/error.rs.html#14-24' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(callback: <a class="type" href="../arrayfire/type.ErrorCallback.html" title="type arrayfire::ErrorCallback">ErrorCallback</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Associated function to create a new Callback object</p>
+</div><h4 id='method.call' class="method"><span id='call.v' class='invisible'><code>fn <a href='#method.call' class='fnname'>call</a>(&amp;self, error_code: <a class="enum" href="../arrayfire/enum.AfError.html" title="enum arrayfire::AfError">AfError</a>)</code></span></h4>
+<div class='docblock'><p>call invokes the error callback with <code>error_code</code>.</p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["arrayfire"] = ["impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.ShrAssign.html' title='core::ops::ShrAssign'>ShrAssign</a>&lt;<a class='struct' href='arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>&gt; for <a class='struct' href='arrayfire/struct.Array.html' title='arrayfire::Array'>Array</a>",];
+implementors["arrayfire"] = ["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/trait.ShrAssign.html\" title=\"trait core::ops::ShrAssign\">ShrAssign</a>&lt;<a class=\"struct\" href=\"arrayfire/struct.Array.html\" title=\"struct arrayfire::Array\">Array</a>&gt; for <a class=\"struct\" href=\"arrayfire/struct.Array.html\" title=\"struct arrayfire::Array\">Array</a>",];
 implementors["libc"] = [];
 implementors["num"] = [];
 
