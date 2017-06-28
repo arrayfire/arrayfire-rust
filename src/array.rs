@@ -8,7 +8,6 @@ use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
 use std::ffi::CString;
 
 // Some unused functions from array.h in C-API of ArrayFire
-// af_create_handle
 // af_copy_array
 // af_write_array
 // af_get_data_ref_count
@@ -17,6 +16,8 @@ use std::ffi::CString;
 extern {
     fn af_create_array(out: MutAfArray, data: *const c_void,
                        ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
+
+    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
@@ -99,6 +100,8 @@ extern {
     fn af_unlock_array(arr: AfArray) -> c_int;
 
     fn af_get_device_ptr(ptr: MutVoidPtr, arr: AfArray) -> c_int;
+
+    fn af_get_allocated_bytes(result: *mut usize, arr: AfArray) -> c_int;
 }
 
 /// A multidimensional data container
@@ -175,6 +178,27 @@ impl Array {
         }
     }
 
+    /// Constructs a new Array object of specified dimensions and type
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use arrayfire::{Array, Dim4, DType};
+    /// let garbageVals = Array::new_empty(Dim4::new(&[3, 1, 1, 1]), DType::F32);
+    /// ```
+    #[allow(unused_mut)]
+    pub fn new_empty(dims: Dim4, aftype: DType) -> Array {
+        unsafe {
+            let mut temp: i64 = 0;
+            let err_val = af_create_handle(&mut temp as MutAfArray,
+                                           dims.ndims() as c_uint,
+                                           dims.get().as_ptr() as * const c_longlong,
+                                           aftype as uint8_t);
+            HANDLE_ERROR(AfError::from(err_val));
+            Array::from(temp)
+        }
+    }
+
     /// Returns the backend of the Array
     ///
     /// # Return Values
@@ -210,12 +234,12 @@ impl Array {
     }
 
     /// Returns the number of elements in the Array
-    pub fn elements(&self) -> i64 {
+    pub fn elements(&self) -> usize {
         unsafe {
             let mut ret_val: i64 = 0;
             let err_val = af_get_elements(&mut ret_val as MutAfArray, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
-            ret_val
+            ret_val as usize
         }
     }
 
@@ -285,7 +309,10 @@ impl Array {
     }
 
     /// Copies the data from the Array to the mutable slice `data`
-    pub fn host<T>(&self, data: &mut [T]) {
+    pub fn host<T: HasAfEnum>(&self, data: &mut [T]) {
+        if data.len() != self.elements() {
+            HANDLE_ERROR(AfError::ERR_SIZE);
+        }
         unsafe {
             let err_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
@@ -376,6 +403,19 @@ impl Array {
         unsafe {
             let mut temp: u64 = 0;
             let err_val = af_get_device_ptr(&mut temp as MutVoidPtr, self.handle as AfArray);
+            HANDLE_ERROR(AfError::from(err_val));
+            temp
+        }
+    }
+
+    /// Get the size of physical allocated bytes.
+    ///
+    /// This function will return the size of the parent/owner if the current Array object is an
+    /// indexed Array.
+    pub fn get_allocated_bytes(&self) -> usize {
+        unsafe {
+            let mut temp: usize = 0;
+            let err_val = af_get_allocated_bytes(&mut temp as *mut usize, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
             temp
         }

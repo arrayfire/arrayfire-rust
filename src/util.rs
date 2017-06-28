@@ -9,12 +9,12 @@ use self::num::Complex;
 use self::libc::{uint8_t, c_int, size_t, c_void};
 
 pub type AfArray       = self::libc::c_longlong;
+pub type AfIndex       = self::libc::c_longlong;
 pub type CellPtr       = *const self::libc::c_void;
 pub type Complex32     = Complex<f32>;
 pub type Complex64     = Complex<f64>;
 pub type DimT          = self::libc::c_longlong;
 pub type Feat          = *const self::libc::c_void;
-pub type IndexT        = self::libc::c_longlong;
 pub type Intl          = self::libc::c_longlong;
 pub type MutAfArray    = *mut self::libc::c_longlong;
 pub type MutAfIndex    = *mut self::libc::c_longlong;
@@ -153,6 +153,7 @@ impl From<i32> for ColorMap {
 /// - u16
 ///
 pub trait HasAfEnum {
+    /// Return trait implmentors corresponding [DType](./enum.DType.html)
     fn get_af_dtype() -> DType;
 }
 

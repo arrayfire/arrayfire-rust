@@ -18,13 +18,7 @@ You can find the most recent updated documentation [here](http://arrayfire.githu
 
 ## Supported platforms
 
-- Linux and OSX: The bindings have been tested with Rust 1.x.
-- Windows: Rust 1.5 (MSVC ABI) is the first version that works with our bindings and ArrayFire library(built using MSVC compiler).
-
-We recommend using Rust 1.5 and higher.
-
-Rust 1.8 stabilized the traits for compound assignment operations. These are automatically enabled
-based on the rust version you are using.
+Linux, Windows and OSX. Rust 1.15.1 or higher is required.
 
 ## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
 
@@ -37,7 +31,7 @@ first.
 3. Make sure you add the path to library files to your path environment variables.
     - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.4.3"` to the dependencies section of your project's Cargo.toml file - 3.4.3
+4. Add `arrayfire = "3.5.0"` to the dependencies section of your project's Cargo.toml file - 3.5.0
    is the lastest version of crate.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
@@ -75,7 +69,6 @@ af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 ```bash
 ~/p/arrayfire_rust> cargo run --example helloworld
 ...
-     running 1 test
 Create a 5-by-3 matrix of random floats on the GPU
 [5 3 1 1]
     0.7402     0.4464     0.7762

@@ -1,10 +1,13 @@
 /* -- Lots of reuse from: https://github.com/alexcrichton/git2-rs/blob/master/libgit2-sys/build.rs */
-extern crate rustc_serialize;
+#[macro_use]
+extern crate serde_derive;
+
+extern crate serde;
+extern crate serde_json;
 extern crate rustc_version;
 
 use std::env;
 use std::fs;
-use rustc_serialize::json;
 use std::fs::OpenOptions;
 use std::io::{ErrorKind, Read};
 use std::path::PathBuf;
@@ -21,7 +24,7 @@ static UNIX_OCL_LIB_NAME: &'static str = "libafopencl";
 static UNIX_UNI_LIB_NAME: &'static str = "libaf";
 
 #[allow(dead_code)]
-#[derive(RustcDecodable)]
+#[derive(Deserialize, Debug)]
 struct Config {
     // Use the existing lib if it exists
     use_lib: bool,
@@ -53,13 +56,6 @@ struct Config {
     // GPU backends
     cuda_sdk: String,
     opencl_sdk: String,
-}
-
-macro_rules! t {
-    ($e:expr) => (match $e {
-            Ok(n) => n,
-            Err(e) => fail(&format!("\n{} failed with {}\n", stringify!($e), e)),
-        })
 }
 
 fn fail(s: &str) -> ! {
@@ -116,7 +112,7 @@ fn read_file(file_name: &std::path::PathBuf) -> String {
 
 fn read_conf(conf_file: &std::path::PathBuf) -> Config {
     let raw_conf = read_file(conf_file);
-    let decoded: Config = json::decode(&raw_conf).unwrap();
+    let decoded: Config = serde_json::from_str(&raw_conf).unwrap();
     decoded
 }
 

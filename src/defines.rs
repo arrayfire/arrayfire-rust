@@ -339,13 +339,21 @@ pub enum HomographyType {
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MarkerType {
+    /// No marker
     NONE     = 0,
+    /// Pointer marker
     POINT    = 1,
+    /// Hollow circle marker
     CIRCLE   = 2,
+    /// Hollow Square marker
     SQUARE   = 3,
+    /// Hollow Triangle marker
     TRIANGLE = 4,
+    /// Cross-hair marker
     CROSS    = 5,
+    /// Plus symbol marker
     PLUS     = 6,
+    /// Start symbol marker
     STAR     = 7
 }
 
@@ -353,10 +361,15 @@ pub enum MarkerType {
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MomentType {
+    /// Central moment of order (0 + 0)
     M00 = 1,    // 1<<0
+    /// Central moment of order (0 + 1)
     M01 = 2,    // 1<<1
+    /// Central moment of order (1 + 0)
     M10 = 4,    // 1<<2
+    /// Central moment of order (1 + 1)
     M11 = 8,    // 1<<3
+    /// All central moments of order (0,0), (0,1), (1,0) and (1,1)
     FIRST_ORDER = 1<<0 | 1<<1 | 1<<2 | 1<<3
 }
 
@@ -378,9 +391,13 @@ pub enum SparseFormat {
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BinaryOp {
+    /// Addition operation
     ADD = 0,
+    /// Multiplication operation
     MUL = 1,
+    /// Minimum operation
     MIN = 2,
+    /// Maximum operation
     MAX = 3
 }
 
@@ -396,9 +413,13 @@ pub enum RandomEngineType {
     MERSENNE_GP11213    = 300
 }
 
+/// Default Philon RandomEngine that points to [PHILOX_4X32_10](./enum.RandomEngineType.html)
 pub const PHILOX   : RandomEngineType = RandomEngineType::PHILOX_4X32_10;
+/// Default Threefry RandomEngine that points to [THREEFRY_2X32_16](./enum.RandomEngineType.html)
 pub const THREEFRY : RandomEngineType = RandomEngineType::THREEFRY_2X32_16;
+/// Default Mersenne RandomEngine that points to [MERSENNE_GP11213](./enum.RandomEngineType.html)
 pub const MERSENNE : RandomEngineType = RandomEngineType::MERSENNE_GP11213;
+/// Default RandomEngine that defaults to [PHILOX](./constant.PHILOX.html)
 pub const DEFAULT_RANDOM_ENGINE : RandomEngineType = PHILOX;
 
 /// Scalar value types
@@ -428,4 +449,14 @@ pub enum Scalar {
     S16(i16),
     /// 16 bit unsigned integer
     U16(u16),
+}
+
+/// Canny edge detector threshold operations types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum CannyThresholdType {
+    /// User has to define canny thresholds manually
+    MANUAL = 0,
+    /// Determine canny algorithm high threshold using Otsu algorithm automatically
+    OTSU = 1,
 }
