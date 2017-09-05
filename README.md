@@ -1,4 +1,4 @@
-# Arrayfire Rust Bindings [![Join the chat at https://gitter.im/arrayfire/arrayfire-rust](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/arrayfire/arrayfire-rust?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Arrayfire Rust Bindings
 | Linux   | Windows | OSX |
 |:-------:|:-------:|:---:|
 | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-linux/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-windows/) | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/rust-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/rust-osx/) |
@@ -15,6 +15,11 @@ Only, Major & Minor version numbers need to match.
 ## Documentation
 
 You can find the most recent updated documentation [here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html).
+
+## Communication
+
+* [Slack Chat](https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ)
+* [Google Groups](https://groups.google.com/forum/#!forum/arrayfire-users)
 
 ## Supported platforms
 
