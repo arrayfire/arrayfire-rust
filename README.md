@@ -37,7 +37,7 @@ first.
     - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
 4. Add `arrayfire = "3.5.0"` to the dependencies section of your project's Cargo.toml file - 3.5.0
-   is the lastest version of crate.
+   is the latest version of crate.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any bugs, please report them [here](https://github.com/arrayfire/arrayfire-rust/issues).
 
