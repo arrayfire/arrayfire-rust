@@ -217,7 +217,7 @@ pub fn set_default_random_engine_type(rtype: RandomEngineType) {
 /// # Return Values
 ///
 /// An Array with uniform numbers generated using random engine
-pub fn random_uniform<T: HasAfEnum>(dims: Dim4, engine: RandomEngine) -> Array {
+pub fn random_uniform<T: HasAfEnum>(dims: Dim4, engine: &RandomEngine) -> Array {
     unsafe {
         let aftype = T::get_af_dtype();
         let mut temp : i64 = 0;
@@ -239,7 +239,7 @@ pub fn random_uniform<T: HasAfEnum>(dims: Dim4, engine: RandomEngine) -> Array {
 /// # Return Values
 ///
 /// An Array with normal numbers generated using random engine
-pub fn random_normal<T: HasAfEnum>(dims: Dim4, engine: RandomEngine) -> Array {
+pub fn random_normal<T: HasAfEnum>(dims: Dim4, engine: &RandomEngine) -> Array {
     unsafe {
         let aftype = T::get_af_dtype();
         let mut temp : i64 = 0;
