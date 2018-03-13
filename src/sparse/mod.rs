@@ -177,7 +177,7 @@ pub fn sparse_to_dense(input: &Array) -> Array {
 ///
 /// # Return Values
 ///
-/// A tuple of values, row indices, coloumn indices Arrays and SparseFormat enum.
+/// A tuple of values, row indices, column indices Arrays and SparseFormat enum.
 pub fn sparse_get_info(input: &Array) -> (Array, Array, Array, SparseFormat) {
     unsafe {
         let mut val : i64 = 0;
