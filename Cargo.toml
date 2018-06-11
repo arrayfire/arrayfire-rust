@@ -33,15 +33,15 @@ default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "i
 "macros", "random", "signal", "sparse", "statistics", "vision"]
 
 [dependencies]
-libc = "0.2.11"
-num  = "0.1.32"
-lazy_static = "0.2.1"
+libc = "0.2"
+num  = "0.1"
+lazy_static = "1.0"
 
 [build-dependencies]
-serde_json = "1.0.0"
-serde_derive = "1.0.1"
-serde = "1.0.1"
-rustc_version = "0.1.7"
+serde_json = "1.0"
+serde_derive = "1.0"
+serde = "1.0"
+rustc_version = "0.2"
 
 [lib]
 name = "arrayfire"

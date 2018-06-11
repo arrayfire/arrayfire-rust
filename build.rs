@@ -13,6 +13,7 @@ use std::io::{ErrorKind, Read};
 use std::path::PathBuf;
 use std::process::Command;
 use std::convert::AsRef;
+use rustc_version::{version, Version};
 
 // Windows specific library file names
 static WIN_CUDA_LIB_NAME: &'static str = "afcuda";
@@ -467,7 +468,6 @@ fn main() {
         run_cmake_command(&conf, &build_dir);
     }
 
-    // build correct backend
     let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
     for backend in backends.iter() {
         println!("cargo:rustc-link-lib=dylib={}", backend);
@@ -475,8 +475,7 @@ fn main() {
     for backend_dir in backend_dirs.iter() {
         println!("cargo:rustc-link-search=native={}", backend_dir);
     }
-    // Directly check a semver version requirment
-    if rustc_version::version_matches(">= 1.8.0") {
+    if version().unwrap() >= Version::parse("1.8.0").unwrap() {
         println!("cargo:rustc-cfg=op_assign");
     }
 }
