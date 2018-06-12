@@ -207,12 +207,12 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     cmake_cmd.current_dir(&build_dir);
 
     run(cmake_cmd.arg("..")
-        .arg(format!("-T{}", conf.win_vs_toolset))
-        .arg("-G").arg(conf.win_cmake_generator)
+        .arg("-T").arg(format!("{}", conf.win_vs_toolset))
+        .arg("-G").arg(format!("{}", conf.win_cmake_generator))
         .args(&options)
-        .arg(&[format!("-DCMAKE_TOOLCHAIN_FILE:FILEPATH={}",
-                       conf.vcpkg_toolchain_file),
-                       format!("-DCMAKE_INSTALL_PREFIX={}", "package")])
+        .arg(format!("-DCMAKE_TOOLCHAIN_FILE:FILEPATH={}",
+                        conf.vcpkg_toolchain_file))
+        .arg(format!("-DCMAKE_INSTALL_PREFIX={}", "package"))
         , "cmake");
 
     let mut make_cmd= Command::new("MSBuild.exe");
@@ -362,9 +362,8 @@ fn blob_backends(conf: &Config,
 
         if conf.with_graphics=="ON" {
             if !conf.use_lib {
-                let suffix = if cfg!(windows) {"bin"} else {"lib"};
                 backend_dirs.push(build_dir
-                                  .join(format!("third_party/forge/{}", suffix))
+                                  .join(format!("third_party/forge/lib"))
                                   .to_str().to_owned().unwrap().to_string());
             }
         }
