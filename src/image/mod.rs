@@ -1,7 +1,8 @@
 extern crate libc;
 
 use array::Array;
-use defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity, InterpType, YCCStd, MomentType};
+use defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity};
+use defines::{DiffusionEq, FluxFn, InterpType, MomentType, YCCStd};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray};
 use self::libc::{uint8_t, c_uint, c_int, c_float, c_double, c_char};
@@ -98,6 +99,9 @@ extern {
 
     fn af_canny(out: MutAfArray, input: AfArray, thres_type: c_int, low: c_float, high: c_float,
                 swindow: c_uint, is_fast: c_int) -> c_int;
+    fn af_anisotropic_diffusion(out: MutAfArray, input: AfArray, dt: c_float,
+                                K: c_float, iters: c_uint, fftype: c_int,
+                                diff_kind: c_int) -> c_int;
 }
 
 /// Calculate the gradients
@@ -1244,6 +1248,95 @@ pub fn canny(input: &Array, threshold_type: CannyThresholdType, low: f32, hight:
         let err_val = af_canny(&mut temp as MutAfArray, input.get() as AfArray,
                                threshold_type as c_int, low as c_float, hight as c_float,
                                sobel_window as c_uint, is_fast as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        Array::from(temp)
+    }
+}
+
+/// Anisotropic smoothing filter
+///
+/// Anisotropic diffusion algorithm aims at removing noise in the images
+/// while preserving important features such as edges. The algorithm
+/// essentially creates a scale space representation of the original
+/// image, where image from previous step is used to create a new version
+/// of blurred image using the diffusion process. Standard isotropic diffusion
+/// methods such as gaussian blur, doesn't take into account the local
+/// content(smaller neighborhood of current processing pixel) while removing
+/// noise. Anisotropic diffusion uses the flux equations given below to
+/// achieve that. Flux equation is the formula used by the diffusion process
+/// to determine how much a pixel in neighborhood should contribute to
+/// the blurring operation being done at the current pixel at a given iteration.
+///
+/// The flux function can be either exponential or quadratic.
+///
+/// <table>
+/// <caption id="multi row">Available Flux Functions</caption>
+/// <tr>
+///     <td align="center" style="vertical-align:middle;">
+///       AF_FLUX_QUADRATIC
+///     </td>
+///     <td align="center">
+///       \begin{equation}
+///         \frac{1}{1 + (\frac{\| \nabla I\|}{K})^2}
+///       \end{equation}
+///     </td>
+/// </tr>
+/// <tr>
+///     <td align="center" style="vertical-align:middle;">
+///       AF_FLUX_EXPONENTIAL
+///     </td>
+///     <td align="center">
+///       \begin{equation}
+///         \exp{-(\frac{\| \nabla I\|}{K})^2}
+///       \end{equation}
+///     </td>
+/// </tr>
+/// </table>
+///
+/// Please be cautious using the time step parameter to the function.
+/// Appropriate time steps for solving this type of p.d.e. depend on
+/// the dimensionality of the image and the order of the equation.
+/// Stable values for most 2D and 3D functions are 0.125 and 0.0625,
+/// respectively. The time step values are automatically constrained
+/// to the stable value.
+///
+/// Another input parameter to be cautious about is the conductance
+/// parameter, lower values strongly preserve image features and
+/// vice-versa. For human vision, this value ranges from 0.5 to 2.0.
+///
+/// # Parameters
+///
+/// - `img` is the noisy input image
+/// - `dt` is the timestep for diffusion equation
+/// - `k` is the conductance parameter for diffusion
+/// - `iters` is the number of iterations diffusion is performed
+/// - `fftype` dictates the type of flux flow and it is an
+///    [enum](./enum.DiffusionEq.html)
+/// - `diff_kind` dictates the type of diffusion and it is an
+///   [enum](./enum.FluxFn.html)
+///
+/// # Return Values
+///
+/// Returns an anisotropically smoothed and noise-free image
+///
+/// ### References
+///
+///  - Pietro Perona and Jitendra Malik, `Scale-space and edge detection
+///    using anisotropic diffusion,` IEEE Transactions on Pattern Analysis
+///    Machine Intelligence, vol. 12, pp. 629-639, 1990.
+///  - R. Whitaker and X. Xue. `Variable-Conductance, Level-Set Curvature
+///    for Image Denoising`, International Conference on Image Processing,
+///    2001 pp. 142-145, Vol.3.
+pub fn anisotropic_diffusion(img: &Array, dt: f32, k: f32, iters: u32,
+                             fftype: FluxFn, diff_kind: DiffusionEq) -> Array {
+    unsafe {
+        let mut temp: i64 = 0;
+        let err_val = af_anisotropic_diffusion(&mut temp as MutAfArray,
+                                               img.get() as AfArray,
+                                               dt as c_float, k as c_float,
+                                               iters as c_uint,
+                                               fftype as c_int,
+                                               diff_kind as c_int);
         HANDLE_ERROR(AfError::from(err_val));
         Array::from(temp)
     }

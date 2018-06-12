@@ -460,3 +460,39 @@ pub enum CannyThresholdType {
     /// Determine canny algorithm high threshold using Otsu algorithm automatically
     OTSU = 1,
 }
+
+/// Anisotropic diffusion flux equation types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DiffusionEq {
+    /// Quadratic flux function
+    QUADRATIC = 1,
+    /// Exponential flux function
+    EXPONENTIAL = 2,
+    /// Default flux function, a.k.a exponential
+    DEFAULT = 0,
+}
+
+/// Diffusion equation types
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum FluxFn {
+    /// Quadratic flux function
+    GRADIENT = 1,
+    /// Modified curvature diffusion equation
+    MCDE = 2,
+    /// Default diffusion method, Gradient
+    DEFAULT = 0,
+}
+
+/// topk function ordering
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum TopkFn {
+    /// Top k min values
+    MIN = 1,
+    /// Top k max values
+    MAX = 2,
+    /// Default option(max)
+    DEFAULT = 0,
+}
