@@ -46,11 +46,15 @@ struct Config {
     with_opencl_blas_lib: String,
 
     vcpkg_toolchain_file: String,
-    cuda_sdk: String,
-    opencl_sdk: String,
+
+    lnx_cuda_sdk: String,
+    lnx_opencl_sdk: String,
+    lnx_cuda_host_compiler: String,
+
+    win_cuda_sdk: String,
+    win_opencl_sdk: String,
     win_cmake_generator: String,
     win_vs_toolset: String,
-    cuda_host_compiler: String,
 }
 
 fn fail(s: &str) -> ! {
@@ -244,7 +248,7 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     run(cmake_cmd.arg("..")
         .args(&options)
         .arg(format!("-DCMAKE_INSTALL_PREFIX={}", "package"))
-        .arg(format!("-DCUDA_HOST_COMPILER={}", conf.cuda_host_compiler))
+        .arg(format!("-DCUDA_HOST_COMPILER={}", conf.lnx_cuda_host_compiler))
         , "cmake");
 
     let mut make_cmd= Command::new("make");
@@ -278,7 +282,7 @@ fn blob_backends(conf: &Config,
                 println!("Trying to find libraries from
                           known default locations");
                 if cfg!(target_os = "windows") {
-                    PathBuf::from("C:/Program Files/ArrayFire/v3/")
+                    PathBuf::from("C:\\Program Files\\ArrayFire\\v3\\")
                 } else {
                     PathBuf::from("/opt/arrayfire/")
                 }
@@ -293,7 +297,7 @@ fn blob_backends(conf: &Config,
             backend_dirs.push(String::from("/usr/lib"));
         }
     } else {
-        backend_dirs.push(build_dir.join("package/lib")
+        backend_dirs.push(build_dir.join("package").join("lib")
                           .to_str().to_owned().unwrap().to_string());
     }
 
@@ -322,16 +326,16 @@ fn blob_backends(conf: &Config,
         // blob in cuda deps
         if cud_lib_exists {
             if cfg!(windows) {
-                backend_dirs.push(format!("{}\\lib\\x64", conf.cuda_sdk));
+                backend_dirs.push(format!("{}\\lib\\x64", conf.win_cuda_sdk));
             } else {
-                let sdk_dir = format!("{}/{}", conf.cuda_sdk, "lib64");
+                let sdk_dir = format!("{}/{}", conf.lnx_cuda_sdk, "lib64");
                 match dir_exists(&sdk_dir){
                     true  => {
                         backend_dirs.push(sdk_dir);
                     },
                     false => {
                         backend_dirs.push(format!("{}/{}",
-                                                  conf.cuda_sdk, "lib"));
+                                                  conf.lnx_cuda_sdk, "lib"));
                     },
                 };
             }
@@ -343,28 +347,29 @@ fn blob_backends(conf: &Config,
                 backends.push("OpenCL".to_string());
             }
             if cfg!(windows) {
-                let sdk_dir = format!("{}\\lib\\x64", conf.opencl_sdk);
+                let sdk_dir = format!("{}\\lib\\x64", conf.win_opencl_sdk);
                 if dir_exists(&sdk_dir) {
                     backend_dirs.push(sdk_dir);
                 } else {
                     backend_dirs.push(format!("{}\\lib\\x86_64",
-                                              conf.opencl_sdk));
+                                              conf.win_opencl_sdk));
                 }
             } else {
-                let sdk_dir = format!("{}/{}", conf.opencl_sdk, "lib64");
+                let sdk_dir = format!("{}/{}", conf.lnx_opencl_sdk, "lib64");
                 if dir_exists(&sdk_dir) {
                     backend_dirs.push(sdk_dir);
                 } else {
-                    backend_dirs.push(format!("{}/{}", conf.opencl_sdk, "lib"));
+                    backend_dirs.push(format!("{}/{}", conf.lnx_opencl_sdk, "lib"));
                 }
             }
         }
 
         if conf.with_graphics=="ON" {
             if !conf.use_lib {
-                backend_dirs.push(build_dir
-                                  .join(format!("third_party/forge/lib"))
-                                  .to_str().to_owned().unwrap().to_string());
+                backend_dirs.push(build_dir.join("third_party")
+                                  .join("forge").join("lib")
+                                  .to_str().to_owned().unwrap()
+                                  .to_string());
             }
         }
     }
