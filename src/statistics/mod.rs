@@ -1,7 +1,7 @@
 extern crate libc;
 
 use array::Array;
-use defines::AfError;
+use defines::{AfError, TopkFn};
 use error::HANDLE_ERROR;
 use self::libc::{c_int};
 use util::{AfArray, DimT, MutAfArray, MutDouble};
@@ -27,6 +27,8 @@ extern {
     fn af_var_all_weighted(real: MutDouble, imag: MutDouble, arr: AfArray, wts: AfArray) -> c_int;
 
     fn af_corrcoef(real: MutDouble, imag: MutDouble, X: AfArray, Y: AfArray) -> c_int;
+    fn af_topk(vals: MutAfArray, idxs: MutAfArray, arr: AfArray, k: c_int,
+               dim: c_int, order: c_int) -> c_int;
 }
 
 macro_rules! stat_func_def {
@@ -230,5 +232,40 @@ pub fn corrcoef(x: &Array, y: &Array) -> (f64, f64) {
                                   x.get() as AfArray, y.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
         (real, imag)
+    }
+}
+
+/// Find top k elements along a given dimension
+///
+/// This function returns the top k values along a given dimension of the input
+/// array. The indices along with their values are returned.
+///
+/// If the input is a multi-dimensional array, the indices will be the index of
+/// the value in that dimension. Order of duplicate values are not preserved.
+///
+/// This function is optimized for small values of k. Currently, topk elements
+/// can be found only along dimension 0.
+///
+/// # Parameters
+///
+/// - `input` is the values from which top k elements are to be retrieved
+/// - `k` is the number of top elements to be retrieve
+/// - `dim` is the dimension along which the retrieval operation has to performed
+/// - `order` is an enum that can take values of type [TopkFn](./enum.TopkFn.html)
+///
+/// # Return Values
+///
+/// A tuple(couple) of Array's with the first Array containing the topk values
+/// with the second Array containing the indices of the topk values in the input
+/// data.
+pub fn topk(input: &Array, k: u32, dim: i32, order: TopkFn) -> (Array, Array) {
+    unsafe {
+        let mut t0: i64 = 0;
+        let mut t1: i64 = 0;
+        let err_val = af_topk(&mut t0 as MutAfArray, &mut t1 as MutAfArray,
+                              input.get() as AfArray, k as c_int, dim as c_int,
+                              order as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        (Array::from(t0), Array::from(t1))
     }
 }

@@ -9,13 +9,13 @@
 
 //! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).
 //!
+//! | arrayfire-rust crate | ArrayFire Upstream |
+//! |:--------------|:---------|
+//! | M.m.p1 | M.m.p2 |
 //!
-//! | ArrayFire Upstream | Rust Crate |
-//! |:------------------:|:---------------:|
-//! | 3.3.x | 3.3.x |
-//! | 3.4.x | 3.4.x |
-//!
-//! Only, Major & Minor version numbers need to match.
+//! Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2*
+//! are patch/fix updates for `arrayfire-rust` & `ArrayFire` respectively,
+//! and they don't need to match.
 //!
 //! ## Tutorials
 //!

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cargo doc
+cargo rustdoc -- --html-in-header ./doc/mathjax.script
 
 if [ -d "./target/doc/arrayfire" ]; then
     # If cargo doc(generates ./target/doc directory) has been run

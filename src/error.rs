@@ -1,7 +1,17 @@
+extern crate libc;
+
 use std::ops::{Deref, DerefMut};
 use defines::AfError;
+use self::libc::{c_int, c_char};
+use std::ffi::CStr;
 use std::error::Error;
 use std::sync::RwLock;
+use util::{DimT, free_host, MutDimT};
+
+#[allow(dead_code)]
+extern {
+    fn af_get_last_error(str: *mut *mut c_char, len: *mut DimT) -> c_int;
+}
 
 /// Signature of error handling callback function
 pub type ErrorCallback = fn(AfError);
@@ -27,7 +37,8 @@ impl Callback {
 pub fn handle_error_general(error_code: AfError) {
     match error_code {
         AfError::SUCCESS => {}, /* No-op */
-        _ => panic!("Error message: {}", error_code.description()),
+        _ => panic!("Error message: {}\nLast error: {}",
+                    error_code.description(), get_last_error()),
     }
 }
 
@@ -80,4 +91,17 @@ pub fn HANDLE_ERROR(error_code: AfError) {
     };
 
     (*gaurd.deref()).call(error_code);
+}
+
+pub fn get_last_error() -> String {
+    let result: String;
+    unsafe {
+        let mut tmp: *mut c_char = ::std::ptr::null_mut();
+        let mut len: DimT = 0;
+        let err_val = af_get_last_error(&mut tmp, &mut len as MutDimT);
+        HANDLE_ERROR(AfError::from(err_val));
+        result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+        free_host(tmp);
+    }
+    result
 }
