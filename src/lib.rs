@@ -34,7 +34,9 @@
 #[macro_use]
 extern crate lazy_static;
 
+#[cfg(feature="core")]
 pub use array::*;
+#[cfg(feature="core")]
 mod array;
 
 #[cfg(feature="algorithm")]
@@ -47,7 +49,9 @@ pub use arith::*;
 #[cfg(feature="arithmetic")]
 mod arith;
 
+#[cfg(feature="core")]
 pub use backend::*;
+#[cfg(feature="core")]
 mod backend;
 
 #[cfg(feature="blas")]
@@ -60,16 +64,24 @@ pub use data::*;
 #[cfg(feature="data")]
 mod data;
 
+#[cfg(feature="core")]
 pub use device::*;
+#[cfg(feature="core")]
 mod device;
 
+#[cfg(feature="core")]
 pub use defines::*;
+#[cfg(feature="core")]
 mod defines;
 
+#[cfg(feature="core")]
 pub use dim4::Dim4;
+#[cfg(feature="core")]
 mod dim4;
 
+#[cfg(feature="core")]
 pub use error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
+#[cfg(feature="core")]
 mod error;
 
 #[cfg(feature="indexing")]
@@ -77,7 +89,9 @@ pub use index::*;
 #[cfg(feature="indexing")]
 mod index;
 
+#[cfg(feature="indexing")]
 pub use seq::Seq;
+#[cfg(feature="indexing")]
 mod seq;
 
 #[cfg(feature="graphics")]
@@ -119,7 +133,9 @@ pub use statistics::*;
 #[cfg(feature="statistics")]
 mod statistics;
 
+#[cfg(feature="core")]
 pub use util::{HasAfEnum, get_size};
+#[cfg(feature="core")]
 mod util;
 
 #[cfg(feature="vision")]
