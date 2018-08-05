@@ -6,6 +6,7 @@ use defines::MatProp;
 use error::HANDLE_ERROR;
 use self::libc::{c_uint, c_int};
 use util::{AfArray, MutAfArray, to_u32};
+use util::{FloatingPoint, HasAfEnum};
 
 #[allow(dead_code)]
 extern {
@@ -32,16 +33,18 @@ extern {
 ///
 /// The result Array of matrix multiplication
 #[allow(unused_mut)]
-pub fn matmul(lhs: &Array, rhs: &Array,
-              optlhs: MatProp, optrhs: MatProp) -> Array {
+pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>,
+                 optlhs: MatProp, optrhs: MatProp) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_matmul(&mut temp as MutAfArray,
                                 lhs.get() as AfArray, rhs.get() as AfArray,
                                 to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Calculate the dot product of vectors.
@@ -59,16 +62,18 @@ pub fn matmul(lhs: &Array, rhs: &Array,
 ///
 /// The result of dot product.
 #[allow(unused_mut)]
-pub fn dot(lhs: &Array, rhs: &Array,
-           optlhs: MatProp, optrhs: MatProp) -> Array {
+pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>,
+              optlhs: MatProp, optrhs: MatProp) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_dot(&mut temp as MutAfArray,
                              lhs.get() as AfArray, rhs.get() as AfArray,
                              to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Transpose of a matrix.
@@ -83,14 +88,14 @@ pub fn dot(lhs: &Array, rhs: &Array,
 ///
 /// Transposed Array.
 #[allow(unused_mut)]
-pub fn transpose(arr: &Array, conjugate: bool) -> Array {
+pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_transpose(&mut temp as MutAfArray,
                                    arr.get() as AfArray, conjugate as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Inplace transpose of a matrix.
@@ -101,7 +106,7 @@ pub fn transpose(arr: &Array, conjugate: bool) -> Array {
 /// - `conjugate` is a boolean that indicates if the transpose operation needs to be a conjugate
 /// transpose
 #[allow(unused_mut)]
-pub fn transpose_inplace(arr: &mut Array, conjugate: bool) {
+pub fn transpose_inplace<T: HasAfEnum>(arr: &mut Array<T>, conjugate: bool) {
     unsafe {
         let err_val = af_transpose_inplace(arr.get() as AfArray, conjugate as c_int);
         HANDLE_ERROR(AfError::from(err_val));

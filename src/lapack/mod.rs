@@ -4,6 +4,7 @@ use array::Array;
 use defines::{AfError, MatProp, NormType};
 use error::HANDLE_ERROR;
 use util::{AfArray, MutAfArray, MutDouble, to_u32};
+use util::{FloatingPoint, HasAfEnum};
 use self::libc::{uint8_t, c_int, c_uint, c_double};
 
 #[allow(dead_code)]
@@ -49,16 +50,20 @@ extern {
 ///
 /// The third Array is the output array containing V ^ H
 #[allow(unused_mut)]
-pub fn svd(input: &Array) -> (Array, Array, Array) {
+pub fn svd<T>(input: &Array<T>) -> (Array<T>, Array< T::BaseType >, Array<T>)
+    where T: HasAfEnum + FloatingPoint,
+          T::BaseType: HasAfEnum
+{
+    let mut u: i64 = 0;
+    let mut s: i64 = 0;
+    let mut vt: i64 = 0;
     unsafe {
-        let mut u: i64 = 0;
-        let mut s: i64 = 0;
-        let mut vt: i64 = 0;
-        let err_val = af_svd(&mut u as MutAfArray, &mut s as MutAfArray, &mut vt as MutAfArray,
+        let err_val = af_svd(&mut u as MutAfArray, &mut s as MutAfArray,
+                             &mut vt as MutAfArray,
                              input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(u), Array::from(s), Array::from(vt))
     }
+    (u.into(), s.into(), vt.into())
 }
 
 /// Perform Singular Value Decomposition inplace
@@ -86,16 +91,19 @@ pub fn svd(input: &Array) -> (Array, Array, Array) {
 ///
 /// The third Array is the output array containing V ^ H
 #[allow(unused_mut)]
-pub fn svd_inplace(input: &mut Array) -> (Array, Array, Array) {
+pub fn svd_inplace<T>(input: &mut Array<T>) -> (Array<T>, Array< T::BaseType >, Array<T>)
+    where T: HasAfEnum + FloatingPoint,
+          T::BaseType: HasAfEnum
+{
+    let mut u: i64 = 0;
+    let mut s: i64 = 0;
+    let mut vt: i64 = 0;
     unsafe {
-        let mut u: i64 = 0;
-        let mut s: i64 = 0;
-        let mut vt: i64 = 0;
         let err_val = af_svd_inplace(&mut u as MutAfArray, &mut s as MutAfArray,
                                      &mut vt as MutAfArray, input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(u), Array::from(s), Array::from(vt))
     }
+    (u.into(), s.into(), vt.into())
 }
 
 /// Perform LU decomposition
@@ -114,16 +122,18 @@ pub fn svd_inplace(input: &mut Array) -> (Array, Array, Array) {
 ///
 /// The third Array will contain the permutation indices to map the input to the decomposition.
 #[allow(unused_mut)]
-pub fn lu(input: &Array) -> (Array, Array, Array) {
+pub fn lu<T>(input: &Array<T>) -> (Array<T>, Array<T>, Array<i32>)
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut lower: i64 = 0;
+    let mut upper: i64 = 0;
+    let mut pivot: i64 = 0;
     unsafe {
-        let mut lower: i64 = 0;
-        let mut upper: i64 = 0;
-        let mut pivot: i64 = 0;
         let err_val = af_lu(&mut lower as MutAfArray, &mut upper as MutAfArray,
                             &mut pivot as MutAfArray, input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(lower), Array::from(upper), Array::from(pivot))
     }
+    (lower.into(), upper.into(), pivot.into())
 }
 
 /// Perform inplace LU decomposition
@@ -138,14 +148,16 @@ pub fn lu(input: &Array) -> (Array, Array, Array) {
 /// An Array with permutation indices to map the input to the decomposition. Since, the input
 /// matrix is modified in place, only pivot values are returned.
 #[allow(unused_mut)]
-pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Array {
+pub fn lu_inplace<T>(input: &mut Array<T>, is_lapack_piv: bool) -> Array<i32>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut pivot: i64 = 0;
     unsafe {
-        let mut pivot: i64 = 0;
         let err_val = af_lu_inplace(&mut pivot as MutAfArray, input.get() as AfArray,
                                     is_lapack_piv as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(pivot)
     }
+    pivot.into()
 }
 
 /// Perform QR decomposition
@@ -165,16 +177,18 @@ pub fn lu_inplace(input: &mut Array, is_lapack_piv: bool) -> Array {
 /// The third Array will contain additional information needed for solving a least squares problem
 /// using q and r
 #[allow(unused_mut)]
-pub fn qr(input: &Array) -> (Array, Array, Array) {
+pub fn qr<T>(input: &Array<T>) -> (Array<T>, Array<T>, Array<T>)
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut q: i64 = 0;
+    let mut r: i64 = 0;
+    let mut tau: i64 = 0;
     unsafe {
-        let mut q: i64 = 0;
-        let mut r: i64 = 0;
-        let mut tau: i64 = 0;
         let err_val = af_qr(&mut q as MutAfArray, &mut r as MutAfArray,
                             &mut tau as MutAfArray, input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(q), Array::from(r), Array::from(tau))
     }
+    (q.into(), r.into(), tau.into())
 }
 
 /// Perform inplace QR decomposition
@@ -187,13 +201,15 @@ pub fn qr(input: &Array) -> (Array, Array, Array) {
 ///
 /// An Array with additional information needed for unpacking the data.
 #[allow(unused_mut)]
-pub fn qr_inplace(input: &mut Array) -> Array {
+pub fn qr_inplace<T>(input: &mut Array<T>) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut tau: i64 = 0;
     unsafe {
-        let mut tau: i64 = 0;
         let err_val = af_qr_inplace(&mut tau as MutAfArray, input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(tau)
     }
+    tau.into()
 }
 
 /// Perform Cholesky decomposition
@@ -212,15 +228,17 @@ pub fn qr_inplace(input: &mut Array) -> Array {
 /// If the integer is 0, it means the cholesky decomposition passed. Otherwise, it will contain the rank at
 /// which the decomposition failed.
 #[allow(unused_mut)]
-pub fn cholesky(input: &Array, is_upper: bool) -> (Array, i32) {
+pub fn cholesky<T>(input: &Array<T>, is_upper: bool) -> (Array<T>, i32)
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
+    let mut info: i32 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let mut info: i32 = 0;
         let err_val = af_cholesky(&mut temp as MutAfArray, &mut info as *mut c_int,
                                   input.get() as AfArray, is_upper as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(temp), info)
     }
+    (temp.into(), info)
 }
 
 /// Perform inplace Cholesky decomposition
@@ -235,14 +253,16 @@ pub fn cholesky(input: &Array, is_upper: bool) -> (Array, i32) {
 /// A signed 32-bit integer. If the integer is 0, it means the cholesky decomposition passed. Otherwise,
 /// it will contain the rank at which the decomposition failed.
 #[allow(unused_mut)]
-pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> i32 {
+pub fn cholesky_inplace<T>(input: &mut Array<T>, is_upper: bool) -> i32
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut info: i32 = 0;
     unsafe {
-        let mut info: i32 = 0;
         let err_val = af_cholesky_inplace(&mut info as *mut c_int, input.get() as AfArray,
                                           is_upper as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        info
     }
+    info
 }
 
 /// Solve a system of equations
@@ -259,14 +279,16 @@ pub fn cholesky_inplace(input: &mut Array, is_upper: bool) -> i32 {
 ///
 /// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
-pub fn solve(a: &Array, b: &Array, options: MatProp) -> Array {
+pub fn solve<T>(a: &Array<T>, b: &Array<T>, options: MatProp) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_solve(&mut temp as MutAfArray, a.get() as AfArray,
                                b.get() as AfArray, to_u32(options) as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Solve a system of equations
@@ -284,15 +306,18 @@ pub fn solve(a: &Array, b: &Array, options: MatProp) -> Array {
 ///
 /// An Array which is the matrix of unknown variables
 #[allow(unused_mut)]
-pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
-                options: MatProp) -> Array {
+pub fn solve_lu<T>(a: &Array<T>, piv: &Array<i32>, b: &Array<T>,
+                   options: MatProp) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let err_val = af_solve_lu(&mut temp as MutAfArray, a.get() as AfArray, piv.get() as AfArray,
-                    b.get() as AfArray, to_u32(options) as c_uint);
+        let err_val = af_solve_lu(&mut temp as MutAfArray, a.get() as AfArray,
+                                  piv.get() as AfArray, b.get() as AfArray,
+                                  to_u32(options) as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Compute inverse of a matrix
@@ -308,13 +333,17 @@ pub fn solve_lu(a: &Array, piv: &Array, b: &Array,
 ///
 /// An Array with values of the inverse of input matrix.
 #[allow(unused_mut)]
-pub fn inverse(input: &Array, options: MatProp) -> Array {
+pub fn inverse<T>(input: &Array<T>, options: MatProp) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let err_val = af_inverse(&mut temp as MutAfArray, input.get() as AfArray, to_u32(options) as c_uint);
+        let err_val = af_inverse(&mut temp as MutAfArray,
+                                 input.get() as AfArray,
+                                 to_u32(options) as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Find rank of a matrix
@@ -328,13 +357,17 @@ pub fn inverse(input: &Array, options: MatProp) -> Array {
 ///
 /// An unsigned 32-bit integer which is the rank of the input matrix.
 #[allow(unused_mut)]
-pub fn rank(input: &Array, tol: f64) -> u32 {
+pub fn rank<T>(input: &Array<T>, tol: f64) -> u32
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut temp: u32 = 0;
     unsafe {
-        let mut temp: u32 = 0;
-        let err_val = af_rank(&mut temp as *mut c_uint, input.get() as AfArray, tol as c_double);
+        let err_val = af_rank(&mut temp as *mut c_uint,
+                              input.get() as AfArray,
+                              tol as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        temp
     }
+    temp
 }
 
 /// Find the determinant of the matrix
@@ -349,14 +382,17 @@ pub fn rank(input: &Array, tol: f64) -> u32 {
 ///
 /// If the input matrix is non-complex type, only first values of tuple contains the result.
 #[allow(unused_mut)]
-pub fn det(input: &Array) -> (f64, f64) {
+pub fn det<T>(input: &Array<T>) -> (f64, f64)
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut real: f64 = 0.0;
+    let mut imag: f64 = 0.0;
     unsafe {
-        let mut real: f64 = 0.0;
-        let mut imag: f64 = 0.0;
-        let err_val = af_det(&mut real as MutDouble, &mut imag as MutDouble, input.get() as AfArray);
+        let err_val = af_det(&mut real as MutDouble, &mut imag as MutDouble,
+                             input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        (real, imag)
     }
+    (real, imag)
 }
 
 /// Find the norm of a matrix
@@ -374,14 +410,17 @@ pub fn det(input: &Array) -> (f64, f64) {
 ///
 /// A 64-bit floating point value that contains the norm of input matrix.
 #[allow(unused_mut)]
-pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> f64 {
+pub fn norm<T>(input: &Array<T>, ntype: NormType, p: f64, q: f64) -> f64
+    where T: HasAfEnum + FloatingPoint
+{
+    let mut out: f64 = 0.0;
     unsafe {
-        let mut out: f64 = 0.0;
-        let err_val = af_norm(&mut out as MutDouble, input.get() as AfArray, ntype as uint8_t,
+        let err_val = af_norm(&mut out as MutDouble, input.get() as AfArray,
+                              ntype as uint8_t,
                               p as c_double, q as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        out
     }
+    out
 }
 
 /// Function to check if lapack support is available
@@ -394,9 +433,9 @@ pub fn norm(input: &Array, ntype: NormType, p: f64, q: f64) -> f64 {
 ///
 /// Return a boolean indicating if ArrayFire was compiled with lapack support
 pub fn is_lapack_available() -> bool {
+    let mut temp: i32 = 0;
     unsafe {
-        let mut temp: i32 = 0;
         af_is_lapack_available(&mut temp as *mut c_int);
-        temp > 0 // Return boolean fla
     }
+    temp > 0 // Return boolean fla
 }

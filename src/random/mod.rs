@@ -5,7 +5,8 @@ use dim4::Dim4;
 use defines::{AfError, RandomEngineType};
 use error::HANDLE_ERROR;
 use self::libc::{uint8_t, c_int, c_uint};
-use util::{DimT, HasAfEnum, MutAfArray, MutRandEngine, RandEngine, Uintl};
+use util::{FloatingPoint, HasAfEnum};
+use util::{DimT, MutAfArray, MutRandEngine, RandEngine, Uintl};
 
 #[allow(dead_code)]
 extern {
@@ -43,16 +44,16 @@ pub fn set_seed(seed: u64) {
 /// Get the seed of random number generator
 #[allow(unused_mut)]
 pub fn get_seed() -> u64 {
+    let mut ret_val: u64 = 0;
     unsafe {
-        let mut temp: u64 = 0;
-        let err_val = af_get_seed(&mut temp as *mut Uintl);
+        let err_val = af_get_seed(&mut ret_val as *mut Uintl);
         HANDLE_ERROR(AfError::from(err_val));
-        temp
     }
+    ret_val
 }
 
 macro_rules! data_gen_def {
-    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+    [$doc_str: expr, $fn_name:ident, $ffi_name: ident, $($type_trait: ident),+] => (
         #[doc=$doc_str]
         ///
         ///# Parameters
@@ -63,22 +64,25 @@ macro_rules! data_gen_def {
         ///
         /// An Array with random values.
         #[allow(unused_mut)]
-        pub fn $fn_name<T: HasAfEnum>(dims: Dim4) -> Array {
+        pub fn $fn_name<T>(dims: Dim4) -> Array<T>
+        where $( T: $type_trait, )* {
+            let aftype = T::get_af_dtype();
+            let mut temp: i64 = 0;
             unsafe {
-                let aftype = T::get_af_dtype();
-                let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                                         aftype as uint8_t);
                 HANDLE_ERROR(AfError::from(err_val));
-                Array::from(temp)
             }
+            temp.into()
         }
     )
 }
 
-data_gen_def!("Create random numbers from uniform distribution", randu, af_randu);
-data_gen_def!("Create random numbers from normal distribution", randn, af_randn);
+data_gen_def!("Create random numbers from uniform distribution",
+              randu, af_randu, HasAfEnum);
+data_gen_def!("Create random numbers from normal distribution",
+              randn, af_randn, HasAfEnum, FloatingPoint);
 
 /// Random number generator engine
 ///
@@ -106,24 +110,24 @@ impl RandomEngine {
     ///
     /// A object of type RandomEngine
     pub fn new(rengine: RandomEngineType, seed: Option<u64>) -> RandomEngine {
+        let mut temp: i64 = 0;
         unsafe {
-            let mut temp: i64 = 0;
             let err_val = af_create_random_engine(&mut temp as MutRandEngine, rengine as uint8_t,
                                                   match seed {Some(s) => s, None => 0} as Uintl);
             HANDLE_ERROR(AfError::from(err_val));
-            RandomEngine::from(temp)
         }
+        RandomEngine::from(temp)
     }
 
     /// Get random engine type
     pub fn get_type(&self) -> RandomEngineType {
+        let mut temp: u8 = 0;
         unsafe {
-            let mut temp: u8 = 0;
             let err_val = af_random_engine_get_type(&mut temp as *mut uint8_t,
                                                     self.handle as RandEngine);
             HANDLE_ERROR(AfError::from(err_val));
-            RandomEngineType::from(temp as i32)
         }
+        RandomEngineType::from(temp as i32)
     }
 
     /// Get random engine type
@@ -146,12 +150,12 @@ impl RandomEngine {
 
     /// Get seed of the random engine
     pub fn get_seed(&self) -> u64 {
+        let mut seed: u64 = 0;
         unsafe {
-            let mut seed: u64 = 0;
             let err_val = af_random_engine_get_seed(&mut seed as *mut Uintl, self.handle as RandEngine);
             HANDLE_ERROR(AfError::from(err_val));
-            seed
         }
+        seed
     }
 
     /// Returns the native FFI handle for Rust object `RandomEngine`
@@ -184,15 +188,15 @@ impl Drop for RandomEngine {
 
 /// Get default random engine
 pub fn get_default_random_engine() -> RandomEngine {
+    let mut handle : i64 = 0;
     unsafe {
         let mut temp : i64 = 0;
         let mut err_val = af_get_default_random_engine(&mut temp as MutRandEngine);
         HANDLE_ERROR(AfError::from(err_val));
-        let mut handle : i64 = 0;
         err_val = af_retain_random_engine(&mut handle as MutRandEngine, temp as RandEngine);
         HANDLE_ERROR(AfError::from(err_val));
-        RandomEngine::from(handle)
     }
+    RandomEngine::from(handle)
 }
 
 /// Set the random engine type for default random number generator
@@ -217,16 +221,17 @@ pub fn set_default_random_engine_type(rtype: RandomEngineType) {
 /// # Return Values
 ///
 /// An Array with uniform numbers generated using random engine
-pub fn random_uniform<T: HasAfEnum>(dims: Dim4, engine: &RandomEngine) -> Array {
+pub fn random_uniform<T>(dims: Dim4, engine: &RandomEngine) -> Array<T>
+where T: HasAfEnum {
+    let aftype = T::get_af_dtype();
+    let mut temp : i64 = 0;
     unsafe {
-        let aftype = T::get_af_dtype();
-        let mut temp : i64 = 0;
         let err_val = af_random_uniform(&mut temp as MutAfArray,
                                         dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                                         aftype as uint8_t, engine.get() as RandEngine);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Generate array of normal numbers using a random engine
@@ -239,14 +244,16 @@ pub fn random_uniform<T: HasAfEnum>(dims: Dim4, engine: &RandomEngine) -> Array 
 /// # Return Values
 ///
 /// An Array with normal numbers generated using random engine
-pub fn random_normal<T: HasAfEnum>(dims: Dim4, engine: &RandomEngine) -> Array {
+pub fn random_normal<T>(dims: Dim4, engine: &RandomEngine) -> Array<T>
+    where T: HasAfEnum + FloatingPoint
+{
+    let aftype = T::get_af_dtype();
+    let mut temp : i64 = 0;
     unsafe {
-        let aftype = T::get_af_dtype();
-        let mut temp : i64 = 0;
         let err_val = af_random_normal(&mut temp as MutAfArray,
                                        dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                                        aftype as uint8_t, engine.get() as RandEngine);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }

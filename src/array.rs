@@ -5,6 +5,7 @@ use defines::{AfError, DType, Backend};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
 use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
+use std::marker::PhantomData;
 use std::ffi::CString;
 
 // Some unused functions from array.h in C-API of ArrayFire
@@ -113,8 +114,11 @@ extern {
 /// All operators(traits) from std::ops module implemented for Array object
 /// carry out element wise operations. For example, `*` does multiplication of
 /// elements at corresponding locations in two different Arrays.
-pub struct Array {
+pub struct Array<T: HasAfEnum> {
     handle: i64,
+    /// The phantom marker denotes the
+    /// allocation of data on compute device
+    _marker: PhantomData<T>,
 }
 
 macro_rules! is_func {
@@ -131,7 +135,7 @@ macro_rules! is_func {
     )
 }
 
-impl Array {
+impl<T> Array<T> where T: HasAfEnum {
     /// Constructs a new Array object
     ///
     /// # Examples
@@ -143,29 +147,29 @@ impl Array {
     /// print(&indices);
     /// ```
     #[allow(unused_mut)]
-    pub fn new<T: HasAfEnum>(slice: &[T], dims: Dim4) -> Array {
+    pub fn new(slice: &[T], dims: Dim4) -> Array<T> {
+        let aftype = T::get_af_dtype();
+        let mut temp: i64 = 0;
         unsafe {
-            let aftype = T::get_af_dtype();
-            let mut temp: i64 = 0;
             let err_val = af_create_array(&mut temp as MutAfArray,
                                           slice.as_ptr() as *const c_void,
                                           dims.ndims() as c_uint,
                                           dims.get().as_ptr() as * const c_longlong,
                                           aftype as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
-            Array::from(temp)
         }
+        temp.into()
     }
 
     /// Constructs a new Array object from strided data
     ///
     /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     #[allow(unused_mut)]
-    pub fn new_strided<T: HasAfEnum>(slice: &[T], offset: i64,
-                                     dims: Dim4, strides: Dim4) -> Array {
+    pub fn new_strided(slice: &[T], offset: i64,
+                       dims: Dim4, strides: Dim4) -> Array<T> {
+        let aftype = T::get_af_dtype();
+        let mut temp: i64 = 0;
         unsafe {
-            let aftype = T::get_af_dtype();
-            let mut temp: i64 = 0;
             let err_val = af_create_strided_array(&mut temp as MutAfArray,
                                                   slice.as_ptr() as *const c_void,
                                                   offset as DimT,
@@ -174,8 +178,8 @@ impl Array {
                                                   strides.get().as_ptr() as * const c_longlong,
                                                   aftype as uint8_t, 1);
             HANDLE_ERROR(AfError::from(err_val));
-            Array::from(temp)
         }
+        temp.into()
     }
 
     /// Constructs a new Array object of specified dimensions and type
@@ -183,11 +187,12 @@ impl Array {
     /// # Examples
     ///
     /// ```rust
-    /// use arrayfire::{Array, Dim4, DType};
-    /// let garbageVals = Array::new_empty(Dim4::new(&[3, 1, 1, 1]), DType::F32);
+    /// use arrayfire::{Array, Dim4};
+    /// let garbageVals = Array::<f32>::new_empty(Dim4::new(&[3, 1, 1, 1]));
     /// ```
     #[allow(unused_mut)]
-    pub fn new_empty(dims: Dim4, aftype: DType) -> Array {
+    pub fn new_empty(dims: Dim4) -> Array<T> {
+        let aftype = T::get_af_dtype();
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_create_handle(&mut temp as MutAfArray,
@@ -195,7 +200,7 @@ impl Array {
                                            dims.get().as_ptr() as * const c_longlong,
                                            aftype as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
-            Array::from(temp)
+            temp.into()
         }
     }
 
@@ -309,7 +314,7 @@ impl Array {
     }
 
     /// Copies the data from the Array to the mutable slice `data`
-    pub fn host<T: HasAfEnum>(&self, data: &mut [T]) {
+    pub fn host<O: HasAfEnum>(&self, data: &mut [O]) {
         if data.len() != self.elements() {
             HANDLE_ERROR(AfError::ERR_SIZE);
         }
@@ -330,12 +335,12 @@ impl Array {
     /// Makes an copy of the Array
     ///
     /// This does a deep copy of the data into a new Array
-    pub fn copy(&self) -> Array {
+    pub fn copy(&self) -> Array<T> {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_copy_array(&mut temp as MutAfArray, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
-            Array::from(temp)
+            temp.into()
         }
     }
 
@@ -355,14 +360,14 @@ impl Array {
     is_func!("Check if Array's memory is owned by it and not a view of another Array", is_owner, af_is_owner);
 
     /// Cast the Array data type to `target_type`
-    pub fn cast<T: HasAfEnum>(&self) -> Array {
+    pub fn cast<O: HasAfEnum>(&self) -> Array<O> {
+        let trgt_type = O::get_af_dtype();
+        let mut temp: i64 = 0;
         unsafe {
-            let trgt_type = T::get_af_dtype();
-            let mut temp: i64 = 0;
             let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
             HANDLE_ERROR(AfError::from(err_val));
-            Array::from(temp)
         }
+        temp.into()
     }
 
     /// Find if the current array is sparse
@@ -422,10 +427,11 @@ impl Array {
     }
 }
 
-/// Used for creating Array object from native resource id
-impl From<i64> for Array {
-    fn from(t: i64) -> Array {
-        Array {handle: t}
+/// Used for creating Array object from native
+/// resource id, an 64 bit integer
+impl<T: HasAfEnum> Into<Array<T>> for i64 {
+    fn into(self) -> Array<T> {
+        Array {handle: self, _marker: PhantomData}
     }
 }
 
@@ -437,13 +443,13 @@ impl From<i64> for Array {
 ///
 /// To create a deep copy use
 /// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)
-impl Clone for Array {
-    fn clone(&self) -> Array {
+impl<T> Clone for Array<T> where T: HasAfEnum {
+    fn clone(&self) -> Array<T> {
         unsafe {
             let mut temp: i64 = 0;
             let ret_val = af_retain_array(&mut temp as MutAfArray, self.handle as AfArray);
             match ret_val {
-                0 => Array {handle: temp},
+                0 => temp.into(),
                 _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
             }
         }
@@ -451,13 +457,13 @@ impl Clone for Array {
 }
 
 /// To free resources when Array goes out of scope
-impl Drop for Array {
+impl<T> Drop for Array<T> where T: HasAfEnum {
     fn drop(&mut self) {
         unsafe {
             let ret_val = af_release_array(self.handle);
             match ret_val {
                 0 => (),
-                _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
+                _ => panic!("Array<T> drop failed with error code: {}", ret_val),
             }
         }
     }
@@ -489,7 +495,7 @@ impl Drop for Array {
 ///     0.9690     0.4702     0.3585
 ///     0.9251     0.5132     0.6814
 /// ```
-pub fn print(input: &Array) {
+pub fn print<T: HasAfEnum>(input: &Array<T>) {
     let emptystring = CString::new("").unwrap();
     unsafe {
         let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
@@ -530,7 +536,7 @@ pub fn print(input: &Array) {
 ///     0.969058     0.470269     0.358590
 ///     0.925181     0.513225     0.681451
 /// ```
-pub fn print_gen(msg: String, input: &Array, precision: Option<i32>) {
+pub fn print_gen<T: HasAfEnum>(msg: String, input: &Array<T>, precision: Option<i32>) {
     let emptystring = CString::new(msg.as_bytes()).unwrap();
     unsafe {
         let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
@@ -547,7 +553,7 @@ pub fn print_gen(msg: String, input: &Array, precision: Option<i32>) {
 /// # Parameters
 ///
 /// - `inputs` are the list of arrays to be evaluated
-pub fn eval_multiple(inputs: Vec<&Array>) {
+pub fn eval_multiple<T: HasAfEnum>(inputs: Vec<&Array<T>>) {
     unsafe {
         let mut v = Vec::new();
         for i in inputs {

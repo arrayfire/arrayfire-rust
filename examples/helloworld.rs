@@ -1,5 +1,6 @@
 #[macro_use(af_print)]
 extern crate arrayfire as af;
+extern crate num;
 
 use af::*;
 
@@ -18,10 +19,12 @@ fn main() {
     let values: [f32; 3] = [1.0, 2.0, 3.0];
     let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 
+    af_print!("Indices ", indices);
+
     let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
     let a = randu::<f32>(dims);
-    af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
+    af_print!("Create a 5-by-3 float   matrix on the GPU", a);
 
     println!("Element-wise arithmetic");
     let  b = add(&sin(&a), &1.5f32, false);
@@ -29,12 +32,15 @@ fn main() {
     let b2 = add(&sin(&a), &cos(&a), false);
 
     let b3 = ! &a;
-    af_print!("sin(a) + 1.5 => ", b);
+    af_print!("sin(a) + 1.5 a.k.a b => ", b);
     af_print!("sin(a) + cos(a) => ", b2);
     af_print!("!a => ", b3);
 
     let test = a.clone() + b.clone();
     af_print!("a + b", test);
+
+    let negation = -(a.clone());
+    af_print!("-a ", negation);
 
     // Index array using sequences
     let seqs = &[Seq::new(1u32, 3, 1), Seq::default()];
@@ -50,10 +56,6 @@ fn main() {
 
     let sub2 = index_gen(&a, idxrs);
     af_print!("a(indices, seq(0, 2, 1))", sub2);
-
-    // printf("Negate the first three elements of second column\n");
-    // B(seq(0, 2), 1) = B(seq(0, 2), 1) * -1;
-    // af_print(B);
 
     println!("Fourier transform the result");
     print(&fft(&b, 1.0, 0));
@@ -74,15 +76,11 @@ fn main() {
     let d = Array::new(&d_input, d_dims);
     af_print!("Create 2-by-3 matrix from host data", d);
 
-    // printf("Copy last column onto first\n");
-    // D.col(0) = D.col(end);
-    // af_print(D);
-
-    // // Sort A
-    println!("Sort A and print sorted array and corresponding indices");
-    let x = sort_index(&a, 0, true);
-    print(&x.0);
-    print(&x.1);
+    //// // Sort A
+    //println!("Sort A and print sorted array and corresponding indices");
+    //let x = sort_index(&a, 0, true);
+    //print(&x.0);
+    //print(&x.1);
 
     let u8_cnst = &constant(1 as u8, dims);
     af_print!("u8 constant array", u8_cnst);

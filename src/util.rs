@@ -6,6 +6,7 @@ use defines::{SparseFormat, BinaryOp, RandomEngineType};
 use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
+use num::Zero;
 use self::libc::{uint8_t, c_int, size_t, c_void};
 
 pub type AfArray       = self::libc::c_longlong;
@@ -153,34 +154,208 @@ impl From<i32> for ColorMap {
 /// - u16
 ///
 pub trait HasAfEnum {
+    /// This type alias points to `Self` always.
+    type InType;
+    /// This type alias points to the data type used to hold real part of a
+    /// complex number. For real valued numbers, this points to `Self`.
+    type BaseType;
+    /// This type alias points to `f32` for all 32 bit size types and `f64` for
+    /// larger 64-bit size types.
+    type AbsOutType;
+    /// This type alias points to `f64`/`f32` for floating point types and
+    /// `Self` otherwise.
+    type ArgOutType;
+    /// This type alias is used to define the output Array type for unary
+    /// operations. It points to `Self` for floating point types, either
+    /// real or complex. It points to `f32` for rest of the input types.
+    type UnaryOutType;
+    /// This type alias points to complex type created from a given input type.
+    /// This alias always points to either `std::Complex<f32>` or `std::Complex<f64>`
+    type ComplexOutType;
+    /// This type alias points to a data type that can store the mean value for
+    /// a given input type. This alias points to `f32`/`Complex<f32>` for all 32
+    /// bit size types and `f64`/`Complex<f64>` for larger 64-bit size types.
+    type MeanOutType;
+    /// This type alias points to a data type that can store the result of
+    /// aggregation of set of values for a given input type. Aggregate type
+    /// alias points to below types for given input types:
+    /// - `Self` for input types: `Complex<64>`, `Complex<f32>`, `f64`, `f32`, `i64`, `u64`
+    /// - `f32` for input types: `bool`
+    /// - `u32` for input types: `u8`
+    /// - `i32` for input types: `i16`
+    /// - `u32` for input types: `u16`
+    /// - `i32` for input types: `i32`
+    /// - `u32` for input types: `u32`
+    type AggregateOutType;
+    /// This type alias points to the output type for given input type of
+    /// sobel filter operation. Sobel filter output alias points to below
+    /// types for given input types:
+    /// - `f32` for input types: `Complex<f32>`, `f32`
+    /// - `f64` for input types: `Complex<f64>`, `f64`
+    /// - `i32` for input types: `bool`, `u8`, `i16`, `u16`, `i32`, `u32`
+    /// - `i64` for input types: `i64`, `u64`
+    type SobelOutType;
+
     /// Return trait implmentors corresponding [DType](./enum.DType.html)
     fn get_af_dtype() -> DType;
 }
 
-macro_rules! impl_has_af_enum {
-    ($rust_t: ty, $af_dtype: expr) => (
-        impl HasAfEnum for $rust_t {
-            fn get_af_dtype() -> DType {
-                $af_dtype
-            }
-        }
-    )
-}
+impl HasAfEnum for Complex<f32> {
+    type InType = Self;
+    type BaseType = f32;
+    type AbsOutType = f32;
+    type ArgOutType = f32;
+    type UnaryOutType = Self;
+    type ComplexOutType = Self;
+    type MeanOutType = Self;
+    type AggregateOutType = Self;
+    type SobelOutType = Self;
 
-impl_has_af_enum!(f32, DType::F32);
-impl_has_af_enum!(Complex<f32>, DType::C32);
-impl_has_af_enum!(f64, DType::F64);
-impl_has_af_enum!(Complex<f64>, DType::C64);
-// FIXME: Rust bool may become incompatible in memory layout with C-ABI
-// Currently, it is of size 1-byte
-impl_has_af_enum!(bool, DType::B8);
-impl_has_af_enum!(i32, DType::S32);
-impl_has_af_enum!(u32, DType::U32);
-impl_has_af_enum!(u8, DType::U8);
-impl_has_af_enum!(i64, DType::S64);
-impl_has_af_enum!(u64, DType::U64);
-impl_has_af_enum!(i16, DType::S16);
-impl_has_af_enum!(u16, DType::U16);
+    fn get_af_dtype() -> DType { DType::C32 }
+}
+impl HasAfEnum for Complex<f64> {
+    type InType = Self;
+    type BaseType = f64;
+    type AbsOutType = f64;
+    type ArgOutType = f64;
+    type UnaryOutType = Self;
+    type ComplexOutType = Self;
+    type MeanOutType = Self;
+    type AggregateOutType = Self;
+    type SobelOutType = Self;
+
+    fn get_af_dtype() -> DType { DType::F64 }
+}
+impl HasAfEnum for f32  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = f32;
+    type UnaryOutType = Self;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = Self;
+    type AggregateOutType = Self;
+    type SobelOutType = Self;
+
+    fn get_af_dtype() -> DType { DType::F32 }
+}
+impl HasAfEnum for f64  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f64;
+    type ArgOutType = f64;
+    type UnaryOutType = Self;
+    type ComplexOutType = Complex<f64>;
+    type MeanOutType = Self;
+    type AggregateOutType = Self;
+    type SobelOutType = Self;
+
+    fn get_af_dtype() -> DType { DType::F64 }
+}
+impl HasAfEnum for bool {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = bool;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = u32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::B8  }
+}
+impl HasAfEnum for u8   {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = u8;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = u32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::U8  }
+}
+impl HasAfEnum for i16  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = i16;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = i32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::S16 }
+}
+impl HasAfEnum for u16  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = u16;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = u32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::U16 }
+}
+impl HasAfEnum for i32  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = i32;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = i32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::S32 }
+}
+impl HasAfEnum for u32  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f32;
+    type ArgOutType = u32;
+    type UnaryOutType = f32;
+    type ComplexOutType = Complex<f32>;
+    type MeanOutType = f32;
+    type AggregateOutType = u32;
+    type SobelOutType = i32;
+
+    fn get_af_dtype() -> DType { DType::U32 }
+}
+impl HasAfEnum for i64  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f64;
+    type ArgOutType = i64;
+    type UnaryOutType = f64;
+    type ComplexOutType = Complex<f64>;
+    type MeanOutType = f64;
+    type AggregateOutType = Self;
+    type SobelOutType = i64;
+
+    fn get_af_dtype() -> DType { DType::S64 }
+}
+impl HasAfEnum for u64  {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = f64;
+    type ArgOutType = u64;
+    type UnaryOutType = f64;
+    type ComplexOutType = Complex<f64>;
+    type MeanOutType = f64;
+    type AggregateOutType = Self;
+    type SobelOutType = i64;
+
+    fn get_af_dtype() -> DType { DType::U64 }
+}
 
 impl From<i32> for SparseFormat {
     fn from(t: i32) -> SparseFormat {
@@ -202,3 +377,317 @@ impl From<i32> for RandomEngineType {
         unsafe { mem::transmute(t) }
     }
 }
+
+/// This is an internal trait defined and implemented by ArrayFire
+/// create for rust's built-in types to figure out the data type
+/// binary operation's results.
+pub trait ImplicitPromote<RHS> {
+    /// This type alias points to the type of the result obtained
+    /// by performing a given binary option on given type and `RHS`.
+    type Output;
+}
+
+macro_rules! implicit {
+    [$implType: ident, $rhsType: ident => $outType: ident] => (
+        impl ImplicitPromote< $rhsType > for $implType {
+            type Output = $outType;
+        }
+    )
+}
+
+//
+//implicit(implementation type, RHS type, output type)
+//
+
+//LHS is Complex double
+implicit!(Complex64, Complex64 => Complex64);
+implicit!(Complex64, Complex32 => Complex64);
+implicit!(Complex64, f64       => Complex64);
+implicit!(Complex64, f32       => Complex64);
+implicit!(Complex64, i64       => Complex64);
+implicit!(Complex64, u64       => Complex64);
+implicit!(Complex64, i32       => Complex64);
+implicit!(Complex64, u32       => Complex64);
+implicit!(Complex64, i16       => Complex64);
+implicit!(Complex64, u16       => Complex64);
+implicit!(Complex64, bool      => Complex64);
+implicit!(Complex64, u8        => Complex64);
+
+//LHS is Complex float
+implicit!(Complex32, Complex64 => Complex64);
+implicit!(Complex32, Complex32 => Complex32);
+implicit!(Complex32, f64       => Complex64);
+implicit!(Complex32, f32       => Complex32);
+implicit!(Complex32, i64       => Complex32);
+implicit!(Complex32, u64       => Complex32);
+implicit!(Complex32, i32       => Complex32);
+implicit!(Complex32, u32       => Complex32);
+implicit!(Complex32, i16       => Complex32);
+implicit!(Complex32, u16       => Complex32);
+implicit!(Complex32, bool      => Complex32);
+implicit!(Complex32, u8        => Complex32);
+
+//LHS is 64-bit floating point
+implicit!(f64, Complex64 => Complex64);
+implicit!(f64, Complex32 => Complex64);
+implicit!(f64, f64       =>       f64);
+implicit!(f64, f32       =>       f64);
+implicit!(f64, i64       =>       f64);
+implicit!(f64, u64       =>       f64);
+implicit!(f64, i32       =>       f64);
+implicit!(f64, u32       =>       f64);
+implicit!(f64, i16       =>       f64);
+implicit!(f64, u16       =>       f64);
+implicit!(f64, bool      =>       f64);
+implicit!(f64, u8        =>       f64);
+
+//LHS is 32-bit floating point
+implicit!(f32, Complex64 => Complex64);
+implicit!(f32, Complex32 => Complex32);
+implicit!(f32, f64       =>       f64);
+implicit!(f32, f32       =>       f32);
+implicit!(f32, i64       =>       f32);
+implicit!(f32, u64       =>       f32);
+implicit!(f32, i32       =>       f32);
+implicit!(f32, u32       =>       f32);
+implicit!(f32, i16       =>       f32);
+implicit!(f32, u16       =>       f32);
+implicit!(f32, bool      =>       f32);
+implicit!(f32, u8        =>       f32);
+
+//LHS is 64-bit signed integer
+implicit!(i64, Complex64 => Complex64);
+implicit!(i64, Complex32 => Complex32);
+implicit!(i64, f64       =>       f64);
+implicit!(i64, f32       =>       f32);
+implicit!(i64, i64       =>       i64);
+implicit!(i64, u64       =>       u64);
+implicit!(i64, i32       =>       i64);
+implicit!(i64, u32       =>       i64);
+implicit!(i64, i16       =>       i64);
+implicit!(i64, u16       =>       i64);
+implicit!(i64, bool      =>       i64);
+implicit!(i64, u8        =>       i64);
+
+//LHS is 64-bit unsigned integer
+implicit!(u64, Complex64 => Complex64);
+implicit!(u64, Complex32 => Complex32);
+implicit!(u64, f64       =>       f64);
+implicit!(u64, f32       =>       f32);
+implicit!(u64, i64       =>       u64);
+implicit!(u64, u64       =>       u64);
+implicit!(u64, i32       =>       u64);
+implicit!(u64, u32       =>       u64);
+implicit!(u64, i16       =>       u64);
+implicit!(u64, u16       =>       u64);
+implicit!(u64, bool      =>       u64);
+implicit!(u64, u8        =>       u64);
+
+//LHS is 32-bit signed integer
+implicit!(i32, Complex64 => Complex64);
+implicit!(i32, Complex32 => Complex32);
+implicit!(i32, f64       =>       f64);
+implicit!(i32, f32       =>       f32);
+implicit!(i32, i64       =>       i64);
+implicit!(i32, u64       =>       u64);
+implicit!(i32, i32       =>       i32);
+implicit!(i32, u32       =>       u32);
+implicit!(i32, i16       =>       i32);
+implicit!(i32, u16       =>       i32);
+implicit!(i32, bool      =>       i32);
+implicit!(i32, u8        =>       i32);
+
+//LHS is 32-bit unsigned integer
+implicit!(u32, Complex64 => Complex64);
+implicit!(u32, Complex32 => Complex32);
+implicit!(u32, f64       =>       f64);
+implicit!(u32, f32       =>       f32);
+implicit!(u32, i64       =>       i64);
+implicit!(u32, u64       =>       u64);
+implicit!(u32, i32       =>       u32);
+implicit!(u32, u32       =>       u32);
+implicit!(u32, i16       =>       u32);
+implicit!(u32, u16       =>       u32);
+implicit!(u32, bool      =>       u32);
+implicit!(u32, u8        =>       u32);
+
+//LHS is 16-bit signed integer
+implicit!(i16, Complex64 => Complex64);
+implicit!(i16, Complex32 => Complex32);
+implicit!(i16, f64       =>       f64);
+implicit!(i16, f32       =>       f32);
+implicit!(i16, i64       =>       i64);
+implicit!(i16, u64       =>       u64);
+implicit!(i16, i32       =>       i32);
+implicit!(i16, u32       =>       u32);
+implicit!(i16, i16       =>       i16);
+implicit!(i16, u16       =>       u16);
+implicit!(i16, bool      =>       u16);
+implicit!(i16, u8        =>       u16);
+
+//LHS is 16-bit unsigned integer
+implicit!(u16, Complex64 => Complex64);
+implicit!(u16, Complex32 => Complex32);
+implicit!(u16, f64       =>       f64);
+implicit!(u16, f32       =>       f32);
+implicit!(u16, i64       =>       i64);
+implicit!(u16, u64       =>       u64);
+implicit!(u16, i32       =>       i32);
+implicit!(u16, u32       =>       u32);
+implicit!(u16, i16       =>       u16);
+implicit!(u16, u16       =>       u16);
+implicit!(u16, bool      =>       u16);
+implicit!(u16, u8        =>       u16);
+
+//LHS is 8-bit unsigned integer
+implicit!(u8, Complex64 => Complex64);
+implicit!(u8, Complex32 => Complex32);
+implicit!(u8, f64       =>       f64);
+implicit!(u8, f32       =>       f32);
+implicit!(u8, i64       =>       i64);
+implicit!(u8, u64       =>       u64);
+implicit!(u8, i32       =>       i32);
+implicit!(u8, u32       =>       u32);
+implicit!(u8, i16       =>       i16);
+implicit!(u8, u16       =>       u16);
+implicit!(u8, bool      =>        u8);
+implicit!(u8, u8        =>        u8);
+
+//LHS is bool(af::s8)
+implicit!(bool, Complex64 => Complex64);
+implicit!(bool, Complex32 => Complex32);
+implicit!(bool, f64       =>       f64);
+implicit!(bool, f32       =>       f32);
+implicit!(bool, i64       =>       i64);
+implicit!(bool, u64       =>       u64);
+implicit!(bool, i32       =>       i32);
+implicit!(bool, u32       =>       u32);
+implicit!(bool, i16       =>       i16);
+implicit!(bool, u16       =>       u16);
+implicit!(bool, bool      =>      bool);
+implicit!(bool, u8        =>        u8);
+
+impl Zero for Complex64 {
+    fn zero() -> Self {
+        Complex64{re: 0.0, im: 0.0}
+    }
+}
+
+impl Zero for Complex32 {
+    fn zero() -> Self {
+        Complex32{re: 0.0, im: 0.0}
+    }
+}
+
+pub trait FloatingPoint {
+    fn is_real()    -> bool { false }
+    fn is_complex() -> bool { false }
+}
+
+impl FloatingPoint for Complex<f64> { fn is_complex() -> bool { true } }
+impl FloatingPoint for Complex<f32> { fn is_complex() -> bool { true } }
+impl FloatingPoint for          f64 { fn    is_real() -> bool { true } }
+impl FloatingPoint for          f32 { fn    is_real() -> bool { true } }
+
+pub trait RealFloating {}
+
+impl RealFloating for f64 {}
+impl RealFloating for f32 {}
+
+pub trait ComplexFloating {}
+
+impl ComplexFloating for Complex64 {}
+impl ComplexFloating for Complex32 {}
+
+pub trait RealNumber {}
+
+impl RealNumber for f64 {}
+impl RealNumber for f32 {}
+impl RealNumber for i32 {}
+impl RealNumber for u32 {}
+impl RealNumber for i16 {}
+impl RealNumber for u16 {}
+impl RealNumber for u8  {}
+impl RealNumber for bool{}
+impl RealNumber for u64 {}
+impl RealNumber for i64 {}
+
+pub trait Scanable {}
+
+impl Scanable for i32 {}
+impl Scanable for u32 {}
+impl Scanable for u64 {}
+impl Scanable for i64 {}
+
+pub trait ImageNativeType {}
+
+impl ImageNativeType for f32 {}
+impl ImageNativeType for u16 {}
+impl ImageNativeType for u8  {}
+
+pub trait ImageFilterType {}
+
+impl ImageFilterType for f64 {}
+impl ImageFilterType for f32 {}
+impl ImageFilterType for i32 {}
+impl ImageFilterType for u32 {}
+impl ImageFilterType for i16 {}
+impl ImageFilterType for u16 {}
+impl ImageFilterType for u8  {}
+impl ImageFilterType for bool{}
+
+// TODO Rust haven't stabilized trait aliases yet
+pub trait GrayRGBConvertible {}
+
+impl GrayRGBConvertible for f64 {}
+impl GrayRGBConvertible for f32 {}
+impl GrayRGBConvertible for i32 {}
+impl GrayRGBConvertible for u32 {}
+impl GrayRGBConvertible for i16 {}
+impl GrayRGBConvertible for u16 {}
+impl GrayRGBConvertible for u8  {}
+
+// TODO Rust haven't stabilized trait aliases yet
+pub trait MomentsComputable {}
+
+impl MomentsComputable for f64 {}
+impl MomentsComputable for f32 {}
+impl MomentsComputable for i32 {}
+impl MomentsComputable for u32 {}
+impl MomentsComputable for i16 {}
+impl MomentsComputable for u16 {}
+impl MomentsComputable for u8  {}
+
+// TODO Rust haven't stabilized trait aliases yet
+pub trait MedianComputable {}
+
+impl MedianComputable for f64 {}
+impl MedianComputable for f32 {}
+impl MedianComputable for i32 {}
+impl MedianComputable for u32 {}
+impl MedianComputable for i16 {}
+impl MedianComputable for u16 {}
+impl MedianComputable for u8  {}
+
+// TODO Rust haven't stabilized trait aliases yet
+pub trait EdgeComputable {}
+
+impl EdgeComputable for f64 {}
+impl EdgeComputable for f32 {}
+impl EdgeComputable for i32 {}
+impl EdgeComputable for u32 {}
+impl EdgeComputable for i16 {}
+impl EdgeComputable for u16 {}
+impl EdgeComputable for u8  {}
+
+pub trait CovarianceComputable {}
+
+impl CovarianceComputable for f64 {}
+impl CovarianceComputable for f32 {}
+impl CovarianceComputable for i32 {}
+impl CovarianceComputable for u32 {}
+impl CovarianceComputable for i16 {}
+impl CovarianceComputable for u16 {}
+impl CovarianceComputable for u8  {}
+impl CovarianceComputable for u64 {}
+impl CovarianceComputable for i64 {}

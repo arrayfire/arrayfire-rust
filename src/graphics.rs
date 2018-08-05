@@ -7,7 +7,7 @@ use error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_float, c_double, c_char};
 use std::ffi::CString;
 use std::ptr;
-use util::{AfArray, CellPtr, MutWndHandle, WndHandle};
+use util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
 
 #[allow(dead_code)]
 extern {
@@ -309,8 +309,13 @@ impl Window {
     /// - `exact` indicates if the exact min/max values from `xrange`, `yrange` and `zrange`
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
-    pub fn set_axes_limits_compute(&mut self, xrange: &Array, yrange: &Array,
-                                   zrange: Option<&Array>, exact: bool) {
+    pub fn set_axes_limits_compute<T>(&mut self,
+                                      xrange: &Array<T>,
+                                      yrange: &Array<T>,
+                                      zrange: Option<&Array<T>>,
+                                      exact: bool)
+        where T: HasAfEnum
+    {
         let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
         unsafe {
             let err_val = af_set_axes_limits_compute(self.handle as WndHandle,
@@ -384,7 +389,9 @@ impl Window {
     /// - `input` image
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_image(&self, input: &Array, title: Option<String>) {
+    pub fn draw_image<T>(&self, input: &Array<T>, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -406,7 +413,9 @@ impl Window {
     /// - `y` is the y coordinates of the plot
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_plot2(&self, x: &Array, y: &Array, title: Option<String>) {
+    pub fn draw_plot2<T>(&self, x: &Array<T>, y: &Array<T>, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -430,7 +439,9 @@ impl Window {
     /// - `z` is the z coordinates of the plot
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_plot3(&self, x: &Array, y: &Array, z: &Array, title: Option<String>) {
+    pub fn draw_plot3<T>(&self, x: &Array<T>, y: &Array<T>, z: &Array<T>, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -452,7 +463,9 @@ impl Window {
     /// - `points` is an Array containing list of points of plot
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_plot(&self, points: &Array, title: Option<String>) {
+    pub fn draw_plot<T>(&self, points: &Array<T>, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -475,7 +488,9 @@ impl Window {
     /// - `maxval` is the maximum bin value of histogram
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_hist(&self, hst: &Array, minval: f64, maxval: f64, title: Option<String>) {
+    pub fn draw_hist<T>(&self, hst: &Array<T>, minval: f64, maxval: f64, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -499,7 +514,11 @@ impl Window {
     /// - `z` is the z coordinates of the surface plot
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_surface(&self, xvals: &Array, yvals: &Array, zvals: &Array, title: Option<String>) {
+    pub fn draw_surface<T>(&self,
+                           xvals: &Array<T>, yvals: &Array<T>, zvals: &Array<T>,
+                           title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -525,8 +544,10 @@ impl Window {
     /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_scatter2(&self, xvals: &Array, yvals: &Array,
-                         marker: MarkerType, title: Option<String>) {
+    pub fn draw_scatter2<T>(&self, xvals: &Array<T>, yvals: &Array<T>,
+                            marker: MarkerType, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -551,8 +572,11 @@ impl Window {
     /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_scatter3(&self, xvals: &Array, yvals: &Array, zvals: &Array,
-                         marker: MarkerType, title: Option<String>) {
+    pub fn draw_scatter3<T>(&self,
+                            xvals: &Array<T>, yvals: &Array<T>, zvals: &Array<T>,
+                            marker: MarkerType, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -575,7 +599,9 @@ impl Window {
     /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_scatter(&self, vals: &Array, marker: MarkerType, title: Option<String>) {
+    pub fn draw_scatter<T>(&self, vals: &Array<T>, marker: MarkerType, title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -599,8 +625,12 @@ impl Window {
     /// - `ydirs` is an Array containing direction component of y coord
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field2(&self, xpnts: &Array, ypnts: &Array,
-                              xdirs: &Array, ydirs: &Array, title: Option<String>) {
+    pub fn draw_vector_field2<T>(&self,
+                                 xpnts: &Array<T>, ypnts: &Array<T>,
+                                 xdirs: &Array<T>, ydirs: &Array<T>,
+                                 title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -628,9 +658,12 @@ impl Window {
     /// - `zdirs` is an Array containing direction component of z coord
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field3(&self, xpnts: &Array, ypnts: &Array, zpnts: &Array,
-                              xdirs: &Array, ydirs: &Array, zdirs: &Array,
-                              title: Option<String>) {
+    pub fn draw_vector_field3<T>(&self,
+                                 xpnts: &Array<T>, ypnts: &Array<T>, zpnts: &Array<T>,
+                                 xdirs: &Array<T>, ydirs: &Array<T>, zdirs: &Array<T>,
+                                 title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
@@ -656,7 +689,11 @@ impl Window {
     /// Array.
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field(&self, points: &Array, directions: &Array, title: Option<String>) {
+    pub fn draw_vector_field<T>(&self,
+                                points: &Array<T>, directions: &Array<T>,
+                                title: Option<String>)
+        where T: HasAfEnum
+    {
         let tstr = match title {
             Some(s) => s,
             None => format!("Cell({},{}))", self.col, self.row)
