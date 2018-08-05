@@ -134,7 +134,7 @@ pub use statistics::*;
 mod statistics;
 
 #[cfg(feature="core")]
-pub use util::{HasAfEnum, get_size};
+pub use util::{HasAfEnum, ImplicitPromote, get_size};
 #[cfg(feature="core")]
 mod util;
 

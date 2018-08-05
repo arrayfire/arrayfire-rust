@@ -6,24 +6,24 @@ use std::f64::consts::*;
 fn main() {
     set_device(0);
     info();
-
     acoustic_wave_simulation();
 }
 
-fn normalise(a: &Array) -> Array {
+fn normalise(a: &Array<f32>) -> Array<f32> {
     (a/(max_all(&abs(a)).0 as f32 * 2.0f32)) + 0.5f32
 }
+
 fn acoustic_wave_simulation() {
     // Speed of sound
-    let c = 0.1;
+    let c  :f32 = 0.1;
     // Distance step
-    let dx = 0.5;
+    let dx :f32 = 0.5;
     // Time step
-    let dt = 1.0;
+    let dt :f32 = 1.0;
 
     // Grid size.
-    let nx = 1500;
-    let ny = 1500;
+    let nx : u64 = 1500;
+    let ny : u64 = 1500;
 
     // Grid dimensions.
     let dims = Dim4::new(&[nx, ny, 1, 1]);
@@ -34,26 +34,27 @@ fn acoustic_wave_simulation() {
     let mut p_dot = p.clone();
 
     // Laplacian (Del^2) convolution kernel.
-    let laplacian_values = [0.0f32, 1.0, 0.0,
-                        1.0, -4.0, 1.0,
-                        0.0, 1.0, 0.0];
+    let laplacian_values: [f32; 9] = [0.0,  1.0, 0.0,
+                                      1.0, -4.0, 1.0,
+                                      0.0,  1.0, 0.0];
     let laplacian_kernel = Array::new(&laplacian_values, Dim4::new(&[3, 3, 1, 1])) / (dx * dx);
 
     // Create a window to show the waves.
     let mut win = Window::new(1000, 1000, "Waves".to_string());
 
     // Hann windowed pulse.
-    let pulse_time = 100.0f64;
-    let centre_freq = 0.05;
+    let pulse_time :f32  = 100.0;
+    let centre_freq :f32 = 0.05;
+    let twopi  = PI as f32 * 2.0;
 
     // Number of samples in pulse.
     let pulse_n = (pulse_time/dt).floor() as u64;
 
-    let i = range::<f32>(Dim4::new(&[pulse_n, 1, 1, 1]), 0);
-    let t = i.clone() * dt;
-    let hamming_window = cos(&(i * (2.0 * PI / pulse_n as f64))) * -0.46 + 0.54;
-    let wave = sin(&(&t * centre_freq * 2.0 * PI));
-    let pulse = wave * hamming_window;
+    let i       = range::<f32>(Dim4::new(&[pulse_n, 1, 1, 1]), 0);
+    let t       = i.clone() * dt;
+    let hmg_wnd = cos(&(i * (twopi / pulse_n as f32))) * -0.46f32 + 0.54f32;
+    let wave    = sin(&(&t * centre_freq * twopi));
+    let pulse   = wave * hmg_wnd;
 
     // Iteration count.
     let mut it = 0;

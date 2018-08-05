@@ -19,7 +19,7 @@ fn main() {
     let hst_wnd = Window::new(512, 512, String::from("Input Image Histogram"));
     hst_wnd.set_position(600, 100);
 
-    let man = load_image(format!("{}/man.jpg", assets_dir.display()), false);
+    let man = load_image::<f32>(format!("{}/man.jpg", assets_dir.display()), false);
     let hst = histogram(&man, 256, 0.0, 255.0);
 
     let disp_img = div(&man, &constant(255 as f32, man.dims()), false);

@@ -5,6 +5,7 @@ use defines::{AfError, BinaryOp};
 use error::HANDLE_ERROR;
 use self::libc::{c_int, uint8_t, c_uint, c_double};
 use util::{AfArray, MutAfArray, MutDouble, MutUint};
+use util::{HasAfEnum, Scanable, RealNumber};
 
 #[allow(dead_code)]
 extern {
@@ -49,17 +50,19 @@ extern {
 }
 
 macro_rules! dim_reduce_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ty) => (
         #[doc=$doc_str]
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, dim: i32) -> Array {
+        pub fn $fn_name<T>(input: &Array<T>, dim: i32) -> Array< $out_type >
+            where T: HasAfEnum, $out_type: HasAfEnum
+        {
+            let mut temp: i64 = 0;
             unsafe {
-                let mut temp: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         input.get() as AfArray, dim as c_int);
                 HANDLE_ERROR(AfError::from(err_val));
-                Array::from(temp)
             }
+            temp.into()
         }
     )
 }
@@ -89,7 +92,7 @@ dim_reduce_func_def!("
     print(&c);
     ```
     ",
-    sum, af_sum);
+    sum, af_sum, T::AggregateOutType);
 
 dim_reduce_func_def!("
     Compute product of elements along a given dimension
@@ -115,7 +118,7 @@ dim_reduce_func_def!("
     let c = product(&a, 1);
     print(&c);
     ```
-    ", product, af_product);
+    ", product, af_product, T::AggregateOutType);
 
 dim_reduce_func_def!("
     Find minimum among elements of given dimension
@@ -141,7 +144,7 @@ dim_reduce_func_def!("
     let c = min(&a, 1);
     print(&c);
     ```
-    ", min, af_min);
+    ", min, af_min, T::InType);
 
 dim_reduce_func_def!("
     Find maximum among elements of given dimension
@@ -167,7 +170,7 @@ dim_reduce_func_def!("
     let c = max(&a, 1);
     print(&c);
     ```
-    ", max, af_max);
+    ", max, af_max, T::InType);
 
 dim_reduce_func_def!("
     Find if all of the values along a given dimension in the Array are true
@@ -193,7 +196,7 @@ dim_reduce_func_def!("
     let c = all_true(&a, 1);
     print(&c);
     ```
-    ", all_true, af_all_true);
+    ", all_true, af_all_true, bool);
 
 dim_reduce_func_def!("
     Find if any of the values along a given dimension in the Array are true
@@ -219,7 +222,7 @@ dim_reduce_func_def!("
     let c = any_true(&a, 1);
     print(&c);
     ```
-    ", any_true, af_any_true);
+    ", any_true, af_any_true, bool);
 
 dim_reduce_func_def!("
     Count number of non-zero elements along a given dimension
@@ -246,7 +249,7 @@ dim_reduce_func_def!("
     let c = count(&a, 1);
     print(&c);
     ```
-    ", count, af_count);
+    ", count, af_count, u32);
 
 dim_reduce_func_def!("
     Perform exclusive sum of elements along a given dimension
@@ -272,7 +275,7 @@ dim_reduce_func_def!("
     let c = accum(&a, 1);
     print(&c);
     ```
-    ", accum, af_accum);
+    ", accum, af_accum, T::AggregateOutType);
 
 dim_reduce_func_def!("
     Calculate first order numerical difference along a given dimension
@@ -298,7 +301,7 @@ dim_reduce_func_def!("
     let c = diff1(&a, 1);
     print(&c);
     ```
-    ", diff1, af_diff1);
+    ", diff1, af_diff1, T::InType);
 
 dim_reduce_func_def!("
     Calculate second order numerical difference along a given dimension
@@ -324,7 +327,7 @@ dim_reduce_func_def!("
     let c = diff2(&a, 1);
     print(&c);
     ```
-    ", diff2, af_diff2);
+    ", diff2, af_diff2, T::InType);
 
 /// Sum along specific dimension using user specified value instead of `NAN` values
 ///
@@ -340,14 +343,18 @@ dim_reduce_func_def!("
 /// # Return Values
 ///
 /// Array that is reduced along given dimension via addition operation
-pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
+pub fn sum_nan<T>(input: &Array<T>,
+                  dim: i32, nanval: f64) -> Array< T::AggregateOutType >
+    where T: HasAfEnum,
+          T::AggregateOutType: HasAfEnum
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_sum_nan(&mut temp as MutAfArray, input.get() as AfArray,
                                  dim as c_int, nanval as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Product of elements along specific dimension using user specified value instead of `NAN` values
@@ -363,29 +370,34 @@ pub fn sum_nan(input: &Array, dim: i32, nanval: f64) -> Array {
 /// # Return Values
 ///
 /// Array that is reduced along given dimension via multiplication operation
-pub fn product_nan(input: &Array, dim: i32, nanval: f64) -> Array {
+pub fn product_nan<T>(input: &Array<T>,
+                      dim: i32, nanval: f64) -> Array< T::AggregateOutType >
+    where T: HasAfEnum,
+          T::AggregateOutType: HasAfEnum
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_product_nan(&mut temp as MutAfArray, input.get() as AfArray,
                                      dim as c_int, nanval as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 macro_rules! all_reduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
         #[doc=$doc_str]
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> (f64, f64) {
+        pub fn $fn_name<T:HasAfEnum>(input: &Array<T>) -> (f64, f64) {
+            let mut real: f64 = 0.0;
+            let mut imag: f64 = 0.0;
             unsafe {
-                let mut real: f64 = 0.0;
-                let mut imag: f64 = 0.0;
-                let err_val = $ffi_name(&mut real as MutDouble, &mut imag as MutDouble,
+                let err_val = $ffi_name(&mut real as MutDouble,
+                                        &mut imag as MutDouble,
                                         input.get() as AfArray);
                 HANDLE_ERROR(AfError::from(err_val));
-                (real, imag)
             }
+            (real, imag)
         }
     )
 }
@@ -567,15 +579,15 @@ all_reduce_func_def!("
 /// A tuple of summation result.
 ///
 /// Note: For non-complex data type Arrays, second value of tuple is zero.
-pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
+pub fn sum_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
+    let mut real: f64 = 0.0;
+    let mut imag: f64 = 0.0;
     unsafe {
-        let mut real: f64 = 0.0;
-        let mut imag: f64 = 0.0;
         let err_val = af_sum_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
                                      input.get() as AfArray, val as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        (real, imag)
     }
+    (real, imag)
 }
 
 /// Product of all values using user provided value for `NAN`
@@ -593,30 +605,33 @@ pub fn sum_nan_all(input: &Array, val: f64) -> (f64, f64) {
 /// A tuple of product result.
 ///
 /// Note: For non-complex data type Arrays, second value of tuple is zero.
-pub fn product_nan_all(input: &Array, val: f64) -> (f64, f64) {
+pub fn product_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
+    let mut real: f64 = 0.0;
+    let mut imag: f64 = 0.0;
     unsafe {
-        let mut real: f64 = 0.0;
-        let mut imag: f64 = 0.0;
         let err_val = af_product_nan_all(&mut real as MutDouble, &mut imag as MutDouble,
                                          input.get() as AfArray, val as c_double);
         HANDLE_ERROR(AfError::from(err_val));
-        (real, imag)
     }
+    (real, imag)
 }
 
 macro_rules! dim_ireduce_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ident) => (
         #[doc=$doc_str]
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array, dim: i32) -> (Array, Array) {
+        pub fn $fn_name<T>(input: &Array<T>, dim: i32) -> (Array< T::$out_type >, Array<u32>)
+            where T: HasAfEnum,
+                  T::$out_type: HasAfEnum
+        {
+            let mut temp: i64 = 0;
+            let mut idx: i64 = 0;
             unsafe {
-                let mut temp: i64 = 0;
-                let mut idx: i64 = 0;
                 let err_val = $ffi_name(&mut temp as MutAfArray, &mut idx as MutAfArray,
                                         input.get() as AfArray, dim as c_int);
                 HANDLE_ERROR(AfError::from(err_val));
-                (Array::from(temp), Array::from(idx))
             }
+            (temp.into(), idx.into())
         }
     )
 }
@@ -632,7 +647,7 @@ dim_ireduce_func_def!("
     # Return Values
 
     A tuple of Arrays: Array minimum values and Array containing their index along the reduced dimension.
-    ", imin, af_imin);
+    ", imin, af_imin, InType);
 
 dim_ireduce_func_def!("
     Find maximum value along given dimension and their corresponding indices
@@ -645,22 +660,22 @@ dim_ireduce_func_def!("
     # Return Values
 
     A tuple of Arrays: Array maximum values and Array containing their index along the reduced dimension.
-    ", imax, af_imax);
+    ", imax, af_imax, InType);
 
 macro_rules! all_ireduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
         #[doc=$doc_str]
         #[allow(unused_mut)]
-        pub fn $fn_name(input: &Array) -> (f64, f64, u32) {
+        pub fn $fn_name<T:HasAfEnum>(input: &Array<T>) -> (f64, f64, u32) {
+            let mut real: f64 = 0.0;
+            let mut imag: f64 = 0.0;
+            let mut temp: u32 = 0;
             unsafe {
-                let mut real: f64 = 0.0;
-                let mut imag: f64 = 0.0;
-                let mut temp: u32 = 0;
                 let err_val = $ffi_name(&mut real as MutDouble, &mut imag as MutDouble,
                                         &mut temp as MutUint, input.get() as AfArray);
                 HANDLE_ERROR(AfError::from(err_val));
-                (real, imag, temp)
             }
+            (real, imag, temp)
         }
     )
 }
@@ -708,13 +723,13 @@ all_ireduce_func_def!("
 ///
 /// Array of indices where the input Array has non-zero values.
 #[allow(unused_mut)]
-pub fn locate(input: &Array) -> Array {
+pub fn locate<T:HasAfEnum>(input: &Array<T>) -> Array<u32> {
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_where(&mut temp as MutAfArray, input.get() as AfArray);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Sort the values in input Arrays
@@ -725,20 +740,23 @@ pub fn locate(input: &Array) -> Array {
 ///
 /// - `input` - Input Array
 /// - `dim` - Dimension along which to sort
-/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.
+/// - `ascending` - Sorted output will have ascending values if
+///                 ```True``` and descending order otherwise.
 ///
 /// # Return Values
 ///
 /// Sorted Array.
 #[allow(unused_mut)]
-pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
+pub fn sort<T>(input: &Array<T>, dim: u32, ascending: bool) -> Array<T>
+    where T: HasAfEnum + RealNumber
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_sort(&mut temp as MutAfArray, input.get() as AfArray,
                               dim as c_uint, ascending as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Sort the values in input Arrays
@@ -747,7 +765,8 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
 ///
 /// - `input` - Input Array
 /// - `dim` - Dimension along which to sort
-/// - `ascending` - Sorted output will have ascending values if ```True``` and descending order otherwise.
+/// - `ascending` - Sorted output will have ascending values if
+///                 ```True``` and descending order otherwise.
 ///
 /// # Return Values
 ///
@@ -757,16 +776,19 @@ pub fn sort(input: &Array, dim: u32, ascending: bool) -> Array {
 ///
 /// The second Array contains the original indices of the sorted values.
 #[allow(unused_mut)]
-pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
+pub fn sort_index<T>(input: &Array<T>, dim: u32, ascending: bool) -> (Array<T>, Array<u32>)
+    where T: HasAfEnum + RealNumber
+{
+    let mut temp: i64 = 0;
+    let mut idx: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let mut idx: i64 = 0;
-        let err_val = af_sort_index(&mut temp as MutAfArray, &mut idx as MutAfArray,
+        let err_val = af_sort_index(&mut temp as MutAfArray,
+                                    &mut idx as MutAfArray,
                                     input.get() as AfArray,
                                     dim as c_uint, ascending as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(temp), Array::from(idx))
     }
+    (temp.into(), idx.into())
 }
 
 /// Sort the values in input Arrays
@@ -788,17 +810,22 @@ pub fn sort_index(input: &Array, dim: u32, ascending: bool) -> (Array, Array) {
 ///
 /// The second Array contains the sorted values.
 #[allow(unused_mut)]
-pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
-                   ascending: bool) -> (Array, Array) {
+pub fn sort_by_key<K, V>(keys: &Array<K>, vals: &Array<V>, dim: u32,
+                         ascending: bool) -> (Array<K>, Array<V>)
+    where K: HasAfEnum + RealNumber,
+          V: HasAfEnum
+{
+    let mut temp: i64 = 0;
+    let mut temp2: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let mut temp2: i64 = 0;
-        let err_val = af_sort_by_key(&mut temp as MutAfArray, &mut temp2 as MutAfArray,
-                                     keys.get() as AfArray, vals.get() as AfArray,
+        let err_val = af_sort_by_key(&mut temp as MutAfArray,
+                                     &mut temp2 as MutAfArray,
+                                     keys.get() as AfArray,
+                                     vals.get() as AfArray,
                                      dim as c_uint, ascending as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        (Array::from(temp), Array::from(temp2))
     }
+    (temp.into(), temp2.into())
 }
 
 /// Find unique values from a Set
@@ -806,20 +833,24 @@ pub fn sort_by_key(keys: &Array, vals: &Array, dim: u32,
 /// # Parameters
 ///
 /// - `input` - Input Array
-/// - `is_sorted` - is a boolean variable. If ```True`` indicates, the `input` Array is sorted.
+/// - `is_sorted` - is a boolean variable. If ```True``
+///                 indicates, the `input` Array is sorted.
 ///
 /// # Return Values
 ///
 /// An Array of unique values from the input Array.
 #[allow(unused_mut)]
-pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
+pub fn set_unique<T>(input: &Array<T>, is_sorted: bool) -> Array<T>
+    where T: HasAfEnum + RealNumber
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
-        let err_val = af_set_unique(&mut temp as MutAfArray, input.get() as AfArray,
+        let err_val = af_set_unique(&mut temp as MutAfArray,
+                                    input.get() as AfArray,
                                     is_sorted as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Find union of two sets
@@ -834,14 +865,16 @@ pub fn set_unique(input: &Array, is_sorted: bool) -> Array {
 ///
 /// An Array with union of the input sets
 #[allow(unused_mut)]
-pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
+pub fn set_union<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) -> Array<T>
+    where T: HasAfEnum + RealNumber
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_set_union(&mut temp as MutAfArray, first.get() as AfArray,
                                    second.get() as AfArray, is_unique as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Find intersection of two sets
@@ -856,14 +889,16 @@ pub fn set_union(first: &Array, second: &Array, is_unique: bool) -> Array {
 ///
 /// An Array with intersection of the input sets
 #[allow(unused_mut)]
-pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
+pub fn set_intersect<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) -> Array<T>
+    where T: HasAfEnum + RealNumber
+{
+    let mut temp: i64 = 0;
     unsafe {
-        let mut temp: i64 = 0;
         let err_val = af_set_intersect(&mut temp as MutAfArray, first.get() as AfArray,
                                        second.get() as AfArray, is_unique as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Generalized scan
@@ -879,14 +914,18 @@ pub fn set_intersect(first: &Array, second: &Array, is_unique: bool) -> Array {
 /// # Return Values
 ///
 /// Output Array of scanned input
-pub fn scan(input: &Array, dim: i32, op: BinaryOp, inclusive: bool) -> Array {
+pub fn scan<T>(input: &Array<T>, dim: i32,
+               op: BinaryOp, inclusive: bool) -> Array< T::AggregateOutType >
+    where T: HasAfEnum,
+          T::AggregateOutType: HasAfEnum
+{
+    let mut temp : i64 = 0;
     unsafe {
-        let mut temp : i64 = 0;
-        let err_val = af_scan(&mut temp as MutAfArray, input.get() as AfArray, dim as c_int,
-                              op as uint8_t, inclusive as c_int);
+        let err_val = af_scan(&mut temp as MutAfArray, input.get() as AfArray,
+                              dim as c_int, op as uint8_t, inclusive as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
 
 /// Generalized scan by key
@@ -903,13 +942,19 @@ pub fn scan(input: &Array, dim: i32, op: BinaryOp, inclusive: bool) -> Array {
 /// # Return Values
 ///
 /// Output Array of scanned input
-pub fn scan_by_key(key: &Array, input: &Array, dim: i32, op: BinaryOp, inclusive: bool) -> Array {
+pub fn scan_by_key<K, V>(key: &Array<K>, input: &Array<V>,
+                         dim: i32, op: BinaryOp,
+                         inclusive: bool) -> Array< V::AggregateOutType >
+    where V: HasAfEnum,
+          V::AggregateOutType: HasAfEnum,
+          K: HasAfEnum + Scanable
+{
+    let mut temp : i64 = 0;
     unsafe {
-        let mut temp : i64 = 0;
-        let err_val = af_scan_by_key(&mut temp as MutAfArray,
-                                     key.get() as AfArray, input.get() as AfArray, dim as c_int,
+        let err_val = af_scan_by_key(&mut temp as MutAfArray, key.get() as AfArray,
+                                     input.get() as AfArray, dim as c_int,
                                      op as uint8_t, inclusive as c_int);
         HANDLE_ERROR(AfError::from(err_val));
-        Array::from(temp)
     }
+    temp.into()
 }
