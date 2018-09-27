@@ -224,7 +224,7 @@ impl HasAfEnum for Complex<f64> {
     type AggregateOutType = Self;
     type SobelOutType = Self;
 
-    fn get_af_dtype() -> DType { DType::F64 }
+    fn get_af_dtype() -> DType { DType::C64 }
 }
 impl HasAfEnum for f32  {
     type InType = Self;
