@@ -5,7 +5,7 @@ use array::Array;
 use defines::{AfError, ConvDomain, ConvMode, InterpType};
 use error::HANDLE_ERROR;
 use self::num::Complex;
-use self::libc::{uint8_t, c_int, c_float, c_double, c_longlong, size_t};
+use self::libc::{c_uint, c_int, c_float, c_double, c_longlong, size_t};
 use util::{ComplexFloating, FloatingPoint, HasAfEnum, RealFloating};
 use util::{AfArray, MutAfArray};
 
@@ -55,13 +55,13 @@ extern {
     fn af_fft2_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
     fn af_fft3_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
 
-    fn af_convolve1(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
-    fn af_convolve2(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
-    fn af_convolve3(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t, d: uint8_t) -> c_int;
-    fn af_convolve2_sep(o: MutAfArray, c: AfArray, r: AfArray, s: AfArray, m: uint8_t) -> c_int;
-    fn af_fft_convolve1(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t) -> c_int;
-    fn af_fft_convolve2(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t) -> c_int;
-    fn af_fft_convolve3(out: MutAfArray, s: AfArray, f: AfArray, m: uint8_t) -> c_int;
+    fn af_convolve1(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint, d: c_uint) -> c_int;
+    fn af_convolve2(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint, d: c_uint) -> c_int;
+    fn af_convolve3(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint, d: c_uint) -> c_int;
+    fn af_convolve2_sep(o: MutAfArray, c: AfArray, r: AfArray, s: AfArray, m: c_uint) -> c_int;
+    fn af_fft_convolve1(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint) -> c_int;
+    fn af_fft_convolve2(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint) -> c_int;
+    fn af_fft_convolve3(out: MutAfArray, s: AfArray, f: AfArray, m: c_uint) -> c_int;
     fn af_fir(out: MutAfArray, b: AfArray, x: AfArray) -> c_int;
     fn af_iir(out: MutAfArray, b: AfArray, a: AfArray, x: AfArray) -> c_int;
 }
@@ -337,7 +337,7 @@ macro_rules! conv_func_def {
             unsafe {
                 let err_val = $ffi_name(&mut temp as MutAfArray,
                                         signal.get() as AfArray, filter.get() as AfArray,
-                                        mode as uint8_t, domain as uint8_t);
+                                        mode as c_uint, domain as c_uint);
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()
@@ -371,7 +371,7 @@ pub fn convolve2_sep<T, F>(cfilt: &Array<F>, rfilt: &Array<F>, signal: &Array<T>
     unsafe {
         let err_val = af_convolve2_sep(&mut temp as MutAfArray,
                                        cfilt.get() as AfArray, rfilt.get() as AfArray,
-                                       signal.get() as AfArray, mode as uint8_t);
+                                       signal.get() as AfArray, mode as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -400,7 +400,7 @@ macro_rules! fft_conv_func_def {
             let mut temp: i64 = 0;
             unsafe {
                 let err_val = $ffi_name(&mut temp as MutAfArray, signal.get() as AfArray,
-                                        filter.get() as AfArray, mode as uint8_t);
+                                        filter.get() as AfArray, mode as c_uint);
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()

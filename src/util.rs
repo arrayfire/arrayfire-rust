@@ -7,7 +7,7 @@ use error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
 use num::Zero;
-use self::libc::{uint8_t, c_int, size_t, c_void};
+use self::libc::{c_uint, c_int, size_t, c_void};
 
 pub type AfArray       = self::libc::c_longlong;
 pub type AfIndex       = self::libc::c_longlong;
@@ -32,7 +32,7 @@ pub type WndHandle     = self::libc::c_ulonglong;
 
 #[allow(dead_code)]
 extern {
-    fn af_get_size_of(size: *mut size_t, aftype: uint8_t) -> c_int;
+    fn af_get_size_of(size: *mut size_t, aftype: c_uint) -> c_int;
 
     fn af_alloc_host(ptr: *mut *const c_void, bytes: DimT) -> c_int;
     fn af_free_host(ptr: *mut c_void) -> c_int;
@@ -42,7 +42,7 @@ extern {
 pub fn get_size(value: DType) -> usize {
     unsafe {
         let mut ret_val: usize = 0;
-        let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as uint8_t);
+        let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
         ret_val
     }
@@ -75,37 +75,37 @@ impl From<i32> for AfError {
     }
 }
 
-impl From<i32> for DType {
-    fn from(t: i32) -> DType {
-        assert!(DType::F32 as i32 <= t && t <= DType::U64 as i32);
+impl From<u32> for DType {
+    fn from(t: u32) -> DType {
+        assert!(DType::F32 as u32 <= t && t <= DType::U64 as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for InterpType {
-    fn from(t: i32) -> InterpType {
-        assert!(InterpType::NEAREST as i32 <= t && t <= InterpType::BICUBIC_SPLINE as i32);
+impl From<u32> for InterpType {
+    fn from(t: u32) -> InterpType {
+        assert!(InterpType::NEAREST as u32 <= t && t <= InterpType::BICUBIC_SPLINE as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for ConvMode {
-    fn from(t: i32) -> ConvMode {
-        assert!(ConvMode::DEFAULT as i32 <= t && t <= ConvMode::EXPAND as i32);
+impl From<u32> for ConvMode {
+    fn from(t: u32) -> ConvMode {
+        assert!(ConvMode::DEFAULT as u32 <= t && t <= ConvMode::EXPAND as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for ConvDomain {
-    fn from(t: i32) -> ConvDomain {
-        assert!(ConvDomain::AUTO as i32 <= t && t <= ConvDomain::FREQUENCY as i32);
+impl From<u32> for ConvDomain {
+    fn from(t: u32) -> ConvDomain {
+        assert!(ConvDomain::AUTO as u32 <= t && t <= ConvDomain::FREQUENCY as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for MatchType {
-    fn from(t: i32) -> MatchType {
-        assert!(MatchType::SAD as i32 <= t && t <= MatchType::SHD as i32);
+impl From<u32> for MatchType {
+    fn from(t: u32) -> MatchType {
+        assert!(MatchType::SAD as u32 <= t && t <= MatchType::SHD as u32);
         unsafe { mem::transmute(t) }
     }
 }
@@ -126,9 +126,9 @@ pub fn to_u32(t: MatProp) -> u32 {
     }
 }
 
-impl From<i32> for ColorMap {
-    fn from(t: i32) -> ColorMap {
-        assert!(ColorMap::DEFAULT as i32 <= t && t <= ColorMap::BLUE as i32);
+impl From<u32> for ColorMap {
+    fn from(t: u32) -> ColorMap {
+        assert!(ColorMap::DEFAULT as u32 <= t && t <= ColorMap::BLUE as u32);
         unsafe { mem::transmute(t) }
     }
 }
@@ -357,23 +357,23 @@ impl HasAfEnum for u64  {
     fn get_af_dtype() -> DType { DType::U64 }
 }
 
-impl From<i32> for SparseFormat {
-    fn from(t: i32) -> SparseFormat {
-        assert!(SparseFormat::DENSE as i32 <= t && t <= SparseFormat::COO as i32);
+impl From<u32> for SparseFormat {
+    fn from(t: u32) -> SparseFormat {
+        assert!(SparseFormat::DENSE as u32 <= t && t <= SparseFormat::COO as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for BinaryOp {
-    fn from(t: i32) -> BinaryOp {
-        assert!(BinaryOp::ADD as i32 <= t && t <= BinaryOp::MAX as i32);
+impl From<u32> for BinaryOp {
+    fn from(t: u32) -> BinaryOp {
+        assert!(BinaryOp::ADD as u32 <= t && t <= BinaryOp::MAX as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
-impl From<i32> for RandomEngineType {
-    fn from(t: i32) -> RandomEngineType {
-        assert!(RandomEngineType::PHILOX_4X32_10 as i32 <= t && t <= RandomEngineType::MERSENNE_GP11213 as i32);
+impl From<u32> for RandomEngineType {
+    fn from(t: u32) -> RandomEngineType {
+        assert!(RandomEngineType::PHILOX_4X32_10 as u32 <= t && t <= RandomEngineType::MERSENNE_GP11213 as u32);
         unsafe { mem::transmute(t) }
     }
 }

@@ -6,7 +6,7 @@ use defines::{AfError, HomographyType, MatchType};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, Feat, MutAfArray, MutFeat};
 use util::{HasAfEnum, RealFloating, ImageFilterType};
-use self::libc::{c_void, uint8_t, c_uint, c_int, c_float, c_double, c_longlong};
+use self::libc::{c_void, c_uint, c_int, c_float, c_double, c_longlong};
 
 // af_sift and af_gloh uses patented algorithms, so didn't add them
 // they are built using installer builds
@@ -39,7 +39,7 @@ extern {
                             dist_dim: DimT, n_dist: c_uint, dist_type: c_int) -> c_int;
 
     fn af_match_template(out: MutAfArray, search_img: AfArray, template_img: AfArray,
-                         mtype: uint8_t) -> c_int;
+                         mtype: c_uint) -> c_int;
 
     fn af_susan(feat: MutFeat, i: AfArray, r: c_uint, d: c_float, g: c_float, f: c_float, e: c_uint) -> c_int;
 
@@ -405,7 +405,7 @@ pub fn match_template<T>(search_img: &Array<T>,
     unsafe {
         let err_val = af_match_template(&mut temp as MutAfArray,
                           search_img.get() as AfArray, template_img.get() as AfArray,
-                          mtype as uint8_t);
+                          mtype as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()

@@ -3,7 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, BinaryOp};
 use error::HANDLE_ERROR;
-use self::libc::{c_int, uint8_t, c_uint, c_double};
+use self::libc::{c_int, c_uint, c_double};
 use util::{AfArray, MutAfArray, MutDouble, MutUint};
 use util::{HasAfEnum, Scanable, RealNumber};
 
@@ -44,9 +44,9 @@ extern {
     fn af_sort_by_key(out_keys: MutAfArray, out_vals: MutAfArray,
                       in_keys: AfArray, in_vals: AfArray, dim: c_uint, ascend: c_int) -> c_int;
 
-    fn af_scan(out: MutAfArray, inp: AfArray, dim: c_int, op: uint8_t, inclusive: c_int) -> c_int;
+    fn af_scan(out: MutAfArray, inp: AfArray, dim: c_int, op: c_uint, inclusive: c_int) -> c_int;
     fn af_scan_by_key(out: MutAfArray, key: AfArray, inp: AfArray,
-                      dim: c_int, op: uint8_t, inclusive: c_int) -> c_int;
+                      dim: c_int, op: c_uint, inclusive: c_int) -> c_int;
 }
 
 macro_rules! dim_reduce_func_def {
@@ -922,7 +922,7 @@ pub fn scan<T>(input: &Array<T>, dim: i32,
     let mut temp : i64 = 0;
     unsafe {
         let err_val = af_scan(&mut temp as MutAfArray, input.get() as AfArray,
-                              dim as c_int, op as uint8_t, inclusive as c_int);
+                              dim as c_int, op as c_uint, inclusive as c_int);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -953,7 +953,7 @@ pub fn scan_by_key<K, V>(key: &Array<K>, input: &Array<V>,
     unsafe {
         let err_val = af_scan_by_key(&mut temp as MutAfArray, key.get() as AfArray,
                                      input.get() as AfArray, dim as c_int,
-                                     op as uint8_t, inclusive as c_int);
+                                     op as c_uint, inclusive as c_int);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()

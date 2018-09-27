@@ -6,7 +6,7 @@ use std::fmt::Error as FmtError;
 use self::num::Complex;
 
 /// Error codes
-#[repr(C)]
+#[repr(i32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum AfError {
     /// The function returned successfully
@@ -53,7 +53,7 @@ pub enum AfError {
 }
 
 /// Compute/Acceleration Backend
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Backend {
     /// Default backend order: OpenCL -> CUDA -> CPU
@@ -109,7 +109,7 @@ impl Error for AfError {
 }
 
 /// Types of Array data type
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DType {
     /// 32 bit float
@@ -139,7 +139,7 @@ pub enum DType {
 }
 
 /// Dictates the interpolation method to be used by a function
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
@@ -165,7 +165,7 @@ pub enum InterpType {
 }
 
 /// Helps determine how to pad kernels along borders
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BorderType {
     /// Pad using zeros
@@ -175,7 +175,7 @@ pub enum BorderType {
 }
 
 /// Used by `regions` function to identify type of connectivity
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
@@ -185,7 +185,7 @@ pub enum Connectivity {
 }
 
 /// Helps determine the size of output of convolution
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
@@ -195,7 +195,7 @@ pub enum ConvMode {
 }
 
 /// Helps determine if convolution is in Spatial or Frequency domain
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
@@ -207,7 +207,7 @@ pub enum ConvDomain {
 }
 
 /// Error metric used by `matchTemplate` function
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatchType {
     /// Sum of Absolute Differences
@@ -231,7 +231,7 @@ pub enum MatchType {
 }
 
 /// Identify the color space of given image(Array)
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorSpace {
     /// Grayscale color space
@@ -243,7 +243,7 @@ pub enum ColorSpace {
 }
 
 /// Helps determine the type of a Matrix
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatProp {
     /// Default (no-op)
@@ -272,7 +272,7 @@ pub enum MatProp {
 
 /// Norm type
 #[allow(non_camel_case_types)]
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum NormType {
     /// Treats input as a vector and return sum of absolute values
@@ -294,7 +294,7 @@ pub enum NormType {
 }
 
 /// Dictates what color map is used for Image rendering
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ColorMap {
     /// Default color map is grayscale range [0-1]
@@ -314,7 +314,7 @@ pub enum ColorMap {
 }
 
 /// YCbCr Standards
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum YCCStd {
     /// ITU-R BT.601 (formerly CCIR 601) standard
@@ -326,7 +326,7 @@ pub enum YCCStd {
 }
 
 /// Homography type
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HomographyType {
     /// RANdom SAmple Consensus algorithm
@@ -336,7 +336,7 @@ pub enum HomographyType {
 }
 
 /// Plotting markers
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MarkerType {
     /// No marker
@@ -358,7 +358,7 @@ pub enum MarkerType {
 }
 
 /// Image moment types
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MomentType {
     /// Central moment of order (0 + 0)
@@ -374,7 +374,7 @@ pub enum MomentType {
 }
 
 /// Sparse storage format type
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum SparseFormat {
     /// Dense format
@@ -388,7 +388,7 @@ pub enum SparseFormat {
 }
 
 /// Binary operation types for generalized scan functions
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum BinaryOp {
     /// Addition operation
@@ -402,7 +402,7 @@ pub enum BinaryOp {
 }
 
 /// Random engine types
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum RandomEngineType {
     ///Philox variant with N=4, W=32 and Rounds=10
@@ -452,7 +452,7 @@ pub enum Scalar {
 }
 
 /// Canny edge detector threshold operations types
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum CannyThresholdType {
     /// User has to define canny thresholds manually
@@ -462,7 +462,7 @@ pub enum CannyThresholdType {
 }
 
 /// Anisotropic diffusion flux equation types
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DiffusionEq {
     /// Quadratic flux function
@@ -474,7 +474,7 @@ pub enum DiffusionEq {
 }
 
 /// Diffusion equation types
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum FluxFn {
     /// Quadratic flux function
@@ -486,7 +486,7 @@ pub enum FluxFn {
 }
 
 /// topk function ordering
-#[repr(C)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum TopkFn {
     /// Top k min values

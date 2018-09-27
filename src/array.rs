@@ -4,7 +4,7 @@ use dim4::Dim4;
 use defines::{AfError, DType, Backend};
 use error::HANDLE_ERROR;
 use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
-use self::libc::{uint8_t, c_void, c_int, c_uint, c_longlong, c_char};
+use self::libc::{c_void, c_int, c_uint, c_longlong, c_char};
 use std::marker::PhantomData;
 use std::ffi::CString;
 
@@ -16,13 +16,13 @@ use std::ffi::CString;
 #[allow(dead_code)]
 extern {
     fn af_create_array(out: MutAfArray, data: *const c_void,
-                       ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
+                       ndims: c_uint, dims: *const DimT, aftype: c_uint) -> c_int;
 
-    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: uint8_t) -> c_int;
+    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: c_uint) -> c_int;
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
-    fn af_get_type(out: *mut c_int, arr: AfArray) -> c_int;
+    fn af_get_type(out: *mut c_uint, arr: AfArray) -> c_int;
 
     fn af_get_dims(dim0: *mut c_longlong, dim1: *mut c_longlong, dim2: *mut c_longlong,
                    dim3: *mut c_longlong, arr: AfArray) -> c_int;
@@ -75,15 +75,15 @@ extern {
 
     fn af_print_array_gen(exp: *const c_char, arr: AfArray, precision: c_int) -> c_int;
 
-    fn af_cast(out: MutAfArray, arr: AfArray, aftype: uint8_t) -> c_int;
+    fn af_cast(out: MutAfArray, arr: AfArray, aftype: c_uint) -> c_int;
 
-    fn af_get_backend_id(backend: *mut c_int, input: AfArray) -> c_int;
+    fn af_get_backend_id(backend: *mut c_uint, input: AfArray) -> c_int;
 
     fn af_get_device_id(device: *mut c_int, input: AfArray) -> c_int;
 
     fn af_create_strided_array(arr: MutAfArray, data: *const c_void, offset: DimT,
                                ndims: c_uint, dims: *const DimT, strides: *const DimT,
-                               aftype: uint8_t, stype: uint8_t) -> c_int;
+                               aftype: c_uint, stype: c_uint) -> c_int;
 
     fn af_get_strides(s0: *mut DimT, s1: *mut DimT, s2: *mut DimT, s3: *mut DimT,
                       arr: AfArray) -> c_int;
@@ -155,7 +155,7 @@ impl<T> Array<T> where T: HasAfEnum {
                                           slice.as_ptr() as *const c_void,
                                           dims.ndims() as c_uint,
                                           dims.get().as_ptr() as * const c_longlong,
-                                          aftype as uint8_t);
+                                          aftype as c_uint);
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()
@@ -176,7 +176,7 @@ impl<T> Array<T> where T: HasAfEnum {
                                                   dims.ndims() as c_uint,
                                                   dims.get().as_ptr() as * const c_longlong,
                                                   strides.get().as_ptr() as * const c_longlong,
-                                                  aftype as uint8_t, 1);
+                                                  aftype as c_uint, 1 as c_uint);
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()
@@ -198,7 +198,7 @@ impl<T> Array<T> where T: HasAfEnum {
             let err_val = af_create_handle(&mut temp as MutAfArray,
                                            dims.ndims() as c_uint,
                                            dims.get().as_ptr() as * const c_longlong,
-                                           aftype as uint8_t);
+                                           aftype as c_uint);
             HANDLE_ERROR(AfError::from(err_val));
             temp.into()
         }
@@ -212,8 +212,8 @@ impl<T> Array<T> where T: HasAfEnum {
     /// was active when Array was created.
     pub fn get_backend(&self) -> Backend {
         unsafe {
-            let mut ret_val: i32 = 0;
-            let err_val = af_get_backend_id(&mut ret_val as *mut c_int, self.handle as AfArray);
+            let mut ret_val: u32 = 0;
+            let err_val = af_get_backend_id(&mut ret_val as *mut c_uint, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
             match (err_val, ret_val) {
                 (0, 1) => Backend::CPU,
@@ -251,8 +251,8 @@ impl<T> Array<T> where T: HasAfEnum {
     /// Returns the Array data type
     pub fn get_type(&self) -> DType {
         unsafe {
-            let mut ret_val: i32 = 0;
-            let err_val = af_get_type(&mut ret_val as *mut c_int, self.handle as AfArray);
+            let mut ret_val: u32 = 0;
+            let err_val = af_get_type(&mut ret_val as *mut c_uint, self.handle as AfArray);
             HANDLE_ERROR(AfError::from(err_val));
             DType::from(ret_val)
         }
@@ -364,7 +364,7 @@ impl<T> Array<T> where T: HasAfEnum {
         let trgt_type = O::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as uint8_t);
+            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as c_uint);
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()

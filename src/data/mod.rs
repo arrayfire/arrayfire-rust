@@ -5,7 +5,7 @@ use array::Array;
 use dim4::Dim4;
 use defines::{AfError};
 use error::HANDLE_ERROR;
-use self::libc::{uint8_t, c_int, c_uint, c_double};
+use self::libc::{c_int, c_uint, c_double};
 use self::num::Complex;
 use util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
 use std::vec::Vec;
@@ -25,12 +25,12 @@ extern {
                          ndims: c_uint, dims: *const DimT) -> c_int;
 
     fn af_range(out: MutAfArray, ndims: c_uint, dims: *const DimT,
-                seq_dims: c_int, afdtype: uint8_t) -> c_int;
+                seq_dims: c_int, afdtype: c_uint) -> c_int;
 
     fn af_iota(out: MutAfArray, ndims: c_uint, dims: *const DimT,
-               t_ndims: c_uint, tdims: *const DimT, afdtype: uint8_t) -> c_int;
+               t_ndims: c_uint, tdims: *const DimT, afdtype: c_uint) -> c_int;
 
-    fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: uint8_t) -> c_int;
+    fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_uint) -> c_int;
     fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_diag_extract(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
     fn af_join(out: MutAfArray, dim: c_int, first: AfArray, second: AfArray) -> c_int;
@@ -243,7 +243,7 @@ pub fn range<T: HasAfEnum>(dims: Dim4, seq_dim: i32) -> Array<T> {
     unsafe {
         let err_val = af_range(&mut temp as MutAfArray,
                               dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                              seq_dim as c_int, aftype as uint8_t);
+                              seq_dim as c_int, aftype as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -269,7 +269,7 @@ pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Array<T> {
         let err_val =af_iota(&mut temp as MutAfArray,
                              dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
                              tdims.ndims() as c_uint, tdims.get().as_ptr() as *const DimT,
-                             aftype as uint8_t);
+                             aftype as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -291,7 +291,7 @@ pub fn identity<T: HasAfEnum>(dims: Dim4) -> Array<T> {
     unsafe {
         let err_val = af_identity(&mut temp as MutAfArray,
                                   dims.ndims() as c_uint, dims.get().as_ptr() as *const DimT,
-                                  aftype as uint8_t);
+                                  aftype as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
