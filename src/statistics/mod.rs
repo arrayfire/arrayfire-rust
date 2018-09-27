@@ -3,7 +3,7 @@ extern crate libc;
 use array::Array;
 use defines::{AfError, TopkFn};
 use error::HANDLE_ERROR;
-use self::libc::{c_int};
+use self::libc::{c_int, c_uint};
 use util::{AfArray, DimT, MutAfArray, MutDouble};
 use util::{RealNumber, CovarianceComputable};
 use util::{HasAfEnum, MedianComputable, RealFloating};
@@ -30,7 +30,7 @@ extern {
 
     fn af_corrcoef(real: MutDouble, imag: MutDouble, X: AfArray, Y: AfArray) -> c_int;
     fn af_topk(vals: MutAfArray, idxs: MutAfArray, arr: AfArray, k: c_int,
-               dim: c_int, order: c_int) -> c_int;
+               dim: c_int, order: c_uint) -> c_int;
 }
 
 /// Find the median along a given dimension
@@ -336,7 +336,7 @@ pub fn topk<T>(input: &Array<T>, k: u32, dim: i32, order: TopkFn) -> (Array<T>, 
     unsafe {
         let err_val = af_topk(&mut t0 as MutAfArray, &mut t1 as MutAfArray,
                               input.get() as AfArray, k as c_int, dim as c_int,
-                              order as c_int);
+                              order as c_uint);
         HANDLE_ERROR(AfError::from(err_val));
     }
     (t0.into(), t1.into())

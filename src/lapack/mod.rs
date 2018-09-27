@@ -5,7 +5,7 @@ use defines::{AfError, MatProp, NormType};
 use error::HANDLE_ERROR;
 use util::{AfArray, MutAfArray, MutDouble, to_u32};
 use util::{FloatingPoint, HasAfEnum};
-use self::libc::{uint8_t, c_int, c_uint, c_double};
+use self::libc::{c_int, c_uint, c_double};
 
 #[allow(dead_code)]
 extern {
@@ -22,7 +22,7 @@ extern {
     fn af_inverse(out: MutAfArray, input: AfArray, options: c_uint) -> c_int;
     fn af_rank(rank: *mut c_uint, input: AfArray, tol: c_double) -> c_int;
     fn af_det(det_real: MutDouble, det_imag: MutDouble, input: AfArray) -> c_int;
-    fn af_norm(out: MutDouble, input: AfArray, ntype: uint8_t, p: c_double, q: c_double) -> c_int;
+    fn af_norm(out: MutDouble, input: AfArray, ntype: c_uint, p: c_double, q: c_double) -> c_int;
     fn af_is_lapack_available(out: *mut c_int) -> c_int;
 }
 
@@ -416,7 +416,7 @@ pub fn norm<T>(input: &Array<T>, ntype: NormType, p: f64, q: f64) -> f64
     let mut out: f64 = 0.0;
     unsafe {
         let err_val = af_norm(&mut out as MutDouble, input.get() as AfArray,
-                              ntype as uint8_t,
+                              ntype as c_uint,
                               p as c_double, q as c_double);
         HANDLE_ERROR(AfError::from(err_val));
     }
