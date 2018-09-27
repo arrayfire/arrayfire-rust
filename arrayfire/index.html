@@ -1,55 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `arrayfire` crate.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, arrayfire">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `arrayfire` crate."><meta name="keywords" content="rust, rustlang, rust-lang, arrayfire"><title>arrayfire - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-    <title>arrayfire - Rust</title>
-
-    <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
-    
-
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
-    
-</head>
-<body class="rustdoc mod">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        <p class='location'>Crate arrayfire</p><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script>
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span><span class='out-of-band'><span id='render-detail'>
-                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                       [<span class='inner'>&#x2212;</span>]
-                   </a>
-               </span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-128' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with
+</head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a><p class='location'>Crate arrayfire</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-144' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with
 an easy-to-use API. ArrayFire abstracts away much of the details of
 programming parallel architectures by providing a high-level container object,
 the <a href="./struct.Array.html">Array</a>, that represents data stored on a CPU, GPU, FPGA,
@@ -58,30 +11,13 @@ massively parallel applications in a high-level language where they need
 not be concerned about low-level optimizations that are frequently required to
 achieve high throughput on most parallel architectures.
 This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on <a href="https://github.com/arrayfire/arrayfire-rust/issues">github</a>.</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: center">ArrayFire Upstream</th>
-<th style="text-align: center">Rust Crate</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: center">3.3.x</td>
-<td style="text-align: center">3.3.x</td>
-</tr>
-<tr>
-<td style="text-align: center">3.4.x</td>
-<td style="text-align: center">3.4.x</td>
-</tr>
-</tbody>
-</table>
-
-<p>Only, Major &amp; Minor version numbers need to match.</p>
-
-<h2 id='tutorials' class='section-header'><a href='#tutorials'>Tutorials</a></h2>
+<table><thead><tr><th align="left"> arrayfire-rust crate </th><th align="left"> ArrayFire Upstream </th></tr></thead><tbody>
+<tr><td align="left"> M.m.p1 </td><td align="left"> M.m.p2 </td></tr>
+</tbody></table>
+<p>Only, Major(M) &amp; Minor(m) version numbers need to match. <em>p1</em> and <em>p2</em>
+are patch/fix updates for <code>arrayfire-rust</code> &amp; <code>ArrayFire</code> respectively,
+and they don't need to match.</p>
+<h2 id="tutorials" class="section-header"><a href="#tutorials">Tutorials</a></h2>
 <ul>
 <li><a href="./getting_started.html">Getting Started with ArrayFire</a></li>
 <li><a href="./vectorization.html">Introduction to Vectorization</a></li>
@@ -96,6 +32,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='macro arrayfire::af_print'>af_print</a></td>
                            <td class='docblock-short'>
                                 <p>Print given message before printing out the Array to standard output</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -103,6 +40,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='macro arrayfire::eval'>eval</a></td>
                            <td class='docblock-short'>
                                 <p>Evaluate arbitrary number of arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -110,13 +48,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='macro arrayfire::join_many'>join_many</a></td>
                            <td class='docblock-short'>
                                 <p>Join multiple Arrays along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="macro" href="macro.mem_info.html"
                                   title='macro arrayfire::mem_info'>mem_info</a></td>
                            <td class='docblock-short'>
-                                <p>Macro to print the current stats of ArrayFire&#39;s memory manager.</p>
+                                <p>Macro to print the current stats of ArrayFire's memory manager.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -125,6 +65,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Array'>Array</a></td>
                            <td class='docblock-short'>
                                 <p>A multidimensional data container</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -132,6 +73,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Callback'>Callback</a></td>
                            <td class='docblock-short'>
                                 <p>Structure holding handle to callback function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -139,6 +81,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Dim4'>Dim4</a></td>
                            <td class='docblock-short'>
                                 <p>Dim4 is used to store <a href="./struct.Array.html">Array</a> dimensions</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -146,6 +89,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Features'>Features</a></td>
                            <td class='docblock-short'>
                                 <p>A set of Array objects (usually, used in Computer vision context)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -153,6 +97,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Indexer'>Indexer</a></td>
                            <td class='docblock-short'>
                                 <p>Struct to manage an array of resources of type <code>af_indexer_t</code>(ArrayFire C struct)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -160,6 +105,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::RandomEngine'>RandomEngine</a></td>
                            <td class='docblock-short'>
                                 <p>Random number generator engine</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -167,6 +113,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Seq'>Seq</a></td>
                            <td class='docblock-short'>
                                 <p>Sequences are used for indexing Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -174,6 +121,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='struct arrayfire::Window'>Window</a></td>
                            <td class='docblock-short'>
                                 <p>Used to render <a href="./struct.Array.html">Array</a> objects</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -182,6 +130,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::AfError'>AfError</a></td>
                            <td class='docblock-short'>
                                 <p>Error codes</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -189,6 +138,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::Backend'>Backend</a></td>
                            <td class='docblock-short'>
                                 <p>Compute/Acceleration Backend</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -196,6 +146,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::BinaryOp'>BinaryOp</a></td>
                            <td class='docblock-short'>
                                 <p>Binary operation types for generalized scan functions</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -203,6 +154,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::BorderType'>BorderType</a></td>
                            <td class='docblock-short'>
                                 <p>Helps determine how to pad kernels along borders</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -210,6 +162,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::CannyThresholdType'>CannyThresholdType</a></td>
                            <td class='docblock-short'>
                                 <p>Canny edge detector threshold operations types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -217,6 +170,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::ColorMap'>ColorMap</a></td>
                            <td class='docblock-short'>
                                 <p>Dictates what color map is used for Image rendering</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -224,6 +178,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::ColorSpace'>ColorSpace</a></td>
                            <td class='docblock-short'>
                                 <p>Identify the color space of given image(Array)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -231,6 +186,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::Connectivity'>Connectivity</a></td>
                            <td class='docblock-short'>
                                 <p>Used by <code>regions</code> function to identify type of connectivity</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -238,6 +194,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::ConvDomain'>ConvDomain</a></td>
                            <td class='docblock-short'>
                                 <p>Helps determine if convolution is in Spatial or Frequency domain</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -245,6 +202,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::ConvMode'>ConvMode</a></td>
                            <td class='docblock-short'>
                                 <p>Helps determine the size of output of convolution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -252,6 +210,23 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::DType'>DType</a></td>
                            <td class='docblock-short'>
                                 <p>Types of Array data type</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.DiffusionEq.html"
+                                  title='enum arrayfire::DiffusionEq'>DiffusionEq</a></td>
+                           <td class='docblock-short'>
+                                <p>Anisotropic diffusion flux equation types</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.FluxFn.html"
+                                  title='enum arrayfire::FluxFn'>FluxFn</a></td>
+                           <td class='docblock-short'>
+                                <p>Diffusion equation types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -259,6 +234,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::HomographyType'>HomographyType</a></td>
                            <td class='docblock-short'>
                                 <p>Homography type</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -266,6 +242,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::InterpType'>InterpType</a></td>
                            <td class='docblock-short'>
                                 <p>Dictates the interpolation method to be used by a function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -273,6 +250,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::MarkerType'>MarkerType</a></td>
                            <td class='docblock-short'>
                                 <p>Plotting markers</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -280,6 +258,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::MatProp'>MatProp</a></td>
                            <td class='docblock-short'>
                                 <p>Helps determine the type of a Matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -287,6 +266,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::MatchType'>MatchType</a></td>
                            <td class='docblock-short'>
                                 <p>Error metric used by <code>matchTemplate</code> function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -294,6 +274,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::MomentType'>MomentType</a></td>
                            <td class='docblock-short'>
                                 <p>Image moment types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -301,6 +282,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::NormType'>NormType</a></td>
                            <td class='docblock-short'>
                                 <p>Norm type</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -308,6 +290,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::RandomEngineType'>RandomEngineType</a></td>
                            <td class='docblock-short'>
                                 <p>Random engine types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -315,6 +298,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::Scalar'>Scalar</a></td>
                            <td class='docblock-short'>
                                 <p>Scalar value types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -322,6 +306,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::SparseFormat'>SparseFormat</a></td>
                            <td class='docblock-short'>
                                 <p>Sparse storage format type</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.TopkFn.html"
+                                  title='enum arrayfire::TopkFn'>TopkFn</a></td>
+                           <td class='docblock-short'>
+                                <p>topk function ordering</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -329,6 +322,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='enum arrayfire::YCCStd'>YCCStd</a></td>
                            <td class='docblock-short'>
                                 <p>YCbCr Standards</p>
+
                            </td>
                        </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
 <table>
@@ -337,6 +331,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='constant arrayfire::DEFAULT_RANDOM_ENGINE'>DEFAULT_RANDOM_ENGINE</a></td>
                            <td class='docblock-short'>
                                 <p>Default RandomEngine that defaults to <a href="./constant.PHILOX.html">PHILOX</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -344,6 +339,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='constant arrayfire::MERSENNE'>MERSENNE</a></td>
                            <td class='docblock-short'>
                                 <p>Default Mersenne RandomEngine that points to <a href="./enum.RandomEngineType.html">MERSENNE_GP11213</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -351,6 +347,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='constant arrayfire::PHILOX'>PHILOX</a></td>
                            <td class='docblock-short'>
                                 <p>Default Philon RandomEngine that points to <a href="./enum.RandomEngineType.html">PHILOX_4X32_10</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -358,6 +355,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='constant arrayfire::THREEFRY'>THREEFRY</a></td>
                            <td class='docblock-short'>
                                 <p>Default Threefry RandomEngine that points to <a href="./enum.RandomEngineType.html">THREEFRY_2X32_16</a></p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -366,6 +364,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='trait arrayfire::ConstGenerator'>ConstGenerator</a></td>
                            <td class='docblock-short'>
                                 <p>Type Trait to generate a constant <a href="./struct.Array.html">Array</a> of given size</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -373,6 +372,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='trait arrayfire::Convertable'>Convertable</a></td>
                            <td class='docblock-short'>
                                 <p>Type Trait to convert to an <a href="./struct.Array.html">Array</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -380,6 +380,17 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='trait arrayfire::HasAfEnum'>HasAfEnum</a></td>
                            <td class='docblock-short'>
                                 <p>Types of the data that can be generated using ArrayFire data generation functions.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.ImplicitPromote.html"
+                                  title='trait arrayfire::ImplicitPromote'>ImplicitPromote</a></td>
+                           <td class='docblock-short'>
+                                <p>This is an internal trait defined and implemented by ArrayFire
+create for rust's built-in types to figure out the data type
+binary operation's results.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -387,6 +398,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='trait arrayfire::Indexable'>Indexable</a></td>
                            <td class='docblock-short'>
                                 <p>Trait bound indicating indexability</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -395,6 +407,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::abs'>abs</a></td>
                            <td class='docblock-short'>
                                 <p>Computes absolute value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -402,6 +415,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::accum'>accum</a></td>
                            <td class='docblock-short'>
                                 <p>Perform exclusive sum of elements along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -409,6 +423,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::acos'>acos</a></td>
                            <td class='docblock-short'>
                                 <p>Compute acos</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -416,6 +431,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::acosh'>acosh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute acosh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -423,6 +439,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::add'>add</a></td>
                            <td class='docblock-short'>
                                 <p>Addition of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -430,6 +447,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::all_true'>all_true</a></td>
                            <td class='docblock-short'>
                                 <p>Find if all of the values along a given dimension in the Array are true</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -437,6 +455,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::all_true_all'>all_true_all</a></td>
                            <td class='docblock-short'>
                                 <p>Find if all values of Array are non-zero</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -444,6 +463,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::and'>and</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise logical and operation of two Arrays</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.anisotropic_diffusion.html"
+                                  title='fn arrayfire::anisotropic_diffusion'>anisotropic_diffusion</a></td>
+                           <td class='docblock-short'>
+                                <p>Anisotropic smoothing filter</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -451,6 +479,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::any_true'>any_true</a></td>
                            <td class='docblock-short'>
                                 <p>Find if any of the values along a given dimension in the Array are true</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -458,6 +487,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::any_true_all'>any_true_all</a></td>
                            <td class='docblock-short'>
                                 <p>Find if any value of Array is non-zero</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -465,6 +495,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::approx1'>approx1</a></td>
                            <td class='docblock-short'>
                                 <p>Perform signal interpolation for 1d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -472,6 +503,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::approx2'>approx2</a></td>
                            <td class='docblock-short'>
                                 <p>Perform signal interpolation for 2d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -479,6 +511,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::arg'>arg</a></td>
                            <td class='docblock-short'>
                                 <p>Computes phase value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -486,6 +519,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::asin'>asin</a></td>
                            <td class='docblock-short'>
                                 <p>Compute asin</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -493,13 +527,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::asinh'>asinh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute asinh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.assign_gen.html"
                                   title='fn arrayfire::assign_gen'>assign_gen</a></td>
                            <td class='docblock-short'>
-                                <p>Assign an Array to another after indexing it using any combination of Array&#39;s and Sequence&#39;s</p>
+                                <p>Assign an Array to another after indexing it using any combination of Array's and Sequence's</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -507,6 +543,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::assign_seq'>assign_seq</a></td>
                            <td class='docblock-short'>
                                 <p>Assign(copy) content of an Array to another Array indexed by Sequences</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -514,6 +551,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::atan'>atan</a></td>
                            <td class='docblock-short'>
                                 <p>Compute atan</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -521,6 +559,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::atan2'>atan2</a></td>
                            <td class='docblock-short'>
                                 <p>Calculate atan2 of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -528,6 +567,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::atanh'>atanh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute atanh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -535,6 +575,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::bilateral'>bilateral</a></td>
                            <td class='docblock-short'>
                                 <p>Bilateral Filter.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -542,6 +583,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::bitand'>bitand</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise AND(bit) operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -549,6 +591,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::bitor'>bitor</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise OR(bit) operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -556,6 +599,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::bitxor'>bitxor</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise XOR(bit) operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -563,6 +607,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::canny'>canny</a></td>
                            <td class='docblock-short'>
                                 <p>Canny edge detection operator</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -570,6 +615,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cbrt'>cbrt</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the cube root</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -577,6 +623,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ceil'>ceil</a></td>
                            <td class='docblock-short'>
                                 <p>Ceil the values in an Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -584,6 +631,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cholesky'>cholesky</a></td>
                            <td class='docblock-short'>
                                 <p>Perform Cholesky decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -591,6 +639,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cholesky_inplace'>cholesky_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>Perform inplace Cholesky decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -598,6 +647,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::clamp'>clamp</a></td>
                            <td class='docblock-short'>
                                 <p>Clamp the values of Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -605,6 +655,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::col'>col</a></td>
                            <td class='docblock-short'>
                                 <p>Extract <code>col_num</code> col from <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -612,6 +663,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::color_space'>color_space</a></td>
                            <td class='docblock-short'>
                                 <p>Color space conversion</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -619,6 +671,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cols'>cols</a></td>
                            <td class='docblock-short'>
                                 <p>Get all cols from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -626,6 +679,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::conjg'>conjg</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the complex conjugate</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -633,13 +687,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::constant'>constant</a></td>
                            <td class='docblock-short'>
                                 <p>Create an Array with constant value</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.constant_t.html"
-                                  title='fn arrayfire::constant_t'>constant_t</a></td>
-                           <td class='docblock-short'>
-                                <p>Create a constant array of given type(<a href="./enum.DType.html">DType</a>)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -647,6 +695,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::convolve1'>convolve1</a></td>
                            <td class='docblock-short'>
                                 <p>1d convolution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -654,6 +703,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::convolve2'>convolve2</a></td>
                            <td class='docblock-short'>
                                 <p>2d convolution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -661,6 +711,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::convolve3'>convolve3</a></td>
                            <td class='docblock-short'>
                                 <p>3d convolution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -668,6 +719,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::convolve2_sep'>convolve2_sep</a></td>
                            <td class='docblock-short'>
                                 <p>Separable convolution for 2d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -675,6 +727,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::corrcoef'>corrcoef</a></td>
                            <td class='docblock-short'>
                                 <p>Compute correlation coefficient</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -682,6 +735,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cos'>cos</a></td>
                            <td class='docblock-short'>
                                 <p>Compute cos</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -689,6 +743,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cosh'>cosh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute cosh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -696,6 +751,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::count'>count</a></td>
                            <td class='docblock-short'>
                                 <p>Count number of non-zero elements along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -703,6 +759,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::count_all'>count_all</a></td>
                            <td class='docblock-short'>
                                 <p>Count number of non-zero values in the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -710,6 +767,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cov'>cov</a></td>
                            <td class='docblock-short'>
                                 <p>Compute covariance of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -717,6 +775,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cplx'>cplx</a></td>
                            <td class='docblock-short'>
                                 <p>Create a complex Array from real Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -724,6 +783,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::cplx2'>cplx2</a></td>
                            <td class='docblock-short'>
                                 <p>Create complex array from two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -731,6 +791,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::det'>det</a></td>
                            <td class='docblock-short'>
                                 <p>Find the determinant of the matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -738,6 +799,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::device_count'>device_count</a></td>
                            <td class='docblock-short'>
                                 <p>Get total number of available devices</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -745,6 +807,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::device_gc'>device_gc</a></td>
                            <td class='docblock-short'>
                                 <p>Call the garbage collection routine</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -752,6 +815,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::device_info'>device_info</a></td>
                            <td class='docblock-short'>
                                 <p>Gets the information about device and platform as strings.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -759,6 +823,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::device_mem_info'>device_mem_info</a></td>
                            <td class='docblock-short'>
                                 <p>Get memory information from the memory manager for the current active device</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -766,6 +831,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::diag_create'>diag_create</a></td>
                            <td class='docblock-short'>
                                 <p>Create a diagonal matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -773,6 +839,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::diag_extract'>diag_extract</a></td>
                            <td class='docblock-short'>
                                 <p>Extract diagonal from a given Matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -780,6 +847,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::diff1'>diff1</a></td>
                            <td class='docblock-short'>
                                 <p>Calculate first order numerical difference along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -787,6 +855,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::diff2'>diff2</a></td>
                            <td class='docblock-short'>
                                 <p>Calculate second order numerical difference along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -794,6 +863,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::dilate'>dilate</a></td>
                            <td class='docblock-short'>
                                 <p>Dilate an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -801,6 +871,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::dilate3'>dilate3</a></td>
                            <td class='docblock-short'>
                                 <p>Dilate a Volume</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -808,6 +879,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::div'>div</a></td>
                            <td class='docblock-short'>
                                 <p>Division of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -815,6 +887,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::dog'>dog</a></td>
                            <td class='docblock-short'>
                                 <p>Difference of Gaussians.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -822,6 +895,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::dot'>dot</a></td>
                            <td class='docblock-short'>
                                 <p>Calculate the dot product of vectors.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -829,6 +903,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::eq'>eq</a></td>
                            <td class='docblock-short'>
                                 <p>Perform <code>equals</code> comparison operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -836,6 +911,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::erf'>erf</a></td>
                            <td class='docblock-short'>
                                 <p>Compute error function value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -843,6 +919,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::erfc'>erfc</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the complementary error function value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -850,6 +927,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::erode'>erode</a></td>
                            <td class='docblock-short'>
                                 <p>Erode an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -857,6 +935,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::erode3'>erode3</a></td>
                            <td class='docblock-short'>
                                 <p>Erode a Volume</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -864,6 +943,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::eval_multiple'>eval_multiple</a></td>
                            <td class='docblock-short'>
                                 <p>evaluate multiple arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -871,6 +951,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::exp'>exp</a></td>
                            <td class='docblock-short'>
                                 <p>Compute e raised to the power of value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -878,6 +959,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::expm1'>expm1</a></td>
                            <td class='docblock-short'>
                                 <p>Compute e raised to the power of value -1</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -885,6 +967,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::factorial'>factorial</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the factorial</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -892,6 +975,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fast'>fast</a></td>
                            <td class='docblock-short'>
                                 <p>Fast feature detector</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -899,6 +983,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft'>fft</a></td>
                            <td class='docblock-short'>
                                 <p>Fast fourier transform for 1d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -906,6 +991,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft2'>fft2</a></td>
                            <td class='docblock-short'>
                                 <p>Fast fourier transform for 2d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -913,6 +999,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft3'>fft3</a></td>
                            <td class='docblock-short'>
                                 <p>Fast fourier transform for 3d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -920,6 +1007,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft2_c2r'>fft2_c2r</a></td>
                            <td class='docblock-short'>
                                 <p>2d Complex to Real fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -927,6 +1015,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft2_inplace'>fft2_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 2d dimensional Fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -934,6 +1023,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft2_r2c'>fft2_r2c</a></td>
                            <td class='docblock-short'>
                                 <p>2d Real to Complex fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -941,6 +1031,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft3_c2r'>fft3_c2r</a></td>
                            <td class='docblock-short'>
                                 <p>3d Complex to Real fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -948,6 +1039,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft3_inplace'>fft3_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 3d dimensional Fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -955,6 +1047,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft3_r2c'>fft3_r2c</a></td>
                            <td class='docblock-short'>
                                 <p>3d Real to Complex fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -962,6 +1055,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_c2r'>fft_c2r</a></td>
                            <td class='docblock-short'>
                                 <p>1d Complex to Real fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -969,6 +1063,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_convolve1'>fft_convolve1</a></td>
                            <td class='docblock-short'>
                                 <p>1d convolution using fast-fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -976,6 +1071,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_convolve2'>fft_convolve2</a></td>
                            <td class='docblock-short'>
                                 <p>2d convolution using fast-fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -983,6 +1079,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_convolve3'>fft_convolve3</a></td>
                            <td class='docblock-short'>
                                 <p>3d convolution using fast-fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -990,6 +1087,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_inplace'>fft_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 1d dimensional Fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -997,6 +1095,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fft_r2c'>fft_r2c</a></td>
                            <td class='docblock-short'>
                                 <p>1d Real to Complex fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1004,6 +1103,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::fir'>fir</a></td>
                            <td class='docblock-short'>
                                 <p>Finite impulse filter</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1011,6 +1111,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::flat'>flat</a></td>
                            <td class='docblock-short'>
                                 <p>Flatten the multidimensional Array to an 1D Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1018,6 +1119,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::flip'>flip</a></td>
                            <td class='docblock-short'>
                                 <p>Flip the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1025,6 +1127,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::floor'>floor</a></td>
                            <td class='docblock-short'>
                                 <p>Floor the values in an Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1032,6 +1135,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::gaussian_kernel'>gaussian_kernel</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a Gaussian Kernel.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1039,6 +1143,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ge'>ge</a></td>
                            <td class='docblock-short'>
                                 <p>Perform <code>greater than equals</code> comparison operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1046,6 +1151,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_active_backend'>get_active_backend</a></td>
                            <td class='docblock-short'>
                                 <p>Get current active backend</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1053,6 +1159,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_available_backends'>get_available_backends</a></td>
                            <td class='docblock-short'>
                                 <p>Get the available backends</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1060,6 +1167,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_backend_count'>get_backend_count</a></td>
                            <td class='docblock-short'>
                                 <p>Get the available backend count</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1067,6 +1175,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_default_random_engine'>get_default_random_engine</a></td>
                            <td class='docblock-short'>
                                 <p>Get default random engine</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1074,6 +1183,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_device'>get_device</a></td>
                            <td class='docblock-short'>
                                 <p>Get the current active device id</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1081,6 +1191,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_mem_step_size'>get_mem_step_size</a></td>
                            <td class='docblock-short'>
                                 <p>Get the minimum memory chunk size</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1088,6 +1199,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_revision'>get_revision</a></td>
                            <td class='docblock-short'>
                                 <p>Get ArrayFire Revision (commit) information of the library.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1095,6 +1207,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_seed'>get_seed</a></td>
                            <td class='docblock-short'>
                                 <p>Get the seed of random number generator</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1102,6 +1215,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_size'>get_size</a></td>
                            <td class='docblock-short'>
                                 <p>Get size, in bytes, of the arrayfire native type</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1109,6 +1223,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::get_version'>get_version</a></td>
                            <td class='docblock-short'>
                                 <p>Get ArrayFire Version Number</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1116,6 +1231,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::gradient'>gradient</a></td>
                            <td class='docblock-short'>
                                 <p>Calculate the gradients</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1123,6 +1239,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::gray2rgb'>gray2rgb</a></td>
                            <td class='docblock-short'>
                                 <p>Grayscale to Color(RGB) conversion</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1130,6 +1247,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::gt'>gt</a></td>
                            <td class='docblock-short'>
                                 <p>Perform <code>greater than</code> comparison operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1137,6 +1255,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::hamming_matcher'>hamming_matcher</a></td>
                            <td class='docblock-short'>
                                 <p>Hamming feature matcher</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1144,6 +1263,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::handle_error_general'>handle_error_general</a></td>
                            <td class='docblock-short'>
                                 <p>Default error handling callback provided by ArrayFire crate</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1151,6 +1271,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::harris'>harris</a></td>
                            <td class='docblock-short'>
                                 <p>Harris corner detector.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1158,6 +1279,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::hist_equal'>hist_equal</a></td>
                            <td class='docblock-short'>
                                 <p>Histogram Equalization</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1165,6 +1287,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::histogram'>histogram</a></td>
                            <td class='docblock-short'>
                                 <p>Compute Histogram of an Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1172,6 +1295,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::homography'>homography</a></td>
                            <td class='docblock-short'>
                                 <p>Homography estimation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1179,6 +1303,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::hsv2rgb'>hsv2rgb</a></td>
                            <td class='docblock-short'>
                                 <p>HSV to RGB color space conversion</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1186,20 +1311,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::hypot'>hypot</a></td>
                            <td class='docblock-short'>
                                 <p>Compute length of hypotenuse of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.identity.html"
                                   title='fn arrayfire::identity'>identity</a></td>
                            <td class='docblock-short'>
-                                <p>Create an identity array with 1&#39;s in diagonal</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.identity_t.html"
-                                  title='fn arrayfire::identity_t'>identity_t</a></td>
-                           <td class='docblock-short'>
-                                <p>Create an identity array with 1&#39;s in diagonal of given type(<a href="./enum.DType.html">DType</a>)</p>
+                                <p>Create an identity array with 1's in diagonal</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1207,20 +1327,23 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ifft'>ifft</a></td>
                            <td class='docblock-short'>
                                 <p>Inverse fast fourier transform for 1d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.ifft2.html"
                                   title='fn arrayfire::ifft2'>ifft2</a></td>
                            <td class='docblock-short'>
-                                <p>Inverse fast fourier transform for 1d signals</p>
+                                <p>Inverse fast fourier transform for 2d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.ifft3.html"
                                   title='fn arrayfire::ifft3'>ifft3</a></td>
                            <td class='docblock-short'>
-                                <p>Inverse fast fourier transform for 1d signals</p>
+                                <p>Inverse fast fourier transform for 3d signals</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1228,6 +1351,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ifft2_inplace'>ifft2_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 2d dimensional inverse fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1235,6 +1359,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ifft3_inplace'>ifft3_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 3d dimensional inverse fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1242,6 +1367,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ifft_inplace'>ifft_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>In place 1d dimensional inverse fast fourier transform</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1249,6 +1375,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::iir'>iir</a></td>
                            <td class='docblock-short'>
                                 <p>Infinite impulse response filter</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1256,6 +1383,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::imag'>imag</a></td>
                            <td class='docblock-short'>
                                 <p>Extract imaginary values from a complex Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1263,13 +1391,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::imax'>imax</a></td>
                            <td class='docblock-short'>
                                 <p>Find maximum value along given dimension and their corresponding indices</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.imax_all.html"
                                   title='fn arrayfire::imax_all'>imax_all</a></td>
                            <td class='docblock-short'>
-                                <p>Find maximum and it&#39;s index in the whole Array</p>
+                                <p>Find maximum and it's index in the whole Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1277,13 +1407,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::imin'>imin</a></td>
                            <td class='docblock-short'>
                                 <p>Find minimum value along given dimension and their corresponding indices</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.imin_all.html"
                                   title='fn arrayfire::imin_all'>imin_all</a></td>
                            <td class='docblock-short'>
-                                <p>Find minimum and it&#39;s index in the whole Array</p>
+                                <p>Find minimum and it's index in the whole Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1291,13 +1423,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::index'>index</a></td>
                            <td class='docblock-short'>
                                 <p>Indexes the <code>input</code> Array using <code>seqs</code> Sequences</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.index_gen.html"
                                   title='fn arrayfire::index_gen'>index_gen</a></td>
                            <td class='docblock-short'>
-                                <p>Index an Array using any combination of Array&#39;s and Sequence&#39;s</p>
+                                <p>Index an Array using any combination of Array's and Sequence's</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1305,6 +1439,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::info'>info</a></td>
                            <td class='docblock-short'>
                                 <p>Print library meta-info</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1312,6 +1447,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::info_string'>info_string</a></td>
                            <td class='docblock-short'>
                                 <p>Return library meta-info as <code>String</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1319,6 +1455,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::init'>init</a></td>
                            <td class='docblock-short'>
                                 <p>Initialize ArrayFire library</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1326,6 +1463,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::inverse'>inverse</a></td>
                            <td class='docblock-short'>
                                 <p>Compute inverse of a matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1333,13 +1471,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::iota'>iota</a></td>
                            <td class='docblock-short'>
                                 <p>Create a range of values</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.iota_t.html"
-                                  title='fn arrayfire::iota_t'>iota_t</a></td>
-                           <td class='docblock-short'>
-                                <p>Create a range of values of given type(<a href="./enum.DType.html">DType</a>)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1347,6 +1479,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::is_double_available'>is_double_available</a></td>
                            <td class='docblock-short'>
                                 <p>Check if a device has double support</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1354,6 +1487,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::is_eval_manual'>is_eval_manual</a></td>
                            <td class='docblock-short'>
                                 <p>Get eval flag value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1361,6 +1495,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::is_imageio_available'>is_imageio_available</a></td>
                            <td class='docblock-short'>
                                 <p>Function to check if Image I/O is available</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1368,6 +1503,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::is_lapack_available'>is_lapack_available</a></td>
                            <td class='docblock-short'>
                                 <p>Function to check if lapack support is available</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1375,6 +1511,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::isinf'>isinf</a></td>
                            <td class='docblock-short'>
                                 <p>Check if values are infinity</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1382,6 +1519,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::isnan'>isnan</a></td>
                            <td class='docblock-short'>
                                 <p>Check if values are NaN</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1389,6 +1527,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::iszero'>iszero</a></td>
                            <td class='docblock-short'>
                                 <p>Check if values are zero</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1396,6 +1535,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::join'>join</a></td>
                            <td class='docblock-short'>
                                 <p>Join two arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1403,6 +1543,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::join_many'>join_many</a></td>
                            <td class='docblock-short'>
                                 <p>Join multiple arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1410,6 +1551,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::le'>le</a></td>
                            <td class='docblock-short'>
                                 <p>Perform <code>less than equals</code> comparison operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1417,6 +1559,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lgamma'>lgamma</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the logarithm of absolute values of gamma function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1424,13 +1567,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::load_image'>load_image</a></td>
                            <td class='docblock-short'>
                                 <p>Load Image into Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.load_image_native.html"
                                   title='fn arrayfire::load_image_native'>load_image_native</a></td>
                            <td class='docblock-short'>
-                                <p>Load Image into Array in it&#39;s native type</p>
+                                <p>Load Image into Array in it's native type</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1438,6 +1583,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::locate'>locate</a></td>
                            <td class='docblock-short'>
                                 <p>Locate the indices of non-zero elements.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1445,6 +1591,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::log'>log</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the natural logarithm</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1452,6 +1599,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::log2'>log2</a></td>
                            <td class='docblock-short'>
                                 <p>Compute logarithm base 2</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1459,6 +1607,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::log10'>log10</a></td>
                            <td class='docblock-short'>
                                 <p>Compute logarithm base 10</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1466,6 +1615,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::log1p'>log1p</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the logarithm of input Array + 1</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1473,6 +1623,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lookup'>lookup</a></td>
                            <td class='docblock-short'>
                                 <p>Lookup(hash) an Array using another Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1480,6 +1631,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lower'>lower</a></td>
                            <td class='docblock-short'>
                                 <p>Create lower triangular matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1487,6 +1639,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lt'>lt</a></td>
                            <td class='docblock-short'>
                                 <p>Perform <code>less than</code> comparison operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1494,6 +1647,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lu'>lu</a></td>
                            <td class='docblock-short'>
                                 <p>Perform LU decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1501,6 +1655,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::lu_inplace'>lu_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>Perform inplace LU decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1508,6 +1663,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::match_template'>match_template</a></td>
                            <td class='docblock-short'>
                                 <p>Image matching</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1515,6 +1671,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::matmul'>matmul</a></td>
                            <td class='docblock-short'>
                                 <p>Matrix multiple of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1522,6 +1679,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::max'>max</a></td>
                            <td class='docblock-short'>
                                 <p>Find maximum among elements of given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1529,6 +1687,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::max_all'>max_all</a></td>
                            <td class='docblock-short'>
                                 <p>Find maximum among all values of the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1536,6 +1695,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::maxfilt'>maxfilt</a></td>
                            <td class='docblock-short'>
                                 <p>Box filter with maximum as box operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1543,6 +1703,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::maxof'>maxof</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise maximum operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1550,6 +1711,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mean'>mean</a></td>
                            <td class='docblock-short'>
                                 <p>Mean along specified dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1557,6 +1719,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mean_all'>mean_all</a></td>
                            <td class='docblock-short'>
                                 <p>Compute mean of all data</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1564,6 +1727,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mean_all_weighted'>mean_all_weighted</a></td>
                            <td class='docblock-short'>
                                 <p>Compute weighted mean of all data</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1571,6 +1735,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mean_shift'>mean_shift</a></td>
                            <td class='docblock-short'>
                                 <p>Meanshift Filter.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1578,6 +1743,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mean_weighted'>mean_weighted</a></td>
                            <td class='docblock-short'>
                                 <p>Weighted mean along specified dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1585,6 +1751,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::medfilt'>medfilt</a></td>
                            <td class='docblock-short'>
                                 <p>Median filter</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1592,13 +1759,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::medfilt1'>medfilt1</a></td>
                            <td class='docblock-short'>
                                 <p>One dimensional median filter on image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.median.html"
                                   title='fn arrayfire::median'>median</a></td>
                            <td class='docblock-short'>
-                                <p>Median along specified dimension</p>
+                                <p>Find the median along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1606,6 +1775,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::median_all'>median_all</a></td>
                            <td class='docblock-short'>
                                 <p>Compute median of all data</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1613,6 +1783,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::min'>min</a></td>
                            <td class='docblock-short'>
                                 <p>Find minimum among elements of given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1620,6 +1791,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::min_all'>min_all</a></td>
                            <td class='docblock-short'>
                                 <p>Find minimum among all values of the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1627,6 +1799,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::minfilt'>minfilt</a></td>
                            <td class='docblock-short'>
                                 <p>Box filter with minimum as box operation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1634,6 +1807,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::minof'>minof</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise minimum operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1641,6 +1815,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::moddims'>moddims</a></td>
                            <td class='docblock-short'>
                                 <p>Change the shape of the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1648,6 +1823,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::modulo'>modulo</a></td>
                            <td class='docblock-short'>
                                 <p>Compute modulo of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1655,6 +1831,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::moments'>moments</a></td>
                            <td class='docblock-short'>
                                 <p>Find Image moments</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1662,6 +1839,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::moments_all'>moments_all</a></td>
                            <td class='docblock-short'>
                                 <p>Find Image moment for whole image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1669,6 +1847,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::mul'>mul</a></td>
                            <td class='docblock-short'>
                                 <p>Multiplication of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1676,6 +1855,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::nearest_neighbour'>nearest_neighbour</a></td>
                            <td class='docblock-short'>
                                 <p>Nearest Neighbour.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1683,6 +1863,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::neq'>neq</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise not equals comparison of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1690,6 +1871,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::norm'>norm</a></td>
                            <td class='docblock-short'>
                                 <p>Find the norm of a matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1697,6 +1879,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::or'>or</a></td>
                            <td class='docblock-short'>
                                 <p>Elementwise logical or operation of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1704,6 +1887,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::orb'>orb</a></td>
                            <td class='docblock-short'>
                                 <p>ORB feature descriptor</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1711,6 +1895,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::pow'>pow</a></td>
                            <td class='docblock-short'>
                                 <p>Computer power</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1718,6 +1903,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::pow2'>pow2</a></td>
                            <td class='docblock-short'>
                                 <p>Compute two raised to the power of value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1725,6 +1911,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::print'>print</a></td>
                            <td class='docblock-short'>
                                 <p>Print data in the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1732,6 +1919,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::print_gen'>print_gen</a></td>
                            <td class='docblock-short'>
                                 <p>Generalized Array print function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1739,6 +1927,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::print_mem_info'>print_mem_info</a></td>
                            <td class='docblock-short'>
                                 <p>Print buffer details from the ArrayFire device manager</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1746,6 +1935,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::product'>product</a></td>
                            <td class='docblock-short'>
                                 <p>Compute product of elements along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1753,6 +1943,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::product_all'>product_all</a></td>
                            <td class='docblock-short'>
                                 <p>Product of all values of the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1760,6 +1951,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::product_nan'>product_nan</a></td>
                            <td class='docblock-short'>
                                 <p>Product of elements along specific dimension using user specified value instead of <code>NAN</code> values</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1767,6 +1959,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::product_nan_all'>product_nan_all</a></td>
                            <td class='docblock-short'>
                                 <p>Product of all values using user provided value for <code>NAN</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1774,6 +1967,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::qr'>qr</a></td>
                            <td class='docblock-short'>
                                 <p>Perform QR decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1781,6 +1975,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::qr_inplace'>qr_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>Perform inplace QR decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1788,6 +1983,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::randn'>randn</a></td>
                            <td class='docblock-short'>
                                 <p>Create random numbers from normal distribution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1795,6 +1991,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::random_normal'>random_normal</a></td>
                            <td class='docblock-short'>
                                 <p>Generate array of normal numbers using a random engine</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1802,6 +1999,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::random_uniform'>random_uniform</a></td>
                            <td class='docblock-short'>
                                 <p>Generate array of uniform numbers using a random engine</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1809,6 +2007,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::randu'>randu</a></td>
                            <td class='docblock-short'>
                                 <p>Create random numbers from uniform distribution</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1816,13 +2015,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::range'>range</a></td>
                            <td class='docblock-short'>
                                 <p>Create a Range of values</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.range_t.html"
-                                  title='fn arrayfire::range_t'>range_t</a></td>
-                           <td class='docblock-short'>
-                                <p>Create a range of values of given type(<a href="./enum.DType.html">DType</a>)</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1830,6 +2023,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rank'>rank</a></td>
                            <td class='docblock-short'>
                                 <p>Find rank of a matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1837,6 +2031,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::real'>real</a></td>
                            <td class='docblock-short'>
                                 <p>Extract real values from a complex Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1844,6 +2039,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::regions'>regions</a></td>
                            <td class='docblock-short'>
                                 <p>Find blobs in given image.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1851,6 +2047,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::register_error_handler'>register_error_handler</a></td>
                            <td class='docblock-short'>
                                 <p>Register user provided error handler</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1858,6 +2055,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rem'>rem</a></td>
                            <td class='docblock-short'>
                                 <p>Compute remainder from two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1865,6 +2063,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::reorder'>reorder</a></td>
                            <td class='docblock-short'>
                                 <p>Reorder the array in specified order</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1872,6 +2071,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::replace'>replace</a></td>
                            <td class='docblock-short'>
                                 <p>Inplace replace in Array based on a condition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1879,6 +2079,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::replace_scalar'>replace_scalar</a></td>
                            <td class='docblock-short'>
                                 <p>Inplace replace in Array based on a condition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1886,6 +2087,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::resize'>resize</a></td>
                            <td class='docblock-short'>
                                 <p>Resize an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1893,6 +2095,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rgb2gray'>rgb2gray</a></td>
                            <td class='docblock-short'>
                                 <p>Color(RGB) to Grayscale conversion</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1900,6 +2103,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rgb2hsv'>rgb2hsv</a></td>
                            <td class='docblock-short'>
                                 <p>RGB to HSV color space conversion</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1907,6 +2111,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rgb2ycbcr'>rgb2ycbcr</a></td>
                            <td class='docblock-short'>
                                 <p>RGB to YCbCr colorspace converter.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1914,6 +2119,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::root'>root</a></td>
                            <td class='docblock-short'>
                                 <p>Compute root</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1921,6 +2127,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rotate'>rotate</a></td>
                            <td class='docblock-short'>
                                 <p>Rotate an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1928,6 +2135,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::round'>round</a></td>
                            <td class='docblock-short'>
                                 <p>Round the values in an Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1935,6 +2143,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::row'>row</a></td>
                            <td class='docblock-short'>
                                 <p>Extract <code>row_num</code> row from <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1942,6 +2151,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::rows'>rows</a></td>
                            <td class='docblock-short'>
                                 <p>Get an Array with all rows from <code>first</code> to <code>last</code> in the <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1949,6 +2159,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sat'>sat</a></td>
                            <td class='docblock-short'>
                                 <p>Summed area table of an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1956,6 +2167,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::save_image'>save_image</a></td>
                            <td class='docblock-short'>
                                 <p>Save an Array to an image file</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1963,6 +2175,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::save_image_native'>save_image_native</a></td>
                            <td class='docblock-short'>
                                 <p>Save an Array without modifications to an image file</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1970,6 +2183,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::scale'>scale</a></td>
                            <td class='docblock-short'>
                                 <p>Scale an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1977,6 +2191,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::scan'>scan</a></td>
                            <td class='docblock-short'>
                                 <p>Generalized scan</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1984,6 +2199,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::scan_by_key'>scan_by_key</a></td>
                            <td class='docblock-short'>
                                 <p>Generalized scan by key</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1991,6 +2207,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::select'>select</a></td>
                            <td class='docblock-short'>
                                 <p>Element wise conditional operator for Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -1998,6 +2215,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::selectl'>selectl</a></td>
                            <td class='docblock-short'>
                                 <p>Element wise conditional operator for Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2005,6 +2223,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::selectr'>selectr</a></td>
                            <td class='docblock-short'>
                                 <p>Element wise conditional operator for Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2012,13 +2231,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_backend'>set_backend</a></td>
                            <td class='docblock-short'>
                                 <p>Toggle backends between cuda, opencl or cpu</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.set_col.html"
                                   title='fn arrayfire::set_col'>set_col</a></td>
                            <td class='docblock-short'>
-                                <p>Set <code>col_num</code><sup>th</sup> col in <code>input</code> Array to a new Array <code>new_col</code></p>
+                                <p>Set <code>col_num</code>^th col in <code>input</code> Array to a new Array <code>new_col</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2026,6 +2247,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_cols'>set_cols</a></td>
                            <td class='docblock-short'>
                                 <p>Set cols from <code>first</code> to <code>last</code> in <code>input</code> Array with cols from Array <code>new_cols</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2033,6 +2255,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_default_random_engine_type'>set_default_random_engine_type</a></td>
                            <td class='docblock-short'>
                                 <p>Set the random engine type for default random number generator</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2040,6 +2263,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_device'>set_device</a></td>
                            <td class='docblock-short'>
                                 <p>Set active device</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2047,6 +2271,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_fft_plan_cache_size'>set_fft_plan_cache_size</a></td>
                            <td class='docblock-short'>
                                 <p>Set fft plan cache size</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2054,6 +2279,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_intersect'>set_intersect</a></td>
                            <td class='docblock-short'>
                                 <p>Find intersection of two sets</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2061,6 +2287,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_manual_eval'>set_manual_eval</a></td>
                            <td class='docblock-short'>
                                 <p>Set eval flag value</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2068,13 +2295,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_mem_step_size'>set_mem_step_size</a></td>
                            <td class='docblock-short'>
                                 <p>Set the minimum memory chunk size</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.set_row.html"
                                   title='fn arrayfire::set_row'>set_row</a></td>
                            <td class='docblock-short'>
-                                <p>Set <code>row_num</code><sup>th</sup> row in <code>input</code> Array to a new Array <code>new_row</code></p>
+                                <p>Set <code>row_num</code>^th row in <code>input</code> Array to a new Array <code>new_row</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2082,6 +2311,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_rows'>set_rows</a></td>
                            <td class='docblock-short'>
                                 <p>Set rows from <code>first</code> to <code>last</code> in <code>input</code> Array with rows from Array <code>new_rows</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2089,6 +2319,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_seed'>set_seed</a></td>
                            <td class='docblock-short'>
                                 <p>Set seed for random number generation</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2096,6 +2327,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_slice'>set_slice</a></td>
                            <td class='docblock-short'>
                                 <p>Set slice <code>slice_num</code> in <code>input</code> Array to a new Array <code>new_slice</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2103,6 +2335,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_slices'>set_slices</a></td>
                            <td class='docblock-short'>
                                 <p>Set <code>first</code> to <code>last</code> slices of <code>input</code> Array to a new Array <code>new_slices</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2110,6 +2343,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_union'>set_union</a></td>
                            <td class='docblock-short'>
                                 <p>Find union of two sets</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2117,6 +2351,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::set_unique'>set_unique</a></td>
                            <td class='docblock-short'>
                                 <p>Find unique values from a Set</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2124,6 +2359,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::shift'>shift</a></td>
                            <td class='docblock-short'>
                                 <p>&quot;Circular shift of values along specified dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2131,6 +2367,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::shiftl'>shiftl</a></td>
                            <td class='docblock-short'>
                                 <p>Compute left shift</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2138,6 +2375,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::shiftr'>shiftr</a></td>
                            <td class='docblock-short'>
                                 <p>Compute right shift</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2145,6 +2383,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sigmoid'>sigmoid</a></td>
                            <td class='docblock-short'>
                                 <p>Compute sigmoid function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2152,6 +2391,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sign'>sign</a></td>
                            <td class='docblock-short'>
                                 <p>Computes the sign of input Array values</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2159,6 +2399,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sin'>sin</a></td>
                            <td class='docblock-short'>
                                 <p>Compute sin</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2166,6 +2407,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sinh'>sinh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute sinh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2173,13 +2415,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::skew'>skew</a></td>
                            <td class='docblock-short'>
                                 <p>Skew an image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="fn" href="fn.slice.html"
                                   title='fn arrayfire::slice'>slice</a></td>
                            <td class='docblock-short'>
-                                <p>Get <code>slice_num</code><sup>th</sup> slice from <code>input</code> Array</p>
+                                <p>Get <code>slice_num</code>^th slice from <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2187,6 +2431,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::slices'>slices</a></td>
                            <td class='docblock-short'>
                                 <p>Get slices from <code>first</code> to <code>last</code> in <code>input</code> Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2194,6 +2439,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sobel'>sobel</a></td>
                            <td class='docblock-short'>
                                 <p>Sobel Operator</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2201,6 +2447,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::solve'>solve</a></td>
                            <td class='docblock-short'>
                                 <p>Solve a system of equations</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2208,6 +2455,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::solve_lu'>solve_lu</a></td>
                            <td class='docblock-short'>
                                 <p>Solve a system of equations</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2215,6 +2463,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sort'>sort</a></td>
                            <td class='docblock-short'>
                                 <p>Sort the values in input Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2222,6 +2471,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sort_by_key'>sort_by_key</a></td>
                            <td class='docblock-short'>
                                 <p>Sort the values in input Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2229,6 +2479,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sort_index'>sort_index</a></td>
                            <td class='docblock-short'>
                                 <p>Sort the values in input Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2236,6 +2487,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse'>sparse</a></td>
                            <td class='docblock-short'>
                                 <p>Create sprase matrix from arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2243,6 +2495,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_convert_to'>sparse_convert_to</a></td>
                            <td class='docblock-short'>
                                 <p>Convert between sparse formats</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2250,6 +2503,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_from_dense'>sparse_from_dense</a></td>
                            <td class='docblock-short'>
                                 <p>Convert dense array to sparse array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2257,6 +2511,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_from_host'>sparse_from_host</a></td>
                            <td class='docblock-short'>
                                 <p>Create sprase matrix from data on host memory</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2264,6 +2519,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_col_indices'>sparse_get_col_indices</a></td>
                            <td class='docblock-short'>
                                 <p>Get cololumn indices Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2271,6 +2527,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_format'>sparse_get_format</a></td>
                            <td class='docblock-short'>
                                 <p>Get sparse format</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2278,6 +2535,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_info'>sparse_get_info</a></td>
                            <td class='docblock-short'>
                                 <p>Get sparse Array information</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2285,6 +2543,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_nnz'>sparse_get_nnz</a></td>
                            <td class='docblock-short'>
                                 <p>Get number of non-zero elements in sparse array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2292,6 +2551,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_row_indices'>sparse_get_row_indices</a></td>
                            <td class='docblock-short'>
                                 <p>Get row indices Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2299,6 +2559,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_get_values'>sparse_get_values</a></td>
                            <td class='docblock-short'>
                                 <p>Get values of sparse Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2306,6 +2567,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sparse_to_dense'>sparse_to_dense</a></td>
                            <td class='docblock-short'>
                                 <p>Convert sparse array to dense array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2313,6 +2575,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sqrt'>sqrt</a></td>
                            <td class='docblock-short'>
                                 <p>Compute the square root</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2320,6 +2583,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::stdev'>stdev</a></td>
                            <td class='docblock-short'>
                                 <p>Standard deviation along specified dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2327,6 +2591,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::stdev_all'>stdev_all</a></td>
                            <td class='docblock-short'>
                                 <p>Compute standard deviation of all data</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2334,6 +2599,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sub'>sub</a></td>
                            <td class='docblock-short'>
                                 <p>Subtraction of two Arrays</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2341,6 +2607,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sum'>sum</a></td>
                            <td class='docblock-short'>
                                 <p>Sum elements along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2348,6 +2615,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sum_all'>sum_all</a></td>
                            <td class='docblock-short'>
                                 <p>Sum all values of the Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2355,6 +2623,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sum_nan'>sum_nan</a></td>
                            <td class='docblock-short'>
                                 <p>Sum along specific dimension using user specified value instead of <code>NAN</code> values</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2362,6 +2631,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sum_nan_all'>sum_nan_all</a></td>
                            <td class='docblock-short'>
                                 <p>Sum all values using user provided value for <code>NAN</code></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2369,6 +2639,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::susan'>susan</a></td>
                            <td class='docblock-short'>
                                 <p>SUSAN corner detector.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2376,6 +2647,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::svd'>svd</a></td>
                            <td class='docblock-short'>
                                 <p>Perform Singular Value Decomposition</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2383,6 +2655,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::svd_inplace'>svd_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>Perform Singular Value Decomposition inplace</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2390,6 +2663,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::sync'>sync</a></td>
                            <td class='docblock-short'>
                                 <p>Sync all operations on given device</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2397,6 +2671,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::tan'>tan</a></td>
                            <td class='docblock-short'>
                                 <p>Compute tan</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2404,6 +2679,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::tanh'>tanh</a></td>
                            <td class='docblock-short'>
                                 <p>Compute tanh</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2411,6 +2687,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::tgamma'>tgamma</a></td>
                            <td class='docblock-short'>
                                 <p>Compute gamma function</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2418,6 +2695,15 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::tile'>tile</a></td>
                            <td class='docblock-short'>
                                 <p>Tile the input array along specified dimension</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.topk.html"
+                                  title='fn arrayfire::topk'>topk</a></td>
+                           <td class='docblock-short'>
+                                <p>Find top k elements along a given dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2425,6 +2711,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::transform'>transform</a></td>
                            <td class='docblock-short'>
                                 <p>Transform(Affine) an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2432,6 +2719,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::transform_coords'>transform_coords</a></td>
                            <td class='docblock-short'>
                                 <p>Transform input coordinates</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2439,6 +2727,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::translate'>translate</a></td>
                            <td class='docblock-short'>
                                 <p>Translate an Image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2446,6 +2735,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::transpose'>transpose</a></td>
                            <td class='docblock-short'>
                                 <p>Transpose of a matrix.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2453,6 +2743,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::transpose_inplace'>transpose_inplace</a></td>
                            <td class='docblock-short'>
                                 <p>Inplace transpose of a matrix.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2460,6 +2751,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::trunc'>trunc</a></td>
                            <td class='docblock-short'>
                                 <p>Truncate the values in an Array</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2467,6 +2759,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::unwrap'>unwrap</a></td>
                            <td class='docblock-short'>
                                 <p>Generate an array with image windows as columns</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2474,6 +2767,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::upper'>upper</a></td>
                            <td class='docblock-short'>
                                 <p>Create upper triangular matrix</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2481,6 +2775,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::var'>var</a></td>
                            <td class='docblock-short'>
                                 <p>Compute Variance along a specific dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2488,6 +2783,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::var_all'>var_all</a></td>
                            <td class='docblock-short'>
                                 <p>Compute Variance of all elements</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2495,6 +2791,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::var_all_weighted'>var_all_weighted</a></td>
                            <td class='docblock-short'>
                                 <p>Compute weighted variance of all data</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2502,6 +2799,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::var_weighted'>var_weighted</a></td>
                            <td class='docblock-short'>
                                 <p>Weight variance along specified dimension</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2509,6 +2807,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::wrap'>wrap</a></td>
                            <td class='docblock-short'>
                                 <p>Converts unwrapped image to an image</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -2516,6 +2815,7 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='fn arrayfire::ycbcr2rgb'>ycbcr2rgb</a></td>
                            <td class='docblock-short'>
                                 <p>YCbCr to RGB colorspace converter.</p>
+
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
@@ -2524,66 +2824,6 @@ This crate provides Rust bindings for the ArrayFire library. Given below table s
                                   title='type arrayfire::ErrorCallback'>ErrorCallback</a></td>
                            <td class='docblock-short'>
                                 <p>Signature of error handling callback function</p>
+
                            </td>
-                       </tr></table></section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../";
-        window.currentCrate = "arrayfire";
-    </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
-    <script defer src="../search-index.js"></script>
-</body>
-</html>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "arrayfire";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

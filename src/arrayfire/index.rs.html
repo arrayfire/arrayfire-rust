@@ -1,49 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/index.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/index.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>index.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-    <title>index.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
-    
-
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
-    
-</head>
-<body class="rustdoc source">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
+</head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -509,6 +468,35 @@
 <span id="464">464</span>
 <span id="465">465</span>
 <span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
@@ -517,7 +505,7 @@
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
 <span class="kw">use</span> <span class="ident">seq</span>::<span class="ident">Seq</span>;
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_double</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>};
-<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">AfIndex</span>, <span class="ident">DimT</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutAfIndex</span>};
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">AfIndex</span>, <span class="ident">DimT</span>, <span class="ident">HasAfEnum</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutAfIndex</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 
@@ -614,7 +602,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is used in functions [index_gen](./fn.index_gen.html) and</span>
 <span class="doccomment">/// [assign_gen](./fn.assign_gen.html)</span>
-<span class="kw">impl</span> <span class="ident">Indexable</span> <span class="kw">for</span> <span class="ident">Array</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span> <span class="ident">Indexable</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
     <span class="kw">fn</span> <span class="ident">set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">idxr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Indexer</span>, <span class="ident">dim</span>: <span class="ident">u32</span>, <span class="ident">is_batch</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>) {
         <span class="kw">unsafe</span> {
@@ -644,12 +632,12 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
     <span class="doccomment">/// Create a new Indexer object and set the dimension specific index objects later</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Indexer</span><span class="op">&lt;</span><span class="lifetime">&#39;object</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_indexers</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfIndex</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-            <span class="ident">Indexer</span>{<span class="ident">handle</span>: <span class="ident">temp</span>, <span class="ident">count</span>: <span class="number">0</span>, <span class="ident">marker</span>: <span class="ident">PhantomData</span>}
         }
+        <span class="ident">Indexer</span>{<span class="ident">handle</span>: <span class="ident">temp</span>, <span class="ident">count</span>: <span class="number">0</span>, <span class="ident">marker</span>: <span class="ident">PhantomData</span>}
     }
 
     <span class="doccomment">/// Set either [Array](./struct.Array.html) or [Seq](./struct.Seq.html) to index an Array along `idx` dimension</span>
@@ -676,7 +664,7 @@
             <span class="kw">let</span> <span class="ident">ret_val</span> <span class="op">=</span> <span class="ident">af_release_indexers</span>(<span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">AfIndex</span>);
             <span class="kw">match</span> <span class="ident">ret_val</span> {
                 <span class="number">0</span> <span class="op">=&gt;</span> (),
-                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to release indexers resource: {}&quot;</span>, <span class="ident">ret_val</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to release indexers resource: {}&quot;</span>, <span class="ident">ret_val</span>),
             }
         }
     }
@@ -695,19 +683,19 @@
 <span class="doccomment">/// println!(&quot;a(seq(1, 3, 1), span)&quot;);</span>
 <span class="doccomment">/// print(&amp;sub);</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">seqs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="ident">Array</span>
-    <span class="kw">where</span> <span class="ident">c_double</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span><span class="op">&lt;</span><span class="ident">IO</span>, <span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">IO</span><span class="op">&gt;</span>, <span class="ident">seqs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">IO</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">c_double</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">IO</span>: <span class="ident">HasAfEnum</span>
 {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="comment">// TODO: allocating a whole new array on the heap just for this is BAD</span>
         <span class="kw">let</span> <span class="ident">seqs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SeqInternal</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">seqs</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">SeqInternal</span>::<span class="ident">from_seq</span>(<span class="ident">s</span>)).<span class="ident">collect</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_index</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>
                                , <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">seqs</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>
                                , <span class="ident">seqs</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">SeqInternal</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Extract `row_num` row from `input` Array</span>
@@ -723,29 +711,36 @@
 <span class="doccomment">/// print(&amp;row(&amp;a, 4));</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">row</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">row_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>),
-                   <span class="ident">Seq</span>::<span class="ident">default</span>()])
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">row</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">row_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()])
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set `row_num`^th row in `input` Array to a new Array `new_row`</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_row</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_row</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">row_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>,
-               <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()],
-               <span class="ident">new_row</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_row</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_row</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">row_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">row_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_row</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Get an Array with all rows from `first` to `last` in the `input` Array</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rows</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rows</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
     <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()])
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set rows from `first` to `last` in `input` Array with rows from Array `new_rows`</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_rows</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_rows</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()], <span class="ident">new_rows</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_rows</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_rows</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>), <span class="ident">Seq</span>::<span class="ident">default</span>()];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_rows</span>)
 }
 
 <span class="doccomment">/// Extract `col_num` col from `input` Array</span>
@@ -761,80 +756,97 @@
 <span class="doccomment">/// print(&amp;col(&amp;a, 4));</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">col</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">col_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">col</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">col_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
     <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)])
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set `col_num`^th col in `input` Array to a new Array `new_col`</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_col</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_col</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">col_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>,
-               <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)],
-               <span class="ident">new_col</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_col</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_col</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">col_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">col_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_col</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Get all cols from `first` to `last` in the `input` Array</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cols</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cols</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
     <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)])
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set cols from `first` to `last` in `input` Array with cols from Array `new_cols`</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_cols</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_cols</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)], <span class="ident">new_cols</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_cols</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_cols</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_cols</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Get `slice_num`^th slice from `input` Array</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Note. Slices indicate that the indexing is along 3rd dimension</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slice</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">slice_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">index</span>(<span class="ident">input</span>,
-          <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)])
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">slice_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set slice `slice_num` in `input` Array to a new Array `new_slice`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Slices indicate that the indexing is along 3rd dimension</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_slice</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_slice</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">slice_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>,
-               <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)],
-               <span class="ident">new_slice</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_slice</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_slice</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">slice_num</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">slice_num</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_slice</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Get slices from `first` to `last` in `input` Array</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Slices indicate that the indexing is along 3rd dimension</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slices</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">index</span>(<span class="ident">input</span>,
-          <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)])
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slices</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">index</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="doccomment">/// Set `first` to `last` slices of `input` Array to a new Array `new_slices`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Slices indicate that the indexing is along 3rd dimension</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_slices</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">new_slices</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
-    <span class="ident">assign_seq</span>(<span class="ident">input</span>,
-               <span class="kw-2">&amp;</span>[<span class="ident">Seq</span>::<span class="ident">default</span>() , <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)],
-               <span class="ident">new_slices</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_slices</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">new_slices</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">first</span>: <span class="ident">u64</span>, <span class="ident">last</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="ident">seqs</span> <span class="op">=</span> [<span class="ident">Seq</span>::<span class="ident">default</span>() , <span class="ident">Seq</span>::<span class="ident">default</span>(), <span class="ident">Seq</span>::<span class="ident">new</span>(<span class="ident">first</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="ident">last</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">1.0</span>)];
+    <span class="ident">assign_seq</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">seqs</span>, <span class="ident">new_slices</span>)
 }
 
 <span class="doccomment">/// Lookup(hash) an Array using another Array</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Given a dimension `seq_dim`, `indices` are lookedup in `input` and returned as a new</span>
 <span class="doccomment">/// Array if found</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">seq_dim</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lookup</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">seq_dim</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
+          <span class="ident">I</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_lookup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                 <span class="ident">indices</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">seq_dim</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Assign(copy) content of an Array to another Array indexed by Sequences</span>
@@ -863,19 +875,20 @@
 <span class="doccomment">/// // 1.0 1.0 1.0</span>
 <span class="doccomment">/// // 2.0 2.0 2.0</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">assign_seq</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">seqs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>], <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span>
-                           <span class="kw">where</span> <span class="ident">c_double</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">assign_seq</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">seqs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Seq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>], <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">c_double</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+          <span class="ident">I</span>: <span class="ident">HasAfEnum</span>
 {
-    <span class="kw">unsafe</span>{
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="comment">// TODO: allocating a whole new array on the heap just for this is BAD</span>
-        <span class="kw">let</span> <span class="ident">seqs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SeqInternal</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">seqs</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">SeqInternal</span>::<span class="ident">from_seq</span>(<span class="ident">s</span>)).<span class="ident">collect</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="comment">// TODO: allocating a whole new array on the heap just for this is BAD</span>
+    <span class="kw">let</span> <span class="ident">seqs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SeqInternal</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">seqs</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">SeqInternal</span>::<span class="ident">from_seq</span>(<span class="ident">s</span>)).<span class="ident">collect</span>();
+    <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_assign_seq</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">lhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                     <span class="ident">seqs</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">seqs</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">SeqInternal</span>,
                                     <span class="ident">rhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Index an Array using any combination of Array&#39;s and Sequence&#39;s</span>
@@ -907,14 +920,16 @@
 <span class="doccomment">/// //     0.7556     0.6789     0.8310</span>
 <span class="doccomment">/// //     0.4587     0.6793     0.0346</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_gen</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">indices</span>: <span class="ident">Indexer</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_gen</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">indices</span>: <span class="ident">Indexer</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span>{
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_index_gen</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                    <span class="ident">indices</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">DimT</span>, <span class="ident">indices</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfIndex</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Assign an Array to another after indexing it using any combination of Array&#39;s and Sequence&#39;s</span>
@@ -949,15 +964,17 @@
 <span class="doccomment">/// //     2.0000     2.0000     2.0000</span>
 <span class="doccomment">/// //     0.5328     0.9347     0.0535</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">assign_gen</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span><span class="ident">Indexer</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">assign_gen</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span><span class="ident">Indexer</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span>{
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_assign_gen</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">lhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                     <span class="ident">indices</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">DimT</span>, <span class="ident">indices</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfIndex</span>,
                                     <span class="ident">rhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
     }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -977,65 +994,4 @@
     }
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "arrayfire";
-    </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "arrayfire";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

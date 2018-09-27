@@ -1,49 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/arith/mod.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/arith/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-    <title>mod.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
-    
-
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
-    
-</head>
-<body class="rustdoc source">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
+</head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -593,18 +552,119 @@
 <span id="548">548</span>
 <span id="549">549</span>
 <span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
 
 <span class="kw">use</span> <span class="ident">dim4</span>::<span class="ident">Dim4</span>;
 <span class="kw">use</span> <span class="ident">array</span>::<span class="ident">Array</span>;
-<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">DType</span>, <span class="ident">Scalar</span>};
+<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>};
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>};
-<span class="kw">use</span> <span class="ident">data</span>::{<span class="ident">constant</span>, <span class="ident">constant_t</span>, <span class="ident">tile</span>};
+<span class="kw">use</span> <span class="ident">data</span>::{<span class="ident">constant</span>, <span class="ident">ConstGenerator</span>, <span class="ident">tile</span>};
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">num</span>::<span class="ident">Complex</span>;
-<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">Complex32</span>, <span class="ident">Complex64</span>, <span class="ident">MutAfArray</span>};
+<span class="kw">use</span> <span class="ident">num</span>::<span class="ident">Zero</span>;
+<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">HasAfEnum</span>, <span class="ident">ImplicitPromote</span>, <span class="ident">MutAfArray</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Neg</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Sub</span>, <span class="ident">Div</span>, <span class="ident">Mul</span>, <span class="ident">BitAnd</span>, <span class="ident">BitOr</span>, <span class="ident">BitXor</span>, <span class="ident">Not</span>, <span class="ident">Rem</span>, <span class="ident">Shl</span>, <span class="ident">Shr</span>};
 
@@ -690,77 +750,106 @@
 }
 
 <span class="doccomment">/// Enables use of `!` on objects of type [Array](./struct.Array.html)</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span> <span class="ident">Not</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">Array</span> {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Not</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">not</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+    <span class="kw">fn</span> <span class="ident">not</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_not</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="self">self</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_not</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+                                 <span class="self">self</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unary_func</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
+    [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">out_type</span>: <span class="ident">ident</span>] <span class="op">=&gt;</span> (
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// This is an element wise unary operation.</span>
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="ident">T</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">out_type</span> <span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">T</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">out_type</span>: <span class="ident">HasAfEnum</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
+            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     )
 }
 
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes absolute value&quot;</span>, <span class="ident">abs</span>, <span class="ident">af_abs</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes phase value&quot;</span>, <span class="ident">arg</span>, <span class="ident">af_arg</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes the sign of input Array values&quot;</span>, <span class="ident">sign</span>, <span class="ident">af_sign</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Round the values in an Array&quot;</span>, <span class="ident">round</span>, <span class="ident">af_round</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Truncate the values in an Array&quot;</span>, <span class="ident">trunc</span>, <span class="ident">af_trunc</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Floor the values in an Array&quot;</span>, <span class="ident">floor</span>, <span class="ident">af_floor</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Ceil the values in an Array&quot;</span>, <span class="ident">ceil</span>, <span class="ident">af_ceil</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sin&quot;</span>, <span class="ident">sin</span>, <span class="ident">af_sin</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute cos&quot;</span>, <span class="ident">cos</span>, <span class="ident">af_cos</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute tan&quot;</span>, <span class="ident">tan</span>, <span class="ident">af_tan</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute asin&quot;</span>, <span class="ident">asin</span>, <span class="ident">af_asin</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute acos&quot;</span>, <span class="ident">acos</span>, <span class="ident">af_acos</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute atan&quot;</span>, <span class="ident">atan</span>, <span class="ident">af_atan</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Create a complex Array from real Array&quot;</span>, <span class="ident">cplx</span>, <span class="ident">af_cplx</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Extract real values from a complex Array&quot;</span>, <span class="ident">real</span>, <span class="ident">af_real</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Extract imaginary values from a complex Array&quot;</span>, <span class="ident">imag</span>, <span class="ident">af_imag</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the complex conjugate&quot;</span>, <span class="ident">conjg</span>, <span class="ident">af_conjg</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sinh&quot;</span>, <span class="ident">sinh</span>, <span class="ident">af_sinh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute cosh&quot;</span>, <span class="ident">cosh</span>, <span class="ident">af_cosh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute tanh&quot;</span>, <span class="ident">tanh</span>, <span class="ident">af_tanh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute asinh&quot;</span>, <span class="ident">asinh</span>, <span class="ident">af_asinh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute acosh&quot;</span>, <span class="ident">acosh</span>, <span class="ident">af_acosh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute atanh&quot;</span>, <span class="ident">atanh</span>, <span class="ident">af_atanh</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute two raised to the power of value&quot;</span>, <span class="ident">pow2</span>, <span class="ident">af_pow2</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute e raised to the power of value&quot;</span>, <span class="ident">exp</span>, <span class="ident">af_exp</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sigmoid function&quot;</span>, <span class="ident">sigmoid</span>, <span class="ident">af_sigmoid</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute e raised to the power of value -1&quot;</span>, <span class="ident">expm1</span>, <span class="ident">af_expm1</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute error function value&quot;</span>, <span class="ident">erf</span>, <span class="ident">af_erf</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the complementary error function value&quot;</span>, <span class="ident">erfc</span>, <span class="ident">af_erfc</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the natural logarithm&quot;</span>, <span class="ident">log</span>, <span class="ident">af_log</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the logarithm of input Array + 1&quot;</span>, <span class="ident">log1p</span>, <span class="ident">af_log1p</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute logarithm base 10&quot;</span>, <span class="ident">log10</span>, <span class="ident">af_log10</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute logarithm base 2&quot;</span>, <span class="ident">log2</span>, <span class="ident">af_log2</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the square root&quot;</span>, <span class="ident">sqrt</span>, <span class="ident">af_sqrt</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the cube root&quot;</span>, <span class="ident">cbrt</span>, <span class="ident">af_cbrt</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the factorial&quot;</span>, <span class="ident">factorial</span>, <span class="ident">af_factorial</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute gamma function&quot;</span>, <span class="ident">tgamma</span>, <span class="ident">af_tgamma</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the logarithm of absolute values of gamma function&quot;</span>, <span class="ident">lgamma</span>, <span class="ident">af_lgamma</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are zero&quot;</span>, <span class="ident">iszero</span>, <span class="ident">af_iszero</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are infinity&quot;</span>, <span class="ident">isinf</span>, <span class="ident">af_isinf</span>);
-<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are NaN&quot;</span>, <span class="ident">isnan</span>, <span class="ident">af_isnan</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes absolute value&quot;</span>, <span class="ident">abs</span>, <span class="ident">af_abs</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes phase value&quot;</span>, <span class="ident">arg</span>, <span class="ident">af_arg</span>, <span class="ident">ArgOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Truncate the values in an Array&quot;</span>, <span class="ident">trunc</span>, <span class="ident">af_trunc</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Computes the sign of input Array values&quot;</span>, <span class="ident">sign</span>, <span class="ident">af_sign</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Round the values in an Array&quot;</span>, <span class="ident">round</span>, <span class="ident">af_round</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Floor the values in an Array&quot;</span>, <span class="ident">floor</span>, <span class="ident">af_floor</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Ceil the values in an Array&quot;</span>, <span class="ident">ceil</span>, <span class="ident">af_ceil</span>, <span class="ident">AbsOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sigmoid function&quot;</span>, <span class="ident">sigmoid</span>, <span class="ident">af_sigmoid</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute e raised to the power of value -1&quot;</span>, <span class="ident">expm1</span>, <span class="ident">af_expm1</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute error function value&quot;</span>, <span class="ident">erf</span>, <span class="ident">af_erf</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the complementary error function value&quot;</span>, <span class="ident">erfc</span>, <span class="ident">af_erfc</span>, <span class="ident">AbsOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute logarithm base 10&quot;</span>, <span class="ident">log10</span>, <span class="ident">af_log10</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the logarithm of input Array + 1&quot;</span>, <span class="ident">log1p</span>, <span class="ident">af_log1p</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute logarithm base 2&quot;</span>, <span class="ident">log2</span>, <span class="ident">af_log2</span>, <span class="ident">AbsOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the cube root&quot;</span>, <span class="ident">cbrt</span>, <span class="ident">af_cbrt</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute gamma function&quot;</span>, <span class="ident">tgamma</span>, <span class="ident">af_tgamma</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the logarithm of absolute values of gamma function&quot;</span>,
+            <span class="ident">lgamma</span>, <span class="ident">af_lgamma</span>, <span class="ident">AbsOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute acosh&quot;</span>, <span class="ident">acosh</span>, <span class="ident">af_acosh</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute acos&quot;</span>, <span class="ident">acos</span>, <span class="ident">af_acos</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute asin&quot;</span>, <span class="ident">asin</span>, <span class="ident">af_asin</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute asinh&quot;</span>, <span class="ident">asinh</span>, <span class="ident">af_asinh</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute atan&quot;</span>, <span class="ident">atan</span>, <span class="ident">af_atan</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute atanh&quot;</span>, <span class="ident">atanh</span>, <span class="ident">af_atanh</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute cos&quot;</span>, <span class="ident">cos</span>, <span class="ident">af_cos</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute cosh&quot;</span>, <span class="ident">cosh</span>, <span class="ident">af_cosh</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute e raised to the power of value&quot;</span>, <span class="ident">exp</span>, <span class="ident">af_exp</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the natural logarithm&quot;</span>, <span class="ident">log</span>, <span class="ident">af_log</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sin&quot;</span>, <span class="ident">sin</span>, <span class="ident">af_sin</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute sinh&quot;</span>, <span class="ident">sinh</span>, <span class="ident">af_sinh</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the square root&quot;</span>, <span class="ident">sqrt</span>, <span class="ident">af_sqrt</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute tan&quot;</span>, <span class="ident">tan</span>, <span class="ident">af_tan</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute tanh&quot;</span>, <span class="ident">tanh</span>, <span class="ident">af_tanh</span>, <span class="ident">UnaryOutType</span>);
+
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Extract real values from a complex Array&quot;</span>, <span class="ident">real</span>, <span class="ident">af_real</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Extract imaginary values from a complex Array&quot;</span>, <span class="ident">imag</span>, <span class="ident">af_imag</span>, <span class="ident">AbsOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Create a complex Array from real Array&quot;</span>, <span class="ident">cplx</span>, <span class="ident">af_cplx</span>, <span class="ident">ComplexOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the complex conjugate&quot;</span>, <span class="ident">conjg</span>, <span class="ident">af_conjg</span>, <span class="ident">ComplexOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute two raised to the power of value&quot;</span>, <span class="ident">pow2</span>, <span class="ident">af_pow2</span>, <span class="ident">UnaryOutType</span>);
+<span class="macro">unary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute the factorial&quot;</span>, <span class="ident">factorial</span>, <span class="ident">af_factorial</span>, <span class="ident">UnaryOutType</span>);
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unary_boolean_func</span> {
+    [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>: <span class="ident">ident</span>] <span class="op">=&gt;</span> (
+        <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is an element wise unary operation.</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+                <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+            }
+            <span class="ident">temp</span>.<span class="ident">into</span>()
+        }
+    )
+}
+
+<span class="macro">unary_boolean_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are zero&quot;</span>, <span class="ident">iszero</span>, <span class="ident">af_iszero</span>);
+<span class="macro">unary_boolean_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are infinity&quot;</span>, <span class="ident">isinf</span>, <span class="ident">af_isinf</span>);
+<span class="macro">unary_boolean_func</span><span class="macro">!</span>(<span class="string">&quot;Check if values are NaN&quot;</span>, <span class="ident">isnan</span>, <span class="ident">af_isnan</span>);
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">binary_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
@@ -768,15 +857,21 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// This is an element wise binary operation.</span>
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                              <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                              <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="ident">A</span>::<span class="ident">Output</span> <span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
                                       <span class="ident">lhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">rhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                       <span class="ident">batch</span> <span class="kw">as</span> <span class="ident">c_int</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
+            <span class="ident">Into</span>::<span class="op">&lt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="ident">A</span>::<span class="ident">Output</span><span class="op">&gt;</span> <span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">temp</span>)
         }
     )
 }
@@ -813,14 +908,22 @@
 <span class="doccomment">/// - u16</span>
 <span class="doccomment">///</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Convertable</span> {
-    <span class="doccomment">/// Get an Array from given type</span>
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span>;
+    <span class="doccomment">/// This type alias always points to `Self` which is the</span>
+    <span class="doccomment">/// type of [Array](./struct.Array.html) returned by the</span>
+    <span class="doccomment">/// trait method [convert](./trait.Convertable.html#tymethod.convert).</span>
+    <span class="kw">type</span> <span class="ident">OutType</span>;
+
+    <span class="doccomment">/// Get an Array of implementors type</span>
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">OutType</span> <span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">HasAfEnum</span>;
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">convertable_type_def</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>: <span class="ident">ty</span>) <span class="op">=&gt;</span> (
         <span class="kw">impl</span> <span class="ident">Convertable</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span> {
-            <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">type</span> <span class="ident">OutType</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>;
+
+            <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">OutType</span> <span class="op">&gt;</span> {
                 <span class="ident">constant</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="ident">Dim4</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]))
             }
         }
@@ -835,25 +938,36 @@
 <span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">f32</span>);
 <span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">i32</span>);
 <span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">u32</span>);
+<span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">i16</span>);
+<span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">u16</span>);
 <span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">u8</span>);
+<span class="macro">convertable_type_def</span><span class="macro">!</span>(<span class="ident">bool</span>);
 
-<span class="kw">impl</span> <span class="ident">Convertable</span> <span class="kw">for</span> <span class="ident">Array</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span> <span class="ident">Convertable</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">OutType</span> <span class="op">=</span> <span class="ident">T</span>;
+
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">OutType</span> <span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">clone</span>()
     }
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">overloaded_binary_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
-        <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+        <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">lhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                            <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                            <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="ident">A</span>::<span class="ident">Output</span> <span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
                                      <span class="ident">lhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">rhs</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
                                      <span class="ident">batch</span> <span class="kw">as</span> <span class="ident">c_int</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-                <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
             }
+            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
@@ -887,9 +1001,16 @@
         <span class="doccomment">///# Note</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> (<span class="ident">arg1</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">arg2</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>, <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Convertable</span>, <span class="ident">U</span>: <span class="ident">Convertable</span> {
-            <span class="kw">let</span> <span class="ident">lhs</span> <span class="op">=</span> <span class="ident">arg1</span>.<span class="ident">convert</span>();
-            <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">arg2</span>.<span class="ident">convert</span>();
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> (<span class="ident">arg1</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">arg2</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>, <span class="ident">batch</span>: <span class="ident">bool</span>)
+            <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>
+                <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Convertable</span>,
+                      <span class="ident">U</span>: <span class="ident">Convertable</span>,
+                      <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;</span>,
+                      <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;</span>,
+                      <span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">let</span> <span class="ident">lhs</span> <span class="op">=</span> <span class="ident">arg1</span>.<span class="ident">convert</span>(); <span class="comment">// Convert to Array&lt;T&gt;</span>
+            <span class="kw">let</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">arg2</span>.<span class="ident">convert</span>(); <span class="comment">// Convert to Array&lt;T&gt;</span>
             <span class="kw">match</span> (<span class="ident">lhs</span>.<span class="ident">is_scalar</span>(), <span class="ident">rhs</span>.<span class="ident">is_scalar</span>()) {
                 ( <span class="bool-val">true</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="ident">rhs</span>.<span class="ident">dims</span>());
@@ -899,14 +1020,12 @@
                     <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="ident">lhs</span>.<span class="ident">dims</span>());
                     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">r</span>, <span class="ident">batch</span>)
                 },
-                _ <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="ident">batch</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">help_name</span>(<span class="kw-2">&amp;</span><span class="ident">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="ident">batch</span>),
             }
         }
     )
 }
 
-<span class="comment">// thanks to Umar Arshad for the idea on how to</span>
-<span class="comment">// implement overloaded function</span>
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Addition of two Arrays&quot;</span>, <span class="ident">add</span>, <span class="ident">add_helper</span>, <span class="ident">af_add</span>);
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Subtraction of two Arrays&quot;</span>, <span class="ident">sub</span>, <span class="ident">sub_helper</span>, <span class="ident">af_sub</span>);
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Multiplication of two Arrays&quot;</span>, <span class="ident">mul</span>, <span class="ident">mul_helper</span>, <span class="ident">af_mul</span>);
@@ -924,6 +1043,22 @@
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Create complex array from two Arrays&quot;</span>, <span class="ident">cplx2</span>, <span class="ident">cplx2_helper</span>, <span class="ident">af_cplx2</span>);
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Compute root&quot;</span>, <span class="ident">root</span>, <span class="ident">root_helper</span>, <span class="ident">af_root</span>);
 <span class="macro">overloaded_binary_func</span><span class="macro">!</span>(<span class="string">&quot;Computer power&quot;</span>, <span class="ident">pow</span>, <span class="ident">pow_helper</span>, <span class="ident">af_pow</span>);
+
+<span class="kw">fn</span> <span class="ident">clamp_helper</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Y</span><span class="op">&gt;</span>(<span class="ident">inp</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>, <span class="ident">lo</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;</span>, <span class="ident">hi</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;</span>, <span class="ident">batch</span>: <span class="ident">bool</span>)
+    <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">X</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">X</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;</span>,
+              <span class="ident">Y</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>,
+              <span class="op">&lt;</span><span class="ident">X</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_clamp</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">inp</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                               <span class="ident">lo</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">hi</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                               <span class="ident">batch</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+    }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
+}
 
 <span class="doccomment">/// Clamp the values of Array</span>
 <span class="doccomment">///</span>
@@ -943,50 +1078,56 @@
 <span class="doccomment">/// # Note</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> (<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">arg1</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">arg2</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>, <span class="ident">batch</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Array</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Convertable</span>, <span class="ident">U</span>: <span class="ident">Convertable</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">arg1</span>: <span class="kw-2">&amp;</span><span class="ident">C</span>, <span class="ident">arg2</span>: <span class="kw-2">&amp;</span><span class="ident">C</span>, <span class="ident">batch</span>: <span class="ident">bool</span>)
+    <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;</span>,
+              <span class="ident">C</span>: <span class="ident">Convertable</span>,
+              <span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+              <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Convertable</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
 {
-    <span class="kw">let</span> <span class="ident">clamp_helper</span> <span class="op">=</span> <span class="op">|</span><span class="ident">lo</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="ident">hi</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">|</span> {
-        <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_clamp</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                                   <span class="ident">lo</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">hi</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                                   <span class="ident">batch</span> <span class="kw">as</span> <span class="ident">c_int</span>);
-            <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-            <span class="ident">Array</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
-        }
-    };
-
-    <span class="kw">let</span> <span class="ident">lo</span> <span class="op">=</span> <span class="ident">arg1</span>.<span class="ident">convert</span>();
-    <span class="kw">let</span> <span class="ident">hi</span> <span class="op">=</span> <span class="ident">arg2</span>.<span class="ident">convert</span>();
+    <span class="kw">let</span> <span class="ident">lo</span> <span class="op">=</span> <span class="ident">arg1</span>.<span class="ident">convert</span>(); <span class="comment">// Convert to Array&lt;T&gt;</span>
+    <span class="kw">let</span> <span class="ident">hi</span> <span class="op">=</span> <span class="ident">arg2</span>.<span class="ident">convert</span>(); <span class="comment">// Convert to Array&lt;T&gt;</span>
     <span class="kw">match</span> (<span class="ident">lo</span>.<span class="ident">is_scalar</span>(), <span class="ident">hi</span>.<span class="ident">is_scalar</span>()) {
         ( <span class="bool-val">true</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="ident">hi</span>.<span class="ident">dims</span>());
-            <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">l</span>, <span class="kw-2">&amp;</span><span class="ident">hi</span>)
+            <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">l</span>, <span class="kw-2">&amp;</span><span class="ident">hi</span>, <span class="ident">batch</span>)
         },
         (<span class="bool-val">false</span>,  <span class="bool-val">true</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">hi</span>, <span class="ident">lo</span>.<span class="ident">dims</span>());
-            <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="kw-2">&amp;</span><span class="ident">r</span>)
+            <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="kw-2">&amp;</span><span class="ident">r</span>, <span class="ident">batch</span>)
         },
-        _ <span class="op">=&gt;</span> <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="kw-2">&amp;</span><span class="ident">hi</span>),
+        ( <span class="bool-val">true</span>,  <span class="bool-val">true</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="ident">input</span>.<span class="ident">dims</span>());
+            <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">tile</span>(<span class="kw-2">&amp;</span><span class="ident">hi</span>, <span class="ident">input</span>.<span class="ident">dims</span>());
+            <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">l</span>, <span class="kw-2">&amp;</span><span class="ident">r</span>, <span class="ident">batch</span>)
+        },
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">clamp_helper</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">lo</span>, <span class="kw-2">&amp;</span><span class="ident">hi</span>, <span class="ident">batch</span>),
     }
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">arith_scalar_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>: <span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;f</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span>,
+                  <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="kw">let</span> <span class="ident">temp</span> <span class="op">=</span> <span class="ident">rhs</span>.<span class="ident">clone</span>();
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">temp</span>, <span class="bool-val">false</span>)
             }
         }
 
-        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;</span>,
+                  <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rust_type</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="kw">let</span> <span class="ident">temp</span> <span class="op">=</span> <span class="ident">rhs</span>.<span class="ident">clone</span>();
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">temp</span>, <span class="bool-val">false</span>)
             }
@@ -1015,34 +1156,50 @@
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">arith_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">delegate</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> (
-        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">delegate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>)
             }
         }
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">delegate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rhs</span>, <span class="bool-val">false</span>)
             }
         }
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">delegate</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>)
             }
         }
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Array</span> {
-            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
+            <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span>) <span class="op">-&gt;</span> <span class="ident">Array</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">delegate</span>(<span class="self">self</span>, <span class="ident">rhs</span>, <span class="bool-val">false</span>)
             }
         }
@@ -1071,20 +1228,23 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">AddAssign</span>, <span class="ident">SubAssign</span>, <span class="ident">DivAssign</span>, <span class="ident">MulAssign</span>, <span class="ident">RemAssign</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">BitAndAssign</span>, <span class="ident">BitOrAssign</span>, <span class="ident">BitXorAssign</span>, <span class="ident">ShlAssign</span>, <span class="ident">ShrAssign</span>};
 
-
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">arith_assign_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
-        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
-
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+            <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                  <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                  <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>,
+                  <span class="op">&lt;</span><span class="ident">B</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span>) {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) {
                 <span class="kw">let</span> <span class="ident">tmp_seq</span>   <span class="op">=</span> <span class="ident">Seq</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>::<span class="ident">default</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idxrs</span> <span class="op">=</span> <span class="ident">Indexer</span>::<span class="ident">new</span>();
                 <span class="kw">for</span> <span class="ident">n</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">numdims</span>() {
                     <span class="ident">idxrs</span>.<span class="ident">set_index</span>(<span class="kw-2">&amp;</span><span class="ident">tmp_seq</span>, <span class="ident">n</span>, <span class="prelude-val">Some</span>(<span class="bool-val">false</span>));
                 }
-                <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">assign_gen</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>,
-                                     <span class="op">&amp;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>));
+                <span class="kw">let</span> <span class="ident">opres</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>).<span class="ident">cast</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>();
+                <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">assign_gen</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>, <span class="kw-2">&amp;</span><span class="ident">opres</span>);
                 <span class="kw">let</span> <span class="ident">old</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="self">self</span>, <span class="ident">tmp</span>);
             }
         }
@@ -1101,16 +1261,21 @@
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">bit_assign_func</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>: <span class="ident">ident</span>) <span class="op">=&gt;</span> (
-        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Array</span> {
-
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>,<span class="ident">B</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op_name</span><span class="op">&lt;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+                <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                      <span class="ident">B</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+                      <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>,
+                      <span class="op">&lt;</span><span class="ident">B</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+        {
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span>) {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) {
                 <span class="kw">let</span> <span class="ident">tmp_seq</span>   <span class="op">=</span> <span class="ident">Seq</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>::<span class="ident">default</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idxrs</span> <span class="op">=</span> <span class="ident">Indexer</span>::<span class="ident">new</span>();
                 <span class="kw">for</span> <span class="ident">n</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">numdims</span>() {
                     <span class="ident">idxrs</span>.<span class="ident">set_index</span>(<span class="kw-2">&amp;</span><span class="ident">tmp_seq</span>, <span class="ident">n</span>, <span class="prelude-val">Some</span>(<span class="bool-val">false</span>));
                 }
-                <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">assign_gen</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>, <span class="op">&amp;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>));
+                <span class="kw">let</span> <span class="ident">opres</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">rhs</span>, <span class="bool-val">false</span>).<span class="ident">cast</span>::<span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>();
+                <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">assign_gen</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>, <span class="kw-2">&amp;</span><span class="ident">opres</span>);
                 <span class="kw">let</span> <span class="ident">old</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="self">self</span>, <span class="ident">tmp</span>);
             }
         }
@@ -1124,86 +1289,19 @@
 }
 
 <span class="doccomment">///Implement negation trait for Array</span>
-<span class="kw">impl</span> <span class="ident">Neg</span> <span class="kw">for</span> <span class="ident">Array</span> {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span>;
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Neg</span> <span class="kw">for</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">+</span><span class="ident">Zero</span><span class="op">+</span><span class="ident">ConstGenerator</span>,
+          <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ConstGenerator</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">HasAfEnum</span>,
+          <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ConstGenerator</span><span class="op">&gt;</span>::<span class="ident">OutType</span>: <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+          <span class="ident">T</span>: <span class="ident">ImplicitPromote</span><span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ConstGenerator</span><span class="op">&gt;</span>::<span class="ident">OutType</span><span class="op">&gt;</span>,
+          <span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ConstGenerator</span><span class="op">&gt;</span>::<span class="ident">OutType</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">HasAfEnum</span>
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Array</span><span class="op">&lt;</span> <span class="op">&lt;&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">ConstGenerator</span><span class="op">&gt;</span>::<span class="ident">OutType</span> <span class="kw">as</span> <span class="ident">ImplicitPromote</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span> <span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">neg</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_type</span>() {
-            <span class="ident">DType</span>::<span class="ident">S64</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">S64</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">i64</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">S64</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">U64</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">U64</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">u64</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">U64</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">C32</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">C32</span>(<span class="ident">Complex32</span>::<span class="ident">new</span>(<span class="number">0.0</span>, <span class="number">0.0</span>)), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">C32</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">C64</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">C64</span>(<span class="ident">Complex64</span>::<span class="ident">new</span>(<span class="number">0.0</span>, <span class="number">0.0</span>)), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">C64</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">F32</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">F32</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">f32</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">F32</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">F64</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">F64</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">f64</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">F64</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">B8</span>  <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">B8</span> (<span class="bool-val">false</span>   ), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">B8</span> ) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">S32</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">S32</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">i32</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">S32</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">U32</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">U32</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">u32</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">U32</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">U8</span>  <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">U8</span> (<span class="number">0</span> <span class="kw">as</span> <span class="ident">u8</span> ), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">U8</span> ) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">S16</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">S16</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">i16</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">S16</span>) <span class="op">-</span> <span class="self">self</span>),
-            <span class="ident">DType</span>::<span class="ident">U16</span> <span class="op">=&gt;</span> (<span class="ident">constant_t</span>(<span class="ident">Scalar</span>::<span class="ident">U16</span>(<span class="number">0</span> <span class="kw">as</span> <span class="ident">u16</span>), <span class="self">self</span>.<span class="ident">dims</span>(), <span class="ident">DType</span>::<span class="ident">U16</span>) <span class="op">-</span> <span class="self">self</span>),
-        }
+        <span class="kw">let</span> <span class="ident">cnst</span> <span class="op">=</span> <span class="ident">constant</span>(<span class="ident">T</span>::<span class="ident">zero</span>(), <span class="self">self</span>.<span class="ident">dims</span>());
+        <span class="ident">sub</span>(<span class="kw-2">&amp;</span><span class="ident">cnst</span>, <span class="kw-2">&amp;</span><span class="self">self</span>, <span class="bool-val">true</span>)
     }
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../../";
-        window.currentCrate = "arrayfire";
-    </script>
-    <script src="../../../jquery.js"></script>
-    <script src="../../../main.js"></script>
-    <script defer src="../../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>

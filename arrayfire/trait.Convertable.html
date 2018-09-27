@@ -1,64 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `Convertable` trait in crate `arrayfire`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, Convertable">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `Convertable` trait in crate `arrayfire`."><meta name="keywords" content="rust, rustlang, rust-lang, Convertable"><title>arrayfire::Convertable - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-    <title>arrayfire::Convertable - Rust</title>
-
-    <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
-    
-
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
-    
-</head>
-<body class="rustdoc trait">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        <a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a>
-        <p class='location'>Trait Convertable</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Convertable', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>arrayfire</a>::<wbr><a class="trait" href=''>Convertable</a></span><span class='out-of-band'><span id='render-detail'>
-                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                       [<span class='inner'>&#x2212;</span>]
-                   </a>
-               </span><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#219-222' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Convertable {
-    fn <a href='#tymethod.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>;
-}</pre><div class='docblock'><p>Type Trait to convert to an <a href="./struct.Array.html">Array</a></p>
-
+</head><body class="rustdoc trait"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a><p class='location'>Trait Convertable</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#associated-types">Associated Types</a><div class="sidebar-links"><a href="#associatedtype.OutType">OutType</a></div><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.convert">convert</a></div><a class="sidebar-title" href="#foreign-impls">Implementations on Foreign Types</a><div class="sidebar-links"><a href="#impl-Convertable">Complex&lt;f64&gt;</a><a href="#impl-Convertable">Complex&lt;f32&gt;</a><a href="#impl-Convertable">u64</a><a href="#impl-Convertable">i64</a><a href="#impl-Convertable">f64</a><a href="#impl-Convertable">f32</a><a href="#impl-Convertable">i32</a><a href="#impl-Convertable">u32</a><a href="#impl-Convertable">i16</a><a href="#impl-Convertable">u16</a><a href="#impl-Convertable">u8</a><a href="#impl-Convertable">bool</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'Convertable', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>arrayfire</a>::<wbr><a class="trait" href=''>Convertable</a></span><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#255-264' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait Convertable {
+    type <a href='#associatedtype.OutType' class="type">OutType</a>;
+    fn <a href='#tymethod.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>: <a class="trait" href="../arrayfire/trait.HasAfEnum.html" title="trait arrayfire::HasAfEnum">HasAfEnum</a></span>;
+}</pre></div><div class='docblock'><p>Type Trait to convert to an <a href="./struct.Array.html">Array</a></p>
 <p>Generic functions that overload the binary operations such as add, div, mul, rem, ge etc. are
 bound by this trait to allow combinations of scalar values and Array objects as parameters
 to those functions.</p>
-
 <p>Internally, Convertable trait is implemented by following types.</p>
-
 <ul>
 <li>f32</li>
 <li>f64</li>
@@ -74,83 +25,36 @@ to those functions.</p>
 <li>u16</li>
 </ul>
 </div>
-            <h2 id='required-methods'>Required Methods</h2>
+            <h2 id='associated-types' class='small-section-header'>
+              Associated Types<a href='#associated-types' class='anchor'></a>
+            </h2>
             <div class='methods'>
-        <h3 id='tymethod.convert' class='method'><span id='convert.v' class='invisible'><code>fn <a href='#tymethod.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a></code></span></h3><div class='docblock'><p>Get an Array from given type</p>
+        <h3 id='associatedtype.OutType' class='method'><span id='OutType.t' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a></code></span></h3><div class='docblock'><p>This type alias always points to <code>Self</code> which is the
+type of <a href="./struct.Array.html">Array</a> returned by the
+trait method <a href="./trait.Convertable.html#tymethod.convert">convert</a>.</p>
 </div></div>
-        <h2 id='implementors'>Implementors</h2>
-        <ul class='item-list' id='implementors-list'>
-    <li><code>impl Convertable for <a class="struct" href="../num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></li>
-<li><code>impl Convertable for <a class="struct" href="../num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;</code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></li>
-<li><code>impl Convertable for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></li>
-<li><code>impl Convertable for <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a></code></li>
-</ul><script type="text/javascript" async
+            <h2 id='required-methods' class='small-section-header'>
+              Required Methods<a href='#required-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='tymethod.convert' class='method'><span id='convert.v' class='invisible'><code>fn <a href='#tymethod.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>: <a class="trait" href="../arrayfire/trait.HasAfEnum.html" title="trait arrayfire::HasAfEnum">HasAfEnum</a>,&nbsp;</span></code></span></h3><div class='docblock'><p>Get an Array of implementors type</p>
+</div></div>
+                <h2 id='foreign-impls' class='small-section-header'>
+                  Implementations on Foreign Types<a href='#foreign-impls' class='anchor'></a>
+                </h2>
+            <h3 id='impl-Convertable' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="struct" href="https://docs.rs/num-complex/0.1/num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code><a href='#impl-Convertable' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-1' class="type"><span id='OutType.t-1' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="struct" href="https://docs.rs/num-complex/0.1/num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></span></h4>
+<h4 id='method.convert' class="method"><span id='convert.v-1' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-1' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="struct" href="https://docs.rs/num-complex/0.1/num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;</code><a href='#impl-Convertable-1' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-2' class="type"><span id='OutType.t-2' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="struct" href="https://docs.rs/num-complex/0.1/num_complex/struct.Complex.html" title="struct num_complex::Complex">Complex</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;</code></span></h4>
+<h4 id='method.convert-1' class="method"><span id='convert.v-2' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-2' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code><a href='#impl-Convertable-2' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-3' class="type"><span id='OutType.t-3' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></span></h4>
+<h4 id='method.convert-2' class="method"><span id='convert.v-3' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-3' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code><a href='#impl-Convertable-3' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-4' class="type"><span id='OutType.t-4' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a></code></span></h4>
+<h4 id='method.convert-3' class="method"><span id='convert.v-4' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-4' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code><a href='#impl-Convertable-4' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-5' class="type"><span id='OutType.t-5' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code></span></h4>
+<h4 id='method.convert-4' class="method"><span id='convert.v-5' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-5' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code><a href='#impl-Convertable-5' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-6' class="type"><span id='OutType.t-6' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></span></h4>
+<h4 id='method.convert-5' class="method"><span id='convert.v-6' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-6' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code><a href='#impl-Convertable-6' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-7' class="type"><span id='OutType.t-7' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h4>
+<h4 id='method.convert-6' class="method"><span id='convert.v-7' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-7' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code><a href='#impl-Convertable-7' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-8' class="type"><span id='OutType.t-8' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h4>
+<h4 id='method.convert-7' class="method"><span id='convert.v-8' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-8' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a></code><a href='#impl-Convertable-8' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-9' class="type"><span id='OutType.t-9' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i16.html">i16</a></code></span></h4>
+<h4 id='method.convert-8' class="method"><span id='convert.v-9' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-9' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code><a href='#impl-Convertable-9' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-10' class="type"><span id='OutType.t-10' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<h4 id='method.convert-9' class="method"><span id='convert.v-10' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-10' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code><a href='#impl-Convertable-10' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-11' class="type"><span id='OutType.t-11' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></span></h4>
+<h4 id='method.convert-10' class="method"><span id='convert.v-11' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h3 id='impl-Convertable-11' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="../arrayfire/trait.Convertable.html" title="trait arrayfire::Convertable">Convertable</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a href='#impl-Convertable-11' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#268-274' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><span class='docblock autohide'><div class='impl-items'><h4 id='associatedtype.OutType-12' class="type"><span id='OutType.t-12' class='invisible'><code>type <a href='#associatedtype.OutType' class="type">OutType</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<h4 id='method.convert-11' class="method"><span id='convert.v-12' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='#method.convert' class='fnname'>convert</a>(&amp;self) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;Self::<a class="type" href="../arrayfire/trait.Convertable.html#associatedtype.OutType" title="type arrayfire::Convertable::OutType">OutType</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#271-273' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div></span><h2 id='implementors' class='small-section-header'>Implementors<a href='#implementors' class='anchor'></a></h2><ul class='item-list' id='implementors-list'><li><table class='table-display'><tbody><tr><td><code>impl&lt;T:&nbsp;<a class="trait" href="../arrayfire/trait.HasAfEnum.html" title="trait arrayfire::HasAfEnum">HasAfEnum</a>&gt; Convertable for <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;T&gt;<span class="where fmt-newline">  type <a href='#associatedtype.OutType' class="type">OutType</a> = T;</span></code><td><div class='out-of-band'><a class='srclink' href='../src/arrayfire/arith/mod.rs.html#291-297' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../implementors/arrayfire/trait.Convertable.js">
-                 </script></section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../";
-        window.currentCrate = "arrayfire";
-    </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
-    <script defer src="../search-index.js"></script>
-</body>
-</html>
+                 </script></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "arrayfire";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
