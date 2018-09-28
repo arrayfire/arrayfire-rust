@@ -71,3 +71,8 @@ path = "examples/histogram.rs"
 [[example]]
 name = "acoustic_wave"
 path = "examples/acoustic_wave.rs"
+
+[[example]]
+name = "conway"
+path = "examples/conway.rs"
+
