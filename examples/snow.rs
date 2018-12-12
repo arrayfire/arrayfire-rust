@@ -1,6 +1,4 @@
-extern crate arrayfire as af;
-
-use af::*;
+use arrayfire::*;
 
 #[allow(unused_variables)]
 #[allow(unused_must_use)]

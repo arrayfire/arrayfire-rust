@@ -1,11 +1,11 @@
 extern crate libc;
 
-use array::Array;
-use defines::{AfError, BinaryOp};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::defines::{AfError, BinaryOp};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_double};
-use util::{AfArray, MutAfArray, MutDouble, MutUint};
-use util::{HasAfEnum, Scanable, RealNumber};
+use crate::util::{AfArray, MutAfArray, MutDouble, MutUint};
+use crate::util::{HasAfEnum, Scanable, RealNumber};
 
 #[allow(dead_code)]
 extern {

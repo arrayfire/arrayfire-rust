@@ -1,8 +1,5 @@
-#[macro_use(mem_info)]
-extern crate arrayfire as af;
-
 use std::time::Instant;
-use af::*;
+use arrayfire::*;
 
 #[allow(unused_must_use)]
 #[allow(unused_variables)]
@@ -25,7 +22,7 @@ fn main() {
         let xplusy = &add(xsqrd, ysqrd, false);
         let root = &sqrt(xplusy);
         let cnst = &constant(1, dims);
-        let (real, imag) = sum_all(&le(root, cnst, false)); 
+        let (real, imag) = sum_all(&le(root, cnst, false));
         let pi_val = real*4.0/(samples as f64);
     }
 

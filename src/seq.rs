@@ -2,7 +2,7 @@ extern crate libc;
 
 use std::fmt;
 use std::default::Default;
-use num::{One, Zero};
+use crate::num::{One, Zero};
 
 /// Sequences are used for indexing Arrays
 #[derive(Copy, Clone)]

@@ -1,10 +1,10 @@
 extern crate libc;
 
-use array::Array;
-use defines::{AfError, MatProp, NormType};
-use error::HANDLE_ERROR;
-use util::{AfArray, MutAfArray, MutDouble, to_u32};
-use util::{FloatingPoint, HasAfEnum};
+use crate::array::Array;
+use crate::defines::{AfError, MatProp, NormType};
+use crate::error::HANDLE_ERROR;
+use crate::util::{AfArray, MutAfArray, MutDouble, to_u32};
+use crate::util::{FloatingPoint, HasAfEnum};
 use self::libc::{c_int, c_uint, c_double};
 
 #[allow(dead_code)]

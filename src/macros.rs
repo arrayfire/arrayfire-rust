@@ -36,15 +36,12 @@
 /// # Examples
 ///
 /// ```rust
-/// # #[macro_use(mem_info)] extern crate arrayfire;
-/// # fn main() {
-///     use arrayfire::{Dim4, device_mem_info, print, randu};
+/// use arrayfire::{Dim4, device_mem_info, print, randu, mem_info};
 ///
-///     let dims = Dim4::new(&[5, 5, 1, 1]);
-///     let a = randu::<f32>(dims);
-///     print(&a);
-///     mem_info!("Hello!");
-/// # }
+/// let dims = Dim4::new(&[5, 5, 1, 1]);
+/// let a = randu::<f32>(dims);
+/// print(&a);
+/// mem_info!("Hello!");
 /// ```
 ///
 /// Sample Output:
@@ -73,17 +70,13 @@ macro_rules! mem_info {
 /// # Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate arrayfire;
+/// use arrayfire::{Dim4, join_many, print, randu};
 ///
-/// # fn main() {
-///     use arrayfire::{Dim4, join_many, print, randu};
-///
-///     let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
-///     let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
-///     let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
-///     let d = join_many![2; a, b, c];
-///     print(&d);
-/// # }
+/// let a = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+/// let b = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+/// let c = &randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+/// let d = join_many![2; a, b, c];
+/// print(&d);
 /// ```
 ///
 /// # Panics
@@ -109,14 +102,10 @@ macro_rules! join_many {
 /// # Examples
 ///
 /// ```rust
-/// # #[macro_use] extern crate arrayfire;
-///
-/// # fn main() {
-///     use arrayfire::{Dim4, print_gen, randu};
-///     let dims = Dim4::new(&[3, 1, 1, 1]);
-///     let a = randu::<f32>(dims);
-///     af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
-/// # }
+/// use arrayfire::{Dim4, print_gen, randu, af_print};
+/// let dims = Dim4::new(&[3, 1, 1, 1]);
+/// let a = randu::<f32>(dims);
+/// af_print!("Create a 5-by-3 matrix of random floats on the GPU", a);
 /// ```
 ///
 #[macro_export]

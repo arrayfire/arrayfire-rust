@@ -1,13 +1,13 @@
 extern crate libc;
 extern crate num;
 
-use array::Array;
-use dim4::Dim4;
-use defines::{AfError};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::dim4::Dim4;
+use crate::defines::{AfError};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_double};
 use self::num::Complex;
-use util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
+use crate::util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
 use std::vec::Vec;
 
 #[allow(dead_code)]

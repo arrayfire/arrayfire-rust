@@ -1,9 +1,9 @@
 extern crate libc;
 
-use dim4::Dim4;
-use defines::{AfError, DType, Backend};
-use error::HANDLE_ERROR;
-use util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
+use crate::dim4::Dim4;
+use crate::defines::{AfError, DType, Backend};
+use crate::error::HANDLE_ERROR;
+use crate::util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
 use self::libc::{c_void, c_int, c_uint, c_longlong, c_char};
 use std::marker::PhantomData;
 use std::ffi::CString;

@@ -1,12 +1,12 @@
 extern crate libc;
 
-use array::Array;
-use dim4::Dim4;
-use defines::{AfError, RandomEngineType};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::dim4::Dim4;
+use crate::defines::{AfError, RandomEngineType};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint};
-use util::{FloatingPoint, HasAfEnum};
-use util::{DimT, MutAfArray, MutRandEngine, RandEngine, Uintl};
+use crate::util::{FloatingPoint, HasAfEnum};
+use crate::util::{DimT, MutAfArray, MutRandEngine, RandEngine, Uintl};
 
 #[allow(dead_code)]
 extern {

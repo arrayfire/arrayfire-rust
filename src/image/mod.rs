@@ -1,12 +1,12 @@
 extern crate libc;
 
-use array::Array;
-use defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity};
-use defines::{DiffusionEq, FluxFn, InterpType, MomentType, YCCStd};
-use error::HANDLE_ERROR;
-use util::{AfArray, DimT, MutAfArray};
-use util::{FloatingPoint, HasAfEnum, RealNumber, ImageNativeType, ImageFilterType};
-use util::{RealFloating, EdgeComputable, MomentsComputable, GrayRGBConvertible};
+use crate::array::Array;
+use crate::defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity};
+use crate::defines::{DiffusionEq, FluxFn, InterpType, MomentType, YCCStd};
+use crate::error::HANDLE_ERROR;
+use crate::util::{AfArray, DimT, MutAfArray};
+use crate::util::{FloatingPoint, HasAfEnum, RealNumber, ImageNativeType, ImageFilterType};
+use crate::util::{RealFloating, EdgeComputable, MomentsComputable, GrayRGBConvertible};
 use self::libc::{c_uint, c_int, c_float, c_double, c_char};
 use std::ffi::CString;
 

@@ -35,77 +35,77 @@
 extern crate lazy_static;
 
 #[cfg(feature="core")]
-pub use array::*;
+pub use crate::array::*;
 #[cfg(feature="core")]
 mod array;
 
 #[cfg(feature="algorithm")]
-pub use algorithm::*;
+pub use crate::algorithm::*;
 #[cfg(feature="algorithm")]
 mod algorithm;
 
 #[cfg(feature="arithmetic")]
-pub use arith::*;
+pub use crate::arith::*;
 #[cfg(feature="arithmetic")]
 mod arith;
 
 #[cfg(feature="core")]
-pub use backend::*;
+pub use crate::backend::*;
 #[cfg(feature="core")]
 mod backend;
 
 #[cfg(feature="blas")]
-pub use blas::*;
+pub use crate::blas::*;
 #[cfg(feature="blas")]
 mod blas;
 
 #[cfg(feature="data")]
-pub use data::*;
+pub use crate::data::*;
 #[cfg(feature="data")]
 mod data;
 
 #[cfg(feature="core")]
-pub use device::*;
+pub use crate::device::*;
 #[cfg(feature="core")]
 mod device;
 
 #[cfg(feature="core")]
-pub use defines::*;
+pub use crate::defines::*;
 #[cfg(feature="core")]
 mod defines;
 
 #[cfg(feature="core")]
-pub use dim4::Dim4;
+pub use crate::dim4::Dim4;
 #[cfg(feature="core")]
 mod dim4;
 
 #[cfg(feature="core")]
-pub use error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
+pub use crate::error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
 #[cfg(feature="core")]
 mod error;
 
 #[cfg(feature="indexing")]
-pub use index::*;
+pub use crate::index::*;
 #[cfg(feature="indexing")]
 mod index;
 
 #[cfg(feature="indexing")]
-pub use seq::Seq;
+pub use crate::seq::Seq;
 #[cfg(feature="indexing")]
 mod seq;
 
 #[cfg(feature="graphics")]
-pub use graphics::Window;
+pub use crate::graphics::Window;
 #[cfg(feature="graphics")]
 mod graphics;
 
 #[cfg(feature="image")]
-pub use image::*;
+pub use crate::image::*;
 #[cfg(feature="image")]
 mod image;
 
 #[cfg(feature="lapack")]
-pub use lapack::*;
+pub use crate::lapack::*;
 #[cfg(feature="lapack")]
 mod lapack;
 
@@ -114,32 +114,32 @@ mod macros;
 mod num;
 
 #[cfg(feature="random")]
-pub use random::*;
+pub use crate::random::*;
 #[cfg(feature="random")]
 mod random;
 
 #[cfg(feature="signal")]
-pub use signal::*;
+pub use crate::signal::*;
 #[cfg(feature="signal")]
 mod signal;
 
 #[cfg(feature="sparse")]
-pub use sparse::*;
+pub use crate::sparse::*;
 #[cfg(feature="sparse")]
 mod sparse;
 
 #[cfg(feature="statistics")]
-pub use statistics::*;
+pub use crate::statistics::*;
 #[cfg(feature="statistics")]
 mod statistics;
 
 #[cfg(feature="core")]
-pub use util::{HasAfEnum, ImplicitPromote, get_size};
+pub use crate::util::{HasAfEnum, ImplicitPromote, get_size};
 #[cfg(feature="core")]
 mod util;
 
 #[cfg(feature="vision")]
-pub use vision::*;
+pub use crate::vision::*;
 #[cfg(feature="vision")]
 mod vision;
 

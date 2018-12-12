@@ -1,11 +1,11 @@
 extern crate libc;
 
 use std::mem;
-use array::Array;
-use defines::{AfError, HomographyType, MatchType};
-use error::HANDLE_ERROR;
-use util::{AfArray, DimT, Feat, MutAfArray, MutFeat};
-use util::{HasAfEnum, RealFloating, ImageFilterType};
+use crate::array::Array;
+use crate::defines::{AfError, HomographyType, MatchType};
+use crate::error::HANDLE_ERROR;
+use crate::util::{AfArray, DimT, Feat, MutAfArray, MutFeat};
+use crate::util::{HasAfEnum, RealFloating, ImageFilterType};
 use self::libc::{c_void, c_uint, c_int, c_float, c_double, c_longlong};
 
 // af_sift and af_gloh uses patented algorithms, so didn't add them

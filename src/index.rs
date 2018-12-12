@@ -1,11 +1,11 @@
 extern crate libc;
 
-use array::Array;
-use defines::AfError;
-use error::HANDLE_ERROR;
-use seq::Seq;
+use crate::array::Array;
+use crate::defines::AfError;
+use crate::error::HANDLE_ERROR;
+use crate::seq::Seq;
 use self::libc::{c_double, c_int, c_uint};
-use util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
+use crate::util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
 
 use std::marker::PhantomData;
 

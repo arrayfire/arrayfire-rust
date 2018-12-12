@@ -1,15 +1,15 @@
 extern crate libc;
 extern crate num;
 
-use dim4::Dim4;
-use array::Array;
-use defines::{AfError};
-use error::HANDLE_ERROR;
+use crate::dim4::Dim4;
+use crate::array::Array;
+use crate::defines::{AfError};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int};
-use data::{constant, ConstGenerator, tile};
+use crate::data::{constant, ConstGenerator, tile};
 use self::num::Complex;
-use num::Zero;
-use util::{AfArray, HasAfEnum, ImplicitPromote, MutAfArray};
+use crate::num::Zero;
+use crate::util::{AfArray, HasAfEnum, ImplicitPromote, MutAfArray};
 use std::ops::Neg;
 use std::ops::{Add, Sub, Div, Mul, BitAnd, BitOr, BitXor, Not, Rem, Shl, Shr};
 
@@ -565,10 +565,10 @@ arith_func!(BitXor, bitxor, bitxor);
 #[cfg(op_assign)]
 mod op_assign {
 
-use array::Array;
+use crate::array::Array;
 use super::*;
-use index::{Indexer, assign_gen};
-use seq::Seq;
+use crate::index::{Indexer, assign_gen};
+use crate::seq::Seq;
 use std::mem;
 use std::ops::{AddAssign, SubAssign, DivAssign, MulAssign, RemAssign};
 use std::ops::{BitAndAssign, BitOrAssign, BitXorAssign, ShlAssign, ShrAssign};

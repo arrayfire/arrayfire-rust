@@ -1,11 +1,11 @@
 extern crate libc;
 
-use defines::{AfError};
-use error::HANDLE_ERROR;
+use crate::defines::{AfError};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, size_t, c_char};
 use std::ffi::{CStr, CString};
 use std::borrow::Cow;
-use util::free_host;
+use crate::util::free_host;
 
 extern {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
