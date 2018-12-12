@@ -1,8 +1,6 @@
-extern crate arrayfire as af;
-
-use af::*;
 use std::env;
 use std::path::PathBuf;
+use arrayfire::*;
 
 #[allow(unused_variables)]
 #[allow(unused_must_use)]

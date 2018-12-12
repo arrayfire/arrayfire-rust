@@ -1,13 +1,13 @@
 extern crate libc;
 extern crate num;
 
-use array::Array;
-use defines::{AfError, ConvDomain, ConvMode, InterpType};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::defines::{AfError, ConvDomain, ConvMode, InterpType};
+use crate::error::HANDLE_ERROR;
 use self::num::Complex;
 use self::libc::{c_uint, c_int, c_float, c_double, c_longlong, size_t};
-use util::{ComplexFloating, FloatingPoint, HasAfEnum, RealFloating};
-use util::{AfArray, MutAfArray};
+use crate::util::{ComplexFloating, FloatingPoint, HasAfEnum, RealFloating};
+use crate::util::{AfArray, MutAfArray};
 
 #[allow(dead_code)]
 extern {

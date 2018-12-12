@@ -1,6 +1,4 @@
-extern crate arrayfire as af;
-
-use af::*;
+use arrayfire::*;
 
 fn main() {
     set_device(0);

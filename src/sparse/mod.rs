@@ -1,11 +1,11 @@
 extern crate libc;
 
-use array::Array;
-use defines::{AfError, SparseFormat};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::defines::{AfError, SparseFormat};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_uint, c_void, c_int};
-use util::{AfArray, DimT, MutAfArray, MutDimT};
-use util::{FloatingPoint, HasAfEnum};
+use crate::util::{AfArray, DimT, MutAfArray, MutDimT};
+use crate::util::{FloatingPoint, HasAfEnum};
 
 #[allow(dead_code)]
 extern {

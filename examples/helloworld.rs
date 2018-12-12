@@ -1,8 +1,4 @@
-#[macro_use(af_print)]
-extern crate arrayfire as af;
-extern crate num;
-
-use af::*;
+use arrayfire::*;
 
 #[allow(unused_must_use)]
 fn main() {

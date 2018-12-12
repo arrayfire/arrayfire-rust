@@ -1,12 +1,12 @@
 extern crate libc;
 
 use std::ops::{Deref, DerefMut};
-use defines::AfError;
+use crate::defines::AfError;
 use self::libc::{c_int, c_char};
 use std::ffi::CStr;
 use std::error::Error;
 use std::sync::RwLock;
-use util::{DimT, free_host, MutDimT};
+use crate::util::{DimT, free_host, MutDimT};
 
 #[allow(dead_code)]
 extern {

@@ -1,7 +1,7 @@
 extern crate libc;
 
-use defines::{AfError, Backend};
-use error::HANDLE_ERROR;
+use crate::defines::{AfError, Backend};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, uint8_t};
 
 extern {

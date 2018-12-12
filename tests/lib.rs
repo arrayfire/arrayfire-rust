@@ -1,8 +1,7 @@
-extern crate arrayfire as af;
-
 use std::error::Error;
 use std::thread;
-use af::*;
+
+use ::arrayfire::*;
 
 macro_rules! implement_handler {
     ($fn_name:ident) => (
@@ -26,7 +25,7 @@ fn check_error_handler_mutation() {
 
     let children = (0..4).map(|i| {
         thread::Builder::new().name(format!("child {}",i+1).to_string()).spawn(move || {
-            let target_device = i%af::device_count();
+            let target_device = i%arrayfire::device_count();
             println!("Thread {:?} 's target device is {}", thread::current(), target_device);
             match i {
                 0 => register_error_handler(Callback::new(handler_sample1)),
@@ -41,5 +40,4 @@ fn check_error_handler_mutation() {
     for c in children {
         c.join();
     }
-
 }

@@ -1,6 +1,4 @@
-extern crate arrayfire as af;
-
-use af::*;
+use arrayfire::*;
 
 #[cfg(op_assign)]
 fn helper(dims: Dim4) {

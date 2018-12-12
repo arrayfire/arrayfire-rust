@@ -1,12 +1,12 @@
 extern crate libc;
 extern crate num;
 
-use defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
-use defines::{SparseFormat, BinaryOp, RandomEngineType};
-use error::HANDLE_ERROR;
+use crate::defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
+use crate::defines::{SparseFormat, BinaryOp, RandomEngineType};
+use crate::error::HANDLE_ERROR;
 use std::mem;
 use self::num::Complex;
-use num::Zero;
+use crate::num::Zero;
 use self::libc::{c_uint, c_int, size_t, c_void};
 
 pub type AfArray       = self::libc::c_longlong;

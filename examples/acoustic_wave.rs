@@ -1,7 +1,5 @@
-extern crate arrayfire as af;
-
-use af::*;
 use std::f64::consts::*;
+use arrayfire::*;
 
 fn main() {
     set_device(0);
@@ -74,7 +72,7 @@ fn acoustic_wave_simulation() {
         }
 
         // Draw the image.
-        win.set_colormap(af::ColorMap::BLUE);
+        win.set_colormap(ColorMap::BLUE);
         win.draw_image(&normalise(&p), None);
 
         it += 1;

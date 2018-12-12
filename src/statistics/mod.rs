@@ -1,12 +1,12 @@
 extern crate libc;
 
-use array::Array;
-use defines::{AfError, TopkFn};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::defines::{AfError, TopkFn};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint};
-use util::{AfArray, DimT, MutAfArray, MutDouble};
-use util::{RealNumber, CovarianceComputable};
-use util::{HasAfEnum, MedianComputable, RealFloating};
+use crate::util::{AfArray, DimT, MutAfArray, MutDouble};
+use crate::util::{RealNumber, CovarianceComputable};
+use crate::util::{HasAfEnum, MedianComputable, RealFloating};
 
 #[allow(dead_code)]
 extern {

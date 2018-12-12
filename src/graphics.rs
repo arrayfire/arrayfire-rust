@@ -1,13 +1,13 @@
 extern crate libc;
 
-use array::Array;
-use defines::AfError;
-use defines::{ColorMap, MarkerType};
-use error::HANDLE_ERROR;
+use crate::array::Array;
+use crate::defines::AfError;
+use crate::defines::{ColorMap, MarkerType};
+use crate::error::HANDLE_ERROR;
 use self::libc::{c_int, c_uint, c_float, c_double, c_char};
 use std::ffi::CString;
 use std::ptr;
-use util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
+use crate::util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
 
 #[allow(dead_code)]
 extern {
