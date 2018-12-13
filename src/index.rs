@@ -1,26 +1,44 @@
 extern crate libc;
 
+use self::libc::{c_double, c_int, c_uint};
 use crate::array::Array;
 use crate::defines::AfError;
 use crate::error::HANDLE_ERROR;
 use crate::seq::Seq;
-use self::libc::{c_double, c_int, c_uint};
 use crate::util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
 
 use std::marker::PhantomData;
 
 #[allow(dead_code)]
-extern {
+extern "C" {
     fn af_create_indexers(indexers: MutAfIndex) -> c_int;
     fn af_set_array_indexer(indexer: AfIndex, idx: AfArray, dim: DimT) -> c_int;
-    fn af_set_seq_indexer(indexer: AfIndex, idx: *const SeqInternal, dim: DimT, is_batch: c_int) -> c_int;
+    fn af_set_seq_indexer(
+        indexer: AfIndex,
+        idx: *const SeqInternal,
+        dim: DimT,
+        is_batch: c_int,
+    ) -> c_int;
     fn af_release_indexers(indexers: AfIndex) -> c_int;
 
-    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const SeqInternal) -> c_int;
+    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const SeqInternal)
+        -> c_int;
     fn af_lookup(out: MutAfArray, arr: AfArray, indices: AfArray, dim: c_uint) -> c_int;
-    fn af_assign_seq(out: MutAfArray, lhs: AfArray, ndims: c_uint, indices: *const SeqInternal, rhs: AfArray) -> c_int;
+    fn af_assign_seq(
+        out: MutAfArray,
+        lhs: AfArray,
+        ndims: c_uint,
+        indices: *const SeqInternal,
+        rhs: AfArray,
+    ) -> c_int;
     fn af_index_gen(out: MutAfArray, input: AfArray, ndims: DimT, indices: AfIndex) -> c_int;
-    fn af_assign_gen(out: MutAfArray, lhs: AfArray, ndims: DimT, indices: AfIndex, rhs: AfArray) -> c_int;
+    fn af_assign_gen(
+        out: MutAfArray,
+        lhs: AfArray,
+        ndims: DimT,
+        indices: AfIndex,
+        rhs: AfArray,
+    ) -> c_int;
 }
 
 /// Struct to manage an array of resources of type `af_indexer_t`(ArrayFire C struct)
@@ -106,8 +124,8 @@ impl<T: HasAfEnum> Indexable for Array<T> {
     #[allow(unused_variables)]
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
-            let err_val = af_set_array_indexer(idxr.get() as AfIndex, self.get() as AfArray,
-                                               dim as DimT);
+            let err_val =
+                af_set_array_indexer(idxr.get() as AfIndex, self.get() as AfArray, dim as DimT);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -117,12 +135,18 @@ impl<T: HasAfEnum> Indexable for Array<T> {
 ///
 /// This is used in functions [index_gen](./fn.index_gen.html) and
 /// [assign_gen](./fn.assign_gen.html)
-impl<T: Copy> Indexable for Seq<T> where c_double: From<T> {
+impl<T: Copy> Indexable for Seq<T>
+where
+    c_double: From<T>,
+{
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
-            let err_val = af_set_seq_indexer(idxr.get() as AfIndex,
-                                             &SeqInternal::from_seq(self) as *const SeqInternal,
-                                             dim as DimT, is_batch.unwrap() as c_int);
+            let err_val = af_set_seq_indexer(
+                idxr.get() as AfIndex,
+                &SeqInternal::from_seq(self) as *const SeqInternal,
+                dim as DimT,
+                is_batch.unwrap() as c_int,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -137,14 +161,20 @@ impl<'object> Indexer<'object> {
             let err_val = af_create_indexers(&mut temp as MutAfIndex);
             HANDLE_ERROR(AfError::from(err_val));
         }
-        Indexer{handle: temp, count: 0, marker: PhantomData}
+        Indexer {
+            handle: temp,
+            count: 0,
+            marker: PhantomData,
+        }
     }
 
     /// Set either [Array](./struct.Array.html) or [Seq](./struct.Seq.html) to index an Array along `idx` dimension
     pub fn set_index<'s, T>(&'s mut self, idx: &'object T, dim: u32, is_batch: Option<bool>)
-    where T : Indexable + 'object {
+    where
+        T: Indexable + 'object,
+    {
         idx.set(self, dim, is_batch);
-        self.count = self.count+1;
+        self.count = self.count + 1;
     }
 
     /// Get number of indexing objects set
@@ -184,15 +214,20 @@ impl<'object> Drop for Indexer<'object> {
 /// print(&sub);
 /// ```
 pub fn index<IO, T: Copy>(input: &Array<IO>, seqs: &[Seq<T>]) -> Array<IO>
-    where c_double: From<T>, IO: HasAfEnum
+where
+    c_double: From<T>,
+    IO: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
         // TODO: allocating a whole new array on the heap just for this is BAD
         let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
-        let err_val = af_index(&mut temp as MutAfArray
-                               , input.get() as AfArray, seqs.len() as u32
-                               , seqs.as_ptr() as *const SeqInternal);
+        let err_val = af_index(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            seqs.len() as u32,
+            seqs.as_ptr() as *const SeqInternal,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -212,32 +247,48 @@ pub fn index<IO, T: Copy>(input: &Array<IO>, seqs: &[Seq<T>]) -> Array<IO>
 /// ```
 #[allow(dead_code)]
 pub fn row<T>(input: &Array<T>, row_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    index(input, &[Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()])
+    index(
+        input,
+        &[
+            Seq::new(row_num as f64, row_num as f64, 1.0),
+            Seq::default(),
+        ],
+    )
 }
 
 #[allow(dead_code)]
 /// Set `row_num`^th row in `input` Array to a new Array `new_row`
 pub fn set_row<T>(input: &Array<T>, new_row: &Array<T>, row_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::new(row_num as f64, row_num as f64, 1.0), Seq::default()];
+    let seqs = [
+        Seq::new(row_num as f64, row_num as f64, 1.0),
+        Seq::default(),
+    ];
     assign_seq(input, &seqs, new_row)
 }
 
 #[allow(dead_code)]
 /// Get an Array with all rows from `first` to `last` in the `input` Array
 pub fn rows<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    index(input, &[Seq::new(first as f64, last as f64, 1.0), Seq::default()])
+    index(
+        input,
+        &[Seq::new(first as f64, last as f64, 1.0), Seq::default()],
+    )
 }
 
 #[allow(dead_code)]
 /// Set rows from `first` to `last` in `input` Array with rows from Array `new_rows`
 pub fn set_rows<T>(input: &Array<T>, new_rows: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
     let seqs = [Seq::new(first as f64, last as f64, 1.0), Seq::default()];
     assign_seq(input, &seqs, new_rows)
@@ -257,32 +308,48 @@ pub fn set_rows<T>(input: &Array<T>, new_rows: &Array<T>, first: u64, last: u64)
 /// ```
 #[allow(dead_code)]
 pub fn col<T>(input: &Array<T>, col_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    index(input, &[Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)])
+    index(
+        input,
+        &[
+            Seq::default(),
+            Seq::new(col_num as f64, col_num as f64, 1.0),
+        ],
+    )
 }
 
 #[allow(dead_code)]
 /// Set `col_num`^th col in `input` Array to a new Array `new_col`
 pub fn set_col<T>(input: &Array<T>, new_col: &Array<T>, col_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::default(), Seq::new(col_num as f64, col_num as f64, 1.0)];
+    let seqs = [
+        Seq::default(),
+        Seq::new(col_num as f64, col_num as f64, 1.0),
+    ];
     assign_seq(input, &seqs, new_col)
 }
 
 #[allow(dead_code)]
 /// Get all cols from `first` to `last` in the `input` Array
 pub fn cols<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    index(input, &[Seq::default(), Seq::new(first as f64, last as f64, 1.0)])
+    index(
+        input,
+        &[Seq::default(), Seq::new(first as f64, last as f64, 1.0)],
+    )
 }
 
 #[allow(dead_code)]
 /// Set cols from `first` to `last` in `input` Array with cols from Array `new_cols`
 pub fn set_cols<T>(input: &Array<T>, new_cols: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
     let seqs = [Seq::default(), Seq::new(first as f64, last as f64, 1.0)];
     assign_seq(input, &seqs, new_cols)
@@ -293,9 +360,14 @@ pub fn set_cols<T>(input: &Array<T>, new_cols: &Array<T>, first: u64, last: u64)
 ///
 /// Note. Slices indicate that the indexing is along 3rd dimension
 pub fn slice<T>(input: &Array<T>, slice_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::default(), Seq::default(), Seq::new(slice_num as f64, slice_num as f64, 1.0)];
+    let seqs = [
+        Seq::default(),
+        Seq::default(),
+        Seq::new(slice_num as f64, slice_num as f64, 1.0),
+    ];
     index(input, &seqs)
 }
 
@@ -304,9 +376,14 @@ pub fn slice<T>(input: &Array<T>, slice_num: u64) -> Array<T>
 ///
 /// Slices indicate that the indexing is along 3rd dimension
 pub fn set_slice<T>(input: &Array<T>, new_slice: &Array<T>, slice_num: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::default(), Seq::default(), Seq::new(slice_num as f64, slice_num as f64, 1.0)];
+    let seqs = [
+        Seq::default(),
+        Seq::default(),
+        Seq::new(slice_num as f64, slice_num as f64, 1.0),
+    ];
     assign_seq(input, &seqs, new_slice)
 }
 
@@ -315,9 +392,14 @@ pub fn set_slice<T>(input: &Array<T>, new_slice: &Array<T>, slice_num: u64) -> A
 ///
 /// Slices indicate that the indexing is along 3rd dimension
 pub fn slices<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::default(), Seq::default(), Seq::new(first as f64, last as f64, 1.0)];
+    let seqs = [
+        Seq::default(),
+        Seq::default(),
+        Seq::new(first as f64, last as f64, 1.0),
+    ];
     index(input, &seqs)
 }
 
@@ -326,9 +408,14 @@ pub fn slices<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
 ///
 /// Slices indicate that the indexing is along 3rd dimension
 pub fn set_slices<T>(input: &Array<T>, new_slices: &Array<T>, first: u64, last: u64) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
-    let seqs = [Seq::default() , Seq::default(), Seq::new(first as f64, last as f64, 1.0)];
+    let seqs = [
+        Seq::default(),
+        Seq::default(),
+        Seq::new(first as f64, last as f64, 1.0),
+    ];
     assign_seq(input, &seqs, new_slices)
 }
 
@@ -337,13 +424,18 @@ pub fn set_slices<T>(input: &Array<T>, new_slices: &Array<T>, first: u64, last: 
 /// Given a dimension `seq_dim`, `indices` are lookedup in `input` and returned as a new
 /// Array if found
 pub fn lookup<T, I>(input: &Array<T>, indices: &Array<I>, seq_dim: i32) -> Array<T>
-    where T: HasAfEnum,
-          I: HasAfEnum
+where
+    T: HasAfEnum,
+    I: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_lookup(&mut temp as MutAfArray, input.get() as AfArray,
-                                indices.get() as AfArray, seq_dim as c_uint);
+        let err_val = af_lookup(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            indices.get() as AfArray,
+            seq_dim as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -376,16 +468,21 @@ pub fn lookup<T, I>(input: &Array<T>, indices: &Array<I>, seq_dim: i32) -> Array
 /// // 2.0 2.0 2.0
 /// ```
 pub fn assign_seq<T: Copy, I>(lhs: &Array<I>, seqs: &[Seq<T>], rhs: &Array<I>) -> Array<I>
-    where c_double: From<T>,
-          I: HasAfEnum
+where
+    c_double: From<T>,
+    I: HasAfEnum,
 {
     let mut temp: i64 = 0;
     // TODO: allocating a whole new array on the heap just for this is BAD
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
-        let err_val = af_assign_seq(&mut temp as MutAfArray, lhs.get() as AfArray,
-                                    seqs.len() as c_uint, seqs.as_ptr() as *const SeqInternal,
-                                    rhs.get() as AfArray);
+        let err_val = af_assign_seq(
+            &mut temp as MutAfArray,
+            lhs.get() as AfArray,
+            seqs.len() as c_uint,
+            seqs.as_ptr() as *const SeqInternal,
+            rhs.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -421,12 +518,17 @@ pub fn assign_seq<T: Copy, I>(lhs: &Array<I>, seqs: &[Seq<T>], rhs: &Array<I>) -
 /// //     0.4587     0.6793     0.0346
 /// ```
 pub fn index_gen<T>(input: &Array<T>, indices: Indexer) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
     let mut temp: i64 = 0;
-    unsafe{
-        let err_val = af_index_gen(&mut temp as MutAfArray, input.get() as AfArray,
-                                   indices.len() as DimT, indices.get() as AfIndex);
+    unsafe {
+        let err_val = af_index_gen(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            indices.len() as DimT,
+            indices.get() as AfIndex,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -465,13 +567,18 @@ pub fn index_gen<T>(input: &Array<T>, indices: Indexer) -> Array<T>
 /// //     0.5328     0.9347     0.0535
 /// ```
 pub fn assign_gen<T>(lhs: &Array<T>, indices: &Indexer, rhs: &Array<T>) -> Array<T>
-    where T: HasAfEnum
+where
+    T: HasAfEnum,
 {
     let mut temp: i64 = 0;
-    unsafe{
-        let err_val = af_assign_gen(&mut temp as MutAfArray, lhs.get() as AfArray,
-                                    indices.len() as DimT, indices.get() as AfIndex,
-                                    rhs.get() as AfArray);
+    unsafe {
+        let err_val = af_assign_gen(
+            &mut temp as MutAfArray,
+            lhs.get() as AfArray,
+            indices.len() as DimT,
+            indices.get() as AfIndex,
+            rhs.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -485,7 +592,10 @@ struct SeqInternal {
 }
 
 impl SeqInternal {
-    fn from_seq<T: Copy>(s: &Seq<T>) -> Self where c_double: From<T> {
+    fn from_seq<T: Copy>(s: &Seq<T>) -> Self
+    where
+        c_double: From<T>,
+    {
         SeqInternal {
             begin: From::from(s.begin()),
             end: From::from(s.end()),

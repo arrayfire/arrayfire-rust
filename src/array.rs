@@ -1,12 +1,12 @@
 extern crate libc;
 
+use self::libc::{c_char, c_int, c_longlong, c_uint, c_void};
+use crate::defines::{AfError, Backend, DType};
 use crate::dim4::Dim4;
-use crate::defines::{AfError, DType, Backend};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, HasAfEnum, MutAfArray, MutVoidPtr};
-use self::libc::{c_void, c_int, c_uint, c_longlong, c_char};
-use std::marker::PhantomData;
 use std::ffi::CString;
+use std::marker::PhantomData;
 
 // Some unused functions from array.h in C-API of ArrayFire
 // af_copy_array
@@ -14,18 +14,29 @@ use std::ffi::CString;
 // af_get_data_ref_count
 
 #[allow(dead_code)]
-extern {
-    fn af_create_array(out: MutAfArray, data: *const c_void,
-                       ndims: c_uint, dims: *const DimT, aftype: c_uint) -> c_int;
+extern "C" {
+    fn af_create_array(
+        out: MutAfArray,
+        data: *const c_void,
+        ndims: c_uint,
+        dims: *const DimT,
+        aftype: c_uint,
+    ) -> c_int;
 
-    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: c_uint) -> c_int;
+    fn af_create_handle(out: MutAfArray, ndims: c_uint, dims: *const DimT, aftype: c_uint)
+        -> c_int;
 
     fn af_get_elements(out: MutAfArray, arr: AfArray) -> c_int;
 
     fn af_get_type(out: *mut c_uint, arr: AfArray) -> c_int;
 
-    fn af_get_dims(dim0: *mut c_longlong, dim1: *mut c_longlong, dim2: *mut c_longlong,
-                   dim3: *mut c_longlong, arr: AfArray) -> c_int;
+    fn af_get_dims(
+        dim0: *mut c_longlong,
+        dim1: *mut c_longlong,
+        dim2: *mut c_longlong,
+        dim3: *mut c_longlong,
+        arr: AfArray,
+    ) -> c_int;
 
     fn af_get_numdims(result: *mut c_uint, arr: AfArray) -> c_int;
 
@@ -81,12 +92,24 @@ extern {
 
     fn af_get_device_id(device: *mut c_int, input: AfArray) -> c_int;
 
-    fn af_create_strided_array(arr: MutAfArray, data: *const c_void, offset: DimT,
-                               ndims: c_uint, dims: *const DimT, strides: *const DimT,
-                               aftype: c_uint, stype: c_uint) -> c_int;
+    fn af_create_strided_array(
+        arr: MutAfArray,
+        data: *const c_void,
+        offset: DimT,
+        ndims: c_uint,
+        dims: *const DimT,
+        strides: *const DimT,
+        aftype: c_uint,
+        stype: c_uint,
+    ) -> c_int;
 
-    fn af_get_strides(s0: *mut DimT, s1: *mut DimT, s2: *mut DimT, s3: *mut DimT,
-                      arr: AfArray) -> c_int;
+    fn af_get_strides(
+        s0: *mut DimT,
+        s1: *mut DimT,
+        s2: *mut DimT,
+        s3: *mut DimT,
+        arr: AfArray,
+    ) -> c_int;
 
     fn af_get_offset(offset: *mut DimT, arr: AfArray) -> c_int;
 
@@ -135,7 +158,10 @@ macro_rules! is_func {
     )
 }
 
-impl<T> Array<T> where T: HasAfEnum {
+impl<T> Array<T>
+where
+    T: HasAfEnum,
+{
     /// Constructs a new Array object
     ///
     /// # Examples
@@ -151,11 +177,13 @@ impl<T> Array<T> where T: HasAfEnum {
         let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_create_array(&mut temp as MutAfArray,
-                                          slice.as_ptr() as *const c_void,
-                                          dims.ndims() as c_uint,
-                                          dims.get().as_ptr() as * const c_longlong,
-                                          aftype as c_uint);
+            let err_val = af_create_array(
+                &mut temp as MutAfArray,
+                slice.as_ptr() as *const c_void,
+                dims.ndims() as c_uint,
+                dims.get().as_ptr() as *const c_longlong,
+                aftype as c_uint,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()
@@ -165,18 +193,20 @@ impl<T> Array<T> where T: HasAfEnum {
     ///
     /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     #[allow(unused_mut)]
-    pub fn new_strided(slice: &[T], offset: i64,
-                       dims: Dim4, strides: Dim4) -> Array<T> {
+    pub fn new_strided(slice: &[T], offset: i64, dims: Dim4, strides: Dim4) -> Array<T> {
         let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_create_strided_array(&mut temp as MutAfArray,
-                                                  slice.as_ptr() as *const c_void,
-                                                  offset as DimT,
-                                                  dims.ndims() as c_uint,
-                                                  dims.get().as_ptr() as * const c_longlong,
-                                                  strides.get().as_ptr() as * const c_longlong,
-                                                  aftype as c_uint, 1 as c_uint);
+            let err_val = af_create_strided_array(
+                &mut temp as MutAfArray,
+                slice.as_ptr() as *const c_void,
+                offset as DimT,
+                dims.ndims() as c_uint,
+                dims.get().as_ptr() as *const c_longlong,
+                strides.get().as_ptr() as *const c_longlong,
+                aftype as c_uint,
+                1 as c_uint,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()
@@ -195,10 +225,12 @@ impl<T> Array<T> where T: HasAfEnum {
         let aftype = T::get_af_dtype();
         unsafe {
             let mut temp: i64 = 0;
-            let err_val = af_create_handle(&mut temp as MutAfArray,
-                                           dims.ndims() as c_uint,
-                                           dims.get().as_ptr() as * const c_longlong,
-                                           aftype as c_uint);
+            let err_val = af_create_handle(
+                &mut temp as MutAfArray,
+                dims.ndims() as c_uint,
+                dims.get().as_ptr() as *const c_longlong,
+                aftype as c_uint,
+            );
             HANDLE_ERROR(AfError::from(err_val));
             temp.into()
         }
@@ -219,7 +251,7 @@ impl<T> Array<T> where T: HasAfEnum {
                 (0, 1) => Backend::CPU,
                 (0, 2) => Backend::CUDA,
                 (0, 3) => Backend::OPENCL,
-                _      => Backend::DEFAULT,
+                _ => Backend::DEFAULT,
             }
         }
     }
@@ -265,9 +297,13 @@ impl<T> Array<T> where T: HasAfEnum {
             let mut ret1: i64 = 0;
             let mut ret2: i64 = 0;
             let mut ret3: i64 = 0;
-            let err_val = af_get_dims(&mut ret0 as *mut DimT, &mut ret1 as *mut DimT,
-                                      &mut ret2 as *mut DimT, &mut ret3 as *mut DimT,
-                                      self.handle as AfArray);
+            let err_val = af_get_dims(
+                &mut ret0 as *mut DimT,
+                &mut ret1 as *mut DimT,
+                &mut ret2 as *mut DimT,
+                &mut ret3 as *mut DimT,
+                self.handle as AfArray,
+            );
             HANDLE_ERROR(AfError::from(err_val));
             Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
@@ -280,9 +316,13 @@ impl<T> Array<T> where T: HasAfEnum {
             let mut ret1: i64 = 0;
             let mut ret2: i64 = 0;
             let mut ret3: i64 = 0;
-            let err_val = af_get_strides(&mut ret0 as *mut DimT, &mut ret1 as *mut DimT,
-                                         &mut ret2 as *mut DimT, &mut ret3 as *mut DimT,
-                                         self.handle as AfArray);
+            let err_val = af_get_strides(
+                &mut ret0 as *mut DimT,
+                &mut ret1 as *mut DimT,
+                &mut ret2 as *mut DimT,
+                &mut ret3 as *mut DimT,
+                self.handle as AfArray,
+            );
             HANDLE_ERROR(AfError::from(err_val));
             Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
         }
@@ -349,22 +389,54 @@ impl<T> Array<T> where T: HasAfEnum {
     is_func!("Check if Array is a row", is_row, af_is_row);
     is_func!("Check if Array is a column", is_column, af_is_column);
     is_func!("Check if Array is a vector", is_vector, af_is_vector);
-    is_func!("Check if Array is of complex type", is_complex, af_is_complex);
-    is_func!("Check if Array's numerical type is of double precision", is_double, af_is_double);
-    is_func!("Check if Array's numerical type is of single precision", is_single, af_is_single);
+    is_func!(
+        "Check if Array is of complex type",
+        is_complex,
+        af_is_complex
+    );
+    is_func!(
+        "Check if Array's numerical type is of double precision",
+        is_double,
+        af_is_double
+    );
+    is_func!(
+        "Check if Array's numerical type is of single precision",
+        is_single,
+        af_is_single
+    );
     is_func!("Check if Array is of real type", is_real, af_is_real);
-    is_func!("Check if Array is of single precision", is_floating, af_is_floating);
-    is_func!("Check if Array is of integral type", is_integer, af_is_integer);
+    is_func!(
+        "Check if Array is of single precision",
+        is_floating,
+        af_is_floating
+    );
+    is_func!(
+        "Check if Array is of integral type",
+        is_integer,
+        af_is_integer
+    );
     is_func!("Check if Array is of boolean type", is_bool, af_is_bool);
-    is_func!("Check if Array's memory layout is continuous and one dimensional", is_linear, af_is_linear);
-    is_func!("Check if Array's memory is owned by it and not a view of another Array", is_owner, af_is_owner);
+    is_func!(
+        "Check if Array's memory layout is continuous and one dimensional",
+        is_linear,
+        af_is_linear
+    );
+    is_func!(
+        "Check if Array's memory is owned by it and not a view of another Array",
+        is_owner,
+        af_is_owner
+    );
 
     /// Cast the Array data type to `target_type`
     pub fn cast<O: HasAfEnum>(&self) -> Array<O> {
         let trgt_type = O::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_cast(&mut temp as MutAfArray, self.handle as AfArray, trgt_type as c_uint);
+            let err_val = af_cast(
+                &mut temp as MutAfArray,
+                self.handle as AfArray,
+                trgt_type as c_uint,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
         temp.into()
@@ -431,7 +503,10 @@ impl<T> Array<T> where T: HasAfEnum {
 /// resource id, an 64 bit integer
 impl<T: HasAfEnum> Into<Array<T>> for i64 {
     fn into(self) -> Array<T> {
-        Array {handle: self, _marker: PhantomData}
+        Array {
+            handle: self,
+            _marker: PhantomData,
+        }
     }
 }
 
@@ -443,7 +518,10 @@ impl<T: HasAfEnum> Into<Array<T>> for i64 {
 ///
 /// To create a deep copy use
 /// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)
-impl<T> Clone for Array<T> where T: HasAfEnum {
+impl<T> Clone for Array<T>
+where
+    T: HasAfEnum,
+{
     fn clone(&self) -> Array<T> {
         unsafe {
             let mut temp: i64 = 0;
@@ -457,7 +535,10 @@ impl<T> Clone for Array<T> where T: HasAfEnum {
 }
 
 /// To free resources when Array goes out of scope
-impl<T> Drop for Array<T> where T: HasAfEnum {
+impl<T> Drop for Array<T>
+where
+    T: HasAfEnum,
+{
     fn drop(&mut self) {
         unsafe {
             let ret_val = af_release_array(self.handle);
@@ -498,8 +579,11 @@ impl<T> Drop for Array<T> where T: HasAfEnum {
 pub fn print<T: HasAfEnum>(input: &Array<T>) {
     let emptystring = CString::new("").unwrap();
     unsafe {
-        let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
-                                         input.get() as AfArray, 4);
+        let err_val = af_print_array_gen(
+            emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
+            input.get() as AfArray,
+            4,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
@@ -539,9 +623,14 @@ pub fn print<T: HasAfEnum>(input: &Array<T>) {
 pub fn print_gen<T: HasAfEnum>(msg: String, input: &Array<T>, precision: Option<i32>) {
     let emptystring = CString::new(msg.as_bytes()).unwrap();
     unsafe {
-        let err_val = af_print_array_gen(emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
-                                         input.get() as AfArray,
-                                         match precision {Some(p)=>p, None=>4} as c_int);
+        let err_val = af_print_array_gen(
+            emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
+            input.get() as AfArray,
+            match precision {
+                Some(p) => p,
+                None => 4,
+            } as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
 }

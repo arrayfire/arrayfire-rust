@@ -1,13 +1,13 @@
 extern crate libc;
 
+use self::libc::{c_char, c_double, c_float, c_int, c_uint};
 use crate::array::Array;
 use crate::defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity};
 use crate::defines::{DiffusionEq, FluxFn, InterpType, MomentType, YCCStd};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, MutAfArray};
-use crate::util::{FloatingPoint, HasAfEnum, RealNumber, ImageNativeType, ImageFilterType};
-use crate::util::{RealFloating, EdgeComputable, MomentsComputable, GrayRGBConvertible};
-use self::libc::{c_uint, c_int, c_float, c_double, c_char};
+use crate::util::{EdgeComputable, GrayRGBConvertible, MomentsComputable, RealFloating};
+use crate::util::{FloatingPoint, HasAfEnum, ImageFilterType, ImageNativeType, RealNumber};
 use std::ffi::CString;
 
 // unused functions from image.h header
@@ -16,7 +16,7 @@ use std::ffi::CString;
 // af_delete_image_memory
 
 #[allow(dead_code)]
-extern {
+extern "C" {
     fn af_cast(out: MutAfArray, arr: AfArray, aftype: c_uint) -> c_int;
     fn af_gradient(dx: MutAfArray, dy: MutAfArray, arr: AfArray) -> c_int;
     fn af_load_image(out: MutAfArray, filename: *const c_char, iscolor: c_int) -> c_int;
@@ -24,26 +24,70 @@ extern {
     fn af_load_image_native(out: MutAfArray, filename: *const c_char) -> c_int;
     fn af_save_image_native(filename: *const c_char, input: AfArray) -> c_int;
 
-    fn af_resize(out: MutAfArray, input: AfArray,
-                 odim0: DimT, odim1: DimT, method: c_uint) -> c_int;
+    fn af_resize(
+        out: MutAfArray,
+        input: AfArray,
+        odim0: DimT,
+        odim1: DimT,
+        method: c_uint,
+    ) -> c_int;
 
-    fn af_transform(out: MutAfArray, input: AfArray, trans: AfArray,
-                    odim0: DimT, odim1: DimT, method: c_uint, is_inverse: c_int) -> c_int;
+    fn af_transform(
+        out: MutAfArray,
+        input: AfArray,
+        trans: AfArray,
+        odim0: DimT,
+        odim1: DimT,
+        method: c_uint,
+        is_inverse: c_int,
+    ) -> c_int;
 
-    fn af_rotate(out: MutAfArray, input: AfArray, theta: c_float, crop: c_int,
-                 method: c_uint) -> c_int;
+    fn af_rotate(
+        out: MutAfArray,
+        input: AfArray,
+        theta: c_float,
+        crop: c_int,
+        method: c_uint,
+    ) -> c_int;
 
-    fn af_translate(out: MutAfArray, input: AfArray, trans0: c_float, trans1: c_float,
-                    odim0: DimT, odim1: DimT, method: c_uint) -> c_int;
+    fn af_translate(
+        out: MutAfArray,
+        input: AfArray,
+        trans0: c_float,
+        trans1: c_float,
+        odim0: DimT,
+        odim1: DimT,
+        method: c_uint,
+    ) -> c_int;
 
-    fn af_scale(out: MutAfArray, input: AfArray, scale0: c_float, scale1: c_float,
-                odim0: DimT, odim1: DimT, method: c_uint) -> c_int;
+    fn af_scale(
+        out: MutAfArray,
+        input: AfArray,
+        scale0: c_float,
+        scale1: c_float,
+        odim0: DimT,
+        odim1: DimT,
+        method: c_uint,
+    ) -> c_int;
 
-    fn af_skew(out: MutAfArray, input: AfArray, skew0: c_float, skew1: c_float,
-               odim0: DimT, odim1: DimT, method: c_uint, is_inverse: c_int) -> c_int;
+    fn af_skew(
+        out: MutAfArray,
+        input: AfArray,
+        skew0: c_float,
+        skew1: c_float,
+        odim0: DimT,
+        odim1: DimT,
+        method: c_uint,
+        is_inverse: c_int,
+    ) -> c_int;
 
-    fn af_histogram(out: MutAfArray, input: AfArray, nbins: c_uint,
-                    minval: c_double, maxval: c_double) -> c_int;
+    fn af_histogram(
+        out: MutAfArray,
+        input: AfArray,
+        nbins: c_uint,
+        minval: c_double,
+        maxval: c_double,
+    ) -> c_int;
 
     fn af_dilate(out: MutAfArray, input: AfArray, mask: AfArray) -> c_int;
     fn af_dilate3(out: MutAfArray, input: AfArray, mask: AfArray) -> c_int;
@@ -57,38 +101,67 @@ extern {
     fn af_hsv2rgb(out: MutAfArray, input: AfArray) -> c_int;
     fn af_rgb2hsv(out: MutAfArray, input: AfArray) -> c_int;
 
-    fn af_bilateral(out: MutAfArray, input: AfArray,
-                    sp_sig: c_float, ch_sig: c_float, iscolor: c_int) -> c_int;
+    fn af_bilateral(
+        out: MutAfArray,
+        input: AfArray,
+        sp_sig: c_float,
+        ch_sig: c_float,
+        iscolor: c_int,
+    ) -> c_int;
 
-    fn af_mean_shift(out: MutAfArray, input: AfArray, sp_sig: c_float,
-                     ch_sig: c_float, iter: c_uint, iscolor: c_int) -> c_int;
+    fn af_mean_shift(
+        out: MutAfArray,
+        input: AfArray,
+        sp_sig: c_float,
+        ch_sig: c_float,
+        iter: c_uint,
+        iscolor: c_int,
+    ) -> c_int;
 
-    fn af_medfilt(out: MutAfArray, input: AfArray,
-                  wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
+    fn af_medfilt(out: MutAfArray, input: AfArray, wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
 
     fn af_medfilt1(out: MutAfArray, input: AfArray, wlen: DimT, etype: c_uint) -> c_int;
 
-    fn af_minfilt(out: MutAfArray, input: AfArray,
-                  wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
+    fn af_minfilt(out: MutAfArray, input: AfArray, wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
 
-    fn af_maxfilt(out: MutAfArray, input: AfArray,
-                  wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
+    fn af_maxfilt(out: MutAfArray, input: AfArray, wlen: DimT, wwid: DimT, etype: c_uint) -> c_int;
 
-    fn af_gaussian_kernel(out: MutAfArray, rows: c_int, cols: c_int,
-                          sigma_r: c_double, sigma_c: c_double) -> c_int;
+    fn af_gaussian_kernel(
+        out: MutAfArray,
+        rows: c_int,
+        cols: c_int,
+        sigma_r: c_double,
+        sigma_c: c_double,
+    ) -> c_int;
 
-    fn af_color_space(out: MutAfArray, input: AfArray,
-                      tospace: c_uint, fromspace: c_uint) -> c_int;
+    fn af_color_space(out: MutAfArray, input: AfArray, tospace: c_uint, fromspace: c_uint)
+        -> c_int;
 
-    fn af_unwrap(out: MutAfArray, input: AfArray, wx: DimT, wy: DimT, sx: DimT, sy: DimT,
-                 px: DimT, py: DimT, is_column: c_int) -> c_int;
+    fn af_unwrap(
+        out: MutAfArray,
+        input: AfArray,
+        wx: DimT,
+        wy: DimT,
+        sx: DimT,
+        sy: DimT,
+        px: DimT,
+        py: DimT,
+        is_column: c_int,
+    ) -> c_int;
 
-    fn af_wrap(out: MutAfArray, input: AfArray,
-               ox: DimT, oy: DimT,
-               wx: DimT, wy: DimT,
-               sx: DimT, sy: DimT,
-               px: DimT, py: DimT,
-               is_column: c_int) -> c_int;
+    fn af_wrap(
+        out: MutAfArray,
+        input: AfArray,
+        ox: DimT,
+        oy: DimT,
+        wx: DimT,
+        wy: DimT,
+        sx: DimT,
+        sy: DimT,
+        px: DimT,
+        py: DimT,
+        is_column: c_int,
+    ) -> c_int;
 
     fn af_sat(out: MutAfArray, input: AfArray) -> c_int;
 
@@ -97,14 +170,27 @@ extern {
     fn af_is_image_io_available(out: *mut c_int) -> c_int;
     fn af_transform_coordinates(out: MutAfArray, tf: AfArray, d0: c_float, d1: c_float) -> c_int;
 
-    fn af_moments(out: MutAfArray, input: AfArray, moment: c_int) ->c_int;
-    fn af_moments_all(out: *mut c_double, input: AfArray, moment: c_int) ->c_int;
+    fn af_moments(out: MutAfArray, input: AfArray, moment: c_int) -> c_int;
+    fn af_moments_all(out: *mut c_double, input: AfArray, moment: c_int) -> c_int;
 
-    fn af_canny(out: MutAfArray, input: AfArray, thres_type: c_int, low: c_float, high: c_float,
-                swindow: c_uint, is_fast: c_int) -> c_int;
-    fn af_anisotropic_diffusion(out: MutAfArray, input: AfArray, dt: c_float,
-                                K: c_float, iters: c_uint, fftype: c_int,
-                                diff_kind: c_int) -> c_int;
+    fn af_canny(
+        out: MutAfArray,
+        input: AfArray,
+        thres_type: c_int,
+        low: c_float,
+        high: c_float,
+        swindow: c_uint,
+        is_fast: c_int,
+    ) -> c_int;
+    fn af_anisotropic_diffusion(
+        out: MutAfArray,
+        input: AfArray,
+        dt: c_float,
+        K: c_float,
+        iters: c_uint,
+        fftype: c_int,
+        diff_kind: c_int,
+    ) -> c_int;
 }
 
 /// Calculate the gradients
@@ -124,13 +210,17 @@ extern {
 /// The second Array is `dy` which is the gradient along the 2nd dimension.
 #[allow(unused_mut)]
 pub fn gradient<T>(input: &Array<T>) -> (Array<T>, Array<T>)
-    where T: HasAfEnum + FloatingPoint
+where
+    T: HasAfEnum + FloatingPoint,
 {
     let mut dx: i64 = 0;
     let mut dy: i64 = 0;
     unsafe {
-        let err_val = af_gradient(&mut dx as MutAfArray, &mut dy as MutAfArray,
-                                  input.get() as AfArray);
+        let err_val = af_gradient(
+            &mut dx as MutAfArray,
+            &mut dy as MutAfArray,
+            input.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     (dx.into(), dy.into())
@@ -150,17 +240,22 @@ pub fn gradient<T>(input: &Array<T>) -> (Array<T>, Array<T>)
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
 pub fn load_image<T>(filename: String, is_color: bool) -> Array<T>
-    where T: HasAfEnum + RealNumber
+where
+    T: HasAfEnum + RealNumber,
 {
     let cstr_param = match CString::new(filename) {
         Ok(cstr) => cstr,
-        Err(_)   => panic!("CString creation from input filename failed"),
+        Err(_) => panic!("CString creation from input filename failed"),
     };
     let trgt_type = T::get_af_dtype();
     let mut img: i64 = 0;
     unsafe {
         let mut temp: i64 = 0;
-        let err1 = af_load_image(&mut temp as MutAfArray, cstr_param.as_ptr(), is_color as c_int);
+        let err1 = af_load_image(
+            &mut temp as MutAfArray,
+            cstr_param.as_ptr(),
+            is_color as c_int,
+        );
         HANDLE_ERROR(AfError::from(err1));
         let err2 = af_cast(&mut img as MutAfArray, temp as AfArray, trgt_type as c_uint);
         HANDLE_ERROR(AfError::from(err2));
@@ -188,11 +283,12 @@ pub fn load_image<T>(filename: String, is_color: bool) -> Array<T>
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
 pub fn load_image_native<T>(filename: String) -> Array<T>
-    where T: HasAfEnum + ImageNativeType
+where
+    T: HasAfEnum + ImageNativeType,
 {
     let cstr_param = match CString::new(filename) {
         Ok(cstr) => cstr,
-        Err(_)   => panic!("CString creation from input filename failed"),
+        Err(_) => panic!("CString creation from input filename failed"),
     };
     let trgt_type = T::get_af_dtype();
     let mut img: i64 = 0;
@@ -214,11 +310,12 @@ pub fn load_image_native<T>(filename: String) -> Array<T>
 /// - `input` is the Array to be stored into the image file
 #[allow(unused_mut)]
 pub fn save_image<T>(filename: String, input: &Array<T>)
-    where T: HasAfEnum + RealNumber
+where
+    T: HasAfEnum + RealNumber,
 {
     let cstr_param = match CString::new(filename) {
         Ok(cstr) => cstr,
-        Err(_)   => panic!("CString creation from input filename failed"),
+        Err(_) => panic!("CString creation from input filename failed"),
     };
     unsafe {
         let err_val = af_save_image(cstr_param.as_ptr(), input.get() as AfArray);
@@ -244,11 +341,12 @@ pub fn save_image<T>(filename: String, input: &Array<T>)
 /// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.
 #[allow(unused_mut)]
 pub fn save_image_native<T>(filename: String, input: &Array<T>)
-    where T: HasAfEnum + ImageNativeType
+where
+    T: HasAfEnum + ImageNativeType,
 {
     let cstr_param = match CString::new(filename) {
         Ok(cstr) => cstr,
-        Err(_)   => panic!("CString creation from input filename failed"),
+        Err(_) => panic!("CString creation from input filename failed"),
     };
     unsafe {
         let err_val = af_save_image_native(cstr_param.as_ptr(), input.get() as AfArray);
@@ -277,13 +375,21 @@ pub fn save_image_native<T>(filename: String, input: &Array<T>)
 ///
 /// Resized Array
 #[allow(unused_mut)]
-pub fn resize<T:HasAfEnum>(input: &Array<T>,
-                           odim0: i64, odim1: i64,
-                           method: InterpType) -> Array<T> {
+pub fn resize<T: HasAfEnum>(
+    input: &Array<T>,
+    odim0: i64,
+    odim1: i64,
+    method: InterpType,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_resize(&mut temp as MutAfArray, input.get() as AfArray,
-                                odim0 as DimT, odim1 as DimT, method as c_uint);
+        let err_val = af_resize(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            odim0 as DimT,
+            odim1 as DimT,
+            method as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -319,15 +425,25 @@ pub fn resize<T:HasAfEnum>(input: &Array<T>,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn transform<T:HasAfEnum>(input: &Array<T>, trans: &Array<f32>,
-                              odim0: i64, odim1: i64,
-                              method: InterpType, is_inverse: bool) -> Array<T> {
+pub fn transform<T: HasAfEnum>(
+    input: &Array<T>,
+    trans: &Array<f32>,
+    odim0: i64,
+    odim1: i64,
+    method: InterpType,
+    is_inverse: bool,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_transform(&mut temp as MutAfArray,
-                                   input.get() as AfArray, trans.get() as AfArray,
-                                   odim0 as DimT, odim1 as DimT,
-                                   method as c_uint, is_inverse as c_int);
+        let err_val = af_transform(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            trans.get() as AfArray,
+            odim0 as DimT,
+            odim1 as DimT,
+            method as c_uint,
+            is_inverse as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -363,12 +479,21 @@ pub fn transform<T:HasAfEnum>(input: &Array<T>, trans: &Array<f32>,
 ///
 /// Rotated Array
 #[allow(unused_mut)]
-pub fn rotate<T:HasAfEnum>(input: &Array<T>, theta: f64, crop: bool,
-                           method: InterpType) -> Array<T> {
+pub fn rotate<T: HasAfEnum>(
+    input: &Array<T>,
+    theta: f64,
+    crop: bool,
+    method: InterpType,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_rotate(&mut temp as MutAfArray, input.get() as AfArray,
-                                theta as c_float, crop as c_int, method as c_uint);
+        let err_val = af_rotate(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            theta as c_float,
+            crop as c_int,
+            method as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -402,15 +527,25 @@ pub fn rotate<T:HasAfEnum>(input: &Array<T>, theta: f64, crop: bool,
 ///
 /// Translated Image(Array).
 #[allow(unused_mut)]
-pub fn translate<T:HasAfEnum>(input: &Array<T>, trans0: f32, trans1: f32,
-                              odim0: i64, odim1: i64, method: InterpType) -> Array<T> {
+pub fn translate<T: HasAfEnum>(
+    input: &Array<T>,
+    trans0: f32,
+    trans1: f32,
+    odim0: i64,
+    odim1: i64,
+    method: InterpType,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_translate(&mut temp as MutAfArray,
-                                   input.get() as AfArray,
-                                   trans0 as c_float, trans1 as c_float,
-                                   odim0 as DimT, odim1 as DimT,
-                                   method as c_uint);
+        let err_val = af_translate(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            trans0 as c_float,
+            trans1 as c_float,
+            odim0 as DimT,
+            odim1 as DimT,
+            method as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -435,15 +570,25 @@ pub fn translate<T:HasAfEnum>(input: &Array<T>, trans0: f32, trans1: f32,
 ///
 /// Translated Image(Array).
 #[allow(unused_mut)]
-pub fn scale<T:HasAfEnum>(input: &Array<T>, scale0: f32, scale1: f32,
-                          odim0: i64, odim1: i64, method: InterpType) -> Array<T> {
+pub fn scale<T: HasAfEnum>(
+    input: &Array<T>,
+    scale0: f32,
+    scale1: f32,
+    odim0: i64,
+    odim1: i64,
+    method: InterpType,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_scale(&mut temp as MutAfArray,
-                               input.get() as AfArray,
-                               scale0 as c_float, scale1 as c_float,
-                               odim0 as DimT, odim1 as DimT,
-                               method as c_uint);
+        let err_val = af_scale(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            scale0 as c_float,
+            scale1 as c_float,
+            odim0 as DimT,
+            odim1 as DimT,
+            method as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -474,17 +619,27 @@ pub fn scale<T:HasAfEnum>(input: &Array<T>, scale0: f32, scale1: f32,
 ///
 /// Skewed Image
 #[allow(unused_mut)]
-pub fn skew<T:HasAfEnum>(input: &Array<T>,
-                         skew0: f32, skew1: f32,
-                         odim0: i64, odim1: i64,
-                         method: InterpType,
-                         is_inverse: bool) -> Array<T> {
+pub fn skew<T: HasAfEnum>(
+    input: &Array<T>,
+    skew0: f32,
+    skew1: f32,
+    odim0: i64,
+    odim1: i64,
+    method: InterpType,
+    is_inverse: bool,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_skew(&mut temp as MutAfArray, input.get() as AfArray,
-                              skew0 as c_float, skew1 as c_float,
-                              odim0 as DimT, odim1 as DimT,
-                              method as c_uint, is_inverse as c_int);
+        let err_val = af_skew(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            skew0 as c_float,
+            skew1 as c_float,
+            odim0 as DimT,
+            odim1 as DimT,
+            method as c_uint,
+            is_inverse as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -514,14 +669,19 @@ pub fn skew<T:HasAfEnum>(input: &Array<T>,
 ///
 /// Histogram of input Array
 #[allow(unused_mut)]
-pub fn histogram<T>(input: &Array<T>, nbins: u32,
-                    minval: f64, maxval: f64) -> Array<u32>
-    where T: HasAfEnum + RealNumber
+pub fn histogram<T>(input: &Array<T>, nbins: u32, minval: f64, maxval: f64) -> Array<u32>
+where
+    T: HasAfEnum + RealNumber,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_histogram(&mut temp as MutAfArray, input.get() as AfArray,
-                                   nbins as c_uint, minval as c_double, maxval as c_double);
+        let err_val = af_histogram(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            nbins as c_uint,
+            minval as c_double,
+            maxval as c_double,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -548,12 +708,16 @@ pub fn histogram<T>(input: &Array<T>, nbins: u32,
 /// Dilated Image(Array)
 #[allow(unused_mut)]
 pub fn dilate<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
-    where T: HasAfEnum + ImageFilterType
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_dilate(&mut temp as MutAfArray,
-                                input.get() as AfArray, mask.get() as AfArray);
+        let err_val = af_dilate(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            mask.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -581,12 +745,16 @@ pub fn dilate<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
 /// Eroded Image(Array)
 #[allow(unused_mut)]
 pub fn erode<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
-    where T: HasAfEnum + ImageFilterType
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_erode(&mut temp as MutAfArray,
-                               input.get() as AfArray, mask.get() as AfArray);
+        let err_val = af_erode(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            mask.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -607,12 +775,16 @@ pub fn erode<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
 /// Dilated Volume(Array)
 #[allow(unused_mut)]
 pub fn dilate3<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
-    where T: HasAfEnum + ImageFilterType
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_dilate3(&mut temp as MutAfArray,
-                                input.get() as AfArray, mask.get() as AfArray);
+        let err_val = af_dilate3(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            mask.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -633,12 +805,16 @@ pub fn dilate3<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
 /// Eroded Volume(Array)
 #[allow(unused_mut)]
 pub fn erode3<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
-    where T: HasAfEnum + ImageFilterType
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_erode3(&mut temp as MutAfArray,
-                               input.get() as AfArray, mask.get() as AfArray);
+        let err_val = af_erode3(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            mask.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -664,16 +840,25 @@ pub fn erode3<T>(input: &Array<T>, mask: &Array<T>) -> Array<T>
 ///
 /// Filtered Image - Array
 #[allow(unused_mut)]
-pub fn bilateral<T>(input: &Array<T>, spatial_sigma: f32, chromatic_sigma: f32,
-                    iscolor: bool) -> Array< T::AbsOutType >
-    where T: HasAfEnum + ImageFilterType,
-          T::AbsOutType: HasAfEnum
+pub fn bilateral<T>(
+    input: &Array<T>,
+    spatial_sigma: f32,
+    chromatic_sigma: f32,
+    iscolor: bool,
+) -> Array<T::AbsOutType>
+where
+    T: HasAfEnum + ImageFilterType,
+    T::AbsOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_bilateral(&mut temp as MutAfArray, input.get() as AfArray,
-                                   spatial_sigma as c_float, chromatic_sigma as c_float,
-                                   iscolor as c_int);
+        let err_val = af_bilateral(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            spatial_sigma as c_float,
+            chromatic_sigma as c_float,
+            iscolor as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -700,23 +885,33 @@ pub fn bilateral<T>(input: &Array<T>, spatial_sigma: f32, chromatic_sigma: f32,
 ///
 /// Filtered Image - Array
 #[allow(unused_mut)]
-pub fn mean_shift<T>(input: &Array<T>,
-                     spatial_sigma: f32, chromatic_sigma: f32,
-                     iter: u32, iscolor: bool) -> Array<T>
-    where T: HasAfEnum + RealNumber
+pub fn mean_shift<T>(
+    input: &Array<T>,
+    spatial_sigma: f32,
+    chromatic_sigma: f32,
+    iter: u32,
+    iscolor: bool,
+) -> Array<T>
+where
+    T: HasAfEnum + RealNumber,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_mean_shift(&mut temp as MutAfArray, input.get() as AfArray,
-                                    spatial_sigma as c_float, chromatic_sigma as c_float,
-                                    iter as c_uint, iscolor as c_int);
+        let err_val = af_mean_shift(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            spatial_sigma as c_float,
+            chromatic_sigma as c_float,
+            iter as c_uint,
+            iscolor as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
 }
 
 macro_rules! filt_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         ///
         ///# Parameters
@@ -730,24 +925,37 @@ macro_rules! filt_func_def {
         ///
         /// An Array with filtered image data.
         #[allow(unused_mut)]
-        pub fn $fn_name<T>(input: &Array<T>, wlen: u64, wwid: u64,
-                           etype: BorderType) -> Array<T>
-            where T: HasAfEnum + ImageFilterType
+        pub fn $fn_name<T>(input: &Array<T>, wlen: u64, wwid: u64, etype: BorderType) -> Array<T>
+        where
+            T: HasAfEnum + ImageFilterType,
         {
             let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_name(&mut temp as MutAfArray, input.get() as AfArray,
-                                        wlen as DimT, wwid as DimT, etype as c_uint);
+                let err_val = $ffi_name(
+                    &mut temp as MutAfArray,
+                    input.get() as AfArray,
+                    wlen as DimT,
+                    wwid as DimT,
+                    etype as c_uint,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()
         }
-    )
+    };
 }
 
 filt_func_def!("Median filter", medfilt, af_medfilt);
-filt_func_def!("Box filter with minimum as box operation", minfilt, af_minfilt);
-filt_func_def!("Box filter with maximum as box operation", maxfilt, af_maxfilt);
+filt_func_def!(
+    "Box filter with minimum as box operation",
+    minfilt,
+    af_minfilt
+);
+filt_func_def!(
+    "Box filter with maximum as box operation",
+    maxfilt,
+    af_maxfilt
+);
 
 /// Creates a Gaussian Kernel.
 ///
@@ -774,9 +982,13 @@ filt_func_def!("Box filter with maximum as box operation", maxfilt, af_maxfilt);
 pub fn gaussian_kernel(rows: i32, cols: i32, sigma_r: f64, sigma_c: f64) -> Array<f32> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_gaussian_kernel(&mut temp as MutAfArray,
-                                         rows as c_int, cols as c_int,
-                                         sigma_r as c_double, sigma_c as c_double);
+        let err_val = af_gaussian_kernel(
+            &mut temp as MutAfArray,
+            rows as c_int,
+            cols as c_int,
+            sigma_r as c_double,
+            sigma_c as c_double,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -817,15 +1029,18 @@ pub fn gaussian_kernel(rows: i32, cols: i32, sigma_r: f64, sigma_c: f64) -> Arra
 ///
 /// An Array with input image values in target color space
 #[allow(unused_mut)]
-pub fn color_space<T>(input: &Array<T>,
-                      tospace: ColorSpace,
-                      fromspace: ColorSpace) -> Array<T>
-    where T: HasAfEnum + RealNumber
+pub fn color_space<T>(input: &Array<T>, tospace: ColorSpace, fromspace: ColorSpace) -> Array<T>
+where
+    T: HasAfEnum + RealNumber,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_color_space(&mut temp as MutAfArray, input.get() as AfArray,
-                                     tospace as c_uint, fromspace as c_uint);
+        let err_val = af_color_space(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            tospace as c_uint,
+            fromspace as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -850,13 +1065,18 @@ pub fn color_space<T>(input: &Array<T>,
 /// Array with labels indicating different regions
 #[allow(unused_mut)]
 pub fn regions<OutType>(input: &Array<bool>, conn: Connectivity) -> Array<OutType>
-    where OutType: HasAfEnum + RealNumber
+where
+    OutType: HasAfEnum + RealNumber,
 {
     let otype = OutType::get_af_dtype();
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_regions(&mut temp as MutAfArray, input.get() as AfArray,
-                                 conn as c_uint, otype as c_uint);
+        let err_val = af_regions(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            conn as c_uint,
+            otype as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -880,16 +1100,20 @@ pub fn regions<OutType>(input: &Array<bool>, conn: Connectivity) -> Array<OutTyp
 ///
 /// The second Array has derivatives along vertical direction
 #[allow(unused_mut)]
-pub fn sobel<T>(input: &Array<T>,
-                ker_size: u32) -> (Array< T::SobelOutType >, Array< T::SobelOutType >)
-    where T: HasAfEnum + ImageFilterType,
-          T::SobelOutType: HasAfEnum
+pub fn sobel<T>(input: &Array<T>, ker_size: u32) -> (Array<T::SobelOutType>, Array<T::SobelOutType>)
+where
+    T: HasAfEnum + ImageFilterType,
+    T::SobelOutType: HasAfEnum,
 {
     let mut dx: i64 = 0;
     let mut dy: i64 = 0;
     unsafe {
-        let err_val = af_sobel_operator(&mut dx as MutAfArray, &mut dy as MutAfArray,
-                                        input.get() as AfArray, ker_size as c_uint);
+        let err_val = af_sobel_operator(
+            &mut dx as MutAfArray,
+            &mut dy as MutAfArray,
+            input.get() as AfArray,
+            ker_size as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     (dx.into(), dy.into())
@@ -906,19 +1130,23 @@ pub fn sobel<T>(input: &Array<T>,
 /// Equalized Array
 #[allow(unused_mut)]
 pub fn hist_equal<T>(input: &Array<T>, hist: &Array<u32>) -> Array<T>
-    where T: HasAfEnum + RealNumber
+where
+    T: HasAfEnum + RealNumber,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_hist_equal(&mut temp as MutAfArray,
-                                    input.get() as AfArray, hist.get() as AfArray);
+        let err_val = af_hist_equal(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            hist.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
 }
 
 macro_rules! grayrgb_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         ///
         ///# Parameters
@@ -932,28 +1160,35 @@ macro_rules! grayrgb_func_def {
         ///An Array with image data in target color space
         #[allow(unused_mut)]
         pub fn $fn_name<T>(input: &Array<T>, r: f32, g: f32, b: f32) -> Array<T>
-            where T: HasAfEnum + GrayRGBConvertible
+        where
+            T: HasAfEnum + GrayRGBConvertible,
         {
             let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_name(&mut temp as MutAfArray, input.get() as AfArray,
-                                        r as c_float, g as c_float, b as c_float);
+                let err_val = $ffi_name(
+                    &mut temp as MutAfArray,
+                    input.get() as AfArray,
+                    r as c_float,
+                    g as c_float,
+                    b as c_float,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()
         }
-    )
+    };
 }
 
 grayrgb_func_def!("Color(RGB) to Grayscale conversion", rgb2gray, af_rgb2gray);
 grayrgb_func_def!("Grayscale to Color(RGB) conversion", gray2rgb, af_gray2rgb);
 
 macro_rules! hsvrgb_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         #[allow(unused_mut)]
         pub fn $fn_name<T>(input: &Array<T>) -> Array<T>
-            where T: HasAfEnum + RealFloating
+        where
+            T: HasAfEnum + RealFloating,
         {
             let mut temp: i64 = 0;
             unsafe {
@@ -962,7 +1197,7 @@ macro_rules! hsvrgb_func_def {
             }
             temp.into()
         }
-    )
+    };
 }
 
 hsvrgb_func_def!("HSV to RGB color space conversion", hsv2rgb, af_hsv2rgb);
@@ -1038,15 +1273,29 @@ hsvrgb_func_def!("RGB to HSV color space conversion", rgb2hsv, af_rgb2hsv);
 /// 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  0  0  0  0  0
 /// 16 17 18 19  0 21 22 23 24  0 26 27 28 29  0 31 32 33 34  0  0  0  0  0  0
 /// ```
-pub fn unwrap<T:HasAfEnum>(input: &Array<T>,
-                           wx: i64, wy: i64,
-                           sx: i64, sy: i64,
-                           px: i64, py: i64,
-                           is_column: bool) -> Array<T> {
+pub fn unwrap<T: HasAfEnum>(
+    input: &Array<T>,
+    wx: i64,
+    wy: i64,
+    sx: i64,
+    sy: i64,
+    px: i64,
+    py: i64,
+    is_column: bool,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_unwrap(&mut temp as MutAfArray, input.get() as AfArray,
-                                wx, wy, sx, sy, px, py, is_column as c_int);
+        let err_val = af_unwrap(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            wx,
+            wy,
+            sx,
+            sy,
+            px,
+            py,
+            is_column as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1075,14 +1324,33 @@ pub fn unwrap<T:HasAfEnum>(input: &Array<T>,
 /// # Return Values
 ///
 /// Image(Array) created from unwrapped Image(Array)
-pub fn wrap<T:HasAfEnum>(input: &Array<T>,
-                         ox: i64, oy: i64, wx: i64, wy: i64,
-                         sx: i64, sy: i64, px: i64, py: i64,
-                         is_column: bool) -> Array<T> {
+pub fn wrap<T: HasAfEnum>(
+    input: &Array<T>,
+    ox: i64,
+    oy: i64,
+    wx: i64,
+    wy: i64,
+    sx: i64,
+    sy: i64,
+    px: i64,
+    py: i64,
+    is_column: bool,
+) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_wrap(&mut temp as MutAfArray, input.get() as AfArray,
-                              ox, oy, wx, wy, sx, sy, px, py, is_column as c_int);
+        let err_val = af_wrap(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            ox,
+            oy,
+            wx,
+            wy,
+            sx,
+            sy,
+            px,
+            py,
+            is_column as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1097,9 +1365,10 @@ pub fn wrap<T:HasAfEnum>(input: &Array<T>,
 /// # Return Values
 ///
 /// Summed area table (a.k.a Integral Image) of the input image.
-pub fn sat<T>(input: &Array<T>) -> Array< T::AggregateOutType >
-    where T: HasAfEnum + RealNumber,
-          T::AggregateOutType: HasAfEnum
+pub fn sat<T>(input: &Array<T>) -> Array<T::AggregateOutType>
+where
+    T: HasAfEnum + RealNumber,
+    T::AggregateOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
@@ -1130,12 +1399,16 @@ pub fn sat<T>(input: &Array<T>) -> Array< T::AggregateOutType >
 ///
 /// Image(Array) in YCbCr color space
 pub fn rgb2ycbcr<T>(input: &Array<T>, standard: YCCStd) -> Array<T>
-    where T: HasAfEnum + RealFloating
+where
+    T: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_rgb2ycbcr(&mut temp as MutAfArray, input.get() as AfArray,
-                                   standard as c_int);
+        let err_val = af_rgb2ycbcr(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            standard as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1168,12 +1441,16 @@ pub fn rgb2ycbcr<T>(input: &Array<T>, standard: YCCStd) -> Array<T>
 ///
 /// Image(Array) in RGB color space
 pub fn ycbcr2rgb<T>(input: &Array<T>, standard: YCCStd) -> Array<T>
-    where T: HasAfEnum + RealFloating
+where
+    T: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_ycbcr2rgb(&mut temp as MutAfArray, input.get() as AfArray,
-                                   standard as c_int);
+        let err_val = af_ycbcr2rgb(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            standard as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1214,13 +1491,17 @@ pub fn is_imageio_available() -> bool {
 ///
 /// Transformed coordinates
 pub fn transform_coords<T>(tf: &Array<T>, d0: f32, d1: f32) -> Array<T>
-    where T: HasAfEnum + RealFloating
+where
+    T: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_transform_coordinates(&mut temp as MutAfArray,
-                                               tf.get() as AfArray,
-                                               d0 as c_float, d1 as c_float);
+        let err_val = af_transform_coordinates(
+            &mut temp as MutAfArray,
+            tf.get() as AfArray,
+            d0 as c_float,
+            d1 as c_float,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1238,13 +1519,16 @@ pub fn transform_coords<T>(tf: &Array<T>, d0: f32, d1: f32) -> Array<T>
 ///
 /// Moments Array
 pub fn moments<T>(input: &Array<T>, moment: MomentType) -> Array<f32>
-    where T: HasAfEnum + MomentsComputable
+where
+    T: HasAfEnum + MomentsComputable,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_moments(&mut temp as MutAfArray,
-                                 input.get() as AfArray,
-                                 moment as c_int);
+        let err_val = af_moments(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            moment as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1262,13 +1546,16 @@ pub fn moments<T>(input: &Array<T>, moment: MomentType) -> Array<f32>
 ///
 /// Moment value of the whole image
 pub fn moments_all<T>(input: &Array<T>, moment: MomentType) -> f64
-    where T: HasAfEnum + MomentsComputable
+where
+    T: HasAfEnum + MomentsComputable,
 {
     let mut temp: f64 = 0.0;
     unsafe {
-        let err_val = af_moments_all(&mut temp as *mut c_double,
-                                     input.get() as AfArray,
-                                     moment as c_int);
+        let err_val = af_moments_all(
+            &mut temp as *mut c_double,
+            input.get() as AfArray,
+            moment as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp
@@ -1286,12 +1573,17 @@ pub fn moments_all<T>(input: &Array<T>, moment: MomentType) -> f64
 ///
 /// An Array with filtered image data.
 pub fn medfilt1<T>(input: &Array<T>, wlen: u64, etype: BorderType) -> Array<T>
-    where T: HasAfEnum + ImageFilterType
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_medfilt1(&mut temp as MutAfArray, input.get() as AfArray,
-                                  wlen as DimT, etype as c_uint);
+        let err_val = af_medfilt1(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            wlen as DimT,
+            etype as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1314,16 +1606,28 @@ pub fn medfilt1<T>(input: &Array<T>, wlen: u64, etype: BorderType) -> Array<T>
 ///
 /// An Array of binary type [DType::B8](./enum.DType.html) indicating edges(All pixels with
 /// non-zero values are edges).
-pub fn canny<T>(input: &Array<T>, threshold_type: CannyThresholdType,
-                low: f32, hight: f32,
-                sobel_window: u32, is_fast: bool) -> Array<bool>
-    where T: HasAfEnum + EdgeComputable
+pub fn canny<T>(
+    input: &Array<T>,
+    threshold_type: CannyThresholdType,
+    low: f32,
+    hight: f32,
+    sobel_window: u32,
+    is_fast: bool,
+) -> Array<bool>
+where
+    T: HasAfEnum + EdgeComputable,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_canny(&mut temp as MutAfArray, input.get() as AfArray,
-                               threshold_type as c_int, low as c_float, hight as c_float,
-                               sobel_window as c_uint, is_fast as c_int);
+        let err_val = af_canny(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            threshold_type as c_int,
+            low as c_float,
+            hight as c_float,
+            sobel_window as c_uint,
+            is_fast as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -1403,21 +1707,29 @@ pub fn canny<T>(input: &Array<T>, threshold_type: CannyThresholdType,
 ///  - R. Whitaker and X. Xue. `Variable-Conductance, Level-Set Curvature
 ///    for Image Denoising`, International Conference on Image Processing,
 ///    2001 pp. 142-145, Vol.3.
-pub fn anisotropic_diffusion<T>(img: &Array<T>,
-                                dt: f32, k: f32, iters: u32,
-                                fftype: FluxFn,
-                                diff_kind: DiffusionEq) -> Array< T::AbsOutType >
-    where T: HasAfEnum + EdgeComputable,
-          T::AbsOutType: HasAfEnum
+pub fn anisotropic_diffusion<T>(
+    img: &Array<T>,
+    dt: f32,
+    k: f32,
+    iters: u32,
+    fftype: FluxFn,
+    diff_kind: DiffusionEq,
+) -> Array<T::AbsOutType>
+where
+    T: HasAfEnum + EdgeComputable,
+    T::AbsOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_anisotropic_diffusion(&mut temp as MutAfArray,
-                                               img.get() as AfArray,
-                                               dt as c_float, k as c_float,
-                                               iters as c_uint,
-                                               fftype as c_int,
-                                               diff_kind as c_int);
+        let err_val = af_anisotropic_diffusion(
+            &mut temp as MutAfArray,
+            img.get() as AfArray,
+            dt as c_float,
+            k as c_float,
+            iters as c_uint,
+            fftype as c_int,
+            diff_kind as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()

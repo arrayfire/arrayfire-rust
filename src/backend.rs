@@ -1,10 +1,10 @@
 extern crate libc;
 
+use self::libc::{c_int, c_uint, uint8_t};
 use crate::defines::{AfError, Backend};
 use crate::error::HANDLE_ERROR;
-use self::libc::{c_int, c_uint, uint8_t};
 
-extern {
+extern "C" {
     fn af_set_backend(bknd: uint8_t) -> c_int;
     fn af_get_backend_count(num_backends: *mut c_uint) -> c_int;
     fn af_get_available_backends(backends: *mut c_int) -> c_int;
@@ -34,7 +34,6 @@ pub fn get_backend_count() -> u32 {
     }
 }
 
-
 /// Get the available backends
 #[allow(unused_mut)]
 pub fn get_available_backends() -> Vec<Backend> {
@@ -44,9 +43,15 @@ pub fn get_available_backends() -> Vec<Backend> {
         HANDLE_ERROR(AfError::from(err_val));
 
         let mut b = Vec::new();
-        if temp & 0b0100 == 0b0100 { b.push(Backend::OPENCL); }
-        if temp & 0b0010 == 0b0010 { b.push(Backend::CUDA); }
-        if temp & 0b0001 == 0b0001 { b.push(Backend::CPU); }
+        if temp & 0b0100 == 0b0100 {
+            b.push(Backend::OPENCL);
+        }
+        if temp & 0b0010 == 0b0010 {
+            b.push(Backend::CUDA);
+        }
+        if temp & 0b0001 == 0b0001 {
+            b.push(Backend::CPU);
+        }
 
         b
     }

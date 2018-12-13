@@ -1,26 +1,34 @@
 extern crate libc;
 
-use crate::defines::{AfError};
+use self::libc::{c_char, c_int, size_t};
+use crate::defines::AfError;
 use crate::error::HANDLE_ERROR;
-use self::libc::{c_int, size_t, c_char};
-use std::ffi::{CStr, CString};
-use std::borrow::Cow;
 use crate::util::free_host;
+use std::borrow::Cow;
+use std::ffi::{CStr, CString};
 
-extern {
+extern "C" {
     fn af_get_version(major: *mut c_int, minor: *mut c_int, patch: *mut c_int) -> c_int;
     fn af_get_revision() -> *const c_char;
     fn af_info() -> c_int;
     fn af_info_string(str: *mut *mut c_char, verbose: bool) -> c_int;
-    fn af_device_info(d_name: *mut c_char, d_platform: *mut c_char,
-                      d_toolkit: *mut c_char, d_compute: *mut c_char) -> c_int;
+    fn af_device_info(
+        d_name: *mut c_char,
+        d_platform: *mut c_char,
+        d_toolkit: *mut c_char,
+        d_compute: *mut c_char,
+    ) -> c_int;
     fn af_init() -> c_int;
     fn af_get_device_count(nDevices: *mut c_int) -> c_int;
     fn af_get_dbl_support(available: *mut c_int, device: c_int) -> c_int;
     fn af_set_device(device: c_int) -> c_int;
     fn af_get_device(device: *mut c_int) -> c_int;
-    fn af_device_mem_info(alloc_bytes: *mut size_t, alloc_buffers: *mut size_t,
-                          lock_bytes: *mut size_t, lock_buffers: *mut size_t) -> c_int;
+    fn af_device_mem_info(
+        alloc_bytes: *mut size_t,
+        alloc_buffers: *mut size_t,
+        lock_bytes: *mut size_t,
+        lock_buffers: *mut size_t,
+    ) -> c_int;
     fn af_print_mem_info(msg: *const c_char, device_id: c_int) -> c_int;
     fn af_set_mem_step_size(step_bytes: size_t) -> c_int;
     fn af_get_mem_step_size(step_bytes: *mut size_t) -> c_int;
@@ -37,8 +45,11 @@ pub fn get_version() -> (i32, i32, i32) {
         let mut maj: i32 = 0;
         let mut min: i32 = 0;
         let mut pat: i32 = 0;
-        let err_val = af_get_version(&mut maj as *mut c_int,
-                                     &mut min as *mut c_int, &mut pat as *mut c_int);
+        let err_val = af_get_version(
+            &mut maj as *mut c_int,
+            &mut min as *mut c_int,
+            &mut pat as *mut c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
         (maj, min, pat)
     }
@@ -49,9 +60,7 @@ pub fn get_version() -> (i32, i32, i32) {
 /// # Return Values
 /// This returns a `Cow<'static, str>` as the string is constructed at compile time.
 pub fn get_revision() -> Cow<'static, str> {
-    unsafe {
-        CStr::from_ptr(af_get_revision()).to_string_lossy()
-    }
+    unsafe { CStr::from_ptr(af_get_revision()).to_string_lossy() }
 }
 
 /// Print library meta-info
@@ -105,15 +114,27 @@ pub fn device_info() -> (String, String, String, String) {
     let mut toolkit = [0 as c_char; 64];
     let mut compute = [0 as c_char; 10];
     unsafe {
-        let err_val = af_device_info(&mut name[0],
-                                     &mut platform[0],
-                                     &mut toolkit[0],
-                                     &mut compute[0]);
+        let err_val = af_device_info(
+            &mut name[0],
+            &mut platform[0],
+            &mut toolkit[0],
+            &mut compute[0],
+        );
         HANDLE_ERROR(AfError::from(err_val));
-        (CStr::from_ptr(name.as_mut_ptr()).to_string_lossy().into_owned(),
-         CStr::from_ptr(platform.as_mut_ptr()).to_string_lossy().into_owned(),
-         CStr::from_ptr(toolkit.as_mut_ptr()).to_string_lossy().into_owned(),
-         CStr::from_ptr(compute.as_mut_ptr()).to_string_lossy().into_owned())
+        (
+            CStr::from_ptr(name.as_mut_ptr())
+                .to_string_lossy()
+                .into_owned(),
+            CStr::from_ptr(platform.as_mut_ptr())
+                .to_string_lossy()
+                .into_owned(),
+            CStr::from_ptr(toolkit.as_mut_ptr())
+                .to_string_lossy()
+                .into_owned(),
+            CStr::from_ptr(compute.as_mut_ptr())
+                .to_string_lossy()
+                .into_owned(),
+        )
     }
 }
 
@@ -198,10 +219,12 @@ pub fn device_mem_info() -> (usize, usize, usize, usize) {
         let mut o1: usize = 0;
         let mut o2: usize = 0;
         let mut o3: usize = 0;
-        let err_val = af_device_mem_info(&mut o0 as *mut size_t,
-                                         &mut o1 as *mut size_t,
-                                         &mut o2 as *mut size_t,
-                                         &mut o3 as *mut size_t);
+        let err_val = af_device_mem_info(
+            &mut o0 as *mut size_t,
+            &mut o1 as *mut size_t,
+            &mut o2 as *mut size_t,
+            &mut o3 as *mut size_t,
+        );
         HANDLE_ERROR(AfError::from(err_val));
         (o0, o1, o2, o3)
     }
@@ -224,10 +247,12 @@ pub fn print_mem_info(msg: String, device: i32) {
         let cmsg = CString::new(msg.as_bytes());
         match cmsg {
             Ok(v) => {
-                let err_val = af_print_mem_info(v.to_bytes_with_nul().as_ptr() as * const c_char,
-                                                device as c_int);
+                let err_val = af_print_mem_info(
+                    v.to_bytes_with_nul().as_ptr() as *const c_char,
+                    device as c_int,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
-            },
+            }
             Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
         }
     }

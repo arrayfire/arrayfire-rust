@@ -1,8 +1,8 @@
 extern crate libc;
 
-use std::fmt;
-use std::default::Default;
 use crate::num::{One, Zero};
+use std::default::Default;
+use std::fmt;
 
 /// Sequences are used for indexing Arrays
 #[derive(Copy, Clone)]
@@ -14,23 +14,35 @@ pub struct Seq<T> {
 }
 
 /// Default `Seq` spans all the elements along a dimension
-impl<T: One+Zero> Default for Seq<T> {
+impl<T: One + Zero> Default for Seq<T> {
     fn default() -> Self {
-        Seq { begin: One::one(), end: One::one(), step: Zero::zero() }
+        Seq {
+            begin: One::one(),
+            end: One::one(),
+            step: Zero::zero(),
+        }
     }
 }
 
 /// Enables use of `Seq` with `{}` format in print statements
 impl<T: fmt::Display> fmt::Display for Seq<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "[begin: {}, end: {}, step: {}]", self.begin, self.end, self.step)
+        write!(
+            f,
+            "[begin: {}, end: {}, step: {}]",
+            self.begin, self.end, self.step
+        )
     }
 }
 
 impl<T: Copy> Seq<T> {
     /// Create a `Seq` that goes from `begin` to `end` at a step size of `step`
     pub fn new(begin: T, end: T, step: T) -> Self {
-        Seq { begin: begin, end: end, step: step, }
+        Seq {
+            begin: begin,
+            end: end,
+            step: step,
+        }
     }
 
     /// Get begin index of Seq

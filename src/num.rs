@@ -7,9 +7,13 @@ pub trait One {
 }
 
 macro_rules! zero_impl {
-    ( $t:ident, $z:expr ) => (
-        impl Zero for $t { fn zero() -> Self { $z } }
-    )
+    ( $t:ident, $z:expr ) => {
+        impl Zero for $t {
+            fn zero() -> Self {
+                $z
+            }
+        }
+    };
 }
 
 zero_impl!(u8, 0);
@@ -25,11 +29,14 @@ zero_impl!(isize, 0);
 zero_impl!(f32, 0.0);
 zero_impl!(f64, 0.0);
 
-
 macro_rules! one_impl {
-    ( $t:ident, $o:expr ) => (
-        impl One for $t { fn one() -> Self { $o } }
-    )
+    ( $t:ident, $o:expr ) => {
+        impl One for $t {
+            fn one() -> Self {
+                $o
+            }
+        }
+    };
 }
 
 one_impl!(u8, 1);
