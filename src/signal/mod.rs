@@ -1,41 +1,72 @@
 extern crate libc;
 extern crate num;
 
+use self::libc::{c_double, c_float, c_int, c_longlong, c_uint, size_t};
+use self::num::Complex;
 use crate::array::Array;
 use crate::defines::{AfError, ConvDomain, ConvMode, InterpType};
 use crate::error::HANDLE_ERROR;
-use self::num::Complex;
-use self::libc::{c_uint, c_int, c_float, c_double, c_longlong, size_t};
-use crate::util::{ComplexFloating, FloatingPoint, HasAfEnum, RealFloating};
 use crate::util::{AfArray, MutAfArray};
+use crate::util::{ComplexFloating, FloatingPoint, HasAfEnum, RealFloating};
 
 #[allow(dead_code)]
-extern {
-    fn af_approx1(out: MutAfArray, inp: AfArray, pos: AfArray,
-                  method: c_int, off_grid: c_float) -> c_int;
+extern "C" {
+    fn af_approx1(
+        out: MutAfArray,
+        inp: AfArray,
+        pos: AfArray,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
 
-    fn af_approx2(out: MutAfArray, inp: AfArray, pos0: AfArray, pos1: AfArray,
-                  method: c_int, off_grid: c_float) -> c_int;
+    fn af_approx2(
+        out: MutAfArray,
+        inp: AfArray,
+        pos0: AfArray,
+        pos1: AfArray,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
 
     fn af_set_fft_plan_cache_size(cache_size: size_t) -> c_int;
 
-    fn af_fft(out: MutAfArray, arr: AfArray,
-              nfac: c_double, odim0: c_longlong) -> c_int;
+    fn af_fft(out: MutAfArray, arr: AfArray, nfac: c_double, odim0: c_longlong) -> c_int;
 
-    fn af_fft2(out: MutAfArray, arr: AfArray, nfac: c_double,
-               odim0: c_longlong, odim1: c_longlong) -> c_int;
+    fn af_fft2(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        odim0: c_longlong,
+        odim1: c_longlong,
+    ) -> c_int;
 
-    fn af_fft3(out: MutAfArray, arr: AfArray, nfac: c_double,
-               odim0: c_longlong, odim1: c_longlong, odim2: c_longlong) -> c_int;
+    fn af_fft3(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        odim0: c_longlong,
+        odim1: c_longlong,
+        odim2: c_longlong,
+    ) -> c_int;
 
-    fn af_ifft(out: MutAfArray, arr: AfArray,
-               nfac: c_double, odim0: c_longlong) -> c_int;
+    fn af_ifft(out: MutAfArray, arr: AfArray, nfac: c_double, odim0: c_longlong) -> c_int;
 
-    fn af_ifft2(out: MutAfArray, arr: AfArray, nfac: c_double,
-                odim0: c_longlong, odim1: c_longlong) -> c_int;
+    fn af_ifft2(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        odim0: c_longlong,
+        odim1: c_longlong,
+    ) -> c_int;
 
-    fn af_ifft3(out: MutAfArray, arr: AfArray, nfac: c_double,
-                odim0: c_longlong, odim1: c_longlong, odim2: c_longlong) -> c_int;
+    fn af_ifft3(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        odim0: c_longlong,
+        odim1: c_longlong,
+        odim2: c_longlong,
+    ) -> c_int;
 
     fn af_fft_inplace(arr: AfArray, nfac: c_double) -> c_int;
     fn af_fft2_inplace(arr: AfArray, nfac: c_double) -> c_int;
@@ -44,12 +75,22 @@ extern {
     fn af_ifft2_inplace(arr: AfArray, nfac: c_double) -> c_int;
     fn af_ifft3_inplace(arr: AfArray, nfac: c_double) -> c_int;
 
-    fn af_fft_r2c(out: MutAfArray, arr: AfArray,
-                  nfac: c_double, pad0: c_longlong) -> c_int;
-    fn af_fft2_r2c(out: MutAfArray, arr: AfArray,
-                   nfac: c_double, pad0: c_longlong, pad1: c_longlong) -> c_int;
-    fn af_fft3_r2c(out: MutAfArray, arr: AfArray,
-                   nfac: c_double, pad0: c_longlong, pad1: c_longlong, pad2: c_longlong) -> c_int;
+    fn af_fft_r2c(out: MutAfArray, arr: AfArray, nfac: c_double, pad0: c_longlong) -> c_int;
+    fn af_fft2_r2c(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        pad0: c_longlong,
+        pad1: c_longlong,
+    ) -> c_int;
+    fn af_fft3_r2c(
+        out: MutAfArray,
+        arr: AfArray,
+        nfac: c_double,
+        pad0: c_longlong,
+        pad1: c_longlong,
+        pad2: c_longlong,
+    ) -> c_int;
 
     fn af_fft_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
     fn af_fft2_c2r(out: MutAfArray, input: AfArray, nfac: c_double, is_odd: c_int) -> c_int;
@@ -80,15 +121,25 @@ extern {
 ///
 /// An Array with interpolated values
 #[allow(unused_mut)]
-pub fn approx1<T, P>(input: &Array<T>, pos: &Array<P>,
-                     method: InterpType, off_grid: f32) -> Array<T>
-    where T: HasAfEnum + FloatingPoint,
-          P: HasAfEnum + RealFloating
+pub fn approx1<T, P>(
+    input: &Array<T>,
+    pos: &Array<P>,
+    method: InterpType,
+    off_grid: f32,
+) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_approx1(&mut temp as MutAfArray, input.get() as AfArray,
-                                 pos.get() as AfArray, method as c_int, off_grid as c_float);
+        let err_val = af_approx1(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            pos.get() as AfArray,
+            method as c_int,
+            off_grid as c_float,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -109,16 +160,27 @@ pub fn approx1<T, P>(input: &Array<T>, pos: &Array<P>,
 /// # Return Values
 ///
 /// An Array with interpolated values
-pub fn approx2<T, P>(input: &Array<T>, pos0: &Array<P>, pos1: &Array<P>,
-                     method: InterpType, off_grid: f32) -> Array<T>
-    where T: HasAfEnum + FloatingPoint,
-          P: HasAfEnum + RealFloating
+pub fn approx2<T, P>(
+    input: &Array<T>,
+    pos0: &Array<P>,
+    pos1: &Array<P>,
+    method: InterpType,
+    off_grid: f32,
+) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_approx2(&mut temp as MutAfArray, input.get() as AfArray,
-                                 pos0.get() as AfArray, pos1.get() as AfArray,
-                                 method as c_int, off_grid as c_float);
+        let err_val = af_approx2(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            pos0.get() as AfArray,
+            pos1.get() as AfArray,
+            method as c_int,
+            off_grid as c_float,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -150,16 +212,19 @@ pub fn set_fft_plan_cache_size(cache_size: usize) {
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn fft<T>(input: &Array<T>, norm_factor: f64,
-              odim0: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn fft<T>(input: &Array<T>, norm_factor: f64, odim0: i64) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft(&mut temp as MutAfArray,
-                             input.get() as AfArray, norm_factor as c_double,
-                             odim0 as c_longlong);
+        let err_val = af_fft(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -179,16 +244,25 @@ pub fn fft<T>(input: &Array<T>, norm_factor: f64,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn fft2<T>(input: &Array<T>, norm_factor: f64,
-               odim0: i64, odim1: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn fft2<T>(
+    input: &Array<T>,
+    norm_factor: f64,
+    odim0: i64,
+    odim1: i64,
+) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft2(&mut temp as MutAfArray,
-                              input.get() as AfArray, norm_factor as c_double,
-                              odim0 as c_longlong, odim1 as c_longlong);
+        let err_val = af_fft2(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+            odim1 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -209,16 +283,27 @@ pub fn fft2<T>(input: &Array<T>, norm_factor: f64,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn fft3<T>(input: &Array<T>, norm_factor: f64,
-               odim0: i64, odim1: i64, odim2: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn fft3<T>(
+    input: &Array<T>,
+    norm_factor: f64,
+    odim0: i64,
+    odim1: i64,
+    odim2: i64,
+) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft3(&mut temp as MutAfArray,
-                              input.get() as AfArray, norm_factor as c_double,
-                              odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
+        let err_val = af_fft3(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+            odim1 as c_longlong,
+            odim2 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -238,15 +323,19 @@ pub fn fft3<T>(input: &Array<T>, norm_factor: f64,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn ifft<T>(input: &Array<T>, norm_factor: f64, odim0: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn ifft<T>(input: &Array<T>, norm_factor: f64, odim0: i64) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_ifft(&mut temp as MutAfArray,
-                              input.get() as AfArray, norm_factor as c_double,
-                              odim0 as c_longlong);
+        let err_val = af_ifft(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -266,16 +355,25 @@ pub fn ifft<T>(input: &Array<T>, norm_factor: f64, odim0: i64) -> Array< T::Comp
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn ifft2<T>(input: &Array<T>, norm_factor: f64,
-                odim0: i64, odim1: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn ifft2<T>(
+    input: &Array<T>,
+    norm_factor: f64,
+    odim0: i64,
+    odim1: i64,
+) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_ifft2(&mut temp as MutAfArray,
-                               input.get() as AfArray, norm_factor as c_double,
-                               odim0 as c_longlong, odim1 as c_longlong);
+        let err_val = af_ifft2(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+            odim1 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -296,23 +394,34 @@ pub fn ifft2<T>(input: &Array<T>, norm_factor: f64,
 ///
 /// Transformed Array
 #[allow(unused_mut)]
-pub fn ifft3<T>(input: &Array<T>, norm_factor: f64,
-                odim0: i64, odim1: i64, odim2: i64) -> Array< T::ComplexOutType >
-    where T: HasAfEnum + FloatingPoint,
-          <T as HasAfEnum>::ComplexOutType: HasAfEnum
+pub fn ifft3<T>(
+    input: &Array<T>,
+    norm_factor: f64,
+    odim0: i64,
+    odim1: i64,
+    odim2: i64,
+) -> Array<T::ComplexOutType>
+where
+    T: HasAfEnum + FloatingPoint,
+    <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_ifft3(&mut temp as MutAfArray,
-                               input.get() as AfArray, norm_factor as c_double,
-                               odim0 as c_longlong, odim1 as c_longlong, odim2 as c_longlong);
+        let err_val = af_ifft3(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            odim0 as c_longlong,
+            odim1 as c_longlong,
+            odim2 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
 }
 
 macro_rules! conv_func_def {
-    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         ///
         ///# Parameters
@@ -328,21 +437,30 @@ macro_rules! conv_func_def {
         ///
         /// Convolved Array
         #[allow(unused_mut)]
-        pub fn $fn_name<T, F>(signal: &Array<T>, filter: &Array<F>,
-                              mode: ConvMode, domain: ConvDomain) -> Array<T>
-            where T: HasAfEnum,
-                  F: HasAfEnum
+        pub fn $fn_name<T, F>(
+            signal: &Array<T>,
+            filter: &Array<F>,
+            mode: ConvMode,
+            domain: ConvDomain,
+        ) -> Array<T>
+        where
+            T: HasAfEnum,
+            F: HasAfEnum,
         {
             let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_name(&mut temp as MutAfArray,
-                                        signal.get() as AfArray, filter.get() as AfArray,
-                                        mode as c_uint, domain as c_uint);
+                let err_val = $ffi_name(
+                    &mut temp as MutAfArray,
+                    signal.get() as AfArray,
+                    filter.get() as AfArray,
+                    mode as c_uint,
+                    domain as c_uint,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()
         }
-    )
+    };
 }
 
 conv_func_def!("1d convolution", convolve1, af_convolve1);
@@ -362,23 +480,32 @@ conv_func_def!("3d convolution", convolve3, af_convolve3);
 ///
 /// The convolved Array
 #[allow(unused_mut)]
-pub fn convolve2_sep<T, F>(cfilt: &Array<F>, rfilt: &Array<F>, signal: &Array<T>,
-                           mode: ConvMode) -> Array<T>
-    where T: HasAfEnum,
-          F: HasAfEnum
+pub fn convolve2_sep<T, F>(
+    cfilt: &Array<F>,
+    rfilt: &Array<F>,
+    signal: &Array<T>,
+    mode: ConvMode,
+) -> Array<T>
+where
+    T: HasAfEnum,
+    F: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_convolve2_sep(&mut temp as MutAfArray,
-                                       cfilt.get() as AfArray, rfilt.get() as AfArray,
-                                       signal.get() as AfArray, mode as c_uint);
+        let err_val = af_convolve2_sep(
+            &mut temp as MutAfArray,
+            cfilt.get() as AfArray,
+            rfilt.get() as AfArray,
+            signal.get() as AfArray,
+            mode as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
 }
 
 macro_rules! fft_conv_func_def {
-    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name:ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         ///
         ///# Parameters
@@ -392,25 +519,41 @@ macro_rules! fft_conv_func_def {
         ///
         /// Convolved Array
         #[allow(unused_mut)]
-        pub fn $fn_name<T, F>(signal: &Array<T>, filter: &Array<F>,
-                              mode: ConvMode) -> Array<T>
-            where T: HasAfEnum,
-                  F: HasAfEnum
+        pub fn $fn_name<T, F>(signal: &Array<T>, filter: &Array<F>, mode: ConvMode) -> Array<T>
+        where
+            T: HasAfEnum,
+            F: HasAfEnum,
         {
             let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_name(&mut temp as MutAfArray, signal.get() as AfArray,
-                                        filter.get() as AfArray, mode as c_uint);
+                let err_val = $ffi_name(
+                    &mut temp as MutAfArray,
+                    signal.get() as AfArray,
+                    filter.get() as AfArray,
+                    mode as c_uint,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
             }
             temp.into()
         }
-    )
+    };
 }
 
-fft_conv_func_def!("1d convolution using fast-fourier transform", fft_convolve1, af_fft_convolve1);
-fft_conv_func_def!("2d convolution using fast-fourier transform", fft_convolve2, af_fft_convolve2);
-fft_conv_func_def!("3d convolution using fast-fourier transform", fft_convolve3, af_fft_convolve3);
+fft_conv_func_def!(
+    "1d convolution using fast-fourier transform",
+    fft_convolve1,
+    af_fft_convolve1
+);
+fft_conv_func_def!(
+    "2d convolution using fast-fourier transform",
+    fft_convolve2,
+    af_fft_convolve2
+);
+fft_conv_func_def!(
+    "3d convolution using fast-fourier transform",
+    fft_convolve3,
+    af_fft_convolve3
+);
 
 /// Finite impulse filter
 ///
@@ -424,12 +567,17 @@ fft_conv_func_def!("3d convolution using fast-fourier transform", fft_convolve3,
 /// Filtered Array
 #[allow(unused_mut)]
 pub fn fir<B, X>(b: &Array<B>, x: &Array<X>) -> Array<X>
-    where B: HasAfEnum,
-          X: HasAfEnum
+where
+    B: HasAfEnum,
+    X: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fir(&mut temp as MutAfArray, b.get() as AfArray, x.get() as AfArray);
+        let err_val = af_fir(
+            &mut temp as MutAfArray,
+            b.get() as AfArray,
+            x.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -450,8 +598,12 @@ pub fn fir<B, X>(b: &Array<B>, x: &Array<X>) -> Array<X>
 pub fn iir<T: HasAfEnum>(b: &Array<T>, a: &Array<T>, x: &Array<T>) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_iir(&mut temp as MutAfArray,
-                             b.get() as AfArray, a.get() as AfArray, x.get() as AfArray);
+        let err_val = af_iir(
+            &mut temp as MutAfArray,
+            b.get() as AfArray,
+            a.get() as AfArray,
+            x.get() as AfArray,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -464,7 +616,8 @@ pub fn iir<T: HasAfEnum>(b: &Array<T>, a: &Array<T>, x: &Array<T>) -> Array<T> {
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn fft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_fft_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -479,7 +632,8 @@ pub fn fft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn fft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_fft2_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -494,7 +648,8 @@ pub fn fft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn fft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_fft3_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -509,7 +664,8 @@ pub fn fft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn ifft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_ifft_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -524,7 +680,8 @@ pub fn ifft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn ifft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_ifft2_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -539,7 +696,8 @@ pub fn ifft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// - `input` is the input Array
 /// - `norm_factor` is the normalization factor
 pub fn ifft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
-    where T: HasAfEnum + ComplexFloating
+where
+    T: HasAfEnum + ComplexFloating,
 {
     unsafe {
         let err_val = af_ifft3_inplace(input.get() as AfArray, norm_factor as c_double);
@@ -558,14 +716,19 @@ pub fn ifft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft_r2c<T>(input: &Array<T>, norm_factor: f64, pad0: i64) -> Array< Complex<T> >
-    where T: HasAfEnum + RealFloating,
-          Complex<T>: HasAfEnum
+pub fn fft_r2c<T>(input: &Array<T>, norm_factor: f64, pad0: i64) -> Array<Complex<T>>
+where
+    T: HasAfEnum + RealFloating,
+    Complex<T>: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft_r2c(&mut temp as MutAfArray, input.get() as AfArray,
-                                 norm_factor as c_double, pad0 as c_longlong);
+        let err_val = af_fft_r2c(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            pad0 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -583,15 +746,20 @@ pub fn fft_r2c<T>(input: &Array<T>, norm_factor: f64, pad0: i64) -> Array< Compl
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft2_r2c<T>(input: &Array<T>, norm_factor: f64,
-                   pad0: i64, pad1: i64) -> Array< Complex<T> >
-    where T: HasAfEnum + RealFloating,
-          Complex<T>: HasAfEnum
+pub fn fft2_r2c<T>(input: &Array<T>, norm_factor: f64, pad0: i64, pad1: i64) -> Array<Complex<T>>
+where
+    T: HasAfEnum + RealFloating,
+    Complex<T>: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft2_r2c(&mut temp as MutAfArray, input.get() as AfArray,
-                                  norm_factor as c_double, pad0 as c_longlong, pad1 as c_longlong);
+        let err_val = af_fft2_r2c(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            pad0 as c_longlong,
+            pad1 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -610,16 +778,27 @@ pub fn fft2_r2c<T>(input: &Array<T>, norm_factor: f64,
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft3_r2c<T>(input: &Array<T>, norm_factor: f64,
-                   pad0: i64, pad1: i64, pad2: i64) -> Array< Complex<T> >
-    where T: HasAfEnum + RealFloating,
-          Complex<T>: HasAfEnum
+pub fn fft3_r2c<T>(
+    input: &Array<T>,
+    norm_factor: f64,
+    pad0: i64,
+    pad1: i64,
+    pad2: i64,
+) -> Array<Complex<T>>
+where
+    T: HasAfEnum + RealFloating,
+    Complex<T>: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft3_r2c(&mut temp as MutAfArray, input.get() as AfArray,
-                                  norm_factor as c_double, pad0 as c_longlong,
-                                  pad1 as c_longlong, pad2 as c_longlong);
+        let err_val = af_fft3_r2c(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            pad0 as c_longlong,
+            pad1 as c_longlong,
+            pad2 as c_longlong,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -636,15 +815,19 @@ pub fn fft3_r2c<T>(input: &Array<T>, norm_factor: f64,
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft_c2r<T>(input: &Array<T>,
-                  norm_factor: f64, is_odd: bool) -> Array< T::BaseType >
-    where T: HasAfEnum + ComplexFloating,
-          <T as HasAfEnum>::BaseType: HasAfEnum
+pub fn fft_c2r<T>(input: &Array<T>, norm_factor: f64, is_odd: bool) -> Array<T::BaseType>
+where
+    T: HasAfEnum + ComplexFloating,
+    <T as HasAfEnum>::BaseType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft_c2r(&mut temp as MutAfArray, input.get() as AfArray,
-                                 norm_factor as c_double, is_odd as c_int);
+        let err_val = af_fft_c2r(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            is_odd as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -661,15 +844,19 @@ pub fn fft_c2r<T>(input: &Array<T>,
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft2_c2r<T>(input: &Array<T>,
-                   norm_factor: f64, is_odd: bool) -> Array< T::BaseType >
-    where T: HasAfEnum + ComplexFloating,
-          <T as HasAfEnum>::BaseType: HasAfEnum
+pub fn fft2_c2r<T>(input: &Array<T>, norm_factor: f64, is_odd: bool) -> Array<T::BaseType>
+where
+    T: HasAfEnum + ComplexFloating,
+    <T as HasAfEnum>::BaseType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft2_c2r(&mut temp as MutAfArray, input.get() as AfArray,
-                                  norm_factor as c_double, is_odd as c_int);
+        let err_val = af_fft2_c2r(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            is_odd as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -686,15 +873,19 @@ pub fn fft2_c2r<T>(input: &Array<T>,
 /// # Return Values
 ///
 /// Complex Array
-pub fn fft3_c2r<T>(input: &Array<T>,
-                   norm_factor: f64, is_odd: bool) -> Array< T::BaseType >
-    where T: HasAfEnum + ComplexFloating,
-          <T as HasAfEnum>::BaseType: HasAfEnum
+pub fn fft3_c2r<T>(input: &Array<T>, norm_factor: f64, is_odd: bool) -> Array<T::BaseType>
+where
+    T: HasAfEnum + ComplexFloating,
+    <T as HasAfEnum>::BaseType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fft3_c2r(&mut temp as MutAfArray, input.get() as AfArray,
-                                  norm_factor as c_double, is_odd as c_int);
+        let err_val = af_fft3_c2r(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            norm_factor as c_double,
+            is_odd as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()

@@ -1,37 +1,39 @@
 extern crate libc;
 extern crate num;
 
-use crate::defines::{AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType};
-use crate::defines::{SparseFormat, BinaryOp, RandomEngineType};
-use crate::error::HANDLE_ERROR;
-use std::mem;
+use self::libc::{c_int, c_uint, c_void, size_t};
 use self::num::Complex;
+use crate::defines::{
+    AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType,
+};
+use crate::defines::{BinaryOp, RandomEngineType, SparseFormat};
+use crate::error::HANDLE_ERROR;
 use crate::num::Zero;
-use self::libc::{c_uint, c_int, size_t, c_void};
+use std::mem;
 
-pub type AfArray       = self::libc::c_longlong;
-pub type AfIndex       = self::libc::c_longlong;
-pub type CellPtr       = *const self::libc::c_void;
-pub type Complex32     = Complex<f32>;
-pub type Complex64     = Complex<f64>;
-pub type DimT          = self::libc::c_longlong;
-pub type Feat          = *const self::libc::c_void;
-pub type Intl          = self::libc::c_longlong;
-pub type MutAfArray    = *mut self::libc::c_longlong;
-pub type MutAfIndex    = *mut self::libc::c_longlong;
-pub type MutDimT       = *mut self::libc::c_longlong;
-pub type MutDouble     = *mut self::libc::c_double;
-pub type MutFeat       = *mut *mut self::libc::c_void;
+pub type AfArray = self::libc::c_longlong;
+pub type AfIndex = self::libc::c_longlong;
+pub type CellPtr = *const self::libc::c_void;
+pub type Complex32 = Complex<f32>;
+pub type Complex64 = Complex<f64>;
+pub type DimT = self::libc::c_longlong;
+pub type Feat = *const self::libc::c_void;
+pub type Intl = self::libc::c_longlong;
+pub type MutAfArray = *mut self::libc::c_longlong;
+pub type MutAfIndex = *mut self::libc::c_longlong;
+pub type MutDimT = *mut self::libc::c_longlong;
+pub type MutDouble = *mut self::libc::c_double;
+pub type MutFeat = *mut *mut self::libc::c_void;
 pub type MutRandEngine = *mut self::libc::c_longlong;
-pub type MutUint       = *mut self::libc::c_uint;
-pub type MutVoidPtr    = *mut self::libc::c_ulonglong;
-pub type MutWndHandle  = *mut self::libc::c_ulonglong;
-pub type RandEngine    = self::libc::c_longlong;
-pub type Uintl         = self::libc::c_ulonglong;
-pub type WndHandle     = self::libc::c_ulonglong;
+pub type MutUint = *mut self::libc::c_uint;
+pub type MutVoidPtr = *mut self::libc::c_ulonglong;
+pub type MutWndHandle = *mut self::libc::c_ulonglong;
+pub type RandEngine = self::libc::c_longlong;
+pub type Uintl = self::libc::c_ulonglong;
+pub type WndHandle = self::libc::c_ulonglong;
 
 #[allow(dead_code)]
-extern {
+extern "C" {
     fn af_get_size_of(size: *mut size_t, aftype: c_uint) -> c_int;
 
     fn af_alloc_host(ptr: *mut *const c_void, bytes: DimT) -> c_int;
@@ -112,17 +114,17 @@ impl From<u32> for MatchType {
 
 pub fn to_u32(t: MatProp) -> u32 {
     match t {
-        MatProp::NONE       =>  0,
-        MatProp::TRANS      =>  1,
-        MatProp::CTRANS     =>  2,
-        MatProp::UPPER      =>  32,
-        MatProp::LOWER      =>  64,
-        MatProp::DIAGUNIT  =>  128,
-        MatProp::SYM        =>  512,
-        MatProp::POSDEF     =>  1024,
-        MatProp::ORTHOG     =>  2048,
-        MatProp::TRIDIAG   =>  4096,
-        MatProp::BLOCKDIAG =>  8192,
+        MatProp::NONE => 0,
+        MatProp::TRANS => 1,
+        MatProp::CTRANS => 2,
+        MatProp::UPPER => 32,
+        MatProp::LOWER => 64,
+        MatProp::DIAGUNIT => 128,
+        MatProp::SYM => 512,
+        MatProp::POSDEF => 1024,
+        MatProp::ORTHOG => 2048,
+        MatProp::TRIDIAG => 4096,
+        MatProp::BLOCKDIAG => 8192,
     }
 }
 
@@ -211,7 +213,9 @@ impl HasAfEnum for Complex<f32> {
     type AggregateOutType = Self;
     type SobelOutType = Self;
 
-    fn get_af_dtype() -> DType { DType::C32 }
+    fn get_af_dtype() -> DType {
+        DType::C32
+    }
 }
 impl HasAfEnum for Complex<f64> {
     type InType = Self;
@@ -224,9 +228,11 @@ impl HasAfEnum for Complex<f64> {
     type AggregateOutType = Self;
     type SobelOutType = Self;
 
-    fn get_af_dtype() -> DType { DType::C64 }
+    fn get_af_dtype() -> DType {
+        DType::C64
+    }
 }
-impl HasAfEnum for f32  {
+impl HasAfEnum for f32 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -237,9 +243,11 @@ impl HasAfEnum for f32  {
     type AggregateOutType = Self;
     type SobelOutType = Self;
 
-    fn get_af_dtype() -> DType { DType::F32 }
+    fn get_af_dtype() -> DType {
+        DType::F32
+    }
 }
-impl HasAfEnum for f64  {
+impl HasAfEnum for f64 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f64;
@@ -250,7 +258,9 @@ impl HasAfEnum for f64  {
     type AggregateOutType = Self;
     type SobelOutType = Self;
 
-    fn get_af_dtype() -> DType { DType::F64 }
+    fn get_af_dtype() -> DType {
+        DType::F64
+    }
 }
 impl HasAfEnum for bool {
     type InType = Self;
@@ -263,9 +273,11 @@ impl HasAfEnum for bool {
     type AggregateOutType = u32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::B8  }
+    fn get_af_dtype() -> DType {
+        DType::B8
+    }
 }
-impl HasAfEnum for u8   {
+impl HasAfEnum for u8 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -276,9 +288,11 @@ impl HasAfEnum for u8   {
     type AggregateOutType = u32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::U8  }
+    fn get_af_dtype() -> DType {
+        DType::U8
+    }
 }
-impl HasAfEnum for i16  {
+impl HasAfEnum for i16 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -289,9 +303,11 @@ impl HasAfEnum for i16  {
     type AggregateOutType = i32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::S16 }
+    fn get_af_dtype() -> DType {
+        DType::S16
+    }
 }
-impl HasAfEnum for u16  {
+impl HasAfEnum for u16 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -302,9 +318,11 @@ impl HasAfEnum for u16  {
     type AggregateOutType = u32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::U16 }
+    fn get_af_dtype() -> DType {
+        DType::U16
+    }
 }
-impl HasAfEnum for i32  {
+impl HasAfEnum for i32 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -315,9 +333,11 @@ impl HasAfEnum for i32  {
     type AggregateOutType = i32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::S32 }
+    fn get_af_dtype() -> DType {
+        DType::S32
+    }
 }
-impl HasAfEnum for u32  {
+impl HasAfEnum for u32 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f32;
@@ -328,9 +348,11 @@ impl HasAfEnum for u32  {
     type AggregateOutType = u32;
     type SobelOutType = i32;
 
-    fn get_af_dtype() -> DType { DType::U32 }
+    fn get_af_dtype() -> DType {
+        DType::U32
+    }
 }
-impl HasAfEnum for i64  {
+impl HasAfEnum for i64 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f64;
@@ -341,9 +363,11 @@ impl HasAfEnum for i64  {
     type AggregateOutType = Self;
     type SobelOutType = i64;
 
-    fn get_af_dtype() -> DType { DType::S64 }
+    fn get_af_dtype() -> DType {
+        DType::S64
+    }
 }
-impl HasAfEnum for u64  {
+impl HasAfEnum for u64 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = f64;
@@ -354,7 +378,9 @@ impl HasAfEnum for u64  {
     type AggregateOutType = Self;
     type SobelOutType = i64;
 
-    fn get_af_dtype() -> DType { DType::U64 }
+    fn get_af_dtype() -> DType {
+        DType::U64
+    }
 }
 
 impl From<u32> for SparseFormat {
@@ -373,7 +399,10 @@ impl From<u32> for BinaryOp {
 
 impl From<u32> for RandomEngineType {
     fn from(t: u32) -> RandomEngineType {
-        assert!(RandomEngineType::PHILOX_4X32_10 as u32 <= t && t <= RandomEngineType::MERSENNE_GP11213 as u32);
+        assert!(
+            RandomEngineType::PHILOX_4X32_10 as u32 <= t
+                && t <= RandomEngineType::MERSENNE_GP11213 as u32
+        );
         unsafe { mem::transmute(t) }
     }
 }
@@ -569,25 +598,45 @@ implicit!(bool, u8        =>        u8);
 
 impl Zero for Complex64 {
     fn zero() -> Self {
-        Complex64{re: 0.0, im: 0.0}
+        Complex64 { re: 0.0, im: 0.0 }
     }
 }
 
 impl Zero for Complex32 {
     fn zero() -> Self {
-        Complex32{re: 0.0, im: 0.0}
+        Complex32 { re: 0.0, im: 0.0 }
     }
 }
 
 pub trait FloatingPoint {
-    fn is_real()    -> bool { false }
-    fn is_complex() -> bool { false }
+    fn is_real() -> bool {
+        false
+    }
+    fn is_complex() -> bool {
+        false
+    }
 }
 
-impl FloatingPoint for Complex<f64> { fn is_complex() -> bool { true } }
-impl FloatingPoint for Complex<f32> { fn is_complex() -> bool { true } }
-impl FloatingPoint for          f64 { fn    is_real() -> bool { true } }
-impl FloatingPoint for          f32 { fn    is_real() -> bool { true } }
+impl FloatingPoint for Complex<f64> {
+    fn is_complex() -> bool {
+        true
+    }
+}
+impl FloatingPoint for Complex<f32> {
+    fn is_complex() -> bool {
+        true
+    }
+}
+impl FloatingPoint for f64 {
+    fn is_real() -> bool {
+        true
+    }
+}
+impl FloatingPoint for f32 {
+    fn is_real() -> bool {
+        true
+    }
+}
 
 pub trait RealFloating {}
 
@@ -607,8 +656,8 @@ impl RealNumber for i32 {}
 impl RealNumber for u32 {}
 impl RealNumber for i16 {}
 impl RealNumber for u16 {}
-impl RealNumber for u8  {}
-impl RealNumber for bool{}
+impl RealNumber for u8 {}
+impl RealNumber for bool {}
 impl RealNumber for u64 {}
 impl RealNumber for i64 {}
 
@@ -623,7 +672,7 @@ pub trait ImageNativeType {}
 
 impl ImageNativeType for f32 {}
 impl ImageNativeType for u16 {}
-impl ImageNativeType for u8  {}
+impl ImageNativeType for u8 {}
 
 pub trait ImageFilterType {}
 
@@ -633,8 +682,8 @@ impl ImageFilterType for i32 {}
 impl ImageFilterType for u32 {}
 impl ImageFilterType for i16 {}
 impl ImageFilterType for u16 {}
-impl ImageFilterType for u8  {}
-impl ImageFilterType for bool{}
+impl ImageFilterType for u8 {}
+impl ImageFilterType for bool {}
 
 // TODO Rust haven't stabilized trait aliases yet
 pub trait GrayRGBConvertible {}
@@ -645,7 +694,7 @@ impl GrayRGBConvertible for i32 {}
 impl GrayRGBConvertible for u32 {}
 impl GrayRGBConvertible for i16 {}
 impl GrayRGBConvertible for u16 {}
-impl GrayRGBConvertible for u8  {}
+impl GrayRGBConvertible for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
 pub trait MomentsComputable {}
@@ -656,7 +705,7 @@ impl MomentsComputable for i32 {}
 impl MomentsComputable for u32 {}
 impl MomentsComputable for i16 {}
 impl MomentsComputable for u16 {}
-impl MomentsComputable for u8  {}
+impl MomentsComputable for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
 pub trait MedianComputable {}
@@ -667,7 +716,7 @@ impl MedianComputable for i32 {}
 impl MedianComputable for u32 {}
 impl MedianComputable for i16 {}
 impl MedianComputable for u16 {}
-impl MedianComputable for u8  {}
+impl MedianComputable for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
 pub trait EdgeComputable {}
@@ -678,7 +727,7 @@ impl EdgeComputable for i32 {}
 impl EdgeComputable for u32 {}
 impl EdgeComputable for i16 {}
 impl EdgeComputable for u16 {}
-impl EdgeComputable for u8  {}
+impl EdgeComputable for u8 {}
 
 pub trait CovarianceComputable {}
 
@@ -688,6 +737,6 @@ impl CovarianceComputable for i32 {}
 impl CovarianceComputable for u32 {}
 impl CovarianceComputable for i16 {}
 impl CovarianceComputable for u16 {}
-impl CovarianceComputable for u8  {}
+impl CovarianceComputable for u8 {}
 impl CovarianceComputable for u64 {}
 impl CovarianceComputable for i64 {}

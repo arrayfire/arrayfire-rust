@@ -1,6 +1,6 @@
+use arrayfire::*;
 use std::env;
 use std::path::PathBuf;
-use arrayfire::*;
 
 #[allow(unused_variables)]
 #[allow(unused_must_use)]
@@ -9,7 +9,10 @@ fn main() {
     info();
 
     let assets_dir = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap())
-        .join("arrayfire").join("assets").join("examples").join("images");
+        .join("arrayfire")
+        .join("assets")
+        .join("examples")
+        .join("images");
 
     let img_wnd = Window::new(480, 640, String::from("Input Image"));
     img_wnd.set_position(100, 100);
@@ -26,7 +29,11 @@ fn main() {
         img_wnd.draw_image(&disp_img, None);
         hst_wnd.draw_hist(&hst, 0.0, 255.0, None);
 
-        if img_wnd.is_closed() == true { break; }
-        if hst_wnd.is_closed() == true { break; }
+        if img_wnd.is_closed() == true {
+            break;
+        }
+        if hst_wnd.is_closed() == true {
+            break;
+        }
     }
 }

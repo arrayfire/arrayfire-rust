@@ -1,16 +1,16 @@
 extern crate libc;
 
+use self::libc::{c_char, c_double, c_float, c_int, c_uint};
 use crate::array::Array;
 use crate::defines::AfError;
 use crate::defines::{ColorMap, MarkerType};
 use crate::error::HANDLE_ERROR;
-use self::libc::{c_int, c_uint, c_float, c_double, c_char};
+use crate::util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
 use std::ffi::CString;
 use std::ptr;
-use crate::util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
 
 #[allow(dead_code)]
-extern {
+extern "C" {
     fn af_create_window(out: MutWndHandle, w: c_int, h: c_int, title: *const c_char) -> c_int;
 
     fn af_set_position(wnd: WndHandle, x: c_uint, y: c_uint) -> c_int;
@@ -18,42 +18,104 @@ extern {
     fn af_set_size(wnd: WndHandle, w: c_uint, h: c_uint) -> c_int;
     fn af_set_visibility(wnd: WndHandle, is_visible: c_int) -> c_int;
 
-    fn af_set_axes_titles(wnd: WndHandle,
-                          xtitle: *const c_char, ytitle: *const c_char, ztitle: *const c_char,
-                          props: CellPtr) -> c_int;
-    fn af_set_axes_limits_compute(wnd: WndHandle, x: AfArray, y: AfArray, z: AfArray,
-                                  exact: c_int, props: CellPtr) -> c_int;
-    fn af_set_axes_limits_2d(wnd: WndHandle, xmin: c_float, xmax: c_float,
-                             ymin: c_float, ymax: c_float,
-                             exact: c_int, props: CellPtr) -> c_int;
-    fn af_set_axes_limits_3d(wnd: WndHandle, xmin: c_float, xmax: c_float,
-                             ymin: c_float, ymax: c_float,
-                             zmin: c_float, zmax: c_float,
-                             exact: c_int, props: CellPtr) -> c_int;
+    fn af_set_axes_titles(
+        wnd: WndHandle,
+        xtitle: *const c_char,
+        ytitle: *const c_char,
+        ztitle: *const c_char,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_set_axes_limits_compute(
+        wnd: WndHandle,
+        x: AfArray,
+        y: AfArray,
+        z: AfArray,
+        exact: c_int,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_set_axes_limits_2d(
+        wnd: WndHandle,
+        xmin: c_float,
+        xmax: c_float,
+        ymin: c_float,
+        ymax: c_float,
+        exact: c_int,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_set_axes_limits_3d(
+        wnd: WndHandle,
+        xmin: c_float,
+        xmax: c_float,
+        ymin: c_float,
+        ymax: c_float,
+        zmin: c_float,
+        zmax: c_float,
+        exact: c_int,
+        props: CellPtr,
+    ) -> c_int;
 
     fn af_draw_image(wnd: WndHandle, arr: AfArray, props: CellPtr) -> c_int;
-    fn af_draw_hist(wnd: WndHandle, x: AfArray,
-                    minval: c_double, maxval: c_double, props: CellPtr) -> c_int;
-    fn af_draw_surface(wnd: WndHandle, xvals: AfArray, yvals: AfArray, S: AfArray,
-                       props: CellPtr) -> c_int;
+    fn af_draw_hist(
+        wnd: WndHandle,
+        x: AfArray,
+        minval: c_double,
+        maxval: c_double,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_draw_surface(
+        wnd: WndHandle,
+        xvals: AfArray,
+        yvals: AfArray,
+        S: AfArray,
+        props: CellPtr,
+    ) -> c_int;
 
     fn af_draw_plot_2d(wnd: WndHandle, x: AfArray, y: AfArray, props: CellPtr) -> c_int;
-    fn af_draw_plot_3d(wnd: WndHandle, x: AfArray, y: AfArray, z: AfArray, props: CellPtr) -> c_int;
+    fn af_draw_plot_3d(wnd: WndHandle, x: AfArray, y: AfArray, z: AfArray, props: CellPtr)
+        -> c_int;
     fn af_draw_plot_nd(wnd: WndHandle, P: AfArray, props: CellPtr) -> c_int;
 
-    fn af_draw_scatter_2d(wnd: WndHandle, x: AfArray, y: AfArray,
-                          marker: c_int, props: CellPtr) -> c_int;
-    fn af_draw_scatter_3d(wnd: WndHandle, x: AfArray, y: AfArray, z: AfArray,
-                          marker: c_int, props: CellPtr) -> c_int;
-    fn af_draw_scatter_nd(wnd: WndHandle, P: AfArray,
-                          marker: c_int, props: CellPtr) -> c_int;
+    fn af_draw_scatter_2d(
+        wnd: WndHandle,
+        x: AfArray,
+        y: AfArray,
+        marker: c_int,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_draw_scatter_3d(
+        wnd: WndHandle,
+        x: AfArray,
+        y: AfArray,
+        z: AfArray,
+        marker: c_int,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_draw_scatter_nd(wnd: WndHandle, P: AfArray, marker: c_int, props: CellPtr) -> c_int;
 
-    fn af_draw_vector_field_2d(wnd: WndHandle, xpnts: AfArray, ypnts: AfArray,
-                               xdirs: AfArray, ydirs: AfArray, props: CellPtr) -> c_int;
-    fn af_draw_vector_field_3d(wnd: WndHandle, xpnts: AfArray, ypnts: AfArray,
-                               xdirs: AfArray, ydirs: AfArray, zdirs: AfArray, zdirs: AfArray,
-                               props: CellPtr) -> c_int;
-    fn af_draw_vector_field_nd(wnd: WndHandle, pnts: AfArray, dirs: AfArray, props: CellPtr) -> c_int;
+    fn af_draw_vector_field_2d(
+        wnd: WndHandle,
+        xpnts: AfArray,
+        ypnts: AfArray,
+        xdirs: AfArray,
+        ydirs: AfArray,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_draw_vector_field_3d(
+        wnd: WndHandle,
+        xpnts: AfArray,
+        ypnts: AfArray,
+        xdirs: AfArray,
+        ydirs: AfArray,
+        zdirs: AfArray,
+        zdirs: AfArray,
+        props: CellPtr,
+    ) -> c_int;
+    fn af_draw_vector_field_nd(
+        wnd: WndHandle,
+        pnts: AfArray,
+        dirs: AfArray,
+        props: CellPtr,
+    ) -> c_int;
 
     fn af_grid(wnd: WndHandle, rows: c_int, cols: c_int) -> c_int;
     fn af_show(wnd: WndHandle) -> c_int;
@@ -113,7 +175,12 @@ pub struct Window {
 /// Used to create Window object from native(ArrayFire) resource handle
 impl From<u64> for Window {
     fn from(t: u64) -> Window {
-        Window {handle: t, row: -1, col: -1, cmap: ColorMap::DEFAULT}
+        Window {
+            handle: t,
+            row: -1,
+            col: -1,
+            cmap: ColorMap::DEFAULT,
+        }
     }
 }
 
@@ -123,7 +190,10 @@ impl Drop for Window {
             let err_val = af_destroy_window(self.handle);
             match err_val {
                 0 => (),
-                _ => panic!("Window object destruction failed with error code: {}", err_val),
+                _ => panic!(
+                    "Window object destruction failed with error code: {}",
+                    err_val
+                ),
             }
         }
     }
@@ -142,19 +212,24 @@ impl Window {
     ///
     /// Window Object
     #[allow(unused_mut)]
-    pub fn new(width: i32, height: i32, title: String) ->  Window {
+    pub fn new(width: i32, height: i32, title: String) -> Window {
         unsafe {
             let mut temp: u64 = 0;
             let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_create_window(&mut temp as MutWndHandle,
-                                                   width as c_int, height as c_int,
-                                                   cstr.as_ptr());
+                    let err_val = af_create_window(
+                        &mut temp as MutWndHandle,
+                        width as c_int,
+                        height as c_int,
+                        cstr.as_ptr(),
+                    );
                     HANDLE_ERROR(AfError::from(err_val));
                     Window::from(temp)
-                },
-                Err(_)   => panic!("String creation failed while prepping params for window creation."),
+                }
+                Err(_) => {
+                    panic!("String creation failed while prepping params for window creation.")
+                }
             }
         }
     }
@@ -182,11 +257,10 @@ impl Window {
             let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_set_title(self.handle as WndHandle,
-                                               cstr.as_ptr());
+                    let err_val = af_set_title(self.handle as WndHandle, cstr.as_ptr());
                     HANDLE_ERROR(AfError::from(err_val));
-                },
-                Err(_)   => HANDLE_ERROR(AfError::ERR_INTERNAL),
+                }
+                Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
             }
         }
     }
@@ -281,16 +355,23 @@ impl Window {
     /// - `ylabel` is y axis title
     /// - `zlabel` is z axis title
     pub fn set_axes_titles(&mut self, xlabel: String, ylabel: String, zlabel: String) {
-        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap,
+        };
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
         unsafe {
-            let err_val = af_set_axes_titles(self.handle as WndHandle,
-                                             xstr.as_ptr(),
-                                             ystr.as_ptr(),
-                                             zstr.as_ptr(),
-                                             cprops as *const Cell as CellPtr);
+            let err_val = af_set_axes_titles(
+                self.handle as WndHandle,
+                xstr.as_ptr(),
+                ystr.as_ptr(),
+                zstr.as_ptr(),
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -309,23 +390,33 @@ impl Window {
     /// - `exact` indicates if the exact min/max values from `xrange`, `yrange` and `zrange`
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
-    pub fn set_axes_limits_compute<T>(&mut self,
-                                      xrange: &Array<T>,
-                                      yrange: &Array<T>,
-                                      zrange: Option<&Array<T>>,
-                                      exact: bool)
-        where T: HasAfEnum
+    pub fn set_axes_limits_compute<T>(
+        &mut self,
+        xrange: &Array<T>,
+        yrange: &Array<T>,
+        zrange: Option<&Array<T>>,
+        exact: bool,
+    ) where
+        T: HasAfEnum,
     {
-        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_set_axes_limits_compute(self.handle as WndHandle,
-                                                     xrange.get() as AfArray,
-                                                     yrange.get() as AfArray,
-                                                     match zrange {
-                                                         Some(z) => z.get() as AfArray,
-                                                         None => 0,
-                                                     }, exact as c_int,
-                                                     cprops as *const Cell as CellPtr);
+            let err_val = af_set_axes_limits_compute(
+                self.handle as WndHandle,
+                xrange.get() as AfArray,
+                yrange.get() as AfArray,
+                match zrange {
+                    Some(z) => z.get() as AfArray,
+                    None => 0,
+                },
+                exact as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -345,11 +436,22 @@ impl Window {
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_2d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_set_axes_limits_2d(self.handle as WndHandle, xmin as c_float,
-                                                xmax as c_float, ymin as c_float, ymax as c_float,
-                                                exact as c_int, cprops as *const Cell as CellPtr);
+            let err_val = af_set_axes_limits_2d(
+                self.handle as WndHandle,
+                xmin as c_float,
+                xmax as c_float,
+                ymin as c_float,
+                ymax as c_float,
+                exact as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -370,14 +472,34 @@ impl Window {
     /// - `exact` indicates if the exact min/max values from `xrange`, `yrange` and `zrange`
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
-    pub fn set_axes_limits_3d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32,
-                              zmin: f32, zmax: f32, exact: bool) {
-        let cprops = &Cell {row: self.row, col: self.col, title: ptr::null(), cmap: self.cmap};
+    pub fn set_axes_limits_3d(
+        &mut self,
+        xmin: f32,
+        xmax: f32,
+        ymin: f32,
+        ymax: f32,
+        zmin: f32,
+        zmax: f32,
+        exact: bool,
+    ) {
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_set_axes_limits_3d(self.handle as WndHandle, xmin as c_float,
-                                                xmax as c_float, ymin as c_float, ymax as c_float,
-                                                zmin as c_float, zmax as c_float,
-                                                exact as c_int, cprops as *const Cell as CellPtr);
+            let err_val = af_set_axes_limits_3d(
+                self.handle as WndHandle,
+                xmin as c_float,
+                xmax as c_float,
+                ymin as c_float,
+                ymax as c_float,
+                zmin as c_float,
+                zmax as c_float,
+                exact as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -390,17 +512,26 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_image<T>(&self, input: &Array<T>, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_image(self.handle as WndHandle, input.get() as AfArray,
-                                        cprops as *const Cell as CellPtr);
+            let err_val = af_draw_image(
+                self.handle as WndHandle,
+                input.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -414,18 +545,27 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_plot2<T>(&self, x: &Array<T>, y: &Array<T>, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_plot_2d(self.handle as WndHandle,
-                                          x.get() as AfArray, y.get() as AfArray,
-                                          cprops as *const Cell as CellPtr);
+            let err_val = af_draw_plot_2d(
+                self.handle as WndHandle,
+                x.get() as AfArray,
+                y.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -440,18 +580,28 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_plot3<T>(&self, x: &Array<T>, y: &Array<T>, z: &Array<T>, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_plot_3d(self.handle as WndHandle,
-                                          x.get() as AfArray, y.get() as AfArray, z.get() as AfArray,
-                                          cprops as *const Cell as CellPtr);
+            let err_val = af_draw_plot_3d(
+                self.handle as WndHandle,
+                x.get() as AfArray,
+                y.get() as AfArray,
+                z.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -464,17 +614,26 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_plot<T>(&self, points: &Array<T>, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_plot_nd(self.handle as WndHandle, points.get() as AfArray,
-                                          cprops as *const Cell as CellPtr);
+            let err_val = af_draw_plot_nd(
+                self.handle as WndHandle,
+                points.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -489,18 +648,28 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_hist<T>(&self, hst: &Array<T>, minval: f64, maxval: f64, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_hist(self.handle as WndHandle, hst.get() as AfArray,
-                                       minval as c_double, maxval as c_double,
-                                       cprops as *const Cell as CellPtr);
+            let err_val = af_draw_hist(
+                self.handle as WndHandle,
+                hst.get() as AfArray,
+                minval as c_double,
+                maxval as c_double,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -514,23 +683,34 @@ impl Window {
     /// - `z` is the z coordinates of the surface plot
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_surface<T>(&self,
-                           xvals: &Array<T>, yvals: &Array<T>, zvals: &Array<T>,
-                           title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_surface<T>(
+        &self,
+        xvals: &Array<T>,
+        yvals: &Array<T>,
+        zvals: &Array<T>,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_surface(self.handle as WndHandle,
-                                          xvals.get() as AfArray,
-                                          yvals.get() as AfArray,
-                                          zvals.get() as AfArray,
-                                          cprops as *const Cell as CellPtr);
+            let err_val = af_draw_surface(
+                self.handle as WndHandle,
+                xvals.get() as AfArray,
+                yvals.get() as AfArray,
+                zvals.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -544,20 +724,34 @@ impl Window {
     /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_scatter2<T>(&self, xvals: &Array<T>, yvals: &Array<T>,
-                            marker: MarkerType, title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_scatter2<T>(
+        &self,
+        xvals: &Array<T>,
+        yvals: &Array<T>,
+        marker: MarkerType,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_scatter_2d(self.handle as WndHandle,
-                                             xvals.get() as AfArray, yvals.get() as AfArray,
-                                             marker as c_int, cprops as *const Cell as CellPtr);
+            let err_val = af_draw_scatter_2d(
+                self.handle as WndHandle,
+                xvals.get() as AfArray,
+                yvals.get() as AfArray,
+                marker as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -572,21 +766,36 @@ impl Window {
     /// - `marker` is of enum type [MarkerType](./enum.MarkerType.html)
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_scatter3<T>(&self,
-                            xvals: &Array<T>, yvals: &Array<T>, zvals: &Array<T>,
-                            marker: MarkerType, title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_scatter3<T>(
+        &self,
+        xvals: &Array<T>,
+        yvals: &Array<T>,
+        zvals: &Array<T>,
+        marker: MarkerType,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_scatter_3d(self.handle as WndHandle, xvals.get() as AfArray,
-                                             yvals.get() as AfArray, zvals.get() as AfArray,
-                                             marker as c_int, cprops as *const Cell as CellPtr);
+            let err_val = af_draw_scatter_3d(
+                self.handle as WndHandle,
+                xvals.get() as AfArray,
+                yvals.get() as AfArray,
+                zvals.get() as AfArray,
+                marker as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -600,17 +809,27 @@ impl Window {
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
     pub fn draw_scatter<T>(&self, vals: &Array<T>, marker: MarkerType, title: Option<String>)
-        where T: HasAfEnum
+    where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_scatter_nd(self.handle as WndHandle, vals.get() as AfArray,
-                                             marker as c_int, cprops as *const Cell as CellPtr);
+            let err_val = af_draw_scatter_nd(
+                self.handle as WndHandle,
+                vals.get() as AfArray,
+                marker as c_int,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -625,23 +844,36 @@ impl Window {
     /// - `ydirs` is an Array containing direction component of y coord
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field2<T>(&self,
-                                 xpnts: &Array<T>, ypnts: &Array<T>,
-                                 xdirs: &Array<T>, ydirs: &Array<T>,
-                                 title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_vector_field2<T>(
+        &self,
+        xpnts: &Array<T>,
+        ypnts: &Array<T>,
+        xdirs: &Array<T>,
+        ydirs: &Array<T>,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_vector_field_2d(self.handle as WndHandle,
-                                                  xpnts.get() as AfArray, ypnts.get() as AfArray,
-                                                  xdirs.get() as AfArray, ydirs.get() as AfArray,
-                                                  cprops as *const Cell as CellPtr);
+            let err_val = af_draw_vector_field_2d(
+                self.handle as WndHandle,
+                xpnts.get() as AfArray,
+                ypnts.get() as AfArray,
+                xdirs.get() as AfArray,
+                ydirs.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -658,24 +890,40 @@ impl Window {
     /// - `zdirs` is an Array containing direction component of z coord
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field3<T>(&self,
-                                 xpnts: &Array<T>, ypnts: &Array<T>, zpnts: &Array<T>,
-                                 xdirs: &Array<T>, ydirs: &Array<T>, zdirs: &Array<T>,
-                                 title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_vector_field3<T>(
+        &self,
+        xpnts: &Array<T>,
+        ypnts: &Array<T>,
+        zpnts: &Array<T>,
+        xdirs: &Array<T>,
+        ydirs: &Array<T>,
+        zdirs: &Array<T>,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_vector_field_3d(self.handle as WndHandle, xpnts.get() as AfArray,
-                                                  ypnts.get() as AfArray, zpnts.get() as AfArray,
-                                                  xdirs.get() as AfArray, ydirs.get() as AfArray,
-                                                  zdirs.get() as AfArray,
-                                                  cprops as *const Cell as CellPtr);
+            let err_val = af_draw_vector_field_3d(
+                self.handle as WndHandle,
+                xpnts.get() as AfArray,
+                ypnts.get() as AfArray,
+                zpnts.get() as AfArray,
+                xdirs.get() as AfArray,
+                ydirs.get() as AfArray,
+                zdirs.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -689,21 +937,32 @@ impl Window {
     /// Array.
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
-    pub fn draw_vector_field<T>(&self,
-                                points: &Array<T>, directions: &Array<T>,
-                                title: Option<String>)
-        where T: HasAfEnum
+    pub fn draw_vector_field<T>(
+        &self,
+        points: &Array<T>,
+        directions: &Array<T>,
+        title: Option<String>,
+    ) where
+        T: HasAfEnum,
     {
         let tstr = match title {
             Some(s) => s,
-            None => format!("Cell({},{}))", self.col, self.row)
+            None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {row: self.row, col: self.col, title: tstr.as_ptr(), cmap: self.cmap};
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: tstr.as_ptr(),
+            cmap: self.cmap,
+        };
         unsafe {
-            let err_val = af_draw_vector_field_nd(self.handle as WndHandle,
-                                                  points.get() as AfArray, directions.get() as AfArray,
-                                                  cprops as *const Cell as CellPtr);
+            let err_val = af_draw_vector_field_nd(
+                self.handle as WndHandle,
+                points.get() as AfArray,
+                directions.get() as AfArray,
+                cprops as *const Cell as CellPtr,
+            );
             HANDLE_ERROR(AfError::from(err_val));
         }
     }

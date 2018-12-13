@@ -1,20 +1,25 @@
 extern crate libc;
 
+use self::libc::{c_int, c_uint};
 use crate::array::Array;
 use crate::defines::AfError;
 use crate::defines::MatProp;
 use crate::error::HANDLE_ERROR;
-use self::libc::{c_uint, c_int};
-use crate::util::{AfArray, MutAfArray, to_u32};
+use crate::util::{to_u32, AfArray, MutAfArray};
 use crate::util::{FloatingPoint, HasAfEnum};
 
 #[allow(dead_code)]
-extern {
-    fn af_matmul(out: MutAfArray, lhs: AfArray, rhs: AfArray,
-                 optlhs: c_uint, optrhs: c_uint) -> c_int;
+extern "C" {
+    fn af_matmul(
+        out: MutAfArray,
+        lhs: AfArray,
+        rhs: AfArray,
+        optlhs: c_uint,
+        optrhs: c_uint,
+    ) -> c_int;
 
-    fn af_dot(out: MutAfArray, lhs: AfArray, rhs: AfArray,
-              optlhs: c_uint, optrhs: c_uint) -> c_int;
+    fn af_dot(out: MutAfArray, lhs: AfArray, rhs: AfArray, optlhs: c_uint, optrhs: c_uint)
+        -> c_int;
 
     fn af_transpose(out: MutAfArray, arr: AfArray, conjugate: c_int) -> c_int;
     fn af_transpose_inplace(arr: AfArray, conjugate: c_int) -> c_int;
@@ -33,15 +38,19 @@ extern {
 ///
 /// The result Array of matrix multiplication
 #[allow(unused_mut)]
-pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>,
-                 optlhs: MatProp, optrhs: MatProp) -> Array<T>
-    where T: HasAfEnum + FloatingPoint
+pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatProp) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_matmul(&mut temp as MutAfArray,
-                                lhs.get() as AfArray, rhs.get() as AfArray,
-                                to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
+        let err_val = af_matmul(
+            &mut temp as MutAfArray,
+            lhs.get() as AfArray,
+            rhs.get() as AfArray,
+            to_u32(optlhs) as c_uint,
+            to_u32(optrhs) as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -62,15 +71,19 @@ pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>,
 ///
 /// The result of dot product.
 #[allow(unused_mut)]
-pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>,
-              optlhs: MatProp, optrhs: MatProp) -> Array<T>
-    where T: HasAfEnum + FloatingPoint
+pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatProp) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_dot(&mut temp as MutAfArray,
-                             lhs.get() as AfArray, rhs.get() as AfArray,
-                             to_u32(optlhs) as c_uint, to_u32(optrhs) as c_uint);
+        let err_val = af_dot(
+            &mut temp as MutAfArray,
+            lhs.get() as AfArray,
+            rhs.get() as AfArray,
+            to_u32(optlhs) as c_uint,
+            to_u32(optrhs) as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -91,8 +104,11 @@ pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>,
 pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_transpose(&mut temp as MutAfArray,
-                                   arr.get() as AfArray, conjugate as c_int);
+        let err_val = af_transpose(
+            &mut temp as MutAfArray,
+            arr.get() as AfArray,
+            conjugate as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()

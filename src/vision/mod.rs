@@ -1,18 +1,18 @@
 extern crate libc;
 
-use std::mem;
+use self::libc::{c_double, c_float, c_int, c_longlong, c_uint, c_void};
 use crate::array::Array;
 use crate::defines::{AfError, HomographyType, MatchType};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, Feat, MutAfArray, MutFeat};
-use crate::util::{HasAfEnum, RealFloating, ImageFilterType};
-use self::libc::{c_void, c_uint, c_int, c_float, c_double, c_longlong};
+use crate::util::{HasAfEnum, ImageFilterType, RealFloating};
+use std::mem;
 
 // af_sift and af_gloh uses patented algorithms, so didn't add them
 // they are built using installer builds
 
 #[allow(dead_code)]
-extern {
+extern "C" {
     fn af_create_features(feat: MutFeat, num: DimT) -> c_int;
     fn af_retain_features(feat: MutFeat, feat: Feat) -> c_int;
     fn af_get_features_num(num: *mut DimT, feat: Feat) -> c_int;
@@ -23,35 +23,100 @@ extern {
     fn af_get_features_size(out: MutAfArray, feat: Feat) -> c_int;
     fn af_release_features(feat: *mut c_void) -> c_int;
 
-    fn af_fast(out: MutFeat, input: AfArray, thr: c_float, arc_len: c_uint, non_max: c_int,
-               feature_ratio: c_float, edge: c_uint) -> c_int;
+    fn af_fast(
+        out: MutFeat,
+        input: AfArray,
+        thr: c_float,
+        arc_len: c_uint,
+        non_max: c_int,
+        feature_ratio: c_float,
+        edge: c_uint,
+    ) -> c_int;
 
-    fn af_harris(out: MutFeat, input: AfArray, m: c_uint, r: c_float, s: c_float, bs: c_uint, k: c_float) -> c_int;
+    fn af_harris(
+        out: MutFeat,
+        input: AfArray,
+        m: c_uint,
+        r: c_float,
+        s: c_float,
+        bs: c_uint,
+        k: c_float,
+    ) -> c_int;
 
-    fn af_orb(out: MutFeat, desc: MutAfArray, arr: AfArray, fast_thr: c_float, max_feat: c_uint,
-              scl_fctr: c_float, levels: c_uint, blur_img: c_int) -> c_int;
+    fn af_orb(
+        out: MutFeat,
+        desc: MutAfArray,
+        arr: AfArray,
+        fast_thr: c_float,
+        max_feat: c_uint,
+        scl_fctr: c_float,
+        levels: c_uint,
+        blur_img: c_int,
+    ) -> c_int;
 
-    fn af_hamming_matcher(idx: MutAfArray, dist: MutAfArray,
-                          query: AfArray, train: AfArray,
-                          dist_dim: DimT, n_dist: c_uint) -> c_int;
+    fn af_hamming_matcher(
+        idx: MutAfArray,
+        dist: MutAfArray,
+        query: AfArray,
+        train: AfArray,
+        dist_dim: DimT,
+        n_dist: c_uint,
+    ) -> c_int;
 
-    fn af_nearest_neighbour(idx: MutAfArray, dist: MutAfArray, q: AfArray, t: AfArray,
-                            dist_dim: DimT, n_dist: c_uint, dist_type: c_int) -> c_int;
+    fn af_nearest_neighbour(
+        idx: MutAfArray,
+        dist: MutAfArray,
+        q: AfArray,
+        t: AfArray,
+        dist_dim: DimT,
+        n_dist: c_uint,
+        dist_type: c_int,
+    ) -> c_int;
 
-    fn af_match_template(out: MutAfArray, search_img: AfArray, template_img: AfArray,
-                         mtype: c_uint) -> c_int;
+    fn af_match_template(
+        out: MutAfArray,
+        search_img: AfArray,
+        template_img: AfArray,
+        mtype: c_uint,
+    ) -> c_int;
 
-    fn af_susan(feat: MutFeat, i: AfArray, r: c_uint, d: c_float, g: c_float, f: c_float, e: c_uint) -> c_int;
+    fn af_susan(
+        feat: MutFeat,
+        i: AfArray,
+        r: c_uint,
+        d: c_float,
+        g: c_float,
+        f: c_float,
+        e: c_uint,
+    ) -> c_int;
 
     fn af_dog(out: MutAfArray, i: AfArray, r1: c_int, r2: c_int) -> c_int;
 
-    fn af_homography(H: MutAfArray, inliers: *mut c_int, x_src: AfArray, y_src: AfArray,
-                     x_dst: AfArray, y_dst: AfArray, htype: c_int, inlier_thr: c_float,
-                     iterations: c_uint, otype: c_int) -> c_int;
+    fn af_homography(
+        H: MutAfArray,
+        inliers: *mut c_int,
+        x_src: AfArray,
+        y_src: AfArray,
+        x_dst: AfArray,
+        y_dst: AfArray,
+        htype: c_int,
+        inlier_thr: c_float,
+        iterations: c_uint,
+        otype: c_int,
+    ) -> c_int;
 
-    fn af_gloh(out: MutFeat, desc: MutAfArray, input: AfArray, n_layers: c_uint,
-               contrast_thr: c_float, edge_thr: c_float, init_sigma: c_float,
-               double_input: c_double, intensity_scale: c_float, feature_ratio: c_float) -> c_int;
+    fn af_gloh(
+        out: MutFeat,
+        desc: MutAfArray,
+        input: AfArray,
+        n_layers: c_uint,
+        contrast_thr: c_float,
+        edge_thr: c_float,
+        init_sigma: c_float,
+        double_input: c_double,
+        intensity_scale: c_float,
+        feature_ratio: c_float,
+    ) -> c_int;
 }
 
 /// A set of Array objects (usually, used in Computer vision context)
@@ -96,10 +161,9 @@ impl Features {
     pub fn new(n: u64) -> Features {
         unsafe {
             let mut temp: i64 = 0;
-            let err_val = af_create_features(&mut temp as *mut c_longlong as MutFeat,
-                                             n as DimT);
+            let err_val = af_create_features(&mut temp as *mut c_longlong as MutFeat, n as DimT);
             HANDLE_ERROR(AfError::from(err_val));
-            Features {feat: temp}
+            Features { feat: temp }
         }
     }
 
@@ -107,8 +171,10 @@ impl Features {
     pub fn num_features(&self) -> i64 {
         unsafe {
             let mut temp: i64 = 0;
-            let err_val = af_get_features_num(&mut temp as *mut DimT,
-                                              self.feat as *const c_longlong as Feat);
+            let err_val = af_get_features_num(
+                &mut temp as *mut DimT,
+                self.feat as *const c_longlong as Feat,
+            );
             HANDLE_ERROR(AfError::from(err_val));
             temp
         }
@@ -117,7 +183,11 @@ impl Features {
     feat_func_def!("Get x coordinates Array", xpos, af_get_features_xpos);
     feat_func_def!("Get y coordinates Array", ypos, af_get_features_ypos);
     feat_func_def!("Get score Array", score, af_get_features_score);
-    feat_func_def!("Get orientation Array", orientation, af_get_features_orientation);
+    feat_func_def!(
+        "Get orientation Array",
+        orientation,
+        af_get_features_orientation
+    );
     feat_func_def!("Get features size Array", size, af_get_features_size);
 
     /// Get the internal handle for [Features](./struct.Features.html) object
@@ -130,10 +200,12 @@ impl Clone for Features {
     fn clone(&self) -> Features {
         unsafe {
             let mut temp: i64 = 0;
-            let ret_val = af_retain_features(&mut temp as *mut c_longlong as MutFeat,
-                                             self.feat as *const c_longlong as Feat);
+            let ret_val = af_retain_features(
+                &mut temp as *mut c_longlong as MutFeat,
+                self.feat as *const c_longlong as Feat,
+            );
             HANDLE_ERROR(AfError::from(ret_val));
-            Features {feat: temp}
+            Features { feat: temp }
         }
     }
 }
@@ -176,22 +248,31 @@ impl Drop for Features {
 /// for x and y coordinates and score, while array oreientation is set to 0 as FAST does not
 /// compute orientation. Size is set to 1 as FAST does not compute multiple scales.
 #[allow(unused_mut)]
-pub fn fast<T>(input: &Array<T>,
-               thr: f32,
-               arc_len: u32,
-               non_max: bool,
-               feat_ratio: f32,
-               edge: u32) -> Features
-    where T: HasAfEnum + ImageFilterType
+pub fn fast<T>(
+    input: &Array<T>,
+    thr: f32,
+    arc_len: u32,
+    non_max: bool,
+    feat_ratio: f32,
+    edge: u32,
+) -> Features
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_fast(&mut temp as *mut c_longlong as MutFeat,
-                input.get() as AfArray, thr as c_float, arc_len as c_uint,
-                non_max as c_int, feat_ratio as c_float, edge as c_uint);
+        let err_val = af_fast(
+            &mut temp as *mut c_longlong as MutFeat,
+            input.get() as AfArray,
+            thr as c_float,
+            arc_len as c_uint,
+            non_max as c_int,
+            feat_ratio as c_float,
+            edge as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    Features {feat: temp}
+    Features { feat: temp }
 }
 
 /// Harris corner detector.
@@ -216,23 +297,31 @@ pub fn fast<T>(input: &Array<T>,
 /// for x and y coordinates and score, while array oreientation & size are set to 0 & 1,
 /// respectively, since harris doesn't compute that information
 #[allow(unused_mut)]
-pub fn harris<T>(input: &Array<T>,
-                 max_corners: u32,
-                 min_response: f32,
-                 sigma: f32,
-                 block_size: u32,
-                 k_thr: f32) -> Features
-    where T: HasAfEnum + RealFloating
+pub fn harris<T>(
+    input: &Array<T>,
+    max_corners: u32,
+    min_response: f32,
+    sigma: f32,
+    block_size: u32,
+    k_thr: f32,
+) -> Features
+where
+    T: HasAfEnum + RealFloating,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_harris(&mut temp as *mut c_longlong as MutFeat,
-                                input.get() as AfArray, max_corners as c_uint,
-                                min_response as c_float, sigma as c_float, block_size as c_uint,
-                                k_thr as c_float);
+        let err_val = af_harris(
+            &mut temp as *mut c_longlong as MutFeat,
+            input.get() as AfArray,
+            max_corners as c_uint,
+            min_response as c_float,
+            sigma as c_float,
+            block_size as c_uint,
+            k_thr as c_float,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    Features {feat: temp}
+    Features { feat: temp }
 }
 
 /// ORB feature descriptor
@@ -258,23 +347,33 @@ pub fn harris<T>(input: &Array<T>,
 ///
 /// This function returns a tuple of [`Features`](./struct.Features.html) and [`Array`](./struct.Array.html). The features objects composed of Arrays for x and y coordinates, score, orientation and size of selected features. The Array object is a two dimensional Array of size Nx8 where N is number of selected features.
 #[allow(unused_mut)]
-pub fn orb<T>(input: &Array<T>,
-              fast_thr: f32, max_feat: u32,
-              scl_fctr: f32, levels: u32,
-              blur_img: bool) -> (Features, Array<T>)
-    where T: HasAfEnum + RealFloating
+pub fn orb<T>(
+    input: &Array<T>,
+    fast_thr: f32,
+    max_feat: u32,
+    scl_fctr: f32,
+    levels: u32,
+    blur_img: bool,
+) -> (Features, Array<T>)
+where
+    T: HasAfEnum + RealFloating,
 {
     let mut f: i64 = 0;
     let mut d: i64 = 0;
     unsafe {
-        let err_val = af_orb(&mut f as *mut c_longlong as MutFeat,
-                             &mut d as MutAfArray,
-                             input.get() as AfArray, fast_thr as c_float,
-                             max_feat as c_uint, scl_fctr as c_float,
-                             levels as c_uint, blur_img as c_int);
+        let err_val = af_orb(
+            &mut f as *mut c_longlong as MutFeat,
+            &mut d as MutAfArray,
+            input.get() as AfArray,
+            fast_thr as c_float,
+            max_feat as c_uint,
+            scl_fctr as c_float,
+            levels as c_uint,
+            blur_img as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    (Features {feat: f}, d.into())
+    (Features { feat: f }, d.into())
 }
 
 /// Hamming feature matcher
@@ -310,19 +409,27 @@ pub fn orb<T>(input: &Array<T>,
 /// equal to n_dist. The value at position IxJ indicates the Hamming distance of the Jth smallest
 /// distance to the Ith query value in the train data array.
 #[allow(unused_mut)]
-pub fn hamming_matcher<T>(query: &Array<T>,
-                          train: &Array<T>,
-                          dist_dims: i64,
-                          n_dist: u32) -> (Array<u32>, Array< T::AggregateOutType >)
-    where T: HasAfEnum + ImageFilterType,
-          T::AggregateOutType: HasAfEnum
+pub fn hamming_matcher<T>(
+    query: &Array<T>,
+    train: &Array<T>,
+    dist_dims: i64,
+    n_dist: u32,
+) -> (Array<u32>, Array<T::AggregateOutType>)
+where
+    T: HasAfEnum + ImageFilterType,
+    T::AggregateOutType: HasAfEnum,
 {
     let mut idx: i64 = 0;
-    let mut dist:i64 = 0;
+    let mut dist: i64 = 0;
     unsafe {
-        let err_val = af_hamming_matcher(&mut idx as MutAfArray, &mut dist as MutAfArray,
-                           query.get() as AfArray, train.get() as AfArray,
-                           dist_dims as DimT, n_dist as c_uint);
+        let err_val = af_hamming_matcher(
+            &mut idx as MutAfArray,
+            &mut dist as MutAfArray,
+            query.get() as AfArray,
+            train.get() as AfArray,
+            dist_dims as DimT,
+            n_dist as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     (idx.into(), dist.into())
@@ -361,20 +468,29 @@ pub fn hamming_matcher<T>(query: &Array<T>,
 /// and N is equal to `n_dist`. The value at position IxJ indicates the distance of the Jth smallest
 /// distance to the Ith query value in the train data array based on the `dist_type` chosen.
 #[allow(unused_mut)]
-pub fn nearest_neighbour<T>(query: &Array<T>,
-                            train: &Array<T>,
-                            dist_dim: i64,
-                            n_dist: u32,
-                            dist_type: MatchType) -> (Array<u32>, Array< T::AggregateOutType >)
-    where T: HasAfEnum + ImageFilterType,
-          T::AggregateOutType: HasAfEnum
+pub fn nearest_neighbour<T>(
+    query: &Array<T>,
+    train: &Array<T>,
+    dist_dim: i64,
+    n_dist: u32,
+    dist_type: MatchType,
+) -> (Array<u32>, Array<T::AggregateOutType>)
+where
+    T: HasAfEnum + ImageFilterType,
+    T::AggregateOutType: HasAfEnum,
 {
     let mut idx: i64 = 0;
     let mut dist: i64 = 0;
     unsafe {
-        let err_val = af_nearest_neighbour(&mut idx as MutAfArray, &mut dist as MutAfArray,
-                                           query.get() as AfArray, train.get() as AfArray,
-                                           dist_dim as DimT, n_dist as c_uint, dist_type as c_int);
+        let err_val = af_nearest_neighbour(
+            &mut idx as MutAfArray,
+            &mut dist as MutAfArray,
+            query.get() as AfArray,
+            train.get() as AfArray,
+            dist_dim as DimT,
+            n_dist as c_uint,
+            dist_type as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     (idx.into(), dist.into())
@@ -395,17 +511,23 @@ pub fn nearest_neighbour<T>(query: &Array<T>,
 ///
 /// This function returns an Array with disparity values for the window starting at corresponding pixel position.
 #[allow(unused_mut)]
-pub fn match_template<T>(search_img: &Array<T>,
-                         template_img: &Array<T>,
-                         mtype: MatchType) -> Array< T::AbsOutType >
-    where T: HasAfEnum + ImageFilterType,
-          T::AbsOutType: HasAfEnum
+pub fn match_template<T>(
+    search_img: &Array<T>,
+    template_img: &Array<T>,
+    mtype: MatchType,
+) -> Array<T::AbsOutType>
+where
+    T: HasAfEnum + ImageFilterType,
+    T::AbsOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_match_template(&mut temp as MutAfArray,
-                          search_img.get() as AfArray, template_img.get() as AfArray,
-                          mtype as c_uint);
+        let err_val = af_match_template(
+            &mut temp as MutAfArray,
+            search_img.get() as AfArray,
+            template_img.get() as AfArray,
+            mtype as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -451,21 +573,31 @@ pub fn match_template<T>(search_img: &Array<T>,
 /// # Return Values
 /// An object of type [Features](./struct.Features.html) composed of arrays for x and y coordinates, score, orientation and size of selected features.
 #[allow(unused_mut)]
-pub fn susan<T>(input: &Array<T>,
-                radius: u32, diff_thr: f32,
-                geom_thr: f32, feature_ratio: f32,
-                edge: u32) -> Features
-    where T: HasAfEnum + ImageFilterType
+pub fn susan<T>(
+    input: &Array<T>,
+    radius: u32,
+    diff_thr: f32,
+    geom_thr: f32,
+    feature_ratio: f32,
+    edge: u32,
+) -> Features
+where
+    T: HasAfEnum + ImageFilterType,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_susan(&mut temp as *mut c_longlong as MutFeat,
-                               input.get() as AfArray, radius as c_uint,
-                               diff_thr as c_float, geom_thr as c_float, feature_ratio as c_float,
-                               edge as c_uint);
+        let err_val = af_susan(
+            &mut temp as *mut c_longlong as MutFeat,
+            input.get() as AfArray,
+            radius as c_uint,
+            diff_thr as c_float,
+            geom_thr as c_float,
+            feature_ratio as c_float,
+            edge as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    Features {feat: temp}
+    Features { feat: temp }
 }
 
 /// Difference of Gaussians.
@@ -483,14 +615,19 @@ pub fn susan<T>(input: &Array<T>,
 ///
 /// Difference of smoothed inputs - An Array.
 #[allow(unused_mut)]
-pub fn dog<T>(input: &Array<T>, radius1: i32, radius2: i32) -> Array< T::AbsOutType >
-    where T: HasAfEnum + ImageFilterType,
-          T::AbsOutType: HasAfEnum
+pub fn dog<T>(input: &Array<T>, radius1: i32, radius2: i32) -> Array<T::AbsOutType>
+where
+    T: HasAfEnum + ImageFilterType,
+    T::AbsOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_dog(&mut temp as MutAfArray, input.get() as AfArray,
-                             radius1 as c_int, radius2 as c_int);
+        let err_val = af_dog(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            radius1 as c_int,
+            radius2 as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
@@ -527,21 +664,34 @@ pub fn dog<T>(input: &Array<T>, radius1: i32, radius2: i32) -> Array< T::AbsOutT
 ///
 /// - `H` is a 3x3 array containing the estimated homography.
 /// - `inliers` is the number of inliers that the homography was estimated to comprise, in the case that htype is AF_HOMOGRAPHY_RANSAC, a higher inlier_thr value will increase the estimated inliers. Note that if the number of inliers is too low, it is likely that a bad homography will be returned.
-pub fn homography<OutType>(x_src: &Array<f32>, y_src: &Array<f32>,
-                           x_dst: &Array<f32>, y_dst: &Array<f32>,
-                           htype: HomographyType, inlier_thr: f32,
-                           iterations: u32) -> (Array<OutType>, i32)
-    where OutType: HasAfEnum + RealFloating
+pub fn homography<OutType>(
+    x_src: &Array<f32>,
+    y_src: &Array<f32>,
+    x_dst: &Array<f32>,
+    y_dst: &Array<f32>,
+    htype: HomographyType,
+    inlier_thr: f32,
+    iterations: u32,
+) -> (Array<OutType>, i32)
+where
+    OutType: HasAfEnum + RealFloating,
 {
     let otype = OutType::get_af_dtype();
     let mut inliers: i32 = 0;
-    let mut temp: i64    = 0;
+    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_homography(&mut temp as MutAfArray, &mut inliers as *mut c_int,
-                                    x_src.get() as AfArray, y_src.get() as AfArray,
-                                    x_dst.get() as AfArray, y_dst.get() as AfArray,
-                                    htype as c_int, inlier_thr as c_float,
-                                    iterations as c_uint, otype as c_int);
+        let err_val = af_homography(
+            &mut temp as MutAfArray,
+            &mut inliers as *mut c_int,
+            x_src.get() as AfArray,
+            y_src.get() as AfArray,
+            x_dst.get() as AfArray,
+            y_dst.get() as AfArray,
+            htype as c_int,
+            inlier_thr as c_float,
+            iterations as c_uint,
+            otype as c_int,
+        );
         HANDLE_ERROR(AfError::from(err_val));
     }
     (temp.into(), inliers)

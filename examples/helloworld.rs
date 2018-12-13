@@ -7,7 +7,10 @@ fn main() {
     print!("Info String:\n{}", info_string(true));
     println!("Arrayfire version: {:?}", get_version());
     let (name, platform, toolkit, compute) = device_info();
-    print!("Name: {}\nPlatform: {}\nToolkit: {}\nCompute: {}\n", name, platform, toolkit, compute);
+    print!(
+        "Name: {}\nPlatform: {}\nToolkit: {}\nCompute: {}\n",
+        name, platform, toolkit, compute
+    );
     println!("Revision: {}", get_revision());
 
     let num_rows: u64 = 5;
@@ -23,11 +26,11 @@ fn main() {
     af_print!("Create a 5-by-3 float   matrix on the GPU", a);
 
     println!("Element-wise arithmetic");
-    let  b = add(&sin(&a), &1.5f32, false);
+    let b = add(&sin(&a), &1.5f32, false);
 
     let b2 = add(&sin(&a), &cos(&a), false);
 
-    let b3 = ! &a;
+    let b3 = !&a;
     af_print!("sin(a) + 1.5 a.k.a b => ", b);
     af_print!("sin(a) + cos(a) => ", b2);
     af_print!("!a => ", b3);
@@ -80,5 +83,8 @@ fn main() {
 
     let u8_cnst = &constant(1 as u8, dims);
     af_print!("u8 constant array", u8_cnst);
-    println!("Is u8_cnst array float precision type ? {}", u8_cnst.is_single());
+    println!(
+        "Is u8_cnst array float precision type ? {}",
+        u8_cnst.is_single()
+    );
 }

@@ -25,122 +25,124 @@
 //! - [Indexing](./indexing.html)
 //! - [Configure ArrayFire Environment](./configuring_arrayfire_environment.html)
 
-#![doc(html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
-       html_favicon_url = "http://www.rust-lang.org/favicon.ico",
-       html_root_url = "http://arrayfire.com/docs/rust")]
+#![doc(
+    html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
+    html_favicon_url = "http://www.rust-lang.org/favicon.ico",
+    html_root_url = "http://arrayfire.com/docs/rust"
+)]
 #![warn(missing_docs)]
 #![allow(non_camel_case_types)]
 
 #[macro_use]
 extern crate lazy_static;
 
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 pub use crate::array::*;
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 mod array;
 
-#[cfg(feature="algorithm")]
+#[cfg(feature = "algorithm")]
 pub use crate::algorithm::*;
-#[cfg(feature="algorithm")]
+#[cfg(feature = "algorithm")]
 mod algorithm;
 
-#[cfg(feature="arithmetic")]
+#[cfg(feature = "arithmetic")]
 pub use crate::arith::*;
-#[cfg(feature="arithmetic")]
+#[cfg(feature = "arithmetic")]
 mod arith;
 
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 pub use crate::backend::*;
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 mod backend;
 
-#[cfg(feature="blas")]
+#[cfg(feature = "blas")]
 pub use crate::blas::*;
-#[cfg(feature="blas")]
+#[cfg(feature = "blas")]
 mod blas;
 
-#[cfg(feature="data")]
+#[cfg(feature = "data")]
 pub use crate::data::*;
-#[cfg(feature="data")]
+#[cfg(feature = "data")]
 mod data;
 
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 pub use crate::device::*;
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 mod device;
 
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 pub use crate::defines::*;
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 mod defines;
 
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 pub use crate::dim4::Dim4;
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
 mod dim4;
 
-#[cfg(feature="core")]
-pub use crate::error::{Callback, ErrorCallback, register_error_handler, handle_error_general};
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
+pub use crate::error::{handle_error_general, register_error_handler, Callback, ErrorCallback};
+#[cfg(feature = "core")]
 mod error;
 
-#[cfg(feature="indexing")]
+#[cfg(feature = "indexing")]
 pub use crate::index::*;
-#[cfg(feature="indexing")]
+#[cfg(feature = "indexing")]
 mod index;
 
-#[cfg(feature="indexing")]
+#[cfg(feature = "indexing")]
 pub use crate::seq::Seq;
-#[cfg(feature="indexing")]
+#[cfg(feature = "indexing")]
 mod seq;
 
-#[cfg(feature="graphics")]
+#[cfg(feature = "graphics")]
 pub use crate::graphics::Window;
-#[cfg(feature="graphics")]
+#[cfg(feature = "graphics")]
 mod graphics;
 
-#[cfg(feature="image")]
+#[cfg(feature = "image")]
 pub use crate::image::*;
-#[cfg(feature="image")]
+#[cfg(feature = "image")]
 mod image;
 
-#[cfg(feature="lapack")]
+#[cfg(feature = "lapack")]
 pub use crate::lapack::*;
-#[cfg(feature="lapack")]
+#[cfg(feature = "lapack")]
 mod lapack;
 
-#[cfg(feature="macros")]
+#[cfg(feature = "macros")]
 mod macros;
 mod num;
 
-#[cfg(feature="random")]
+#[cfg(feature = "random")]
 pub use crate::random::*;
-#[cfg(feature="random")]
+#[cfg(feature = "random")]
 mod random;
 
-#[cfg(feature="signal")]
+#[cfg(feature = "signal")]
 pub use crate::signal::*;
-#[cfg(feature="signal")]
+#[cfg(feature = "signal")]
 mod signal;
 
-#[cfg(feature="sparse")]
+#[cfg(feature = "sparse")]
 pub use crate::sparse::*;
-#[cfg(feature="sparse")]
+#[cfg(feature = "sparse")]
 mod sparse;
 
-#[cfg(feature="statistics")]
+#[cfg(feature = "statistics")]
 pub use crate::statistics::*;
-#[cfg(feature="statistics")]
+#[cfg(feature = "statistics")]
 mod statistics;
 
-#[cfg(feature="core")]
-pub use crate::util::{HasAfEnum, ImplicitPromote, get_size};
-#[cfg(feature="core")]
+#[cfg(feature = "core")]
+pub use crate::util::{get_size, HasAfEnum, ImplicitPromote};
+#[cfg(feature = "core")]
 mod util;
 
-#[cfg(feature="vision")]
+#[cfg(feature = "vision")]
 pub use crate::vision::*;
-#[cfg(feature="vision")]
+#[cfg(feature = "vision")]
 mod vision;
 
 // headers that are not exposed through rust wrapper are given follows:
