@@ -608,6 +608,7 @@ impl Zero for Complex32 {
     }
 }
 
+///Trait qualifier to accept either real or complex typed data
 pub trait FloatingPoint {
     fn is_real() -> bool {
         false
@@ -638,16 +639,19 @@ impl FloatingPoint for f32 {
     }
 }
 
+///Trait qualifier to accept real data(numbers)
 pub trait RealFloating {}
 
 impl RealFloating for f64 {}
 impl RealFloating for f32 {}
 
+///Trait qualifier to accept complex data(numbers)
 pub trait ComplexFloating {}
 
 impl ComplexFloating for Complex64 {}
 impl ComplexFloating for Complex32 {}
 
+///Trait qualifier indicating it can hold real numbers only
 pub trait RealNumber {}
 
 impl RealNumber for f64 {}
@@ -661,6 +665,7 @@ impl RealNumber for bool {}
 impl RealNumber for u64 {}
 impl RealNumber for i64 {}
 
+///Trait qualifier for the type of Arrays accepted by scan operations
 pub trait Scanable {}
 
 impl Scanable for i32 {}
@@ -668,12 +673,16 @@ impl Scanable for u32 {}
 impl Scanable for u64 {}
 impl Scanable for i64 {}
 
+/// Trait qualifier for type of Array's that are accepted
+/// by native image load/save functions.
 pub trait ImageNativeType {}
 
 impl ImageNativeType for f32 {}
 impl ImageNativeType for u16 {}
 impl ImageNativeType for u8 {}
 
+/// Trait qualifier for type of Array's that are accepted
+/// by image processing functions especially filtering algorithms
 pub trait ImageFilterType {}
 
 impl ImageFilterType for f64 {}
@@ -686,6 +695,8 @@ impl ImageFilterType for u8 {}
 impl ImageFilterType for bool {}
 
 // TODO Rust haven't stabilized trait aliases yet
+/// Trait qualifier for given type indicating conversion capability between
+/// grayscale and RGB triplets of data
 pub trait GrayRGBConvertible {}
 
 impl GrayRGBConvertible for f64 {}
@@ -697,6 +708,7 @@ impl GrayRGBConvertible for u16 {}
 impl GrayRGBConvertible for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
+/// Trait qualifier for given type indicating computability of Moments
 pub trait MomentsComputable {}
 
 impl MomentsComputable for f64 {}
@@ -708,6 +720,7 @@ impl MomentsComputable for u16 {}
 impl MomentsComputable for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
+/// Trait qualifier for given type indicating computability of Median
 pub trait MedianComputable {}
 
 impl MedianComputable for f64 {}
@@ -719,6 +732,8 @@ impl MedianComputable for u16 {}
 impl MedianComputable for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
+/// Trait qualifier for given type indicating if edge calculations such as
+/// derivates etc. can be performed
 pub trait EdgeComputable {}
 
 impl EdgeComputable for f64 {}
@@ -729,6 +744,7 @@ impl EdgeComputable for i16 {}
 impl EdgeComputable for u16 {}
 impl EdgeComputable for u8 {}
 
+/// Trait qualifier for given type indicating computability of covariance
 pub trait CovarianceComputable {}
 
 impl CovarianceComputable for f64 {}
