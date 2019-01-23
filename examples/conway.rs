@@ -24,6 +24,6 @@ fn conways_game_of_life() {
         let c0 = &eq(&n_hood, &c0, false);
         let c1 = &eq(&n_hood, &c1, false);
         state = state * c0 + c1;
-        win.draw_image(&normalise(&state), None);
+        win.draw_image(&normalise(&state.cast::<f32>()), None);
     }
 }
