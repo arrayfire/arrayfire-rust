@@ -136,7 +136,10 @@ pub use crate::statistics::*;
 mod statistics;
 
 #[cfg(feature = "core")]
+pub use crate::util::{FloatingPoint, ComplexFloating, RealFloating, RealNumber};
 pub use crate::util::{get_size, HasAfEnum, ImplicitPromote};
+pub use crate::util::{GrayRGBConvertible, ImageFilterType, ImageNativeType, Scanable};
+pub use crate::util::{CovarianceComputable, EdgeComputable, MedianComputable, MomentsComputable};
 #[cfg(feature = "core")]
 mod util;
 
