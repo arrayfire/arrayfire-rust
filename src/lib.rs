@@ -36,9 +36,7 @@
 #[macro_use]
 extern crate lazy_static;
 
-#[cfg(feature = "core")]
 pub use crate::array::*;
-#[cfg(feature = "core")]
 mod array;
 
 #[cfg(feature = "algorithm")]
@@ -51,9 +49,7 @@ pub use crate::arith::*;
 #[cfg(feature = "arithmetic")]
 mod arith;
 
-#[cfg(feature = "core")]
 pub use crate::backend::*;
-#[cfg(feature = "core")]
 mod backend;
 
 #[cfg(feature = "blas")]
@@ -66,24 +62,16 @@ pub use crate::data::*;
 #[cfg(feature = "data")]
 mod data;
 
-#[cfg(feature = "core")]
 pub use crate::device::*;
-#[cfg(feature = "core")]
 mod device;
 
-#[cfg(feature = "core")]
 pub use crate::defines::*;
-#[cfg(feature = "core")]
 mod defines;
 
-#[cfg(feature = "core")]
 pub use crate::dim4::Dim4;
-#[cfg(feature = "core")]
 mod dim4;
 
-#[cfg(feature = "core")]
 pub use crate::error::{handle_error_general, register_error_handler, Callback, ErrorCallback};
-#[cfg(feature = "core")]
 mod error;
 
 #[cfg(feature = "indexing")]
@@ -135,12 +123,10 @@ pub use crate::statistics::*;
 #[cfg(feature = "statistics")]
 mod statistics;
 
-#[cfg(feature = "core")]
-pub use crate::util::{FloatingPoint, ComplexFloating, RealFloating, RealNumber};
 pub use crate::util::{get_size, HasAfEnum, ImplicitPromote};
-pub use crate::util::{GrayRGBConvertible, ImageFilterType, ImageNativeType, Scanable};
+pub use crate::util::{ComplexFloating, FloatingPoint, RealFloating, RealNumber};
 pub use crate::util::{CovarianceComputable, EdgeComputable, MedianComputable, MomentsComputable};
-#[cfg(feature = "core")]
+pub use crate::util::{GrayRGBConvertible, ImageFilterType, ImageNativeType, Scanable};
 mod util;
 
 #[cfg(feature = "vision")]

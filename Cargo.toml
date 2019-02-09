@@ -16,7 +16,6 @@ exclude = [
 ]
 
 [features]
-core = []
 algorithm = []
 arithmetic = []
 blas = []
@@ -31,7 +30,7 @@ signal = []
 sparse = []
 statistics = []
 vision = []
-default = ["core", "algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
+default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
 "macros", "random", "signal", "sparse", "statistics", "vision"]
 
 [dependencies]
