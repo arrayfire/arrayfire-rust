@@ -393,7 +393,7 @@ where
 /// - `train` - Array containing the data to be used as training data
 /// - `dist_dims` - indicates the dimension to analyze for distance (the dimension indicated here
 /// must be of equal length for both query and train arrays)
-/// - `n_dist` - is the number of smallest distances to return (currently, only 1 is supported)
+/// - `n_dist` - is the number of smallest distances to return (currently, only values <= 256 are supported)
 ///
 ///
 /// # Return Values
@@ -452,7 +452,7 @@ where
 /// - `query` is the array containing the data to be queried
 /// - `train` is the array containing the data used as training data
 /// - `dist_dim` indicates the dimension to analyze for distance (the dimension indicated here must be of equal length for both query and train arrays)
-/// - `n_dist` is the number of smallest distances to return (currently, only 1 is supported)
+/// - `n_dist` is the number of smallest distances to return (currently, only values <= 256 are supported)
 /// - `dist_type` is the distance computation type. Currently [`MatchType::SAD`](./enum.MatchType.html), [`MatchType::SSD`](./enum.MatchType.html), and [`MatchType::SHD`](./enum.MatchType.html) are supported.
 ///
 /// # Return Values
