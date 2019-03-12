@@ -40,7 +40,8 @@ requirements are to be met first.
 2. Set the evironment variable `AF_PATH` to point to ArrayFire installation
    root folder.
 3. Make sure to add the path to lib files to your path environment variables.
-    - On Linux & OSX: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib`
+    - On Linux: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib64`
+    - On OSX: do `export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$AF_PATH/lib64`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
 4. Add `arrayfire = "3.6"` to the dependencies section of your project's
    Cargo.toml file. Make sure to change the version to latest available.
