@@ -158,12 +158,12 @@ impl Features {
     ///
     /// This object is basically a bunch of Arrays.
     #[allow(unused_mut)]
-    pub fn new(n: u64) -> Features {
+    pub fn new(n: u64) -> Self {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_create_features(&mut temp as *mut c_longlong as MutFeat, n as DimT);
             HANDLE_ERROR(AfError::from(err_val));
-            Features { feat: temp }
+            Self { feat: temp }
         }
     }
 
@@ -197,7 +197,7 @@ impl Features {
 }
 
 impl Clone for Features {
-    fn clone(&self) -> Features {
+    fn clone(&self) -> Self {
         unsafe {
             let mut temp: i64 = 0;
             let ret_val = af_retain_features(
@@ -205,7 +205,7 @@ impl Clone for Features {
                 self.feat as *const c_longlong as Feat,
             );
             HANDLE_ERROR(AfError::from(ret_val));
-            Features { feat: temp }
+            Self { feat: temp }
         }
     }
 }

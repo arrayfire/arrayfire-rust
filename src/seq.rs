@@ -16,7 +16,7 @@ pub struct Seq<T> {
 /// Default `Seq` spans all the elements along a dimension
 impl<T: One + Zero> Default for Seq<T> {
     fn default() -> Self {
-        Seq {
+        Self {
             begin: One::one(),
             end: One::one(),
             step: Zero::zero(),
@@ -38,7 +38,7 @@ impl<T: fmt::Display> fmt::Display for Seq<T> {
 impl<T: Copy> Seq<T> {
     /// Create a `Seq` that goes from `begin` to `end` at a step size of `step`
     pub fn new(begin: T, end: T, step: T) -> Self {
-        Seq {
+        Self {
             begin: begin,
             end: end,
             step: step,

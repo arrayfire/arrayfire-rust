@@ -9,8 +9,8 @@ pub struct Dim4 {
 
 /// Default trait for Dim4 returns an Array of dimensions [1, 1, 1, 1]
 impl Default for Dim4 {
-    fn default() -> Dim4 {
-        Dim4 { dims: [1, 1, 1, 1] }
+    fn default() -> Self {
+        Self { dims: [1, 1, 1, 1] }
     }
 }
 
@@ -64,8 +64,8 @@ impl Dim4 {
     /// use arrayfire::Dim4;
     /// let dims = Dim4::new(&[4, 4, 2, 1]);
     /// ```
-    pub fn new(dims: &[u64; 4]) -> Dim4 {
-        Dim4 { dims: dims.clone() }
+    pub fn new(dims: &[u64; 4]) -> Self {
+        Self { dims: dims.clone() }
     }
 
     /// Get the number of elements represented by Dim4 object

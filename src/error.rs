@@ -24,7 +24,7 @@ pub struct Callback {
 impl Callback {
     /// Associated function to create a new Callback object
     pub fn new(callback: ErrorCallback) -> Self {
-        Callback { cb: callback }
+        Self { cb: callback }
     }
 
     /// call invokes the error callback with `error_code`.

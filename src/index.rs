@@ -155,13 +155,13 @@ where
 impl<'object> Indexer<'object> {
     #[allow(unused_mut)]
     /// Create a new Indexer object and set the dimension specific index objects later
-    pub fn new() -> Indexer<'object> {
+    pub fn new() -> Self {
         let mut temp: i64 = 0;
         unsafe {
             let err_val = af_create_indexers(&mut temp as MutAfIndex);
             HANDLE_ERROR(AfError::from(err_val));
         }
-        Indexer {
+        Self {
             handle: temp,
             count: 0,
             marker: PhantomData,
@@ -596,7 +596,7 @@ impl SeqInternal {
     where
         c_double: From<T>,
     {
-        SeqInternal {
+        Self {
             begin: From::from(s.begin()),
             end: From::from(s.end()),
             step: From::from(s.step()),
