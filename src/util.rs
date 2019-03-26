@@ -71,42 +71,42 @@ pub fn free_host<T>(ptr: *mut T) {
 }
 
 impl From<i32> for AfError {
-    fn from(t: i32) -> AfError {
+    fn from(t: i32) -> Self {
         assert!(AfError::SUCCESS as i32 <= t && t <= AfError::ERR_UNKNOWN as i32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for DType {
-    fn from(t: u32) -> DType {
+    fn from(t: u32) -> Self {
         assert!(DType::F32 as u32 <= t && t <= DType::U64 as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for InterpType {
-    fn from(t: u32) -> InterpType {
+    fn from(t: u32) -> Self {
         assert!(InterpType::NEAREST as u32 <= t && t <= InterpType::BICUBIC_SPLINE as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for ConvMode {
-    fn from(t: u32) -> ConvMode {
+    fn from(t: u32) -> Self {
         assert!(ConvMode::DEFAULT as u32 <= t && t <= ConvMode::EXPAND as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for ConvDomain {
-    fn from(t: u32) -> ConvDomain {
+    fn from(t: u32) -> Self {
         assert!(ConvDomain::AUTO as u32 <= t && t <= ConvDomain::FREQUENCY as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for MatchType {
-    fn from(t: u32) -> MatchType {
+    fn from(t: u32) -> Self {
         assert!(MatchType::SAD as u32 <= t && t <= MatchType::SHD as u32);
         unsafe { mem::transmute(t) }
     }
@@ -129,7 +129,7 @@ pub fn to_u32(t: MatProp) -> u32 {
 }
 
 impl From<u32> for ColorMap {
-    fn from(t: u32) -> ColorMap {
+    fn from(t: u32) -> Self {
         assert!(ColorMap::DEFAULT as u32 <= t && t <= ColorMap::BLUE as u32);
         unsafe { mem::transmute(t) }
     }

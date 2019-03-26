@@ -174,8 +174,8 @@ pub struct Window {
 
 /// Used to create Window object from native(ArrayFire) resource handle
 impl From<u64> for Window {
-    fn from(t: u64) -> Window {
-        Window {
+    fn from(t: u64) -> Self {
+        Self {
             handle: t,
             row: -1,
             col: -1,
@@ -212,7 +212,7 @@ impl Window {
     ///
     /// Window Object
     #[allow(unused_mut)]
-    pub fn new(width: i32, height: i32, title: String) -> Window {
+    pub fn new(width: i32, height: i32, title: String) -> Self {
         unsafe {
             let mut temp: u64 = 0;
             let cstr_ret = CString::new(title);
@@ -225,7 +225,7 @@ impl Window {
                         cstr.as_ptr(),
                     );
                     HANDLE_ERROR(AfError::from(err_val));
-                    Window::from(temp)
+                    Self::from(temp)
                 }
                 Err(_) => {
                     panic!("String creation failed while prepping params for window creation.")

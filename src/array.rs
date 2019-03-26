@@ -173,7 +173,7 @@ where
     /// print(&indices);
     /// ```
     #[allow(unused_mut)]
-    pub fn new(slice: &[T], dims: Dim4) -> Array<T> {
+    pub fn new(slice: &[T], dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
@@ -193,7 +193,7 @@ where
     ///
     /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     #[allow(unused_mut)]
-    pub fn new_strided(slice: &[T], offset: i64, dims: Dim4, strides: Dim4) -> Array<T> {
+    pub fn new_strided(slice: &[T], offset: i64, dims: Dim4, strides: Dim4) -> Self {
         let aftype = T::get_af_dtype();
         let mut temp: i64 = 0;
         unsafe {
@@ -221,7 +221,7 @@ where
     /// let garbageVals = Array::<f32>::new_empty(Dim4::new(&[3, 1, 1, 1]));
     /// ```
     #[allow(unused_mut)]
-    pub fn new_empty(dims: Dim4) -> Array<T> {
+    pub fn new_empty(dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
         unsafe {
             let mut temp: i64 = 0;
@@ -375,7 +375,7 @@ where
     /// Makes an copy of the Array
     ///
     /// This does a deep copy of the data into a new Array
-    pub fn copy(&self) -> Array<T> {
+    pub fn copy(&self) -> Self {
         unsafe {
             let mut temp: i64 = 0;
             let err_val = af_copy_array(&mut temp as MutAfArray, self.handle as AfArray);
@@ -522,7 +522,7 @@ impl<T> Clone for Array<T>
 where
     T: HasAfEnum,
 {
-    fn clone(&self) -> Array<T> {
+    fn clone(&self) -> Self {
         unsafe {
             let mut temp: i64 = 0;
             let ret_val = af_retain_array(&mut temp as MutAfArray, self.handle as AfArray);
