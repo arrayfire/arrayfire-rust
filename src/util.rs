@@ -384,21 +384,21 @@ impl HasAfEnum for u64 {
 }
 
 impl From<u32> for SparseFormat {
-    fn from(t: u32) -> SparseFormat {
+    fn from(t: u32) -> Self {
         assert!(SparseFormat::DENSE as u32 <= t && t <= SparseFormat::COO as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for BinaryOp {
-    fn from(t: u32) -> BinaryOp {
+    fn from(t: u32) -> Self {
         assert!(BinaryOp::ADD as u32 <= t && t <= BinaryOp::MAX as u32);
         unsafe { mem::transmute(t) }
     }
 }
 
 impl From<u32> for RandomEngineType {
-    fn from(t: u32) -> RandomEngineType {
+    fn from(t: u32) -> Self {
         assert!(
             RandomEngineType::PHILOX_4X32_10 as u32 <= t
                 && t <= RandomEngineType::MERSENNE_GP11213 as u32
@@ -598,13 +598,13 @@ implicit!(bool, u8        =>        u8);
 
 impl Zero for Complex64 {
     fn zero() -> Self {
-        Complex64 { re: 0.0, im: 0.0 }
+        Self { re: 0.0, im: 0.0 }
     }
 }
 
 impl Zero for Complex32 {
     fn zero() -> Self {
-        Complex32 { re: 0.0, im: 0.0 }
+        Self { re: 0.0, im: 0.0 }
     }
 }
 

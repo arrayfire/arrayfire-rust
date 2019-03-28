@@ -112,8 +112,8 @@ pub struct RandomEngine {
 
 /// Used for creating RandomEngine object from native resource id
 impl From<i64> for RandomEngine {
-    fn from(t: i64) -> RandomEngine {
-        RandomEngine { handle: t }
+    fn from(t: i64) -> Self {
+        Self { handle: t }
     }
 }
 
@@ -128,7 +128,7 @@ impl RandomEngine {
     /// # Return Values
     ///
     /// A object of type RandomEngine
-    pub fn new(rengine: RandomEngineType, seed: Option<u64>) -> RandomEngine {
+    pub fn new(rengine: RandomEngineType, seed: Option<u64>) -> Self {
         let mut temp: i64 = 0;
         unsafe {
             let err_val = af_create_random_engine(
@@ -192,7 +192,7 @@ impl RandomEngine {
 
 /// Increment reference count of RandomEngine's native resource
 impl Clone for RandomEngine {
-    fn clone(&self) -> RandomEngine {
+    fn clone(&self) -> Self {
         unsafe {
             let mut temp: i64 = 0;
             let err_val =
