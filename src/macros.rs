@@ -86,7 +86,7 @@ macro_rules! mem_info {
 // Using macro to implement join many wrapper
 #[macro_export]
 macro_rules! join_many {
-    [$dim: expr; $($x:ident),+] => {
+    [$dim: expr; $($x:expr),+] => {
         {
             let mut temp_vec = Vec::new();
             $(
@@ -110,7 +110,7 @@ macro_rules! join_many {
 ///
 #[macro_export]
 macro_rules! af_print {
-    [$msg: expr, $x: ident] => {
+    [$msg: expr, $x: expr] => {
         {
             print_gen(String::from($msg), &$x, Some(4));
         }
@@ -120,7 +120,7 @@ macro_rules! af_print {
 /// Evaluate arbitrary number of arrays
 #[macro_export]
 macro_rules! eval {
-    [$($x:ident),+] => {
+    [$($x:expr),+] => {
         {
             let mut temp_vec = Vec::new();
             $(
