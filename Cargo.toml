@@ -76,3 +76,6 @@ path = "examples/acoustic_wave.rs"
 name = "conway"
 path = "examples/conway.rs"
 
+[[example]]
+name = "fft"
+path = "examples/fft.rs"
