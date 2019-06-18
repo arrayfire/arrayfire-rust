@@ -43,7 +43,7 @@ associated with the array. It does not modify the content of the array.
 Here is an example of moddims() converting an 8x1 array into a 2x4 and then
 back to a 8x1:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">8</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>
     <span class="number">2.0000</span>
@@ -69,11 +69,11 @@ back to a 8x1:</p>
     <span class="number">1.0000</span>
     <span class="number">2.0000</span>
     <span class="number">1.0000</span>
-    <span class="number">2.0000</span></pre>
+    <span class="number">2.0000</span></pre></div>
 <h3 id="flat" class="section-header"><a href="#flat">flat()</a></h3>
 <p>The <a href="./fn.flat.html">flat</a> function flattens an array to one dimension:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">3</span> <span class="number">3</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">4.0000</span>     <span class="number">7.0000</span>
     <span class="number">2.0000</span>     <span class="number">5.0000</span>     <span class="number">8.0000</span>
@@ -89,13 +89,13 @@ back to a 8x1:</p>
     <span class="number">6.0000</span>
     <span class="number">7.0000</span>
     <span class="number">8.0000</span>
-    <span class="number">9.0000</span></pre>
+    <span class="number">9.0000</span></pre></div>
 <h3 id="flip" class="section-header"><a href="#flip">flip()</a></h3>
 <p>The <a href="./fn.flip.html">flip</a> function flips the contents of an array along a
 chosen dimension. In the example below, we show the 5x2 array flipped
 along the zeroth (i.e. within a column) and first (e.g. across rows) axes:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">5</span> <span class="number">2</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">6.0000</span>
     <span class="number">2.0000</span>     <span class="number">7.0000</span>
@@ -115,13 +115,13 @@ along the zeroth (i.e. within a column) and first (e.g. across rows) axes:</p>
     <span class="number">7.0000</span>     <span class="number">2.0000</span>
     <span class="number">8.0000</span>     <span class="number">3.0000</span>
     <span class="number">9.0000</span>     <span class="number">4.0000</span>
-   <span class="number">10.0000</span>     <span class="number">5.0000</span></pre>
+   <span class="number">10.0000</span>     <span class="number">5.0000</span></pre></div>
 <h3 id="join" class="section-header"><a href="#join">join()</a></h3>
 <p>The <a href="./fn.join.html">join</a>, <a href="./fn.join_many.html">join_many</a> functions can be
 used to join arrays along a specific dimension.</p>
 <p>Here is an example of how to use join an array to itself:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">5</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>
     <span class="number">2.0000</span>
@@ -146,13 +146,13 @@ used to join arrays along a specific dimension.</p>
     <span class="number">2.0000</span>     <span class="number">2.0000</span>
     <span class="number">3.0000</span>     <span class="number">3.0000</span>
     <span class="number">4.0000</span>     <span class="number">4.0000</span>
-    <span class="number">5.0000</span>     <span class="number">5.0000</span></pre>
+    <span class="number">5.0000</span>     <span class="number">5.0000</span></pre></div>
 <h3 id="reorder" class="section-header"><a href="#reorder">reorder()</a></h3>
 <p>The <a href="./fn.reorder.html">reorder</a> function modifies the order of data within an array by
 exchanging data according to the change in dimensionality. The linear ordering
 of data within the array is preserved.</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">2</span> <span class="number">2</span> <span class="number">3</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">3.0000</span>
     <span class="number">2.0000</span>     <span class="number">4.0000</span>
@@ -184,12 +184,12 @@ of data within the array is preserved.</p>
 
     <span class="number">3.0000</span>     <span class="number">4.0000</span>
     <span class="number">3.0000</span>     <span class="number">4.0000</span>
-    <span class="number">3.0000</span>     <span class="number">4.0000</span></pre>
+    <span class="number">3.0000</span>     <span class="number">4.0000</span></pre></div>
 <h3 id="shift" class="section-header"><a href="#shift">shift()</a></h3>
 <p>The <a href="./fn.shift.html">shift</a> function shifts data in a circular buffer fashion along a
 chosen dimension. Consider the following example:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">3</span> <span class="number">5</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>
     <span class="number">3.0000</span>     <span class="number">4.0000</span>     <span class="number">5.0000</span>     <span class="number">1.0000</span>     <span class="number">2.0000</span>
@@ -205,13 +205,13 @@ chosen dimension. Consider the following example:</p>
 [<span class="number">3</span> <span class="number">5</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">2.0000</span>     <span class="number">3.0000</span>     <span class="number">4.0000</span>     <span class="number">5.0000</span>
     <span class="number">1.0000</span>     <span class="number">2.0000</span>     <span class="number">3.0000</span>     <span class="number">4.0000</span>     <span class="number">5.0000</span>
-    <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span></pre>
+    <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span>     <span class="number">0.0000</span></pre></div>
 <h3 id="tile" class="section-header"><a href="#tile">tile()</a></h3>
 <p>The <a href="./fn.tile.html">tile</a> function repeats an array along the specified dimension.
 For example below we show how to tile an array along the zeroth and first
 dimensions of an array:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">3</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>
     <span class="number">2.0000</span>
@@ -251,12 +251,12 @@ dimensions of an array:</p>
 
     <span class="number">1.0000</span>     <span class="number">1.0000</span>
     <span class="number">2.0000</span>     <span class="number">2.0000</span>
-    <span class="number">3.0000</span>     <span class="number">3.0000</span></pre>
+    <span class="number">3.0000</span>     <span class="number">3.0000</span></pre></div>
 <h3 id="transpose" class="section-header"><a href="#transpose">transpose()</a></h3>
 <p>The <a href="./fn.transpose.html">transpose</a> function performs a standard matrix transpose. The input
 array must have the dimensions of a 2D-matrix.</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">a</span> [<span class="number">3</span> <span class="number">3</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">3.0000</span>     <span class="number">3.0000</span>
     <span class="number">2.0000</span>     <span class="number">1.0000</span>     <span class="number">3.0000</span>
@@ -266,7 +266,7 @@ array must have the dimensions of a 2D-matrix.</p>
 [<span class="number">3</span> <span class="number">3</span> <span class="number">1</span> <span class="number">1</span>]
     <span class="number">1.0000</span>     <span class="number">2.0000</span>     <span class="number">2.0000</span>
     <span class="number">3.0000</span>     <span class="number">1.0000</span>     <span class="number">2.0000</span>
-    <span class="number">3.0000</span>     <span class="number">3.0000</span>     <span class="number">1.0000</span></pre>
+    <span class="number">3.0000</span>     <span class="number">3.0000</span>     <span class="number">1.0000</span></pre></div>
 
     
 </body>

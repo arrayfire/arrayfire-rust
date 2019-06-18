@@ -49,22 +49,22 @@ libraries to your projects.</p>
 <p>When AF_PRINT_ERRORS is set to 1, the exceptions thrown are more verbose and
 detailed. This helps in locating the exact failure.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_PRINT_ERRORS</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_PRINT_ERRORS</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <h1 id="af_cuda_default_device" class="section-header"><a href="#af_cuda_default_device">3 AF_CUDA_DEFAULT_DEVICE</a></h1>
 <p>Use this variable to set the default CUDA device. Valid values for this
 variable are the device identifiers shown when <a href="./fn.info.html">af::info</a> is run.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_CUDA_DEFAULT_DEVICE</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_CUDA_DEFAULT_DEVICE</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <p>Note: af::setDevice call in the source code will take precedence over this
 variable.</p>
 <h1 id="af_opencl_default_device" class="section-header"><a href="#af_opencl_default_device">4 AF_OPENCL_DEFAULT_DEVICE</a></h1>
 <p>Use this variable to set the default OpenCL device. Valid values for this
 variable are the device identifiers shown when <a href="./fn.info.html">af::info</a> is run.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_OPENCL_DEFAULT_DEVICE</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_OPENCL_DEFAULT_DEVICE</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <p>Note: <a href="./fn.set_device.html">af::set_device</a> call in the source code will take precedence over this
 variable.</p>
 <h1 id="af_opencl_default_device_type" class="section-header"><a href="#af_opencl_default_device_type">5 AF_OPENCL_DEFAULT_DEVICE_TYPE</a></h1>
@@ -72,8 +72,8 @@ variable.</p>
 variable are: CPU, GPU, ACC (Accelerators).</p>
 <p>When set, the first device of the specified type is chosen as default device.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_OPENCL_DEFAULT_DEVICE_TYPE</span><span class="op">=</span><span class="ident">CPU</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_OPENCL_DEFAULT_DEVICE_TYPE</span><span class="op">=</span><span class="ident">CPU</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <p>Note: <code>AF_OPENCL_DEFAULT_DEVICE</code> and <a href="./fn.set_device.html">af::set_device</a> takes precedence over this variable.</p>
 <h1 id="af_opencl_device_type" class="section-header"><a href="#af_opencl_device_type">6 AF_OPENCL_DEVICE_TYPE</a></h1>
 <p>Use this variable to only choose OpenCL devices of specified type. Valid values for this
@@ -86,8 +86,8 @@ variable are:</p>
 </ul>
 <p>When set, the remaining OpenCL device types are ignored by the OpenCL backend.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_OPENCL_DEVICE_TYPE</span><span class="op">=</span><span class="ident">CPU</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_OPENCL_DEVICE_TYPE</span><span class="op">=</span><span class="ident">CPU</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <h1 id="af_opencl_cpu_offload" class="section-header"><a href="#af_opencl_cpu_offload">7 AF_OPENCL_CPU_OFFLOAD</a></h1>
 <p>When ArrayFire runs on devices with unified memory with the host (ie.
 <code>CL_DEVICE_HOST_UNIFIED_MENORY</code> is true for the device) then certain functions
@@ -128,8 +128,8 @@ paths, then those paths are shown in full.</p>
 The device buffers are allocated using native functions as needed and freed when going out of scope.</p>
 <p>When the environment variable is not set, it is treated to be non zero.</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">AF_MEM_DEBUG</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">AF_MEM_DEBUG</span><span class="op">=</span><span class="number">1</span> .<span class="op">/</span><span class="ident">myprogram</span></pre></div>
 <h1 id="af_max_buffers" class="section-header"><a href="#af_max_buffers">13 AF_MAX_BUFFERS</a></h1>
 <p>When AF_MAX_BUFFERS is set, this environment variable specifies the maximum number of buffers allocated before garbage collection kicks in.</p>
 <p>Please note that the total number of buffers that can exist simultaneously can be higher than this number. This variable tells the garbage collector that it should free any available buffers immediately if the treshold is reached.</p>

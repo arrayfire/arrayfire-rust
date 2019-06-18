@@ -1,8 +1,8 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/random/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/random/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-</head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -261,19 +261,57 @@
 <span id="257">257</span>
 <span id="258">258</span>
 <span id="259">259</span>
-</pre><pre class="rust ">
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+</pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class="kw">use</span> <span class="ident">array</span>::<span class="ident">Array</span>;
-<span class="kw">use</span> <span class="ident">dim4</span>::<span class="ident">Dim4</span>;
-<span class="kw">use</span> <span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">RandomEngineType</span>};
-<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">c_uint</span>};
-<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">FloatingPoint</span>, <span class="ident">HasAfEnum</span>};
-<span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">DimT</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutRandEngine</span>, <span class="ident">RandEngine</span>, <span class="ident">Uintl</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">RandomEngineType</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dim4</span>::<span class="ident">Dim4</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">DimT</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutRandEngine</span>, <span class="ident">RandEngine</span>, <span class="ident">Uintl</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">FloatingPoint</span>, <span class="ident">HasAfEnum</span>};
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">extern</span> {
+<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">fn</span> <span class="ident">af_set_seed</span>(<span class="ident">seed</span>: <span class="ident">Uintl</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_get_seed</span>(<span class="ident">seed</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Uintl</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
@@ -291,10 +329,20 @@
     <span class="kw">fn</span> <span class="ident">af_get_default_random_engine</span>(<span class="ident">engine</span>: <span class="ident">MutRandEngine</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_set_default_random_engine_type</span>(<span class="ident">rtype</span>: <span class="ident">c_uint</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_random_uniform</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">ndims</span>: <span class="ident">c_uint</span>, <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
-                         <span class="ident">aftype</span>: <span class="ident">c_uint</span>, <span class="ident">engine</span>: <span class="ident">RandEngine</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_random_normal</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">ndims</span>: <span class="ident">c_uint</span>, <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
-                        <span class="ident">aftype</span>: <span class="ident">c_uint</span>, <span class="ident">engine</span>: <span class="ident">RandEngine</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_random_uniform</span>(
+        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">ndims</span>: <span class="ident">c_uint</span>,
+        <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
+        <span class="ident">aftype</span>: <span class="ident">c_uint</span>,
+        <span class="ident">engine</span>: <span class="ident">RandEngine</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_random_normal</span>(
+        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">ndims</span>: <span class="ident">c_uint</span>,
+        <span class="ident">dims</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
+        <span class="ident">aftype</span>: <span class="ident">c_uint</span>,
+        <span class="ident">engine</span>: <span class="ident">RandEngine</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
 <span class="doccomment">/// Set seed for random number generation</span>
@@ -343,10 +391,19 @@
     )
 }
 
-<span class="macro">data_gen_def</span><span class="macro">!</span>(<span class="string">&quot;Create random numbers from uniform distribution&quot;</span>,
-              <span class="ident">randu</span>, <span class="ident">af_randu</span>, <span class="ident">HasAfEnum</span>);
-<span class="macro">data_gen_def</span><span class="macro">!</span>(<span class="string">&quot;Create random numbers from normal distribution&quot;</span>,
-              <span class="ident">randn</span>, <span class="ident">af_randn</span>, <span class="ident">HasAfEnum</span>, <span class="ident">FloatingPoint</span>);
+<span class="macro">data_gen_def</span><span class="macro">!</span>(
+    <span class="string">&quot;Create random numbers from uniform distribution&quot;</span>,
+    <span class="ident">randu</span>,
+    <span class="ident">af_randu</span>,
+    <span class="ident">HasAfEnum</span>
+);
+<span class="macro">data_gen_def</span><span class="macro">!</span>(
+    <span class="string">&quot;Create random numbers from normal distribution&quot;</span>,
+    <span class="ident">randn</span>,
+    <span class="ident">af_randn</span>,
+    <span class="ident">HasAfEnum</span>,
+    <span class="ident">FloatingPoint</span>
+);
 
 <span class="doccomment">/// Random number generator engine</span>
 <span class="doccomment">///</span>
@@ -357,8 +414,8 @@
 
 <span class="doccomment">/// Used for creating RandomEngine object from native resource id</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RandomEngine</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">t</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">RandomEngine</span> {
-        <span class="ident">RandomEngine</span> {<span class="ident">handle</span>: <span class="ident">t</span>}
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">t</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">handle</span>: <span class="ident">t</span> }
     }
 }
 
@@ -373,11 +430,17 @@
     <span class="doccomment">/// # Return Values</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// A object of type RandomEngine</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">rengine</span>: <span class="ident">RandomEngineType</span>, <span class="ident">seed</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">RandomEngine</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">rengine</span>: <span class="ident">RandomEngineType</span>, <span class="ident">seed</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_random_engine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="ident">rengine</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-                                                  <span class="kw">match</span> <span class="ident">seed</span> {<span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>, <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>} <span class="kw">as</span> <span class="ident">Uintl</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_create_random_engine</span>(
+                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>,
+                <span class="ident">rengine</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+                <span class="kw">match</span> <span class="ident">seed</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>,
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+                } <span class="kw">as</span> <span class="ident">Uintl</span>,
+            );
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
         <span class="ident">RandomEngine</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
@@ -387,8 +450,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RandomEngineType</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_engine_get_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>,
-                                                    <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span>
+                <span class="ident">af_random_engine_get_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_uint</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
         <span class="ident">RandomEngineType</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
@@ -397,8 +460,8 @@
     <span class="doccomment">/// Get random engine type</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">engine_type</span>: <span class="ident">RandomEngineType</span>) {
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_engine_set_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>,
-                                                    <span class="ident">engine_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span>
+                <span class="ident">af_random_engine_set_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="ident">engine_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
@@ -406,8 +469,8 @@
     <span class="doccomment">/// Set seed for random engine</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">seed</span>: <span class="ident">u64</span>) {
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_engine_set_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>,
-                                                    <span class="ident">seed</span> <span class="kw">as</span> <span class="ident">Uintl</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span>
+                <span class="ident">af_random_engine_set_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="ident">seed</span> <span class="kw">as</span> <span class="ident">Uintl</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
     }
@@ -416,7 +479,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_seed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_engine_get_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Uintl</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span>
+                <span class="ident">af_random_engine_get_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Uintl</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         }
         <span class="ident">seed</span>
@@ -430,10 +494,11 @@
 
 <span class="doccomment">/// Increment reference count of RandomEngine&#39;s native resource</span>
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">RandomEngine</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RandomEngine</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_retain_random_engine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
+            <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span>
+                <span class="ident">af_retain_random_engine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="self">self</span>.<span class="ident">handle</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
             <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
             <span class="ident">RandomEngine</span>::<span class="ident">from</span>(<span class="ident">temp</span>)
         }
@@ -452,9 +517,9 @@
 
 <span class="doccomment">/// Get default random engine</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_default_random_engine</span>() <span class="op">-&gt;</span> <span class="ident">RandomEngine</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handle</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handle</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_default_random_engine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
         <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_retain_random_engine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">handle</span> <span class="kw">as</span> <span class="ident">MutRandEngine</span>, <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">RandEngine</span>);
@@ -486,13 +551,19 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with uniform numbers generated using random engine</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_uniform</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dims</span>: <span class="ident">Dim4</span>, <span class="ident">engine</span>: <span class="kw-2">&amp;</span><span class="ident">RandomEngine</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span> {
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
+{
     <span class="kw">let</span> <span class="ident">aftype</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_uniform</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                                        <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
-                                        <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">engine</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">RandEngine</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_uniform</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+            <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
+            <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">engine</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">RandEngine</span>,
+        );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
     <span class="ident">temp</span>.<span class="ident">into</span>()
@@ -509,17 +580,22 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with normal numbers generated using random engine</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_normal</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">dims</span>: <span class="ident">Dim4</span>, <span class="ident">engine</span>: <span class="kw-2">&amp;</span><span class="ident">RandomEngine</span>) <span class="op">-&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
 {
     <span class="kw">let</span> <span class="ident">aftype</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> : <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_normal</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                                       <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
-                                       <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">c_uint</span>, <span class="ident">engine</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">RandEngine</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_random_normal</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+            <span class="ident">dims</span>.<span class="ident">ndims</span>() <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">dims</span>.<span class="ident">get</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DimT</span>,
+            <span class="ident">aftype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">engine</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">RandEngine</span>,
+        );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
     <span class="ident">temp</span>.<span class="ident">into</span>()
 }
-</pre>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

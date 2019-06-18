@@ -1,2 +1,13 @@
 var ALIASES = {};
-ALIASES['arrayfire'] = {};
+ALIASES["arrayfire"] = {};
+ALIASES["lazy_static"] = {};
+ALIASES["libc"] = {};
+ALIASES["num"] = {};
+ALIASES["num_bigint"] = {};
+ALIASES["num_complex"] = {};
+ALIASES["num_integer"] = {};
+ALIASES["num_iter"] = {};
+ALIASES["num_rational"] = {};
+ALIASES["num_traits"] = {};
+ALIASES["rand"] = {};
+ALIASES["rustc_serialize"] = {};
