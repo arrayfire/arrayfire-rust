@@ -35,7 +35,7 @@ default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "i
 
 [dependencies]
 libc = "0.2"
-num  = "0.1"
+num  = "0.2"
 lazy_static = "1.0"
 
 [build-dependencies]
