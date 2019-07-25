@@ -610,9 +610,11 @@ impl Zero for Complex32 {
 
 ///Trait qualifier to accept either real or complex typed data
 pub trait FloatingPoint {
+    /// Use to check if trait implementor is real number
     fn is_real() -> bool {
         false
     }
+    /// Use to check if trait implementor is complex number
     fn is_complex() -> bool {
         false
     }
