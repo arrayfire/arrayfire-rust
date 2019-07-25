@@ -104,12 +104,14 @@ For example:</p>
 ArrayFire also supports array initialization from memory already on the GPU.
 For example, with CUDA one can populate an `array` directly using a call
 to `cudaMemcpy`:
-<p>\snippet test/getting_started.cpp ex_getting_started_dev_ptr</p>
-<p>Similar functionality exists for OpenCL too. If you wish to intermingle
+
+\snippet test/getting_started.cpp ex_getting_started_dev_ptr
+
+Similar functionality exists for OpenCL too. If you wish to intermingle
 ArrayFire with CUDA or OpenCL code, we suggest you consult the
 [CUDA interoperability](\ref interop_cuda) or
 [OpenCL interoperability](\ref interop_opencl) pages for detailed instructions.
---&gt;</p>
+-->
 <h1 id="arrayfire-array-contents-dimensions-and-properties" class="section-header"><a href="#arrayfire-array-contents-dimensions-and-properties">4 ArrayFire array contents, dimensions, and properties</a></h1>
 <p>ArrayFire provides several functions to determine various aspects of arrays.
 This includes functions to print the contents, query the dimensions, and
@@ -190,27 +192,30 @@ in a standard slice or similar container on the host. As such, it is up to the d
 any memory returned by <code>host</code>.</p>
 <!--
 # Getting access to ArrayFire array memory on the host and device
-<p>Memory in <code>af::array</code>s may be accessed using the [host()](\ref af::array::host)
+
+Memory in `af::array`s may be accessed using the [host()](\ref af::array::host)
 and [device()](\ref af::array::device) functions.
-The <code>host</code> function <em>copies</em> the data from the device and makes it available
+The `host` function *copies* the data from the device and makes it available
 in a C-style array on the host. As such, it is up to the developer to manage
-any memory returned by <code>host</code>.
-The <code>device</code> function returns a pointer/reference to device memory for
+any memory returned by `host`.
+The `device` function returns a pointer/reference to device memory for
 interoperability with external CUDA/OpenCL kernels. As this memory belongs to
 ArrayFire, the programmer should not attempt to free/deallocate the pointer.
-For example, here is how we can interact with both OpenCL and CUDA:</p>
+For example, here is how we can interact with both OpenCL and CUDA:
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-</pre></div>
-<p>ArrayFire also provides several helper functions for creating <code>af::array</code>s from
-OpenCL <code>cl_mem</code> references and <code>cl::Buffer</code> objects. See the <code>include/af/opencl.h</code>
-file for further information.</p>
-<p>Lastly, if you want only the first value from an <code>af::array</code> you can use
-get it using the [scalar()](\ref af::array::scalar) function:</p>
+```rust
+```
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-</pre></div>
-<p>--&gt;</p>
+ArrayFire also provides several helper functions for creating `af::array`s from
+OpenCL `cl_mem` references and `cl::Buffer` objects. See the `include/af/opencl.h`
+file for further information.
+
+Lastly, if you want only the first value from an `af::array` you can use
+get it using the [scalar()](\ref af::array::scalar) function:
+
+```rust
+```
+-->
 <h1 id="bitwise-operators" class="section-header"><a href="#bitwise-operators">8 Bitwise operators</a></h1>
 <p>In addition to supporting standard mathematical functions, Arrays
 that contain integer data types also support bitwise operators including

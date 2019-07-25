@@ -2,7 +2,7 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../arrayfire/index.html'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -760,6 +760,8 @@
 <span id="756">756</span>
 <span id="757">757</span>
 <span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
@@ -1373,9 +1375,11 @@
 
 <span class="doccomment">///Trait qualifier to accept either real or complex typed data</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">FloatingPoint</span> {
+    <span class="doccomment">/// Use to check if trait implementor is real number</span>
     <span class="kw">fn</span> <span class="ident">is_real</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="bool-val">false</span>
     }
+    <span class="doccomment">/// Use to check if trait implementor is complex number</span>
     <span class="kw">fn</span> <span class="ident">is_complex</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="bool-val">false</span>
     }
