@@ -1,10 +1,6 @@
 use arrayfire::*;
 use num::Complex;
 
-type Complex32 = Complex<f32>;
-
-#[allow(unused_must_use)]
-#[allow(unused_variables)]
 fn main() {
     set_device(0);
     info();
@@ -21,7 +17,7 @@ fn main() {
         Complex::new(0.0, 2.0),
         Complex::new(0.0, 2.0),
         Complex::new(0.0, 2.0),
-        Complex::new(0.0, 2.0)
+        Complex::new(0.0, 2.0),
     ];
 
     let signal = Array::new(&values, dims);

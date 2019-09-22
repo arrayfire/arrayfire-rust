@@ -307,7 +307,14 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         };
 
         backend_dirs.push(afpath.join("lib").to_str().to_owned().unwrap().to_string());
-        backend_dirs.push(afpath.join("lib64").to_str().to_owned().unwrap().to_string());
+        backend_dirs.push(
+            afpath
+                .join("lib64")
+                .to_str()
+                .to_owned()
+                .unwrap()
+                .to_string(),
+        );
 
         if !cfg!(target_os = "windows") {
             backend_dirs.push(String::from("/usr/local/lib"));
