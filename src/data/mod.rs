@@ -512,6 +512,8 @@ where
 ///# Parameters
 ///
 /// - `input` is the input Array
+/// - `new_axis0` is the new first axis for output
+/// - `new_axis1` is the new second axis for output
 /// - `next_axes` is the new axeses order for output
 ///
 ///# Return Values
