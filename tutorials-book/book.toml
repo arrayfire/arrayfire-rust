@@ -1,0 +1,11 @@
+[book]
+authors = ["Pradeep Garigipati"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rust Wrapper for ArrayFire HPC Library"
+
+[output.html]
+theme = "src/theme"
+mathjax-support = true
+default-theme = "ayu"

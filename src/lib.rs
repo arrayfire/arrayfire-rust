@@ -7,28 +7,25 @@
 //! not be concerned about low-level optimizations that are frequently required to
 //! achieve high throughput on most parallel architectures.
 
-//! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).
+//! This crate provides Rust bindings for the ArrayFire library. Given below table shows
+//! the rust bindings compatability with ArrayFire upstream.  If you find any bugs,
+//! please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).
 //!
 //! | arrayfire-rust crate | ArrayFire Upstream |
-//! |:--------------|:---------|
-//! | M.m.p1 | M.m.p2 |
+//! |:--------------------:|:------------------:|
+//! |         M.m.p1       |      M.m.p2        |
 //!
 //! Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2*
 //! are patch/fix updates for `arrayfire-rust` & `ArrayFire` respectively,
 //! and they don't need to match.
 //!
-//! ## Tutorials
-//!
-//! - [Getting Started with ArrayFire](./getting_started.html)
-//! - [Introduction to Vectorization](./vectorization.html)
-//! - [Array and Matrix Manipulation](./array_and_matrix_manipulation.html)
-//! - [Indexing](./indexing.html)
-//! - [Configure ArrayFire Environment](./configuring_arrayfire_environment.html)
+//! Please go through our [tutorials](./book/index.html) book for more explanations on how to
+//! use ArrayFire to speedup your code.
 
 #![doc(
     html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
     html_favicon_url = "http://www.rust-lang.org/favicon.ico",
-    html_root_url = "http://arrayfire.com/docs/rust"
+    html_root_url = "http://arrayfire.org/arrayfire-rust/arrayfire/index.html"
 )]
 #![warn(missing_docs)]
 #![allow(non_camel_case_types)]
