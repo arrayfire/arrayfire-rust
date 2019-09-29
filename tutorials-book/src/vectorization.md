@@ -1,9 +1,9 @@
-% Vectorization
+# Vectorization
 
 <!--
 Programmers and Data Scientists want to take advantage of fast and parallel
 computational devices. Writing vectorized code is necessary to get
-the best performance out of the current generation parallel hardware and
+therust,noplayperust,noplaypen performance out of the current generation parallel hardware and
 scientific computing software. However, writing vectorized code may not be
 immediately intuitive. ArrayFire provides many ways to vectorize a given code
 segment. In this tutorial, we present several methods to vectorize code
@@ -14,7 +14,7 @@ using ArrayFire and discuss the benefits and drawbacks associated with each meth
 By its very nature, ArrayFire is a vectorized library. Most functions operate on
 Arrays as a whole -- on all elements in parallel. For example consider the following code:
 
-```rust
+```rust,noplaypen
 let mut a = af::range(Dim::new(&[10, 1, 1, 1]));  // [0,  9]
 a = a + 1;                                        // [1, 10]
 ```
@@ -28,25 +28,25 @@ A small subset of such vectorized ArrayFire functions are given below for quick 
 |--------------------------------------------------------------|----------------------------|
 |  Arithmetic operations                    | +, -, *, /, %, >>, << |
 |  Logical operations                       | &&, \|\|, <, >, ==, != etc. |
-|  Numeric functions                        | [abs](./fn.abs.html), [floor](./fn.floor.html), [round](./fn.round.html), [min](./fn.min.html), [max](./fn.max.html), etc. |
-|  Complex operations                       | [real](./fn.real.html), [imag](./fn.imag.html), [conj](./fn.conj.html), etc. |
-|  Exponential and logarithmic functions    | [exp](./fn.exp.html), [log](./fn.log.html), [expm1](./fn.expm1.html), [log1p](./fn.log1p.html), etc. |
-|  Trigonometric functions                  | [sin](./fn.sin.html), [cos](./fn.cos.html), [tan](./fn.tan.html), etc. |
-|  Hyperbolic functions                     | [sinh](./fn.sinh.html), [cosh](./fn.cosh.html), [tanh](./fn.tanh.html), etc. |
+|  Numeric functions                        | [abs](../fn.abs.html), [floor](../fn.floor.html), [round](../fn.round.html), [min](../fn.min.html), [max](../fn.max.html), etc. |
+|  Complex operations                       | [real](../fn.real.html), [imag](../fn.imag.html), [conjg](../fn.conjg.html), etc. |
+|  Exponential and logarithmic functions    | [exp](../fn.exp.html), [log](../fn.log.html), [expm1](../fn.expm1.html), [log1p](../fn.log1p.html), etc. |
+|  Trigonometric functions                  | [sin](../fn.sin.html), [cos](../fn.cos.html), [tan](../fn.tan.html), etc. |
+|  Hyperbolic functions                     | [sinh](../fn.sinh.html), [cosh](../fn.cosh.html), [tanh](../fn.tanh.html), etc. |
 
 In addition to element-wise operations, many other functions are also
 vectorized in ArrayFire.
 
 Notice that even functions that perform some form of aggregation (e.g.
-[sum](./fn.sum.html) or [min](./fn.min.html)), signal processing (like
-[convolve](./fn.convolve.html)), and image processing functions
-(i.e. [rotate](./fn.rotate.html) etc.) - all support vectorization on
+[sum](../fn.sum.html) or [min](../fn.min.html)), signal processing (like
+[convolve](../fn.convolve1.html)), and image processing functions
+(i.e. [rotate](../fn.rotate.html) etc.) - all support vectorization on
  different columns or images.
 
 For example, if we have `NUM` images of size `WIDTH`x`HEIGHT`, one could
 convolve each image in a vector fashion as follows:
 
-```rust
+```rust,noplaypen
 let g_coef: [f32, 9] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
 
 let f = Array::new(g_coef, Dim4::new(&[3, 3, 1, 1]));
@@ -59,7 +59,7 @@ let conv   = convolve2(signal, filter, ConvMode::DEFAULT, ConvDomain::AUTO);
 Similarly, one can rotate 100 images by 45 degrees in a single call using
 code like the following:
 
-```rust
+```rust,noplaypen
 // Construct an array of 100 WIDTH x HEIGHT images of random numbers
 let imgs = randu(WIDTH, HEIGHT, 100);
 
@@ -87,7 +87,7 @@ Consider the following example. Here we create a filter which we would like
 to apply to each of the weight vectors. The naive solution would be using a
 for-loop as we have seen previously:
 
-```rust
+```rust,noplaypen
 // Create the filter and the weight vectors
 af::array filter = randn(1, 5);
 af::array weights = randu(5, 5);
@@ -102,7 +102,7 @@ for(int i=0; i<weights.dims(1); ++i){
 However, as we have discussed above, this solution will be very inefficient.
 One may be tempted to implement a vectorized solution as follows:
 
-```rust
+```rust,noplaypen
 // Create the filter and the weight vectors
 af::array filter = randn(1, 5);
 af::array weights = randu(5, 5);

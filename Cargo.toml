@@ -15,6 +15,9 @@ exclude = [
     "arrayfire/*",
 ]
 
+[package.metadata.docs.rs]
+rustdoc-args = [ "--html-in-header", "./scripts/mathjax.script", ]
+
 [features]
 algorithm = []
 arithmetic = []

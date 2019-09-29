@@ -1,17 +1,17 @@
-% Indexing
+# Indexing
 
-[Indexer](./struct.Indexer.html) structure is the key element used in Rust
+[Indexer](../struct.Indexer.html) structure is the key element used in Rust
 wrapper for ArrayFire for creating references to existing Arrays. Given
 below are few of such functions and their corresponding example use cases.
-Use [Indexer::new](./struct.Indexer.html#method.new) to create an Indexer
+Use [Indexer::new](../struct.Indexer.html#method.new) to create an Indexer
 object and set either a `Seq` object or `Array` as indexing object for a
 given dimension.
 
-# Using Seq for all dimensions
+## Using Seq objects to index Array
 
-Create a view of an existing Array using Sequences and [index](./fn.index.html).
+Create a view of an existing Array using Sequences and [index](../fn.index.html).
 
-```rust
+```rust,noplaypen
 let dims = Dim4::new(&[5, 5, 1, 1]);
 let a = randu::<f32>(dims);
 af_print!("a", a);
@@ -33,9 +33,9 @@ af_print!("a(seq(1,3,1), span)", sub);
 //     0.1386     0.9455     0.9434     0.2330     0.2657
 ```
 
-Set a sub-portion of an existing Array with a constant value using [assign_seq](./fn.assign_seq.html).
+Set a sub-portion of an existing Array with a constant value using [assign_seq](../fn.assign_seq.html).
 
-```rust
+```rust,noplaypen
 let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
 let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
 let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
@@ -55,11 +55,11 @@ print(&sub);
 // 2.0 2.0 2.0
 ```
 
-# Using Array and Seq combination
+## Using Array and Seq combination to index Array
 
 Create a view of an existing Array using another Array and Sequence.
 
-```rust
+```rust,noplaypen
 use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};
 let values: [f32; 3] = [1.0, 2.0, 3.0];
 let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -87,7 +87,7 @@ println!("a(indices, seq(0, 2, 1))"); print(&sub2);
 Set a sub-portion of an existing Array with another Array using a combination
 of `Seq` and `Array`.
 
- ```rust
+ ```rust,noplaypen
  use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};
  let values: [f32; 3] = [1.0, 2.0, 3.0];
  let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -116,11 +116,11 @@ of `Seq` and `Array`.
  //     0.5328     0.9347     0.0535
  ```
 
-# Extract or Set rows/coloumns
+## Extract or Set rows/coloumns of an Array
 
 Extract a specific set of rows/coloumns from an existing Array.
 
-```rust
+```rust,noplaypen
 let dims = Dim4::new(&[5, 5, 1, 1]);
 let a = randu::<f32>(dims);
 println!("Grab last row of the random matrix");
@@ -129,7 +129,7 @@ print(&row(&a, 4));
 print(&col(&a, 4));
 ```
 
-You can also use [rows](./fn.rows.html) & [cols](./fn.cols.html) to retrieve a
+You can also use [rows](../fn.rows.html) & [cols](../fn.cols.html) to retrieve a
 subset of rows or coloumns respectively.
 
-Similarly, [set_row](./fn.set_row.html) & [set_rows](./fn.set_rows.html) can be used to change the values in a particular set of rows using another Array. [set_col](./fn.set_col.html) & [set_cols](./fn.set_cols.html) has same functionality, except that it is for coloumns.
+Similarly, [set_row](../fn.set_row.html) & [set_rows](../fn.set_rows.html) can be used to change the values in a particular set of rows using another Array. [set_col](../fn.set_col.html) & [set_cols](../fn.set_cols.html) has same functionality, except that it is for coloumns.
