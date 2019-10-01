@@ -218,7 +218,23 @@ get it using the [scalar()](\ref af::array::scalar) function:
 
 In addition to supporting standard mathematical functions, Arrays
 that contain integer data types also support bitwise operators including
-and, or, and shift etc.
+and, or, and shift etc. Operator traits for Array as well as separate functions
+are also defined to support various use cases.
+
+```rust,noplaypen
+let dims = Dim4::new(&[5, 3, 1, 1]);
+let a = randu::<bool>(dims);
+let b = randu::<bool>(dims);
+
+print(&a);
+print(&b);
+
+let c = &a | &b; //Borrowing to avoid move of a and b, a | b is also valid
+let d = bitand(&a, &b, false);
+
+print(&c);
+print(&d);
+```
 
 ## Where to go for help?
 

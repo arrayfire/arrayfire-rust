@@ -269,3 +269,32 @@ transpose(&a, False) //Second parameter to be used for conjugate transpose
     3.0000     1.0000     2.0000
     3.0000     3.0000     1.0000
 ```
+
+### Combining functions to enumerate grid coordinates
+
+By using a combination of the functions, one can quickly code complex manipulation patterns with
+a few lines of code. For example, consider generating (x,y) coordinates for a grid where each axis
+goes from 1 to n. Instead of using several loops to populate our arrays we can just use a small
+combination of the above functions.
+
+```rust,noplaypen
+let a      = iota::<u32>(Dim4::new(&[3, 1, 1, 1]),
+                         Dim4::new(&[1, 3, 1, 1]));
+let b      = transpose(&a, false);
+let coords = join(1, &flat(&a), &flat(&b));
+print(&coords);
+```
+
+The output for a `[3 3 1 1]` matrix will be the following.
+```rust,noplaypen
+[9 2 1 1]
+         0          0
+         1          0
+         2          0
+         0          1
+         1          1
+         2          1
+         0          2
+         1          2
+         2          2
+```
