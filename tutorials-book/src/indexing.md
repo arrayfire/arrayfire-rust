@@ -1,15 +1,19 @@
 # Indexing
 
+Indexing in ArrayFire is a powerful but easy to abuse feature. This feature
+allows you to reference or copy subsections of a larger array and perform
+operations on only a subset of elements.
+
 [Indexer](../struct.Indexer.html) structure is the key element used in Rust
-wrapper for ArrayFire for creating references to existing Arrays. Given
-below are few of such functions and their corresponding example use cases.
+wrapper of ArrayFire for creating references to existing Arrays. Given
+below are few of such functions and their corresponding use cases.
 Use [Indexer::new](../struct.Indexer.html#method.new) to create an Indexer
 object and set either a `Seq` object or `Array` as indexing object for a
 given dimension.
 
 ## Using Seq objects to index Array
 
-Create a view of an existing Array using Sequences and [index](../fn.index.html).
+Create a view of an existing Array using Sequences and the function [index](../fn.index.html).
 
 ```rust,noplaypen
 let dims = Dim4::new(&[5, 5, 1, 1]);
@@ -54,6 +58,8 @@ print(&sub);
 // 1.0 1.0 1.0
 // 2.0 2.0 2.0
 ```
+
+> **NOTE** Normally you want to avoid accessing individual elements of the array like this for performance reasons.
 
 ## Using Array and Seq combination to index Array
 

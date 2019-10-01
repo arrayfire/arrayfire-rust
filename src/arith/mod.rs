@@ -857,7 +857,6 @@ mod op_assign {
     bit_assign_func!(BitAndAssign, bitand_assign, bitand);
     bit_assign_func!(BitOrAssign, bitor_assign, bitor);
     bit_assign_func!(BitXorAssign, bitxor_assign, bitxor);
-
 }
 
 ///Implement negation trait for Array
