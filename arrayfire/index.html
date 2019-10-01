@@ -2,7 +2,7 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a><p class='location'>Crate arrayfire</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all arrayfire's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-135' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span></h1><div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with
+<style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a><p class='location'>Crate arrayfire</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all arrayfire's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-132' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span></h1><div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with
 an easy-to-use API. ArrayFire abstracts away much of the details of
 programming parallel architectures by providing a high-level container object,
 the <a href="./struct.Array.html">Array</a>, that represents data stored on a CPU, GPU, FPGA,
@@ -10,21 +10,17 @@ or other type of accelerator. This abstraction permits developers to write
 massively parallel applications in a high-level language where they need
 not be concerned about low-level optimizations that are frequently required to
 achieve high throughput on most parallel architectures.
-This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on <a href="https://github.com/arrayfire/arrayfire-rust/issues">github</a>.</p>
-<table><thead><tr><th align="left">arrayfire-rust crate</th><th align="left">ArrayFire Upstream</th></tr></thead><tbody>
-<tr><td align="left">M.m.p1</td><td align="left">M.m.p2</td></tr>
+This crate provides Rust bindings for the ArrayFire library. Given below table shows
+the rust bindings compatability with ArrayFire upstream.  If you find any bugs,
+please report them on <a href="https://github.com/arrayfire/arrayfire-rust/issues">github</a>.</p>
+<table><thead><tr><th align="center">arrayfire-rust crate</th><th align="center">ArrayFire Upstream</th></tr></thead><tbody>
+<tr><td align="center">M.m.p1</td><td align="center">M.m.p2</td></tr>
 </tbody></table>
 <p>Only, Major(M) &amp; Minor(m) version numbers need to match. <em>p1</em> and <em>p2</em>
 are patch/fix updates for <code>arrayfire-rust</code> &amp; <code>ArrayFire</code> respectively,
 and they don't need to match.</p>
-<h2 id="tutorials" class="section-header"><a href="#tutorials">Tutorials</a></h2>
-<ul>
-<li><a href="./getting_started.html">Getting Started with ArrayFire</a></li>
-<li><a href="./vectorization.html">Introduction to Vectorization</a></li>
-<li><a href="./array_and_matrix_manipulation.html">Array and Matrix Manipulation</a></li>
-<li><a href="./indexing.html">Indexing</a></li>
-<li><a href="./configuring_arrayfire_environment.html">Configure ArrayFire Environment</a></li>
-</ul>
+<p>Please go through our <a href="./book/index.html">tutorials</a> book for more explanations on how to
+use ArrayFire to speedup your code.</p>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table><tr class='module-item'><td><a class="macro" href="macro.af_print.html" title='arrayfire::af_print macro'>af_print</a></td><td class='docblock-short'><p>Print given message before printing out the Array to standard output</p>
 </td></tr><tr class='module-item'><td><a class="macro" href="macro.eval.html" title='arrayfire::eval macro'>eval</a></td><td class='docblock-short'><p>Evaluate arbitrary number of arrays</p>
@@ -302,7 +298,8 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.regions.html" title='arrayfire::regions fn'>regions</a></td><td class='docblock-short'><p>Find blobs in given image.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.register_error_handler.html" title='arrayfire::register_error_handler fn'>register_error_handler</a></td><td class='docblock-short'><p>Register user provided error handler</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.rem.html" title='arrayfire::rem fn'>rem</a></td><td class='docblock-short'><p>Compute remainder from two Arrays</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder.html" title='arrayfire::reorder fn'>reorder</a></td><td class='docblock-short'><p>Reorder the array in specified order</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder.html" title='arrayfire::reorder fn'>reorder</a></td><td class='docblock-short'><span class="stab deprecated">Deprecated</span><p>Reorder the array in specified order</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder_v2.html" title='arrayfire::reorder_v2 fn'>reorder_v2</a></td><td class='docblock-short'><p>Reorder the array in specified order</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.replace.html" title='arrayfire::replace fn'>replace</a></td><td class='docblock-short'><p>Inplace replace in Array based on a condition</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.replace_scalar.html" title='arrayfire::replace_scalar fn'>replace_scalar</a></td><td class='docblock-short'><p>Inplace replace in Array based on a condition</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.resize.html" title='arrayfire::resize fn'>resize</a></td><td class='docblock-short'><p>Resize an Image</p>

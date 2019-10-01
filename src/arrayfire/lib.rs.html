@@ -141,9 +141,6 @@
 <span id="137">137</span>
 <span id="138">138</span>
 <span id="139">139</span>
-<span id="140">140</span>
-<span id="141">141</span>
-<span id="142">142</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! ArrayFire is a high performance software library for parallel computing with</span>
 <span class="doccomment">//! an easy-to-use API. ArrayFire abstracts away much of the details of</span>
@@ -154,28 +151,25 @@
 <span class="doccomment">//! not be concerned about low-level optimizations that are frequently required to</span>
 <span class="doccomment">//! achieve high throughput on most parallel architectures.</span>
 
-<span class="doccomment">//! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).</span>
+<span class="doccomment">//! This crate provides Rust bindings for the ArrayFire library. Given below table shows</span>
+<span class="doccomment">//! the rust bindings compatability with ArrayFire upstream.  If you find any bugs,</span>
+<span class="doccomment">//! please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! | arrayfire-rust crate | ArrayFire Upstream |</span>
-<span class="doccomment">//! |:--------------|:---------|</span>
-<span class="doccomment">//! | M.m.p1 | M.m.p2 |</span>
+<span class="doccomment">//! |:--------------------:|:------------------:|</span>
+<span class="doccomment">//! |         M.m.p1       |      M.m.p2        |</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Only, Major(M) &amp; Minor(m) version numbers need to match. *p1* and *p2*</span>
 <span class="doccomment">//! are patch/fix updates for `arrayfire-rust` &amp; `ArrayFire` respectively,</span>
 <span class="doccomment">//! and they don&#39;t need to match.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ## Tutorials</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - [Getting Started with ArrayFire](./getting_started.html)</span>
-<span class="doccomment">//! - [Introduction to Vectorization](./vectorization.html)</span>
-<span class="doccomment">//! - [Array and Matrix Manipulation](./array_and_matrix_manipulation.html)</span>
-<span class="doccomment">//! - [Indexing](./indexing.html)</span>
-<span class="doccomment">//! - [Configure ArrayFire Environment](./configuring_arrayfire_environment.html)</span>
+<span class="doccomment">//! Please go through our [tutorials](./book/index.html) book for more explanations on how to</span>
+<span class="doccomment">//! use ArrayFire to speedup your code.</span>
 
 <span class="attribute">#![<span class="ident">doc</span>(
     <span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;http://www.arrayfire.com/logos/arrayfire_logo_symbol.png&quot;</span>,
     <span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;http://www.rust-lang.org/favicon.ico&quot;</span>,
-    <span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;http://arrayfire.com/docs/rust&quot;</span>
+    <span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;http://arrayfire.org/arrayfire-rust/arrayfire/index.html&quot;</span>
 )]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>

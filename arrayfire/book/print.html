@@ -1,0 +1,950 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust Wrapper for ArrayFire HPC Library</title>
+        
+        <meta name="robots" content="noindex" />
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body class="ayu">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p>ArrayFire is a high performance software library for parallel computing with
+an easy-to-use API. ArrayFire abstracts away much of the details of
+programming parallel architectures by providing a high-level container object,
+the <a href="../struct.Array.html">Array</a>, that represents data stored on a CPU, GPU, FPGA,
+or other type of accelerator. This abstraction permits developers to write
+massively parallel applications in a high-level language where they need
+not be concerned about low-level optimizations that are frequently required to
+achieve high throughput on most parallel architectures.</p>
+<h2><a class="header" href="#supported-data-types" id="supported-data-types">Supported data types</a></h2>
+<p>ArrayFire provides one generic container object, the <a href="../struct.Array.html">Array</a>
+on which functions and mathematical operations are performed. The <code>Array</code>
+can represent one of many different <a href="../enum.DType.html">basic data types</a>:</p>
+<ul>
+<li><a href="../enum.DType.html">F32</a> real single-precision (<code>float</code>)</li>
+<li><a href="../enum.DType.html">C32</a> complex single-precision (<code>cfloat</code>)</li>
+<li><a href="../enum.DType.html">F64</a> real double-precision (<code>double</code>)</li>
+<li><a href="../enum.DType.html">C64</a> complex double-precision (<code>cdouble</code>)</li>
+<li><a href="../enum.DType.html">B8 </a> 8-bit boolean values (<code>bool</code>)</li>
+<li><a href="../enum.DType.html">S32</a> 32-bit signed integer (<code>int</code>)</li>
+<li><a href="../enum.DType.html">U32</a> 32-bit unsigned integer (<code>unsigned</code>)</li>
+<li><a href="../enum.DType.html">U8 </a> 8-bit unsigned values (<code>unsigned char</code>)</li>
+<li><a href="../enum.DType.html">S64</a> 64-bit signed integer (<code>intl</code>)</li>
+<li><a href="../enum.DType.html">U64</a> 64-bit unsigned integer (<code>uintl</code>)</li>
+<li><a href="../enum.DType.html">S16</a> 16-bit signed integer (<code>short</code>)</li>
+<li><a href="../enum.DType.html">U16</a> 16-bit unsigned integer (<code>unsigned short</code>)</li>
+</ul>
+<p>Most of these data types are supported on all modern GPUs; however, some
+older devices may lack support for double precision arrays. In this case,
+a runtime error will be generated when the array is constructed.</p>
+<p>If not specified otherwise, <code>Array</code>s are created as single precision floating
+point numbers (<a href="../enum.DType.html">F32</a>).</p>
+<h2><a class="header" href="#creating-and-populating-an-array" id="creating-and-populating-an-array">Creating and populating an Array</a></h2>
+<p>ArrayFire <a href="../struct.Array.html">Array</a>s represent memory stored on the device.
+As such, creation and population of an array will consume memory on the device
+which cannot freed until the <code>array</code> object goes out of scope. As device memory
+allocation can be expensive, ArrayFire also includes a memory manager which
+will re-use device memory whenever possible.</p>
+<p>Arrays can be created using one of the <a href="../struct.Array.html#method.new_empty">array constructors</a>.
+Below we show how to create 1D, 2D, and 3D arrays with uninitialized values:</p>
+<pre><code class="language-rust noplaypen">let garbageVals = Array::new_empty(Dim4::new(&amp;[3, 1, 1, 1]), DType::F32);
+</code></pre>
+<p>However, uninitialized memory is likely not useful in your application.
+ArrayFire provides several convenient functions for creating arrays that contain
+pre-populated values including constants, uniform random numbers, uniform
+normally distributed numbers, and the identity matrix:</p>
+<pre><code class="language-rust noplaypen">// Create an array filled with constant value of 2.0 of type floating point
+// The type of Array is infered from the type of the constant argument
+let cnst = constant(2.0f32, Dim4::new(&amp;[5, 5, 1, 1]));
+print(&amp;cnst);
+</code></pre>
+<pre><code class="language-rust noplaypen">println!(&quot;Create a 5-by-3 matrix of random floats on the GPU&quot;);
+let dims = Dim4::new(&amp;[5, 3, 1, 1]);
+let a = randu::&lt;f32&gt;(dims);
+print(&amp;a);
+</code></pre>
+<p>As stated above, the default data type for arrays is <a href="../enum.DType.html">F32</a> (a
+32-bit floating point number) unless specified otherwise.</p>
+<p>ArrayFire <code>Array</code>s may also be populated from data found on the host.
+For example:</p>
+<pre><code class="language-rust noplaypen">let values: [u32; 3] = [1u32, 2, 3];
+let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+print(&amp;indices);
+</code></pre>
+<!--
+ArrayFire also supports array initialization from memory already on the GPU.
+For example, with CUDA one can populate an `array` directly using a call
+to `cudaMemcpy`:
+
+\snippet test/getting_started.cpp ex_getting_started_dev_ptr
+
+Similar functionality exists for OpenCL too. If you wish to intermingle
+ArrayFire with CUDA or OpenCL code, we suggest you consult the
+[CUDA interoperability](\ref interop_cuda) or
+[OpenCL interoperability](\ref interop_opencl) pages for detailed instructions.
+-->
+<h2><a class="header" href="#properties-of-an-array" id="properties-of-an-array">Properties of an Array</a></h2>
+<p>ArrayFire provides several functions to determine various aspects of arrays.
+This includes functions to print the contents, query the dimensions, and
+determine various other aspects of arrays.</p>
+<p>The <a href="../fn.print.html">print</a> function can be used to print arrays that
+have already been generated or any expression involving arrays:</p>
+<pre><code class="language-rust noplaypen">let values: [f32; 3] = [1.0, 2.0, 3.0];
+let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+print(&amp;indices);
+</code></pre>
+<p>The dimensions of an array may be determined using either a <a href="../struct.Dim4.html">Dim4</a> object or by accessing the dimensions directly using the <a href="../struct.Dim4.html#method.get">Dim4::get</a> and <a href="../struct.Dim4.html#method.ndims">Dim4::numdims</a> functions:</p>
+<pre><code class="language-rust noplaypen">let values: [f32; 3] = [1.0, 2.0, 3.0];
+let dims: Dim4 = Dim4::new(&amp;[3, 1, 1, 1]);
+let indices = Array::new(&amp;values, dims);
+println!(&quot;Dims {:?} with dimensions {}&quot;, dims.get(), dims.ndims());
+</code></pre>
+<p>In addition to dimensions, arrays also carry several properties including
+methods to determine the underlying type and size (in bytes). You can even
+determine whether the array is empty, real/complex, a row/column, or a scalar
+or a vector. For further information on these capabilities, we suggest you consult the
+full documentation on the <a href="../struct.Array.html">Array</a>.</p>
+<h2><a class="header" href="#writing-math-expressions-using-arrayfire" id="writing-math-expressions-using-arrayfire">Writing math expressions using ArrayFire</a></h2>
+<p>ArrayFire features an intelligent Just-In-Time (JIT) compilation engine that
+converts expressions using arrays into the smallest number of CUDA/OpenCL
+kernels. For most operations on Arrays, ArrayFire functions like a vector library.
+That means that an element-wise operation, like <code>c[i] = a[i] + b[i]</code> in C,
+would be written more concisely without indexing, like <code>c = a + b</code>.
+When there are multiple expressions involving arrays, ArrayFire's JIT engine
+will merge them together. This &quot;kernel fusion&quot; technology not only decreases
+the number of kernel calls, but, more importantly, avoids extraneous global
+memory operations.</p>
+<p>Our JIT functionality extends across C API boundary and only ends
+when a non-JIT function is encountered or a synchronization operation is
+explicitly called by the code.</p>
+<p>ArrayFire provides hundreds of functions for element-wise
+operations. All of the standard operators (e.g. +,-,*,/) are supported
+as are most transcendental functions (sin, cos, log, sqrt, etc.).
+Here are a few examples:</p>
+<pre><code class="language-rust noplaypen">let num_rows: u64 = 5;
+let num_cols: u64 = 3;
+let dims = Dim4::new(&amp;[num_rows, num_cols, 1, 1]);
+let a = randu::&lt;f32&gt;(dims);
+let b = randu::&lt;f32&gt;(dims);
+print(&amp;a);
+print(&amp;b);
+let c = a + b;
+print(&amp;c);
+
+//Example of *Assign traits
+let mut d = randu::&lt;f32&gt;(dims);
+let e     = constant(1f32, dims);
+d += e;
+print(&amp;d);
+</code></pre>
+<!--To see the complete list of functions please refer to the documentation on
+[mathematical](\ref mathfunc_mat), [linear algebra](\ref linalg_mat),
+[signal processing](\ref signal_mat), and [statistics](\ref stats_mat).
+-->
+<h2><a class="header" href="#indexing" id="indexing">Indexing</a></h2>
+<p>Like all functions in ArrayFire, indexing is also executed in parallel on
+the OpenCL/CUDA device. To index <code>Array</code>s you may use one or a combination of the following functions:</p>
+<ul>
+<li><a href="../struct.Seq.html">Seq</a> representing a linear sequence</li>
+<li><a href="../struct.Seq.html">Seq::Default()</a> representing the entire dimension</li>
+<li><a href="../fn.row.html">row(&amp;Array, i)</a> or <a href="../fn.col.html">col(&amp;Array, i)</a> specifying a single row/column</li>
+<li><a href="../fn.rows.html">rows(&amp;Array, first,last)</a> or <a href="../fn.cols.html">cols(&amp;Array, first,last)</a>
+specifying a span of rows or columns</li>
+</ul>
+<p>Please see the <a href="./indexing.html">indexing page</a> for several examples of how to
+use these functions.</p>
+<h2><a class="header" href="#access-to-array-memory-on-the-host" id="access-to-array-memory-on-the-host">Access to Array memory on the host</a></h2>
+<p>Memory in <code>af::Array</code>s may be accessed using the <a href="../struct.Array.html#method.host">Array::host()</a> method.
+The <code>host</code> function <em>copies</em> the data from the device and makes it available
+in a standard slice or similar container on the host. As such, it is up to the developer to manage
+any memory returned by <code>host</code>.</p>
+<!--
+# Getting access to ArrayFire array memory on the host and device
+
+Memory in `af::array`s may be accessed using the [host()](\ref af::array::host)
+and [device()](\ref af::array::device) functions.
+The `host` function *copies* the data from the device and makes it available
+in a C-style array on the host. As such, it is up to the developer to manage
+any memory returned by `host`.
+The `device` function returns a pointer/reference to device memory for
+interoperability with external CUDA/OpenCL kernels. As this memory belongs to
+ArrayFire, the programmer should not attempt to free/deallocate the pointer.
+For example, here is how we can interact with both OpenCL and CUDA:
+
+```rust,noplaypen
+```
+
+ArrayFire also provides several helper functions for creating `af::array`s from
+OpenCL `cl_mem` references and `cl::Buffer` objects. See the `include/af/opencl.h`
+file for further information.
+
+Lastly, if you want only the first value from an `af::array` you can use
+get it using the [scalar()](\ref af::array::scalar) function:
+
+```rust,noplaypen
+```
+-->
+<h2><a class="header" href="#bitwise-operators" id="bitwise-operators">Bitwise operators</a></h2>
+<p>In addition to supporting standard mathematical functions, Arrays
+that contain integer data types also support bitwise operators including
+and, or, and shift etc. Operator traits for Array as well as separate functions
+are also defined to support various use cases.</p>
+<pre><code class="language-rust noplaypen">let dims = Dim4::new(&amp;[5, 3, 1, 1]);
+let a = randu::&lt;bool&gt;(dims);
+let b = randu::&lt;bool&gt;(dims);
+
+print(&amp;a);
+print(&amp;b);
+
+let c = &amp;a | &amp;b; //Borrowing to avoid move of a and b, a | b is also valid
+let d = bitand(&amp;a, &amp;b, false);
+
+print(&amp;c);
+print(&amp;d);
+</code></pre>
+<h2><a class="header" href="#where-to-go-for-help" id="where-to-go-for-help">Where to go for help?</a></h2>
+<ul>
+<li><a href="https://groups.google.com/forum/#!forum/arrayfire-users">Google Groups</a></li>
+<li>ArrayFire Services:  <a href="http://arrayfire.com/consulting/">Consulting</a>  |  <a href="http://arrayfire.com/support/">Support</a>   |  <a href="http://arrayfire.com/training/">Training</a></li>
+<li><a href="http://arrayfire.com/blog/">ArrayFire Blogs</a></li>
+<li>Email: <a href="mailto:technical@arrayfire.com">mailto:technical@arrayfire.com</a></li>
+</ul>
+<h1><a class="header" href="#vectorization" id="vectorization">Vectorization</a></h1>
+<p>Programmers and Data Scientists want to take advantage of fast and parallel
+computational devices. Writing vectorized code is necessary to get
+the best performance out of the current generation parallel hardware and
+scientific computing software. However, writing vectorized code may not be
+immediately intuitive. ArrayFire provides many ways to vectorize a given code
+segment. In this chapter, we present several methods to vectorize code
+using ArrayFire and discuss the benefits and drawbacks associated with each method.</p>
+<h2><a class="header" href="#genericdefault-vectorization" id="genericdefault-vectorization">Generic/Default vectorization</a></h2>
+<p>By its very nature, ArrayFire is a vectorized library. Most functions operate on
+Arrays as a whole -- on all elements in parallel. For example consider the following code:</p>
+<pre><code class="language-rust noplaypen">let mut a = af::range(Dim::new(&amp;[10, 1, 1, 1]));  // [0,  9]
+a = a + 1;                                        // [1, 10]
+</code></pre>
+<p>This code will result in a single backend kernel that operates on all 10 elements
+of <code>a</code> in  parallel.</p>
+<p>A small subset of such vectorized ArrayFire functions are given below for quick reference:</p>
+<table><thead><tr><th>Operator Category</th><th>Functions</th></tr></thead><tbody>
+<tr><td>Arithmetic operations</td><td>+, -, *, /, %, &gt;&gt;, &lt;&lt;</td></tr>
+<tr><td>Logical operations</td><td>&amp;&amp;, ||, &lt;, &gt;, ==, != etc.</td></tr>
+<tr><td>Numeric functions</td><td><a href="../fn.abs.html">abs</a>, <a href="../fn.floor.html">floor</a>, <a href="../fn.round.html">round</a>, <a href="../fn.min.html">min</a>, <a href="../fn.max.html">max</a>, etc.</td></tr>
+<tr><td>Complex operations</td><td><a href="../fn.real.html">real</a>, <a href="../fn.imag.html">imag</a>, <a href="../fn.conjg.html">conjg</a>, etc.</td></tr>
+<tr><td>Exponential and logarithmic functions</td><td><a href="../fn.exp.html">exp</a>, <a href="../fn.log.html">log</a>, <a href="../fn.expm1.html">expm1</a>, <a href="../fn.log1p.html">log1p</a>, etc.</td></tr>
+<tr><td>Trigonometric functions</td><td><a href="../fn.sin.html">sin</a>, <a href="../fn.cos.html">cos</a>, <a href="../fn.tan.html">tan</a>, etc.</td></tr>
+<tr><td>Hyperbolic functions</td><td><a href="../fn.sinh.html">sinh</a>, <a href="../fn.cosh.html">cosh</a>, <a href="../fn.tanh.html">tanh</a>, etc.</td></tr>
+</tbody></table>
+<p>In addition to element-wise operations, many other functions are also
+vectorized in ArrayFire.</p>
+<p>Notice that even functions that perform some form of aggregation (e.g.
+<a href="../fn.sum.html">sum</a> or <a href="../fn.min.html">min</a>), signal processing (like
+<a href="../fn.convolve1.html">convolve</a>), and image processing functions
+(i.e. <a href="../fn.rotate.html">rotate</a> etc.) - all support vectorization on
+different columns or images.</p>
+<p>For example, if we have <code>NUM</code> images of size <code>WIDTH</code>x<code>HEIGHT</code>, one could
+convolve each image in a vector fashion as follows:</p>
+<pre><code class="language-rust noplaypen">let g_coef: [f32, 9] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+
+let f = Array::new(g_coef, Dim4::new(&amp;[3, 3, 1, 1]));
+let filter = f * 1.0f32/16;
+
+let signal = randu(WIDTH, HEIGHT, NUM);
+let conv   = convolve2(signal, filter, ConvMode::DEFAULT, ConvDomain::AUTO);
+</code></pre>
+<p>Similarly, one can rotate 100 images by 45 degrees in a single call using
+code like the following:</p>
+<pre><code class="language-rust noplaypen">// Construct an array of 100 WIDTH x HEIGHT images of random numbers
+let imgs = randu(WIDTH, HEIGHT, 100);
+
+// Rotate all of the images in a single command
+let rot_imgs = rotate(imgs, 45.0, False, InterpType::LINEAR);
+</code></pre>
+<p>Although <em>most</em> functions in ArrayFire do support vectorization, some do not.
+Most notably, all linear algebra functions. Even though they are not vectorized
+linear algebra operations, they still execute in parallel on your hardware.</p>
+<p>Using the built in vectorized operations should be the first
+and preferred method of vectorizing any code written with ArrayFire.</p>
+<h2><a class="header" href="#gfor" id="gfor">GFOR</a></h2>
+<p>This construct is similar to gfor loop from C++ API of ArrayFire. It has not
+been implemented in rust wrapper. This section will be updated once the feature
+has been added to the crate.</p>
+<h2><a class="header" href="#batch_func" id="batch_func">batch_func</a></h2>
+<p>This another pending feature that is similar to our C++ API of
+<a href="http://arrayfire.org/docs/namespaceaf.htm#aa0eb9e160f5be4b95234543e5c47934b">batchFunc()</a></p>
+<h1><a class="header" href="#array-and-matrix-manipulation" id="array-and-matrix-manipulation">Array and Matrix Manipulation</a></h1>
+<p>ArrayFire provides several different methods for manipulating arrays and matrices.
+The functionality includes:</p>
+<ul>
+<li><a href="array_and_matrix_manipulation.html#moddims">moddims()</a> - change the dimensions of an array without changing the data</li>
+<li><a href="array_and_matrix_manipulation.html#flat">flat()</a> - flatten an array to one dimension</li>
+<li><a href="array_and_matrix_manipulation.html#flip">flip()</a> - flip an array along a dimension</li>
+<li><a href="array_and_matrix_manipulation.html#join">join()</a> - join up to 4 arrays</li>
+<li><a href="array_and_matrix_manipulation.html#reorder">reorder()</a> - changes the dimension order within the array</li>
+<li><a href="array_and_matrix_manipulation.html#shift">shift()</a> - shifts data along a dimension</li>
+<li><a href="array_and_matrix_manipulation.html#tile">tile()</a> - repeats an array along a dimension</li>
+<li><a href="array_and_matrix_manipulation.html#transpose">transpose()</a> - performs a matrix transpose</li>
+</ul>
+<p>Below we provide several examples of these functions and their use.</p>
+<h3><a class="header" href="#moddims" id="moddims">moddims()</a></h3>
+<p>The <a href="../fn.moddims.html">moddims</a> function changes the dimensions of an array without
+changing its data or order. Note that this function modifies only the <em>metadata</em>
+associated with the array. It does not modify the content of the array.
+Here is an example of moddims() converting an 8x1 array into a 2x4 and then
+back to a 8x1:</p>
+<pre><code class="language-rust noplaypen">a [8 1 1 1]
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+
+let new_dims = Dim4::new(&amp;[2, 4, 1, 1]);
+moddims(&amp;a, new_dims)
+[2 4 1 1]
+    1.0000     1.0000     1.0000     1.0000
+    2.0000     2.0000     2.0000     2.0000
+
+let out = moddims(&amp;a, a.elements(), 1, 1, 1);
+[8 1 1 1]
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+    1.0000
+    2.0000
+</code></pre>
+<h3><a class="header" href="#flat" id="flat">flat()</a></h3>
+<p>The <a href="../fn.flat.html">flat</a> function flattens an array to one dimension:</p>
+<pre><code>a [3 3 1 1]
+    1.0000     4.0000     7.0000
+    2.0000     5.0000     8.0000
+    3.0000     6.0000     9.0000
+
+flat(&amp;a)
+[9 1 1 1]
+    1.0000
+    2.0000
+    3.0000
+    4.0000
+    5.0000
+    6.0000
+    7.0000
+    8.0000
+    9.0000
+</code></pre>
+<h3><a class="header" href="#flip" id="flip">flip()</a></h3>
+<p>The <a href="../fn.flip.html">flip</a> function flips the contents of an array along a
+chosen dimension. In the example below, we show the 5x2 array flipped
+along the zeroth (i.e. within a column) and first (e.g. across rows) axes:</p>
+<pre><code class="language-rust noplaypen">a [5 2 1 1]
+    1.0000     6.0000
+    2.0000     7.0000
+    3.0000     8.0000
+    4.0000     9.0000
+    5.0000    10.0000
+
+flip(a, 0) [5 2 1 1]
+    5.0000    10.0000
+    4.0000     9.0000
+    3.0000     8.0000
+    2.0000     7.0000
+    1.0000     6.0000
+
+flip(a, 1) [5 2 1 1]
+    6.0000     1.0000
+    7.0000     2.0000
+    8.0000     3.0000
+    9.0000     4.0000
+   10.0000     5.0000
+</code></pre>
+<h3><a class="header" href="#join" id="join">join()</a></h3>
+<p>The <a href="../fn.join.html">join</a>, <a href="../fn.join_many.html">join_many</a> functions can be
+used to join arrays along a specific dimension.</p>
+<p>Here is an example of how to use join an array to itself:</p>
+<pre><code class="language-rust noplaypen">a [5 1 1 1]
+    1.0000
+    2.0000
+    3.0000
+    4.0000
+    5.0000
+
+join(0, a, a) [10 1 1 1]
+    1.0000
+    2.0000
+    3.0000
+    4.0000
+    5.0000
+    1.0000
+    2.0000
+    3.0000
+    4.0000
+    5.0000
+
+join(1, a, a) [5 2 1 1]
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+    4.0000     4.0000
+    5.0000     5.0000
+</code></pre>
+<h3><a class="header" href="#reorder" id="reorder">reorder()</a></h3>
+<p>The <a href="../fn.reorder.html">reorder</a> function modifies the order of data within an array by
+exchanging data according to the change in dimensionality. The linear ordering
+of data within the array is preserved.</p>
+<pre><code class="language-rust noplaypen">a [2 2 3 1]
+    1.0000     3.0000
+    2.0000     4.0000
+
+    1.0000     3.0000
+    2.0000     4.0000
+
+    1.0000     3.0000
+    2.0000     4.0000
+
+
+reorder(&amp;a, 1, 0, 2)
+[2 2 3 1]  //equivalent to a transpose
+    1.0000     2.0000
+    3.0000     4.0000
+
+    1.0000     2.0000
+    3.0000     4.0000
+
+    1.0000     2.0000
+    3.0000     4.0000
+
+
+reorder(&amp;a, 2, 0, 1)
+[3 2 2 1]
+    1.0000     2.0000
+    1.0000     2.0000
+    1.0000     2.0000
+
+    3.0000     4.0000
+    3.0000     4.0000
+    3.0000     4.0000
+</code></pre>
+<h3><a class="header" href="#shift" id="shift">shift()</a></h3>
+<p>The <a href="../fn.shift.html">shift</a> function shifts data in a circular buffer fashion along a
+chosen dimension. Consider the following example:</p>
+<pre><code class="language-rust noplaypen">a [3 5 1 1]
+    0.0000     0.0000     0.0000     0.0000     0.0000
+    3.0000     4.0000     5.0000     1.0000     2.0000
+    3.0000     4.0000     5.0000     1.0000     2.0000
+
+shift(&amp;a, 0, 2 )
+[3 5 1 1]
+    0.0000     0.0000     0.0000     0.0000     0.0000
+    1.0000     2.0000     3.0000     4.0000     5.0000
+    1.0000     2.0000     3.0000     4.0000     5.0000
+
+shift(&amp;a, -1, 2 )
+[3 5 1 1]
+    1.0000     2.0000     3.0000     4.0000     5.0000
+    1.0000     2.0000     3.0000     4.0000     5.0000
+    0.0000     0.0000     0.0000     0.0000     0.0000
+</code></pre>
+<h3><a class="header" href="#tile" id="tile">tile()</a></h3>
+<p>The <a href="../fn.tile.html">tile</a> function repeats an array along the specified dimension.
+For example below we show how to tile an array along the zeroth and first
+dimensions of an array:</p>
+<pre><code class="language-rust noplaypen">a [3 1 1 1]
+    1.0000
+    2.0000
+    3.0000
+
+// Repeat array a twice in the zeroth dimension
+tile(&amp;a, 2)
+[6 1 1 1]
+    1.0000
+    2.0000
+    3.0000
+    1.0000
+    2.0000
+    3.0000
+
+// Repeat array a twice along both the zeroth and first dimensions
+tile(&amp;a, 2, 2)
+[6 2 1 1]
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+
+// Repeat array a twice along the first and three times along the second
+// dimension.
+let tile_dims = Dim4::new(&amp;[1, 2, 3, 1]);
+tile(a, tile_dims) [3 2 3 1]
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+
+    1.0000     1.0000
+    2.0000     2.0000
+    3.0000     3.0000
+</code></pre>
+<h3><a class="header" href="#transpose" id="transpose">transpose()</a></h3>
+<p>The <a href="../fn.transpose.html">transpose</a> function performs a standard matrix transpose. The input
+array must have the dimensions of a 2D-matrix.</p>
+<pre><code class="language-rust noplaypen">a [3 3 1 1]
+    1.0000     3.0000     3.0000
+    2.0000     1.0000     3.0000
+    2.0000     2.0000     1.0000
+
+transpose(&amp;a, False) //Second parameter to be used for conjugate transpose
+[3 3 1 1]
+    1.0000     2.0000     2.0000
+    3.0000     1.0000     2.0000
+    3.0000     3.0000     1.0000
+</code></pre>
+<h3><a class="header" href="#combining-functions-to-enumerate-grid-coordinates" id="combining-functions-to-enumerate-grid-coordinates">Combining functions to enumerate grid coordinates</a></h3>
+<p>By using a combination of the functions, one can quickly code complex manipulation patterns with
+a few lines of code. For example, consider generating (x,y) coordinates for a grid where each axis
+goes from 1 to n. Instead of using several loops to populate our arrays we can just use a small
+combination of the above functions.</p>
+<pre><code class="language-rust noplaypen">let a      = iota::&lt;u32&gt;(Dim4::new(&amp;[3, 1, 1, 1]),
+                         Dim4::new(&amp;[1, 3, 1, 1]));
+let b      = transpose(&amp;a, false);
+let coords = join(1, &amp;flat(&amp;a), &amp;flat(&amp;b));
+print(&amp;coords);
+</code></pre>
+<p>The output for a <code>[3 3 1 1]</code> matrix will be the following.</p>
+<pre><code class="language-rust noplaypen">[9 2 1 1]
+         0          0
+         1          0
+         2          0
+         0          1
+         1          1
+         2          1
+         0          2
+         1          2
+         2          2
+</code></pre>
+<h1><a class="header" href="#indexing-1" id="indexing-1">Indexing</a></h1>
+<p>Indexing in ArrayFire is a powerful but easy to abuse feature. This feature
+allows you to reference or copy subsections of a larger array and perform
+operations on only a subset of elements.</p>
+<p><a href="../struct.Indexer.html">Indexer</a> structure is the key element used in Rust
+wrapper of ArrayFire for creating references to existing Arrays. Given
+below are few of such functions and their corresponding use cases.
+Use <a href="../struct.Indexer.html#method.new">Indexer::new</a> to create an Indexer
+object and set either a <code>Seq</code> object or <code>Array</code> as indexing object for a
+given dimension.</p>
+<h2><a class="header" href="#using-seq-objects-to-index-array" id="using-seq-objects-to-index-array">Using Seq objects to index Array</a></h2>
+<p>Create a view of an existing Array using Sequences and the function <a href="../fn.index.html">index</a>.</p>
+<pre><code class="language-rust noplaypen">let dims = Dim4::new(&amp;[5, 5, 1, 1]);
+let a = randu::&lt;f32&gt;(dims);
+af_print!(&quot;a&quot;, a);
+//a
+//[5 5 1 1]
+//    0.3990     0.5160     0.8831     0.9107     0.6688
+//    0.6720     0.3932     0.0621     0.9159     0.8434
+//    0.5339     0.2706     0.7089     0.0231     0.1328
+//    0.1386     0.9455     0.9434     0.2330     0.2657
+//    0.7353     0.1587     0.1227     0.2220     0.2299
+
+// Index array using sequences
+let seqs = &amp;[Seq::new(1u32, 3, 1), Seq::default()];
+let sub = index(&amp;a, seqs);
+af_print!(&quot;a(seq(1,3,1), span)&quot;, sub);
+// [3 5 1 1]
+//     0.6720     0.3932     0.0621     0.9159     0.8434
+//     0.5339     0.2706     0.7089     0.0231     0.1328
+//     0.1386     0.9455     0.9434     0.2330     0.2657
+</code></pre>
+<p>Set a sub-portion of an existing Array with a constant value using <a href="../fn.assign_seq.html">assign_seq</a>.</p>
+<pre><code class="language-rust noplaypen">let a    = constant(2.0 as f32, Dim4::new(&amp;[5, 3, 1, 1]));
+let b    = constant(1.0 as f32, Dim4::new(&amp;[3, 3, 1, 1]));
+let seqs = &amp;[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+let sub  = assign_seq(&amp;a, seqs, &amp;b);
+print(&amp;a);
+// 2.0 2.0 2.0
+// 2.0 2.0 2.0
+// 2.0 2.0 2.0
+// 2.0 2.0 2.0
+// 2.0 2.0 2.0
+
+print(&amp;sub);
+// 2.0 2.0 2.0
+// 1.0 1.0 1.0
+// 1.0 1.0 1.0
+// 1.0 1.0 1.0
+// 2.0 2.0 2.0
+</code></pre>
+<blockquote>
+<p><strong>NOTE</strong> Normally you want to avoid accessing individual elements of the array like this for performance reasons.</p>
+</blockquote>
+<h2><a class="header" href="#using-array-and-seq-combination-to-index-array" id="using-array-and-seq-combination-to-index-array">Using Array and Seq combination to index Array</a></h2>
+<p>Create a view of an existing Array using another Array and Sequence.</p>
+<pre><code class="language-rust noplaypen">use arrayfire::{Array, Dim4, Seq, print, randu, index_gen, Indexer};
+let values: [f32; 3] = [1.0, 2.0, 3.0];
+let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+let seq4gen = Seq::new(0.0, 2.0, 1.0);
+let a = randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));
+// [5 3 1 1]
+//     0.0000     0.2190     0.3835
+//     0.1315     0.0470     0.5194
+//     0.7556     0.6789     0.8310
+//     0.4587     0.6793     0.0346
+//     0.5328     0.9347     0.0535
+
+let mut idxrs = Indexer::new();
+idxrs.set_index(&amp;indices, 0, None); // 2nd parameter is indexing dimension
+idxrs.set_index(&amp;seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+
+let sub2 = index_gen(&amp;a, idxrs);
+println!(&quot;a(indices, seq(0, 2, 1))&quot;); print(&amp;sub2);
+// [3 3 1 1]
+//     0.1315     0.0470     0.5194
+//     0.7556     0.6789     0.8310
+//     0.4587     0.6793     0.0346
+</code></pre>
+<p>Set a sub-portion of an existing Array with another Array using a combination
+of <code>Seq</code> and <code>Array</code>.</p>
+<pre><code class="language-rust noplaypen">use arrayfire::{Array, Dim4, Seq, print, randu, constant, Indexer, assign_gen};
+let values: [f32; 3] = [1.0, 2.0, 3.0];
+let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+let seq4gen = Seq::new(0.0, 2.0, 1.0);
+let a = randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));
+// [5 3 1 1]
+//     0.0000     0.2190     0.3835
+//     0.1315     0.0470     0.5194
+//     0.7556     0.6789     0.8310
+//     0.4587     0.6793     0.0346
+//     0.5328     0.9347     0.0535
+
+let b    = constant(2.0 as f32, Dim4::new(&amp;[3, 3, 1, 1]));
+
+let mut idxrs = Indexer::new();
+idxrs.set_index(&amp;indices, 0, None); // 2nd parameter is indexing dimension
+idxrs.set_index(&amp;seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
+
+let sub2 = assign_gen(&amp;a, &amp;idxrs, &amp;b);
+println!(&quot;a(indices, seq(0, 2, 1))&quot;); print(&amp;sub2);
+// [5 3 1 1]
+//     0.0000     0.2190     0.3835
+//     2.0000     2.0000     2.0000
+//     2.0000     2.0000     2.0000
+//     2.0000     2.0000     2.0000
+//     0.5328     0.9347     0.0535
+</code></pre>
+<h2><a class="header" href="#extract-or-set-rowscoloumns-of-an-array" id="extract-or-set-rowscoloumns-of-an-array">Extract or Set rows/coloumns of an Array</a></h2>
+<p>Extract a specific set of rows/coloumns from an existing Array.</p>
+<pre><code class="language-rust noplaypen">let dims = Dim4::new(&amp;[5, 5, 1, 1]);
+let a = randu::&lt;f32&gt;(dims);
+println!(&quot;Grab last row of the random matrix&quot;);
+print(&amp;a);
+print(&amp;row(&amp;a, 4));
+print(&amp;col(&amp;a, 4));
+</code></pre>
+<p>You can also use <a href="../fn.rows.html">rows</a> &amp; <a href="../fn.cols.html">cols</a> to retrieve a
+subset of rows or coloumns respectively.</p>
+<p>Similarly, <a href="../fn.set_row.html">set_row</a> &amp; <a href="../fn.set_rows.html">set_rows</a> can be used to change the values in a particular set of rows using another Array. <a href="../fn.set_col.html">set_col</a> &amp; <a href="../fn.set_cols.html">set_cols</a> has same functionality, except that it is for coloumns.</p>
+<h1><a class="header" href="#configuring-arrayfire-environment" id="configuring-arrayfire-environment">Configuring Arrayfire Environment</a></h1>
+<p>Following are the list of environment and runtime configurations that will help enhance
+your experience with ArrayFire.</p>
+<h2><a class="header" href="#af_path" id="af_path">AF_PATH</a></h2>
+<p>This is the path with ArrayFire gets installed, ie. the includes and libs are
+present in this directory. You can use this variable to add include paths and
+libraries to your projects.</p>
+<h2><a class="header" href="#af_print_errors" id="af_print_errors">AF_PRINT_ERRORS</a></h2>
+<p>When AF_PRINT_ERRORS is set to 1, the exceptions thrown are more verbose and
+detailed. This helps in locating the exact failure.</p>
+<pre><code>AF_PRINT_ERRORS=1 ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_cuda_default_device" id="af_cuda_default_device">AF_CUDA_DEFAULT_DEVICE</a></h2>
+<p>Use this variable to set the default CUDA device. Valid values for this
+variable are the device identifiers shown when <a href="../fn.info.html">af::info</a> is run.</p>
+<pre><code>AF_CUDA_DEFAULT_DEVICE=1 ./myprogram
+</code></pre>
+<p>Note: af::setDevice call in the source code will take precedence over this
+variable.</p>
+<h2><a class="header" href="#af_opencl_default_device" id="af_opencl_default_device">AF_OPENCL_DEFAULT_DEVICE</a></h2>
+<p>Use this variable to set the default OpenCL device. Valid values for this
+variable are the device identifiers shown when <a href="../fn.info.html">af::info</a> is run.</p>
+<pre><code>AF_OPENCL_DEFAULT_DEVICE=1 ./myprogram
+</code></pre>
+<p>Note: <a href="../fn.set_device.html">af::set_device</a> call in the source code will take precedence over this
+variable.</p>
+<h2><a class="header" href="#af_opencl_default_device_type" id="af_opencl_default_device_type">AF_OPENCL_DEFAULT_DEVICE_TYPE</a></h2>
+<p>Use this variable to set the default OpenCL device type. Valid values for this
+variable are: CPU, GPU, ACC (Accelerators).</p>
+<p>When set, the first device of the specified type is chosen as default device.</p>
+<pre><code>AF_OPENCL_DEFAULT_DEVICE_TYPE=CPU ./myprogram
+</code></pre>
+<p>Note: <code>AF_OPENCL_DEFAULT_DEVICE</code> and <a href="../fn.set_device.html">af::set_device</a> takes precedence over this variable.</p>
+<h2><a class="header" href="#af_opencl_device_type" id="af_opencl_device_type">AF_OPENCL_DEVICE_TYPE</a></h2>
+<p>Use this variable to only choose OpenCL devices of specified type. Valid values for this
+variable are:</p>
+<ul>
+<li>ALL: All OpenCL devices. (Default behavior).</li>
+<li>CPU: CPU devices only.</li>
+<li>GPU: GPU devices only.</li>
+<li>ACC: Accelerator devices only.</li>
+</ul>
+<p>When set, the remaining OpenCL device types are ignored by the OpenCL backend.</p>
+<pre><code>AF_OPENCL_DEVICE_TYPE=CPU ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_opencl_cpu_offload" id="af_opencl_cpu_offload">AF_OPENCL_CPU_OFFLOAD</a></h2>
+<p>When ArrayFire runs on devices with unified memory with the host (ie.
+<code>CL_DEVICE_HOST_UNIFIED_MENORY</code> is true for the device) then certain functions
+are offloaded to run on the CPU using mapped buffers.</p>
+<p>ArrayFire takes advantage of fast libraries such as MKL while spending no time
+copying memory from device to host. The device memory is mapped to a host
+pointer which can be used in the offloaded functions.</p>
+<p>This functionality can be disabled by using the environment variable
+<code>AF_OPENCL_CPU_OFFLOAD=0</code>.</p>
+<p>The default bevaior of this has changed in version 3.4.</p>
+<p>Prior to v3.4, CPU Offload functionality was used only when the user set
+<code>AF_OPENCL_CPU_OFFLOAD=1</code> and disabled otherwise.</p>
+<p>From v3.4 onwards, CPU Offload is enabled by default and is disabled only when
+<code>AF_OPENCL_CPU_OFFLOAD=0</code> is set.</p>
+<h2><a class="header" href="#af_opencl_show_build_info" id="af_opencl_show_build_info">AF_OPENCL_SHOW_BUILD_INFO</a></h2>
+<p>This variable is useful when debuggin OpenCL kernel compilation failures. When
+this variable is set to 1, and an error occurs during a OpenCL kernel
+compilation, then the log and kernel are printed to screen.</p>
+<h2><a class="header" href="#af_disable_graphics" id="af_disable_graphics">AF_DISABLE_GRAPHICS</a></h2>
+<p>Setting this variable to 1 will disable window creation when graphics
+functions are being called. Disabling window creation will disable all other
+graphics calls at runtime as well.</p>
+<p>This is a useful enviornment variable when running code on servers and systems
+without displays. When graphics calls are run on such machines, they will
+print warning about window creation failing. To suppress those calls, set this
+variable.</p>
+<h2><a class="header" href="#af_synchronous_calls" id="af_synchronous_calls">AF_SYNCHRONOUS_CALLS</a></h2>
+<p>When this environment variable is set to 1, ArrayFire will execute all
+functions synchronously.</p>
+<h2><a class="header" href="#af_show_load_path" id="af_show_load_path">AF_SHOW_LOAD_PATH</a></h2>
+<p>When using the Unified backend, if this variable is set to 1, it will show the
+path where the ArrayFire backend libraries are loaded from.</p>
+<p>If the libraries are loaded from system paths, such as PATH or LD_LIBRARY_PATH
+etc, then it will print &quot;system path&quot;. If the libraries are loaded from other
+paths, then those paths are shown in full.</p>
+<h2><a class="header" href="#af_mem_debug" id="af_mem_debug">AF_MEM_DEBUG</a></h2>
+<p>When AF_MEM_DEBUG is set to 1 (or anything not equal to 0), the caching mechanism in the memory manager is disabled.
+The device buffers are allocated using native functions as needed and freed when going out of scope.</p>
+<p>When the environment variable is not set, it is treated to be non zero.</p>
+<pre><code>AF_MEM_DEBUG=1 ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_max_buffers" id="af_max_buffers">AF_MAX_BUFFERS</a></h2>
+<p>When AF_MAX_BUFFERS is set, this environment variable specifies the maximum number of buffers allocated before garbage collection kicks in.</p>
+<p>Please note that the total number of buffers that can exist simultaneously can be higher than this number. This variable tells the garbage collector that it should free any available buffers immediately if the treshold is reached.</p>
+<p>When not set, the default value is 1000.</p>
+<h2><a class="header" href="#af_opencl_max_jit_len" id="af_opencl_max_jit_len">AF_OPENCL_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum height of the OpenCL JIT tree after which evaluation is forced.</p>
+<p>The default value, as of v3.4, is 50 on OSX, 100 everywhere else. This value was 20 for older versions.</p>
+<h2><a class="header" href="#af_cuda_max_jit_len" id="af_cuda_max_jit_len">AF_CUDA_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum height of the CUDA JIT tree after which evaluation is forced.</p>
+<p>The default value, as of v3.4, 100. This value was 20 for older versions.</p>
+<h2><a class="header" href="#af_cpu_max_jit_len" id="af_cpu_max_jit_len">AF_CPU_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum length of the CPU JIT tree after which evaluation is forced.</p>
+<p>The default value, as of v3.4, 100. This value was 20 for older versions.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+        
+        
+
+    </body>
+</html>
