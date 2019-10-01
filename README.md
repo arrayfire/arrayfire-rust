@@ -30,7 +30,7 @@ You can find the most recent updated documentation
 
 Linux, Windows and OSX. Rust 1.15.1 or higher is required.
 
-## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire)
+## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire) [![](https://docs.rs/arrayfire/badge.svg)](https://docs.rs/arrayfire)
 
 To use the rust bindings for ArrayFire from crates.io, the following
 requirements are to be met first.
