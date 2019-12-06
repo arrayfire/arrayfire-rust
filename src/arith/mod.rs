@@ -671,6 +671,7 @@ where
 
 macro_rules! arith_scalar_func {
     ($rust_type: ty, $op_name:ident, $fn_name: ident) => {
+        // Implement (&Array<T> op_name rust_type)
         impl<'f, T> $op_name<$rust_type> for &'f Array<T>
         where
             T: HasAfEnum + ImplicitPromote<$rust_type>,
@@ -685,6 +686,7 @@ macro_rules! arith_scalar_func {
             }
         }
 
+        // Implement (Array<T> op_name rust_type)
         impl<T: HasAfEnum> $op_name<$rust_type> for Array<T>
         where
             T: HasAfEnum + ImplicitPromote<$rust_type>,
@@ -696,6 +698,34 @@ macro_rules! arith_scalar_func {
             fn $fn_name(self, rhs: $rust_type) -> Self::Output {
                 let temp = rhs.clone();
                 $fn_name(&self, &temp, false)
+            }
+        }
+
+        // Implement (rust_type op_name &Array<T>)
+        impl<'f, T> $op_name<&'f Array<T>> for $rust_type
+        where
+            T: HasAfEnum + ImplicitPromote<$rust_type>,
+            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            <$rust_type as ImplicitPromote<T>>::Output: HasAfEnum,
+        {
+            type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
+
+            fn $fn_name(self, rhs: &'f Array<T>) -> Self::Output {
+                $fn_name(&self, rhs, false)
+            }
+        }
+
+        // Implement (rust_type op_name Array<T>)
+        impl<T> $op_name<Array<T>> for $rust_type
+        where
+            T: HasAfEnum + ImplicitPromote<$rust_type>,
+            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            <$rust_type as ImplicitPromote<T>>::Output: HasAfEnum,
+        {
+            type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
+
+            fn $fn_name(self, rhs: Array<T>) -> Self::Output {
+                $fn_name(&self, &rhs, false)
             }
         }
     };
