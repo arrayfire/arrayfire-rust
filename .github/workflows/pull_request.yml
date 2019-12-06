@@ -1,0 +1,64 @@
+on: [push, pull_request]
+
+name: Pull Request
+
+jobs:
+    build_test:
+        name: Build and Test Wrapper
+        runs-on: ubuntu-18.04
+        env:
+            AF_VER: 3.6.4
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@master
+
+            - name: Setup Rust Toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+
+            - name: Cache ArrayFire
+              uses: actions/cache@v1
+              id: arrayfire
+              with:
+                  path: afbin
+                  key: ${{ runner.os }}-af-${{ env.AF_VER }}
+
+            - name: Download ArrayFire
+              # Only download and cache arrayfire if already not found
+              if: steps.arrayfire.outputs.cache-hit != 'true'
+              run: |
+                  wget --quiet http://arrayfire.s3.amazonaws.com/${AF_VER}/ArrayFire-v${AF_VER}_Linux_x86_64.sh
+                  chmod +x ./ArrayFire-v${AF_VER}_Linux_x86_64.sh
+                  mkdir afbin
+                  ./ArrayFire-v${AF_VER}_Linux_x86_64.sh --skip-license --exclude-subdir --prefix=./afbin
+                  rm ./afbin/lib64/libcu*.so*
+                  rm ./afbin/lib64/libafcuda*.so*
+                  rm ./ArrayFire-v${AF_VER}_Linux_x86_64.sh
+
+            - name: Build and Run Tests
+              run: |
+                  export AF_PATH=${GITHUB_WORKSPACE}/afbin
+                  export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${AF_PATH}/lib64
+                  echo "Using cargo version: $(cargo --version)"
+                  cargo test --no-fail-fast
+
+    format:
+        name: Format Check
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@master
+
+            - name: Setup Rust Toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+                  components: rustfmt
+            - name: Run rust fmt tool
+              uses: actions-rs/cargo@v1
+              with:
+                  command: fmt
+                  args: --all -- --check
