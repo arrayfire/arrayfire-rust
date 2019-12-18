@@ -49,7 +49,7 @@ fn main() {
     //Index array using array and sequence
     let seq4gen = Seq::new(0u32, 2, 1);
 
-    let mut idxrs = Indexer::new();
+    let mut idxrs = Indexer::default();
     idxrs.set_index(&indices, 0, None);
     idxrs.set_index(&seq4gen, 1, Some(false));
 

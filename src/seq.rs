@@ -38,11 +38,7 @@ impl<T: fmt::Display> fmt::Display for Seq<T> {
 impl<T: Copy> Seq<T> {
     /// Create a `Seq` that goes from `begin` to `end` at a step size of `step`
     pub fn new(begin: T, end: T, step: T) -> Self {
-        Self {
-            begin: begin,
-            end: end,
-            step: step,
-        }
+        Self { begin, end, step }
     }
 
     /// Get begin index of Seq

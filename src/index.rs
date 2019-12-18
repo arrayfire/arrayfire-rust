@@ -7,6 +7,7 @@ use crate::error::HANDLE_ERROR;
 use crate::seq::Seq;
 use crate::util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
 
+use std::default::Default;
 use std::marker::PhantomData;
 
 #[allow(dead_code)]
@@ -152,9 +153,24 @@ where
     }
 }
 
+impl<'object> Default for Indexer<'object> {
+    fn default() -> Self {
+        let mut temp: i64 = 0;
+        unsafe {
+            let err_val = af_create_indexers(&mut temp as MutAfIndex);
+            HANDLE_ERROR(AfError::from(err_val));
+        }
+        Self {
+            handle: temp,
+            count: 0,
+            marker: PhantomData,
+        }
+    }
+}
+
 impl<'object> Indexer<'object> {
-    #[allow(unused_mut)]
     /// Create a new Indexer object and set the dimension specific index objects later
+    #[deprecated(since = "3.7.0", note = "Use Indexer::default() instead")]
     pub fn new() -> Self {
         let mut temp: i64 = 0;
         unsafe {
@@ -174,12 +190,17 @@ impl<'object> Indexer<'object> {
         T: Indexable + 'object,
     {
         idx.set(self, dim, is_batch);
-        self.count = self.count + 1;
+        self.count += 1;
     }
 
     /// Get number of indexing objects set
     pub fn len(&self) -> usize {
         self.count
+    }
+
+    /// Check if any indexing objects are set
+    pub fn is_empty(&self) -> bool {
+        self.count == 0
     }
 
     /// Get native(ArrayFire) resource handle

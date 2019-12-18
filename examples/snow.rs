@@ -13,7 +13,7 @@ fn main() {
     loop {
         wnd.draw_image(&randu::<f32>(dims), None);
 
-        if wnd.is_closed() == true {
+        if wnd.is_closed() {
             break;
         }
     }

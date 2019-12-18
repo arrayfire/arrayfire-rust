@@ -77,6 +77,7 @@ lazy_static! {
 /// }
 /// ```
 #[allow(unused_must_use)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn register_error_handler(cb_value: Callback) {
     let mut gaurd = match ERROR_HANDLER_LOCK.write() {
         Ok(g) => g,
@@ -87,6 +88,7 @@ pub fn register_error_handler(cb_value: Callback) {
 }
 
 #[allow(non_snake_case)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn HANDLE_ERROR(error_code: AfError) {
     let gaurd = match ERROR_HANDLER_LOCK.read() {
         Ok(g) => g,
