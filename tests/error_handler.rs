@@ -41,7 +41,6 @@ fn check_error_handler_mutation() {
                         _ => panic!("Impossible scenario"),
                     }
                 })
-                .ok()
                 .expect("Failed to launch a thread")
         })
         .collect::<Vec<_>>();

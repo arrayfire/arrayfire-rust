@@ -370,7 +370,7 @@ pub enum MomentType {
     /// Central moment of order (1 + 1)
     M11 = 8, // 1<<3
     /// All central moments of order (0,0), (0,1), (1,0) and (1,1)
-    FIRST_ORDER = 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3,
+    FIRST_ORDER = 1 | 1 << 1 | 1 << 2 | 1 << 3,
 }
 
 /// Sparse storage format type

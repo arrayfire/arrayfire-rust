@@ -212,6 +212,7 @@ impl Window {
     ///
     /// Window Object
     #[allow(unused_mut)]
+    #[allow(clippy::match_wild_err_arm)]
     pub fn new(width: i32, height: i32, title: String) -> Self {
         unsafe {
             let mut temp: u64 = 0;
@@ -472,6 +473,7 @@ impl Window {
     /// - `exact` indicates if the exact min/max values from `xrange`, `yrange` and `zrange`
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
+    #[allow(clippy::too_many_arguments)]
     pub fn set_axes_limits_3d(
         &mut self,
         xmin: f32,
@@ -890,6 +892,7 @@ impl Window {
     /// - `zdirs` is an Array containing direction component of z coord
     /// - `title` parameter has effect only in multiview mode, where this string
     ///    is displayed as the respective cell/view title.
+    #[allow(clippy::too_many_arguments)]
     pub fn draw_vector_field3<T>(
         &self,
         xpnts: &Array<T>,

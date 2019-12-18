@@ -30,7 +30,7 @@ impl Default for Dim4 {
 impl Index<usize> for Dim4 {
     type Output = u64;
 
-    fn index<'a>(&'a self, _index: usize) -> &'a u64 {
+    fn index(&self, _index: usize) -> &u64 {
         &self.dims[_index]
     }
 }
@@ -65,7 +65,9 @@ impl Dim4 {
     /// let dims = Dim4::new(&[4, 4, 2, 1]);
     /// ```
     pub fn new(dims: &[u64; 4]) -> Self {
-        Self { dims: dims.clone() }
+        Self {
+            dims: [dims[0], dims[1], dims[2], dims[3]],
+        }
     }
 
     /// Get the number of elements represented by Dim4 object

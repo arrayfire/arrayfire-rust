@@ -840,7 +840,7 @@ mod op_assign {
                 #[allow(unused_variables)]
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
-                    let mut idxrs = Indexer::new();
+                    let mut idxrs = Indexer::default();
                     for n in 0..self.numdims() {
                         idxrs.set_index(&tmp_seq, n, Some(false));
                     }
@@ -872,7 +872,7 @@ mod op_assign {
                 #[allow(unused_variables)]
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
-                    let mut idxrs = Indexer::new();
+                    let mut idxrs = Indexer::default();
                     for n in 0..self.numdims() {
                         idxrs.set_index(&tmp_seq, n, Some(false));
                     }

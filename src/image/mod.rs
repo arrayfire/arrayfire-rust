@@ -239,6 +239,7 @@ where
 ///
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn load_image<T>(filename: String, is_color: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
@@ -282,6 +283,7 @@ where
 ///
 /// An Array with pixel values loaded from the image
 #[allow(unused_mut)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn load_image_native<T>(filename: String) -> Array<T>
 where
     T: HasAfEnum + ImageNativeType,
@@ -309,6 +311,7 @@ where
 /// - `filename` is the abolute path(includes filename) at which input Array is going to be saved
 /// - `input` is the Array to be stored into the image file
 #[allow(unused_mut)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn save_image<T>(filename: String, input: &Array<T>)
 where
     T: HasAfEnum + RealNumber,
@@ -340,6 +343,7 @@ where
 /// - `filename` is name of file to be saved
 /// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.
 #[allow(unused_mut)]
+#[allow(clippy::match_wild_err_arm)]
 pub fn save_image_native<T>(filename: String, input: &Array<T>)
 where
     T: HasAfEnum + ImageNativeType,
@@ -1273,6 +1277,7 @@ hsvrgb_func_def!("RGB to HSV color space conversion", rgb2hsv, af_rgb2hsv);
 /// 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  0  0  0  0  0
 /// 16 17 18 19  0 21 22 23 24  0 26 27 28 29  0 31 32 33 34  0  0  0  0  0  0
 /// ```
+#[allow(clippy::too_many_arguments)]
 pub fn unwrap<T: HasAfEnum>(
     input: &Array<T>,
     wx: i64,
@@ -1324,6 +1329,7 @@ pub fn unwrap<T: HasAfEnum>(
 /// # Return Values
 ///
 /// Image(Array) created from unwrapped Image(Array)
+#[allow(clippy::too_many_arguments)]
 pub fn wrap<T: HasAfEnum>(
     input: &Array<T>,
     ox: i64,
