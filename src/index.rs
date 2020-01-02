@@ -63,7 +63,7 @@ extern "C" {
 /// let values  = [2.0f32, 5.0, 6.0];
 /// let arr     = Array::new(&values, dims);
 ///
-/// let mut idxr = Indexer::new();
+/// let mut idxr = Indexer::default();
 ///
 /// // `idx` is created much before idxr, thus will
 /// // stay in scope at least as long as idxr
@@ -107,6 +107,13 @@ pub struct Indexer<'object> {
 pub trait Indexable {
     /// Set indexing object for a given dimension
     ///
+    /// `is_batch` parameter is not used in most cases as it has been provided in
+    /// ArrayFire C-API to enable GFOR construct in ArrayFire C++ API. This type
+    /// of construct/idea is not exposed in rust wrapper yet. So, the user would
+    /// just need to pass `None` to this parameter while calling this function.
+    /// Since we can't have default default values and we wanted to keep this
+    /// parameter for future use cases, we just made it an `std::Option`.
+    ///
     /// # Parameters
     ///
     /// - `idxr` is mutable reference to [Indexer](./struct.Indexer.html) object which will
@@ -146,7 +153,10 @@ where
                 idxr.get() as AfIndex,
                 &SeqInternal::from_seq(self) as *const SeqInternal,
                 dim as DimT,
-                is_batch.unwrap() as c_int,
+                match is_batch {
+                    Some(value) => value as c_int,
+                    None => false as c_int,
+                },
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -527,7 +537,7 @@ where
 /// //     0.5328     0.9347     0.0535
 ///
 ///
-/// let mut idxrs = Indexer::new();
+/// let mut idxrs = Indexer::default();
 /// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
 /// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
 ///
@@ -574,7 +584,7 @@ where
 ///
 /// let b    = constant(2.0 as f32, Dim4::new(&[3, 3, 1, 1]));
 ///
-/// let mut idxrs = Indexer::new();
+/// let mut idxrs = Indexer::default();
 /// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
 /// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
 ///
