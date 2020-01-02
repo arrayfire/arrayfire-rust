@@ -156,7 +156,7 @@ where
                 match is_batch {
                     Some(value) => value as c_int,
                     None => false as c_int,
-                }
+                },
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
