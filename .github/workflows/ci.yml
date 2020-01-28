@@ -1,6 +1,12 @@
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
-name: Pull Request
+name: ci
 
 jobs:
     build_test:
