@@ -330,39 +330,39 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>};
 
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">fn</span> <span class="ident">af_get_version</span>(<span class="ident">major</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">minor</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">patch</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_get_revision</span>() <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
-    <span class="kw">fn</span> <span class="ident">af_info</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_info_string</span>(<span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_version</span>(<span class="ident">major</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">minor</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">patch</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_revision</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
+    <span class="kw">fn</span> <span class="ident">af_info</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_info_string</span>(<span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_device_info</span>(
         <span class="ident">d_name</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
         <span class="ident">d_platform</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
         <span class="ident">d_toolkit</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
         <span class="ident">d_compute</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_init</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_get_device_count</span>(<span class="ident">nDevices</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_get_dbl_support</span>(<span class="ident">available</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_set_device</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_get_device</span>(<span class="ident">device</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_init</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_device_count</span>(<span class="ident">nDevices</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_dbl_support</span>(<span class="ident">available</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_device</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_device</span>(<span class="ident">device</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_device_mem_info</span>(
         <span class="ident">alloc_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
         <span class="ident">alloc_buffers</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
         <span class="ident">lock_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
         <span class="ident">lock_buffers</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_print_mem_info</span>(<span class="ident">msg</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">device_id</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_set_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_get_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_device_gc</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_sync</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_print_mem_info</span>(<span class="ident">msg</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">device_id</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_set_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_mem_step_size</span>(<span class="ident">step_bytes</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_device_gc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sync</span>(<span class="ident">device</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 }
 
 <span class="doccomment">/// Get ArrayFire Version Number</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">/// A triplet of integers indicating major, minor &amp; fix release version numbers.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_version</span>() <span class="op">-&gt;</span> (<span class="ident">i32</span>, <span class="ident">i32</span>, <span class="ident">i32</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_version</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">i32</span>, <span class="ident">i32</span>, <span class="ident">i32</span>) {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maj</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">min</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
@@ -381,7 +381,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">/// This returns a `Cow&lt;&#39;static, str&gt;` as the string is constructed at compile time.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_revision</span>() <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_revision</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span> {
     <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">af_get_revision</span>()).<span class="ident">to_string_lossy</span>() }
 }
 
@@ -414,7 +414,7 @@
 <span class="doccomment">/// Platform: CUDA Toolkit 7, Driver: CUDA Driver Version: 7000</span>
 <span class="doccomment">/// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info_string</span>(<span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info_string</span>(<span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
     <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">String</span>;
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
@@ -430,7 +430,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">/// A tuple of `String` indicating the name, platform, toolkit and compute.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_info</span>() <span class="op">-&gt;</span> (<span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_info</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>, <span class="ident">String</span>) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">name</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">64</span>];
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">platform</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">10</span>];
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toolkit</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <span class="ident">c_char</span>; <span class="number">64</span>];
@@ -472,7 +472,7 @@
 }
 
 <span class="doccomment">/// Get total number of available devices</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_count</span>() <span class="op">-&gt;</span> <span class="ident">i32</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_count</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device_count</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
@@ -490,7 +490,7 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// `True` if `device` device has double support, `False` otherwise.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_double_available</span>(<span class="ident">device</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_double_available</span>(<span class="ident">device</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_dbl_support</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>, <span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>);
@@ -512,7 +512,7 @@
 }
 
 <span class="doccomment">/// Get the current active device id</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_device</span>() <span class="op">-&gt;</span> <span class="ident">i32</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_device</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_device</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
@@ -535,7 +535,7 @@
 <span class="doccomment">/// * Number of buffers allocated</span>
 <span class="doccomment">/// * Number of bytes locked</span>
 <span class="doccomment">/// * Number of buffers locked</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_mem_info</span>() <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_mem_info</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o0</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o1</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
@@ -568,14 +568,14 @@
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">cmsg</span> <span class="op">=</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="ident">msg</span>.<span class="ident">as_bytes</span>());
         <span class="kw">match</span> <span class="ident">cmsg</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_print_mem_info</span>(
                     <span class="ident">v</span>.<span class="ident">to_bytes_with_nul</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
                     <span class="ident">device</span> <span class="kw">as</span> <span class="ident">c_int</span>,
                 );
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
             }
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">ERR_INTERNAL</span>),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">ERR_INTERNAL</span>),
         }
     }
 }
@@ -605,7 +605,7 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns is the size of minimum memory chunk in bytes</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mem_step_size</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mem_step_size</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_mem_step_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">size_t</span>);
@@ -638,4 +638,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

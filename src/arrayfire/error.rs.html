@@ -112,10 +112,13 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>};
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::<span class="ident">c_char</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::<span class="ident">AfError</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">free_host</span>, <span class="ident">DimT</span>, <span class="ident">MutDimT</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
@@ -125,7 +128,7 @@
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">fn</span> <span class="ident">af_get_last_error</span>(<span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">len</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_get_last_error</span>(<span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>, <span class="ident">len</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">DimT</span>);
 }
 
 <span class="doccomment">/// Signature of error handling callback function</span>
@@ -138,7 +141,7 @@
 
 <span class="kw">impl</span> <span class="ident">Callback</span> {
     <span class="doccomment">/// Associated function to create a new Callback object</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">callback</span>: <span class="ident">ErrorCallback</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">callback</span>: <span class="ident">ErrorCallback</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">cb</span>: <span class="ident">callback</span> }
     }
 
@@ -151,8 +154,8 @@
 <span class="doccomment">/// Default error handling callback provided by ArrayFire crate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_error_general</span>(<span class="ident">error_code</span>: <span class="ident">AfError</span>) {
     <span class="kw">match</span> <span class="ident">error_code</span> {
-        <span class="ident">AfError</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> {} <span class="comment">/* No-op */</span>
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(
+        <span class="ident">AfError</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> {} <span class="comment">/* No-op */</span>
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(
             <span class="string">&quot;Error message: {}\nLast error: {}&quot;</span>,
             <span class="ident">error_code</span>.<span class="ident">description</span>(),
             <span class="ident">get_last_error</span>()
@@ -192,36 +195,39 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_must_use</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">register_error_handler</span>(<span class="ident">cb_value</span>: <span class="ident">Callback</span>) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">gaurd</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ERROR_HANDLER_LOCK</span>.<span class="ident">write</span>() {
-        <span class="prelude-val">Ok</span>(<span class="ident">g</span>) <span class="op">=&gt;</span> <span class="ident">g</span>,
-        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to acquire lock to register error handler&quot;</span>),
+        <span class="prelude-val">Ok</span>(<span class="ident">g</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">g</span>,
+        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to acquire lock to register error handler&quot;</span>),
     };
 
     <span class="kw-2">*</span><span class="ident">gaurd</span>.<span class="ident">deref_mut</span>() <span class="op">=</span> <span class="ident">cb_value</span>;
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">HANDLE_ERROR</span>(<span class="ident">error_code</span>: <span class="ident">AfError</span>) {
     <span class="kw">let</span> <span class="ident">gaurd</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ERROR_HANDLER_LOCK</span>.<span class="ident">read</span>() {
-        <span class="prelude-val">Ok</span>(<span class="ident">g</span>) <span class="op">=&gt;</span> <span class="ident">g</span>,
-        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to acquire lock while handling FFI return value&quot;</span>),
+        <span class="prelude-val">Ok</span>(<span class="ident">g</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">g</span>,
+        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to acquire lock while handling FFI return value&quot;</span>),
     };
 
     (<span class="kw-2">*</span><span class="ident">gaurd</span>.<span class="ident">deref</span>()).<span class="ident">call</span>(<span class="ident">error_code</span>);
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_last_error</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">String</span>;
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_last_error</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;No Last Error&quot;</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span>: <span class="ident">DimT</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span>: <span class="ident">DimT</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_get_last_error</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tmp</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">MutDimT</span>);
-        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
-        <span class="ident">result</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">tmp</span>).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>();
-        <span class="ident">free_host</span>(<span class="ident">tmp</span>);
+        <span class="ident">af_get_last_error</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tmp</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">MutDimT</span>);
+        <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="ident">result</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">tmp</span>).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>();
+            <span class="ident">free_host</span>(<span class="ident">tmp</span>);
+        }
     }
     <span class="ident">result</span>
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "arrayfire";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "arrayfire";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

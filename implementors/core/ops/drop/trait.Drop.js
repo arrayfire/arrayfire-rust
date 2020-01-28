@@ -6,5 +6,4 @@ implementors["arrayfire"] = [{text:"impl&lt;T&gt; <a class=\"trait\" href=\"http
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

@@ -6,5 +6,4 @@ implementors["arrayfire"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()
