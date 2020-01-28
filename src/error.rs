@@ -1,6 +1,6 @@
 extern crate libc;
 
-use self::libc::{c_char, c_int};
+use self::libc::c_char;
 use crate::defines::AfError;
 use crate::util::{free_host, DimT, MutDimT};
 use std::error::Error;
@@ -10,7 +10,7 @@ use std::sync::RwLock;
 
 #[allow(dead_code)]
 extern "C" {
-    fn af_get_last_error(str: *mut *mut c_char, len: *mut DimT) -> c_int;
+    fn af_get_last_error(str: *mut *mut c_char, len: *mut DimT);
 }
 
 /// Signature of error handling callback function
@@ -99,14 +99,15 @@ pub fn HANDLE_ERROR(error_code: AfError) {
 }
 
 pub fn get_last_error() -> String {
-    let result: String;
+    let mut result: String = String::from("No Last Error");
+    let mut tmp: *mut c_char = ::std::ptr::null_mut();
+    let mut len: DimT = 0;
     unsafe {
-        let mut tmp: *mut c_char = ::std::ptr::null_mut();
-        let mut len: DimT = 0;
-        let err_val = af_get_last_error(&mut tmp, &mut len as MutDimT);
-        HANDLE_ERROR(AfError::from(err_val));
-        result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
-        free_host(tmp);
+        af_get_last_error(&mut tmp, &mut len as MutDimT);
+        if len > 0 {
+            result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+            free_host(tmp);
+        }
     }
     result
 }
