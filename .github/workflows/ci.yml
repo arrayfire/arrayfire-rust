@@ -13,7 +13,7 @@ jobs:
         name: Build and Test Wrapper
         runs-on: ubuntu-18.04
         env:
-            AF_VER: 3.6.4
+            AF_VER: 3.7.0
         steps:
             - name: Checkout Repository
               uses: actions/checkout@master
