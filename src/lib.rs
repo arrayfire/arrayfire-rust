@@ -19,8 +19,8 @@
 //! are patch/fix updates for `arrayfire-rust` & `ArrayFire` respectively,
 //! and they don't need to match.
 //!
-//! Please go through our [tutorials](./book/index.html) book for more explanations on how to
-//! use ArrayFire to speedup your code.
+//! Please go through our [tutorials](http://arrayfire.org/arrayfire-rust/arrayfire/book/index.html)
+//! book for more explanations on how to use ArrayFire to speedup your code.
 
 #![doc(
     html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
