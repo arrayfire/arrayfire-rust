@@ -143,7 +143,7 @@ dim_reduce_func_def!(
     ",
     product,
     af_product,
-    T::AggregateOutType
+    T::ProductOutType
 );
 
 dim_reduce_func_def!(
@@ -440,10 +440,10 @@ where
 /// # Return Values
 ///
 /// Array that is reduced along given dimension via multiplication operation
-pub fn product_nan<T>(input: &Array<T>, dim: i32, nanval: f64) -> Array<T::AggregateOutType>
+pub fn product_nan<T>(input: &Array<T>, dim: i32, nanval: f64) -> Array<T::ProductOutType>
 where
     T: HasAfEnum,
-    T::AggregateOutType: HasAfEnum,
+    T::ProductOutType: HasAfEnum,
 {
     let mut temp: i64 = 0;
     unsafe {

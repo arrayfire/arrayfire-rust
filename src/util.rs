@@ -182,13 +182,15 @@ pub trait HasAfEnum {
     /// aggregation of set of values for a given input type. Aggregate type
     /// alias points to below types for given input types:
     /// - `Self` for input types: `Complex<64>`, `Complex<f32>`, `f64`, `f32`, `i64`, `u64`
-    /// - `f32` for input types: `bool`
+    /// - `u32` for input types: `bool`
     /// - `u32` for input types: `u8`
     /// - `i32` for input types: `i16`
     /// - `u32` for input types: `u16`
     /// - `i32` for input types: `i32`
     /// - `u32` for input types: `u32`
     type AggregateOutType;
+    /// This type is different for b8 input type
+    type ProductOutType;
     /// This type alias points to the output type for given input type of
     /// sobel filter operation. Sobel filter output alias points to below
     /// types for given input types:
@@ -211,6 +213,7 @@ impl HasAfEnum for Complex<f32> {
     type ComplexOutType = Self;
     type MeanOutType = Self;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = Self;
 
     fn get_af_dtype() -> DType {
@@ -226,6 +229,7 @@ impl HasAfEnum for Complex<f64> {
     type ComplexOutType = Self;
     type MeanOutType = Self;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = Self;
 
     fn get_af_dtype() -> DType {
@@ -241,6 +245,7 @@ impl HasAfEnum for f32 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = Self;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = Self;
 
     fn get_af_dtype() -> DType {
@@ -256,6 +261,7 @@ impl HasAfEnum for f64 {
     type ComplexOutType = Complex<f64>;
     type MeanOutType = Self;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = Self;
 
     fn get_af_dtype() -> DType {
@@ -271,6 +277,7 @@ impl HasAfEnum for bool {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = u32;
+    type ProductOutType = bool;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -286,6 +293,7 @@ impl HasAfEnum for u8 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = u32;
+    type ProductOutType = u32;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -301,6 +309,7 @@ impl HasAfEnum for i16 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = i32;
+    type ProductOutType = i32;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -316,6 +325,7 @@ impl HasAfEnum for u16 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = u32;
+    type ProductOutType = u32;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -331,6 +341,7 @@ impl HasAfEnum for i32 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = i32;
+    type ProductOutType = i32;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -346,6 +357,7 @@ impl HasAfEnum for u32 {
     type ComplexOutType = Complex<f32>;
     type MeanOutType = f32;
     type AggregateOutType = u32;
+    type ProductOutType = u32;
     type SobelOutType = i32;
 
     fn get_af_dtype() -> DType {
@@ -361,6 +373,7 @@ impl HasAfEnum for i64 {
     type ComplexOutType = Complex<f64>;
     type MeanOutType = f64;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = i64;
 
     fn get_af_dtype() -> DType {
@@ -376,6 +389,7 @@ impl HasAfEnum for u64 {
     type ComplexOutType = Complex<f64>;
     type MeanOutType = f64;
     type AggregateOutType = Self;
+    type ProductOutType = Self;
     type SobelOutType = i64;
 
     fn get_af_dtype() -> DType {
