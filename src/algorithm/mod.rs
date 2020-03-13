@@ -5,7 +5,7 @@ use crate::array::Array;
 use crate::defines::{AfError, BinaryOp};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, MutAfArray, MutDouble, MutUint};
-use crate::util::{HasAfEnum, RealNumber, Scanable};
+use crate::util::{HasAfEnum, RealNumber, ReduceByKeyInput, Scanable};
 
 #[allow(dead_code)]
 extern "C" {
@@ -58,6 +58,71 @@ extern "C" {
         dim: c_int,
         op: c_uint,
         inclusive: c_int,
+    ) -> c_int;
+    fn af_all_true_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_any_true_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_count_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_max_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_min_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_product_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_product_by_key_nan(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+        nan_val: c_double,
+    ) -> c_int;
+    fn af_sum_by_key(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+    ) -> c_int;
+    fn af_sum_by_key_nan(
+        keys_out: MutAfArray,
+        vals_out: MutAfArray,
+        keys: AfArray,
+        vals: AfArray,
+        dim: c_int,
+        nan_val: c_double,
     ) -> c_int;
 }
 
@@ -527,7 +592,8 @@ all_reduce_func_def!(
     let dims = Dim4::new(&[5, 5, 1, 1]);
     let a = randu::<f32>(dims);
     print(&a);
-    println!(\"Result : {:?}\", product_all(&a));
+    let res = product_all(&a);
+    println!(\"Result : {:?}\", res);
     ```
     ",
     product_all,
@@ -1137,3 +1203,193 @@ where
     }
     temp.into()
 }
+
+macro_rules! dim_reduce_by_key_func_def {
+    ($brief_str: expr, $ex_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ty) => {
+        #[doc=$brief_str]
+        /// # Parameters
+        ///
+        /// - `keys` - key Array
+        /// - `vals` - value Array
+        /// - `dim`   - Dimension along which the input Array is reduced
+        ///
+        /// # Return Values
+        ///
+        /// Tuple of Arrays, with output keys and values after reduction
+        ///
+        #[doc=$ex_str]
+        pub fn $fn_name<KeyType, ValueType>(keys: &Array<KeyType>, vals: &Array<ValueType>,
+                                            dim: i32
+        ) -> (Array<KeyType>, Array<$out_type>)
+        where
+            KeyType: ReduceByKeyInput,
+            ValueType: HasAfEnum,
+            $out_type: HasAfEnum,
+        {
+            let mut out_keys: i64 = 0;
+            let mut out_vals: i64 = 0;
+            unsafe {
+                let err_val = $ffi_name(
+                    &mut out_keys as MutAfArray,
+                    &mut out_vals as MutAfArray,
+                    keys.get() as AfArray,
+                    vals.get() as AfArray,
+                    dim as c_int,
+                );
+                HANDLE_ERROR(AfError::from(err_val));
+            }
+            (out_keys.into(), out_vals.into())
+        }
+    };
+}
+
+dim_reduce_by_key_func_def!(
+    "
+    Key based AND of elements along a given dimension
+
+    All positive non-zero values are considered true, while negative and zero
+    values are considered as false.
+    ",
+    "
+    # Examples
+    ```rust
+    use arrayfire::{Dim4, print, randu, all_true_by_key};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let vals = randu::<f32>(dims);
+    let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
+    print(&vals);
+    print(&keys);
+    let (out_keys, out_vals) = all_true_by_key(&keys, &vals, 0);
+    print(&out_keys);
+    print(&out_vals);
+    ```
+    ",
+    all_true_by_key,
+    af_all_true_by_key,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "
+    Key based OR of elements along a given dimension
+
+    All positive non-zero values are considered true, while negative and zero
+    values are considered as false.
+    ",
+    "
+    # Examples
+    ```rust
+    use arrayfire::{Dim4, print, randu, any_true_by_key};
+    let dims = Dim4::new(&[5, 3, 1, 1]);
+    let vals = randu::<f32>(dims);
+    let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
+    print(&vals);
+    print(&keys);
+    let (out_keys, out_vals) = any_true_by_key(&keys, &vals, 0);
+    print(&out_keys);
+    print(&out_vals);
+    ```
+    ",
+    any_true_by_key,
+    af_any_true_by_key,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "Find total count of elements with similar keys along a given dimension",
+    "",
+    count_by_key,
+    af_count_by_key,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "Find maximum among values of similar keys along a given dimension",
+    "",
+    max_by_key,
+    af_max_by_key,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "Find minimum among values of similar keys along a given dimension",
+    "",
+    min_by_key,
+    af_min_by_key,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "Find product of all values with similar keys along a given dimension",
+    "",
+    product_by_key,
+    af_product_by_key,
+    ValueType::ProductOutType
+);
+
+dim_reduce_by_key_func_def!(
+    "Find sum of all values with similar keys along a given dimension",
+    "",
+    sum_by_key,
+    af_sum_by_key,
+    ValueType::AggregateOutType
+);
+
+macro_rules! dim_reduce_by_key_nan_func_def {
+    ($brief_str: expr, $ex_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ty) => {
+        #[doc=$brief_str]
+        ///
+        /// This version of sum by key can replaced all NaN values in the input
+        /// with a user provided value before performing the reduction operation.
+        /// # Parameters
+        ///
+        /// - `keys` - key Array
+        /// - `vals` - value Array
+        /// - `dim`   - Dimension along which the input Array is reduced
+        ///
+        /// # Return Values
+        ///
+        /// Tuple of Arrays, with output keys and values after reduction
+        ///
+        #[doc=$ex_str]
+        pub fn $fn_name<KeyType, ValueType>(keys: &Array<KeyType>, vals: &Array<ValueType>,
+                                            dim: i32, replace_value: f64
+        ) -> (Array<KeyType>, Array<$out_type>)
+        where
+            KeyType: ReduceByKeyInput,
+            ValueType: HasAfEnum,
+            $out_type: HasAfEnum,
+        {
+            let mut out_keys: i64 = 0;
+            let mut out_vals: i64 = 0;
+            unsafe {
+                let err_val = $ffi_name(
+                    &mut out_keys as MutAfArray,
+                    &mut out_vals as MutAfArray,
+                    keys.get() as AfArray,
+                    vals.get() as AfArray,
+                    dim as c_int,
+                    replace_value as c_double,
+                );
+                HANDLE_ERROR(AfError::from(err_val));
+            }
+            (out_keys.into(), out_vals.into())
+        }
+    };
+}
+
+dim_reduce_by_key_nan_func_def!(
+    "Compute sum of all values with similar keys along a given dimension",
+    "",
+    sum_by_key_nan,
+    af_sum_by_key_nan,
+    ValueType::AggregateOutType
+);
+
+dim_reduce_by_key_nan_func_def!(
+    "Compute product of all values with similar keys along a given dimension",
+    "",
+    product_by_key_nan,
+    af_product_by_key_nan,
+    ValueType::ProductOutType
+);

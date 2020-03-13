@@ -85,6 +85,7 @@ extern "C" {
     fn af_log10(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_log2(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_sqrt(out: MutAfArray, arr: AfArray) -> c_int;
+    fn af_rsqrt(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_cbrt(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_factorial(out: MutAfArray, arr: AfArray) -> c_int;
     fn af_tgamma(out: MutAfArray, arr: AfArray) -> c_int;
@@ -199,6 +200,12 @@ unary_func!("Compute the natural logarithm", log, af_log, UnaryOutType);
 unary_func!("Compute sin", sin, af_sin, UnaryOutType);
 unary_func!("Compute sinh", sinh, af_sinh, UnaryOutType);
 unary_func!("Compute the square root", sqrt, af_sqrt, UnaryOutType);
+unary_func!(
+    "Compute the reciprocal square root",
+    rsqrt,
+    af_rsqrt,
+    UnaryOutType
+);
 unary_func!("Compute tan", tan, af_tan, UnaryOutType);
 unary_func!("Compute tanh", tanh, af_tanh, UnaryOutType);
 

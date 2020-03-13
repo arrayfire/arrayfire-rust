@@ -4,8 +4,10 @@ use self::libc::{c_char, c_double, c_float, c_int, c_uint};
 use crate::array::Array;
 use crate::defines::{AfError, BorderType, CannyThresholdType, ColorSpace, Connectivity};
 use crate::defines::{DiffusionEq, FluxFn, InterpType, MomentType, YCCStd};
+use crate::defines::{InverseDeconvAlgo, IterativeDeconvAlgo};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, MutAfArray};
+use crate::util::{ConfidenceCCInput, DeconvInput};
 use crate::util::{EdgeComputable, GrayRGBConvertible, MomentsComputable, RealFloating};
 use crate::util::{FloatingPoint, HasAfEnum, ImageFilterType, ImageNativeType, RealNumber};
 use std::ffi::CString;
@@ -190,6 +192,31 @@ extern "C" {
         iters: c_uint,
         fftype: c_int,
         diff_kind: c_int,
+    ) -> c_int;
+    fn af_confidence_cc(
+        out: MutAfArray,
+        input: AfArray,
+        seedx: AfArray,
+        seedy: AfArray,
+        radius: c_uint,
+        multiplier: c_uint,
+        iterations: c_int,
+        seg_val: c_double,
+    ) -> c_int;
+    fn af_iterative_deconv(
+        out: MutAfArray,
+        input: AfArray,
+        ker: AfArray,
+        iterations: c_uint,
+        rfactor: c_float,
+        algo: c_int,
+    ) -> c_int;
+    fn af_inverse_deconv(
+        out: MutAfArray,
+        input: AfArray,
+        ker: AfArray,
+        gamma: c_float,
+        algo: c_int,
     ) -> c_int;
 }
 
@@ -1735,6 +1762,191 @@ where
             iters as c_uint,
             fftype as c_int,
             diff_kind as c_int,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
+}
+
+/// Segment image based on similar pixel characteristics
+///
+/// This filter is similar to [regions](./fn.regions.html) with additional criteria for
+/// segmentation. In regions, all connected pixels are considered to be a single component.
+/// In this variation of connected components, pixels having similar pixel statistics of the
+/// neighborhoods around a given set of seed points are grouped together.
+///
+/// The parameter `radius` determines the size of neighborhood around a seed point.
+///
+/// Mean and Variance are the pixel statistics that are computed across all neighborhoods around
+/// the given set of seed points. The pixels which are connected to seed points and lie in the
+/// confidence interval are grouped together. Given below is the confidence interval.
+///
+/// \begin{equation}
+///     [\mu - \alpha * \sigma, \mu + \alpha * \sigma]
+/// \end{equation}
+/// where
+///
+/// - $ \mu $ is the mean of the pixels in the seed neighborhood
+/// - $ \sigma^2 $ is the variance of the pixels in the seed neighborhood
+/// - $ \alpha $ is the multiplier used to control the width of the confidence interval.
+///
+/// This filter follows an iterative approach for fine tuning the segmentation. An initial
+/// segmenetation followed by a finite number `iterations` of segmentations are performed.
+/// The user provided parameter `iterations` is only a request and the algorithm can prempt
+/// the execution if variance approaches zero. The initial segmentation uses the mean and
+/// variance calculated from the neighborhoods of all the seed points. For subsequent
+/// segmentations, all pixels in the previous segmentation are used to re-calculate the mean
+/// and variance (as opposed to using the pixels in the neighborhood of the seed point).
+///
+/// # Parameters
+///
+/// - `input` is the input image
+/// - `seedx` contains the x coordinates of seeds in image coordinates
+/// - `seedy` contains the y coordinates of seeds in image coordinates
+/// - `radius` is the neighborhood region to be considered around each seed point
+/// - `multiplier` controls the threshold range computed from the mean and variance of seed point neighborhoods
+/// - `iterations` is the number of times the segmentation in performed
+/// - `segmented_value` is the value to which output array valid pixels are set to
+///
+/// # Return Values
+///
+/// Segmented(based on pixel characteristics) image(Array) with regions surrounding the seed points
+pub fn confidence_cc<InOutType>(
+    input: &Array<InOutType>,
+    seedx: &Array<u32>,
+    seedy: &Array<u32>,
+    radius: u32,
+    multiplier: u32,
+    iterations: u32,
+    segmented_val: f64,
+) -> Array<InOutType>
+where
+    InOutType: ConfidenceCCInput,
+{
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_confidence_cc(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            seedx.get() as AfArray,
+            seedy.get() as AfArray,
+            radius,
+            multiplier,
+            iterations as i32,
+            segmented_val,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
+}
+
+/// Iterative Deconvolution
+///
+/// The following table shows the iteration update equations of the respective
+/// deconvolution algorithms.
+///
+/// <table>
+/// <tr><th>Algorithm</th><th>Update Equation</th></tr>
+/// <tr>
+///     <td>LandWeber</td>
+///     <td>
+///         $ \hat{I}_{n} = \hat{I}_{n-1} + \alpha * P^T \otimes (I - P \otimes \hat{I}_{n-1}) $
+///     </td>
+/// </tr>
+/// <tr>
+///   <td>Richardson-Lucy</td>
+///   <td>
+///     $ \hat{I}_{n} = \hat{I}_{n-1} . ( \frac{I}{\hat{I}_{n-1} \otimes P} \otimes P^T ) $
+///   </td>
+/// </tr>
+/// </table>
+///
+/// where
+///
+/// - $ I $ is the observed(input/blurred) image
+/// - $ P $ is the point spread function
+/// - $ P^T $ is the transpose of point spread function
+/// - $ \hat{I}_{n} $ is the current iteration's updated image estimate
+/// - $ \hat{I}_{n-1} $ is the previous iteration's image estimate
+/// - $ \alpha $ is the relaxation factor
+/// - $ \otimes $ indicates the convolution operator
+///
+/// The type of output Array from deconvolution will be of type f64 if
+/// the input array type is f64. For other types, output type will be f32 type.
+/// Should the caller want to save the image to disk or require the values of output
+/// to be in a fixed range, that should be done by the caller explicitly.
+pub fn iterative_deconv<T>(
+    input: &Array<T>,
+    kernel: &Array<f32>,
+    iterations: u32,
+    relaxation_factor: f32,
+    algo: IterativeDeconvAlgo,
+) -> Array<T::AbsOutType>
+where
+    T: DeconvInput,
+    T::AbsOutType: HasAfEnum,
+{
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_iterative_deconv(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            kernel.get() as AfArray,
+            iterations,
+            relaxation_factor,
+            algo as c_int,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
+}
+
+/// Inverse deconvolution
+///
+/// This is a linear algorithm i.e. they are non-iterative in
+/// nature and usually faster than iterative deconvolution algorithms.
+///
+/// Depending on the values passed on to `algo` of type enum [InverseDeconvAlgo](./enum.inverse_deconv_algo.html),
+/// different equations are used to compute the final result.
+///
+/// #### Tikhonov's Deconvolution Method:
+///
+/// The update equation for this algorithm is as follows:
+///
+/// <div>
+/// \begin{equation}
+/// \hat{I}_{\omega} = \frac{ I_{\omega} * P^{*}_{\omega} } { |P_{\omega}|^2 + \gamma }
+/// \end{equation}
+/// </div>
+///
+/// where
+///
+/// - $ I_{\omega} $ is the observed(input/blurred) image in frequency domain
+/// - $ P_{\omega} $ is the point spread function in frequency domain
+/// - $ \gamma $ is a user defined regularization constant
+///
+/// The type of output Array from deconvolution will be double if the input array type is double.
+/// Otherwise, it will be float in rest of the cases. Should the caller want to save the image to
+/// disk or require the values of output to be in a fixed range, that should be done by the caller
+/// explicitly.
+pub fn inverse_deconv<T>(
+    input: &Array<T>,
+    kernel: &Array<f32>,
+    gamma: f32,
+    algo: InverseDeconvAlgo,
+) -> Array<T::AbsOutType>
+where
+    T: DeconvInput,
+    T::AbsOutType: HasAfEnum,
+{
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_inverse_deconv(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            kernel.get() as AfArray,
+            gamma,
+            algo as c_int,
         );
         HANDLE_ERROR(AfError::from(err_val));
     }

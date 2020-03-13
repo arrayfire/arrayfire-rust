@@ -24,6 +24,7 @@ extern "C" {
     fn af_det(det_real: MutDouble, det_imag: MutDouble, input: AfArray) -> c_int;
     fn af_norm(out: MutDouble, input: AfArray, ntype: c_uint, p: c_double, q: c_double) -> c_int;
     fn af_is_lapack_available(out: *mut c_int) -> c_int;
+    fn af_pinverse(out: MutAfArray, input: AfArray, tol: c_double, options: c_int) -> c_int;
 }
 
 /// Perform Singular Value Decomposition
@@ -495,4 +496,38 @@ pub fn is_lapack_available() -> bool {
         af_is_lapack_available(&mut temp as *mut c_int);
     }
     temp > 0 // Return boolean fla
+}
+
+/// Psuedo Inverse of Matrix
+///
+/// # Parameters
+///
+/// - `input` is input matrix
+/// - `tolerance` defines the lower threshold for singular values from SVD
+/// - `option` must be [MatProp::NONE](./enum.MatProp.html) (more options might be supported in the future)
+///
+/// Notes:
+///
+/// - Tolerance is not the actual lower threshold, but it is passed in as a
+///   parameter to the calculation of the actual threshold relative to the shape and contents of input.
+/// - First, try setting tolerance to 1e-6 for single precision and 1e-12 for double.
+///
+/// # Return
+///
+/// Pseudo Inverse matrix for the input matrix
+pub fn pinverse<T>(input: &Array<T>, tolerance: f64, option: MatProp) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
+{
+    let mut out: i64 = 0;
+    unsafe {
+        let err_val = af_pinverse(
+            &mut out as MutAfArray,
+            input.get() as AfArray,
+            tolerance,
+            option as c_int,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    out.into()
 }

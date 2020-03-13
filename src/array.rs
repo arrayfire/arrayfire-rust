@@ -166,12 +166,29 @@ where
     ///
     /// # Examples
     ///
+    /// An example of creating an Array from f32 array
+    ///
     /// ```rust
     /// use arrayfire::{Array, Dim4, print};
     /// let values: [f32; 3] = [1.0, 2.0, 3.0];
     /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
     /// print(&indices);
     /// ```
+    /// An example of creating an Array from half::f16 array
+    ///
+    /// ```rust
+    /// use arrayfire::{Array, Dim4, print};
+    /// use half::f16;
+    ///
+    /// let values: [f32; 3] = [1.0, 2.0, 3.0];
+    ///
+    /// let half_values = values.iter().map(|&x| f16::from_f32(x)).collect::<Vec<_>>();
+    ///
+    /// let hvals = Array::new(&half_values, Dim4::new(&[3, 1, 1, 1]));
+    ///
+    /// print(&hvals);
+    /// ```
+    ///
     #[allow(unused_mut)]
     pub fn new(slice: &[T], dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
@@ -218,7 +235,7 @@ where
     ///
     /// ```rust
     /// use arrayfire::{Array, Dim4};
-    /// let garbageVals = Array::<f32>::new_empty(Dim4::new(&[3, 1, 1, 1]));
+    /// let garbage_vals = Array::<f32>::new_empty(Dim4::new(&[3, 1, 1, 1]));
     /// ```
     #[allow(unused_mut)]
     pub fn new_empty(dims: Dim4) -> Self {
@@ -351,6 +368,11 @@ where
     /// Returns the native FFI handle for Rust object `Array`
     pub fn get(&self) -> i64 {
         self.handle
+    }
+
+    /// Returns the native FFI handle for Rust object `Array`
+    pub fn set(&mut self, handle: i64) {
+        self.handle = handle;
     }
 
     /// Copies the data from the Array to the mutable slice `data`

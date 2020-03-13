@@ -71,6 +71,9 @@ mod dim4;
 pub use crate::error::{handle_error_general, register_error_handler, Callback, ErrorCallback};
 mod error;
 
+pub use crate::event::*;
+mod event;
+
 #[cfg(feature = "indexing")]
 pub use crate::index::*;
 #[cfg(feature = "indexing")]
@@ -95,6 +98,11 @@ mod image;
 pub use crate::lapack::*;
 #[cfg(feature = "lapack")]
 mod lapack;
+
+#[cfg(feature = "machine_learning")]
+pub use crate::machinelearning::*;
+#[cfg(feature = "machine_learning")]
+mod machinelearning;
 
 #[cfg(feature = "macros")]
 mod macros;
@@ -122,6 +130,7 @@ mod statistics;
 
 pub use crate::util::{get_size, HasAfEnum, ImplicitPromote};
 pub use crate::util::{ComplexFloating, FloatingPoint, RealFloating, RealNumber};
+pub use crate::util::{ConfidenceCCInput, DeconvInput, ReduceByKeyInput};
 pub use crate::util::{CovarianceComputable, EdgeComputable, MedianComputable, MomentsComputable};
 pub use crate::util::{GrayRGBConvertible, ImageFilterType, ImageNativeType, Scanable};
 mod util;

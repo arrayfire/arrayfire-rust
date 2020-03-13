@@ -7,7 +7,7 @@ fn main() {
 }
 
 fn normalise(a: &Array<f32>) -> Array<f32> {
-    (a / (max_all(&abs(a)).0 as f32))
+    a / (max_all(&abs(a)).0 as f32)
 }
 
 fn conways_game_of_life() {
