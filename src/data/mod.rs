@@ -4,7 +4,7 @@ extern crate num;
 use self::libc::{c_double, c_int, c_uint};
 use self::num::Complex;
 use crate::array::Array;
-use crate::defines::AfError;
+use crate::defines::{AfError, BorderType};
 use crate::dim4::Dim4;
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
@@ -73,6 +73,16 @@ extern "C" {
 
     fn af_replace(a: MutAfArray, cond: AfArray, b: AfArray) -> c_int;
     fn af_replace_scalar(a: MutAfArray, cond: AfArray, b: c_double) -> c_int;
+
+    fn af_pad(
+        out: MutAfArray,
+        input: AfArray,
+        begin_ndims: c_uint,
+        begin_dims: *const DimT,
+        end_ndims: c_uint,
+        end_dims: *const DimT,
+        pad_fill_type: c_int,
+    ) -> c_int;
 }
 
 /// Type Trait to generate a constant [Array](./struct.Array.html) of given size
@@ -917,4 +927,38 @@ where
             af_replace_scalar(a.get() as MutAfArray, cond.get() as AfArray, b as c_double);
         HANDLE_ERROR(AfError::from(err_val));
     }
+}
+
+/// Pad input Array along borders
+///
+/// # Parameters
+///
+/// - `input` is the input array to be padded
+/// - `begin` is padding size before first element along a given dimension
+/// - `end` is padding size after the last element along a given dimension
+/// - `fill_type` indicates what values should be used to fill padded regions
+///
+/// # Return Values
+///
+/// Padded Array
+pub fn pad<T: HasAfEnum>(
+    input: &Array<T>,
+    begin: Dim4,
+    end: Dim4,
+    fill_type: BorderType,
+) -> Array<T> {
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_pad(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            begin.ndims() as c_uint,
+            begin.get().as_ptr() as *const DimT,
+            end.ndims() as c_uint,
+            end.get().as_ptr() as *const DimT,
+            fill_type as c_int,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
 }

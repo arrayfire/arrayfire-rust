@@ -2,7 +2,7 @@ extern crate libc;
 
 use self::libc::{c_int, c_uint};
 use crate::array::Array;
-use crate::defines::{AfError, TopkFn};
+use crate::defines::{AfError, TopkFn, VarianceBias};
 use crate::error::HANDLE_ERROR;
 use crate::util::{AfArray, DimT, MutAfArray, MutDouble};
 use crate::util::{CovarianceComputable, RealNumber};
@@ -36,6 +36,15 @@ extern "C" {
         k: c_int,
         dim: c_int,
         order: c_uint,
+    ) -> c_int;
+
+    fn af_meanvar(
+        mean: MutAfArray,
+        var: MutAfArray,
+        input: AfArray,
+        weights: AfArray,
+        bias: c_int,
+        dim: DimT,
     ) -> c_int;
 }
 
@@ -412,4 +421,47 @@ where
         HANDLE_ERROR(AfError::from(err_val));
     }
     (t0.into(), t1.into())
+}
+
+/// Calculate mean and variance in single API call
+///
+///# Parameters
+///
+/// - `input` is the input Array
+/// - `weights` Array has the weights to be used during the stat computation
+/// - `bias` is type of bias used for variance calculation
+/// - `dim` is dimension along which the current stat has to be computed
+///
+///# Return Values
+///
+/// A tuple of Arrays, whose size is equal to input except along the dimension which
+/// the stat operation is performed. Array size along `dim` will be reduced to one.
+///
+/// - First Array contains mean values
+/// - Second Array contains variance values
+pub fn meanvar<T, W>(
+    input: &Array<T>,
+    weights: &Array<W>,
+    bias: VarianceBias,
+    dim: i64,
+) -> (Array<T::MeanOutType>, Array<T::MeanOutType>)
+where
+    T: HasAfEnum,
+    T::MeanOutType: HasAfEnum,
+    W: HasAfEnum + RealFloating,
+{
+    let mut mean: i64 = 0;
+    let mut var: i64 = 0;
+    unsafe {
+        let err_val = af_meanvar(
+            &mut mean as MutAfArray,
+            &mut var as MutAfArray,
+            input.get() as AfArray,
+            weights.get() as AfArray,
+            bias as c_int,
+            dim as DimT,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    (mean.into(), var.into())
 }

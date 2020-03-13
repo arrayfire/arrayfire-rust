@@ -25,6 +25,13 @@ extern "C" {
         ztitle: *const c_char,
         props: CellPtr,
     ) -> c_int;
+    fn af_set_axes_label_format(
+        wnd: WndHandle,
+        xformat: *const c_char,
+        yformat: *const c_char,
+        zformat: *const c_char,
+        props: CellPtr,
+    ) -> c_int;
     fn af_set_axes_limits_compute(
         wnd: WndHandle,
         x: AfArray,
@@ -365,6 +372,39 @@ impl Window {
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
+        unsafe {
+            let err_val = af_set_axes_titles(
+                self.handle as WndHandle,
+                xstr.as_ptr(),
+                ystr.as_ptr(),
+                zstr.as_ptr(),
+                cprops as *const Cell as CellPtr,
+            );
+            HANDLE_ERROR(AfError::from(err_val));
+        }
+    }
+
+    /// Set chart axes labels formats
+    ///
+    /// Axes labels use printf style format specifiers. Default specifier for the data displayed
+    /// as labels is %4.1f. This function lets the user change this label formatting to whichever
+    /// format that fits their data range and precision.
+    ///
+    /// # Parameters
+    ///
+    /// - `xlabel` is printf style format specifier for x axis
+    /// - `ylabel` is printf style format specifier for y axis
+    /// - `zlabel` is printf style format specifier for z axis
+    pub fn set_axes_label_formats(&mut self, xformat: String, yformat: String, zformat: String) {
+        let cprops = &Cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap,
+        };
+        let xstr = CString::new(xformat).unwrap();
+        let ystr = CString::new(yformat).unwrap();
+        let zstr = CString::new(zformat).unwrap();
         unsafe {
             let err_val = af_set_axes_titles(
                 self.handle as WndHandle,

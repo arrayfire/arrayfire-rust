@@ -1,3 +1,4 @@
+extern crate half;
 extern crate libc;
 extern crate num;
 
@@ -12,6 +13,7 @@ use crate::num::Zero;
 use std::mem;
 
 pub type AfArray = self::libc::c_longlong;
+pub type AfEvent = self::libc::c_longlong;
 pub type AfIndex = self::libc::c_longlong;
 pub type CellPtr = *const self::libc::c_void;
 pub type Complex32 = Complex<f32>;
@@ -20,6 +22,7 @@ pub type DimT = self::libc::c_longlong;
 pub type Feat = *const self::libc::c_void;
 pub type Intl = self::libc::c_longlong;
 pub type MutAfArray = *mut self::libc::c_longlong;
+pub type MutAfEvent = *mut self::libc::c_longlong;
 pub type MutAfIndex = *mut self::libc::c_longlong;
 pub type MutDimT = *mut self::libc::c_longlong;
 pub type MutDouble = *mut self::libc::c_double;
@@ -330,6 +333,22 @@ impl HasAfEnum for u16 {
 
     fn get_af_dtype() -> DType {
         DType::U16
+    }
+}
+impl HasAfEnum for half::f16 {
+    type InType = Self;
+    type BaseType = Self;
+    type AbsOutType = Self;
+    type ArgOutType = Self;
+    type UnaryOutType = Self;
+    type ComplexOutType = Complex<half::f16>;
+    type MeanOutType = Self;
+    type AggregateOutType = f32;
+    type ProductOutType = f32;
+    type SobelOutType = Self;
+
+    fn get_af_dtype() -> DType {
+        DType::F16
     }
 }
 impl HasAfEnum for i32 {
@@ -772,3 +791,25 @@ impl CovarianceComputable for u16 {}
 impl CovarianceComputable for u8 {}
 impl CovarianceComputable for u64 {}
 impl CovarianceComputable for i64 {}
+
+/// Trait qualifier for confidence connected components input
+pub trait ConfidenceCCInput: HasAfEnum {}
+
+impl ConfidenceCCInput for f32 {}
+impl ConfidenceCCInput for u32 {}
+impl ConfidenceCCInput for u16 {}
+impl ConfidenceCCInput for u8 {}
+
+/// Trait qualifier for confidence connected components input
+pub trait DeconvInput: HasAfEnum {}
+
+impl DeconvInput for f32 {}
+impl DeconvInput for i16 {}
+impl DeconvInput for u16 {}
+impl DeconvInput for u8 {}
+
+/// Trait qualifier for Reduction Key type
+pub trait ReduceByKeyInput: HasAfEnum {}
+
+impl ReduceByKeyInput for i32 {}
+impl ReduceByKeyInput for u32 {}

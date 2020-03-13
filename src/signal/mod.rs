@@ -19,11 +19,80 @@ extern "C" {
         off_grid: c_float,
     ) -> c_int;
 
+    fn af_approx1_v2(
+        out: MutAfArray,
+        inp: AfArray,
+        pos: AfArray,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
+    fn af_approx1_uniform(
+        out: MutAfArray,
+        inp: AfArray,
+        pos: AfArray,
+        interp_dim: c_int,
+        idx_start: c_double,
+        idx_step: c_double,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
+    fn af_approx1_uniform_v2(
+        out: MutAfArray,
+        inp: AfArray,
+        pos: AfArray,
+        interp_dim: c_int,
+        idx_start: c_double,
+        idx_step: c_double,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
     fn af_approx2(
         out: MutAfArray,
         inp: AfArray,
         pos0: AfArray,
         pos1: AfArray,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
+    fn af_approx2_v2(
+        out: MutAfArray,
+        inp: AfArray,
+        pos0: AfArray,
+        pos1: AfArray,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
+    fn af_approx2_uniform(
+        out: MutAfArray,
+        inp: AfArray,
+        pos0: AfArray,
+        interp_dim0: c_int,
+        idx_start_dim0: c_double,
+        idx_step_dim0: c_double,
+        pos1: AfArray,
+        interp_dim1: c_int,
+        idx_start_dim1: c_double,
+        idx_step_dim1: c_double,
+        method: c_int,
+        off_grid: c_float,
+    ) -> c_int;
+
+    fn af_approx2_uniform_v2(
+        out: MutAfArray,
+        inp: AfArray,
+        pos0: AfArray,
+        interp_dim0: c_int,
+        idx_start_dim0: c_double,
+        idx_step_dim0: c_double,
+        pos1: AfArray,
+        interp_dim1: c_int,
+        idx_start_dim1: c_double,
+        idx_step_dim1: c_double,
         method: c_int,
         off_grid: c_float,
     ) -> c_int;
@@ -120,7 +189,6 @@ extern "C" {
 /// # Return Values
 ///
 /// An Array with interpolated values
-#[allow(unused_mut)]
 pub fn approx1<T, P>(
     input: &Array<T>,
     pos: &Array<P>,
@@ -145,7 +213,105 @@ where
     temp.into()
 }
 
-#[allow(unused_mut)]
+/// Same as [approx1](./fn.approx1.html) but uses existing Array as output
+pub fn approx1_v2<T, P>(
+    output: &mut Array<T>,
+    input: &Array<T>,
+    pos: &Array<P>,
+    method: InterpType,
+    off_grid: f32,
+) where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    unsafe {
+        let err_val = af_approx1_v2(
+            output.get() as MutAfArray,
+            input.get() as AfArray,
+            pos.get() as AfArray,
+            method as c_int,
+            off_grid as c_float,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Perform signal interpolation for 1d signals along specified dimension
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `pos` Array contains the interpolation locations
+/// - `interp_dim` is the dimension along which interpolation is performed
+/// - `start` is the first index along `interp_dim`
+/// - `step` is the uniform spacing value between subsequent indices along `interp_dim`
+/// - `method` indicates the type of interpolation method that be used. It is of type enum
+/// [InterpType](./enum.InterpType.html)
+/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds
+///
+/// # Return Values
+///
+/// An Array with interpolated values
+pub fn approx1_uniform<T, P>(
+    input: &Array<T>,
+    pos: &Array<P>,
+    interp_dim: i32,
+    start: f64,
+    step: f64,
+    method: InterpType,
+    off_grid: f32,
+) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_approx1_uniform(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            pos.get() as AfArray,
+            interp_dim,
+            start,
+            step,
+            method as c_int,
+            off_grid,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
+}
+
+/// Same as [approx1_uniform](./fn.approx1_uniform.html) but uses existing Array as output
+#[allow(clippy::too_many_arguments)]
+pub fn approx1_uniform_v2<T, P>(
+    output: &mut Array<T>,
+    input: &Array<T>,
+    pos: &Array<P>,
+    interp_dim: i32,
+    start: f64,
+    step: f64,
+    method: InterpType,
+    off_grid: f32,
+) where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    unsafe {
+        let err_val = af_approx1_uniform_v2(
+            output.get() as MutAfArray,
+            input.get() as AfArray,
+            pos.get() as AfArray,
+            interp_dim,
+            start,
+            step,
+            method as c_int,
+            off_grid,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
 /// Perform signal interpolation for 2d signals
 ///
 /// # Parameters
@@ -184,6 +350,128 @@ where
         HANDLE_ERROR(AfError::from(err_val));
     }
     temp.into()
+}
+
+/// Same as [approx2](./fn.approx2.html) but uses existing Array as output
+pub fn approx2_v2<T, P>(
+    output: &mut Array<T>,
+    input: &Array<T>,
+    pos0: &Array<P>,
+    pos1: &Array<P>,
+    method: InterpType,
+    off_grid: f32,
+) where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    unsafe {
+        let err_val = af_approx2_v2(
+            output.get() as MutAfArray,
+            input.get() as AfArray,
+            pos0.get() as AfArray,
+            pos1.get() as AfArray,
+            method as c_int,
+            off_grid as c_float,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+}
+
+/// Perform signal interpolation for 2d signals along a specified dimension
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `pos0` Array contains the interpolation locations for first dimension
+/// - `interp_dim0` is the dimension along which interpolation is performed
+/// - `start0` is the first index along `interp_dim0`
+/// - `step0` is the uniform spacing value between subsequent indices along `interp_dim0`
+/// - `pos1` Array contains the interpolation locations for second dimension
+/// - `interp_dim0` is the dimension along which interpolation is performed
+/// - `start0` is the first index along `interp_dim1`
+/// - `step0` is the uniform spacing value between subsequent indices along `interp_dim1`
+/// - `method` indicates the type of interpolation method that be used. It is of type enum
+/// [InterpType](./enum.InterpType.html)
+/// - `off_grid` is the value that will set in the output Array when certain index is out of bounds
+///
+/// # Return Values
+///
+/// An Array with interpolated values
+#[allow(clippy::too_many_arguments)]
+pub fn approx2_uniform<T, P>(
+    input: &Array<T>,
+    pos0: &Array<P>,
+    interp_dim0: i32,
+    start0: f64,
+    step0: f64,
+    pos1: &Array<P>,
+    interp_dim1: i32,
+    start1: f64,
+    step1: f64,
+    method: InterpType,
+    off_grid: f32,
+) -> Array<T>
+where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    let mut temp: i64 = 0;
+    unsafe {
+        let err_val = af_approx2_uniform(
+            &mut temp as MutAfArray,
+            input.get() as AfArray,
+            pos0.get() as AfArray,
+            interp_dim0,
+            start0,
+            step0,
+            pos1.get() as AfArray,
+            interp_dim1,
+            start1,
+            step1,
+            method as c_int,
+            off_grid as c_float,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    temp.into()
+}
+
+/// Same as [approx2_uniform](./fn.approx2_uniform.html) but uses existing Array as output
+#[allow(clippy::too_many_arguments)]
+pub fn approx2_uniform_v2<T, P>(
+    output: &mut Array<T>,
+    input: &Array<T>,
+    pos0: &Array<P>,
+    interp_dim0: i32,
+    start0: f64,
+    step0: f64,
+    pos1: &Array<P>,
+    interp_dim1: i32,
+    start1: f64,
+    step1: f64,
+    method: InterpType,
+    off_grid: f32,
+) where
+    T: HasAfEnum + FloatingPoint,
+    P: HasAfEnum + RealFloating,
+{
+    unsafe {
+        let err_val = af_approx2_uniform_v2(
+            output.get() as MutAfArray,
+            input.get() as AfArray,
+            pos0.get() as AfArray,
+            interp_dim0,
+            start0,
+            step0,
+            pos1.get() as AfArray,
+            interp_dim1,
+            start1,
+            step1,
+            method as c_int,
+            off_grid as c_float,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
 }
 
 /// Set fft plan cache size

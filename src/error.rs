@@ -60,7 +60,7 @@ lazy_static! {
 /// use arrayfire::{AfError, Callback, info, register_error_handler};
 /// use std::error::Error;
 ///
-/// fn handleError(error_code: AfError) {
+/// fn handle_error(error_code: AfError) {
 ///     match error_code {
 ///         AfError::SUCCESS => {}, /* No-op */
 ///         _ => panic!("Error message: {}", error_code.description()),
@@ -71,7 +71,7 @@ lazy_static! {
 ///     //Registering the error handler should be the first call
 ///     //before any other functions are called if your version
 ///     //of error is to be used for subsequent function calls
-///     register_error_handler(Callback::new(handleError));
+///     register_error_handler(Callback::new(handle_error));
 ///
 ///     info();
 /// }

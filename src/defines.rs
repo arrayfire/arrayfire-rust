@@ -136,6 +136,8 @@ pub enum DType {
     S16 = 10,
     /// 16 bit unsigned integer
     U16 = 11,
+    /// 16 bit floating point
+    F16 = 12,
 }
 
 /// Dictates the interpolation method to be used by a function
@@ -172,6 +174,12 @@ pub enum BorderType {
     ZERO = 0,
     /// Pad using mirrored values along border
     SYMMETRIC = 1,
+
+    /// Out of bound values are clamped to the edge
+    CLAMP_TO_EDGE,
+
+    /// Out of bound values are mapped to range of the dimension in cyclic fashion
+    PERIODIC,
 }
 
 /// Used by `regions` function to identify type of connectivity
@@ -494,5 +502,63 @@ pub enum TopkFn {
     /// Top k max values
     MAX = 2,
     /// Default option(max)
+    DEFAULT = 0,
+}
+
+/// Iterative Deconvolution Algorithm
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum IterativeDeconvAlgo {
+    /// Land-Weber Algorithm
+    LANDWEBER = 1,
+    /// Richardson-Lucy Algorithm
+    RICHARDSONLUCY = 2,
+    /// Default is Land-Weber algorithm
+    DEFAULT = 0,
+}
+
+/// Inverse Deconvolution Algorithm
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum InverseDeconvAlgo {
+    /// Tikhonov algorithm
+    TIKHONOV = 1,
+    /// Default is Tikhonov algorithm
+    DEFAULT = 0,
+}
+
+/// Gradient mode for convolution
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum ConvGradientType {
+    /// Filter Gradient
+    FILTER = 1,
+    /// Data Gradient
+    DATA = 2,
+    /// Biased Gradient
+    BIAS = 3,
+    /// Default is Data Gradient
+    DEFAULT = 0,
+}
+
+/// Gradient mode for convolution
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum VarianceBias {
+    /// Sample variance
+    SAMPLE = 1,
+    /// Population variance
+    POPULATION = 2,
+    /// Default (Population) variance
+    DEFAULT = 0,
+}
+
+/// Gradient mode for convolution
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum CublasMathMode {
+    /// To indicate use of Tensor Cores on CUDA capable GPUs
+    TENSOR_OP = 1,
+    /// Default i.e. tensor core operations will be avoided by the library
     DEFAULT = 0,
 }

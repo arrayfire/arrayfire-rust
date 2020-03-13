@@ -27,6 +27,7 @@ indexing = []
 graphics = []
 image = []
 lapack = []
+machine_learning = []
 macros = []
 random = []
 signal = []
@@ -34,15 +35,17 @@ sparse = []
 statistics = []
 vision = []
 default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
-"macros", "random", "signal", "sparse", "statistics", "vision"]
+"machine_learning", "macros", "random", "signal", "sparse", "statistics", "vision"]
 
 [dependencies]
 libc = "0.2"
 num  = "0.2"
 lazy_static = "1.0"
+half = "1.5.0"
 
 [dev-dependencies]
 float-cmp = "0.6.0"
+half = "1.5.0"
 
 [build-dependencies]
 serde_json = "1.0"
@@ -85,3 +88,7 @@ path = "examples/conway.rs"
 [[example]]
 name = "fft"
 path = "examples/fft.rs"
+
+[[example]]
+name = "using_half"
+path = "examples/using_half.rs"
