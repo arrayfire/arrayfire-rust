@@ -1,8 +1,17 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/image/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/image/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1744,6 +1753,218 @@
 <span id="1740">1740</span>
 <span id="1741">1741</span>
 <span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
+<span id="1824">1824</span>
+<span id="1825">1825</span>
+<span id="1826">1826</span>
+<span id="1827">1827</span>
+<span id="1828">1828</span>
+<span id="1829">1829</span>
+<span id="1830">1830</span>
+<span id="1831">1831</span>
+<span id="1832">1832</span>
+<span id="1833">1833</span>
+<span id="1834">1834</span>
+<span id="1835">1835</span>
+<span id="1836">1836</span>
+<span id="1837">1837</span>
+<span id="1838">1838</span>
+<span id="1839">1839</span>
+<span id="1840">1840</span>
+<span id="1841">1841</span>
+<span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
+<span id="1940">1940</span>
+<span id="1941">1941</span>
+<span id="1942">1942</span>
+<span id="1943">1943</span>
+<span id="1944">1944</span>
+<span id="1945">1945</span>
+<span id="1946">1946</span>
+<span id="1947">1947</span>
+<span id="1948">1948</span>
+<span id="1949">1949</span>
+<span id="1950">1950</span>
+<span id="1951">1951</span>
+<span id="1952">1952</span>
+<span id="1953">1953</span>
+<span id="1954">1954</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
@@ -1751,8 +1972,10 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">BorderType</span>, <span class="ident">CannyThresholdType</span>, <span class="ident">ColorSpace</span>, <span class="ident">Connectivity</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">DiffusionEq</span>, <span class="ident">FluxFn</span>, <span class="ident">InterpType</span>, <span class="ident">MomentType</span>, <span class="ident">YCCStd</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">InverseDeconvAlgo</span>, <span class="ident">IterativeDeconvAlgo</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">DimT</span>, <span class="ident">MutAfArray</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">ConfidenceCCInput</span>, <span class="ident">DeconvInput</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">EdgeComputable</span>, <span class="ident">GrayRGBConvertible</span>, <span class="ident">MomentsComputable</span>, <span class="ident">RealFloating</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">FloatingPoint</span>, <span class="ident">HasAfEnum</span>, <span class="ident">ImageFilterType</span>, <span class="ident">ImageNativeType</span>, <span class="ident">RealNumber</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
@@ -1937,6 +2160,31 @@
         <span class="ident">iters</span>: <span class="ident">c_uint</span>,
         <span class="ident">fftype</span>: <span class="ident">c_int</span>,
         <span class="ident">diff_kind</span>: <span class="ident">c_int</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_confidence_cc</span>(
+        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">seedx</span>: <span class="ident">AfArray</span>,
+        <span class="ident">seedy</span>: <span class="ident">AfArray</span>,
+        <span class="ident">radius</span>: <span class="ident">c_uint</span>,
+        <span class="ident">multiplier</span>: <span class="ident">c_uint</span>,
+        <span class="ident">iterations</span>: <span class="ident">c_int</span>,
+        <span class="ident">seg_val</span>: <span class="ident">c_double</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_iterative_deconv</span>(
+        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">ker</span>: <span class="ident">AfArray</span>,
+        <span class="ident">iterations</span>: <span class="ident">c_uint</span>,
+        <span class="ident">rfactor</span>: <span class="ident">c_float</span>,
+        <span class="ident">algo</span>: <span class="ident">c_int</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_inverse_deconv</span>(
+        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">ker</span>: <span class="ident">AfArray</span>,
+        <span class="ident">gamma</span>: <span class="ident">c_float</span>,
+        <span class="ident">algo</span>: <span class="ident">c_int</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 }
 
@@ -3482,6 +3730,191 @@
             <span class="ident">iters</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
             <span class="ident">fftype</span> <span class="kw">as</span> <span class="ident">c_int</span>,
             <span class="ident">diff_kind</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+        );
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+    }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
+}
+
+<span class="doccomment">/// Segment image based on similar pixel characteristics</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This filter is similar to [regions](./fn.regions.html) with additional criteria for</span>
+<span class="doccomment">/// segmentation. In regions, all connected pixels are considered to be a single component.</span>
+<span class="doccomment">/// In this variation of connected components, pixels having similar pixel statistics of the</span>
+<span class="doccomment">/// neighborhoods around a given set of seed points are grouped together.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The parameter `radius` determines the size of neighborhood around a seed point.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Mean and Variance are the pixel statistics that are computed across all neighborhoods around</span>
+<span class="doccomment">/// the given set of seed points. The pixels which are connected to seed points and lie in the</span>
+<span class="doccomment">/// confidence interval are grouped together. Given below is the confidence interval.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// \begin{equation}</span>
+<span class="doccomment">///     [\mu - \alpha * \sigma, \mu + \alpha * \sigma]</span>
+<span class="doccomment">/// \end{equation}</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - $ \mu $ is the mean of the pixels in the seed neighborhood</span>
+<span class="doccomment">/// - $ \sigma^2 $ is the variance of the pixels in the seed neighborhood</span>
+<span class="doccomment">/// - $ \alpha $ is the multiplier used to control the width of the confidence interval.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This filter follows an iterative approach for fine tuning the segmentation. An initial</span>
+<span class="doccomment">/// segmenetation followed by a finite number `iterations` of segmentations are performed.</span>
+<span class="doccomment">/// The user provided parameter `iterations` is only a request and the algorithm can prempt</span>
+<span class="doccomment">/// the execution if variance approaches zero. The initial segmentation uses the mean and</span>
+<span class="doccomment">/// variance calculated from the neighborhoods of all the seed points. For subsequent</span>
+<span class="doccomment">/// segmentations, all pixels in the previous segmentation are used to re-calculate the mean</span>
+<span class="doccomment">/// and variance (as opposed to using the pixels in the neighborhood of the seed point).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Parameters</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `input` is the input image</span>
+<span class="doccomment">/// - `seedx` contains the x coordinates of seeds in image coordinates</span>
+<span class="doccomment">/// - `seedy` contains the y coordinates of seeds in image coordinates</span>
+<span class="doccomment">/// - `radius` is the neighborhood region to be considered around each seed point</span>
+<span class="doccomment">/// - `multiplier` controls the threshold range computed from the mean and variance of seed point neighborhoods</span>
+<span class="doccomment">/// - `iterations` is the number of times the segmentation in performed</span>
+<span class="doccomment">/// - `segmented_value` is the value to which output array valid pixels are set to</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Return Values</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Segmented(based on pixel characteristics) image(Array) with regions surrounding the seed points</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">confidence_cc</span><span class="op">&lt;</span><span class="ident">InOutType</span><span class="op">&gt;</span>(
+    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">InOutType</span><span class="op">&gt;</span>,
+    <span class="ident">seedx</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="ident">seedy</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="ident">radius</span>: <span class="ident">u32</span>,
+    <span class="ident">multiplier</span>: <span class="ident">u32</span>,
+    <span class="ident">iterations</span>: <span class="ident">u32</span>,
+    <span class="ident">segmented_val</span>: <span class="ident">f64</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">InOutType</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">InOutType</span>: <span class="ident">ConfidenceCCInput</span>,
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_confidence_cc</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">seedx</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">seedy</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">radius</span>,
+            <span class="ident">multiplier</span>,
+            <span class="ident">iterations</span> <span class="kw">as</span> <span class="ident">i32</span>,
+            <span class="ident">segmented_val</span>,
+        );
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+    }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
+}
+
+<span class="doccomment">/// Iterative Deconvolution</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The following table shows the iteration update equations of the respective</span>
+<span class="doccomment">/// deconvolution algorithms.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// &lt;table&gt;</span>
+<span class="doccomment">/// &lt;tr&gt;&lt;th&gt;Algorithm&lt;/th&gt;&lt;th&gt;Update Equation&lt;/th&gt;&lt;/tr&gt;</span>
+<span class="doccomment">/// &lt;tr&gt;</span>
+<span class="doccomment">///     &lt;td&gt;LandWeber&lt;/td&gt;</span>
+<span class="doccomment">///     &lt;td&gt;</span>
+<span class="doccomment">///         $ \hat{I}_{n} = \hat{I}_{n-1} + \alpha * P^T \otimes (I - P \otimes \hat{I}_{n-1}) $</span>
+<span class="doccomment">///     &lt;/td&gt;</span>
+<span class="doccomment">/// &lt;/tr&gt;</span>
+<span class="doccomment">/// &lt;tr&gt;</span>
+<span class="doccomment">///   &lt;td&gt;Richardson-Lucy&lt;/td&gt;</span>
+<span class="doccomment">///   &lt;td&gt;</span>
+<span class="doccomment">///     $ \hat{I}_{n} = \hat{I}_{n-1} . ( \frac{I}{\hat{I}_{n-1} \otimes P} \otimes P^T ) $</span>
+<span class="doccomment">///   &lt;/td&gt;</span>
+<span class="doccomment">/// &lt;/tr&gt;</span>
+<span class="doccomment">/// &lt;/table&gt;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - $ I $ is the observed(input/blurred) image</span>
+<span class="doccomment">/// - $ P $ is the point spread function</span>
+<span class="doccomment">/// - $ P^T $ is the transpose of point spread function</span>
+<span class="doccomment">/// - $ \hat{I}_{n} $ is the current iteration&#39;s updated image estimate</span>
+<span class="doccomment">/// - $ \hat{I}_{n-1} $ is the previous iteration&#39;s image estimate</span>
+<span class="doccomment">/// - $ \alpha $ is the relaxation factor</span>
+<span class="doccomment">/// - $ \otimes $ indicates the convolution operator</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The type of output Array from deconvolution will be of type f64 if</span>
+<span class="doccomment">/// the input array type is f64. For other types, output type will be f32 type.</span>
+<span class="doccomment">/// Should the caller want to save the image to disk or require the values of output</span>
+<span class="doccomment">/// to be in a fixed range, that should be done by the caller explicitly.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iterative_deconv</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">kernel</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
+    <span class="ident">iterations</span>: <span class="ident">u32</span>,
+    <span class="ident">relaxation_factor</span>: <span class="ident">f32</span>,
+    <span class="ident">algo</span>: <span class="ident">IterativeDeconvAlgo</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">AbsOutType</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">DeconvInput</span>,
+    <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_iterative_deconv</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">kernel</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">iterations</span>,
+            <span class="ident">relaxation_factor</span>,
+            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+        );
+        <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+    }
+    <span class="ident">temp</span>.<span class="ident">into</span>()
+}
+
+<span class="doccomment">/// Inverse deconvolution</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is a linear algorithm i.e. they are non-iterative in</span>
+<span class="doccomment">/// nature and usually faster than iterative deconvolution algorithms.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Depending on the values passed on to `algo` of type enum [InverseDeconvAlgo](./enum.inverse_deconv_algo.html),</span>
+<span class="doccomment">/// different equations are used to compute the final result.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// #### Tikhonov&#39;s Deconvolution Method:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The update equation for this algorithm is as follows:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// &lt;div&gt;</span>
+<span class="doccomment">/// \begin{equation}</span>
+<span class="doccomment">/// \hat{I}_{\omega} = \frac{ I_{\omega} * P^{*}_{\omega} } { |P_{\omega}|^2 + \gamma }</span>
+<span class="doccomment">/// \end{equation}</span>
+<span class="doccomment">/// &lt;/div&gt;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - $ I_{\omega} $ is the observed(input/blurred) image in frequency domain</span>
+<span class="doccomment">/// - $ P_{\omega} $ is the point spread function in frequency domain</span>
+<span class="doccomment">/// - $ \gamma $ is a user defined regularization constant</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The type of output Array from deconvolution will be double if the input array type is double.</span>
+<span class="doccomment">/// Otherwise, it will be float in rest of the cases. Should the caller want to save the image to</span>
+<span class="doccomment">/// disk or require the values of output to be in a fixed range, that should be done by the caller</span>
+<span class="doccomment">/// explicitly.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inverse_deconv</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">kernel</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
+    <span class="ident">gamma</span>: <span class="ident">f32</span>,
+    <span class="ident">algo</span>: <span class="ident">InverseDeconvAlgo</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">AbsOutType</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">DeconvInput</span>,
+    <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
+{
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_inverse_deconv</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">kernel</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">gamma</span>,
+            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_int</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }

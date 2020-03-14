@@ -1,8 +1,17 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/defines.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>defines.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/javascript" async
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/defines.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>defines.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -500,6 +509,72 @@
 <span id="496">496</span>
 <span id="497">497</span>
 <span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
 
@@ -639,6 +714,8 @@
     <span class="ident">S16</span> <span class="op">=</span> <span class="number">10</span>,
     <span class="doccomment">/// 16 bit unsigned integer</span>
     <span class="ident">U16</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="doccomment">/// 16 bit floating point</span>
+    <span class="ident">F16</span> <span class="op">=</span> <span class="number">12</span>,
 }
 
 <span class="doccomment">/// Dictates the interpolation method to be used by a function</span>
@@ -675,6 +752,12 @@
     <span class="ident">ZERO</span> <span class="op">=</span> <span class="number">0</span>,
     <span class="doccomment">/// Pad using mirrored values along border</span>
     <span class="ident">SYMMETRIC</span> <span class="op">=</span> <span class="number">1</span>,
+
+    <span class="doccomment">/// Out of bound values are clamped to the edge</span>
+    <span class="ident">CLAMP_TO_EDGE</span>,
+
+    <span class="doccomment">/// Out of bound values are mapped to range of the dimension in cyclic fashion</span>
+    <span class="ident">PERIODIC</span>,
 }
 
 <span class="doccomment">/// Used by `regions` function to identify type of connectivity</span>
@@ -997,6 +1080,64 @@
     <span class="doccomment">/// Top k max values</span>
     <span class="ident">MAX</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="doccomment">/// Default option(max)</span>
+    <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
+}
+
+<span class="doccomment">/// Iterative Deconvolution Algorithm</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IterativeDeconvAlgo</span> {
+    <span class="doccomment">/// Land-Weber Algorithm</span>
+    <span class="ident">LANDWEBER</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Richardson-Lucy Algorithm</span>
+    <span class="ident">RICHARDSONLUCY</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Default is Land-Weber algorithm</span>
+    <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
+}
+
+<span class="doccomment">/// Inverse Deconvolution Algorithm</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InverseDeconvAlgo</span> {
+    <span class="doccomment">/// Tikhonov algorithm</span>
+    <span class="ident">TIKHONOV</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Default is Tikhonov algorithm</span>
+    <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
+}
+
+<span class="doccomment">/// Gradient mode for convolution</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConvGradientType</span> {
+    <span class="doccomment">/// Filter Gradient</span>
+    <span class="ident">FILTER</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Data Gradient</span>
+    <span class="ident">DATA</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Biased Gradient</span>
+    <span class="ident">BIAS</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Default is Data Gradient</span>
+    <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
+}
+
+<span class="doccomment">/// Gradient mode for convolution</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VarianceBias</span> {
+    <span class="doccomment">/// Sample variance</span>
+    <span class="ident">SAMPLE</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Population variance</span>
+    <span class="ident">POPULATION</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Default (Population) variance</span>
+    <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
+}
+
+<span class="doccomment">/// Gradient mode for convolution</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CublasMathMode</span> {
+    <span class="doccomment">/// To indicate use of Tensor Cores on CUDA capable GPUs</span>
+    <span class="ident">TENSOR_OP</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Default i.e. tensor core operations will be avoided by the library</span>
     <span class="ident">DEFAULT</span> <span class="op">=</span> <span class="number">0</span>,
 }
 </pre></div>

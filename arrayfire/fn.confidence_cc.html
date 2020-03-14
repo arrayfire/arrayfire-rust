@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `confidence_cc` fn in crate `arrayfire`."><meta name="keywords" content="rust, rustlang, rust-lang, confidence_cc"><title>arrayfire::confidence_cc - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc fn"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>arrayfire</a></p><script>window.sidebarCurrent = {name: 'confidence_cc', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/image/mod.rs.html#1814-1841' title='goto source code'>[src]</a></span><span class='in-band'>Function <a href='index.html'>arrayfire</a>::<wbr><a class="fn" href=''>confidence_cc</a></span></h1><pre class='rust fn'>pub fn confidence_cc&lt;InOutType&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;input: &amp;<a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;InOutType&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;seedx: &amp;<a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;seedy: &amp;<a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;radius: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;multiplier: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;iterations: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;segmented_val: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><br>) -&gt; <a class="struct" href="../arrayfire/struct.Array.html" title="struct arrayfire::Array">Array</a>&lt;InOutType&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;InOutType: <a class="trait" href="../arrayfire/trait.ConfidenceCCInput.html" title="trait arrayfire::ConfidenceCCInput">ConfidenceCCInput</a>,&nbsp;</span></pre><div class='docblock'><p>Segment image based on similar pixel characteristics</p>
+<p>This filter is similar to <a href="./fn.regions.html">regions</a> with additional criteria for
+segmentation. In regions, all connected pixels are considered to be a single component.
+In this variation of connected components, pixels having similar pixel statistics of the
+neighborhoods around a given set of seed points are grouped together.</p>
+<p>The parameter <code>radius</code> determines the size of neighborhood around a seed point.</p>
+<p>Mean and Variance are the pixel statistics that are computed across all neighborhoods around
+the given set of seed points. The pixels which are connected to seed points and lie in the
+confidence interval are grouped together. Given below is the confidence interval.</p>
+<p>\begin{equation}
+[\mu - \alpha * \sigma, \mu + \alpha * \sigma]
+\end{equation}
+where</p>
+<ul>
+<li>$ \mu $ is the mean of the pixels in the seed neighborhood</li>
+<li>$ \sigma^2 $ is the variance of the pixels in the seed neighborhood</li>
+<li>$ \alpha $ is the multiplier used to control the width of the confidence interval.</li>
+</ul>
+<p>This filter follows an iterative approach for fine tuning the segmentation. An initial
+segmenetation followed by a finite number <code>iterations</code> of segmentations are performed.
+The user provided parameter <code>iterations</code> is only a request and the algorithm can prempt
+the execution if variance approaches zero. The initial segmentation uses the mean and
+variance calculated from the neighborhoods of all the seed points. For subsequent
+segmentations, all pixels in the previous segmentation are used to re-calculate the mean
+and variance (as opposed to using the pixels in the neighborhood of the seed point).</p>
+<h1 id="parameters" class="section-header"><a href="#parameters">Parameters</a></h1>
+<ul>
+<li><code>input</code> is the input image</li>
+<li><code>seedx</code> contains the x coordinates of seeds in image coordinates</li>
+<li><code>seedy</code> contains the y coordinates of seeds in image coordinates</li>
+<li><code>radius</code> is the neighborhood region to be considered around each seed point</li>
+<li><code>multiplier</code> controls the threshold range computed from the mean and variance of seed point neighborhoods</li>
+<li><code>iterations</code> is the number of times the segmentation in performed</li>
+<li><code>segmented_value</code> is the value to which output array valid pixels are set to</li>
+</ul>
+<h1 id="return-values" class="section-header"><a href="#return-values">Return Values</a></h1>
+<p>Segmented(based on pixel characteristics) image(Array) with regions surrounding the seed points</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "arrayfire";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
