@@ -43,7 +43,7 @@ requirements are to be met first.
     - On Linux: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib64`
     - On OSX: do `export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$AF_PATH/lib64`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.6"` to the dependencies section of your project's
+4. Add `arrayfire = "3.7"` to the dependencies section of your project's
    Cargo.toml file. Make sure to change the version to latest available.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust
