@@ -529,6 +529,16 @@ where
 ///# Return Values
 ///
 /// Array with data reordered as per the new axes order
+///
+///# Examples
+///
+/// ```rust
+/// use arrayfire::{Array, Dim4, print, randu, reorder_v2};
+/// let a  = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+/// let b  = reorder_v2(&a, 1, 0, None);
+/// print(&a);
+/// print(&b);
+/// ```
 pub fn reorder_v2<T>(
     input: &Array<T>,
     new_axis0: u64,
@@ -538,16 +548,25 @@ pub fn reorder_v2<T>(
 where
     T: HasAfEnum,
 {
-    let mut new_axes = vec![new_axis0, new_axis1];
+    let mut new_axes = vec![0, 1, 2, 3];
+    new_axes[0] = new_axis0;
+    new_axes[1] = new_axis1;
     match next_axes {
-        Some(v) => {
-            for axis in v {
-                new_axes.push(axis);
+        Some(left_over_new_axes) => {
+            // At the moment of writing this comment, ArrayFire could
+            // handle only a maximum of 4 dimensions. Hence, excluding
+            // the two explicit axes arguments to this function, a maximum
+            // of only two more axes can be provided. Hence the below condition.
+            assert!(left_over_new_axes.len() <= 2);
+
+            for a_idx in 0..left_over_new_axes.len() {
+                new_axes[2 + a_idx] = left_over_new_axes[a_idx];
             }
         }
         None => {
-            new_axes.push(2);
-            new_axes.push(3);
+            for a_idx in 2..4 {
+                new_axes[a_idx] = a_idx as u64;
+            }
         }
     };
 
