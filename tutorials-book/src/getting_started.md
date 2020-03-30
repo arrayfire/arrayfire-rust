@@ -25,6 +25,7 @@ can represent one of many different [basic data types](../enum.DType.html):
 * [U64](../enum.DType.html) 64-bit unsigned integer (`uintl`)
 * [S16](../enum.DType.html) 16-bit signed integer (`short`)
 * [U16](../enum.DType.html) 16-bit unsigned integer (`unsigned short`)
+* [F16](../enum.DType.html) 16-bit floating point number ([`half::f16`](https://crates.io/crates/half))
 
 Most of these data types are supported on all modern GPUs; however, some
 older devices may lack support for double precision arrays. In this case,
