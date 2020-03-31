@@ -513,11 +513,14 @@ where
     temp.into()
 }
 
-/// Reorder the array in specified order
+/// Reorder the array according to the new specified axes
 ///
-/// The default order of axes in ArrayFire is axis with smallest distance
-/// between adjacent elements towards an axis with highest distance between
-/// adjacent elements.
+/// Exchanges data within an array such that the requested change in axes is
+/// satisfied. The linear ordering of data within the array is preserved.
+///
+/// The default order of axes in ArrayFire is [0 1 2 3] i.e. axis with smallest
+/// distance between adjacent elements followed by next smallest distance axis and
+/// so on. See [examples](#examples) to have a basic idea of how data is re-ordered.
 ///
 ///# Parameters
 ///
@@ -537,7 +540,29 @@ where
 /// let a  = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
 /// let b  = reorder_v2(&a, 1, 0, None);
 /// print(&a);
+///
+/// // [5 3 1 1]
+/// //  0.8104     0.2990     0.3014
+/// //  0.6913     0.2802     0.6938
+/// //  0.7821     0.1480     0.3513
+/// //  0.3054     0.1330     0.7176
+/// //  0.1673     0.4696     0.1181
+///
 /// print(&b);
+/// // [3 5 1 1]
+/// //     0.8104     0.6913     0.7821     0.3054     0.1673
+/// //     0.2990     0.2802     0.1480     0.1330     0.4696
+/// //     0.3014     0.6938     0.3513     0.7176     0.1181
+///
+/// let c  = reorder_v2(&a, 2, 0, Some(vec![1]));
+/// print(&c);
+///
+/// // [1 5 3 1]
+/// //  0.8104     0.6913     0.7821     0.3054     0.1673
+/// //
+/// //  0.2990     0.2802     0.1480     0.1330     0.4696
+/// //
+/// //  0.3014     0.6938     0.3513     0.7176     0.1181
 /// ```
 pub fn reorder_v2<T>(
     input: &Array<T>,
