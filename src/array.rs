@@ -379,6 +379,7 @@ where
     /// 
     /// Basic case:
     /// ```
+    /// # use arrayfire::{Array,Dim4,HasAfEnum};
     /// let a:Vec<u8> = vec![0,1,2,3,4,5,6,7,8]; 
     /// let b = Array::<u8>::new(&a,Dim4::new(&[3,3,1,1]));
     /// let mut c = vec!(u8::default();b.elements());
@@ -387,6 +388,7 @@ where
     /// ```
     /// Generic case:
     /// ```
+    /// # use arrayfire::{Array,Dim4,HasAfEnum};
     /// fn to_vec<T:HasAfEnum+Default+Clone>(array:&Array<T>) -> Vec<T> {
     ///     let mut vec = vec!(T::default();array.elements());
     ///     array.host(&mut vec);
