@@ -376,13 +376,13 @@ where
     }
 
     /// Copies the data from the Array to the mutable slice `data`
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// Basic case
     /// ```
     /// # use arrayfire::{Array,Dim4,HasAfEnum};
-    /// let a:Vec<u8> = vec![0,1,2,3,4,5,6,7,8]; 
+    /// let a:Vec<u8> = vec![0,1,2,3,4,5,6,7,8];
     /// let b = Array::<u8>::new(&a,Dim4::new(&[3,3,1,1]));
     /// let mut c = vec!(u8::default();b.elements());
     /// b.host(&mut c);
@@ -396,7 +396,7 @@ where
     ///     array.host(&mut vec);
     ///     return vec;
     /// }
-    /// 
+    ///
     /// let a = Array::<u8>::new(&[0,1,2,3,4,5,6,7,8],Dim4::new(&[3,3,1,1]));
     /// let b:Vec<u8> = vec![0,1,2,3,4,5,6,7,8];
     /// assert_eq!(to_vec(&a),b);
