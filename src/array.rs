@@ -376,6 +376,27 @@ where
     }
 
     /// Copies the data from the Array to the mutable slice `data`
+    /// 
+    /// Basic case:
+    /// ```
+    /// let a:Vec<u8> = vec![0,1,2,3,4,5,6,7,8]; 
+    /// let b = Array::<u8>::new(&a,Dim4::new(&[3,3,1,1]));
+    /// let mut c = vec!(u8::default();b.elements());
+    /// b.host(&mut c);
+    /// assert_eq!(c,a);
+    /// ```
+    /// Generic case:
+    /// ```
+    /// fn to_vec<T:HasAfEnum+Default+Clone>(array:&Array<T>) -> Vec<T> {
+    ///     let mut vec = vec!(T::default();array.elements());
+    ///     array.host(&mut vec);
+    ///     return vec;
+    /// }
+    /// 
+    /// let a = Array::<u8>::new(&[0,1,2,3,4,5,6,7,8],Dim4::new(&[3,3,1,1]));
+    /// let b:Vec<u8> = vec![0,1,2,3,4,5,6,7,8];
+    /// assert_eq!(to_vec(&a),b);
+    /// ```
     pub fn host<O: HasAfEnum>(&self, data: &mut [O]) {
         if data.len() != self.elements() {
             HANDLE_ERROR(AfError::ERR_SIZE);
