@@ -377,7 +377,9 @@ where
 
     /// Copies the data from the Array to the mutable slice `data`
     /// 
-    /// Basic case:
+    /// # Examples
+    /// 
+    /// Basic case
     /// ```
     /// # use arrayfire::{Array,Dim4,HasAfEnum};
     /// let a:Vec<u8> = vec![0,1,2,3,4,5,6,7,8]; 
@@ -386,7 +388,7 @@ where
     /// b.host(&mut c);
     /// assert_eq!(c,a);
     /// ```
-    /// Generic case:
+    /// Generic case
     /// ```
     /// # use arrayfire::{Array,Dim4,HasAfEnum};
     /// fn to_vec<T:HasAfEnum+Default+Clone>(array:&Array<T>) -> Vec<T> {
