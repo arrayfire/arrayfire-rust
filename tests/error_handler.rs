@@ -8,7 +8,7 @@ macro_rules! implement_handler {
         pub fn $fn_name(error_code: AfError) {
             match error_code {
                 AfError::SUCCESS => {} /* No-op */
-                _ => panic!("Error message: {}", error_code.description()),
+                _ => panic!("Error message: {}", error_code),
             }
         }
     };
