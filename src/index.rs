@@ -9,6 +9,7 @@ use crate::util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
 
 use std::default::Default;
 use std::marker::PhantomData;
+use std::mem;
 
 #[allow(dead_code)]
 extern "C" {
@@ -276,7 +277,6 @@ where
 /// print(&a);
 /// print(&row(&a, 4));
 /// ```
-#[allow(dead_code)]
 pub fn row<T>(input: &Array<T>, row_num: u64) -> Array<T>
 where
     T: HasAfEnum,
@@ -290,9 +290,8 @@ where
     )
 }
 
-#[allow(dead_code)]
-/// Set `row_num`^th row in `input` Array to a new Array `new_row`
-pub fn set_row<T>(input: &Array<T>, new_row: &Array<T>, row_num: u64) -> Array<T>
+/// Set `row_num`^th row in `inout` Array to a new Array `new_row`
+pub fn set_row<T>(inout: &mut Array<T>, new_row: &Array<T>, row_num: u64)
 where
     T: HasAfEnum,
 {
@@ -300,10 +299,9 @@ where
         Seq::new(row_num as f64, row_num as f64, 1.0),
         Seq::default(),
     ];
-    assign_seq(input, &seqs, new_row)
+    assign_seq(inout, &seqs, new_row)
 }
 
-#[allow(dead_code)]
 /// Get an Array with all rows from `first` to `last` in the `input` Array
 pub fn rows<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
 where
@@ -315,14 +313,13 @@ where
     )
 }
 
-#[allow(dead_code)]
-/// Set rows from `first` to `last` in `input` Array with rows from Array `new_rows`
-pub fn set_rows<T>(input: &Array<T>, new_rows: &Array<T>, first: u64, last: u64) -> Array<T>
+/// Set rows from `first` to `last` in `inout` Array with rows from Array `new_rows`
+pub fn set_rows<T>(inout: &mut Array<T>, new_rows: &Array<T>, first: u64, last: u64)
 where
     T: HasAfEnum,
 {
     let seqs = [Seq::new(first as f64, last as f64, 1.0), Seq::default()];
-    assign_seq(input, &seqs, new_rows)
+    assign_seq(inout, &seqs, new_rows)
 }
 
 /// Extract `col_num` col from `input` Array
@@ -337,7 +334,6 @@ where
 /// println!("Grab last col of the random matrix");
 /// print(&col(&a, 4));
 /// ```
-#[allow(dead_code)]
 pub fn col<T>(input: &Array<T>, col_num: u64) -> Array<T>
 where
     T: HasAfEnum,
@@ -351,9 +347,8 @@ where
     )
 }
 
-#[allow(dead_code)]
-/// Set `col_num`^th col in `input` Array to a new Array `new_col`
-pub fn set_col<T>(input: &Array<T>, new_col: &Array<T>, col_num: u64) -> Array<T>
+/// Set `col_num`^th col in `inout` Array to a new Array `new_col`
+pub fn set_col<T>(inout: &mut Array<T>, new_col: &Array<T>, col_num: u64)
 where
     T: HasAfEnum,
 {
@@ -361,10 +356,9 @@ where
         Seq::default(),
         Seq::new(col_num as f64, col_num as f64, 1.0),
     ];
-    assign_seq(input, &seqs, new_col)
+    assign_seq(inout, &seqs, new_col)
 }
 
-#[allow(dead_code)]
 /// Get all cols from `first` to `last` in the `input` Array
 pub fn cols<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
 where
@@ -376,20 +370,18 @@ where
     )
 }
 
-#[allow(dead_code)]
-/// Set cols from `first` to `last` in `input` Array with cols from Array `new_cols`
-pub fn set_cols<T>(input: &Array<T>, new_cols: &Array<T>, first: u64, last: u64) -> Array<T>
+/// Set cols from `first` to `last` in `inout` Array with cols from Array `new_cols`
+pub fn set_cols<T>(inout: &mut Array<T>, new_cols: &Array<T>, first: u64, last: u64)
 where
     T: HasAfEnum,
 {
     let seqs = [Seq::default(), Seq::new(first as f64, last as f64, 1.0)];
-    assign_seq(input, &seqs, new_cols)
+    assign_seq(inout, &seqs, new_cols)
 }
 
-#[allow(dead_code)]
 /// Get `slice_num`^th slice from `input` Array
 ///
-/// Note. Slices indicate that the indexing is along 3rd dimension
+/// Slices indicate that the indexing is along 3rd dimension
 pub fn slice<T>(input: &Array<T>, slice_num: u64) -> Array<T>
 where
     T: HasAfEnum,
@@ -402,11 +394,10 @@ where
     index(input, &seqs)
 }
 
-#[allow(dead_code)]
-/// Set slice `slice_num` in `input` Array to a new Array `new_slice`
+/// Set slice `slice_num` in `inout` Array to a new Array `new_slice`
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn set_slice<T>(input: &Array<T>, new_slice: &Array<T>, slice_num: u64) -> Array<T>
+pub fn set_slice<T>(inout: &mut Array<T>, new_slice: &Array<T>, slice_num: u64)
 where
     T: HasAfEnum,
 {
@@ -415,10 +406,9 @@ where
         Seq::default(),
         Seq::new(slice_num as f64, slice_num as f64, 1.0),
     ];
-    assign_seq(input, &seqs, new_slice)
+    assign_seq(inout, &seqs, new_slice)
 }
 
-#[allow(dead_code)]
 /// Get slices from `first` to `last` in `input` Array
 ///
 /// Slices indicate that the indexing is along 3rd dimension
@@ -434,11 +424,10 @@ where
     index(input, &seqs)
 }
 
-#[allow(dead_code)]
-/// Set `first` to `last` slices of `input` Array to a new Array `new_slices`
+/// Set `first` to `last` slices of `inout` Array to a new Array `new_slices`
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn set_slices<T>(input: &Array<T>, new_slices: &Array<T>, first: u64, last: u64) -> Array<T>
+pub fn set_slices<T>(inout: &mut Array<T>, new_slices: &Array<T>, first: u64, last: u64)
 where
     T: HasAfEnum,
 {
@@ -447,7 +436,7 @@ where
         Seq::default(),
         Seq::new(first as f64, last as f64, 1.0),
     ];
-    assign_seq(input, &seqs, new_slices)
+    assign_seq(inout, &seqs, new_slices)
 }
 
 /// Lookup(hash) an Array using another Array
@@ -480,10 +469,7 @@ where
 ///
 /// ```rust
 /// use arrayfire::{constant, Dim4, Seq, assign_seq, print};
-/// let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
-/// let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
-/// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
-/// let sub  = assign_seq(&a, seqs, &b);
+/// let mut a = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
 /// print(&a);
 /// // 2.0 2.0 2.0
 /// // 2.0 2.0 2.0
@@ -491,14 +477,18 @@ where
 /// // 2.0 2.0 2.0
 /// // 2.0 2.0 2.0
 ///
-/// print(&sub);
+/// let b    = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
+/// let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+/// assign_seq(&mut a, seqs, &b);
+///
+/// print(&a);
 /// // 2.0 2.0 2.0
 /// // 1.0 1.0 1.0
 /// // 1.0 1.0 1.0
 /// // 1.0 1.0 1.0
 /// // 2.0 2.0 2.0
 /// ```
-pub fn assign_seq<T: Copy, I>(lhs: &Array<I>, seqs: &[Seq<T>], rhs: &Array<I>) -> Array<I>
+pub fn assign_seq<T: Copy, I>(lhs: &mut Array<I>, seqs: &[Seq<T>], rhs: &Array<I>)
 where
     c_double: From<T>,
     I: HasAfEnum,
@@ -516,7 +506,8 @@ where
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    temp.into()
+    let modified = temp.into();
+    let _old_arr = mem::replace(lhs, modified);
 }
 
 /// Index an Array using any combination of Array's and Sequence's
@@ -574,7 +565,7 @@ where
 /// let values: [f32; 3] = [1.0, 2.0, 3.0];
 /// let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 /// let seq4gen = Seq::new(0.0, 2.0, 1.0);
-/// let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+/// let mut a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
 /// // [5 3 1 1]
 /// //     0.0000     0.2190     0.3835
 /// //     0.1315     0.0470     0.5194
@@ -588,8 +579,8 @@ where
 /// idxrs.set_index(&indices, 0, None); // 2nd parameter is indexing dimension
 /// idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd parameter indicates batch operation
 ///
-/// let sub2 = assign_gen(&a, &idxrs, &b);
-/// println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+/// assign_gen(&mut a, &idxrs, &b);
+/// println!("a(indices, seq(0, 2, 1))"); print(&a);
 /// // [5 3 1 1]
 /// //     0.0000     0.2190     0.3835
 /// //     2.0000     2.0000     2.0000
@@ -597,7 +588,7 @@ where
 /// //     2.0000     2.0000     2.0000
 /// //     0.5328     0.9347     0.0535
 /// ```
-pub fn assign_gen<T>(lhs: &Array<T>, indices: &Indexer, rhs: &Array<T>) -> Array<T>
+pub fn assign_gen<T>(lhs: &mut Array<T>, indices: &Indexer, rhs: &Array<T>)
 where
     T: HasAfEnum,
 {
@@ -612,7 +603,8 @@ where
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    temp.into()
+    let modified = temp.into();
+    let _old_arr = mem::replace(lhs, modified);
 }
 
 #[repr(C)]

@@ -831,7 +831,6 @@ mod op_assign {
     use crate::array::Array;
     use crate::index::{assign_gen, Indexer};
     use crate::seq::Seq;
-    use std::mem;
     use std::ops::{AddAssign, DivAssign, MulAssign, RemAssign, SubAssign};
     use std::ops::{BitAndAssign, BitOrAssign, BitXorAssign, ShlAssign, ShrAssign};
 
@@ -852,8 +851,7 @@ mod op_assign {
                         idxrs.set_index(&tmp_seq, n, Some(false));
                     }
                     let opres = $func(self as &Array<A>, &rhs, false).cast::<A>();
-                    let tmp = assign_gen(self as &Array<A>, &idxrs, &opres);
-                    let old = mem::replace(self, tmp);
+                    assign_gen(self, &idxrs, &opres);
                 }
             }
         };
@@ -884,8 +882,7 @@ mod op_assign {
                         idxrs.set_index(&tmp_seq, n, Some(false));
                     }
                     let opres = $func(self as &Array<A>, &rhs, false).cast::<A>();
-                    let tmp = assign_gen(self as &Array<A>, &idxrs, &opres);
-                    let old = mem::replace(self, tmp);
+                    assign_gen(self, &idxrs, &opres);
                 }
             }
         };
