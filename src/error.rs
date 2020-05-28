@@ -3,7 +3,6 @@ extern crate libc;
 use self::libc::c_char;
 use crate::defines::AfError;
 use crate::util::{free_host, DimT, MutDimT};
-use std::error::Error;
 use std::ffi::CStr;
 use std::ops::{Deref, DerefMut};
 use std::sync::RwLock;
@@ -39,7 +38,7 @@ pub fn handle_error_general(error_code: AfError) {
         AfError::SUCCESS => {} /* No-op */
         _ => panic!(
             "Error message: {}\nLast error: {}",
-            error_code.description(),
+            error_code,
             get_last_error()
         ),
     }
@@ -63,7 +62,7 @@ lazy_static! {
 /// fn handle_error(error_code: AfError) {
 ///     match error_code {
 ///         AfError::SUCCESS => {}, /* No-op */
-///         _ => panic!("Error message: {}", error_code.description()),
+///         _ => panic!("Error message: {}", error_code),
 ///     }
 /// }
 ///

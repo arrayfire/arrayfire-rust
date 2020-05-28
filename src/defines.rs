@@ -1,7 +1,6 @@
 extern crate num;
 
 use self::num::Complex;
-use std::error::Error;
 use std::fmt::Error as FmtError;
 use std::fmt::{Display, Formatter};
 
@@ -80,13 +79,7 @@ impl Display for Backend {
 
 impl Display for AfError {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
-        write!(f, "{}", self.description())
-    }
-}
-
-impl Error for AfError {
-    fn description(&self) -> &str {
-        match *self {
+        let text = match *self {
             AfError::SUCCESS => "Function returned successfully",
             AfError::ERR_NO_MEM => "System or Device ran out of memory",
             AfError::ERR_DRIVER => "Error in the device driver",
@@ -104,7 +97,8 @@ impl Error for AfError {
             AfError::ERR_NO_GFX => "This build of ArrayFire has no graphics support",
             AfError::ERR_INTERNAL => "Error either in ArrayFire or in a project upstream",
             AfError::ERR_UNKNOWN => "Unknown Error",
-        }
+        };
+        write!(f, "{}", text)
     }
 }
 
