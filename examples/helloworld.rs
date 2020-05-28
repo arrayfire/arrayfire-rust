@@ -22,7 +22,7 @@ fn main() {
 
     let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
 
-    let a = randu::<f32>(dims);
+    let mut a = randu::<f32>(dims);
     af_print!("Create a 5-by-3 float   matrix on the GPU", a);
 
     println!("Element-wise arithmetic");
@@ -67,8 +67,8 @@ fn main() {
     let r_dims = Dim4::new(&[3, 1, 1, 1]);
     let r_input: [f32; 3] = [1.0, 1.0, 1.0];
     let r = Array::new(&r_input, r_dims);
-    let ur = set_row(&a, &r, num_rows - 1);
-    af_print!("Set last row to 1's", ur);
+    set_row(&mut a, &r, num_rows - 1);
+    af_print!("Set last row to 1's", a);
 
     let d_dims = Dim4::new(&[2, 3, 1, 1]);
     let d_input: [i32; 6] = [1, 2, 3, 4, 5, 6];

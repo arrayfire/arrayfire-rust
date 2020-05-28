@@ -71,8 +71,8 @@ fn acoustic_wave_simulation() {
             // Location of the source.
             let seqs = &[Seq::new(700.0, 800.0, 1.0), Seq::new(800.0, 800.0, 1.0)];
             // Set the pressure there.
-            p = assign_seq(
-                &p,
+            assign_seq(
+                &mut p,
                 seqs,
                 &index(&pulse, &[Seq::new(it as f64, it as f64, 1.0)]),
             );
