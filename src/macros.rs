@@ -55,7 +55,7 @@
 macro_rules! mem_info {
     [$msg: expr] => {
         {
-            let (abytes, abuffs, lbytes, lbuffs) = device_mem_info();
+            let (abytes, abuffs, lbytes, lbuffs) = $crate::device_mem_info();
             println!("AF Memory: {:?}", $msg);
             println!("Allocated [Bytes | Buffers] = [ {} | {} ]", abytes, abuffs);
             println!("In Use    [Bytes | Buffers] = [ {} | {} ]", lbytes, lbuffs);
@@ -92,7 +92,7 @@ macro_rules! join_many {
             $(
                 temp_vec.push($x);
              )*
-            join_many($dim, temp_vec)
+            $crate::join_many($dim, temp_vec)
         }
     };
 }
@@ -112,7 +112,7 @@ macro_rules! join_many {
 macro_rules! af_print {
     [$msg: expr, $x: expr] => {
         {
-            print_gen(String::from($msg), &$x, Some(4));
+            $crate::print_gen(String::from($msg), &$x, Some(4));
         }
     };
 }
