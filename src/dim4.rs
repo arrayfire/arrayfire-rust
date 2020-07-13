@@ -1,5 +1,5 @@
 use std::fmt;
-use std::ops::Index;
+use std::ops::{Index, IndexMut};
 
 /// Dim4 is used to store [Array](./struct.Array.html) dimensions
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -32,6 +32,23 @@ impl Index<usize> for Dim4 {
 
     fn index(&self, _index: usize) -> &u64 {
         &self.dims[_index]
+    }
+}
+
+/// Enables index operation for Dim4 to modify dimensions
+///
+/// # Examples
+///
+/// ```rust
+/// use arrayfire::Dim4;
+///
+/// let mut dims = Dim4::new(&[4, 4, 2, 1]);
+/// dims[2] = 4;
+/// println!("Dimensions: {}", dims); // note that third dimension changed to 4
+/// ```
+impl IndexMut<usize> for Dim4 {
+    fn index_mut(&mut self, _index: usize) -> &mut Self::Output {
+        &mut self.dims[_index]
     }
 }
 
