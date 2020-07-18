@@ -130,3 +130,38 @@ macro_rules! eval {
         }
     };
 }
+
+/// Create a dim4 object from provided dimensions
+///
+/// The user can pass 1 or more sizes and the left over values will default to 1.
+#[macro_export]
+macro_rules! dim4 {
+    ($dim0:literal) => {
+        $crate::Dim4::new(&[$dim0, 1, 1, 1])
+    };
+    ($dim0:literal, $dim1:literal) => {
+        $crate::Dim4::new(&[$dim0, $dim1, 1, 1])
+    };
+    ($dim0:literal, $dim1:literal, $dim2:literal) => {
+        $crate::Dim4::new(&[$dim0, $dim1, $dim2, 1])
+    };
+    ($dim0:literal, $dim1:literal, $dim2:literal, $dim3:literal) => {
+        $crate::Dim4::new(&[$dim0, $dim1, $dim2, $dim3])
+    };
+}
+
+/// Create a sequence object
+///
+/// If type is not provided, then the Seq will default to i32 type
+#[macro_export]
+macro_rules! seq {
+    () => {
+        $crate::Seq::<i32>::default()
+    };
+    ($sty:ty; $start:literal : $end:literal : $step:literal) => {
+        $crate::Seq::<$sty>::new($start, $end, $step)
+    };
+    ($start:literal : $end:literal : $step:literal) => {
+        $crate::Seq::<i32>::new($start, $end, $step)
+    };
+}
