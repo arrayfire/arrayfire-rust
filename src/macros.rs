@@ -165,3 +165,65 @@ macro_rules! seq {
         $crate::Seq::<i32>::new($start, $end, $step)
     };
 }
+
+/// Indexing into an existing Array
+///
+/// This macro call with return an Array that has a view of another Array. The Array returned due to
+/// the indexing operation will follow copy-on-write semantics. The Array identifier taken by this
+/// macro is passed to the relevant internal functions as a borrowed reference. Thus, this identifier
+/// will be still available for futher use after the macro call.
+///
+/// The following types of inputs are matched by this macro.
+///
+/// - A simple Array identifier.
+/// - An Array with slicing info for indexing.
+/// - An Array with slicing info and other arrays used for indexing.
+#[macro_export]
+macro_rules! view {
+    (@af_max_dims) => {
+        4
+    };
+    ( $array_ident:ident ) => {
+        $array_ident.clone()
+    };
+    ( $array_ident:ident [ $($start:literal : $end:literal : $step:literal),+ ] ) => {
+        {
+            let AF_MAX_DIMS: usize = view!(@af_max_dims);
+            let mut seq_vec = Vec::<$crate::Seq<i32>>::with_capacity(AF_MAX_DIMS);
+            $(
+                seq_vec.push($crate::seq!($start:$end:$step));
+             )*
+             for span_place_holder in seq_vec.len()..AF_MAX_DIMS {
+                 seq_vec.push($crate::seq!());
+             }
+            $crate::index(&$array_ident, &seq_vec)
+        }
+    };
+    (@set_indexer $idim:expr, $idxr:ident, $lterm:expr) => {
+        {
+            $idxr.set_index(&$lterm, $idim, None);
+        }
+    };
+    (@set_indexer $idim:expr, $idxr:ident, $hterm:expr, $($tterm:expr),*) => {
+        {
+            $idxr.set_index(&$hterm, $idim, None);
+            view!(@set_indexer $idim + 1, $idxr, $($tterm),*);
+        }
+    };
+    ($array_ident:ident [ $($_e:expr),+ ]) => {
+        {
+            let AF_MAX_DIMS: u32 = view!(@af_max_dims);
+            let span = $crate::seq!();
+            let mut idxrs = $crate::Indexer::default();
+
+            view!(@set_indexer 0, idxrs, $($_e),*);
+
+            let mut dimIx = idxrs.len() as u32;
+            while dimIx < AF_MAX_DIMS {
+                idxrs.set_index(&span, dimIx, None);
+                dimIx += 1;
+            }
+            $crate::index_gen(&$array_ident, idxrs)
+        }
+    };
+}
