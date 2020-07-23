@@ -1258,8 +1258,8 @@ hsvrgb_func_def!("RGB to HSV color space conversion", rgb2hsv, af_rgb2hsv);
 /// # Parameters
 ///
 /// - `input` is the input image
-/// - `wx` is the block window size along 0th-dimension between [1, input.dims[0] + px]
-/// - `wy` is the block window size along 1st-dimension between [1, input.dims[1] + py]
+/// - `wx` is the block window size along 0th-dimension between \[1, input.dims\[0\] + px\]
+/// - `wy` is the block window size along 1st-dimension between \[1, input.dims\[1\] + py\]
 /// - `sx` is the stride along 0th-dimension
 /// - `sy` is the stride along 1st-dimension
 /// - `px` is the padding along 0th-dimension between [0, wx). Padding is applied both before and after.
