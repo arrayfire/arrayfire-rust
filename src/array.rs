@@ -564,7 +564,7 @@ impl<T: HasAfEnum> Into<Array<T>> for i64 {
 /// object.
 ///
 /// To create a deep copy use
-/// [copy()](http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.copy)
+/// [copy()](./struct.Array.html#method.copy)
 impl<T> Clone for Array<T>
 where
     T: HasAfEnum,
