@@ -5,7 +5,7 @@ use std::fmt::Error as FmtError;
 use std::fmt::{Display, Formatter};
 
 /// Error codes
-#[repr(i32)]
+#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum AfError {
     /// The function returned successfully
