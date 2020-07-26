@@ -1,134 +1,10 @@
-extern crate libc;
+use super::core::{
+    af_array, af_window, AfError, Array, ColorMap, HasAfEnum, MarkerType, HANDLE_ERROR,
+};
 
-use self::libc::{c_char, c_double, c_float, c_int, c_uint};
-use crate::array::Array;
-use crate::defines::AfError;
-use crate::defines::{ColorMap, MarkerType};
-use crate::error::HANDLE_ERROR;
-use crate::util::{AfArray, CellPtr, HasAfEnum, MutWndHandle, WndHandle};
+use libc::{c_char, c_double, c_float, c_int, c_uint};
 use std::ffi::CString;
 use std::ptr;
-
-#[allow(dead_code)]
-extern "C" {
-    fn af_create_window(out: MutWndHandle, w: c_int, h: c_int, title: *const c_char) -> c_int;
-
-    fn af_set_position(wnd: WndHandle, x: c_uint, y: c_uint) -> c_int;
-    fn af_set_title(wnd: WndHandle, title: *const c_char) -> c_int;
-    fn af_set_size(wnd: WndHandle, w: c_uint, h: c_uint) -> c_int;
-    fn af_set_visibility(wnd: WndHandle, is_visible: c_int) -> c_int;
-
-    fn af_set_axes_titles(
-        wnd: WndHandle,
-        xtitle: *const c_char,
-        ytitle: *const c_char,
-        ztitle: *const c_char,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_set_axes_label_format(
-        wnd: WndHandle,
-        xformat: *const c_char,
-        yformat: *const c_char,
-        zformat: *const c_char,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_set_axes_limits_compute(
-        wnd: WndHandle,
-        x: AfArray,
-        y: AfArray,
-        z: AfArray,
-        exact: c_int,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_set_axes_limits_2d(
-        wnd: WndHandle,
-        xmin: c_float,
-        xmax: c_float,
-        ymin: c_float,
-        ymax: c_float,
-        exact: c_int,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_set_axes_limits_3d(
-        wnd: WndHandle,
-        xmin: c_float,
-        xmax: c_float,
-        ymin: c_float,
-        ymax: c_float,
-        zmin: c_float,
-        zmax: c_float,
-        exact: c_int,
-        props: CellPtr,
-    ) -> c_int;
-
-    fn af_draw_image(wnd: WndHandle, arr: AfArray, props: CellPtr) -> c_int;
-    fn af_draw_hist(
-        wnd: WndHandle,
-        x: AfArray,
-        minval: c_double,
-        maxval: c_double,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_draw_surface(
-        wnd: WndHandle,
-        xvals: AfArray,
-        yvals: AfArray,
-        S: AfArray,
-        props: CellPtr,
-    ) -> c_int;
-
-    fn af_draw_plot_2d(wnd: WndHandle, x: AfArray, y: AfArray, props: CellPtr) -> c_int;
-    fn af_draw_plot_3d(wnd: WndHandle, x: AfArray, y: AfArray, z: AfArray, props: CellPtr)
-        -> c_int;
-    fn af_draw_plot_nd(wnd: WndHandle, P: AfArray, props: CellPtr) -> c_int;
-
-    fn af_draw_scatter_2d(
-        wnd: WndHandle,
-        x: AfArray,
-        y: AfArray,
-        marker: c_int,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_draw_scatter_3d(
-        wnd: WndHandle,
-        x: AfArray,
-        y: AfArray,
-        z: AfArray,
-        marker: c_int,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_draw_scatter_nd(wnd: WndHandle, P: AfArray, marker: c_int, props: CellPtr) -> c_int;
-
-    fn af_draw_vector_field_2d(
-        wnd: WndHandle,
-        xpnts: AfArray,
-        ypnts: AfArray,
-        xdirs: AfArray,
-        ydirs: AfArray,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_draw_vector_field_3d(
-        wnd: WndHandle,
-        xpnts: AfArray,
-        ypnts: AfArray,
-        xdirs: AfArray,
-        ydirs: AfArray,
-        zdirs: AfArray,
-        zdirs: AfArray,
-        props: CellPtr,
-    ) -> c_int;
-    fn af_draw_vector_field_nd(
-        wnd: WndHandle,
-        pnts: AfArray,
-        dirs: AfArray,
-        props: CellPtr,
-    ) -> c_int;
-
-    fn af_grid(wnd: WndHandle, rows: c_int, cols: c_int) -> c_int;
-    fn af_show(wnd: WndHandle) -> c_int;
-    fn af_is_window_closed(out: *mut c_int, wnd: WndHandle) -> c_int;
-    fn af_destroy_window(wnd: WndHandle) -> c_int;
-}
 
 /// Represents a sub-view of Window
 ///
@@ -136,11 +12,141 @@ extern "C" {
 /// mode to render multiple targets to sub-regions of a given window.
 ///
 #[repr(C)]
-pub struct Cell {
-    pub row: i32,
-    pub col: i32,
+struct af_cell {
+    pub row: c_int,
+    pub col: c_int,
     pub title: *const c_char,
-    pub cmap: ColorMap,
+    pub cmap: c_uint,
+}
+
+extern "C" {
+    fn af_create_window(out: *mut af_window, w: c_int, h: c_int, title: *const c_char) -> c_int;
+
+    fn af_set_position(wnd: af_window, x: c_uint, y: c_uint) -> c_int;
+    fn af_set_title(wnd: af_window, title: *const c_char) -> c_int;
+    fn af_set_size(wnd: af_window, w: c_uint, h: c_uint) -> c_int;
+    fn af_set_visibility(wnd: af_window, is_visible: bool) -> c_int;
+
+    fn af_set_axes_titles(
+        wnd: af_window,
+        xtitle: *const c_char,
+        ytitle: *const c_char,
+        ztitle: *const c_char,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_set_axes_label_format(
+        wnd: af_window,
+        xformat: *const c_char,
+        yformat: *const c_char,
+        zformat: *const c_char,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_set_axes_limits_compute(
+        wnd: af_window,
+        x: af_array,
+        y: af_array,
+        z: af_array,
+        exact: bool,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_set_axes_limits_2d(
+        wnd: af_window,
+        xmin: c_float,
+        xmax: c_float,
+        ymin: c_float,
+        ymax: c_float,
+        exact: bool,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_set_axes_limits_3d(
+        wnd: af_window,
+        xmin: c_float,
+        xmax: c_float,
+        ymin: c_float,
+        ymax: c_float,
+        zmin: c_float,
+        zmax: c_float,
+        exact: bool,
+        props: *const af_cell,
+    ) -> c_int;
+
+    fn af_draw_image(wnd: af_window, arr: af_array, props: *const af_cell) -> c_int;
+    fn af_draw_hist(
+        wnd: af_window,
+        x: af_array,
+        minval: c_double,
+        maxval: c_double,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_surface(
+        wnd: af_window,
+        xvals: af_array,
+        yvals: af_array,
+        S: af_array,
+        props: *const af_cell,
+    ) -> c_int;
+
+    fn af_draw_plot_2d(wnd: af_window, x: af_array, y: af_array, props: *const af_cell) -> c_int;
+    fn af_draw_plot_3d(
+        wnd: af_window,
+        x: af_array,
+        y: af_array,
+        z: af_array,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_plot_nd(wnd: af_window, P: af_array, props: *const af_cell) -> c_int;
+
+    fn af_draw_scatter_2d(
+        wnd: af_window,
+        x: af_array,
+        y: af_array,
+        marker: c_uint,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_scatter_3d(
+        wnd: af_window,
+        x: af_array,
+        y: af_array,
+        z: af_array,
+        marker: c_uint,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_scatter_nd(
+        wnd: af_window,
+        P: af_array,
+        marker: c_uint,
+        props: *const af_cell,
+    ) -> c_int;
+
+    fn af_draw_vector_field_2d(
+        wnd: af_window,
+        xpnts: af_array,
+        ypnts: af_array,
+        xdirs: af_array,
+        ydirs: af_array,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_vector_field_3d(
+        wnd: af_window,
+        xpnts: af_array,
+        ypnts: af_array,
+        xdirs: af_array,
+        ydirs: af_array,
+        zdirs: af_array,
+        zdirs: af_array,
+        props: *const af_cell,
+    ) -> c_int;
+    fn af_draw_vector_field_nd(
+        wnd: af_window,
+        pnts: af_array,
+        dirs: af_array,
+        props: *const af_cell,
+    ) -> c_int;
+
+    fn af_grid(wnd: af_window, rows: c_int, cols: c_int) -> c_int;
+    fn af_show(wnd: af_window) -> c_int;
+    fn af_is_window_closed(out: *mut bool, wnd: af_window) -> c_int;
+    fn af_destroy_window(wnd: af_window) -> c_int;
 }
 
 /// Used to render [Array](./struct.Array.html) objects
@@ -173,22 +179,10 @@ pub struct Cell {
 /// ```
 #[derive(Clone)]
 pub struct Window {
-    handle: u64,
+    handle: af_window,
     row: i32,
     col: i32,
     cmap: ColorMap,
-}
-
-/// Used to create Window object from native(ArrayFire) resource handle
-impl From<u64> for Window {
-    fn from(t: u64) -> Self {
-        Self {
-            handle: t,
-            row: -1,
-            col: -1,
-            cmap: ColorMap::DEFAULT,
-        }
-    }
 }
 
 impl Drop for Window {
@@ -218,22 +212,22 @@ impl Window {
     /// # Return Values
     ///
     /// Window Object
-    #[allow(unused_mut)]
     #[allow(clippy::match_wild_err_arm)]
     pub fn new(width: i32, height: i32, title: String) -> Self {
         unsafe {
-            let mut temp: u64 = 0;
             let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_create_window(
-                        &mut temp as MutWndHandle,
-                        width as c_int,
-                        height as c_int,
-                        cstr.as_ptr(),
-                    );
+                    let mut temp: af_window = std::ptr::null_mut();
+                    let err_val =
+                        af_create_window(&mut temp as *mut af_window, width, height, cstr.as_ptr());
                     HANDLE_ERROR(AfError::from(err_val));
-                    Self::from(temp)
+                    Window {
+                        handle: temp,
+                        row: -1,
+                        col: -1,
+                        cmap: ColorMap::DEFAULT,
+                    }
                 }
                 Err(_) => {
                     panic!("String creation failed while prepping params for window creation.")
@@ -250,7 +244,7 @@ impl Window {
     /// - `y` is the vertical coordinate where window is to be placed
     pub fn set_position(&self, x: u32, y: u32) {
         unsafe {
-            let err_val = af_set_position(self.handle as WndHandle, x as c_uint, y as c_uint);
+            let err_val = af_set_position(self.handle, x, y);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -265,7 +259,7 @@ impl Window {
             let cstr_ret = CString::new(title);
             match cstr_ret {
                 Ok(cstr) => {
-                    let err_val = af_set_title(self.handle as WndHandle, cstr.as_ptr());
+                    let err_val = af_set_title(self.handle, cstr.as_ptr());
                     HANDLE_ERROR(AfError::from(err_val));
                 }
                 Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
@@ -284,7 +278,7 @@ impl Window {
     /// None
     pub fn set_visibility(&self, is_visible: bool) {
         unsafe {
-            let err_val = af_set_visibility(self.handle as WndHandle, is_visible as c_int);
+            let err_val = af_set_visibility(self.handle, is_visible);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -297,7 +291,7 @@ impl Window {
     /// - `h` is the target height of window
     pub fn set_size(&self, w: u32, h: u32) {
         unsafe {
-            let err_val = af_set_size(self.handle as WndHandle, w as c_uint, h as c_uint);
+            let err_val = af_set_size(self.handle, w, h);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -311,10 +305,10 @@ impl Window {
     /// Returns true if the window close is triggered by the user
     pub fn is_closed(&self) -> bool {
         unsafe {
-            let mut temp: i32 = 1;
-            let err_val = af_is_window_closed(&mut temp as *mut c_int, self.handle as WndHandle);
+            let mut temp: bool = true;
+            let err_val = af_is_window_closed(&mut temp as *mut bool, self.handle);
             HANDLE_ERROR(AfError::from(err_val));
-            temp > 0
+            temp
         }
     }
 
@@ -326,7 +320,7 @@ impl Window {
     /// - `cols` is the number of cols into which whole window is split into in multiple view mode
     pub fn grid(&self, rows: i32, cols: i32) {
         unsafe {
-            let err_val = af_grid(self.handle as WndHandle, rows as c_int, cols as c_int);
+            let err_val = af_grid(self.handle, rows, cols);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -335,7 +329,7 @@ impl Window {
     /// frame
     pub fn show(&mut self) {
         unsafe {
-            let err_val = af_show(self.handle as WndHandle);
+            let err_val = af_show(self.handle);
             HANDLE_ERROR(AfError::from(err_val));
             self.row = -1;
             self.col = -1;
@@ -363,22 +357,56 @@ impl Window {
     /// - `ylabel` is y axis title
     /// - `zlabel` is z axis title
     pub fn set_axes_titles(&mut self, xlabel: String, ylabel: String, zlabel: String) {
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: ptr::null(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
         unsafe {
             let err_val = af_set_axes_titles(
-                self.handle as WndHandle,
+                self.handle,
                 xstr.as_ptr(),
                 ystr.as_ptr(),
                 zstr.as_ptr(),
-                cprops as *const Cell as CellPtr,
+                &cprops as *const af_cell,
+            );
+            HANDLE_ERROR(AfError::from(err_val));
+        }
+    }
+
+    /// Set chart axes labels format
+    ///
+    /// # Parameters
+    ///
+    /// - `xlabel_format` is x axis label format. format specific is identical to C's printf format
+    /// - `ylabel_format` is y axis label format. format specific is identical to C's printf format
+    /// - `zlabel_format` is z axis label format. format specific is identical to C's printf format
+    pub fn set_axes_label_format(
+        &mut self,
+        xlabel_format: String,
+        ylabel_format: String,
+        zlabel_format: String,
+    ) {
+        let cprops = af_cell {
+            row: self.row,
+            col: self.col,
+            title: ptr::null(),
+            cmap: self.cmap as u32,
+        };
+        let xstr = CString::new(xlabel_format).unwrap();
+        let ystr = CString::new(ylabel_format).unwrap();
+        let zstr = CString::new(zlabel_format).unwrap();
+        unsafe {
+            let err_val = af_set_axes_label_format(
+                self.handle,
+                xstr.as_ptr(),
+                ystr.as_ptr(),
+                zstr.as_ptr(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -396,22 +424,22 @@ impl Window {
     /// - `ylabel` is printf style format specifier for y axis
     /// - `zlabel` is printf style format specifier for z axis
     pub fn set_axes_label_formats(&mut self, xformat: String, yformat: String, zformat: String) {
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: ptr::null(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         let xstr = CString::new(xformat).unwrap();
         let ystr = CString::new(yformat).unwrap();
         let zstr = CString::new(zformat).unwrap();
         unsafe {
             let err_val = af_set_axes_titles(
-                self.handle as WndHandle,
+                self.handle,
                 xstr.as_ptr(),
                 ystr.as_ptr(),
                 zstr.as_ptr(),
-                cprops as *const Cell as CellPtr,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -440,23 +468,23 @@ impl Window {
     ) where
         T: HasAfEnum,
     {
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: ptr::null(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_set_axes_limits_compute(
-                self.handle as WndHandle,
-                xrange.get() as AfArray,
-                yrange.get() as AfArray,
+                self.handle,
+                xrange.get(),
+                yrange.get(),
                 match zrange {
-                    Some(z) => z.get() as AfArray,
-                    None => 0,
+                    Some(z) => z.get(),
+                    None => std::ptr::null_mut(),
                 },
-                exact as c_int,
-                cprops as *const Cell as CellPtr,
+                exact,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -477,21 +505,21 @@ impl Window {
     ///    are to extracted. If exact is false then the most significant digit is rounded up
     ///    to next power of 2 and the magnitude remains the same.
     pub fn set_axes_limits_2d(&mut self, xmin: f32, xmax: f32, ymin: f32, ymax: f32, exact: bool) {
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: ptr::null(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_set_axes_limits_2d(
-                self.handle as WndHandle,
-                xmin as c_float,
-                xmax as c_float,
-                ymin as c_float,
-                ymax as c_float,
-                exact as c_int,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xmin,
+                xmax,
+                ymin,
+                ymax,
+                exact,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -524,23 +552,23 @@ impl Window {
         zmax: f32,
         exact: bool,
     ) {
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: ptr::null(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_set_axes_limits_3d(
-                self.handle as WndHandle,
-                xmin as c_float,
-                xmax as c_float,
-                ymin as c_float,
-                ymax as c_float,
-                zmin as c_float,
-                zmax as c_float,
-                exact as c_int,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xmin,
+                xmax,
+                ymin,
+                ymax,
+                zmin,
+                zmax,
+                exact,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -562,18 +590,14 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
-            let err_val = af_draw_image(
-                self.handle as WndHandle,
-                input.get() as AfArray,
-                cprops as *const Cell as CellPtr,
-            );
+            let err_val = af_draw_image(self.handle, input.get(), &cprops as *const af_cell);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -595,19 +619,14 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
-            let err_val = af_draw_plot_2d(
-                self.handle as WndHandle,
-                x.get() as AfArray,
-                y.get() as AfArray,
-                cprops as *const Cell as CellPtr,
-            );
+            let err_val = af_draw_plot_2d(self.handle, x.get(), y.get(), &cprops as *const af_cell);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -630,19 +649,19 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_plot_3d(
-                self.handle as WndHandle,
-                x.get() as AfArray,
-                y.get() as AfArray,
-                z.get() as AfArray,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                x.get(),
+                y.get(),
+                z.get(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -664,18 +683,14 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
-            let err_val = af_draw_plot_nd(
-                self.handle as WndHandle,
-                points.get() as AfArray,
-                cprops as *const Cell as CellPtr,
-            );
+            let err_val = af_draw_plot_nd(self.handle, points.get(), &cprops as *const af_cell);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -698,19 +713,19 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_hist(
-                self.handle as WndHandle,
-                hst.get() as AfArray,
-                minval as c_double,
-                maxval as c_double,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                hst.get(),
+                minval,
+                maxval,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -739,19 +754,19 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_surface(
-                self.handle as WndHandle,
-                xvals.get() as AfArray,
-                yvals.get() as AfArray,
-                zvals.get() as AfArray,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xvals.get(),
+                yvals.get(),
+                zvals.get(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -780,19 +795,19 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_scatter_2d(
-                self.handle as WndHandle,
-                xvals.get() as AfArray,
-                yvals.get() as AfArray,
-                marker as c_int,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xvals.get(),
+                yvals.get(),
+                marker as c_uint,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -823,20 +838,20 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_scatter_3d(
-                self.handle as WndHandle,
-                xvals.get() as AfArray,
-                yvals.get() as AfArray,
-                zvals.get() as AfArray,
-                marker as c_int,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xvals.get(),
+                yvals.get(),
+                zvals.get(),
+                marker as c_uint,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -859,18 +874,18 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_scatter_nd(
-                self.handle as WndHandle,
-                vals.get() as AfArray,
-                marker as c_int,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                vals.get(),
+                marker as c_uint,
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -901,20 +916,20 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_vector_field_2d(
-                self.handle as WndHandle,
-                xpnts.get() as AfArray,
-                ypnts.get() as AfArray,
-                xdirs.get() as AfArray,
-                ydirs.get() as AfArray,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xpnts.get(),
+                ypnts.get(),
+                xdirs.get(),
+                ydirs.get(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -950,22 +965,22 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_vector_field_3d(
-                self.handle as WndHandle,
-                xpnts.get() as AfArray,
-                ypnts.get() as AfArray,
-                zpnts.get() as AfArray,
-                xdirs.get() as AfArray,
-                ydirs.get() as AfArray,
-                zdirs.get() as AfArray,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                xpnts.get(),
+                ypnts.get(),
+                zpnts.get(),
+                xdirs.get(),
+                ydirs.get(),
+                zdirs.get(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -993,18 +1008,18 @@ impl Window {
             None => format!("Cell({},{}))", self.col, self.row),
         };
         let tstr = CString::new(tstr).unwrap();
-        let cprops = &Cell {
+        let cprops = af_cell {
             row: self.row,
             col: self.col,
             title: tstr.as_ptr(),
-            cmap: self.cmap,
+            cmap: self.cmap as u32,
         };
         unsafe {
             let err_val = af_draw_vector_field_nd(
-                self.handle as WndHandle,
-                points.get() as AfArray,
-                directions.get() as AfArray,
-                cprops as *const Cell as CellPtr,
+                self.handle,
+                points.get(),
+                directions.get(),
+                &cprops as *const af_cell,
             );
             HANDLE_ERROR(AfError::from(err_val));
         }

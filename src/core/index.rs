@@ -1,45 +1,51 @@
-extern crate libc;
+use super::array::Array;
+use super::defines::AfError;
+use super::error::HANDLE_ERROR;
+use super::seq::Seq;
+use super::util::{af_array, af_index_t, dim_t, HasAfEnum};
 
-use self::libc::{c_double, c_int, c_uint};
-use crate::array::Array;
-use crate::defines::AfError;
-use crate::error::HANDLE_ERROR;
-use crate::seq::Seq;
-use crate::util::{AfArray, AfIndex, DimT, HasAfEnum, MutAfArray, MutAfIndex};
-
+use libc::{c_double, c_int, c_uint};
 use std::default::Default;
 use std::marker::PhantomData;
 use std::mem;
 
-#[allow(dead_code)]
 extern "C" {
-    fn af_create_indexers(indexers: MutAfIndex) -> c_int;
-    fn af_set_array_indexer(indexer: AfIndex, idx: AfArray, dim: DimT) -> c_int;
+    fn af_create_indexers(indexers: *mut af_index_t) -> c_int;
+    fn af_set_array_indexer(indexer: af_index_t, idx: af_array, dim: dim_t) -> c_int;
     fn af_set_seq_indexer(
-        indexer: AfIndex,
+        indexer: af_index_t,
         idx: *const SeqInternal,
-        dim: DimT,
-        is_batch: c_int,
+        dim: dim_t,
+        is_batch: bool,
     ) -> c_int;
-    fn af_release_indexers(indexers: AfIndex) -> c_int;
+    fn af_release_indexers(indexers: af_index_t) -> c_int;
 
-    fn af_index(out: MutAfArray, input: AfArray, ndims: c_uint, index: *const SeqInternal)
-        -> c_int;
-    fn af_lookup(out: MutAfArray, arr: AfArray, indices: AfArray, dim: c_uint) -> c_int;
+    fn af_index(
+        out: *mut af_array,
+        input: af_array,
+        ndims: c_uint,
+        index: *const SeqInternal,
+    ) -> c_int;
+    fn af_lookup(out: *mut af_array, arr: af_array, indices: af_array, dim: c_uint) -> c_int;
     fn af_assign_seq(
-        out: MutAfArray,
-        lhs: AfArray,
+        out: *mut af_array,
+        lhs: af_array,
         ndims: c_uint,
         indices: *const SeqInternal,
-        rhs: AfArray,
+        rhs: af_array,
     ) -> c_int;
-    fn af_index_gen(out: MutAfArray, input: AfArray, ndims: DimT, indices: AfIndex) -> c_int;
+    fn af_index_gen(
+        out: *mut af_array,
+        input: af_array,
+        ndims: dim_t,
+        indices: af_index_t,
+    ) -> c_int;
     fn af_assign_gen(
-        out: MutAfArray,
-        lhs: AfArray,
-        ndims: DimT,
-        indices: AfIndex,
-        rhs: AfArray,
+        out: *mut af_array,
+        lhs: af_array,
+        ndims: dim_t,
+        indices: af_index_t,
+        rhs: af_array,
     ) -> c_int;
 }
 
@@ -97,7 +103,7 @@ extern "C" {
 ///   = note: consider using a `let` binding to increase its lifetime
 /// ```
 pub struct Indexer<'object> {
-    handle: i64,
+    handle: af_index_t,
     count: usize,
     marker: PhantomData<&'object ()>,
 }
@@ -130,11 +136,9 @@ pub trait Indexable {
 /// This is used in functions [index_gen](./fn.index_gen.html) and
 /// [assign_gen](./fn.assign_gen.html)
 impl<T: HasAfEnum> Indexable for Array<T> {
-    #[allow(unused_variables)]
-    fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
+    fn set(&self, idxr: &mut Indexer, dim: u32, _is_batch: Option<bool>) {
         unsafe {
-            let err_val =
-                af_set_array_indexer(idxr.get() as AfIndex, self.get() as AfArray, dim as DimT);
+            let err_val = af_set_array_indexer(idxr.get(), self.get(), dim as dim_t);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -151,12 +155,12 @@ where
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
             let err_val = af_set_seq_indexer(
-                idxr.get() as AfIndex,
+                idxr.get(),
                 &SeqInternal::from_seq(self) as *const SeqInternal,
-                dim as DimT,
+                dim as dim_t,
                 match is_batch {
-                    Some(value) => value as c_int,
-                    None => false as c_int,
+                    Some(value) => value,
+                    None => false,
                 },
             );
             HANDLE_ERROR(AfError::from(err_val));
@@ -166,15 +170,15 @@ where
 
 impl<'object> Default for Indexer<'object> {
     fn default() -> Self {
-        let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_create_indexers(&mut temp as MutAfIndex);
+            let mut temp: af_index_t = std::ptr::null_mut();
+            let err_val = af_create_indexers(&mut temp as *mut af_index_t);
             HANDLE_ERROR(AfError::from(err_val));
-        }
-        Self {
-            handle: temp,
-            count: 0,
-            marker: PhantomData,
+            Self {
+                handle: temp,
+                count: 0,
+                marker: PhantomData,
+            }
         }
     }
 }
@@ -183,15 +187,15 @@ impl<'object> Indexer<'object> {
     /// Create a new Indexer object and set the dimension specific index objects later
     #[deprecated(since = "3.7.0", note = "Use Indexer::default() instead")]
     pub fn new() -> Self {
-        let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_create_indexers(&mut temp as MutAfIndex);
+            let mut temp: af_index_t = std::ptr::null_mut();
+            let err_val = af_create_indexers(&mut temp as *mut af_index_t);
             HANDLE_ERROR(AfError::from(err_val));
-        }
-        Self {
-            handle: temp,
-            count: 0,
-            marker: PhantomData,
+            Self {
+                handle: temp,
+                count: 0,
+                marker: PhantomData,
+            }
         }
     }
 
@@ -215,7 +219,7 @@ impl<'object> Indexer<'object> {
     }
 
     /// Get native(ArrayFire) resource handle
-    pub fn get(&self) -> i64 {
+    pub fn get(&self) -> af_index_t {
         self.handle
     }
 }
@@ -223,7 +227,7 @@ impl<'object> Indexer<'object> {
 impl<'object> Drop for Indexer<'object> {
     fn drop(&mut self) {
         unsafe {
-            let ret_val = af_release_indexers(self.handle as AfIndex);
+            let ret_val = af_release_indexers(self.handle as af_index_t);
             match ret_val {
                 0 => (),
                 _ => panic!("Failed to release indexers resource: {}", ret_val),
@@ -250,19 +254,18 @@ where
     c_double: From<T>,
     IO: HasAfEnum,
 {
-    let mut temp: i64 = 0;
+    let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
-        // TODO: allocating a whole new array on the heap just for this is BAD
-        let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_index(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get(),
             seqs.len() as u32,
             seqs.as_ptr() as *const SeqInternal,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Extract `row_num` row from `input` Array
@@ -448,17 +451,17 @@ where
     T: HasAfEnum,
     I: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_lookup(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            indices.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get() as af_array,
+            indices.get() as af_array,
             seq_dim as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Assign(copy) content of an Array to another Array indexed by Sequences
@@ -493,21 +496,21 @@ where
     c_double: From<T>,
     I: HasAfEnum,
 {
-    let mut temp: i64 = 0;
-    // TODO: allocating a whole new array on the heap just for this is BAD
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_assign_seq(
-            &mut temp as MutAfArray,
-            lhs.get() as AfArray,
+            &mut temp as *mut af_array,
+            lhs.get() as af_array,
             seqs.len() as c_uint,
             seqs.as_ptr() as *const SeqInternal,
-            rhs.get() as AfArray,
+            rhs.get() as af_array,
         );
         HANDLE_ERROR(AfError::from(err_val));
+
+        let modified = temp.into();
+        let _old_arr = mem::replace(lhs, modified);
     }
-    let modified = temp.into();
-    let _old_arr = mem::replace(lhs, modified);
 }
 
 /// Index an Array using any combination of Array's and Sequence's
@@ -543,17 +546,17 @@ pub fn index_gen<T>(input: &Array<T>, indices: Indexer) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_index_gen(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            indices.len() as DimT,
-            indices.get() as AfIndex,
+            &mut temp as *mut af_array,
+            input.get() as af_array,
+            indices.len() as dim_t,
+            indices.get() as af_index_t,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Assign an Array to another after indexing it using any combination of Array's and Sequence's
@@ -592,19 +595,20 @@ pub fn assign_gen<T>(lhs: &mut Array<T>, indices: &Indexer, rhs: &Array<T>)
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_assign_gen(
-            &mut temp as MutAfArray,
-            lhs.get() as AfArray,
-            indices.len() as DimT,
-            indices.get() as AfIndex,
-            rhs.get() as AfArray,
+            &mut temp as *mut af_array,
+            lhs.get() as af_array,
+            indices.len() as dim_t,
+            indices.get() as af_index_t,
+            rhs.get() as af_array,
         );
         HANDLE_ERROR(AfError::from(err_val));
+
+        let modified = temp.into();
+        let _old_arr = mem::replace(lhs, modified);
     }
-    let modified = temp.into();
-    let _old_arr = mem::replace(lhs, modified);
 }
 
 #[repr(C)]

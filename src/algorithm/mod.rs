@@ -1,126 +1,135 @@
-extern crate libc;
+use super::core::{
+    af_array, AfError, Array, BinaryOp, HasAfEnum, RealNumber, ReduceByKeyInput, Scanable,
+    HANDLE_ERROR,
+};
 
-use self::libc::{c_double, c_int, c_uint};
-use crate::array::Array;
-use crate::defines::{AfError, BinaryOp};
-use crate::error::HANDLE_ERROR;
-use crate::util::{AfArray, MutAfArray, MutDouble, MutUint};
-use crate::util::{HasAfEnum, RealNumber, ReduceByKeyInput, Scanable};
+use libc::{c_double, c_int, c_uint};
 
-#[allow(dead_code)]
 extern "C" {
-    fn af_sum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_sum_nan(out: MutAfArray, input: AfArray, dim: c_int, nanval: c_double) -> c_int;
-    fn af_product(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_product_nan(out: MutAfArray, input: AfArray, dim: c_int, val: c_double) -> c_int;
-    fn af_min(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_max(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_all_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_any_true(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_count(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_sum_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_sum_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
-    fn af_product_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_product_nan_all(r: MutDouble, i: MutDouble, input: AfArray, val: c_double) -> c_int;
-    fn af_min_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_max_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_all_true_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_any_true_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_count_all(r: MutDouble, i: MutDouble, input: AfArray) -> c_int;
-    fn af_imin(out: MutAfArray, idx: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_imax(out: MutAfArray, idx: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_imin_all(r: MutDouble, i: MutDouble, idx: MutUint, input: AfArray) -> c_int;
-    fn af_imax_all(r: MutDouble, i: MutDouble, idx: MutUint, input: AfArray) -> c_int;
-    fn af_accum(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_where(out: MutAfArray, input: AfArray) -> c_int;
-    fn af_diff1(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_diff2(out: MutAfArray, input: AfArray, dim: c_int) -> c_int;
-    fn af_sort(out: MutAfArray, input: AfArray, dim: c_uint, ascend: c_int) -> c_int;
-    fn af_sort_index(o: MutAfArray, i: MutAfArray, inp: AfArray, d: c_uint, a: c_int) -> c_int;
-    fn af_set_unique(out: MutAfArray, input: AfArray, is_sorted: c_int) -> c_int;
-    fn af_set_union(out: MutAfArray, first: AfArray, second: AfArray, is_unq: c_int) -> c_int;
-    fn af_set_intersect(out: MutAfArray, one: AfArray, two: AfArray, is_unq: c_int) -> c_int;
+    fn af_sum(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_sum_nan(out: *mut af_array, input: af_array, dim: c_int, nanval: c_double) -> c_int;
+    fn af_product(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_product_nan(out: *mut af_array, input: af_array, dim: c_int, val: c_double) -> c_int;
+    fn af_min(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_max(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_all_true(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_any_true(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_count(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_sum_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_sum_nan_all(r: *mut c_double, i: *mut c_double, input: af_array, val: c_double) -> c_int;
+    fn af_product_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_product_nan_all(
+        r: *mut c_double,
+        i: *mut c_double,
+        input: af_array,
+        val: c_double,
+    ) -> c_int;
+    fn af_min_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_max_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_all_true_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_any_true_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_count_all(r: *mut c_double, i: *mut c_double, input: af_array) -> c_int;
+    fn af_imin(out: *mut af_array, idx: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_imax(out: *mut af_array, idx: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_imin_all(r: *mut c_double, i: *mut c_double, idx: *mut c_uint, input: af_array) -> c_int;
+    fn af_imax_all(r: *mut c_double, i: *mut c_double, idx: *mut c_uint, input: af_array) -> c_int;
+    fn af_accum(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_where(out: *mut af_array, input: af_array) -> c_int;
+    fn af_diff1(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_diff2(out: *mut af_array, input: af_array, dim: c_int) -> c_int;
+    fn af_sort(out: *mut af_array, input: af_array, dim: c_uint, ascend: bool) -> c_int;
+    fn af_sort_index(
+        o: *mut af_array,
+        i: *mut af_array,
+        inp: af_array,
+        d: c_uint,
+        a: bool,
+    ) -> c_int;
+    fn af_set_unique(out: *mut af_array, input: af_array, is_sorted: bool) -> c_int;
+    fn af_set_union(out: *mut af_array, first: af_array, second: af_array, is_unq: bool) -> c_int;
+    fn af_set_intersect(out: *mut af_array, one: af_array, two: af_array, is_unq: bool) -> c_int;
 
     fn af_sort_by_key(
-        out_keys: MutAfArray,
-        out_vals: MutAfArray,
-        in_keys: AfArray,
-        in_vals: AfArray,
+        out_keys: *mut af_array,
+        out_vals: *mut af_array,
+        in_keys: af_array,
+        in_vals: af_array,
         dim: c_uint,
-        ascend: c_int,
+        ascend: bool,
     ) -> c_int;
 
-    fn af_scan(out: MutAfArray, inp: AfArray, dim: c_int, op: c_uint, inclusive: c_int) -> c_int;
+    fn af_scan(out: *mut af_array, inp: af_array, dim: c_int, op: c_uint, inclusive: bool)
+        -> c_int;
     fn af_scan_by_key(
-        out: MutAfArray,
-        key: AfArray,
-        inp: AfArray,
+        out: *mut af_array,
+        key: af_array,
+        inp: af_array,
         dim: c_int,
         op: c_uint,
-        inclusive: c_int,
+        inclusive: bool,
     ) -> c_int;
     fn af_all_true_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_any_true_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_count_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_max_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_min_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_product_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_product_by_key_nan(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
         nan_val: c_double,
     ) -> c_int;
     fn af_sum_by_key(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
     ) -> c_int;
     fn af_sum_by_key_nan(
-        keys_out: MutAfArray,
-        vals_out: MutAfArray,
-        keys: AfArray,
-        vals: AfArray,
+        keys_out: *mut af_array,
+        vals_out: *mut af_array,
+        keys: af_array,
+        vals: af_array,
         dim: c_int,
         nan_val: c_double,
     ) -> c_int;
@@ -129,22 +138,17 @@ extern "C" {
 macro_rules! dim_reduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ty) => {
         #[doc=$doc_str]
-        #[allow(unused_mut)]
         pub fn $fn_name<T>(input: &Array<T>, dim: i32) -> Array<$out_type>
         where
             T: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_name(
-                    &mut temp as MutAfArray,
-                    input.get() as AfArray,
-                    dim as c_int,
-                );
+                let mut temp: af_array = std::ptr::null_mut();
+                let err_val = $ffi_name(&mut temp as *mut af_array, input.get(), dim);
                 HANDLE_ERROR(AfError::from(err_val));
+                temp.into()
             }
-            temp.into()
         }
     };
 }
@@ -479,17 +483,12 @@ where
     T: HasAfEnum,
     T::AggregateOutType: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_sum_nan(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_int,
-            nanval as c_double,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_sum_nan(&mut temp as *mut af_array, input.get(), dim, nanval);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Product of elements along specific dimension using user specified value instead of `NAN` values
@@ -510,31 +509,23 @@ where
     T: HasAfEnum,
     T::ProductOutType: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_product_nan(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_int,
-            nanval as c_double,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_product_nan(&mut temp as *mut af_array, input.get(), dim, nanval);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 macro_rules! all_reduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
-        #[allow(unused_mut)]
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> (f64, f64) {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             unsafe {
                 let err_val = $ffi_name(
-                    &mut real as MutDouble,
-                    &mut imag as MutDouble,
-                    input.get() as AfArray,
+                    &mut real as *mut c_double, &mut imag as *mut c_double, input.get(),
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
@@ -754,10 +745,10 @@ pub fn sum_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
     let mut imag: f64 = 0.0;
     unsafe {
         let err_val = af_sum_nan_all(
-            &mut real as MutDouble,
-            &mut imag as MutDouble,
-            input.get() as AfArray,
-            val as c_double,
+            &mut real as *mut c_double,
+            &mut imag as *mut c_double,
+            input.get(),
+            val,
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
@@ -784,10 +775,10 @@ pub fn product_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
     let mut imag: f64 = 0.0;
     unsafe {
         let err_val = af_product_nan_all(
-            &mut real as MutDouble,
-            &mut imag as MutDouble,
-            input.get() as AfArray,
-            val as c_double,
+            &mut real as *mut c_double,
+            &mut imag as *mut c_double,
+            input.get(),
+            val,
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
@@ -797,24 +788,20 @@ pub fn product_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
 macro_rules! dim_ireduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type: ident) => {
         #[doc=$doc_str]
-        #[allow(unused_mut)]
         pub fn $fn_name<T>(input: &Array<T>, dim: i32) -> (Array<T::$out_type>, Array<u32>)
         where
             T: HasAfEnum,
             T::$out_type: HasAfEnum,
         {
-            let mut temp: i64 = 0;
-            let mut idx: i64 = 0;
             unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
+            let mut idx: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut temp as MutAfArray,
-                    &mut idx as MutAfArray,
-                    input.get() as AfArray,
-                    dim as c_int,
+                    &mut temp as *mut af_array, &mut idx as *mut af_array, input.get(), dim,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            }
             (temp.into(), idx.into())
+            }
         }
     };
 }
@@ -848,17 +835,14 @@ dim_ireduce_func_def!("
 macro_rules! all_ireduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
-        #[allow(unused_mut)]
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> (f64, f64, u32) {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             let mut temp: u32 = 0;
             unsafe {
                 let err_val = $ffi_name(
-                    &mut real as MutDouble,
-                    &mut imag as MutDouble,
-                    &mut temp as MutUint,
-                    input.get() as AfArray,
+                    &mut real as *mut c_double, &mut imag as *mut c_double,
+                    &mut temp as *mut c_uint, input.get(),
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
@@ -917,14 +901,13 @@ all_ireduce_func_def!(
 /// # Return Values
 ///
 /// Array of indices where the input Array has non-zero values.
-#[allow(unused_mut)]
 pub fn locate<T: HasAfEnum>(input: &Array<T>) -> Array<u32> {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_where(&mut temp as MutAfArray, input.get() as AfArray);
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_where(&mut temp as *mut af_array, input.get());
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Sort the values in input Arrays
@@ -941,22 +924,16 @@ pub fn locate<T: HasAfEnum>(input: &Array<T>) -> Array<u32> {
 /// # Return Values
 ///
 /// Sorted Array.
-#[allow(unused_mut)]
 pub fn sort<T>(input: &Array<T>, dim: u32, ascending: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_sort(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_uint,
-            ascending as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_sort(&mut temp as *mut af_array, input.get(), dim, ascending);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Sort the values in input Arrays
@@ -975,24 +952,23 @@ where
 /// The first Array contains the keys based on sorted values.
 ///
 /// The second Array contains the original indices of the sorted values.
-#[allow(unused_mut)]
 pub fn sort_index<T>(input: &Array<T>, dim: u32, ascending: bool) -> (Array<T>, Array<u32>)
 where
     T: HasAfEnum + RealNumber,
 {
-    let mut temp: i64 = 0;
-    let mut idx: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
+        let mut idx: af_array = std::ptr::null_mut();
         let err_val = af_sort_index(
-            &mut temp as MutAfArray,
-            &mut idx as MutAfArray,
-            input.get() as AfArray,
-            dim as c_uint,
-            ascending as c_int,
+            &mut temp as *mut af_array,
+            &mut idx as *mut af_array,
+            input.get(),
+            dim,
+            ascending,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        (temp.into(), idx.into())
     }
-    (temp.into(), idx.into())
 }
 
 /// Sort the values in input Arrays
@@ -1013,7 +989,6 @@ where
 /// The first Array contains the keys based on sorted values.
 ///
 /// The second Array contains the sorted values.
-#[allow(unused_mut)]
 pub fn sort_by_key<K, V>(
     keys: &Array<K>,
     vals: &Array<V>,
@@ -1024,20 +999,20 @@ where
     K: HasAfEnum + RealNumber,
     V: HasAfEnum,
 {
-    let mut temp: i64 = 0;
-    let mut temp2: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
+        let mut temp2: af_array = std::ptr::null_mut();
         let err_val = af_sort_by_key(
-            &mut temp as MutAfArray,
-            &mut temp2 as MutAfArray,
-            keys.get() as AfArray,
-            vals.get() as AfArray,
-            dim as c_uint,
-            ascending as c_int,
+            &mut temp as *mut af_array,
+            &mut temp2 as *mut af_array,
+            keys.get(),
+            vals.get(),
+            dim,
+            ascending,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        (temp.into(), temp2.into())
     }
-    (temp.into(), temp2.into())
 }
 
 /// Find unique values from a Set
@@ -1051,21 +1026,16 @@ where
 /// # Return Values
 ///
 /// An Array of unique values from the input Array.
-#[allow(unused_mut)]
 pub fn set_unique<T>(input: &Array<T>, is_sorted: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_set_unique(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            is_sorted as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_set_unique(&mut temp as *mut af_array, input.get(), is_sorted);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Find union of two sets
@@ -1079,22 +1049,21 @@ where
 /// # Return Values
 ///
 /// An Array with union of the input sets
-#[allow(unused_mut)]
 pub fn set_union<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_set_union(
-            &mut temp as MutAfArray,
-            first.get() as AfArray,
-            second.get() as AfArray,
-            is_unique as c_int,
+            &mut temp as *mut af_array,
+            first.get(),
+            second.get(),
+            is_unique,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Find intersection of two sets
@@ -1108,22 +1077,21 @@ where
 /// # Return Values
 ///
 /// An Array with intersection of the input sets
-#[allow(unused_mut)]
 pub fn set_intersect<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_set_intersect(
-            &mut temp as MutAfArray,
-            first.get() as AfArray,
-            second.get() as AfArray,
-            is_unique as c_int,
+            &mut temp as *mut af_array,
+            first.get(),
+            second.get(),
+            is_unique,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Generalized scan
@@ -1149,18 +1117,18 @@ where
     T: HasAfEnum,
     T::AggregateOutType: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_scan(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_int,
-            op as c_uint,
-            inclusive as c_int,
+            &mut temp as *mut af_array,
+            input.get(),
+            dim,
+            op as u32,
+            inclusive,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Generalized scan by key
@@ -1189,19 +1157,19 @@ where
     V::AggregateOutType: HasAfEnum,
     K: HasAfEnum + Scanable,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_scan_by_key(
-            &mut temp as MutAfArray,
-            key.get() as AfArray,
-            input.get() as AfArray,
-            dim as c_int,
-            op as c_uint,
-            inclusive as c_int,
+            &mut temp as *mut af_array,
+            key.get(),
+            input.get(),
+            dim,
+            op as u32,
+            inclusive,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 macro_rules! dim_reduce_by_key_func_def {
@@ -1226,19 +1194,16 @@ macro_rules! dim_reduce_by_key_func_def {
             ValueType: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            let mut out_keys: i64 = 0;
-            let mut out_vals: i64 = 0;
             unsafe {
+            let mut out_keys: af_array = std::ptr::null_mut();
+            let mut out_vals: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut out_keys as MutAfArray,
-                    &mut out_vals as MutAfArray,
-                    keys.get() as AfArray,
-                    vals.get() as AfArray,
-                    dim as c_int,
+                    &mut out_keys as *mut af_array, &mut out_vals as *mut af_array,
+                    keys.get(), vals.get(), dim,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            }
             (out_keys.into(), out_vals.into())
+            }
         }
     };
 }
@@ -1360,20 +1325,17 @@ macro_rules! dim_reduce_by_key_nan_func_def {
             ValueType: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            let mut out_keys: i64 = 0;
-            let mut out_vals: i64 = 0;
             unsafe {
+            let mut out_keys: af_array = std::ptr::null_mut();
+            let mut out_vals: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut out_keys as MutAfArray,
-                    &mut out_vals as MutAfArray,
-                    keys.get() as AfArray,
-                    vals.get() as AfArray,
-                    dim as c_int,
-                    replace_value as c_double,
+                    &mut out_keys as *mut af_array,
+                    &mut out_vals as *mut af_array,
+                    keys.get(), vals.get(), dim, replace_value,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            }
             (out_keys.into(), out_vals.into())
+            }
         }
     };
 }

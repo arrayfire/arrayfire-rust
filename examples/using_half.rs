@@ -5,7 +5,7 @@ fn main() {
     set_device(0);
     info();
 
-    let values: Vec<_> = (1u8..101).map(f32::from).collect();
+    let values: Vec<_> = (1u8..101).map(std::convert::From::from).collect();
 
     let half_values = values.iter().map(|&x| f16::from_f32(x)).collect::<Vec<_>>();
 

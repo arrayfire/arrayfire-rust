@@ -1,39 +1,35 @@
-extern crate libc;
+use super::core::{
+    af_array, dim_t, AfError, Array, ConvGradientType, Dim4, HasAfEnum, RealFloating, HANDLE_ERROR,
+};
 
-use self::libc::{c_int, c_longlong, c_uint};
-use crate::array::Array;
-use crate::defines::{AfError, ConvGradientType};
-use crate::dim4::Dim4;
-use crate::error::HANDLE_ERROR;
-use crate::util::{AfArray, DimT, HasAfEnum, MutAfArray, RealFloating};
+use libc::{c_int, c_uint};
 
-#[allow(dead_code)]
 extern "C" {
     fn af_convolve2_nn(
-        out: MutAfArray,
-        signal: AfArray,
-        filter: AfArray,
+        out: *mut af_array,
+        signal: af_array,
+        filter: af_array,
         stride_dims: c_uint,
-        strides: *const DimT,
+        strides: *const dim_t,
         padding_dim: c_uint,
-        paddings: *const DimT,
+        paddings: *const dim_t,
         dilation_dim: c_uint,
-        dilations: *const DimT,
+        dilations: *const dim_t,
     ) -> c_int;
 
     fn af_convolve2_gradient_nn(
-        out: MutAfArray,
-        incoming_gradient: AfArray,
-        original_signal: AfArray,
-        original_filter: AfArray,
-        convolved_output: AfArray,
+        out: *mut af_array,
+        incoming_gradient: af_array,
+        original_signal: af_array,
+        original_filter: af_array,
+        convolved_output: af_array,
         stride_dims: c_uint,
-        strides: *const DimT,
+        strides: *const dim_t,
         padding_dims: c_uint,
-        paddings: *const DimT,
+        paddings: *const dim_t,
         dilation_dims: c_uint,
-        dilations: *const DimT,
-        grad_type: c_int,
+        dilations: *const dim_t,
+        grad_type: c_uint,
     ) -> c_int;
 }
 
@@ -74,22 +70,22 @@ pub fn convolve2_nn<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_convolve2_nn(
-            &mut temp as MutAfArray,
-            signal.get() as AfArray,
-            filter.get() as AfArray,
+            &mut temp as *mut af_array,
+            signal.get(),
+            filter.get(),
             strides.ndims() as c_uint,
-            strides.get().as_ptr() as *const c_longlong,
+            strides.get().as_ptr() as *const dim_t,
             padding.ndims() as c_uint,
-            padding.get().as_ptr() as *const c_longlong,
+            padding.get().as_ptr() as *const dim_t,
             dilation.ndims() as c_uint,
-            dilation.get().as_ptr() as *const c_longlong,
+            dilation.get().as_ptr() as *const dim_t,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Backward pass gradient of 2D convolution
@@ -122,23 +118,23 @@ pub fn convolve2_gradient_nn<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_convolve2_gradient_nn(
-            &mut temp as MutAfArray,
-            incoming_grad.get() as AfArray,
-            original_signal.get() as AfArray,
-            original_filter.get() as AfArray,
-            convolved_output.get() as AfArray,
+            &mut temp as *mut af_array,
+            incoming_grad.get(),
+            original_signal.get(),
+            original_filter.get(),
+            convolved_output.get(),
             strides.ndims() as c_uint,
-            strides.get().as_ptr() as *const c_longlong,
+            strides.get().as_ptr() as *const dim_t,
             padding.ndims() as c_uint,
-            padding.get().as_ptr() as *const c_longlong,
+            padding.get().as_ptr() as *const dim_t,
             dilation.ndims() as c_uint,
-            dilation.get().as_ptr() as *const c_longlong,
-            grad_type as c_int,
+            dilation.get().as_ptr() as *const dim_t,
+            grad_type as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }

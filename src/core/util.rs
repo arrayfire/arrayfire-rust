@@ -1,45 +1,43 @@
-extern crate half;
-extern crate libc;
-extern crate num;
-
-use self::libc::{c_int, c_uint, c_void, size_t};
-use self::num::Complex;
-use crate::defines::{
-    AfError, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType,
+use super::defines::{
+    AfError, BinaryOp, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatchType, MatProp,
+    RandomEngineType, SparseFormat,
 };
-use crate::defines::{BinaryOp, RandomEngineType, SparseFormat};
-use crate::error::HANDLE_ERROR;
-use crate::num::Zero;
+use super::error::HANDLE_ERROR;
+
+use half::f16;
+use libc::{c_int, c_uint, c_void, size_t};
+use num::Complex;
+use std::convert::From;
 use std::mem;
+use std::ops::BitOr;
 
-pub type AfArray = self::libc::c_longlong;
-pub type AfEvent = self::libc::c_longlong;
-pub type AfIndex = self::libc::c_longlong;
-pub type CellPtr = *const self::libc::c_void;
-pub type Complex32 = Complex<f32>;
-pub type Complex64 = Complex<f64>;
-pub type DimT = self::libc::c_longlong;
-pub type Feat = *const self::libc::c_void;
-pub type Intl = self::libc::c_longlong;
-pub type MutAfArray = *mut self::libc::c_longlong;
-pub type MutAfEvent = *mut self::libc::c_longlong;
-pub type MutAfIndex = *mut self::libc::c_longlong;
-pub type MutDimT = *mut self::libc::c_longlong;
-pub type MutDouble = *mut self::libc::c_double;
-pub type MutFeat = *mut *mut self::libc::c_void;
-pub type MutRandEngine = *mut self::libc::c_longlong;
-pub type MutUint = *mut self::libc::c_uint;
-pub type MutVoidPtr = *mut self::libc::c_ulonglong;
-pub type MutWndHandle = *mut self::libc::c_ulonglong;
-pub type RandEngine = self::libc::c_longlong;
-pub type Uintl = self::libc::c_ulonglong;
-pub type WndHandle = self::libc::c_ulonglong;
+/// Short type alias for Complex single precision type
+pub type c32 = Complex<f32>;
+/// Short type alias for Complex double precision type
+pub type c64 = Complex<f64>;
+/// ArrayFire FFI Type alias for libc's signed long long
+pub type dim_t = libc::c_longlong;
+/// ArrayFire FFI Type alias for libc's unsigned long long
+pub type u64_t = libc::c_ulonglong;
+/// ArrayFire FFI Type alias for libc's void*
+pub type void_ptr = *mut libc::c_void;
 
-#[allow(dead_code)]
+/// ArrayFire FFI Type alias for af_array
+pub type af_array = *mut libc::c_void;
+/// ArrayFire FFI Type alias for af_event
+pub type af_event = *mut libc::c_void;
+/// ArrayFire FFI Type alias for af_indexers_t
+pub type af_index_t = *mut libc::c_void;
+/// ArrayFire FFI Type alias for af_features
+pub type af_features = *const libc::c_void;
+/// ArrayFire FFI Type alias for af_random_engine
+pub type af_random_engine = *mut libc::c_void;
+/// ArrayFire FFI Type alias for af_window
+pub type af_window = *mut libc::c_void;
+
 extern "C" {
     fn af_get_size_of(size: *mut size_t, aftype: c_uint) -> c_int;
-
-    fn af_alloc_host(ptr: *mut *const c_void, bytes: DimT) -> c_int;
+    fn af_alloc_host(ptr: *mut *const c_void, bytes: dim_t) -> c_int;
     fn af_free_host(ptr: *mut c_void) -> c_int;
 }
 
@@ -54,10 +52,9 @@ pub fn get_size(value: DType) -> usize {
 }
 
 /// Allocates space using Arrayfire allocator in host memory
-#[allow(dead_code)]
 pub fn alloc_host<T>(elements: usize, _type: DType) -> *const T {
     let ptr: *const T = ::std::ptr::null();
-    let bytes = (elements * get_size(_type)) as DimT;
+    let bytes = (elements * get_size(_type)) as dim_t;
     unsafe {
         let err_val = af_alloc_host(&mut (ptr as *const c_void), bytes);
         HANDLE_ERROR(AfError::from(err_val));
@@ -112,22 +109,6 @@ impl From<u32> for MatchType {
     fn from(t: u32) -> Self {
         assert!(MatchType::SAD as u32 <= t && t <= MatchType::SHD as u32);
         unsafe { mem::transmute(t) }
-    }
-}
-
-pub fn to_u32(t: MatProp) -> u32 {
-    match t {
-        MatProp::NONE => 0,
-        MatProp::TRANS => 1,
-        MatProp::CTRANS => 2,
-        MatProp::UPPER => 32,
-        MatProp::LOWER => 64,
-        MatProp::DIAGUNIT => 128,
-        MatProp::SYM => 512,
-        MatProp::POSDEF => 1024,
-        MatProp::ORTHOG => 2048,
-        MatProp::TRIDIAG => 4096,
-        MatProp::BLOCKDIAG => 8192,
     }
 }
 
@@ -335,13 +316,13 @@ impl HasAfEnum for u16 {
         DType::U16
     }
 }
-impl HasAfEnum for half::f16 {
+impl HasAfEnum for f16 {
     type InType = Self;
     type BaseType = Self;
     type AbsOutType = Self;
     type ArgOutType = Self;
     type UnaryOutType = Self;
-    type ComplexOutType = Complex<half::f16>;
+    type ComplexOutType = Complex<f16>;
     type MeanOutType = Self;
     type AggregateOutType = f32;
     type ProductOutType = f32;
@@ -462,36 +443,36 @@ macro_rules! implicit {
 //
 
 //LHS is Complex double
-implicit!(Complex64, Complex64 => Complex64);
-implicit!(Complex64, Complex32 => Complex64);
-implicit!(Complex64, f64       => Complex64);
-implicit!(Complex64, f32       => Complex64);
-implicit!(Complex64, i64       => Complex64);
-implicit!(Complex64, u64       => Complex64);
-implicit!(Complex64, i32       => Complex64);
-implicit!(Complex64, u32       => Complex64);
-implicit!(Complex64, i16       => Complex64);
-implicit!(Complex64, u16       => Complex64);
-implicit!(Complex64, bool      => Complex64);
-implicit!(Complex64, u8        => Complex64);
+implicit!(c64, c64 => c64);
+implicit!(c64, c32 => c64);
+implicit!(c64, f64       => c64);
+implicit!(c64, f32       => c64);
+implicit!(c64, i64       => c64);
+implicit!(c64, u64       => c64);
+implicit!(c64, i32       => c64);
+implicit!(c64, u32       => c64);
+implicit!(c64, i16       => c64);
+implicit!(c64, u16       => c64);
+implicit!(c64, bool      => c64);
+implicit!(c64, u8        => c64);
 
 //LHS is Complex float
-implicit!(Complex32, Complex64 => Complex64);
-implicit!(Complex32, Complex32 => Complex32);
-implicit!(Complex32, f64       => Complex64);
-implicit!(Complex32, f32       => Complex32);
-implicit!(Complex32, i64       => Complex32);
-implicit!(Complex32, u64       => Complex32);
-implicit!(Complex32, i32       => Complex32);
-implicit!(Complex32, u32       => Complex32);
-implicit!(Complex32, i16       => Complex32);
-implicit!(Complex32, u16       => Complex32);
-implicit!(Complex32, bool      => Complex32);
-implicit!(Complex32, u8        => Complex32);
+implicit!(c32, c64 => c64);
+implicit!(c32, c32 => c32);
+implicit!(c32, f64       => c64);
+implicit!(c32, f32       => c32);
+implicit!(c32, i64       => c32);
+implicit!(c32, u64       => c32);
+implicit!(c32, i32       => c32);
+implicit!(c32, u32       => c32);
+implicit!(c32, i16       => c32);
+implicit!(c32, u16       => c32);
+implicit!(c32, bool      => c32);
+implicit!(c32, u8        => c32);
 
 //LHS is 64-bit floating point
-implicit!(f64, Complex64 => Complex64);
-implicit!(f64, Complex32 => Complex64);
+implicit!(f64, c64 => c64);
+implicit!(f64, c32 => c64);
 implicit!(f64, f64       =>       f64);
 implicit!(f64, f32       =>       f64);
 implicit!(f64, i64       =>       f64);
@@ -504,8 +485,8 @@ implicit!(f64, bool      =>       f64);
 implicit!(f64, u8        =>       f64);
 
 //LHS is 32-bit floating point
-implicit!(f32, Complex64 => Complex64);
-implicit!(f32, Complex32 => Complex32);
+implicit!(f32, c64 => c64);
+implicit!(f32, c32 => c32);
 implicit!(f32, f64       =>       f64);
 implicit!(f32, f32       =>       f32);
 implicit!(f32, i64       =>       f32);
@@ -518,8 +499,8 @@ implicit!(f32, bool      =>       f32);
 implicit!(f32, u8        =>       f32);
 
 //LHS is 64-bit signed integer
-implicit!(i64, Complex64 => Complex64);
-implicit!(i64, Complex32 => Complex32);
+implicit!(i64, c64 => c64);
+implicit!(i64, c32 => c32);
 implicit!(i64, f64       =>       f64);
 implicit!(i64, f32       =>       f32);
 implicit!(i64, i64       =>       i64);
@@ -532,8 +513,8 @@ implicit!(i64, bool      =>       i64);
 implicit!(i64, u8        =>       i64);
 
 //LHS is 64-bit unsigned integer
-implicit!(u64, Complex64 => Complex64);
-implicit!(u64, Complex32 => Complex32);
+implicit!(u64, c64 => c64);
+implicit!(u64, c32 => c32);
 implicit!(u64, f64       =>       f64);
 implicit!(u64, f32       =>       f32);
 implicit!(u64, i64       =>       u64);
@@ -546,8 +527,8 @@ implicit!(u64, bool      =>       u64);
 implicit!(u64, u8        =>       u64);
 
 //LHS is 32-bit signed integer
-implicit!(i32, Complex64 => Complex64);
-implicit!(i32, Complex32 => Complex32);
+implicit!(i32, c64 => c64);
+implicit!(i32, c32 => c32);
 implicit!(i32, f64       =>       f64);
 implicit!(i32, f32       =>       f32);
 implicit!(i32, i64       =>       i64);
@@ -560,8 +541,8 @@ implicit!(i32, bool      =>       i32);
 implicit!(i32, u8        =>       i32);
 
 //LHS is 32-bit unsigned integer
-implicit!(u32, Complex64 => Complex64);
-implicit!(u32, Complex32 => Complex32);
+implicit!(u32, c64 => c64);
+implicit!(u32, c32 => c32);
 implicit!(u32, f64       =>       f64);
 implicit!(u32, f32       =>       f32);
 implicit!(u32, i64       =>       i64);
@@ -574,8 +555,8 @@ implicit!(u32, bool      =>       u32);
 implicit!(u32, u8        =>       u32);
 
 //LHS is 16-bit signed integer
-implicit!(i16, Complex64 => Complex64);
-implicit!(i16, Complex32 => Complex32);
+implicit!(i16, c64 => c64);
+implicit!(i16, c32 => c32);
 implicit!(i16, f64       =>       f64);
 implicit!(i16, f32       =>       f32);
 implicit!(i16, i64       =>       i64);
@@ -588,8 +569,8 @@ implicit!(i16, bool      =>       u16);
 implicit!(i16, u8        =>       u16);
 
 //LHS is 16-bit unsigned integer
-implicit!(u16, Complex64 => Complex64);
-implicit!(u16, Complex32 => Complex32);
+implicit!(u16, c64 => c64);
+implicit!(u16, c32 => c32);
 implicit!(u16, f64       =>       f64);
 implicit!(u16, f32       =>       f32);
 implicit!(u16, i64       =>       i64);
@@ -602,8 +583,8 @@ implicit!(u16, bool      =>       u16);
 implicit!(u16, u8        =>       u16);
 
 //LHS is 8-bit unsigned integer
-implicit!(u8, Complex64 => Complex64);
-implicit!(u8, Complex32 => Complex32);
+implicit!(u8, c64 => c64);
+implicit!(u8, c32 => c32);
 implicit!(u8, f64       =>       f64);
 implicit!(u8, f32       =>       f32);
 implicit!(u8, i64       =>       i64);
@@ -616,8 +597,8 @@ implicit!(u8, bool      =>        u8);
 implicit!(u8, u8        =>        u8);
 
 //LHS is bool(af::s8)
-implicit!(bool, Complex64 => Complex64);
-implicit!(bool, Complex32 => Complex32);
+implicit!(bool, c64 => c64);
+implicit!(bool, c32 => c32);
 implicit!(bool, f64       =>       f64);
 implicit!(bool, f32       =>       f32);
 implicit!(bool, i64       =>       i64);
@@ -628,18 +609,6 @@ implicit!(bool, i16       =>       i16);
 implicit!(bool, u16       =>       u16);
 implicit!(bool, bool      =>      bool);
 implicit!(bool, u8        =>        u8);
-
-impl Zero for Complex64 {
-    fn zero() -> Self {
-        Self { re: 0.0, im: 0.0 }
-    }
-}
-
-impl Zero for Complex32 {
-    fn zero() -> Self {
-        Self { re: 0.0, im: 0.0 }
-    }
-}
 
 ///Trait qualifier to accept either real or complex typed data
 pub trait FloatingPoint {
@@ -683,8 +652,8 @@ impl RealFloating for f32 {}
 ///Trait qualifier to accept complex data(numbers)
 pub trait ComplexFloating {}
 
-impl ComplexFloating for Complex64 {}
-impl ComplexFloating for Complex32 {}
+impl ComplexFloating for c64 {}
+impl ComplexFloating for c32 {}
 
 ///Trait qualifier indicating it can hold real numbers only
 pub trait RealNumber {}
@@ -813,3 +782,17 @@ pub trait ReduceByKeyInput: HasAfEnum {}
 
 impl ReduceByKeyInput for i32 {}
 impl ReduceByKeyInput for u32 {}
+
+impl From<u32> for MatProp {
+    fn from(t: u32) -> Self {
+        unsafe { mem::transmute(t) }
+    }
+}
+
+impl BitOr for MatProp {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self {
+        Self::from(self as u32 | rhs as u32)
+    }
+}

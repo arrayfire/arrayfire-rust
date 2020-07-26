@@ -1,8 +1,7 @@
-extern crate libc;
+use super::defines::{AfError, Backend};
+use super::error::HANDLE_ERROR;
 
-use self::libc::{c_int, c_uint};
-use crate::defines::{AfError, Backend};
-use crate::error::HANDLE_ERROR;
+use libc::{c_int, c_uint};
 
 extern "C" {
     fn af_set_backend(bknd: u8) -> c_int;
@@ -24,7 +23,6 @@ pub fn set_backend(backend: Backend) {
 }
 
 /// Get the available backend count
-#[allow(unused_mut)]
 pub fn get_backend_count() -> u32 {
     unsafe {
         let mut temp: u32 = 0;
@@ -35,7 +33,6 @@ pub fn get_backend_count() -> u32 {
 }
 
 /// Get the available backends
-#[allow(unused_mut)]
 pub fn get_available_backends() -> Vec<Backend> {
     unsafe {
         let mut temp: i32 = 0;
@@ -58,7 +55,6 @@ pub fn get_available_backends() -> Vec<Backend> {
 }
 
 /// Get current active backend
-#[allow(unused_mut)]
 pub fn get_active_backend() -> Backend {
     unsafe {
         let mut temp: i32 = 0;

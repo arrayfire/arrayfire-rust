@@ -1,38 +1,39 @@
-extern crate libc;
+use super::core::{
+    af_array, AfError, Array, CublasMathMode, FloatingPoint, HasAfEnum, MatProp, HANDLE_ERROR,
+};
 
-use self::libc::{c_int, c_uint, c_void};
-use crate::array::Array;
-use crate::defines::{AfError, CublasMathMode, MatProp};
-use crate::error::HANDLE_ERROR;
-use crate::util::{to_u32, AfArray, MutAfArray};
-use crate::util::{FloatingPoint, HasAfEnum};
+use libc::{c_int, c_uint, c_void};
 use std::vec::Vec;
 
-#[allow(dead_code)]
 extern "C" {
     fn af_gemm(
-        out: MutAfArray,
+        out: *mut af_array,
         optlhs: c_uint,
         optrhs: c_uint,
         alpha: *const c_void,
-        lhs: AfArray,
-        rhs: AfArray,
+        lhs: af_array,
+        rhs: af_array,
         beta: *const c_void,
     ) -> c_int;
 
     fn af_matmul(
-        out: MutAfArray,
-        lhs: AfArray,
-        rhs: AfArray,
+        out: *mut af_array,
+        lhs: af_array,
+        rhs: af_array,
         optlhs: c_uint,
         optrhs: c_uint,
     ) -> c_int;
 
-    fn af_dot(out: MutAfArray, lhs: AfArray, rhs: AfArray, optlhs: c_uint, optrhs: c_uint)
-        -> c_int;
+    fn af_dot(
+        out: *mut af_array,
+        lhs: af_array,
+        rhs: af_array,
+        optlhs: c_uint,
+        optrhs: c_uint,
+    ) -> c_int;
 
-    fn af_transpose(out: MutAfArray, arr: AfArray, conjugate: c_int) -> c_int;
-    fn af_transpose_inplace(arr: AfArray, conjugate: c_int) -> c_int;
+    fn af_transpose(out: *mut af_array, arr: af_array, conjugate: bool) -> c_int;
+    fn af_transpose_inplace(arr: af_array, conjugate: bool) -> c_int;
 
     fn afcu_cublasSetMathMode(mode: c_int) -> c_int;
 }
@@ -90,7 +91,7 @@ extern "C" {
 /// [matmul](./fn.matmul.html) for more terse code.
 ///
 /// ```rust
-/// use arrayfire::{Array, Dim4, print, randu, gemm};
+/// use arrayfire::{Array, Dim4, af_array, print, randu, gemm};
 ///
 /// let dims = Dim4::new(&[5, 5, 1, 1]);
 ///
@@ -100,7 +101,7 @@ extern "C" {
 /// let lhs = randu::<f32>(dims);
 /// let rhs = randu::<f32>(dims);
 ///
-/// let mut result: Array::<f32> = (0 as i64).into();
+/// let mut result: Array::<f32> = (std::ptr::null_mut() as af_array).into();
 ///
 /// gemm(&mut result, arrayfire::MatProp::NONE, arrayfire::MatProp::NONE,
 ///      alpha, &lhs, &rhs, beta);
@@ -129,20 +130,20 @@ pub fn gemm<T>(
 ) where
     T: HasAfEnum + FloatingPoint,
 {
-    let mut out = output.get();
     unsafe {
+        let mut out = output.get();
         let err_val = af_gemm(
-            &mut out as MutAfArray,
-            to_u32(optlhs) as c_uint,
-            to_u32(optrhs) as c_uint,
+            &mut out as *mut af_array,
+            optlhs as c_uint,
+            optrhs as c_uint,
             alpha.as_ptr() as *const c_void,
-            lhs.get() as AfArray,
-            rhs.get() as AfArray,
+            lhs.get(),
+            rhs.get(),
             beta.as_ptr() as *const c_void,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        output.set(out);
     }
-    output.set(out);
 }
 
 /// Matrix multiple of two Arrays
@@ -157,23 +158,22 @@ pub fn gemm<T>(
 /// # Return Values
 ///
 /// The result Array of matrix multiplication
-#[allow(unused_mut)]
 pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatProp) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_matmul(
-            &mut temp as MutAfArray,
-            lhs.get() as AfArray,
-            rhs.get() as AfArray,
-            to_u32(optlhs) as c_uint,
-            to_u32(optrhs) as c_uint,
+            &mut temp as *mut af_array,
+            lhs.get(),
+            rhs.get(),
+            optlhs as c_uint,
+            optrhs as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Calculate the dot product of vectors.
@@ -190,23 +190,22 @@ where
 /// # Return Values
 ///
 /// The result of dot product.
-#[allow(unused_mut)]
 pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatProp) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_dot(
-            &mut temp as MutAfArray,
-            lhs.get() as AfArray,
-            rhs.get() as AfArray,
-            to_u32(optlhs) as c_uint,
-            to_u32(optrhs) as c_uint,
+            &mut temp as *mut af_array,
+            lhs.get(),
+            rhs.get(),
+            optlhs as c_uint,
+            optrhs as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Transpose of a matrix.
@@ -220,18 +219,13 @@ where
 /// # Return Values
 ///
 /// Transposed Array.
-#[allow(unused_mut)]
 pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_transpose(
-            &mut temp as MutAfArray,
-            arr.get() as AfArray,
-            conjugate as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_transpose(&mut temp as *mut af_array, arr.get(), conjugate);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Inplace transpose of a matrix.
@@ -241,10 +235,9 @@ pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
 /// - `arr` is the input Array that has to be transposed
 /// - `conjugate` is a boolean that indicates if the transpose operation needs to be a conjugate
 /// transpose
-#[allow(unused_mut)]
 pub fn transpose_inplace<T: HasAfEnum>(arr: &mut Array<T>, conjugate: bool) {
     unsafe {
-        let err_val = af_transpose_inplace(arr.get() as AfArray, conjugate as c_int);
+        let err_val = af_transpose_inplace(arr.get(), conjugate);
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
