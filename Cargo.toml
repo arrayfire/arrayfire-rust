@@ -27,7 +27,7 @@ indexing = []
 graphics = []
 image = []
 lapack = []
-machine_learning = []
+ml = []
 macros = []
 random = []
 signal = []
@@ -35,7 +35,7 @@ sparse = []
 statistics = []
 vision = []
 default = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
-"machine_learning", "macros", "random", "signal", "sparse", "statistics", "vision"]
+"ml", "macros", "random", "signal", "sparse", "statistics", "vision"]
 
 [dependencies]
 libc = "0.2"

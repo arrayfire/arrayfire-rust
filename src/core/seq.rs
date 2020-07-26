@@ -1,6 +1,5 @@
-extern crate libc;
+use num::{One, Zero};
 
-use crate::num::{One, Zero};
 use std::default::Default;
 use std::fmt;
 

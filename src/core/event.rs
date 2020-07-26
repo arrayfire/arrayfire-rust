@@ -1,31 +1,28 @@
-extern crate libc;
+use super::defines::AfError;
+use super::error::HANDLE_ERROR;
+use super::util::af_event;
 
-use self::libc::c_int;
-use crate::defines::AfError;
-use crate::error::HANDLE_ERROR;
-use crate::util::{AfEvent, MutAfEvent};
-
+use libc::c_int;
 use std::default::Default;
 
-#[allow(dead_code)]
 extern "C" {
-    fn af_create_event(out: MutAfEvent) -> c_int;
-    fn af_delete_event(out: AfEvent) -> c_int;
-    fn af_mark_event(out: AfEvent) -> c_int;
-    fn af_enqueue_wait_event(out: AfEvent) -> c_int;
-    fn af_block_event(out: AfEvent) -> c_int;
+    fn af_create_event(out: *mut af_event) -> c_int;
+    fn af_delete_event(out: af_event) -> c_int;
+    fn af_mark_event(out: af_event) -> c_int;
+    fn af_enqueue_wait_event(out: af_event) -> c_int;
+    fn af_block_event(out: af_event) -> c_int;
 }
 
 /// RAII construct to manage ArrayFire events
 pub struct Event {
-    event_handle: i64,
+    event_handle: af_event,
 }
 
 impl Default for Event {
     fn default() -> Self {
-        let mut temp: i64 = 0;
+        let mut temp: af_event = std::ptr::null_mut();
         unsafe {
-            let err_val = af_create_event(&mut temp as MutAfEvent);
+            let err_val = af_create_event(&mut temp as *mut af_event);
             HANDLE_ERROR(AfError::from(err_val));
         }
         Self { event_handle: temp }
@@ -40,7 +37,7 @@ impl Event {
     /// enqueued after the call to enqueue
     pub fn mark(&self) {
         unsafe {
-            let err_val = af_mark_event(self.event_handle as AfEvent);
+            let err_val = af_mark_event(self.event_handle as af_event);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -51,7 +48,7 @@ impl Event {
     /// until operations on the queue when mark was called are complete
     pub fn enqueue_wait(&self) {
         unsafe {
-            let err_val = af_enqueue_wait_event(self.event_handle as AfEvent);
+            let err_val = af_enqueue_wait_event(self.event_handle as af_event);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -60,7 +57,7 @@ impl Event {
     /// stream before mark was called are complete
     pub fn block(&self) {
         unsafe {
-            let err_val = af_block_event(self.event_handle as AfEvent);
+            let err_val = af_block_event(self.event_handle as af_event);
             HANDLE_ERROR(AfError::from(err_val));
         }
     }
@@ -69,7 +66,7 @@ impl Event {
 impl Drop for Event {
     fn drop(&mut self) {
         unsafe {
-            let ret_val = af_delete_event(self.event_handle as AfEvent);
+            let ret_val = af_delete_event(self.event_handle as af_event);
             match ret_val {
                 0 => (),
                 _ => panic!("Failed to delete event resources: {}", ret_val),

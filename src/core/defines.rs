@@ -1,6 +1,4 @@
-extern crate num;
-
-use self::num::Complex;
+use num::Complex;
 use std::fmt::Error as FmtError;
 use std::fmt::{Display, Formatter};
 
@@ -249,27 +247,29 @@ pub enum ColorSpace {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MatProp {
     /// Default (no-op)
-    NONE,
+    NONE = 0,
     /// Data needs to be transposed
-    TRANS,
+    TRANS = 1,
     /// Data needs to be conjugate transposed
-    CTRANS,
+    CTRANS = 2,
     /// Matrix is upper triangular
-    UPPER,
+    CONJ = 4,
+    /// Matrix needs to be conjugate
+    UPPER = 32,
     /// Matrix is lower triangular
-    LOWER,
+    LOWER = 64,
     /// Matrix diagonal has unitary values
-    DIAGUNIT,
+    DIAGUNIT = 128,
     /// Matrix is symmetric
-    SYM,
+    SYM = 512,
     /// Matrix is positive definite
-    POSDEF,
+    POSDEF = 1024,
     /// Matrix is orthogonal
-    ORTHOG,
+    ORTHOG = 2048,
     /// Matrix is tri-diagonal
-    TRIDIAG,
+    TRIDIAG = 4096,
     /// Matrix is block-diagonal
-    BLOCKDIAG,
+    BLOCKDIAG = 8192,
 }
 
 /// Norm type

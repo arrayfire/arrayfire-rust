@@ -1,15 +1,13 @@
-extern crate libc;
+use super::defines::AfError;
+use super::util::{dim_t, free_host};
 
-use self::libc::c_char;
-use crate::defines::AfError;
-use crate::util::{free_host, DimT, MutDimT};
+use libc::c_char;
 use std::ffi::CStr;
 use std::ops::{Deref, DerefMut};
 use std::sync::RwLock;
 
-#[allow(dead_code)]
 extern "C" {
-    fn af_get_last_error(str: *mut *mut c_char, len: *mut DimT);
+    fn af_get_last_error(str: *mut *mut c_char, len: *mut dim_t);
 }
 
 /// Signature of error handling callback function
@@ -75,7 +73,6 @@ lazy_static! {
 ///     info();
 /// }
 /// ```
-#[allow(unused_must_use)]
 #[allow(clippy::match_wild_err_arm)]
 pub fn register_error_handler(cb_value: Callback) {
     let mut gaurd = match ERROR_HANDLER_LOCK.write() {
@@ -86,6 +83,7 @@ pub fn register_error_handler(cb_value: Callback) {
     *gaurd.deref_mut() = cb_value;
 }
 
+/// Default error handler for error code returned by ArrayFire FFI calls
 #[allow(non_snake_case)]
 #[allow(clippy::match_wild_err_arm)]
 pub fn HANDLE_ERROR(error_code: AfError) {
@@ -97,12 +95,13 @@ pub fn HANDLE_ERROR(error_code: AfError) {
     (*gaurd.deref()).call(error_code);
 }
 
+/// Fetch last error description as String
 pub fn get_last_error() -> String {
     let mut result: String = String::from("No Last Error");
     let mut tmp: *mut c_char = ::std::ptr::null_mut();
-    let mut len: DimT = 0;
+    let mut len: dim_t = 0;
     unsafe {
-        af_get_last_error(&mut tmp, &mut len as MutDimT);
+        af_get_last_error(&mut tmp, &mut len as *mut dim_t);
         if len > 0 {
             result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
             free_host(tmp);

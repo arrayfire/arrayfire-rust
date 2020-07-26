@@ -1,98 +1,101 @@
-extern crate libc;
-extern crate num;
+use super::array::Array;
+use super::data::{constant, tile, ConstGenerator};
+use super::defines::AfError;
+use super::dim4::Dim4;
+use super::error::HANDLE_ERROR;
+use super::util::{af_array, HasAfEnum, ImplicitPromote};
+use num::Zero;
 
-use self::libc::c_int;
-use self::num::Complex;
-use crate::array::Array;
-use crate::data::{constant, tile, ConstGenerator};
-use crate::defines::AfError;
-use crate::dim4::Dim4;
-use crate::error::HANDLE_ERROR;
-use crate::num::Zero;
-use crate::util::{AfArray, HasAfEnum, ImplicitPromote, MutAfArray};
+use libc::c_int;
+use num::Complex;
 use std::ops::Neg;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
-#[allow(dead_code)]
 extern "C" {
-    fn af_add(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_sub(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_mul(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_div(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_add(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_sub(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_mul(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_div(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
 
-    fn af_lt(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_gt(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_le(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_ge(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_eq(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_or(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_lt(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_gt(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_le(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_ge(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_eq(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_or(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
 
-    fn af_neq(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_and(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_rem(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_mod(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_neq(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_and(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_rem(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_mod(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
 
-    fn af_bitand(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_bitor(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_bitxor(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_bitshiftl(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_bitshiftr(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_minof(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_maxof(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_clamp(out: MutAfArray, inp: AfArray, lo: AfArray, hi: AfArray, batch: c_int) -> c_int;
+    fn af_bitand(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_bitor(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_bitxor(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_bitshiftl(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_bitshiftr(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_minof(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_maxof(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_clamp(
+        out: *mut af_array,
+        inp: af_array,
+        lo: af_array,
+        hi: af_array,
+        batch: bool,
+    ) -> c_int;
 
-    fn af_not(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_abs(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_arg(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_sign(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_ceil(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_round(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_trunc(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_floor(out: MutAfArray, arr: AfArray) -> c_int;
+    fn af_not(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_abs(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_arg(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_sign(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_ceil(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_round(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_trunc(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_floor(out: *mut af_array, arr: af_array) -> c_int;
 
-    fn af_hypot(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_hypot(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
 
-    fn af_sin(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_cos(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_tan(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_asin(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_acos(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_atan(out: MutAfArray, arr: AfArray) -> c_int;
+    fn af_sin(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_cos(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_tan(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_asin(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_acos(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_atan(out: *mut af_array, arr: af_array) -> c_int;
 
-    fn af_atan2(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_cplx2(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_root(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
-    fn af_pow(out: MutAfArray, lhs: AfArray, rhs: AfArray, batch: c_int) -> c_int;
+    fn af_atan2(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_cplx2(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_root(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
+    fn af_pow(out: *mut af_array, lhs: af_array, rhs: af_array, batch: bool) -> c_int;
 
-    fn af_cplx(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_real(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_imag(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_conjg(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_sinh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_cosh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_tanh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_asinh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_acosh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_atanh(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_pow2(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_exp(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_sigmoid(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_expm1(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_erf(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_erfc(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_log(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_log1p(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_log10(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_log2(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_sqrt(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_rsqrt(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_cbrt(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_factorial(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_tgamma(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_lgamma(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_iszero(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_isinf(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_isnan(out: MutAfArray, arr: AfArray) -> c_int;
+    fn af_cplx(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_real(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_imag(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_conjg(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_sinh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_cosh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_tanh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_asinh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_acosh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_atanh(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_pow2(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_exp(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_sigmoid(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_expm1(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_erf(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_erfc(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_log(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_log1p(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_log10(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_log2(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_sqrt(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_rsqrt(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_cbrt(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_factorial(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_tgamma(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_lgamma(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_iszero(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_isinf(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_isnan(out: *mut af_array, arr: af_array) -> c_int;
 }
 
 /// Enables use of `!` on objects of type [Array](./struct.Array.html)
@@ -103,12 +106,12 @@ where
     type Output = Array<T>;
 
     fn not(self) -> Self::Output {
-        let mut temp: i64 = 0;
         unsafe {
-            let err_val = af_not(&mut temp as MutAfArray, self.get() as AfArray);
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val = af_not(&mut temp as *mut af_array, self.get());
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
@@ -117,15 +120,14 @@ macro_rules! unary_func {
         #[doc=$doc_str]
         ///
         /// This is an element wise unary operation.
-        #[allow(unused_mut)]
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> Array< T::$out_type >
         where T::$out_type: HasAfEnum {
-            let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
+                let mut temp: af_array = std::ptr::null_mut();
+                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get());
                 HANDLE_ERROR(AfError::from(err_val));
+                temp.into()
             }
-            temp.into()
         }
     )
 }
@@ -251,14 +253,13 @@ macro_rules! unary_boolean_func {
         #[doc=$doc_str]
         ///
         /// This is an element wise unary operation.
-        #[allow(unused_mut)]
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> Array<bool> {
-            let mut temp: i64 = 0;
             unsafe {
-                let err_val = $ffi_fn(&mut temp as MutAfArray, input.get() as AfArray);
+                let mut temp: af_array = std::ptr::null_mut();
+                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get());
                 HANDLE_ERROR(AfError::from(err_val));
+                temp.into()
             }
-            temp.into()
         }
     )
 }
@@ -272,24 +273,20 @@ macro_rules! binary_func {
         #[doc=$doc_str]
         ///
         /// This is an element wise binary operation.
-        #[allow(unused_mut)]
         pub fn $fn_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<A::Output>
         where
             A: HasAfEnum + ImplicitPromote<B>,
             B: HasAfEnum + ImplicitPromote<A>,
             <A as ImplicitPromote<B>>::Output: HasAfEnum,
         {
-            let mut temp: i64 = 0;
             unsafe {
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_fn(
-                    &mut temp as MutAfArray,
-                    lhs.get() as AfArray,
-                    rhs.get() as AfArray,
-                    batch as c_int,
+                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
+                Into::<Array<A::Output>>::into(temp)
             }
-            Into::<Array<A::Output>>::into(temp)
         }
     };
 }
@@ -410,17 +407,14 @@ macro_rules! overloaded_binary_func {
             B: HasAfEnum + ImplicitPromote<A>,
             <A as ImplicitPromote<B>>::Output: HasAfEnum,
         {
-            let mut temp: i64 = 0;
             unsafe {
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut temp as MutAfArray,
-                    lhs.get() as AfArray,
-                    rhs.get() as AfArray,
-                    batch as c_int,
+                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
+                temp.into()
             }
-            temp.into()
         }
 
         #[doc=$doc_str]
@@ -510,17 +504,14 @@ macro_rules! overloaded_compare_func {
             A: HasAfEnum + ImplicitPromote<B>,
             B: HasAfEnum + ImplicitPromote<A>,
         {
-            let mut temp: i64 = 0;
             unsafe {
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut temp as MutAfArray,
-                    lhs.get() as AfArray,
-                    rhs.get() as AfArray,
-                    batch as c_int,
+                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
+                temp.into()
             }
-            temp.into()
         }
 
         #[doc=$doc_str]
@@ -612,18 +603,18 @@ where
     Y: HasAfEnum + ImplicitPromote<X>,
     <X as ImplicitPromote<Y>>::Output: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_clamp(
-            &mut temp as MutAfArray,
-            inp.get() as AfArray,
-            lo.get() as AfArray,
-            hi.get() as AfArray,
-            batch as c_int,
+            &mut temp as *mut af_array,
+            inp.get(),
+            lo.get(),
+            hi.get(),
+            batch,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Clamp the values of Array
@@ -828,9 +819,7 @@ arith_func!(BitXor, bitxor, bitxor);
 mod op_assign {
 
     use super::*;
-    use crate::array::Array;
-    use crate::index::{assign_gen, Indexer};
-    use crate::seq::Seq;
+    use crate::core::{assign_gen, Array, Indexer, Seq};
     use std::ops::{AddAssign, DivAssign, MulAssign, RemAssign, SubAssign};
     use std::ops::{BitAndAssign, BitOrAssign, BitXorAssign, ShlAssign, ShrAssign};
 

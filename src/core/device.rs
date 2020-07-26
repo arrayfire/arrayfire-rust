@@ -1,9 +1,8 @@
-extern crate libc;
+use super::defines::AfError;
+use super::error::HANDLE_ERROR;
+use super::util::free_host;
 
-use self::libc::{c_char, c_int, size_t};
-use crate::defines::AfError;
-use crate::error::HANDLE_ERROR;
-use crate::util::free_host;
+use libc::{c_char, c_int, size_t};
 use std::borrow::Cow;
 use std::ffi::{CStr, CString};
 

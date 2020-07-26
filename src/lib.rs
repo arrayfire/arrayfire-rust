@@ -33,56 +33,18 @@
 #[macro_use]
 extern crate lazy_static;
 
-pub use crate::array::*;
-mod array;
+pub use crate::core::*;
+mod core;
 
 #[cfg(feature = "algorithm")]
 pub use crate::algorithm::*;
 #[cfg(feature = "algorithm")]
 mod algorithm;
 
-#[cfg(feature = "arithmetic")]
-pub use crate::arith::*;
-#[cfg(feature = "arithmetic")]
-mod arith;
-
-pub use crate::backend::*;
-mod backend;
-
 #[cfg(feature = "blas")]
 pub use crate::blas::*;
 #[cfg(feature = "blas")]
 mod blas;
-
-#[cfg(feature = "data")]
-pub use crate::data::*;
-#[cfg(feature = "data")]
-mod data;
-
-pub use crate::device::*;
-mod device;
-
-pub use crate::defines::*;
-mod defines;
-
-pub use crate::dim4::Dim4;
-mod dim4;
-
-pub use crate::error::{handle_error_general, register_error_handler, Callback, ErrorCallback};
-mod error;
-
-pub use crate::event::*;
-mod event;
-
-#[cfg(feature = "indexing")]
-pub use crate::index::*;
-#[cfg(feature = "indexing")]
-mod index;
-
-#[cfg(feature = "indexing")]
-pub use crate::seq::Seq;
-#[cfg(feature = "indexing")]
-mod seq;
 
 #[cfg(feature = "graphics")]
 pub use crate::graphics::Window;
@@ -99,19 +61,10 @@ pub use crate::lapack::*;
 #[cfg(feature = "lapack")]
 mod lapack;
 
-#[cfg(feature = "machine_learning")]
-pub use crate::machinelearning::*;
-#[cfg(feature = "machine_learning")]
-mod machinelearning;
-
-#[cfg(feature = "macros")]
-mod macros;
-mod num;
-
-#[cfg(feature = "random")]
-pub use crate::random::*;
-#[cfg(feature = "random")]
-mod random;
+#[cfg(feature = "ml")]
+pub use crate::ml::*;
+#[cfg(feature = "ml")]
+mod ml;
 
 #[cfg(feature = "signal")]
 pub use crate::signal::*;
@@ -127,13 +80,6 @@ mod sparse;
 pub use crate::statistics::*;
 #[cfg(feature = "statistics")]
 mod statistics;
-
-pub use crate::util::{get_size, HasAfEnum, ImplicitPromote};
-pub use crate::util::{ComplexFloating, FloatingPoint, RealFloating, RealNumber};
-pub use crate::util::{ConfidenceCCInput, DeconvInput, ReduceByKeyInput};
-pub use crate::util::{CovarianceComputable, EdgeComputable, MedianComputable, MomentsComputable};
-pub use crate::util::{GrayRGBConvertible, ImageFilterType, ImageNativeType, Scanable};
-mod util;
 
 #[cfg(feature = "vision")]
 pub use crate::vision::*;

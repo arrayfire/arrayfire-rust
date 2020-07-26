@@ -1,87 +1,109 @@
-extern crate libc;
-extern crate num;
+use super::array::Array;
+use super::defines::{AfError, BorderType};
+use super::dim4::Dim4;
+use super::error::HANDLE_ERROR;
+use super::util::{af_array, c32, c64, dim_t, u64_t, HasAfEnum};
 
-use self::libc::{c_double, c_int, c_uint};
-use self::num::Complex;
-use crate::array::Array;
-use crate::defines::{AfError, BorderType};
-use crate::dim4::Dim4;
-use crate::error::HANDLE_ERROR;
-use crate::util::{AfArray, DimT, HasAfEnum, Intl, MutAfArray, Uintl};
+use libc::{c_double, c_int, c_uint};
 use std::option::Option;
 use std::vec::Vec;
 
-#[allow(dead_code)]
 extern "C" {
     fn af_constant(
-        out: MutAfArray,
+        out: *mut af_array,
         val: c_double,
         ndims: c_uint,
-        dims: *const DimT,
-        afdtype: c_int,
+        dims: *const dim_t,
+        afdtype: c_uint,
     ) -> c_int;
 
     fn af_constant_complex(
-        out: MutAfArray,
+        out: *mut af_array,
         real: c_double,
         imag: c_double,
         ndims: c_uint,
-        dims: *const DimT,
-        afdtype: c_int,
+        dims: *const dim_t,
+        afdtype: c_uint,
     ) -> c_int;
 
-    fn af_constant_long(out: MutAfArray, val: Intl, ndims: c_uint, dims: *const DimT) -> c_int;
+    fn af_constant_long(out: *mut af_array, val: dim_t, ndims: c_uint, dims: *const dim_t)
+        -> c_int;
 
-    fn af_constant_ulong(out: MutAfArray, val: Uintl, ndims: c_uint, dims: *const DimT) -> c_int;
+    fn af_constant_ulong(
+        out: *mut af_array,
+        val: u64_t,
+        ndims: c_uint,
+        dims: *const dim_t,
+    ) -> c_int;
 
     fn af_range(
-        out: MutAfArray,
+        out: *mut af_array,
         ndims: c_uint,
-        dims: *const DimT,
-        seq_dims: c_int,
+        dims: *const dim_t,
+        seq_dim: c_int,
         afdtype: c_uint,
     ) -> c_int;
 
     fn af_iota(
-        out: MutAfArray,
+        out: *mut af_array,
         ndims: c_uint,
-        dims: *const DimT,
+        dims: *const dim_t,
         t_ndims: c_uint,
-        tdims: *const DimT,
+        tdims: *const dim_t,
         afdtype: c_uint,
     ) -> c_int;
 
-    fn af_identity(out: MutAfArray, ndims: c_uint, dims: *const DimT, afdtype: c_uint) -> c_int;
-    fn af_diag_create(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
-    fn af_diag_extract(out: MutAfArray, arr: AfArray, num: c_int) -> c_int;
-    fn af_join(out: MutAfArray, dim: c_int, first: AfArray, second: AfArray) -> c_int;
-    fn af_join_many(out: MutAfArray, dim: c_int, n_arrays: c_uint, inpts: *const AfArray) -> c_int;
+    fn af_identity(out: *mut af_array, ndims: c_uint, dims: *const dim_t, afdtype: c_uint)
+        -> c_int;
+    fn af_diag_create(out: *mut af_array, arr: af_array, num: c_int) -> c_int;
+    fn af_diag_extract(out: *mut af_array, arr: af_array, num: c_int) -> c_int;
+    fn af_join(out: *mut af_array, dim: c_int, first: af_array, second: af_array) -> c_int;
+    fn af_join_many(
+        out: *mut af_array,
+        dim: c_int,
+        n_arrays: c_uint,
+        inpts: *const af_array,
+    ) -> c_int;
 
-    fn af_tile(out: MutAfArray, arr: AfArray, x: c_uint, y: c_uint, z: c_uint, w: c_uint) -> c_int;
-    fn af_reorder(o: MutAfArray, a: AfArray, x: c_uint, y: c_uint, z: c_uint, w: c_uint) -> c_int;
-    fn af_shift(o: MutAfArray, a: AfArray, x: c_int, y: c_int, z: c_int, w: c_int) -> c_int;
-    fn af_moddims(out: MutAfArray, arr: AfArray, ndims: c_uint, dims: *const DimT) -> c_int;
+    fn af_tile(
+        out: *mut af_array,
+        arr: af_array,
+        x: c_uint,
+        y: c_uint,
+        z: c_uint,
+        w: c_uint,
+    ) -> c_int;
+    fn af_reorder(
+        o: *mut af_array,
+        a: af_array,
+        x: c_uint,
+        y: c_uint,
+        z: c_uint,
+        w: c_uint,
+    ) -> c_int;
+    fn af_shift(o: *mut af_array, a: af_array, x: c_int, y: c_int, z: c_int, w: c_int) -> c_int;
+    fn af_moddims(out: *mut af_array, arr: af_array, ndims: c_uint, dims: *const dim_t) -> c_int;
 
-    fn af_flat(out: MutAfArray, arr: AfArray) -> c_int;
-    fn af_flip(out: MutAfArray, arr: AfArray, dim: c_uint) -> c_int;
-    fn af_lower(out: MutAfArray, arr: AfArray, is_unit_diag: c_int) -> c_int;
-    fn af_upper(out: MutAfArray, arr: AfArray, is_unit_diag: c_int) -> c_int;
+    fn af_flat(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_flip(out: *mut af_array, arr: af_array, dim: c_uint) -> c_int;
+    fn af_lower(out: *mut af_array, arr: af_array, is_unit_diag: bool) -> c_int;
+    fn af_upper(out: *mut af_array, arr: af_array, is_unit_diag: bool) -> c_int;
 
-    fn af_select(out: MutAfArray, cond: AfArray, a: AfArray, b: AfArray) -> c_int;
-    fn af_select_scalar_l(out: MutAfArray, cond: AfArray, a: c_double, b: AfArray) -> c_int;
-    fn af_select_scalar_r(out: MutAfArray, cond: AfArray, a: AfArray, b: c_double) -> c_int;
+    fn af_select(out: *mut af_array, cond: af_array, a: af_array, b: af_array) -> c_int;
+    fn af_select_scalar_l(out: *mut af_array, cond: af_array, a: c_double, b: af_array) -> c_int;
+    fn af_select_scalar_r(out: *mut af_array, cond: af_array, a: af_array, b: c_double) -> c_int;
 
-    fn af_replace(a: MutAfArray, cond: AfArray, b: AfArray) -> c_int;
-    fn af_replace_scalar(a: MutAfArray, cond: AfArray, b: c_double) -> c_int;
+    fn af_replace(a: *mut af_array, cond: af_array, b: af_array) -> c_int;
+    fn af_replace_scalar(a: *mut af_array, cond: af_array, b: c_double) -> c_int;
 
     fn af_pad(
-        out: MutAfArray,
-        input: AfArray,
+        out: *mut af_array,
+        input: af_array,
         begin_ndims: c_uint,
-        begin_dims: *const DimT,
+        begin_dims: *const dim_t,
         end_ndims: c_uint,
-        end_dims: *const DimT,
-        pad_fill_type: c_int,
+        end_dims: *const dim_t,
+        pad_fill_type: c_uint,
     ) -> c_int;
 }
 
@@ -116,125 +138,119 @@ pub trait ConstGenerator {
         Self::OutType: HasAfEnum;
 }
 
-#[allow(unused_mut)]
 impl ConstGenerator for i64 {
     type OutType = i64;
 
     fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-        let mut temp: i64 = 0;
         unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
             let err_val = af_constant_long(
-                &mut temp as MutAfArray,
-                *self as Intl,
+                &mut temp as *mut af_array,
+                *self,
                 dims.ndims() as c_uint,
-                dims.get().as_ptr() as *const DimT,
+                dims.get().as_ptr() as *const dim_t,
             );
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
-#[allow(unused_mut)]
 impl ConstGenerator for u64 {
     type OutType = u64;
 
     fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-        let mut temp: i64 = 0;
         unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
             let err_val = af_constant_ulong(
-                &mut temp as MutAfArray,
-                *self as Uintl,
+                &mut temp as *mut af_array,
+                *self,
                 dims.ndims() as c_uint,
-                dims.get().as_ptr() as *const DimT,
+                dims.get().as_ptr() as *const dim_t,
             );
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
-#[allow(unused_mut)]
-impl ConstGenerator for Complex<f32> {
-    type OutType = Complex<f32>;
+impl ConstGenerator for c32 {
+    type OutType = c32;
 
     fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-        let mut temp: i64 = 0;
         unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
             let err_val = af_constant_complex(
-                &mut temp as MutAfArray,
+                &mut temp as *mut af_array,
                 (*self).re as c_double,
                 (*self).im as c_double,
                 dims.ndims() as c_uint,
-                dims.get().as_ptr() as *const DimT,
+                dims.get().as_ptr() as *const dim_t,
                 1,
             );
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
-#[allow(unused_mut)]
-impl ConstGenerator for Complex<f64> {
-    type OutType = Complex<f64>;
+impl ConstGenerator for c64 {
+    type OutType = c64;
 
     fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-        let mut temp: i64 = 0;
         unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
             let err_val = af_constant_complex(
-                &mut temp as MutAfArray,
+                &mut temp as *mut af_array,
                 (*self).re as c_double,
                 (*self).im as c_double,
                 dims.ndims() as c_uint,
-                dims.get().as_ptr() as *const DimT,
+                dims.get().as_ptr() as *const dim_t,
                 3,
             );
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
-#[allow(unused_mut)]
 impl ConstGenerator for bool {
     type OutType = bool;
 
     fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-        let mut temp: i64 = 0;
         unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
             let err_val = af_constant(
-                &mut temp as MutAfArray,
+                &mut temp as *mut af_array,
                 *self as c_int as c_double,
                 dims.ndims() as c_uint,
-                dims.get().as_ptr() as *const DimT,
+                dims.get().as_ptr() as *const dim_t,
                 4,
             );
             HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
-        temp.into()
     }
 }
 
 macro_rules! cnst {
     ($rust_type:ty, $ffi_type:expr) => {
-        #[allow(unused_mut)]
         impl ConstGenerator for $rust_type {
             type OutType = $rust_type;
 
             fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
-                let mut temp: i64 = 0;
                 unsafe {
+                    let mut temp: af_array = std::ptr::null_mut();
                     let err_val = af_constant(
-                        &mut temp as MutAfArray,
+                        &mut temp as *mut af_array,
                         *self as c_double,
                         dims.ndims() as c_uint,
-                        dims.get().as_ptr() as *const DimT,
+                        dims.get().as_ptr() as *const dim_t,
                         $ffi_type,
                     );
                     HANDLE_ERROR(AfError::from(err_val));
+                    temp.into()
                 }
-                temp.into()
             }
         }
     };
@@ -254,8 +270,8 @@ cnst!(u16, 11);
 ///
 /// - i64
 /// - u64
-/// - num::Complex\<f32\>
-/// - num::Complex\<f64\>
+/// - num::Complex\<f32\> a.k.a c32
+/// - num::Complex\<f64\> a.k.a c64
 /// - f32
 /// - f64
 /// - i32
@@ -291,21 +307,20 @@ where
 ///
 /// # Return Values
 /// Array
-#[allow(unused_mut)]
 pub fn range<T: HasAfEnum>(dims: Dim4, seq_dim: i32) -> Array<T> {
     let aftype = T::get_af_dtype();
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_range(
-            &mut temp as MutAfArray,
+            &mut temp as *mut af_array,
             dims.ndims() as c_uint,
-            dims.get().as_ptr() as *const DimT,
+            dims.get().as_ptr() as *const dim_t,
             seq_dim as c_int,
             aftype as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Create a range of values
@@ -320,22 +335,21 @@ pub fn range<T: HasAfEnum>(dims: Dim4, seq_dim: i32) -> Array<T> {
 /// # Return Values
 ///
 /// Array
-#[allow(unused_mut)]
 pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Array<T> {
     let aftype = T::get_af_dtype();
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_iota(
-            &mut temp as MutAfArray,
+            &mut temp as *mut af_array,
             dims.ndims() as c_uint,
-            dims.get().as_ptr() as *const DimT,
+            dims.get().as_ptr() as *const dim_t,
             tdims.ndims() as c_uint,
-            tdims.get().as_ptr() as *const DimT,
+            tdims.get().as_ptr() as *const dim_t,
             aftype as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Create an identity array with 1's in diagonal
@@ -347,20 +361,19 @@ pub fn iota<T: HasAfEnum>(dims: Dim4, tdims: Dim4) -> Array<T> {
 /// # Return Values
 ///
 /// Identity matrix
-#[allow(unused_mut)]
 pub fn identity<T: HasAfEnum>(dims: Dim4) -> Array<T> {
     let aftype = T::get_af_dtype();
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_identity(
-            &mut temp as MutAfArray,
+            &mut temp as *mut af_array,
             dims.ndims() as c_uint,
-            dims.get().as_ptr() as *const DimT,
+            dims.get().as_ptr() as *const dim_t,
             aftype as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Create a diagonal matrix
@@ -374,21 +387,16 @@ pub fn identity<T: HasAfEnum>(dims: Dim4) -> Array<T> {
 /// # Return Values
 ///
 /// An Array with values as a diagonal Matrix
-#[allow(unused_mut)]
 pub fn diag_create<T>(input: &Array<T>, dim: i32) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_diag_create(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_diag_create(&mut temp as *mut af_array, input.get(), dim);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Extract diagonal from a given Matrix
@@ -401,21 +409,16 @@ where
 /// # Return Values
 ///
 /// An Array with values of the diagonal from input Array
-#[allow(unused_mut)]
 pub fn diag_extract<T>(input: &Array<T>, dim: i32) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_diag_extract(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_diag_extract(&mut temp as *mut af_array, input.get(), dim);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Join two arrays
@@ -429,22 +432,16 @@ where
 /// # Return Values
 ///
 /// Concatenated Array
-#[allow(unused_mut)]
 pub fn join<T>(dim: i32, first: &Array<T>, second: &Array<T>) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_join(
-            &mut temp as MutAfArray,
-            dim as c_int,
-            first.get() as AfArray,
-            second.get() as AfArray,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_join(&mut temp as *mut af_array, dim, first.get(), second.get());
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Join multiple arrays
@@ -457,7 +454,6 @@ where
 /// # Return Values
 ///
 /// Concatenated Array
-#[allow(unused_mut)]
 pub fn join_many<T>(dim: i32, inputs: Vec<&Array<T>>) -> Array<T>
 where
     T: HasAfEnum,
@@ -466,17 +462,17 @@ where
     for i in inputs {
         v.push(i.get());
     }
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_join_many(
-            &mut temp as MutAfArray,
-            dim as c_int,
-            v.len() as c_uint,
-            v.as_ptr() as *const AfArray,
+            &mut temp as *mut af_array,
+            dim,
+            v.len() as u32,
+            v.as_ptr() as *const af_array,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Tile the input array along specified dimension
@@ -493,24 +489,23 @@ where
 ///# Return Values
 ///
 /// Tiled input array as per the tiling dimensions provided
-#[allow(unused_mut)]
 pub fn tile<T>(input: &Array<T>, dims: Dim4) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_tile(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get() as af_array,
             dims[0] as c_uint,
             dims[1] as c_uint,
             dims[2] as c_uint,
             dims[3] as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Reorder the array according to the new specified axes
@@ -595,19 +590,19 @@ where
         }
     };
 
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_reorder(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get() as af_array,
             new_axes[0] as c_uint,
             new_axes[1] as c_uint,
             new_axes[2] as c_uint,
             new_axes[3] as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Reorder the array in specified order
@@ -654,24 +649,23 @@ where
 /// print(&_a);
 /// print(&a_);
 /// ```
-#[allow(unused_mut)]
 pub fn shift<T>(input: &Array<T>, offsets: &[i32; 4]) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_shift(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            offsets[0] as c_int,
-            offsets[1] as c_int,
-            offsets[2] as c_int,
-            offsets[3] as c_int,
+            &mut temp as *mut af_array,
+            input.get(),
+            offsets[0],
+            offsets[1],
+            offsets[2],
+            offsets[3],
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Change the shape of the Array
@@ -683,36 +677,34 @@ where
 ///
 /// # Return Values
 /// Reshaped Array
-#[allow(unused_mut)]
 pub fn moddims<T>(input: &Array<T>, dims: Dim4) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_moddims(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get(),
             dims.ndims() as c_uint,
-            dims.get().as_ptr() as *const DimT,
+            dims.get().as_ptr() as *const dim_t,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Flatten the multidimensional Array to an 1D Array
-#[allow(unused_mut)]
 pub fn flat<T>(input: &Array<T>) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_flat(&mut temp as MutAfArray, input.get() as AfArray);
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_flat(&mut temp as *mut af_array, input.get());
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Flip the Array
@@ -725,21 +717,16 @@ where
 /// # Return Values
 ///
 /// Flipped Array
-#[allow(unused_mut)]
 pub fn flip<T>(input: &Array<T>, dim: u32) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_flip(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            dim as c_uint,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_flip(&mut temp as *mut af_array, input.get(), dim);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Create lower triangular matrix
@@ -751,21 +738,16 @@ where
 ///
 /// # Return Values
 /// Array
-#[allow(unused_mut)]
 pub fn lower<T>(input: &Array<T>, is_unit_diag: bool) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_lower(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            is_unit_diag as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_lower(&mut temp as *mut af_array, input.get(), is_unit_diag);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Create upper triangular matrix
@@ -777,21 +759,16 @@ where
 ///
 /// # Return Values
 /// Array
-#[allow(unused_mut)]
 pub fn upper<T>(input: &Array<T>, is_unit_diag: bool) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_upper(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
-            is_unit_diag as c_int,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_upper(&mut temp as *mut af_array, input.get(), is_unit_diag);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Element wise conditional operator for Arrays
@@ -814,22 +791,16 @@ where
 /// # Return Values
 ///
 /// An Array
-#[allow(unused_mut)]
 pub fn select<T>(a: &Array<T>, cond: &Array<bool>, b: &Array<T>) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_select(
-            &mut temp as MutAfArray,
-            cond.get() as AfArray,
-            a.get() as AfArray,
-            b.get() as AfArray,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_select(&mut temp as *mut af_array, cond.get(), a.get(), b.get());
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Element wise conditional operator for Arrays
@@ -852,22 +823,16 @@ where
 /// # Return Values
 ///
 /// An Array
-#[allow(unused_mut)]
 pub fn selectl<T>(a: f64, cond: &Array<bool>, b: &Array<T>) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_select_scalar_l(
-            &mut temp as MutAfArray,
-            cond.get() as AfArray,
-            a as c_double,
-            b.get() as AfArray,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_select_scalar_l(&mut temp as *mut af_array, cond.get(), a, b.get());
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Element wise conditional operator for Arrays
@@ -890,22 +855,16 @@ where
 /// # Return Values
 ///
 /// An Array
-#[allow(unused_mut)]
 pub fn selectr<T>(a: &Array<T>, cond: &Array<bool>, b: f64) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut temp: i64 = 0;
     unsafe {
-        let err_val = af_select_scalar_r(
-            &mut temp as MutAfArray,
-            cond.get() as AfArray,
-            a.get() as AfArray,
-            b as c_double,
-        );
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_select_scalar_r(&mut temp as *mut af_array, cond.get(), a.get(), b);
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
 
 /// Inplace replace in Array based on a condition
@@ -927,17 +886,12 @@ where
 /// # Return Values
 ///
 /// None
-#[allow(unused_mut)]
 pub fn replace<T>(a: &mut Array<T>, cond: &Array<bool>, b: &Array<T>)
 where
     T: HasAfEnum,
 {
     unsafe {
-        let err_val = af_replace(
-            a.get() as MutAfArray,
-            cond.get() as AfArray,
-            b.get() as AfArray,
-        );
+        let err_val = af_replace(a.get() as *mut af_array, cond.get(), b.get());
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
@@ -961,14 +915,12 @@ where
 /// # Return Values
 ///
 /// None
-#[allow(unused_mut)]
 pub fn replace_scalar<T>(a: &mut Array<T>, cond: &Array<bool>, b: f64)
 where
     T: HasAfEnum,
 {
     unsafe {
-        let err_val =
-            af_replace_scalar(a.get() as MutAfArray, cond.get() as AfArray, b as c_double);
+        let err_val = af_replace_scalar(a.get() as *mut af_array, cond.get(), b);
         HANDLE_ERROR(AfError::from(err_val));
     }
 }
@@ -991,18 +943,18 @@ pub fn pad<T: HasAfEnum>(
     end: Dim4,
     fill_type: BorderType,
 ) -> Array<T> {
-    let mut temp: i64 = 0;
     unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_pad(
-            &mut temp as MutAfArray,
-            input.get() as AfArray,
+            &mut temp as *mut af_array,
+            input.get(),
             begin.ndims() as c_uint,
-            begin.get().as_ptr() as *const DimT,
+            begin.get().as_ptr() as *const dim_t,
             end.ndims() as c_uint,
-            end.get().as_ptr() as *const DimT,
-            fill_type as c_int,
+            end.get().as_ptr() as *const dim_t,
+            fill_type as c_uint,
         );
         HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
-    temp.into()
 }
