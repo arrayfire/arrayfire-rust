@@ -183,7 +183,7 @@ impl RandomEngine {
     }
 
     /// Returns the native FFI handle for Rust object `RandomEngine`
-    pub fn get(&self) -> af_random_engine {
+    pub unsafe fn get(&self) -> af_random_engine {
         self.handle
     }
 }
@@ -219,7 +219,7 @@ pub fn get_default_random_engine() -> RandomEngine {
         let mut handle: af_random_engine = std::ptr::null_mut();
         err_val = af_retain_random_engine(&mut handle as *mut af_random_engine, temp);
         HANDLE_ERROR(AfError::from(err_val));
-        RandomEngine { handle: handle } //    ::from(handle)
+        RandomEngine { handle: handle }
     }
 }
 

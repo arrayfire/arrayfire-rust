@@ -219,7 +219,7 @@ impl<'object> Indexer<'object> {
     }
 
     /// Get native(ArrayFire) resource handle
-    pub fn get(&self) -> af_index_t {
+    pub unsafe fn get(&self) -> af_index_t {
         self.handle
     }
 }
