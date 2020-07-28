@@ -458,11 +458,11 @@ pub fn join_many<T>(dim: i32, inputs: Vec<&Array<T>>) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let mut v = Vec::new();
-    for i in inputs {
-        v.push(i.get());
-    }
     unsafe {
+        let mut v = Vec::new();
+        for i in inputs {
+            v.push(i.get());
+        }
         let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_join_many(
             &mut temp as *mut af_array,

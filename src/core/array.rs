@@ -367,7 +367,7 @@ where
     }
 
     /// Returns the native FFI handle for Rust object `Array`
-    pub fn get(&self) -> af_array {
+    pub unsafe fn get(&self) -> af_array {
         self.handle
     }
 
@@ -529,13 +529,11 @@ where
     /// Get the device pointer and lock the buffer in memory manager
     ///
     /// The device pointer is not freed by memory manager until unlock is called.
-    pub fn device_ptr(&self) -> void_ptr {
-        unsafe {
-            let mut temp: void_ptr = std::ptr::null_mut();
-            let err_val = af_get_device_ptr(&mut temp as *mut void_ptr, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            temp
-        }
+    pub unsafe fn device_ptr(&self) -> void_ptr {
+        let mut temp: void_ptr = std::ptr::null_mut();
+        let err_val = af_get_device_ptr(&mut temp as *mut void_ptr, self.handle);
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 
     /// Get the size of physical allocated bytes.
