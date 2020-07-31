@@ -1,26 +1,24 @@
-//! ArrayFire is a high performance software library for parallel computing with
-//! an easy-to-use API. ArrayFire abstracts away much of the details of
-//! programming parallel architectures by providing a high-level container object,
-//! the [Array](./struct.Array.html), that represents data stored on a CPU, GPU, FPGA,
-//! or other type of accelerator. This abstraction permits developers to write
-//! massively parallel applications in a high-level language where they need
-//! not be concerned about low-level optimizations that are frequently required to
-//! achieve high throughput on most parallel architectures.
+//! ArrayFire is a high performance software library for parallel computing with an easy-to-use API.
+//! ArrayFire abstracts away much of the details of programming parallel architectures by providing
+//! a high-level container object, the [Array](./struct.Array.html), that represents data stored on
+//! a CPU, GPU, FPGA, or other type of accelerator. This abstraction permits developers to write
+//! massively parallel applications in a high-level language where they need not be concerned about
+//! low-level optimizations that are frequently required to achieve high throughput on most parallel
+//! architectures.
 
-//! This crate provides Rust bindings for the ArrayFire library. Given below table shows
-//! the rust bindings compatability with ArrayFire upstream.  If you find any bugs,
-//! please report them on [github](https://github.com/arrayfire/arrayfire-rust/issues).
+//! This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust
+//! bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on
+//! [github](https://github.com/arrayfire/arrayfire-rust/issues).
 //!
 //! | arrayfire-rust crate | ArrayFire Upstream |
 //! |:--------------------:|:------------------:|
 //! |         M.m.p1       |      M.m.p2        |
 //!
-//! Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2*
-//! are patch/fix updates for `arrayfire-rust` & `ArrayFire` respectively,
-//! and they don't need to match.
+//! Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2* are patch/fix updates
+//! for `arrayfire-rust` & `ArrayFire` respectively, and they don't need to match.
 //!
-//! Please go through our [tutorials](http://arrayfire.org/arrayfire-rust/arrayfire/book/index.html)
-//! book for more explanations on how to use ArrayFire to speedup your code.
+//! Please go through our [tutorials](http://arrayfire.org/arrayfire-rust/book/index.html) book for
+//! more explanations on how to use ArrayFire to speedup your code.
 
 #![doc(
     html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",

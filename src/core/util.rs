@@ -1,5 +1,5 @@
 use super::defines::{
-    AfError, BinaryOp, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatchType, MatProp,
+    AfError, BinaryOp, ColorMap, ConvDomain, ConvMode, DType, InterpType, MatProp, MatchType,
     RandomEngineType, SparseFormat,
 };
 use super::error::HANDLE_ERROR;

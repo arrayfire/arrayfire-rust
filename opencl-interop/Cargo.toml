@@ -1,0 +1,21 @@
+[package]
+name = "af-opencl-interop"
+version = "0.1.0"
+authors = ["Pradeep Garigipati <pradeep@arrayfire.com>"]
+edition = "2018"
+
+[dependencies]
+libc = "0.2"
+arrayfire = { path = "../" }
+cl-sys = "0.4.2"
+
+[dev-dependencies]
+ocl-core = "0.11.2"
+
+[[example]]
+name = "custom_kernel"
+path = "examples/custom_kernel.rs"
+
+[[example]]
+name = "ocl_af_app"
+path = "examples/ocl_af_app.rs"

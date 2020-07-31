@@ -1,19 +1,16 @@
 # Indexing
 
-Indexing in ArrayFire is a powerful but easy to abuse feature. This feature
-allows you to reference or copy subsections of a larger array and perform
-operations on only a subset of elements.
+Indexing in ArrayFire is a powerful but easy to abuse feature. This feature allows you to reference
+or copy subsections of a larger array and perform operations on only a subset of elements.
 
-[Indexer](../struct.Indexer.html) structure is the key element used in Rust
-wrapper of ArrayFire for creating references to existing Arrays. Given
-below are few of such functions and their corresponding use cases.
-Use [Indexer::new](../struct.Indexer.html#method.new) to create an Indexer
-object and set either a `Seq` object or `Array` as indexing object for a
-given dimension.
+[Indexer][1] structure is the key element used in Rust wrapper of ArrayFire for creating references
+to existing Arrays. Given below are few of such functions and their corresponding use cases. Use
+[Indexer::new][2] to create an Indexer object and set either a `Seq` object or `Array` as indexing
+object for a given dimension.
 
 ## Using Seq objects to index Array
 
-Create a view of an existing Array using Sequences and the function [index](../fn.index.html).
+Create a view of an existing Array using Sequences and the function [index][3].
 
 ```rust,noplaypen
 let dims = Dim4::new(&[5, 5, 1, 1]);
@@ -37,7 +34,7 @@ af_print!("a(seq(1,3,1), span)", sub);
 //     0.1386     0.9455     0.9434     0.2330     0.2657
 ```
 
-Set a sub-portion of an existing Array with a constant value using [assign_seq](../fn.assign_seq.html).
+Set a sub-portion of an existing Array with a constant value using [assign\_seq][4].
 
 ```rust,noplaypen
 let a    = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
@@ -135,7 +132,19 @@ print(&row(&a, 4));
 print(&col(&a, 4));
 ```
 
-You can also use [rows](../fn.rows.html) & [cols](../fn.cols.html) to retrieve a
-subset of rows or coloumns respectively.
+You can also use [rows][5] & [cols][6] to retrieve a subset of rows or coloumns respectively.
 
-Similarly, [set_row](../fn.set_row.html) & [set_rows](../fn.set_rows.html) can be used to change the values in a particular set of rows using another Array. [set_col](../fn.set_col.html) & [set_cols](../fn.set_cols.html) has same functionality, except that it is for coloumns.
+Similarly, [set\_row][7] & [set\_rows][9] can be used to change the values in a particular set of
+rows using another Array. [set\_col][8] & [set\_cols][10] has same functionality, except that it is
+for coloumns.
+
+[1]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html
+[2]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html#method.new
+[3]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.index.html
+[4]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.assign_seq.html
+[5]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.rows.html
+[6]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.cols.html
+[7]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_row.html
+[8]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_col.html
+[9]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_rows.html
+[10]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_cols.html

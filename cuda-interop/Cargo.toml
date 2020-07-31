@@ -1,0 +1,22 @@
+[package]
+name = "af-cuda-interop"
+version = "0.1.0"
+authors = ["Pradeep Garigipati <pradeep@arrayfire.com>"]
+edition = "2018"
+
+[dependencies]
+libc = "0.2"
+arrayfire = { path = "../" }
+cuda-runtime-sys = "0.3.0-alpha.1"
+
+[dev-dependencies]
+rustacuda = "0.1"
+rustacuda_core = "0.1"
+
+[[example]]
+name = "custom_kernel"
+path = "examples/custom_kernel.rs"
+
+[[example]]
+name = "cuda_af_app"
+path = "examples/cuda_af_app.rs"
