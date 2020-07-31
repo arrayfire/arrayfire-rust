@@ -466,7 +466,7 @@ where
         self.handle
     }
 
-    /// Returns the native FFI handle for Rust object `Array`
+    /// Set the native FFI handle for Rust object `Array`
     pub fn set(&mut self, handle: af_array) {
         self.handle = handle;
     }
