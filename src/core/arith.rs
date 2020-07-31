@@ -8,6 +8,7 @@ use num::Zero;
 
 use libc::c_int;
 use num::Complex;
+use std::mem;
 use std::ops::Neg;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
@@ -854,6 +855,49 @@ arith_func!(BitAnd, bitand, bitand);
 arith_func!(BitOr, bitor, bitor);
 arith_func!(BitXor, bitxor, bitxor);
 
+macro_rules! bitshift_scalar_func {
+    ($rust_type: ty, $trait_name: ident, $op_name: ident) => {
+        impl<T> $trait_name<$rust_type> for Array<T>
+        where
+            T: HasAfEnum + ImplicitPromote<$rust_type>,
+            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+        {
+            type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
+
+            fn $op_name(self, rhs: $rust_type) -> Self::Output {
+                let op2 = constant(rhs, self.dims());
+                self.$op_name(op2)
+            }
+        }
+        impl<'f, T> $trait_name<$rust_type> for &'f Array<T>
+        where
+            T: HasAfEnum + ImplicitPromote<$rust_type>,
+            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+        {
+            type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
+
+            fn $op_name(self, rhs: $rust_type) -> Self::Output {
+                let op2 = constant(rhs, self.dims());
+                self.$op_name(op2)
+            }
+        }
+    };
+}
+
+macro_rules! shift_spec {
+    ($trait_name: ident, $op_name: ident) => {
+        bitshift_scalar_func!(u64, $trait_name, $op_name);
+        bitshift_scalar_func!(u32, $trait_name, $op_name);
+        bitshift_scalar_func!(u16, $trait_name, $op_name);
+        bitshift_scalar_func!(u8, $trait_name, $op_name);
+    };
+}
+
+shift_spec!(Shl, shl);
+shift_spec!(Shr, shr);
+
 #[cfg(op_assign)]
 mod op_assign {
 
@@ -871,7 +915,6 @@ mod op_assign {
                 <A as ImplicitPromote<B>>::Output: HasAfEnum,
                 <B as ImplicitPromote<A>>::Output: HasAfEnum,
             {
-                #[allow(unused_variables)]
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
                     let mut idxrs = Indexer::default();
@@ -893,6 +936,35 @@ mod op_assign {
     arith_assign_func!(ShlAssign, shl_assign, shiftl);
     arith_assign_func!(ShrAssign, shr_assign, shiftr);
 
+    macro_rules! shift_assign_func {
+        ($rust_type:ty, $trait_name:ident, $op_name:ident, $func:ident) => {
+            impl<T> $trait_name<$rust_type> for Array<T>
+            where
+                $rust_type: HasAfEnum + ImplicitPromote<T>,
+                T: HasAfEnum
+                    + ImplicitPromote<$rust_type>
+                    + ImplicitPromote<$rust_type, Output = T>,
+            {
+                fn $op_name(&mut self, rhs: $rust_type) {
+                    let mut temp = $func(self, &rhs, false);
+                    mem::swap(self, &mut temp);
+                }
+            }
+        };
+    }
+
+    macro_rules! shift_assign_spec {
+        ($trait_name: ident, $op_name: ident, $func:ident) => {
+            shift_assign_func!(u64, $trait_name, $op_name, $func);
+            shift_assign_func!(u32, $trait_name, $op_name, $func);
+            shift_assign_func!(u16, $trait_name, $op_name, $func);
+            shift_assign_func!(u8, $trait_name, $op_name, $func);
+        };
+    }
+
+    shift_assign_spec!(ShlAssign, shl_assign, shiftl);
+    shift_assign_spec!(ShrAssign, shr_assign, shiftr);
+
     macro_rules! bit_assign_func {
         ($op_name:ident, $fn_name:ident, $func: ident) => {
             impl<A, B> $op_name<Array<B>> for Array<A>
@@ -902,7 +974,6 @@ mod op_assign {
                 <A as ImplicitPromote<B>>::Output: HasAfEnum,
                 <B as ImplicitPromote<A>>::Output: HasAfEnum,
             {
-                #[allow(unused_variables)]
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
                     let mut idxrs = Indexer::default();
