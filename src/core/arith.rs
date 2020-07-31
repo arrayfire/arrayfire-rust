@@ -273,6 +273,17 @@ macro_rules! binary_func {
         #[doc=$doc_str]
         ///
         /// This is an element wise binary operation.
+        ///
+        /// # Important Notes
+        ///
+        /// - If shape/dimensions of `lhs` and `rhs` are same, the value of `batch` parameter
+        ///   has no effect.
+        ///
+        /// - If shape/dimensions of `lhs` and `rhs` are different, the value of `batch` has
+        ///   to be set to `true`. In this case, the shapes of `lhs` and `rhs` have to satisfy the
+        ///   following criteria:
+        ///   - Same number of elements in `lhs` and `rhs` along a given dimension/axis
+        ///   - Only one element in `lhs` or `rhs` along a given dimension/axis
         pub fn $fn_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<A::Output>
         where
             A: HasAfEnum + ImplicitPromote<B>,
@@ -434,9 +445,18 @@ macro_rules! overloaded_binary_func {
         ///
         /// An Array with results of the binary operation.
         ///
-        ///# Note
+        ///# Important Notes
         ///
-        /// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
+        /// - If shape/dimensions of `arg1` and `arg2` are same, the value of `batch` parameter
+        ///   has no effect.
+        ///
+        /// - If shape/dimensions of `arg1` and `arg2` are different, the value of `batch` has
+        ///   to be set to `true`. In this case, the shapes of `arg1` and `arg2` have to satisfy the
+        ///   following criteria:
+        ///   - Same number of elements in `arg1` and `arg2` along a given dimension/axis
+        ///   - Only one element in `arg1` or `arg2` along a given dimension/axis
+        ///
+        /// - The trait `Convertable` essentially translates to a scalar native type on rust or Array.
         pub fn $fn_name<T, U>(
             arg1: &T,
             arg2: &U,
@@ -530,9 +550,19 @@ macro_rules! overloaded_compare_func {
         ///# Return Values
         ///
         /// An Array with results of the comparison operation a.k.a an Array of boolean values.
-        ///# Note
         ///
-        /// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
+        ///# Important Notes
+        ///
+        /// - If shape/dimensions of `arg1` and `arg2` are same, the value of `batch` parameter
+        ///   has no effect.
+        ///
+        /// - If shape/dimensions of `arg1` and `arg2` are different, the value of `batch` has
+        ///   to be set to `true`. In this case, the shapes of `arg1` and `arg2` have to satisfy the
+        ///   following criteria:
+        ///   - Same number of elements in `arg1` and `arg2` along a given dimension/axis
+        ///   - Only one element in `arg1` or `arg2` along a given dimension/axis
+        ///
+        /// - The trait `Convertable` essentially translates to a scalar native type on rust or Array.
         pub fn $fn_name<T, U>(
             arg1: &T,
             arg2: &U,
@@ -632,9 +662,18 @@ where
 ///
 /// An Array with results of the binary operation.
 ///
-/// # Note
+/// # Important Notes
 ///
-/// The trait `Convertable` essentially translates to a scalar native type on rust or Array.
+/// - If shape/dimensions of `arg1` and `arg2` are same, the value of `batch` parameter
+///   has no effect.
+///
+/// - If shape/dimensions of `arg1` and `arg2` are different, the value of `batch` has
+///   to be set to `true`. In this case, the shapes of `arg1` and `arg2` have to satisfy the
+///   following criteria:
+///   - Same number of elements in `arg1` and `arg2` along a given dimension/axis
+///   - Only one element in `arg1` or `arg2` along a given dimension/axis
+///
+/// - The trait `Convertable` essentially translates to a scalar native type on rust or Array.
 pub fn clamp<T, C>(
     input: &Array<T>,
     arg1: &C,
