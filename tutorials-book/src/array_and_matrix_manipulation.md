@@ -1,7 +1,7 @@
 # Array and Matrix Manipulation
 
-ArrayFire provides several different methods for manipulating arrays and matrices.
-The functionality includes:
+ArrayFire provides several different methods for manipulating arrays and matrices. The functionality
+includes:
 
 * [moddims()](#moddims) - change the dimensions of an array without changing the data
 * [flat()](#flat) - flatten an array to one dimension
@@ -16,11 +16,10 @@ Below we provide several examples of these functions and their use.
 
 ### moddims()
 
-The [moddims](../fn.moddims.html) function changes the dimensions of an array without
-changing its data or order. Note that this function modifies only the _metadata_
-associated with the array. It does not modify the content of the array.
-Here is an example of moddims() converting an 8x1 array into a 2x4 and then
-back to a 8x1:
+The [moddims][1] function changes the dimensions of an array without changing its data or order.
+Note that this function modifies only the _metadata_ associated with the array. It does not modify
+the content of the array. Here is an example of moddims() converting an 8x1 array into a 2x4 and
+then back to a 8x1:
 
 ```rust,noplaypen
 a [8 1 1 1]
@@ -53,7 +52,7 @@ let out = moddims(&a, a.elements(), 1, 1, 1);
 
 ### flat()
 
-The [flat](../fn.flat.html) function flattens an array to one dimension:
+The [flat][2] function flattens an array to one dimension:
 
 ```
 a [3 3 1 1]
@@ -76,9 +75,9 @@ flat(&a)
 
 ### flip()
 
-The [flip](../fn.flip.html) function flips the contents of an array along a
-chosen dimension. In the example below, we show the 5x2 array flipped
-along the zeroth (i.e. within a column) and first (e.g. across rows) axes:
+The [flip][3] function flips the contents of an array along a chosen dimension. In the example
+below, we show the 5x2 array flipped along the zeroth (i.e. within a column) and first (e.g.
+across rows) axes:
 
 ```rust,noplaypen
 a [5 2 1 1]
@@ -105,8 +104,7 @@ flip(a, 1) [5 2 1 1]
 
 ### join()
 
-The [join](../fn.join.html), [join_many](../fn.join_many.html) functions can be
-used to join arrays along a specific dimension.
+The [join][4], [join\_many][5] functions can be used to join arrays along a specific dimension.
 
 Here is an example of how to use join an array to itself:
 
@@ -140,9 +138,8 @@ join(1, a, a) [5 2 1 1]
 
 ### reorder()
 
-The [reorder](../fn.reorder.html) function modifies the order of data within an array by
-exchanging data according to the change in dimensionality. The linear ordering
-of data within the array is preserved.
+The [reorder][6] function modifies the order of data within an array by exchanging data according to
+the change in dimensionality. The linear ordering of data within the array is preserved.
 
 ```rust,noplaypen
 a [2 2 3 1]
@@ -181,8 +178,8 @@ reorder(&a, 2, 0, 1)
 
 ### shift()
 
-The [shift](../fn.shift.html) function shifts data in a circular buffer fashion along a
-chosen dimension. Consider the following example:
+The [shift][7] function shifts data in a circular buffer fashion along a chosen dimension. Consider
+the following example:
 
 ```rust,noplaypen
 a [3 5 1 1]
@@ -205,9 +202,8 @@ shift(&a, -1, 2 )
 
 ### tile()
 
-The [tile](../fn.tile.html) function repeats an array along the specified dimension.
-For example below we show how to tile an array along the zeroth and first
-dimensions of an array:
+The [tile][8] function repeats an array along the specified dimension. For example below we show how
+to tile an array along the zeroth and first dimensions of an array:
 
 ```rust,noplaypen
 a [3 1 1 1]
@@ -254,8 +250,8 @@ tile(a, tile_dims) [3 2 3 1]
 
 ### transpose()
 
-The [transpose](../fn.transpose.html) function performs a standard matrix transpose. The input
-array must have the dimensions of a 2D-matrix.
+The [transpose][9] function performs a standard matrix transpose. The input array must have the
+dimensions of a 2D-matrix.
 
 ```rust,noplaypen
 a [3 3 1 1]
@@ -298,3 +294,13 @@ The output for a `[3 3 1 1]` matrix will be the following.
          1          2
          2          2
 ```
+
+[1]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.moddims.html
+[2]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.flat.html
+[3]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.flip.html
+[4]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.join.html
+[5]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.join_many.html
+[6]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.reorder.html
+[7]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.shift.html
+[8]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.tile.html
+[9]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.transpose.html

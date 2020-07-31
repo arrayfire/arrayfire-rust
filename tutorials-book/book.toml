@@ -8,4 +8,4 @@ title = "Rust Wrapper for ArrayFire HPC Library"
 [output.html]
 theme = "src/theme"
 mathjax-support = true
-default-theme = "ayu"
+default-theme = "Coal"

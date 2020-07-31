@@ -1,79 +1,61 @@
+[![ci][19]][16] [![docs][18]][3] [![book][22]][21] [![slack][17]][4] [![google-groups][20]][5]
+
 # Arrayfire Rust Bindings
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance
-library for parallel computing with an easy-to-use API. It enables users
-to write scientific computing code that is portable across CUDA, OpenCL
-and CPU devices. This project provides Rust bindings for the ArrayFire
-library. Given below table shows the rust bindings compatability with
-ArrayFire.  If you find any bugs, please report them
-[here](https://github.com/arrayfire/arrayfire-rust/issues).
+[ArrayFire][1] is a high performance library for parallel computing with an easy-to-use API. It
+enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU
+devices. This project provides Rust bindings for the ArrayFire library. Given below table shows
+the rust bindings compatability with ArrayFire.  If you find any bugs, please report them [here][2].
 
 | arrayfire-rust | ArrayFire |
 |:--------------:|:---------:|
 |         M.m.p1 |    M.m.p2 |
 
-Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2*
-are patch/fix updates for `arrayfire-rust` & `ArrayFire` respectively,
-and they don't need to match.
-
-## Documentation
-
-You can find the most recent updated documentation
-[here](http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html).
-
-## Communication
-
-* [Slack Chat](https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ)
-* [Google Groups](https://groups.google.com/forum/#!forum/arrayfire-users)
+Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2* are patch/fix updates for
+`arrayfire-rust` & `ArrayFire` respectively, and they don't need to match.
 
 ## Supported platforms
 
 Linux, Windows and OSX. Rust 1.15.1 or higher is required.
 
-## Use from Crates.io [![](http://meritbadge.herokuapp.com/arrayfire)](https://crates.io/crates/arrayfire) [![](https://docs.rs/arrayfire/badge.svg)](https://docs.rs/arrayfire)
+## Use from Crates.io [![][6]][7] [![][8]][9]
 
-To use the rust bindings for ArrayFire from crates.io, the following
-requirements are to be met first.
+To use the rust bindings for ArrayFire from crates.io, the following requirements are to be met first.
 
-1. [Download and install ArrayFire binaries](https://arrayfire.com/download)
-   based on your operating system.
-2. Set the evironment variable `AF_PATH` to point to ArrayFire installation
-   root folder.
+1. [Download and install ArrayFire binaries][10] based on your operating system.
+2. Set the evironment variable `AF_PATH` to point to ArrayFire installation root folder.
 3. Make sure to add the path to lib files to your path environment variables.
     - On Linux: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib64`
     - On OSX: do `export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$AF_PATH/lib64`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.7"` to the dependencies section of your project's
-   Cargo.toml file. Make sure to change the version to latest available.
+4. Add `arrayfire = "3.7"` to the dependencies section of your project's Cargo.toml file. Make sure
+   to change the version to latest available.
 
-Once step (4) is over, you should be able to use ArrayFire in your Rust
-project. If you find any bugs, please report them
-[here](https://github.com/arrayfire/arrayfire-rust/issues).
+Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any
+bugs, please report them [here][2].
 
 ## Build from Source
 
-Edit [build.conf](build.conf) to modify the build flags. The structure is a
-simple JSON blob. Currently Rust does not allow key:value pairs to be passed
-from the CLI. To use an existing ArrayFire installation modify the first three
-JSON values. You can install ArrayFire using one of the following two ways.
+Edit [build.conf](build.conf) to modify the build flags. The structure is a simple JSON blob.
+Currently Rust does not allow key:value pairs to be passed from the CLI. To use an existing
+ArrayFire installation modify the first three JSON values. You can install ArrayFire using
+one of the following two ways.
 
-- [Download and install binaries](https://arrayfire.com/download)
-- [Build and install from source](https://github.com/arrayfire/arrayfire)
+- [Download and install binaries][10]
+- [Build and install from source][1]
 
-To build arrayfire submodule available in the rust wrapper, you have to do
-the following.
+To build arrayfire submodule available in the rust wrapper, you have to do the following.
 
 ```bash
 git submodule update --init --recursive
-cargo build
+cargo build // use --all to build all crates in the workspace
 ```
-This is recommended way to build Rust wrapper since the submodule points to
-the most compatible version of ArrayFire the Rust wrapper has been tested with.
-You can find the ArrayFire dependencies below.
+This is recommended way to build Rust wrapper since the submodule points to the most compatible
+version of ArrayFire the Rust wrapper has been tested with. You can find the ArrayFire dependencies below.
 
-- [Linux](https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-Linux)
-- [OSX](https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-OSX)
-- [Windows](https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-Windows)
+- [Linux][11]
+- [OSX][12]
+- [Windows][13]
 
 ## Example
 
@@ -102,24 +84,37 @@ Create a 5-by-3 matrix of random floats on the GPU
 
 ## Acknowledgements
 
-The ArrayFire library is written by developers at
-[ArrayFire](http://arrayfire.com) LLC with
-[contributions from several individuals](https://github.com/arrayfire/arrayfire_rust/graphs/contributors).
-
-The developers at ArrayFire LLC have received partial financial support
-from several grants and institutions. Those that wish to receive public
-acknowledgement are listed below:
-
-<!--
-The following section contains acknowledgements for grant funding. In most
-circumstances, the specific phrasing of the text is mandated by the grant
-provider. Thus these acknowledgements must remain intact without modification.
--->
+The ArrayFire library is written by developers at [ArrayFire][14] LLC with [contributions][15]
+from several individuals. The developers at ArrayFire LLC have received partial financial support
+from several grants and institutions. Those that wish to receive public acknowledgement are listed
+below:
 
 ### Grants
 
-This material is based upon work supported by the DARPA SBIR Program Office
-under Contract Numbers W31P4Q-14-C-0012 and W31P4Q-15-C-0008.
-Any opinions, findings and conclusions or recommendations expressed in this
-material are those of the author(s) and do not necessarily reflect the views of
+This material is based upon work supported by the DARPA SBIR Program Office under Contract Numbers
+W31P4Q-14-C-0012 and W31P4Q-15-C-0008. Any opinions, findings and conclusions or recommendations
+expressed in this material are those of the author(s) and do not necessarily reflect the views of
 the DARPA SBIR Program Office.
+
+[1]: https://github.com/arrayfire/arrayfire
+[2]: https://github.com/arrayfire/arrayfire-rust/issues
+[3]: http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html
+[4]: https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ
+[5]: https://groups.google.com/forum/#!forum/arrayfire-users
+[6]: http://meritbadge.herokuapp.com/arrayfire
+[7]: https://crates.io/crates/arrayfire
+[8]: https://docs.rs/arrayfire/badge.svg
+[9]: https://docs.rs/arrayfire
+[10]: https://arrayfire.com/download
+[11]: https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-Linux
+[12]: https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-OSX
+[13]: https://github.com/arrayfire/arrayfire/wiki/Build-Instructions-for-Windows
+[14]: https://arrayfire.com/
+[15]: https://github.com/arrayfire/arrayfire_rust/graphs/contributors
+[16]: https://github.com/arrayfire/arrayfire-rust/actions?workflow=CI
+[17]: https://img.shields.io/badge/arrayfire-community-e69138?logo=slack
+[18]: https://img.shields.io/badge/arrayfire-Docs-blue?logo=readthedocs
+[19]: https://github.com/arrayfire/arrayfire-rust/workflows/ci/badge.svg?event=push
+[20]: https://img.shields.io/badge/arrayfire-google--groups-orange
+[21]: http://arrayfire.org/arrayfire-rust/book/index.html
+[22]: https://img.shields.io/badge/arrayfire-mdbook-073763?logo=readthedocs

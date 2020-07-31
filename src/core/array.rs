@@ -28,6 +28,14 @@ extern "C" {
         aftype: c_uint,
     ) -> c_int;
 
+    fn af_device_array(
+        out: *mut af_array,
+        data: *mut c_void,
+        ndims: c_uint,
+        dims: *const dim_t,
+        aftype: c_uint,
+    ) -> c_int;
+
     fn af_get_elements(out: *mut dim_t, arr: af_array) -> c_int;
 
     fn af_get_type(out: *mut c_uint, arr: af_array) -> c_int;
@@ -247,6 +255,93 @@ where
                 &mut temp as *mut af_array,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as *const c_longlong,
+                aftype as c_uint,
+            );
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
+        }
+    }
+
+    /// Constructs a new Array object from device pointer
+    ///
+    /// The example show cases the usage using CUDA API, but usage of this function will
+    /// be similar in CPU and OpenCL backends also. In the case of OpenCL backend, the pointer
+    /// would be cl_mem. A short example of how to create an Array from device pointer is
+    /// shown below but for detailed set of examples, please check out the tutorial book
+    /// pages:
+    ///  - [Interoperability with CUDA][1]
+    ///  - [Interoperability with OpenCL][2]
+    ///
+    ///  [1]: http://arrayfire.org/arrayfire-rust/book/cuda-interop.html
+    ///  [2]: http://arrayfire.org/arrayfire-rust/book/opencl-interop.html
+    ///
+    /// # Examples
+    ///
+    /// An example of creating an Array device pointer using
+    /// [rustacuda](https://github.com/bheisler/RustaCUDA) crate. The
+    /// example has to be copied to a `bin` crate with following contents in Cargo.toml
+    /// to run successfully. Note that, all required setup for rustacuda and arrayfire crate
+    /// have to completed first.
+    /// ```text
+    /// [package]
+    /// ....
+    /// [dependencies]
+    /// rustacuda = "0.1"
+    /// rustacuda_derive = "0.1"
+    /// rustacuda_core = "0.1"
+    /// arrayfire = "3.7.*"
+    /// ```
+    ///
+    /// ```rust,ignore
+    ///use arrayfire::*;
+    ///use rustacuda::*;
+    ///use rustacuda::prelude::*;
+    ///
+    ///fn main() {
+    ///    let v: Vec<_> = (0u8 .. 100).map(f32::from).collect();
+    ///
+    ///    rustacuda::init(CudaFlags::empty());
+    ///    let device = Device::get_device(0).unwrap();
+    ///    let context = Context::create_and_push(ContextFlags::MAP_HOST | ContextFlags::SCHED_AUTO,
+    ///                                           device).unwrap();
+    ///    // Approach 1
+    ///    {
+    ///        let mut buffer = memory::DeviceBuffer::from_slice(&v).unwrap();
+    ///
+    ///        let array_dptr = Array::new_from_device_ptr(
+    ///            buffer.as_device_ptr().as_raw_mut(), dim4!(10, 10));
+    ///
+    ///        af_print!("array_dptr", &array_dptr);
+    ///
+    ///        array_dptr.lock(); // Needed to avoid free as arrayfire takes ownership
+    ///    }
+    ///
+    ///    // Approach 2
+    ///    {
+    ///        let mut dptr: *mut f32 = std::ptr::null_mut();
+    ///        unsafe {
+    ///            dptr = memory::cuda_malloc::<f32>(10*10).unwrap().as_raw_mut();
+    ///        }
+    ///        let array_dptr = Array::new_from_device_ptr(dptr, dim4!(10, 10));
+    ///        // note that values might be garbage in the memory pointed out by dptr
+    ///        // in this example as it is allocated but not initialized prior to passing
+    ///        // along to arrayfire::Array::new*
+    ///
+    ///        // After ArrayFire takes over ownership of the pointer, you can use other
+    ///        // arrayfire functions as usual.
+    ///        af_print!("array_dptr", &array_dptr);
+    ///    }
+    ///}
+    /// ```
+    pub fn new_from_device_ptr(dev_ptr: *mut T, dims: Dim4) -> Self {
+        let aftype = T::get_af_dtype();
+        unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val = af_device_array(
+                &mut temp as *mut af_array,
+                dev_ptr as *mut c_void,
+                dims.ndims() as c_uint,
+                dims.get().as_ptr() as *const dim_t,
                 aftype as c_uint,
             );
             HANDLE_ERROR(AfError::from(err_val));
