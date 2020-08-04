@@ -136,16 +136,16 @@ macro_rules! eval {
 /// The user can pass 1 or more sizes and the left over values will default to 1.
 #[macro_export]
 macro_rules! dim4 {
-    ($dim0:literal) => {
+    ($dim0:expr) => {
         $crate::Dim4::new(&[$dim0, 1, 1, 1])
     };
-    ($dim0:literal, $dim1:literal) => {
+    ($dim0:expr, $dim1:expr) => {
         $crate::Dim4::new(&[$dim0, $dim1, 1, 1])
     };
-    ($dim0:literal, $dim1:literal, $dim2:literal) => {
+    ($dim0:expr, $dim1:expr, $dim2:expr) => {
         $crate::Dim4::new(&[$dim0, $dim1, $dim2, 1])
     };
-    ($dim0:literal, $dim1:literal, $dim2:literal, $dim3:literal) => {
+    ($dim0:expr, $dim1:expr, $dim2:expr, $dim3:expr) => {
         $crate::Dim4::new(&[$dim0, $dim1, $dim2, $dim3])
     };
 }
@@ -162,6 +162,12 @@ macro_rules! seq {
         $crate::Seq::<$sty>::new($start, $end, $step)
     };
     ($start:literal : $end:literal : $step:literal) => {
+        $crate::Seq::<i32>::new($start, $end, $step)
+    };
+    ($sty:ty; $start:expr , $end:expr , $step:expr) => {
+        $crate::Seq::<$sty>::new($start, $end, $step)
+    };
+    ($start:expr , $end:expr , $step:expr) => {
         $crate::Seq::<i32>::new($start, $end, $step)
     };
 }
