@@ -194,12 +194,13 @@ macro_rules! view {
     };
     ( $array_ident:ident [ $($start:literal : $end:literal : $step:literal),+ ] ) => {
         {
+            #[allow(non_snake_case)]
             let AF_MAX_DIMS: usize = view!(@af_max_dims);
             let mut seq_vec = Vec::<$crate::Seq<i32>>::with_capacity(AF_MAX_DIMS);
             $(
                 seq_vec.push($crate::seq!($start:$end:$step));
              )*
-             for span_place_holder in seq_vec.len()..AF_MAX_DIMS {
+             for _span_place_holder in seq_vec.len()..AF_MAX_DIMS {
                  seq_vec.push($crate::seq!());
              }
             $crate::index(&$array_ident, &seq_vec)
@@ -218,16 +219,17 @@ macro_rules! view {
     };
     ($array_ident:ident [ $($_e:expr),+ ]) => {
         {
+            #[allow(non_snake_case)]
             let AF_MAX_DIMS: u32 = view!(@af_max_dims);
             let span = $crate::seq!();
             let mut idxrs = $crate::Indexer::default();
 
             view!(@set_indexer 0, idxrs, $($_e),*);
 
-            let mut dimIx = idxrs.len() as u32;
-            while dimIx < AF_MAX_DIMS {
-                idxrs.set_index(&span, dimIx, None);
-                dimIx += 1;
+            let mut dim_ix = idxrs.len() as u32;
+            while dim_ix < AF_MAX_DIMS {
+                idxrs.set_index(&span, dim_ix, None);
+                dim_ix += 1;
             }
             $crate::index_gen(&$array_ident, idxrs)
         }
