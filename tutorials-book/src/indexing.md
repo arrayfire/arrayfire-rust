@@ -18,9 +18,14 @@ We will Sequences and the function [index][3] in this approach.
 {{#include ../../src/core/index.rs:non_macro_seq_index}}
 ```
 However, the same above code can be condensed into a much terse syntax with the help of [view][11]
-macro. Take a look at the above code modified to use view macro.
+macro. Take a look at the following two approaches using view macro.
 ```rust, noplaypen
 {{#include ../../src/core/index.rs:seq_index}}
+```
+<div style="text-align: center"> OR </div>
+
+```rust, noplaypen
+{{#include ../../src/core/macros.rs:seq_view2}}
 ```
 
 ### Modify a sub region of an existing Array
@@ -30,6 +35,11 @@ Array. We will an constant value Array and the function [assign\_seq][4] in the 
 
 ```rust,noplaypen
 {{#include ../../src/core/index.rs:non_macro_seq_assign}}
+```
+
+A much terser way of doing the same using macro is shown below
+```rust,noplaypen
+{{#include ../../src/core/macros.rs:macro_seq_assign}}
 ```
 
 > **NOTE** Normally you want to avoid accessing individual elements of the array like this for performance reasons.
@@ -44,7 +54,7 @@ generalized function [index\_gen][12].
 ```rust,noplaypen
 {{#include ../../src/core/index.rs:non_macro_seq_array_index}}
 ```
-Similar to how, [view][11] macro helped with abreviating the syntax when indexing with just
+Similar to how [view][11] macro helped with abreviating the syntax when indexing with just
 sequences, it can also help when using a combination of Seq and Array.
 ```rust, noplaypen
 {{#include ../../src/core/index.rs:seq_array_index}}
@@ -57,6 +67,11 @@ We will use [assign\_gen][13] function to do it.
 
  ```rust,noplaypen
 {{#include ../../src/core/index.rs:non_macro_seq_array_assign}}
+ ```
+<div style="text-align: center"> OR </div>
+
+ ```rust,noplaypen
+{{#include ../../src/core/macros.rs:macro_seq_array_assign}}
  ```
 
 ## Extract or Set rows/coloumns of an Array

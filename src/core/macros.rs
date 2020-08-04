@@ -204,9 +204,6 @@ macro_rules! view {
             $(
                 seq_vec.push($crate::seq!($start:$end:$step));
              )*
-             for _span_place_holder in seq_vec.len()..AF_MAX_DIMS {
-                 seq_vec.push($crate::seq!());
-             }
             $crate::index(&$array_ident, &seq_vec)
         }
     };
@@ -223,19 +220,68 @@ macro_rules! view {
     };
     ($array_ident:ident [ $($_e:expr),+ ]) => {
         {
-            #[allow(non_snake_case)]
-            let AF_MAX_DIMS: u32 = view!(@af_max_dims);
-            let span = $crate::seq!();
             let mut idxrs = $crate::Indexer::default();
-
             view!(@set_indexer 0, idxrs, $($_e),*);
-
-            let mut dim_ix = idxrs.len() as u32;
-            while dim_ix < AF_MAX_DIMS {
-                idxrs.set_index(&span, dim_ix, None);
-                dim_ix += 1;
-            }
             $crate::index_gen(&$array_ident, idxrs)
+        }
+    };
+}
+
+/// This macro is syntactic sugar for modifying portions of Array with another Array using a
+/// combination of [Sequences][1] and/or [Array][2] objects.
+///
+/// Examples on how to use this macro are provided in the [tutorials book][3]
+///
+/// [1]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Seq.html
+/// [2]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html
+/// [3]: http://arrayfire.org/arrayfire-rust/book/indexing.html
+#[macro_export]
+macro_rules! equation {
+    ( $l:ident [ $($lb:literal : $le:literal : $ls:literal),+ ] =
+      $r:ident [ $($rb:literal : $re:literal : $rs:literal),+ ]) => {
+        {
+            #[allow(non_snake_case)]
+            let AF_MAX_DIMS: usize = view!(@af_max_dims);
+            let mut seq_vec = Vec::<$crate::Seq<i32>>::with_capacity(AF_MAX_DIMS);
+            $(
+                seq_vec.push($crate::seq!($lb:$le:$ls));
+             )*
+            let mut idxrs = $crate::Indexer::default();
+            for i in 0..seq_vec.len() {
+                idxrs.set_index(&seq_vec[i], i as u32, None);
+            }
+            let eq_rterm = $crate::view!($r[ $($rb:$re:$rs),+ ]);
+            $crate::assign_gen(&mut $l, &idxrs, &eq_rterm);
+        }
+    };
+    ( $l:ident [ $($lb:literal : $le:literal : $ls:literal),+ ] = $r:expr ) => {
+        {
+            #[allow(non_snake_case)]
+            let AF_MAX_DIMS: usize = view!(@af_max_dims);
+            let mut seq_vec = Vec::<$crate::Seq<i32>>::with_capacity(AF_MAX_DIMS);
+            $(
+                seq_vec.push($crate::seq!($lb:$le:$ls));
+             )*
+            let mut idxrs = $crate::Indexer::default();
+            for i in 0..seq_vec.len() {
+                idxrs.set_index(&seq_vec[i], i as u32, None);
+            }
+            $crate::assign_gen(&mut $l, &idxrs, &$r);
+        }
+    };
+    ($lhs:ident [ $($lhs_e:expr),+ ] = $rhs:ident [ $($rhs_e:expr),+ ]) => {
+        {
+            let eq_rterm = $crate::view!($rhs[ $($rhs_e),+ ]);
+            let mut idxrs = $crate::Indexer::default();
+            view!(@set_indexer 0, idxrs, $($lhs_e),*);
+            $crate::assign_gen(&mut $lhs, &idxrs, &eq_rterm);
+        }
+    };
+    ($lhs:ident [ $($lhs_e:expr),+ ] = $rhs:expr) => {
+        {
+            let mut idxrs = $crate::Indexer::default();
+            view!(@set_indexer 0, idxrs, $($lhs_e),*);
+            $crate::assign_gen(&mut $lhs, &idxrs, &$rhs);
         }
     };
 }
@@ -243,6 +289,7 @@ macro_rules! view {
 #[cfg(test)]
 mod tests {
     use super::super::array::Array;
+    use super::super::data::constant;
     use super::super::index::index;
     use super::super::random::randu;
 
@@ -272,9 +319,15 @@ mod tests {
 
         let a = randu::<f32>(dim4d);
         let seqs = &[seq!(1:3:1), seq!()];
-        let sub = index(&a, seqs);
-        af_print!("A", a);
-        af_print!("Indexed A", sub);
+        let _sub = index(&a, seqs);
+    }
+
+    #[test]
+    fn seq_view2() {
+        // ANCHOR: seq_view2
+        let a = randu::<f32>(dim4!(5, 5));
+        let _sub = view!(a[1:3:1, 1:1:0]); // 1:1:0 means all elements along axis
+                                           // ANCHOR_END: seq_view2
     }
 
     #[test]
@@ -286,25 +339,86 @@ mod tests {
         let d = a.clone();
         let e = a.clone();
 
-        let v = view!(a);
-        af_print!("v = a[None]", v);
+        let _v = view!(a);
 
-        let m = view!(c[1:3:1, 1:3:2]);
-        af_print!("m = c[:, :]", m);
+        let _m = view!(c[1:3:1, 1:3:2]);
 
         let x = seq!(1:3:1);
         let y = seq!(1:3:2);
-        let u = view!(b[x, y]);
-        af_print!("u = b[seq(), seq()]", u);
+        let _u = view!(b[x, y]);
 
         let values: [u32; 3] = [1, 2, 3];
         let indices = Array::new(&values, dim4!(3, 1, 1, 1));
         let indices2 = Array::new(&values, dim4!(3, 1, 1, 1));
 
-        let w = view!(d[indices, indices2]);
-        af_print!("w = d[Array, Array]", w);
+        let _w = view!(d[indices, indices2]);
 
-        let z = view!(e[indices, y]);
-        af_print!("z = e[Array, Seq]", z);
+        let _z = view!(e[indices, y]);
+    }
+
+    #[test]
+    fn equation_macro1() {
+        let dims = dim4!(5, 5);
+        let mut a = randu::<f32>(dims);
+        //print(&a);
+        //[5 5 1 1]
+        //    0.6010     0.5497     0.1583     0.3636     0.6755
+        //    0.0278     0.2864     0.3712     0.4165     0.6105
+        //    0.9806     0.3410     0.3543     0.5814     0.5232
+        //    0.2126     0.7509     0.6450     0.8962     0.5567
+        //    0.0655     0.4105     0.9675     0.3712     0.7896
+
+        let b = randu::<f32>(dims);
+        //print(&b);
+        //[5 5 1 1]
+        //    0.8966     0.5143     0.0123     0.7917     0.2522
+        //    0.0536     0.3670     0.3988     0.1654     0.9644
+        //    0.5775     0.3336     0.9787     0.8657     0.4711
+        //    0.2908     0.0363     0.2308     0.3766     0.3637
+        //    0.9941     0.5349     0.6244     0.7331     0.9643
+
+        let d0 = seq!(1:2:1);
+        let d1 = seq!(1:2:1);
+        let s0 = seq!(1:2:1);
+        let s1 = seq!(1:2:1);
+        equation!(a[d0, d1] = b[s0, s1]);
+        //print(&a);
+        //[5 5 1 1]
+        //    0.6010     0.5497     0.1583     0.3636     0.6755
+        //    0.0278     0.3670     0.3988     0.4165     0.6105
+        //    0.9806     0.3336     0.9787     0.5814     0.5232
+        //    0.2126     0.7509     0.6450     0.8962     0.5567
+        //    0.0655     0.4105     0.9675     0.3712     0.7896
+    }
+
+    #[test]
+    fn equation_macro2() {
+        let dims = dim4!(5, 5);
+        let mut a = randu::<f32>(dims);
+        let b = randu::<f32>(dims);
+        equation!(a[1:2:1, 1:2:1] = b[1:2:1, 1:2:1]);
+    }
+
+    #[test]
+    fn equation_macro3() {
+        // ANCHOR: macro_seq_assign
+        let mut a = randu::<f32>(dim4!(5, 5));
+        let b = randu::<f32>(dim4!(2, 2));
+        equation!(a[1:2:1, 1:2:1] = b);
+        // ANCHOR_END: macro_seq_assign
+    }
+
+    #[test]
+    fn macro_seq_array_assign() {
+        // ANCHOR: macro_seq_array_assign
+        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&values, dim4!(3));
+        let seq4gen = seq!(0:2:1);
+        let mut a = randu::<f32>(dim4!(5, 3));
+
+        let b = constant(2.0 as f32, dim4!(3, 3));
+
+        equation!(a[indices, seq4gen] = b);
+        // ANCHOR_END: macro_seq_array_assign
     }
 }
