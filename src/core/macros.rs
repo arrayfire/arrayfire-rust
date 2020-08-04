@@ -233,3 +233,72 @@ macro_rules! view {
         }
     };
 }
+
+#[cfg(test)]
+mod tests {
+    use super::super::array::Array;
+    use super::super::index::index;
+    use super::super::random::randu;
+
+    #[test]
+    fn dim4_construction() {
+        let dim1d = dim4!(2);
+        let dim2d = dim4!(2, 3);
+        let dim3d = dim4!(2, 3, 4);
+        let dim4d = dim4!(2, 3, 4, 2);
+        let _dimn = dim4!(dim1d[0], dim2d[1], dim3d[2], dim4d[3]);
+    }
+
+    #[test]
+    fn seq_construction() {
+        let default_seq = seq!();
+        let _range_1_to_10_step_1 = seq!(0:9:1);
+        let _range_1_to_10_step_1_2 = seq!(f32; 0.0:9.0:1.5);
+        let _range_from_exprs = seq!(default_seq.begin(), default_seq.end(), default_seq.step());
+        let _range_from_exprs2 = seq!(f32; default_seq.begin() as f32,
+                 default_seq.end() as f32, default_seq.step() as f32);
+    }
+
+    #[test]
+    fn seq_view() {
+        let mut dim4d = dim4!(5, 3, 2, 1);
+        dim4d[2] = 1;
+
+        let a = randu::<f32>(dim4d);
+        let seqs = &[seq!(1:3:1), seq!()];
+        let sub = index(&a, seqs);
+        af_print!("A", a);
+        af_print!("Indexed A", sub);
+    }
+
+    #[test]
+    fn view_macro() {
+        let dims = dim4!(5, 5, 2, 1);
+        let a = randu::<f32>(dims);
+        let b = a.clone();
+        let c = a.clone();
+        let d = a.clone();
+        let e = a.clone();
+
+        let v = view!(a);
+        af_print!("v = a[None]", v);
+
+        let m = view!(c[1:3:1, 1:3:2]);
+        af_print!("m = c[:, :]", m);
+
+        let x = seq!(1:3:1);
+        let y = seq!(1:3:2);
+        let u = view!(b[x, y]);
+        af_print!("u = b[seq(), seq()]", u);
+
+        let values: [u32; 3] = [1, 2, 3];
+        let indices = Array::new(&values, dim4!(3, 1, 1, 1));
+        let indices2 = Array::new(&values, dim4!(3, 1, 1, 1));
+
+        let w = view!(d[indices, indices2]);
+        af_print!("w = d[Array, Array]", w);
+
+        let z = view!(e[indices, y]);
+        af_print!("z = e[Array, Seq]", z);
+    }
+}
