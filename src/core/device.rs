@@ -1,6 +1,6 @@
 use super::defines::AfError;
 use super::error::HANDLE_ERROR;
-use super::util::free_host;
+use super::util::{dim_t, free_host, void_ptr};
 
 use libc::{c_char, c_int, size_t};
 use std::borrow::Cow;
@@ -33,6 +33,9 @@ extern "C" {
     fn af_get_mem_step_size(step_bytes: *mut size_t) -> c_int;
     fn af_device_gc() -> c_int;
     fn af_sync(device: c_int) -> c_int;
+
+    fn af_alloc_pinned(non_pagable_ptr: *mut void_ptr, bytes: dim_t) -> c_int;
+    fn af_free_pinned(non_pagable_ptr: void_ptr) -> c_int;
 }
 
 /// Get ArrayFire Version Number
@@ -313,4 +316,18 @@ pub fn sync(device: i32) {
         let err_val = af_sync(device as c_int);
         HANDLE_ERROR(AfError::from(err_val));
     }
+}
+
+/// Allocate non-pageable memory on HOST memory
+pub unsafe fn alloc_pinned(bytes: usize) -> void_ptr {
+    let mut out: void_ptr = std::ptr::null_mut();
+    let err_val = af_alloc_pinned(&mut out as *mut void_ptr, bytes as dim_t);
+    HANDLE_ERROR(AfError::from(err_val));
+    out
+}
+
+/// Free the pointer returned by [alloc_pinned](./fn.alloc_pinned.html)
+pub unsafe fn free_pinned(ptr: void_ptr) {
+    let err_val = af_free_pinned(ptr);
+    HANDLE_ERROR(AfError::from(err_val));
 }
