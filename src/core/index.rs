@@ -630,3 +630,167 @@ impl SeqInternal {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::super::array::Array;
+    use super::super::data::constant;
+    use super::super::dim4::Dim4;
+    use super::super::index::{assign_gen, assign_seq, col, index, index_gen, row, Indexer};
+    use super::super::random::randu;
+    use super::super::seq::Seq;
+
+    use crate::{dim4, seq, view};
+
+    #[test]
+    fn non_macro_seq_index() {
+        // ANCHOR: non_macro_seq_index
+        let dims = Dim4::new(&[5, 5, 1, 1]);
+        let a = randu::<f32>(dims);
+        //af_print!("a", a);
+        //a
+        //[5 5 1 1]
+        //    0.3990     0.5160     0.8831     0.9107     0.6688
+        //    0.6720     0.3932     0.0621     0.9159     0.8434
+        //    0.5339     0.2706     0.7089     0.0231     0.1328
+        //    0.1386     0.9455     0.9434     0.2330     0.2657
+        //    0.7353     0.1587     0.1227     0.2220     0.2299
+
+        // Index array using sequences
+        let seqs = &[Seq::new(1u32, 3, 1), Seq::default()];
+        let _sub = index(&a, seqs);
+        //af_print!("a(seq(1,3,1), span)", sub);
+        // [3 5 1 1]
+        //     0.6720     0.3932     0.0621     0.9159     0.8434
+        //     0.5339     0.2706     0.7089     0.0231     0.1328
+        //     0.1386     0.9455     0.9434     0.2330     0.2657
+        // ANCHOR_END: non_macro_seq_index
+    }
+
+    #[test]
+    fn seq_index() {
+        // ANCHOR: seq_index
+        let dims = dim4!(5, 5, 1, 1);
+        let a = randu::<f32>(dims);
+        let first3 = seq!(1:3:1);
+        let allindim2 = seq!();
+        let _sub = view!(a[first3, allindim2]);
+        // ANCHOR_END: seq_index
+    }
+
+    #[test]
+    fn non_macro_seq_assign() {
+        // ANCHOR: non_macro_seq_assign
+        let mut a = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
+        //print(&a);
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+
+        let b = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
+        let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+        assign_seq(&mut a, seqs, &b);
+        //print(&a);
+        // 2.0 2.0 2.0
+        // 1.0 1.0 1.0
+        // 1.0 1.0 1.0
+        // 1.0 1.0 1.0
+        // 2.0 2.0 2.0
+        // ANCHOR_END: non_macro_seq_assign
+    }
+
+    #[test]
+    fn non_macro_seq_array_index() {
+        // ANCHOR: non_macro_seq_array_index
+        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
+        let seq4gen = Seq::new(0.0, 2.0, 1.0);
+        let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+        // [5 3 1 1]
+        //     0.0000     0.2190     0.3835
+        //     0.1315     0.0470     0.5194
+        //     0.7556     0.6789     0.8310
+        //     0.4587     0.6793     0.0346
+        //     0.5328     0.9347     0.0535
+
+        let mut idxrs = Indexer::default();
+        idxrs.set_index(&indices, 0, None); // 2nd arg is indexing dimension
+        idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd arg indicates batch operation
+
+        let _sub2 = index_gen(&a, idxrs);
+        //println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+        // [3 3 1 1]
+        //     0.1315     0.0470     0.5194
+        //     0.7556     0.6789     0.8310
+        //     0.4587     0.6793     0.0346
+        // ANCHOR_END: non_macro_seq_array_index
+    }
+
+    #[test]
+    fn seq_array_index() {
+        // ANCHOR: seq_array_index
+        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
+        let seq4gen = seq!(0:2:1);
+        let a = randu::<f32>(Dim4::new(&[5, 3, 1, 1]));
+        let _sub2 = view!(a[indices, seq4gen]);
+        // ANCHOR_END: seq_array_index
+    }
+
+    #[test]
+    fn non_macro_seq_array_assign() {
+        // ANCHOR: non_macro_seq_array_assign
+        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&values, dim4!(3, 1, 1, 1));
+        let seq4gen = seq!(0:2:1);
+        let mut a = randu::<f32>(dim4!(5, 3, 1, 1));
+        // [5 3 1 1]
+        //     0.0000     0.2190     0.3835
+        //     0.1315     0.0470     0.5194
+        //     0.7556     0.6789     0.8310
+        //     0.4587     0.6793     0.0346
+        //     0.5328     0.9347     0.0535
+
+        let b = constant(2.0 as f32, dim4!(3, 3, 1, 1));
+
+        let mut idxrs = Indexer::default();
+        idxrs.set_index(&indices, 0, None); // 2nd arg is indexing dimension
+        idxrs.set_index(&seq4gen, 1, Some(false)); // 3rd arg indicates batch operation
+
+        let _sub2 = assign_gen(&mut a, &idxrs, &b);
+        //println!("a(indices, seq(0, 2, 1))"); print(&sub2);
+        // [5 3 1 1]
+        //     0.0000     0.2190     0.3835
+        //     2.0000     2.0000     2.0000
+        //     2.0000     2.0000     2.0000
+        //     2.0000     2.0000     2.0000
+        //     0.5328     0.9347     0.0535
+        // ANCHOR_END: non_macro_seq_array_assign
+    }
+
+    #[test]
+    fn setrow() {
+        // ANCHOR: setrow
+        let a = randu::<f32>(dim4!(5, 5, 1, 1));
+        //print(&a);
+        // [5 5 1 1]
+        //     0.6010     0.5497     0.1583     0.3636     0.6755
+        //     0.0278     0.2864     0.3712     0.4165     0.6105
+        //     0.9806     0.3410     0.3543     0.5814     0.5232
+        //     0.2126     0.7509     0.6450     0.8962     0.5567
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _r = row(&a, 4);
+        // [1 5 1 1]
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _c = col(&a, 4);
+        // [5 1 1 1]
+        //     0.6755
+        //     0.6105
+        //     0.5232
+        //     0.5567
+        //     0.7896
+        // ANCHOR_END: setrow
+    }
+}
