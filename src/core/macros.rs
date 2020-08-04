@@ -184,6 +184,10 @@ macro_rules! seq {
 /// - A simple Array identifier.
 /// - An Array with slicing info for indexing.
 /// - An Array with slicing info and other arrays used for indexing.
+///
+/// Examples on how to use this macro are provided in the [tutorials book][1]
+///
+/// [1]: http://arrayfire.org/arrayfire-rust/book/indexing.html
 #[macro_export]
 macro_rules! view {
     (@af_max_dims) => {
