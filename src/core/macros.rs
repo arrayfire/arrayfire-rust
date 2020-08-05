@@ -117,20 +117,6 @@ macro_rules! af_print {
     };
 }
 
-/// Evaluate arbitrary number of arrays
-#[macro_export]
-macro_rules! eval {
-    [$($x:expr),+] => {
-        {
-            let mut temp_vec = Vec::new();
-            $(
-                temp_vec.push($x);
-             )*
-            eval_multiple(temp_vec)
-        }
-    };
-}
-
 /// Create a dim4 object from provided dimensions
 ///
 /// The user can pass 1 or more sizes and the left over values will default to 1.
@@ -227,16 +213,33 @@ macro_rules! view {
     };
 }
 
-/// This macro is syntactic sugar for modifying portions of Array with another Array using a
-/// combination of [Sequences][1] and/or [Array][2] objects.
+/// Macro to evaluate individual Arrays or assignment operations
 ///
-/// Examples on how to use this macro are provided in the [tutorials book][3]
+/// - Evaluate on one or more Array identifiers: essentially calls [Array::eval][4] on each of those
+///   Array objects individually.
+///
+///   ```rust
+///   use arrayfire::{dim4, eval, randu};
+///   let dims = dim4!(5, 5);
+///   let a = randu::<f32>(dims);
+///   let b = a.clone();
+///   let c = a.clone();
+///   let d = a.clone();
+///   let x = a - b;
+///   let y = c * d;
+///   eval!(&x, &y);
+///   ```
+///
+/// - Evaluate assignment operations: This is essentially syntactic sugar for modifying portions of
+///   Array with another Array using a combination of [Sequences][1] and/or [Array][2] objects.
+///   Full examples for this use case are provided in the [tutorials book][3]
 ///
 /// [1]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Seq.html
 /// [2]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html
 /// [3]: http://arrayfire.org/arrayfire-rust/book/indexing.html
+/// [4]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.eval
 #[macro_export]
-macro_rules! equation {
+macro_rules! eval {
     ( $l:ident [ $($lb:literal : $le:literal : $ls:literal),+ ] =
       $r:ident [ $($rb:literal : $re:literal : $rs:literal),+ ]) => {
         {
@@ -282,6 +285,15 @@ macro_rules! equation {
             let mut idxrs = $crate::Indexer::default();
             view!(@set_indexer 0, idxrs, $($lhs_e),*);
             $crate::assign_gen(&mut $lhs, &idxrs, &$rhs);
+        }
+    };
+    [$($x:expr),+] => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+             )*
+            $crate::eval_multiple(temp_vec)
         }
     };
 }
@@ -357,7 +369,7 @@ mod tests {
     }
 
     #[test]
-    fn equation_macro1() {
+    fn eval_assign_seq_indexed_array() {
         let dims = dim4!(5, 5);
         let mut a = randu::<f32>(dims);
         //print(&a);
@@ -381,7 +393,7 @@ mod tests {
         let d1 = seq!(1:2:1);
         let s0 = seq!(1:2:1);
         let s1 = seq!(1:2:1);
-        equation!(a[d0, d1] = b[s0, s1]);
+        eval!(a[d0, d1] = b[s0, s1]);
         //print(&a);
         //[5 5 1 1]
         //    0.6010     0.5497     0.1583     0.3636     0.6755
@@ -392,19 +404,11 @@ mod tests {
     }
 
     #[test]
-    fn equation_macro2() {
-        let dims = dim4!(5, 5);
-        let mut a = randu::<f32>(dims);
-        let b = randu::<f32>(dims);
-        equation!(a[1:2:1, 1:2:1] = b[1:2:1, 1:2:1]);
-    }
-
-    #[test]
-    fn equation_macro3() {
+    fn eval_assign_array_to_seqd_array() {
         // ANCHOR: macro_seq_assign
         let mut a = randu::<f32>(dim4!(5, 5));
         let b = randu::<f32>(dim4!(2, 2));
-        equation!(a[1:2:1, 1:2:1] = b);
+        eval!(a[1:2:1, 1:2:1] = b);
         // ANCHOR_END: macro_seq_assign
     }
 
@@ -418,7 +422,7 @@ mod tests {
 
         let b = constant(2.0 as f32, dim4!(3, 3));
 
-        equation!(a[indices, seq4gen] = b);
+        eval!(a[indices, seq4gen] = b);
         // ANCHOR_END: macro_seq_array_assign
     }
 }
