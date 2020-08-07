@@ -1,5 +1,5 @@
 use super::core::{
-    af_array, AfError, Array, BinaryOp, HasAfEnum, RealNumber, ReduceByKeyInput, Scanable,
+    af_array, AfError, Array, BinaryOp, Fromf64, HasAfEnum, RealNumber, ReduceByKeyInput, Scanable,
     HANDLE_ERROR,
 };
 
@@ -518,9 +518,13 @@ where
 }
 
 macro_rules! all_reduce_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type:ty) => {
         #[doc=$doc_str]
-        pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> (f64, f64) {
+        pub fn $fn_name<T>(input: &Array<T>) -> ($out_type, $out_type)
+        where
+            T: HasAfEnum,
+            $out_type: HasAfEnum + Fromf64
+        {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             unsafe {
@@ -529,7 +533,7 @@ macro_rules! all_reduce_func_def {
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
-            (real, imag)
+            (<$out_type>::fromf64(real), <$out_type>::fromf64(imag))
         }
     };
 }
@@ -559,7 +563,8 @@ all_reduce_func_def!(
     ```
     ",
     sum_all,
-    af_sum_all
+    af_sum_all,
+    T::AggregateOutType
 );
 
 all_reduce_func_def!(
@@ -588,7 +593,8 @@ all_reduce_func_def!(
     ```
     ",
     product_all,
-    af_product_all
+    af_product_all,
+    T::ProductOutType
 );
 
 all_reduce_func_def!(
@@ -616,7 +622,8 @@ all_reduce_func_def!(
     ```
     ",
     min_all,
-    af_min_all
+    af_min_all,
+    T::InType
 );
 
 all_reduce_func_def!(
@@ -644,7 +651,8 @@ all_reduce_func_def!(
     ```
     ",
     max_all,
-    af_max_all
+    af_max_all,
+    T::InType
 );
 
 all_reduce_func_def!(
@@ -670,7 +678,8 @@ all_reduce_func_def!(
     ```
     ",
     all_true_all,
-    af_all_true_all
+    af_all_true_all,
+    bool
 );
 
 all_reduce_func_def!(
@@ -696,7 +705,8 @@ all_reduce_func_def!(
     ```
     ",
     any_true_all,
-    af_any_true_all
+    af_any_true_all,
+    bool
 );
 
 all_reduce_func_def!(
@@ -722,7 +732,8 @@ all_reduce_func_def!(
     ```
     ",
     count_all,
-    af_count_all
+    af_count_all,
+    u64
 );
 
 /// Sum all values using user provided value for `NAN`
@@ -740,7 +751,11 @@ all_reduce_func_def!(
 /// A tuple of summation result.
 ///
 /// Note: For non-complex data type Arrays, second value of tuple is zero.
-pub fn sum_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
+pub fn sum_nan_all<T>(input: &Array<T>, val: f64) -> (T::AggregateOutType, T::AggregateOutType)
+where
+    T: HasAfEnum,
+    T::AggregateOutType: HasAfEnum + Fromf64,
+{
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
     unsafe {
@@ -752,7 +767,10 @@ pub fn sum_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    (real, imag)
+    (
+        <T::AggregateOutType>::fromf64(real),
+        <T::AggregateOutType>::fromf64(imag),
+    )
 }
 
 /// Product of all values using user provided value for `NAN`
@@ -770,7 +788,11 @@ pub fn sum_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
 /// A tuple of product result.
 ///
 /// Note: For non-complex data type Arrays, second value of tuple is zero.
-pub fn product_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
+pub fn product_nan_all<T>(input: &Array<T>, val: f64) -> (T::ProductOutType, T::ProductOutType)
+where
+    T: HasAfEnum,
+    T::ProductOutType: HasAfEnum + Fromf64,
+{
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
     unsafe {
@@ -782,7 +804,10 @@ pub fn product_nan_all<T: HasAfEnum>(input: &Array<T>, val: f64) -> (f64, f64) {
         );
         HANDLE_ERROR(AfError::from(err_val));
     }
-    (real, imag)
+    (
+        <T::ProductOutType>::fromf64(real),
+        <T::ProductOutType>::fromf64(imag),
+    )
 }
 
 macro_rules! dim_ireduce_func_def {
@@ -833,9 +858,13 @@ dim_ireduce_func_def!("
     ", imax, af_imax, InType);
 
 macro_rules! all_ireduce_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $out_type:ty) => {
         #[doc=$doc_str]
-        pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> (f64, f64, u32) {
+        pub fn $fn_name<T>(input: &Array<T>) -> ($out_type, $out_type, u32)
+        where
+            T: HasAfEnum,
+            $out_type: HasAfEnum + Fromf64
+        {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             let mut temp: u32 = 0;
@@ -846,7 +875,7 @@ macro_rules! all_ireduce_func_def {
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
-            (real, imag, temp)
+            (<$out_type>::fromf64(real), <$out_type>::fromf64(imag), temp)
         }
     };
 }
@@ -868,7 +897,8 @@ all_ireduce_func_def!(
       * index of minimum element in the third component.
     ",
     imin_all,
-    af_imin_all
+    af_imin_all,
+    T::InType
 );
 all_ireduce_func_def!(
     "
@@ -887,7 +917,8 @@ all_ireduce_func_def!(
       - index of maximum element in the third component.
     ",
     imax_all,
-    af_imax_all
+    af_imax_all,
+    T::InType
 );
 
 /// Locate the indices of non-zero elements.
