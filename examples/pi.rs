@@ -23,7 +23,7 @@ fn main() {
         let root = &sqrt(xplusy);
         let cnst = &constant(1, dims);
         let (real, imag) = sum_all(&le(root, cnst, false));
-        let pi_val = real * 4.0 / (samples as f64);
+        let pi_val = (real as f64) * 4.0 / (samples as f64);
     }
 
     println!("Estimated Pi Value in {:?}", start.elapsed());

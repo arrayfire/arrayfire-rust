@@ -1,5 +1,4 @@
 use ::arrayfire::*;
-use float_cmp::approx_eq;
 
 #[test]
 fn check_scalar_arith() {
@@ -15,5 +14,5 @@ fn check_scalar_arith() {
     let scalar_res = all_true_all(&scalar_res_comp);
     let res = all_true_all(&res_comp);
 
-    assert!(approx_eq!(f64, scalar_res.0, res.0, ulps = 2));
+    assert!(scalar_res.0 == res.0);
 }

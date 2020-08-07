@@ -796,3 +796,34 @@ impl BitOr for MatProp {
         Self::from(self as u32 | rhs as u32)
     }
 }
+
+/// Trait to convert reduction's scalar output to appropriate output type
+///
+/// This is an internal trait and ideally of no use to user usecases.
+pub trait Fromf64 {
+    /// Convert to target type from a double precision value
+    fn fromf64(value: f64) -> Self;
+}
+
+#[rustfmt::skip]
+impl Fromf64 for usize{ fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for f64  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for u64  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for i64  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for f32  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for u32  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for i32  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for u16  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for i16  { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for u8   { fn fromf64(value: f64) -> Self { value as Self }}
+#[rustfmt::skip]
+impl Fromf64 for bool { fn fromf64(value: f64) -> Self { value > 0.0   }}

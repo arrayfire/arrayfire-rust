@@ -54,7 +54,6 @@ lazy_static = "1.0"
 half = "1.5.0"
 
 [dev-dependencies]
-float-cmp = "0.6.0"
 half = "1.5.0"
 
 [build-dependencies]
