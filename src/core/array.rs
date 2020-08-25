@@ -189,16 +189,20 @@ where
     /// An example of creating an Array from half::f16 array
     ///
     /// ```rust
-    /// use arrayfire::{Array, Dim4, print};
+    /// use arrayfire::{Array, Dim4, is_half_available, print};
     /// use half::f16;
     ///
     /// let values: [f32; 3] = [1.0, 2.0, 3.0];
     ///
-    /// let half_values = values.iter().map(|&x| f16::from_f32(x)).collect::<Vec<_>>();
+    /// if is_half_available(0) { // Default device is 0, hence the argument
+    ///     let half_values = values.iter().map(|&x| f16::from_f32(x)).collect::<Vec<_>>();
     ///
-    /// let hvals = Array::new(&half_values, Dim4::new(&[3, 1, 1, 1]));
+    ///     let hvals = Array::new(&half_values, Dim4::new(&[3, 1, 1, 1]));
     ///
-    /// print(&hvals);
+    ///     print(&hvals);
+    /// } else {
+    ///     println!("Half support isn't available on this device");
+    /// }
     /// ```
     ///
     pub fn new(slice: &[T], dims: Dim4) -> Self {
