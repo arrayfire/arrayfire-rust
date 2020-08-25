@@ -36,6 +36,7 @@ extern "C" {
 
     fn af_alloc_pinned(non_pagable_ptr: *mut void_ptr, bytes: dim_t) -> c_int;
     fn af_free_pinned(non_pagable_ptr: void_ptr) -> c_int;
+    fn af_get_half_support(available: *mut c_int, device: c_int) -> c_int;
 }
 
 /// Get ArrayFire Version Number
@@ -330,4 +331,22 @@ pub unsafe fn alloc_pinned(bytes: usize) -> void_ptr {
 pub unsafe fn free_pinned(ptr: void_ptr) {
     let err_val = af_free_pinned(ptr);
     HANDLE_ERROR(AfError::from(err_val));
+}
+
+/// Check if a device has half support
+///
+/// # Parameters
+///
+/// - `device` is the device for which half precision support is checked for
+///
+/// # Return Values
+///
+/// `True` if `device` device has half support, `False` otherwise.
+pub fn is_half_available(device: i32) -> bool {
+    unsafe {
+        let mut temp: i32 = 0;
+        let err_val = af_get_half_support(&mut temp as *mut c_int, device as c_int);
+        HANDLE_ERROR(AfError::from(err_val));
+        temp > 0
+    }
 }
