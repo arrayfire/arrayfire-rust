@@ -3,7 +3,7 @@ use super::data::{constant, tile, ConstGenerator};
 use super::defines::AfError;
 use super::dim4::Dim4;
 use super::error::HANDLE_ERROR;
-use super::util::{af_array, HasAfEnum, ImplicitPromote};
+use super::util::{af_array, HasAfEnum, ImplicitPromote, IntegralType};
 use num::Zero;
 
 use libc::c_int;
@@ -97,6 +97,7 @@ extern "C" {
     fn af_iszero(out: *mut af_array, arr: af_array) -> c_int;
     fn af_isinf(out: *mut af_array, arr: af_array) -> c_int;
     fn af_isnan(out: *mut af_array, arr: af_array) -> c_int;
+    fn af_bitnot(out: *mut af_array, arr: af_array) -> c_int;
 }
 
 /// Enables use of `!` on objects of type [Array](./struct.Array.html)
@@ -973,5 +974,18 @@ where
     fn neg(self) -> Self::Output {
         let cnst = constant(T::zero(), self.dims());
         sub(&cnst, &self, true)
+    }
+}
+
+/// Perform bitwise complement on all values of Array
+pub fn bitnot<T: HasAfEnum>(input: &Array<T>) -> Array<T>
+where
+    T: HasAfEnum + IntegralType,
+{
+    unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_bitnot(&mut temp as *mut af_array, input.get());
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 }
