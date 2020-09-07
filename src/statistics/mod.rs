@@ -7,19 +7,12 @@ use libc::{c_double, c_int, c_uint};
 
 extern "C" {
     fn af_mean(out: *mut af_array, arr: af_array, dim: dim_t) -> c_int;
-    fn af_stdev(out: *mut af_array, arr: af_array, dim: dim_t) -> c_int;
     fn af_median(out: *mut af_array, arr: af_array, dim: dim_t) -> c_int;
 
     fn af_mean_weighted(out: *mut af_array, arr: af_array, wts: af_array, dim: dim_t) -> c_int;
     fn af_var_weighted(out: *mut af_array, arr: af_array, wts: af_array, dim: dim_t) -> c_int;
 
-    fn af_var(out: *mut af_array, arr: af_array, isbiased: bool, dim: dim_t) -> c_int;
-    fn af_cov(out: *mut af_array, X: af_array, Y: af_array, isbiased: bool) -> c_int;
-    fn af_var_all(real: *mut c_double, imag: *mut c_double, arr: af_array, isbiased: bool)
-        -> c_int;
-
     fn af_mean_all(real: *mut c_double, imag: *mut c_double, arr: af_array) -> c_int;
-    fn af_stdev_all(real: *mut c_double, imag: *mut c_double, arr: af_array) -> c_int;
     fn af_median_all(real: *mut c_double, imag: *mut c_double, arr: af_array) -> c_int;
 
     fn af_mean_all_weighted(
@@ -52,6 +45,21 @@ extern "C" {
         weights: af_array,
         bias: c_uint,
         dim: dim_t,
+    ) -> c_int;
+    fn af_var_v2(out: *mut af_array, arr: af_array, bias_kind: c_uint, dim: dim_t) -> c_int;
+    fn af_cov_v2(out: *mut af_array, X: af_array, Y: af_array, bias_kind: c_uint) -> c_int;
+    fn af_stdev_v2(out: *mut af_array, arr: af_array, bias_kind: c_uint, dim: dim_t) -> c_int;
+    fn af_var_all_v2(
+        real: *mut c_double,
+        imag: *mut c_double,
+        arr: af_array,
+        bias_kind: c_uint,
+    ) -> c_int;
+    fn af_stdev_all_v2(
+        real: *mut c_double,
+        imag: *mut c_double,
+        arr: af_array,
+        bias_kind: c_uint,
     ) -> c_int;
 }
 
@@ -107,11 +115,6 @@ macro_rules! stat_func_def {
 }
 
 stat_func_def!("Mean along specified dimension", mean, af_mean);
-stat_func_def!(
-    "Standard deviation along specified dimension",
-    stdev,
-    af_stdev
-);
 
 macro_rules! stat_wtd_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => {
@@ -163,20 +166,86 @@ stat_wtd_func_def!(
 /// # Parameters
 ///
 /// - `arr` is the input Array
-/// - `isbiased` is boolean denoting population variance(False) or Sample variance(True)
+/// - `bias_kind` of type [VarianceBias][1] denotes the type of variane to be computed
 /// - `dim` is the dimension along which the variance is extracted
 ///
 /// # Return Values
 ///
 /// Array with variance of input Array `arr` along dimension `dim`.
-pub fn var<T>(arr: &Array<T>, isbiased: bool, dim: i64) -> Array<T::MeanOutType>
+///
+/// [1]: ./enum.VarianceBias.html
+pub fn var_v2<T>(arr: &Array<T>, bias_kind: VarianceBias, dim: i64) -> Array<T::MeanOutType>
 where
     T: HasAfEnum,
     T::MeanOutType: HasAfEnum,
 {
     unsafe {
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_var(&mut temp as *mut af_array, arr.get(), isbiased, dim);
+        let err_val = af_var_v2(
+            &mut temp as *mut af_array,
+            arr.get(),
+            bias_kind as c_uint,
+            dim,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
+    }
+}
+
+/// Compute Variance along a specific dimension
+///
+/// # Parameters
+///
+/// - `arr` is the input Array
+/// - `isbiased` is boolean denoting population variance(False) or Sample variance(True)
+/// - `dim` is the dimension along which the variance is extracted
+///
+/// # Return Values
+///
+/// Array with variance of input Array `arr` along dimension `dim`.
+#[deprecated(since = "3.8.0", note = "Please use var_v2 API")]
+pub fn var<T>(arr: &Array<T>, isbiased: bool, dim: i64) -> Array<T::MeanOutType>
+where
+    T: HasAfEnum,
+    T::MeanOutType: HasAfEnum,
+{
+    var_v2(
+        arr,
+        if isbiased {
+            VarianceBias::SAMPLE
+        } else {
+            VarianceBias::POPULATION
+        },
+        dim,
+    )
+}
+
+/// Compute covariance of two Arrays
+///
+/// # Parameters
+///
+/// - `x` is the first Array
+/// - `y` is the second Array
+/// - `bias_kind` of type [VarianceBias][1] denotes the type of variane to be computed
+///
+/// # Return Values
+///
+/// An Array with Covariance values
+///
+/// [1]: ./enum.VarianceBias.html
+pub fn cov_v2<T>(x: &Array<T>, y: &Array<T>, bias_kind: VarianceBias) -> Array<T::MeanOutType>
+where
+    T: HasAfEnum + CovarianceComputable,
+    T::MeanOutType: HasAfEnum,
+{
+    unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_cov_v2(
+            &mut temp as *mut af_array,
+            x.get(),
+            y.get(),
+            bias_kind as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
     }
@@ -193,17 +262,48 @@ where
 /// # Return Values
 ///
 /// An Array with Covariance values
+#[deprecated(since = "3.8.0", note = "Please use cov_v2 API")]
 pub fn cov<T>(x: &Array<T>, y: &Array<T>, isbiased: bool) -> Array<T::MeanOutType>
 where
     T: HasAfEnum + CovarianceComputable,
     T::MeanOutType: HasAfEnum,
 {
+    cov_v2(
+        x,
+        y,
+        if isbiased {
+            VarianceBias::SAMPLE
+        } else {
+            VarianceBias::POPULATION
+        },
+    )
+}
+
+/// Compute Variance of all elements
+///
+/// # Parameters
+///
+/// - `input` is the input Array
+/// - `bias_kind` of type [VarianceBias][1] denotes the type of variane to be computed
+///
+/// # Return Values
+///
+/// A tuple of 64-bit floating point values that has the variance of `input` Array.
+///
+/// [1]: ./enum.VarianceBias.html
+pub fn var_all_v2<T: HasAfEnum>(input: &Array<T>, bias_kind: VarianceBias) -> (f64, f64) {
+    let mut real: f64 = 0.0;
+    let mut imag: f64 = 0.0;
     unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_cov(&mut temp as *mut af_array, x.get(), y.get(), isbiased);
+        let err_val = af_var_all_v2(
+            &mut real as *mut c_double,
+            &mut imag as *mut c_double,
+            input.get(),
+            bias_kind as c_uint,
+        );
         HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
     }
+    (real, imag)
 }
 
 /// Compute Variance of all elements
@@ -216,19 +316,16 @@ where
 /// # Return Values
 ///
 /// A tuple of 64-bit floating point values that has the variance of `input` Array.
+#[deprecated(since = "3.8.0", note = "Please use var_all_v2 API")]
 pub fn var_all<T: HasAfEnum>(input: &Array<T>, isbiased: bool) -> (f64, f64) {
-    let mut real: f64 = 0.0;
-    let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_var_all(
-            &mut real as *mut c_double,
-            &mut imag as *mut c_double,
-            input.get(),
-            isbiased,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-    }
-    (real, imag)
+    var_all_v2(
+        input,
+        if isbiased {
+            VarianceBias::SAMPLE
+        } else {
+            VarianceBias::POPULATION
+        },
+    )
 }
 
 macro_rules! stat_all_func_def {
@@ -259,11 +356,6 @@ macro_rules! stat_all_func_def {
 }
 
 stat_all_func_def!("Compute mean of all data", mean_all, af_mean_all);
-stat_all_func_def!(
-    "Compute standard deviation of all data",
-    stdev_all,
-    af_stdev_all
-);
 
 /// Compute median of all data
 ///
@@ -446,4 +538,96 @@ where
         HANDLE_ERROR(AfError::from(err_val));
         (mean.into(), var.into())
     }
+}
+
+/// Standard deviation along given axis
+///
+///# Parameters
+///
+/// - `input` is the input Array
+/// - `bias_kind` of type [VarianceBias][1] denotes the type of variane to be computed
+/// - `dim` is dimension along which the current stat has to be computed
+///
+///# Return Values
+///
+/// An Array whose size is equal to input except along the dimension which
+/// the stat operation is performed. Array size along `dim` will be reduced to one.
+///
+/// [1]: ./enum.VarianceBias.html
+pub fn stdev_v2<T>(input: &Array<T>, bias_kind: VarianceBias, dim: i64) -> Array<T::MeanOutType>
+where
+    T: HasAfEnum,
+    T::MeanOutType: HasAfEnum,
+{
+    unsafe {
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = af_stdev_v2(
+            &mut temp as *mut af_array,
+            input.get(),
+            bias_kind as c_uint,
+            dim,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
+    }
+}
+
+/// Standard deviation along specified axis
+///
+///# Parameters
+///
+/// - `input` is the input Array
+/// - `dim` is dimension along which the current stat has to be computed
+///
+///# Return Values
+///
+/// An Array whose size is equal to input except along the dimension which
+/// the stat operation is performed. Array size along `dim` will be reduced to one.
+#[deprecated(since = "3.8.0", note = "Please use stdev_v2 API")]
+pub fn stdev<T>(input: &Array<T>, dim: i64) -> Array<T::MeanOutType>
+where
+    T: HasAfEnum,
+    T::MeanOutType: HasAfEnum,
+{
+    stdev_v2(input, VarianceBias::POPULATION, dim)
+}
+
+/// Compute standard deviation of all data
+///
+///# Parameters
+///
+/// - `input` is the input Array
+/// - `bias_kind` of type [VarianceBias][1] denotes the type of variane to be computed
+///
+///# Return Values
+///
+/// A tuple of 64-bit floating point values with the stat values.
+///
+/// [1]: ./enum.VarianceBias.html
+pub fn stdev_all_v2<T: HasAfEnum>(input: &Array<T>, bias_kind: VarianceBias) -> (f64, f64) {
+    let mut real: f64 = 0.0;
+    let mut imag: f64 = 0.0;
+    unsafe {
+        let err_val = af_stdev_all_v2(
+            &mut real as *mut c_double,
+            &mut imag as *mut c_double,
+            input.get(),
+            bias_kind as c_uint,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+    }
+    (real, imag)
+}
+
+/// Compute standard deviation of all data
+///
+///# Parameters
+///
+/// - `input` is the input Array
+///
+///# Return Values
+///
+/// A tuple of 64-bit floating point values with the stat values.
+pub fn stdev_all<T: HasAfEnum>(input: &Array<T>) -> (f64, f64) {
+    stdev_all_v2(input, VarianceBias::POPULATION)
 }

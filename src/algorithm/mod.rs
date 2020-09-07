@@ -133,6 +133,13 @@ extern "C" {
         dim: c_int,
         nan_val: c_double,
     ) -> c_int;
+    fn af_max_ragged(
+        val_out: *mut af_array,
+        idx_out: *mut af_array,
+        input: af_array,
+        ragged_len: af_array,
+        dim: c_int,
+    ) -> c_int;
 }
 
 macro_rules! dim_reduce_func_def {
@@ -1439,6 +1446,66 @@ dim_reduce_by_key_nan_func_def!(
     af_product_by_key_nan,
     ValueType::ProductOutType
 );
+
+/// Max reduction along given axis as per ragged lengths provided
+///
+/// # Parameters
+///
+/// - `input` contains the input values to be reduced
+/// - `ragged_len` array containing number of elements to use when reducing along `dim`
+/// - `dim` is the dimension along which the max operation occurs
+///
+/// # Return Values
+///
+/// Tuple of Arrays:
+/// - First element: An Array containing the maximum ragged values in `input` along `dim`
+///                  according to `ragged_len`
+/// - Second Element: An Array containing the locations of the maximum ragged values in
+///                   `input` along `dim` according to `ragged_len`
+///
+/// # Examples
+/// ```rust
+/// use arrayfire::{Array, dim4, print, randu, max_ragged};
+/// let vals: [f32; 6] = [1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0];
+/// let rlens: [u32; 2] = [9, 2];
+/// let varr = Array::new(&vals, dim4![3, 2]);
+/// let rarr = Array::new(&rlens, dim4![1, 2]);
+/// print(&varr);
+/// // 1 4
+/// // 2 5
+/// // 3 6
+/// print(&rarr); // numbers of elements to participate in reduction along given axis
+/// // 9 2
+/// let (out, idx) = max_ragged(&varr, &rarr, 0);
+/// print(&out);
+/// // 3 5
+/// print(&idx);
+/// // 2 1 //Since 3 is max element for given length 9 along first column
+///        //Since 5 is max element for given length 2 along second column
+/// ```
+pub fn max_ragged<T>(
+    input: &Array<T>,
+    ragged_len: &Array<u32>,
+    dim: i32,
+) -> (Array<T::InType>, Array<u32>)
+where
+    T: HasAfEnum,
+    T::InType: HasAfEnum,
+{
+    unsafe {
+        let mut out_vals: af_array = std::ptr::null_mut();
+        let mut out_idxs: af_array = std::ptr::null_mut();
+        let err_val = af_max_ragged(
+            &mut out_vals as *mut af_array,
+            &mut out_idxs as *mut af_array,
+            input.get(),
+            ragged_len.get(),
+            dim,
+        );
+        HANDLE_ERROR(AfError::from(err_val));
+        (out_vals.into(), out_idxs.into())
+    }
+}
 
 #[cfg(test)]
 mod tests {

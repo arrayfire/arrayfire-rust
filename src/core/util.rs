@@ -835,3 +835,15 @@ impl IndexableType for u32 {}
 impl IndexableType for i16 {}
 impl IndexableType for u16 {}
 impl IndexableType for u8 {}
+
+/// Trait qualifier for given type indicating computability of covariance
+pub trait IntegralType {}
+
+impl IntegralType for i64 {}
+impl IntegralType for u64 {}
+impl IntegralType for i32 {}
+impl IntegralType for u32 {}
+impl IntegralType for i16 {}
+impl IntegralType for u16 {}
+impl IntegralType for u8 {}
+impl IntegralType for bool {}

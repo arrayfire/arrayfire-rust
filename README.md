@@ -22,7 +22,9 @@ Linux, Windows and OSX. Rust 1.31 or newer is required.
 
 To use the rust bindings for ArrayFire from crates.io, the following requirements are to be met first.
 
-1. [Download and install ArrayFire binaries][10] based on your operating system.
+1. [Download and install ArrayFire binaries][10] based on your operating system. Depending on the
+   method of your installation for Linux, steps (2) & (3) may not be required. If that is the case,
+   proceed to step (4) directly.
 2. Set the evironment variable `AF_PATH` to point to ArrayFire installation root folder.
 3. Make sure to add the path to lib files to your path environment variables.
     - On Linux: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib64`
@@ -44,7 +46,7 @@ one of the following two ways.
 - [Download and install binaries][10]
 - [Build and install from source][1]
 
-To build arrayfire submodule available in the rust wrapper, you have to do the following.
+To build arrayfire submodule available in the rust wrapper repository, you have to do the following.
 
 ```bash
 git submodule update --init --recursive
