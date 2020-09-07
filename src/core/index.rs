@@ -298,10 +298,10 @@ pub fn set_row<T>(inout: &mut Array<T>, new_row: &Array<T>, row_num: u64)
 where
     T: HasAfEnum,
 {
-    let seqs = [
-        Seq::new(row_num as f64, row_num as f64, 1.0),
-        Seq::default(),
-    ];
+    let mut seqs = vec![Seq::new(row_num as f64, row_num as f64, 1.0)];
+    if inout.dims().ndims() > 1 {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_row)
 }
 
