@@ -948,9 +948,9 @@ pub fn pad<T: HasAfEnum>(
         let err_val = af_pad(
             &mut temp as *mut af_array,
             input.get(),
-            begin.ndims() as c_uint,
+            4,
             begin.get().as_ptr() as *const dim_t,
-            end.ndims() as c_uint,
+            4,
             end.get().as_ptr() as *const dim_t,
             fill_type as c_uint,
         );
@@ -963,7 +963,9 @@ pub fn pad<T: HasAfEnum>(
 mod tests {
     use super::reorder_v2;
 
+    use super::super::defines::BorderType;
     use super::super::random::randu;
+    use super::pad;
 
     use crate::dim4;
 
@@ -975,5 +977,13 @@ mod tests {
         let _swap_0_2 = reorder_v2(&a, 2, 1, Some(vec![0]));
         let _swap_1_2 = reorder_v2(&a, 0, 2, Some(vec![1]));
         let _swap_0_3 = reorder_v2(&a, 3, 1, Some(vec![2, 0]));
+    }
+
+    #[test]
+    fn check_pad_api() {
+        let a = randu::<f32>(dim4![3, 3]);
+        let begin_dims = dim4!(0, 0, 0, 0);
+        let end_dims = dim4!(2, 2, 0, 0);
+        let _padded = pad(&a, begin_dims, end_dims, BorderType::ZERO);
     }
 }
