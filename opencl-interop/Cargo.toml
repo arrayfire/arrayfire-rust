@@ -1,7 +1,12 @@
 [package]
 name = "af-opencl-interop"
 version = "3.7.1"
+description = "ArrayFire is a high performance software library for parallel computing with an easy-to-use API. This crate is an addition on top of ArrayFire crate to enable users to mix RAW CUDA code in rust and ArrayFire."
 authors = ["Pradeep Garigipati <pradeep@arrayfire.com>"]
+documentation = "http://arrayfire.github.io/arrayfire-rust/af_opencl_interop/index.html"
+homepage      = "https://github.com/arrayfire/arrayfire-rust"
+repository    = "https://github.com/arrayfire/arrayfire-rust/tree/master/opencl-interop"
+license = "BSD-3-Clause"
 edition = "2018"
 
 [dependencies]
