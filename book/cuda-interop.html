@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js coal">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Interoperability with CUDA - Rust Wrapper for ArrayFire HPC Library</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('coal')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html" class="active"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#interoperability-with-cuda" id="interoperability-with-cuda">Interoperability with CUDA</a></h1>
+<p>Although ArrayFire is quite extensive, there remain many cases in which you may want to write custom
+kernels in CUDA or OpenCL. For example, you may wish to add ArrayFire to an existing code base to
+increase your productivity, or you may need to supplement ArrayFire's functionality with your own
+custom implementation of specific algorithms.</p>
+<p>ArrayFire manages its own memory, runs within its own CUDA stream, and creates custom IDs for
+devices. As such, most of the interoperability functions focus on reducing potential synchronization
+conflicts between ArrayFire and CUDA.</p>
+<h2><a class="header" href="#basics" id="basics">Basics</a></h2>
+<p>It is fairly straightforward to interface ArrayFire with your own custom code. ArrayFire provides
+several functions to ease this process including:</p>
+<table><thead><tr><th>Function</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.new_from_device_ptr">Array::new_from_device_ptr</a></td><td>Construct an ArrayFire <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> from device memory</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.device_ptr">Array::device_ptr</a></td><td>Obtain a pointer to the device memory (implies <code>lock()</code>)</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.lock">Array::lock</a></td><td>Removes ArrayFire's control of a device memory pointer</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.unlock">Array::unlock</a></td><td>Restores ArrayFire's control over a device memory pointer</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.get_device.html">get_device</a></td><td>Gets the current ArrayFire device ID</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_device.html">set_device</a></td><td>Switches ArrayFire to the specified device</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_cuda_interop/fn.get_device_native_id.html">get_device_native_id</a></td><td>Fetches CUDA deviceID for a given ArrayFire device ID</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_cuda_interop/fn.set_device_native_id.html">set_device_native_id</a></td><td>Switches active device to the specified CUDA device ID</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_cuda_interop/fn.get_stream.html">get_stream</a></td><td>Get the current CUDA stream used by ArrayFire</td></tr>
+</tbody></table>
+<h2><a class="header" href="#using-custom-cuda-kernels-in-existing-arrayfire-application" id="using-custom-cuda-kernels-in-existing-arrayfire-application">Using custom CUDA kernels in existing ArrayFire application</a></h2>
+<p>By default, ArrayFire manages its own memory and operates in its own CUDA stream. Thus there is a
+slight amount of bookkeeping that needs to be done in order to integrate your custom CUDA kernel.</p>
+<p>Ideally, we recommend using ArrayFire's CUDA stream to launch your custom kernels. However, this
+is currently not possible due to limitation on <a href="https://github.com/bheisler/RustaCUDA">RustaCUDA</a> not being to able to wrap an
+existing cudaStream_t/CUstream_t objects. The current work around is to create a stream of your
+own and launch the kernel on it.</p>
+<p>Notice that since ArrayFire and your kernels are not sharing the same CUDA stream, there is a need
+to perform explicit synchronization before launching kernel on your stream that depends on the
+computation carried out by ArrayFire earlier. This extra step is unnecessary once the above stated
+limiation of RustaCUDA's stream is eliminated.</p>
+<p>This process is best illustrated with a fully worked example:</p>
+<pre><pre class="playground"><code class="language-rust">use arrayfire as af;
+use rustacuda::prelude::*;
+use rustacuda::*;
+
+use std::ffi::CString;
+
+fn main() {
+    // MAKE SURE to do all rustacuda initilization before arrayfire API's
+    // first call. It seems like some CUDA context state is getting messed up
+    // if we mix CUDA context init(device, context, module, stream) with ArrayFire API
+    match rustacuda::init(CudaFlags::empty()) {
+        Ok(()) =&gt; {}
+        Err(e) =&gt; panic!(&quot;rustacuda init failure: {:?}&quot;, e),
+    }
+    let device = match Device::get_device(0) {
+        Ok(d) =&gt; d,
+        Err(e) =&gt; panic!(&quot;Failed to get device: {:?}&quot;, e),
+    };
+    let _context =
+        match Context::create_and_push(ContextFlags::MAP_HOST | ContextFlags::SCHED_AUTO, device) {
+            Ok(c) =&gt; c,
+            Err(e) =&gt; panic!(&quot;Failed to create context: {:?}&quot;, e),
+        };
+    let ptx = CString::new(include_str!(&quot;./resources/add.ptx&quot;)).unwrap();
+    let module = match Module::load_from_string(&amp;ptx) {
+        Ok(m) =&gt; m,
+        Err(e) =&gt; panic!(&quot;Failed to load module from string: {:?}&quot;, e),
+    };
+    let stream = match Stream::new(StreamFlags::NON_BLOCKING, None) {
+        Ok(s) =&gt; s,
+        Err(e) =&gt; panic!(&quot;Failed to create stream: {:?}&quot;, e),
+    };
+
+    af::set_device(0);
+    af::info();
+
+    let num: i32 = 10;
+    let x = af::constant(1f32, af::dim4!(10));
+    let y = af::constant(2f32, af::dim4!(10));
+    let out = af::constant(0f32, af::dim4!(10));
+
+    af::af_print!(&quot;x&quot;, x);
+    af::af_print!(&quot;y&quot;, y);
+    af::af_print!(&quot;out(init)&quot;, out);
+
+    //TODO Figure out how to use Stream returned by ArrayFire with Rustacuda
+    // let af_id = get_device();
+    // let cuda_id = get_device_native_id(af_id);
+    // let af_cuda_stream = get_stream(cuda_id);
+
+    //TODO Figure out how to use Stream returned by ArrayFire with Rustacuda
+    // let stream = Stream {inner: mem::transmute(af_cuda_stream)};
+
+    // Run a custom CUDA kernel in the ArrayFire CUDA stream
+    unsafe {
+        // Obtain device pointers from ArrayFire using Array::device() method
+        let d_x: *mut f32 = x.device_ptr() as *mut f32;
+        let d_y: *mut f32 = y.device_ptr() as *mut f32;
+        let d_o: *mut f32 = out.device_ptr() as *mut f32;
+
+        match launch!(module.sum&lt;&lt;&lt;1, 1, 0, stream&gt;&gt;&gt;(
+        memory::DevicePointer::wrap(d_x),
+        memory::DevicePointer::wrap(d_y),
+        memory::DevicePointer::wrap(d_o),
+        num
+        )) {
+            Ok(()) =&gt; {}
+            Err(e) =&gt; panic!(&quot;Kernel Launch failure: {:?}&quot;, e),
+        }
+
+        // wait for the kernel to finish as it is async call
+        match stream.synchronize() {
+            Ok(()) =&gt; {}
+            Err(e) =&gt; panic!(&quot;Stream sync failure: {:?}&quot;, e),
+        };
+
+        // Return control of Array memory to ArrayFire using unlock
+        x.unlock();
+        y.unlock();
+        out.unlock();
+    }
+    af::af_print!(&quot;sum after kernel launch&quot;, out);
+}
+</code></pre></pre>
+<h2><a class="header" href="#adding-arrayfire-to-existing-cuda-application" id="adding-arrayfire-to-existing-cuda-application">Adding ArrayFire to existing CUDA Application</a></h2>
+<p>Adding ArrayFire to an existing application is slightly more involved and can be somewhat tricky due
+to several optimizations we implement. The most important are as follows:</p>
+<ul>
+<li>ArrayFire assumes control of all memory provided to it.</li>
+<li>ArrayFire does not (in general) support in-place memory transactions.</li>
+</ul>
+<p>We will discuss the implications of these items below. To add ArrayFire to existing code you need to:</p>
+<ol>
+<li>Finish any pending CUDA operations (e.g. cudaDeviceSynchronize() or similar stream functions)</li>
+<li>Create ArrayFire arrays from existing CUDA pointers</li>
+<li>Perform operations on ArrayFire arrays</li>
+<li>Instruct ArrayFire to finish operations using <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.eval">eval</a> and <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.sync.html">sync</a></li>
+<li>Obtain pointers to important memory</li>
+<li>Continue your CUDA application.</li>
+<li>Free non-managed memory</li>
+</ol>
+<p>To create the <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> fom device pointer, you should use one of the following approaches:</p>
+<p>Using DeviceBuffer from <a href="https://github.com/bheisler/RustaCUDA">RustaCUDA</a>, or a Wrapper Object for CUDA device memory</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut buffer = memory::DeviceBuffer::from_slice(&amp;v).unwrap();
+
+let array_dptr = Array::new_from_device_ptr(
+    buffer.as_device_ptr().as_raw_mut(), dim4!(10, 10));
+
+array_dptr.lock(); // Needed to avoid free as arrayfire takes ownership
+<span class="boring">}
+</span></code></pre></pre>
+<p>Using raw pointer returned from cuda_malloc interface exposed by <a href="https://github.com/bheisler/RustaCUDA">RustaCUDA</a></p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut dptr: *mut f32 = std::ptr::null_mut();
+unsafe {
+    dptr = memory::cuda_malloc::&lt;f32&gt;(10*10).unwrap().as_raw_mut();
+}
+
+let array_dptr = Array::new_from_device_ptr(dptr, dim4!(10, 10));
+// After ArrayFire takes over ownership of the pointer, you can use other
+// arrayfire functions as usual.
+<span class="boring">}
+</span></code></pre></pre>
+<p>ArrayFire's memory manager automatically assumes responsibility for any memory provided to it.
+Thus ArrayFire could free or reuse the memory at any later time. If this behavior is not desired,
+you may call <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.unlock">Array::unlock</a> and manage the memory yourself. However, if you do so, please be
+cautious not to free memory when ArrayFire might be using it!</p>
+<p>The seven steps above are best illustrated using a fully-worked example:</p>
+<pre><pre class="playground"><code class="language-rust">use arrayfire::{af_print, dim4, info, set_device, Array};
+use rustacuda::prelude::*;
+use rustacuda::*;
+
+fn main() {
+    // MAKE SURE to do all rustacuda initilization before arrayfire API's
+    // first call. It seems like some CUDA context state is getting messed up
+    // if we mix CUDA context init(device, context, module, stream) with ArrayFire API
+    match rustacuda::init(CudaFlags::empty()) {
+        Ok(()) =&gt; {}
+        Err(e) =&gt; panic!(&quot;rustacuda init failure: {:?}&quot;, e),
+    }
+    let device = match Device::get_device(0) {
+        Ok(d) =&gt; d,
+        Err(e) =&gt; panic!(&quot;Failed to get device: {:?}&quot;, e),
+    };
+    let _context =
+        match Context::create_and_push(ContextFlags::MAP_HOST | ContextFlags::SCHED_AUTO, device) {
+            Ok(c) =&gt; c,
+            Err(e) =&gt; panic!(&quot;Failed to create context: {:?}&quot;, e),
+        };
+    let stream = match Stream::new(StreamFlags::NON_BLOCKING, None) {
+        Ok(s) =&gt; s,
+        Err(e) =&gt; panic!(&quot;Failed to create stream: {:?}&quot;, e),
+    };
+
+    let mut in_x = DeviceBuffer::from_slice(&amp;[1.0f32; 10]).unwrap();
+    let mut in_y = DeviceBuffer::from_slice(&amp;[2.0f32; 10]).unwrap();
+
+    // wait for any prior kernels to finish before passing
+    // the device pointers to ArrayFire
+    match stream.synchronize() {
+        Ok(()) =&gt; {}
+        Err(e) =&gt; panic!(&quot;Stream sync failure: {:?}&quot;, e),
+    };
+
+    set_device(0);
+    info();
+
+    let x = Array::new_from_device_ptr(in_x.as_device_ptr().as_raw_mut(), dim4!(10));
+    let y = Array::new_from_device_ptr(in_y.as_device_ptr().as_raw_mut(), dim4!(10));
+
+    // Lock so that ArrayFire doesn't free pointers from RustaCUDA
+    // But we have to make sure these pointers stay in valid scope
+    // as long as the associated ArrayFire Array objects are valid
+    x.lock();
+    y.lock();
+
+    af_print!(&quot;x&quot;, x);
+    af_print!(&quot;y&quot;, y);
+
+    let o = x + y;
+    af_print!(&quot;out&quot;, o);
+
+    let _o_dptr = unsafe { o.device_ptr() }; // Calls an implicit lock
+
+    // User has to call unlock if they want to relenquish control to ArrayFire
+
+    // Once the non-arrayfire operations are done, call unlock.
+    o.unlock(); // After this, there is no guarantee that value of o_dptr is valid
+}
+</code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="configuring_arrayfire_environment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="opencl-interop.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="configuring_arrayfire_environment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="opencl-interop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

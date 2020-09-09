@@ -1139,235 +1139,185 @@
 <span id="1126">1126</span>
 <span id="1127">1127</span>
 <span id="1128">1128</span>
-<span id="1129">1129</span>
-<span id="1130">1130</span>
-<span id="1131">1131</span>
-<span id="1132">1132</span>
-<span id="1133">1133</span>
-<span id="1134">1134</span>
-<span id="1135">1135</span>
-<span id="1136">1136</span>
-<span id="1137">1137</span>
-<span id="1138">1138</span>
-<span id="1139">1139</span>
-<span id="1140">1140</span>
-<span id="1141">1141</span>
-<span id="1142">1142</span>
-<span id="1143">1143</span>
-<span id="1144">1144</span>
-<span id="1145">1145</span>
-<span id="1146">1146</span>
-<span id="1147">1147</span>
-<span id="1148">1148</span>
-<span id="1149">1149</span>
-<span id="1150">1150</span>
-<span id="1151">1151</span>
-<span id="1152">1152</span>
-<span id="1153">1153</span>
-<span id="1154">1154</span>
-<span id="1155">1155</span>
-<span id="1156">1156</span>
-<span id="1157">1157</span>
-<span id="1158">1158</span>
-<span id="1159">1159</span>
-<span id="1160">1160</span>
-<span id="1161">1161</span>
-<span id="1162">1162</span>
-<span id="1163">1163</span>
-<span id="1164">1164</span>
-<span id="1165">1165</span>
-<span id="1166">1166</span>
-<span id="1167">1167</span>
-<span id="1168">1168</span>
-<span id="1169">1169</span>
-<span id="1170">1170</span>
-<span id="1171">1171</span>
-<span id="1172">1172</span>
-<span id="1173">1173</span>
-<span id="1174">1174</span>
-<span id="1175">1175</span>
-<span id="1176">1176</span>
-<span id="1177">1177</span>
-<span id="1178">1178</span>
-<span id="1179">1179</span>
-<span id="1180">1180</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">core</span>::{
+    <span class="ident">af_array</span>, <span class="ident">dim_t</span>, <span class="ident">AfError</span>, <span class="ident">Array</span>, <span class="ident">ComplexFloating</span>, <span class="ident">ConvDomain</span>, <span class="ident">ConvMode</span>, <span class="ident">FloatingPoint</span>,
+    <span class="ident">HasAfEnum</span>, <span class="ident">InterpType</span>, <span class="ident">RealFloating</span>, <span class="ident">HANDLE_ERROR</span>,
+};
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_double</span>, <span class="ident">c_float</span>, <span class="ident">c_int</span>, <span class="ident">c_longlong</span>, <span class="ident">c_uint</span>, <span class="ident">size_t</span>};
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">num</span>::<span class="ident">Complex</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">ConvDomain</span>, <span class="ident">ConvMode</span>, <span class="ident">InterpType</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">MutAfArray</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">ComplexFloating</span>, <span class="ident">FloatingPoint</span>, <span class="ident">HasAfEnum</span>, <span class="ident">RealFloating</span>};
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_double</span>, <span class="ident">c_float</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>, <span class="ident">size_t</span>};
+<span class="kw">use</span> <span class="ident">num</span>::<span class="ident">Complex</span>;
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">fn</span> <span class="ident">af_approx1</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos</span>: <span class="ident">AfArray</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos</span>: <span class="ident">af_array</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx1_v2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos</span>: <span class="ident">AfArray</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos</span>: <span class="ident">af_array</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx1_uniform</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step</span>: <span class="ident">c_double</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx1_uniform_v2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step</span>: <span class="ident">c_double</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos0</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos1</span>: <span class="ident">AfArray</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos0</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos1</span>: <span class="ident">af_array</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx2_v2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos0</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos1</span>: <span class="ident">AfArray</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos0</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos1</span>: <span class="ident">af_array</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx2_uniform</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos0</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos0</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim0</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start_dim0</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step_dim0</span>: <span class="ident">c_double</span>,
-        <span class="ident">pos1</span>: <span class="ident">AfArray</span>,
+        <span class="ident">pos1</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim1</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start_dim1</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step_dim1</span>: <span class="ident">c_double</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_approx2_uniform_v2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">inp</span>: <span class="ident">AfArray</span>,
-        <span class="ident">pos0</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">inp</span>: <span class="ident">af_array</span>,
+        <span class="ident">pos0</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim0</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start_dim0</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step_dim0</span>: <span class="ident">c_double</span>,
-        <span class="ident">pos1</span>: <span class="ident">AfArray</span>,
+        <span class="ident">pos1</span>: <span class="ident">af_array</span>,
         <span class="ident">interp_dim1</span>: <span class="ident">c_int</span>,
         <span class="ident">idx_start_dim1</span>: <span class="ident">c_double</span>,
         <span class="ident">idx_step_dim1</span>: <span class="ident">c_double</span>,
-        <span class="ident">method</span>: <span class="ident">c_int</span>,
+        <span class="ident">method</span>: <span class="ident">c_uint</span>,
         <span class="ident">off_grid</span>: <span class="ident">c_float</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_set_fft_plan_cache_size</span>(<span class="ident">cache_size</span>: <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_fft</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">c_longlong</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_fft2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">odim0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim1</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_fft3</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">odim0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim1</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim2</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim2</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_ifft</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">c_longlong</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">odim0</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_ifft2</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">odim0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim1</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_ifft3</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">odim0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim1</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">odim2</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim2</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_fft_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">arr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_fft_r2c</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">pad0</span>: <span class="ident">c_longlong</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_r2c</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">pad0</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_fft2_r2c</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">pad0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">pad1</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">pad0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">pad1</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_fft3_r2c</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">nfac</span>: <span class="ident">c_double</span>,
-        <span class="ident">pad0</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">pad1</span>: <span class="ident">c_longlong</span>,
-        <span class="ident">pad2</span>: <span class="ident">c_longlong</span>,
+        <span class="ident">pad0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">pad1</span>: <span class="ident">dim_t</span>,
+        <span class="ident">pad2</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_fft_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft2_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft3_c2r</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_c2r</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft2_c2r</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft3_c2r</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">nfac</span>: <span class="ident">c_double</span>, <span class="ident">is_odd</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_convolve1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_convolve2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_convolve3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_convolve2_sep</span>(<span class="ident">o</span>: <span class="ident">MutAfArray</span>, <span class="ident">c</span>: <span class="ident">AfArray</span>, <span class="ident">r</span>: <span class="ident">AfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft_convolve1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft_convolve2</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fft_convolve3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">s</span>: <span class="ident">AfArray</span>, <span class="ident">f</span>: <span class="ident">AfArray</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_fir</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">b</span>: <span class="ident">AfArray</span>, <span class="ident">x</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_iir</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">b</span>: <span class="ident">AfArray</span>, <span class="ident">a</span>: <span class="ident">AfArray</span>, <span class="ident">x</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve1</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve2</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve3</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>, <span class="ident">d</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_convolve2_sep</span>(
+        <span class="ident">o</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">c</span>: <span class="ident">af_array</span>,
+        <span class="ident">r</span>: <span class="ident">af_array</span>,
+        <span class="ident">s</span>: <span class="ident">af_array</span>,
+        <span class="ident">m</span>: <span class="ident">c_uint</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve1</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve2</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fft_convolve3</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">s</span>: <span class="ident">af_array</span>, <span class="ident">f</span>: <span class="ident">af_array</span>, <span class="ident">m</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_fir</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">b</span>: <span class="ident">af_array</span>, <span class="ident">x</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_iir</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">b</span>: <span class="ident">af_array</span>, <span class="ident">a</span>: <span class="ident">af_array</span>, <span class="ident">x</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 }
 
 <span class="doccomment">/// Perform signal interpolation for 1d signals</span>
@@ -1393,18 +1343,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="ident">P</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx1</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos</span>.<span class="ident">get</span>(),
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Same as [approx1](./fn.approx1.html) but uses existing Array as output</span>
@@ -1420,11 +1370,11 @@
 {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx1_v2</span>(
-            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos</span>.<span class="ident">get</span>(),
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -1459,21 +1409,21 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="ident">P</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx1_uniform</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim</span>,
             <span class="ident">start</span>,
             <span class="ident">step</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
             <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Same as [approx1_uniform](./fn.approx1_uniform.html) but uses existing Array as output</span>
@@ -1493,13 +1443,13 @@
 {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx1_uniform_v2</span>(
-            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim</span>,
             <span class="ident">start</span>,
             <span class="ident">step</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
             <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
@@ -1531,19 +1481,19 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="ident">P</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx2</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos0</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos1</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos0</span>.<span class="ident">get</span>(),
+            <span class="ident">pos1</span>.<span class="ident">get</span>(),
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Same as [approx2](./fn.approx2.html) but uses existing Array as output</span>
@@ -1560,12 +1510,12 @@
 {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx2_v2</span>(
-            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos0</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos1</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos0</span>.<span class="ident">get</span>(),
+            <span class="ident">pos1</span>.<span class="ident">get</span>(),
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -1609,25 +1559,25 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="ident">P</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx2_uniform</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos0</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos0</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim0</span>,
             <span class="ident">start0</span>,
             <span class="ident">step0</span>,
-            <span class="ident">pos1</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">pos1</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim1</span>,
             <span class="ident">start1</span>,
             <span class="ident">step1</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Same as [approx2_uniform](./fn.approx2_uniform.html) but uses existing Array as output</span>
@@ -1651,18 +1601,18 @@
 {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_approx2_uniform_v2</span>(
-            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">pos0</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">output</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">pos0</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim0</span>,
             <span class="ident">start0</span>,
             <span class="ident">step0</span>,
-            <span class="ident">pos1</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="ident">pos1</span>.<span class="ident">get</span>(),
             <span class="ident">interp_dim1</span>,
             <span class="ident">start1</span>,
             <span class="ident">step1</span>,
-            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">off_grid</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">off_grid</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -1693,23 +1643,17 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">ComplexOutType</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">odim0</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Fast fourier transform for 2d signals</span>
@@ -1725,7 +1669,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
@@ -1736,18 +1679,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">odim0</span>,
+            <span class="ident">odim1</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Fast fourier transform for 3d signals</span>
@@ -1764,7 +1707,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fft3</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
@@ -1776,19 +1718,19 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">odim0</span>,
+            <span class="ident">odim1</span>,
+            <span class="ident">odim2</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Inverse fast fourier transform for 1d signals</span>
@@ -1804,23 +1746,17 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">norm_factor</span>: <span class="ident">f64</span>, <span class="ident">odim0</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">ComplexOutType</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">odim0</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Inverse fast fourier transform for 2d signals</span>
@@ -1836,7 +1772,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
@@ -1847,18 +1782,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft2</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">odim0</span>,
+            <span class="ident">odim1</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Inverse fast fourier transform for 3d signals</span>
@@ -1875,7 +1810,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ifft3</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">norm_factor</span>: <span class="ident">f64</span>,
@@ -1887,19 +1821,19 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">ComplexOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft3</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">odim2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">odim0</span>,
+            <span class="ident">odim1</span>,
+            <span class="ident">odim2</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">conv_func_def</span> {
@@ -1918,7 +1852,6 @@
         <span class="doccomment">///# Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// Convolved Array</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(
             <span class="ident">signal</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
             <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
@@ -1929,18 +1862,18 @@
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
             <span class="ident">F</span>: <span class="ident">HasAfEnum</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                    <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">filter</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+                    <span class="ident">signal</span>.<span class="ident">get</span>(),
+                    <span class="ident">filter</span>.<span class="ident">get</span>(),
                     <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
                     <span class="ident">domain</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
                 );
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -1961,7 +1894,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The convolved Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">convolve2_sep</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(
     <span class="ident">cfilt</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
     <span class="ident">rfilt</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
@@ -1972,18 +1904,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
     <span class="ident">F</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_convolve2_sep</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">cfilt</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">rfilt</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">cfilt</span>.<span class="ident">get</span>(),
+            <span class="ident">rfilt</span>.<span class="ident">get</span>(),
+            <span class="ident">signal</span>.<span class="ident">get</span>(),
             <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">fft_conv_func_def</span> {
@@ -2000,23 +1932,18 @@
         <span class="doccomment">///# Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// Convolved Array</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">signal</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">mode</span>: <span class="ident">ConvMode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
             <span class="ident">F</span>: <span class="ident">HasAfEnum</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                    <span class="ident">signal</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">filter</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-                );
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">signal</span>.<span class="ident">get</span>(), <span class="ident">filter</span>.<span class="ident">get</span>(), <span class="ident">mode</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -2047,22 +1974,17 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Filtered Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fir</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">X</span><span class="op">&gt;</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">B</span>: <span class="ident">HasAfEnum</span>,
     <span class="ident">X</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fir</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">b</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">b</span>.<span class="ident">get</span>(), <span class="ident">x</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Infinite impulse response filter</span>
@@ -2076,19 +1998,13 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Filtered Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iir</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_iir</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">b</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">a</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_iir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">b</span>.<span class="ident">get</span>(), <span class="ident">a</span>.<span class="ident">get</span>(), <span class="ident">x</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// In place 1d dimensional Fast fourier transform</span>
@@ -2102,7 +2018,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2118,7 +2034,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2134,7 +2050,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2150,7 +2066,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2166,7 +2082,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft2_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2182,7 +2098,7 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
 {
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ifft3_inplace</span>(<span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">norm_factor</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2203,17 +2119,12 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
     <span class="ident">Complex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_r2c</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_r2c</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">pad0</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// 2d Real to Complex fast fourier transform</span>
@@ -2233,18 +2144,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
     <span class="ident">Complex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_r2c</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">pad1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">pad0</span>,
+            <span class="ident">pad1</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// 3d Real to Complex fast fourier transform</span>
@@ -2271,19 +2182,19 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
     <span class="ident">Complex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_r2c</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">pad0</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">pad1</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
-            <span class="ident">pad2</span> <span class="kw">as</span> <span class="ident">c_longlong</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">norm_factor</span>,
+            <span class="ident">pad0</span>,
+            <span class="ident">pad1</span>,
+            <span class="ident">pad2</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// 1d Complex to Real fast fourier transform</span>
@@ -2302,17 +2213,12 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">BaseType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_c2r</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">is_odd</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// 2d Complex to Real fast fourier transform</span>
@@ -2331,17 +2237,12 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">BaseType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_c2r</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft2_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">is_odd</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// 3d Complex to Real fast fourier transform</span>
@@ -2360,17 +2261,12 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ComplexFloating</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">HasAfEnum</span><span class="op">&gt;</span>::<span class="ident">BaseType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_c2r</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">norm_factor</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">is_odd</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_fft3_c2r</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">norm_factor</span>, <span class="ident">is_odd</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

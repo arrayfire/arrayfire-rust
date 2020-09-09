@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js coal">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Configuring ArrayFire Runtime Environment - Rust Wrapper for ArrayFire HPC Library</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('coal')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html" class="active"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#configuring-arrayfire-environment" id="configuring-arrayfire-environment">Configuring Arrayfire Environment</a></h1>
+<p>Following are the list of environment and runtime configurations that will help enhance your
+experience with ArrayFire.</p>
+<h2><a class="header" href="#af_path" id="af_path">AF_PATH</a></h2>
+<p>This is the path with ArrayFire gets installed, ie. the includes and libs are present in this
+directory. You can use this variable to add include paths and libraries to your projects.</p>
+<h2><a class="header" href="#af_print_errors" id="af_print_errors">AF_PRINT_ERRORS</a></h2>
+<p>When <code>AF\_PRINT\_ERRORS</code> is set to 1, the exceptions thrown are more verbose and detailed. This
+helps in locating the exact failure.</p>
+<pre><code>AF_PRINT_ERRORS=1 ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_cuda_default_device" id="af_cuda_default_device">AF_CUDA_DEFAULT_DEVICE</a></h2>
+<p>Use this variable to set the default CUDA device. Valid values for this variable are the device
+identifiers shown when <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.info.html">info</a> is run.</p>
+<pre><code>AF_CUDA_DEFAULT_DEVICE=1 ./myprogram
+</code></pre>
+<p>Note: <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_device.html">set_device</a> call in the source code will take precedence over this variable.</p>
+<h2><a class="header" href="#af_opencl_default_device" id="af_opencl_default_device">AF_OPENCL_DEFAULT_DEVICE</a></h2>
+<p>Use this variable to set the default OpenCL device. Valid values for this variable are the device
+identifiers shown when <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.info.html">info</a> is run.</p>
+<pre><code>AF_OPENCL_DEFAULT_DEVICE=1 ./myprogram
+</code></pre>
+<p>Note: <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_device.html">set_device</a> call in the source code will take precedence over this variable.</p>
+<h2><a class="header" href="#af_opencl_default_device_type" id="af_opencl_default_device_type">AF_OPENCL_DEFAULT_DEVICE_TYPE</a></h2>
+<p>Use this variable to set the default OpenCL device type. Valid values for this variable are: CPU,
+GPU, ACC (Accelerators). When set, the first device of the specified type is chosen as default device.</p>
+<pre><code>AF_OPENCL_DEFAULT_DEVICE_TYPE=CPU ./myprogram
+</code></pre>
+<p>Note: <code>AF_OPENCL_DEFAULT_DEVICE</code> and <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_device.html">set_device</a> takes precedence over this variable.</p>
+<h2><a class="header" href="#af_opencl_device_type" id="af_opencl_device_type">AF_OPENCL_DEVICE_TYPE</a></h2>
+<p>Use this variable to only choose OpenCL devices of specified type. Valid values for this variable are:</p>
+<ul>
+<li>ALL: All OpenCL devices. (Default behavior).</li>
+<li>CPU: CPU devices only.</li>
+<li>GPU: GPU devices only.</li>
+<li>ACC: Accelerator devices only.</li>
+</ul>
+<p>When set, the remaining OpenCL device types are ignored by the OpenCL backend.</p>
+<pre><code>AF_OPENCL_DEVICE_TYPE=CPU ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_opencl_cpu_offload" id="af_opencl_cpu_offload">AF_OPENCL_CPU_OFFLOAD</a></h2>
+<p>When ArrayFire runs on devices with unified memory with the host (ie. <code>CL_DEVICE_HOST_UNIFIED_MENORY</code>
+is true for the device) then certain functions are offloaded to run on the CPU using mapped buffers.</p>
+<p>ArrayFire takes advantage of fast libraries such as MKL while spending no time copying memory from
+device to host. The device memory is mapped to a host pointer which can be used in the offloaded
+functions.</p>
+<p>This functionality can be disabled by using the environment variable <code>AF_OPENCL_CPU_OFFLOAD=0</code>.</p>
+<p>The default bevaior of this has changed in version 3.4. Prior to v3.4, CPU Offload functionality was
+used only when the user set <code>AF_OPENCL_CPU_OFFLOAD=1</code> and disabled otherwise. From v3.4 onwards, CPU
+Offload is enabled by default and is disabled only when <code>AF_OPENCL_CPU_OFFLOAD=0</code> is set.</p>
+<h2><a class="header" href="#af_opencl_show_build_info" id="af_opencl_show_build_info">AF_OPENCL_SHOW_BUILD_INFO</a></h2>
+<p>This variable is useful when debuggin OpenCL kernel compilation failures. When this variable is set
+to 1, and an error occurs during a OpenCL kernel compilation, then the log and kernel are printed to screen.</p>
+<h2><a class="header" href="#af_disable_graphics" id="af_disable_graphics">AF_DISABLE_GRAPHICS</a></h2>
+<p>Setting this variable to 1 will disable window creation when graphics functions are being called.
+Disabling window creation will disable all other graphics calls at runtime. This is a useful
+when running code on servers and systems without displays. When graphics calls are run on such
+machines, they will print warning about window creation failing. To suppress those calls, set this
+variable.</p>
+<h2><a class="header" href="#af_synchronous_calls" id="af_synchronous_calls">AF_SYNCHRONOUS_CALLS</a></h2>
+<p>When this environment variable is set to 1, ArrayFire will execute all functions synchronously.</p>
+<h2><a class="header" href="#af_show_load_path" id="af_show_load_path">AF_SHOW_LOAD_PATH</a></h2>
+<p>When using the Unified backend, if this variable is set to 1, it will show the path where the ArrayFire
+backend libraries are loaded from.</p>
+<p>If the libraries are loaded from system paths, such as PATH or LD_LIBRARY_PATH etc, then it will
+print &quot;system path&quot;. If the libraries are loaded from other paths, then those paths are shown in full.</p>
+<h2><a class="header" href="#af_mem_debug" id="af_mem_debug">AF_MEM_DEBUG</a></h2>
+<p>When AF_MEM_DEBUG is set to 1 (or anything not equal to 0), the caching mechanism in the memory manager
+is disabled. The device buffers are allocated using native functions as needed and freed when going out
+of scope. When the environment variable is not set, it is treated to be non zero.</p>
+<pre><code>AF_MEM_DEBUG=1 ./myprogram
+</code></pre>
+<h2><a class="header" href="#af_max_buffers" id="af_max_buffers">AF_MAX_BUFFERS</a></h2>
+<p>When AF_MAX_BUFFERS is set, this environment variable specifies the maximum number of buffers
+allocated before garbage collection kicks in. Please note that the total number of buffers that
+can exist simultaneously can be higher than this number. This variable tells the garbage collector
+that it should free any available buffers immediately if the treshold is reached. When not set,
+the default value is 1000.</p>
+<h2><a class="header" href="#af_opencl_max_jit_len" id="af_opencl_max_jit_len">AF_OPENCL_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum height of the OpenCL JIT tree after
+which evaluation is forced. The default value, as of v3.4, is 50 on OSX, 100 everywhere else.
+This value was 20 for older versions.</p>
+<h2><a class="header" href="#af_cuda_max_jit_len" id="af_cuda_max_jit_len">AF_CUDA_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum height of the CUDA JIT tree after
+which evaluation is forced. The default value, as of v3.4, 100. This value was 20 for older versions.</p>
+<h2><a class="header" href="#af_cpu_max_jit_len" id="af_cpu_max_jit_len">AF_CPU_MAX_JIT_LEN</a></h2>
+<p>When set, this environment variable specifies the maximum length of the CPU JIT tree after
+which evaluation is forced. The default value, as of v3.4, 100. This value was 20 for older versions.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="indexing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="cuda-interop.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="indexing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="cuda-interop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

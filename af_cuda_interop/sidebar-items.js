@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_device_native_id","Get active device's id in CUDA context"],["get_stream","Get CUDA stream of active CUDA device"],["set_device_native_id","Set active device using CUDA context's id"]]});

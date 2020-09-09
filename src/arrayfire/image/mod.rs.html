@@ -1923,268 +1923,263 @@
 <span id="1910">1910</span>
 <span id="1911">1911</span>
 <span id="1912">1912</span>
-<span id="1913">1913</span>
-<span id="1914">1914</span>
-<span id="1915">1915</span>
-<span id="1916">1916</span>
-<span id="1917">1917</span>
-<span id="1918">1918</span>
-<span id="1919">1919</span>
-<span id="1920">1920</span>
-<span id="1921">1921</span>
-<span id="1922">1922</span>
-<span id="1923">1923</span>
-<span id="1924">1924</span>
-<span id="1925">1925</span>
-<span id="1926">1926</span>
-<span id="1927">1927</span>
-<span id="1928">1928</span>
-<span id="1929">1929</span>
-<span id="1930">1930</span>
-<span id="1931">1931</span>
-<span id="1932">1932</span>
-<span id="1933">1933</span>
-<span id="1934">1934</span>
-<span id="1935">1935</span>
-<span id="1936">1936</span>
-<span id="1937">1937</span>
-<span id="1938">1938</span>
-<span id="1939">1939</span>
-<span id="1940">1940</span>
-<span id="1941">1941</span>
-<span id="1942">1942</span>
-<span id="1943">1943</span>
-<span id="1944">1944</span>
-<span id="1945">1945</span>
-<span id="1946">1946</span>
-<span id="1947">1947</span>
-<span id="1948">1948</span>
-<span id="1949">1949</span>
-<span id="1950">1950</span>
-<span id="1951">1951</span>
-<span id="1952">1952</span>
-<span id="1953">1953</span>
-<span id="1954">1954</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">core</span>::{
+    <span class="ident">af_array</span>, <span class="ident">dim_t</span>, <span class="ident">AfError</span>, <span class="ident">Array</span>, <span class="ident">BorderType</span>, <span class="ident">CannyThresholdType</span>, <span class="ident">ColorSpace</span>, <span class="ident">ConfidenceCCInput</span>,
+    <span class="ident">Connectivity</span>, <span class="ident">DeconvInput</span>, <span class="ident">DiffusionEq</span>, <span class="ident">EdgeComputable</span>, <span class="ident">FloatingPoint</span>, <span class="ident">FluxFn</span>,
+    <span class="ident">GrayRGBConvertible</span>, <span class="ident">HasAfEnum</span>, <span class="ident">ImageFilterType</span>, <span class="ident">ImageNativeType</span>, <span class="ident">InterpType</span>, <span class="ident">InverseDeconvAlgo</span>,
+    <span class="ident">IterativeDeconvAlgo</span>, <span class="ident">MomentType</span>, <span class="ident">MomentsComputable</span>, <span class="ident">RealFloating</span>, <span class="ident">RealNumber</span>, <span class="ident">YCCStd</span>,
+    <span class="ident">HANDLE_ERROR</span>,
+};
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_double</span>, <span class="ident">c_float</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">BorderType</span>, <span class="ident">CannyThresholdType</span>, <span class="ident">ColorSpace</span>, <span class="ident">Connectivity</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">DiffusionEq</span>, <span class="ident">FluxFn</span>, <span class="ident">InterpType</span>, <span class="ident">MomentType</span>, <span class="ident">YCCStd</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">InverseDeconvAlgo</span>, <span class="ident">IterativeDeconvAlgo</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">DimT</span>, <span class="ident">MutAfArray</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">ConfidenceCCInput</span>, <span class="ident">DeconvInput</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">EdgeComputable</span>, <span class="ident">GrayRGBConvertible</span>, <span class="ident">MomentsComputable</span>, <span class="ident">RealFloating</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">FloatingPoint</span>, <span class="ident">HasAfEnum</span>, <span class="ident">ImageFilterType</span>, <span class="ident">ImageNativeType</span>, <span class="ident">RealNumber</span>};
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_double</span>, <span class="ident">c_float</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
 
 <span class="comment">// unused functions from image.h header</span>
+<span class="comment">// TODO add later when requested</span>
 <span class="comment">// af_load_image_memory</span>
 <span class="comment">// af_save_image_memory</span>
 <span class="comment">// af_delete_image_memory</span>
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">fn</span> <span class="ident">af_cast</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">aftype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_gradient</span>(<span class="ident">dx</span>: <span class="ident">MutAfArray</span>, <span class="ident">dy</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_load_image</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">iscolor</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_save_image</span>(<span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_load_image_native</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_save_image_native</span>(<span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_cast</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">aftype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_gradient</span>(<span class="ident">dx</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">dy</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_load_image</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">iscolor</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_save_image</span>(<span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">input</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_load_image_native</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_save_image_native</span>(<span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">input</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_resize</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">odim0</span>: <span class="ident">DimT</span>,
-        <span class="ident">odim1</span>: <span class="ident">DimT</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_transform</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">trans</span>: <span class="ident">AfArray</span>,
-        <span class="ident">odim0</span>: <span class="ident">DimT</span>,
-        <span class="ident">odim1</span>: <span class="ident">DimT</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">trans</span>: <span class="ident">af_array</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
-        <span class="ident">is_inverse</span>: <span class="ident">c_int</span>,
+        <span class="ident">is_inverse</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_rotate</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">theta</span>: <span class="ident">c_float</span>,
-        <span class="ident">crop</span>: <span class="ident">c_int</span>,
+        <span class="ident">crop</span>: <span class="ident">bool</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_translate</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">trans0</span>: <span class="ident">c_float</span>,
         <span class="ident">trans1</span>: <span class="ident">c_float</span>,
-        <span class="ident">odim0</span>: <span class="ident">DimT</span>,
-        <span class="ident">odim1</span>: <span class="ident">DimT</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_scale</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">scale0</span>: <span class="ident">c_float</span>,
         <span class="ident">scale1</span>: <span class="ident">c_float</span>,
-        <span class="ident">odim0</span>: <span class="ident">DimT</span>,
-        <span class="ident">odim1</span>: <span class="ident">DimT</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_skew</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">skew0</span>: <span class="ident">c_float</span>,
         <span class="ident">skew1</span>: <span class="ident">c_float</span>,
-        <span class="ident">odim0</span>: <span class="ident">DimT</span>,
-        <span class="ident">odim1</span>: <span class="ident">DimT</span>,
+        <span class="ident">odim0</span>: <span class="ident">dim_t</span>,
+        <span class="ident">odim1</span>: <span class="ident">dim_t</span>,
         <span class="ident">method</span>: <span class="ident">c_uint</span>,
-        <span class="ident">is_inverse</span>: <span class="ident">c_int</span>,
+        <span class="ident">is_inverse</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_histogram</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">nbins</span>: <span class="ident">c_uint</span>,
         <span class="ident">minval</span>: <span class="ident">c_double</span>,
         <span class="ident">maxval</span>: <span class="ident">c_double</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_dilate</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">mask</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_dilate3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">mask</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_erode</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">mask</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_erode3</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">mask</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_regions</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">conn</span>: <span class="ident">c_uint</span>, <span class="ident">aftype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_sobel_operator</span>(<span class="ident">dx</span>: <span class="ident">MutAfArray</span>, <span class="ident">dy</span>: <span class="ident">MutAfArray</span>, <span class="ident">i</span>: <span class="ident">AfArray</span>, <span class="ident">ksize</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_rgb2gray</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">r</span>: <span class="ident">c_float</span>, <span class="ident">g</span>: <span class="ident">c_float</span>, <span class="ident">b</span>: <span class="ident">c_float</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_gray2rgb</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">r</span>: <span class="ident">c_float</span>, <span class="ident">g</span>: <span class="ident">c_float</span>, <span class="ident">b</span>: <span class="ident">c_float</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_hist_equal</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">hist</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_hsv2rgb</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_rgb2hsv</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_dilate</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">mask</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_dilate3</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">mask</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_erode</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">mask</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_erode3</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">mask</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_regions</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">conn</span>: <span class="ident">c_uint</span>, <span class="ident">aftype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sobel_operator</span>(<span class="ident">dx</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">dy</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">i</span>: <span class="ident">af_array</span>, <span class="ident">ksize</span>: <span class="ident">c_uint</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_rgb2gray</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">r</span>: <span class="ident">c_float</span>,
+        <span class="ident">g</span>: <span class="ident">c_float</span>,
+        <span class="ident">b</span>: <span class="ident">c_float</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_gray2rgb</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">r</span>: <span class="ident">c_float</span>,
+        <span class="ident">g</span>: <span class="ident">c_float</span>,
+        <span class="ident">b</span>: <span class="ident">c_float</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_hist_equal</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">hist</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_hsv2rgb</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_rgb2hsv</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_bilateral</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">sp_sig</span>: <span class="ident">c_float</span>,
         <span class="ident">ch_sig</span>: <span class="ident">c_float</span>,
-        <span class="ident">iscolor</span>: <span class="ident">c_int</span>,
+        <span class="ident">iscolor</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_mean_shift</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">sp_sig</span>: <span class="ident">c_float</span>,
         <span class="ident">ch_sig</span>: <span class="ident">c_float</span>,
         <span class="ident">iter</span>: <span class="ident">c_uint</span>,
-        <span class="ident">iscolor</span>: <span class="ident">c_int</span>,
+        <span class="ident">iscolor</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_medfilt</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">wlen</span>: <span class="ident">DimT</span>, <span class="ident">wwid</span>: <span class="ident">DimT</span>, <span class="ident">etype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_medfilt</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">wlen</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wwid</span>: <span class="ident">dim_t</span>,
+        <span class="ident">etype</span>: <span class="ident">c_uint</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_medfilt1</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">wlen</span>: <span class="ident">DimT</span>, <span class="ident">etype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_medfilt1</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">wlen</span>: <span class="ident">dim_t</span>, <span class="ident">etype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_minfilt</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">wlen</span>: <span class="ident">DimT</span>, <span class="ident">wwid</span>: <span class="ident">DimT</span>, <span class="ident">etype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_minfilt</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">wlen</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wwid</span>: <span class="ident">dim_t</span>,
+        <span class="ident">etype</span>: <span class="ident">c_uint</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_maxfilt</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">wlen</span>: <span class="ident">DimT</span>, <span class="ident">wwid</span>: <span class="ident">DimT</span>, <span class="ident">etype</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_maxfilt</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">wlen</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wwid</span>: <span class="ident">dim_t</span>,
+        <span class="ident">etype</span>: <span class="ident">c_uint</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_gaussian_kernel</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
         <span class="ident">rows</span>: <span class="ident">c_int</span>,
         <span class="ident">cols</span>: <span class="ident">c_int</span>,
         <span class="ident">sigma_r</span>: <span class="ident">c_double</span>,
         <span class="ident">sigma_c</span>: <span class="ident">c_double</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_color_space</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">tospace</span>: <span class="ident">c_uint</span>, <span class="ident">fromspace</span>: <span class="ident">c_uint</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_color_space</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">tospace</span>: <span class="ident">c_uint</span>,
+        <span class="ident">fromspace</span>: <span class="ident">c_uint</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_unwrap</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">wx</span>: <span class="ident">DimT</span>,
-        <span class="ident">wy</span>: <span class="ident">DimT</span>,
-        <span class="ident">sx</span>: <span class="ident">DimT</span>,
-        <span class="ident">sy</span>: <span class="ident">DimT</span>,
-        <span class="ident">px</span>: <span class="ident">DimT</span>,
-        <span class="ident">py</span>: <span class="ident">DimT</span>,
-        <span class="ident">is_column</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">wx</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wy</span>: <span class="ident">dim_t</span>,
+        <span class="ident">sx</span>: <span class="ident">dim_t</span>,
+        <span class="ident">sy</span>: <span class="ident">dim_t</span>,
+        <span class="ident">px</span>: <span class="ident">dim_t</span>,
+        <span class="ident">py</span>: <span class="ident">dim_t</span>,
+        <span class="ident">is_column</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_wrap</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">ox</span>: <span class="ident">DimT</span>,
-        <span class="ident">oy</span>: <span class="ident">DimT</span>,
-        <span class="ident">wx</span>: <span class="ident">DimT</span>,
-        <span class="ident">wy</span>: <span class="ident">DimT</span>,
-        <span class="ident">sx</span>: <span class="ident">DimT</span>,
-        <span class="ident">sy</span>: <span class="ident">DimT</span>,
-        <span class="ident">px</span>: <span class="ident">DimT</span>,
-        <span class="ident">py</span>: <span class="ident">DimT</span>,
-        <span class="ident">is_column</span>: <span class="ident">c_int</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">ox</span>: <span class="ident">dim_t</span>,
+        <span class="ident">oy</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wx</span>: <span class="ident">dim_t</span>,
+        <span class="ident">wy</span>: <span class="ident">dim_t</span>,
+        <span class="ident">sx</span>: <span class="ident">dim_t</span>,
+        <span class="ident">sy</span>: <span class="ident">dim_t</span>,
+        <span class="ident">px</span>: <span class="ident">dim_t</span>,
+        <span class="ident">py</span>: <span class="ident">dim_t</span>,
+        <span class="ident">is_column</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_sat</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_sat</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_ycbcr2rgb</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">stnd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_rgb2ycbcr</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">stnd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_is_image_io_available</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_transform_coordinates</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">tf</span>: <span class="ident">AfArray</span>, <span class="ident">d0</span>: <span class="ident">c_float</span>, <span class="ident">d1</span>: <span class="ident">c_float</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_ycbcr2rgb</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">stnd</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_rgb2ycbcr</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">stnd</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_is_image_io_available</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_transform_coordinates</span>(
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">tf</span>: <span class="ident">af_array</span>,
+        <span class="ident">d0</span>: <span class="ident">c_float</span>,
+        <span class="ident">d1</span>: <span class="ident">c_float</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_moments</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">moment</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_moments_all</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">input</span>: <span class="ident">AfArray</span>, <span class="ident">moment</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_moments</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">moment</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_moments_all</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">input</span>: <span class="ident">af_array</span>, <span class="ident">moment</span>: <span class="ident">c_uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_canny</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">thres_type</span>: <span class="ident">c_int</span>,
         <span class="ident">low</span>: <span class="ident">c_float</span>,
         <span class="ident">high</span>: <span class="ident">c_float</span>,
         <span class="ident">swindow</span>: <span class="ident">c_uint</span>,
-        <span class="ident">is_fast</span>: <span class="ident">c_int</span>,
+        <span class="ident">is_fast</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_anisotropic_diffusion</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
         <span class="ident">dt</span>: <span class="ident">c_float</span>,
         <span class="ident">K</span>: <span class="ident">c_float</span>,
         <span class="ident">iters</span>: <span class="ident">c_uint</span>,
-        <span class="ident">fftype</span>: <span class="ident">c_int</span>,
-        <span class="ident">diff_kind</span>: <span class="ident">c_int</span>,
+        <span class="ident">fftype</span>: <span class="ident">c_uint</span>,
+        <span class="ident">diff_kind</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_confidence_cc</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">seedx</span>: <span class="ident">AfArray</span>,
-        <span class="ident">seedy</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">seedx</span>: <span class="ident">af_array</span>,
+        <span class="ident">seedy</span>: <span class="ident">af_array</span>,
         <span class="ident">radius</span>: <span class="ident">c_uint</span>,
         <span class="ident">multiplier</span>: <span class="ident">c_uint</span>,
         <span class="ident">iterations</span>: <span class="ident">c_int</span>,
         <span class="ident">seg_val</span>: <span class="ident">c_double</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_iterative_deconv</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">ker</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">ker</span>: <span class="ident">af_array</span>,
         <span class="ident">iterations</span>: <span class="ident">c_uint</span>,
         <span class="ident">rfactor</span>: <span class="ident">c_float</span>,
-        <span class="ident">algo</span>: <span class="ident">c_int</span>,
+        <span class="ident">algo</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_inverse_deconv</span>(
-        <span class="ident">out</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">ker</span>: <span class="ident">AfArray</span>,
+        <span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">ker</span>: <span class="ident">af_array</span>,
         <span class="ident">gamma</span>: <span class="ident">c_float</span>,
-        <span class="ident">algo</span>: <span class="ident">c_int</span>,
+        <span class="ident">algo</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 }
 
@@ -2203,22 +2198,21 @@
 <span class="doccomment">/// The first Array is `dx` which is the gradient along the 1st dimension.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The second Array is `dy` which is the gradient along the 2nd dimension.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gradient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">FloatingPoint</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dy</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dx</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dy</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_gradient</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dx</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">dx</span>.<span class="ident">into</span>(), <span class="ident">dy</span>.<span class="ident">into</span>())
     }
-    (<span class="ident">dx</span>.<span class="ident">into</span>(), <span class="ident">dy</span>.<span class="ident">into</span>())
 }
 
 <span class="doccomment">/// Load Image into Array</span>
@@ -2233,7 +2227,6 @@
 <span class="doccomment">/// # Return Arrays</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with pixel values loaded from the image</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">String</span>, <span class="ident">is_color</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -2244,19 +2237,17 @@
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;CString creation from input filename failed&quot;</span>),
     };
     <span class="kw">let</span> <span class="ident">trgt_type</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">img</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">err1</span> <span class="op">=</span> <span class="ident">af_load_image</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(),
-            <span class="ident">is_color</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err1</span> <span class="op">=</span> <span class="ident">af_load_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(), <span class="ident">is_color</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err1</span>));
-        <span class="kw">let</span> <span class="ident">err2</span> <span class="op">=</span> <span class="ident">af_cast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">img</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">trgt_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">img</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err2</span> <span class="op">=</span> <span class="ident">af_cast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">img</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">temp</span>, <span class="ident">trgt_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err2</span>));
+
+        <span class="ident">img</span>.<span class="ident">into</span>()
     }
-    <span class="ident">img</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Load Image into Array in it&#39;s native type</span>
@@ -2277,7 +2268,6 @@
 <span class="doccomment">/// # Return Arrays</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with pixel values loaded from the image</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_image_native</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -2288,15 +2278,17 @@
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;CString creation from input filename failed&quot;</span>),
     };
     <span class="kw">let</span> <span class="ident">trgt_type</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">get_af_dtype</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">img</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">err1</span> <span class="op">=</span> <span class="ident">af_load_image_native</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err1</span> <span class="op">=</span> <span class="ident">af_load_image_native</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err1</span>));
-        <span class="kw">let</span> <span class="ident">err2</span> <span class="op">=</span> <span class="ident">af_cast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">img</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">trgt_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">img</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err2</span> <span class="op">=</span> <span class="ident">af_cast</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">img</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">temp</span>, <span class="ident">trgt_type</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err2</span>));
+
+        <span class="ident">img</span>.<span class="ident">into</span>()
     }
-    <span class="ident">img</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Save an Array to an image file</span>
@@ -2305,7 +2297,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// - `filename` is the abolute path(includes filename) at which input Array is going to be saved</span>
 <span class="doccomment">/// - `input` is the Array to be stored into the image file</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">String</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
@@ -2316,7 +2307,7 @@
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;CString creation from input filename failed&quot;</span>),
     };
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_save_image</span>(<span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(), <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_save_image</span>(<span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(), <span class="ident">input</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2337,7 +2328,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// - `filename` is name of file to be saved</span>
 <span class="doccomment">/// - `input` is the Array to be saved. Should be U8 for saving 8-bit image, U16 for 16-bit image, and F32 for 32-bit image.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_image_native</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">String</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
@@ -2348,7 +2338,7 @@
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;CString creation from input filename failed&quot;</span>),
     };
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_save_image_native</span>(<span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(), <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_save_image_native</span>(<span class="ident">cstr_param</span>.<span class="ident">as_ptr</span>(), <span class="ident">input</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
 }
@@ -2373,25 +2363,24 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Resized Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">odim0</span>: <span class="ident">i64</span>,
     <span class="ident">odim1</span>: <span class="ident">i64</span>,
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_resize</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Transform(Affine) an Image</span>
@@ -2423,7 +2412,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Transformed Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transform</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">trans</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
@@ -2432,20 +2420,20 @@
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
     <span class="ident">is_inverse</span>: <span class="ident">bool</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_transform</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">trans</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">trans</span>.<span class="ident">get</span>(),
+            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">is_inverse</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">is_inverse</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Rotate an Image</span>
@@ -2477,25 +2465,24 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Rotated Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rotate</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">theta</span>: <span class="ident">f64</span>,
     <span class="ident">crop</span>: <span class="ident">bool</span>,
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_rotate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">theta</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">crop</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">crop</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Translate an Image</span>
@@ -2525,7 +2512,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Translated Image(Array).</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">translate</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">trans0</span>: <span class="ident">f32</span>,
@@ -2534,20 +2520,20 @@
     <span class="ident">odim1</span>: <span class="ident">i64</span>,
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_translate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">trans0</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">trans1</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">trans0</span>,
+            <span class="ident">trans1</span>,
+            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Scale an Image</span>
@@ -2568,7 +2554,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Translated Image(Array).</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scale</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">scale0</span>: <span class="ident">f32</span>,
@@ -2577,20 +2562,20 @@
     <span class="ident">odim1</span>: <span class="ident">i64</span>,
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_scale</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">scale0</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">scale1</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">scale0</span>,
+            <span class="ident">scale1</span>,
+            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Skew an image</span>
@@ -2617,7 +2602,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Skewed Image</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">skew</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">skew0</span>: <span class="ident">f32</span>,
@@ -2627,21 +2611,21 @@
     <span class="ident">method</span>: <span class="ident">InterpType</span>,
     <span class="ident">is_inverse</span>: <span class="ident">bool</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_skew</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">skew0</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">skew1</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">skew0</span>,
+            <span class="ident">skew1</span>,
+            <span class="ident">odim0</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+            <span class="ident">odim1</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">method</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">is_inverse</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">is_inverse</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Compute Histogram of an Array</span>
@@ -2667,23 +2651,22 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Histogram of input Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">histogram</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">nbins</span>: <span class="ident">u32</span>, <span class="ident">minval</span>: <span class="ident">f64</span>, <span class="ident">maxval</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_histogram</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">nbins</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">minval</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">maxval</span> <span class="kw">as</span> <span class="ident">c_double</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">nbins</span>,
+            <span class="ident">minval</span>,
+            <span class="ident">maxval</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Dilate an Image</span>
@@ -2705,21 +2688,16 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Dilated Image(Array)</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dilate</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">mask</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_dilate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">mask</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_dilate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">mask</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Erode an Image</span>
@@ -2742,21 +2720,16 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Eroded Image(Array)</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">erode</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">mask</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_erode</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">mask</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_erode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">mask</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Dilate a Volume</span>
@@ -2772,21 +2745,16 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Dilated Volume(Array)</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dilate3</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">mask</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_dilate3</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">mask</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_dilate3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">mask</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Erode a Volume</span>
@@ -2802,21 +2770,16 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Eroded Volume(Array)</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">erode3</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">mask</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_erode3</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">mask</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_erode3</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">mask</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Bilateral Filter.</span>
@@ -2838,7 +2801,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Filtered Image - Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bilateral</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">spatial_sigma</span>: <span class="ident">f32</span>,
@@ -2849,18 +2811,18 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
     <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_bilateral</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">spatial_sigma</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">chromatic_sigma</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">iscolor</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">spatial_sigma</span>,
+            <span class="ident">chromatic_sigma</span>,
+            <span class="ident">iscolor</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Meanshift Filter.</span>
@@ -2883,7 +2845,6 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Filtered Image - Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mean_shift</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">spatial_sigma</span>: <span class="ident">f32</span>,
@@ -2894,19 +2855,19 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_mean_shift</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">spatial_sigma</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">chromatic_sigma</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">iter</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">iscolor</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">spatial_sigma</span>,
+            <span class="ident">chromatic_sigma</span>,
+            <span class="ident">iter</span>,
+            <span class="ident">iscolor</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">filt_func_def</span> {
@@ -2923,23 +2884,22 @@
         <span class="doccomment">///# Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// An Array with filtered image data.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">wlen</span>: <span class="ident">u64</span>, <span class="ident">wwid</span>: <span class="ident">u64</span>, <span class="ident">etype</span>: <span class="ident">BorderType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">wlen</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-                    <span class="ident">wwid</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+                    <span class="ident">input</span>.<span class="ident">get</span>(),
+                    <span class="ident">wlen</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
+                    <span class="ident">wwid</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
                     <span class="ident">etype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
                 );
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -2977,20 +2937,13 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with gaussian kernel values</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gaussian_kernel</span>(<span class="ident">rows</span>: <span class="ident">i32</span>, <span class="ident">cols</span>: <span class="ident">i32</span>, <span class="ident">sigma_r</span>: <span class="ident">f64</span>, <span class="ident">sigma_c</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_gaussian_kernel</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">rows</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">cols</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">sigma_r</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-            <span class="ident">sigma_c</span> <span class="kw">as</span> <span class="ident">c_double</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_gaussian_kernel</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">rows</span>, <span class="ident">cols</span>, <span class="ident">sigma_r</span>, <span class="ident">sigma_c</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Color space conversion</span>
@@ -3027,22 +2980,21 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with input image values in target color space</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">color_space</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">tospace</span>: <span class="ident">ColorSpace</span>, <span class="ident">fromspace</span>: <span class="ident">ColorSpace</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_color_space</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">tospace</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
             <span class="ident">fromspace</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Find blobs in given image.</span>
@@ -3062,23 +3014,22 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Array with labels indicating different regions</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">regions</span><span class="op">&lt;</span><span class="ident">OutType</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>, <span class="ident">conn</span>: <span class="ident">Connectivity</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">OutType</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">OutType</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
 {
     <span class="kw">let</span> <span class="ident">otype</span> <span class="op">=</span> <span class="ident">OutType</span>::<span class="ident">get_af_dtype</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_regions</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">conn</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
             <span class="ident">otype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Sobel Operator</span>
@@ -3098,24 +3049,23 @@
 <span class="doccomment">/// The first Array has derivatives along horizontal direction</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The second Array has derivatives along vertical direction</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sobel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">ker_size</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">SobelOutType</span><span class="op">&gt;</span>, <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">SobelOutType</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
     <span class="ident">T</span>::<span class="ident">SobelOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dx</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dy</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dx</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dy</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sobel_operator</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dx</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">ker_size</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dx</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">ker_size</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">dx</span>.<span class="ident">into</span>(), <span class="ident">dy</span>.<span class="ident">into</span>())
     }
-    (<span class="ident">dx</span>.<span class="ident">into</span>(), <span class="ident">dy</span>.<span class="ident">into</span>())
 }
 
 <span class="doccomment">/// Histogram Equalization</span>
@@ -3127,21 +3077,16 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">/// Equalized Array</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hist_equal</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">hist</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_hist_equal</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">hist</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_hist_equal</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">hist</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">grayrgb_func_def</span> {
@@ -3157,23 +3102,16 @@
         <span class="doccomment">///#Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">///An Array with image data in target color space</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">r</span>: <span class="ident">f32</span>, <span class="ident">g</span>: <span class="ident">f32</span>, <span class="ident">b</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">GrayRGBConvertible</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">r</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-                    <span class="ident">g</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-                    <span class="ident">b</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-                );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -3184,17 +3122,16 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">hsvrgb_func_def</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>: <span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc_str</span>]</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>());
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -3226,8 +3163,8 @@
 <span class="doccomment">/// # Parameters</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// - `input` is the input image</span>
-<span class="doccomment">/// - `wx` is the block window size along 0th-dimension between [1, input.dims[0] + px]</span>
-<span class="doccomment">/// - `wy` is the block window size along 1st-dimension between [1, input.dims[1] + py]</span>
+<span class="doccomment">/// - `wx` is the block window size along 0th-dimension between \[1, input.dims\[0\] + px\]</span>
+<span class="doccomment">/// - `wy` is the block window size along 1st-dimension between \[1, input.dims\[1\] + py\]</span>
 <span class="doccomment">/// - `sx` is the stride along 0th-dimension</span>
 <span class="doccomment">/// - `sy` is the stride along 1st-dimension</span>
 <span class="doccomment">/// - `px` is the padding along 0th-dimension between [0, wx). Padding is applied both before and after.</span>
@@ -3283,22 +3220,22 @@
     <span class="ident">py</span>: <span class="ident">i64</span>,
     <span class="ident">is_column</span>: <span class="ident">bool</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_unwrap</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">wx</span>,
             <span class="ident">wy</span>,
             <span class="ident">sx</span>,
             <span class="ident">sy</span>,
             <span class="ident">px</span>,
             <span class="ident">py</span>,
-            <span class="ident">is_column</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">is_column</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Converts unwrapped image to an image</span>
@@ -3337,11 +3274,11 @@
     <span class="ident">py</span>: <span class="ident">i64</span>,
     <span class="ident">is_column</span>: <span class="ident">bool</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_wrap</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">ox</span>,
             <span class="ident">oy</span>,
             <span class="ident">wx</span>,
@@ -3350,11 +3287,11 @@
             <span class="ident">sy</span>,
             <span class="ident">px</span>,
             <span class="ident">py</span>,
-            <span class="ident">is_column</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">is_column</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Summed area table of an Image</span>
@@ -3371,12 +3308,12 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
     <span class="ident">T</span>::<span class="ident">AggregateOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sat</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_sat</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>());
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// RGB to YCbCr colorspace converter.</span>
@@ -3403,16 +3340,12 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_rgb2ycbcr</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">standard</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_rgb2ycbcr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">standard</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// YCbCr to RGB colorspace converter.</span>
@@ -3445,16 +3378,12 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ycbcr2rgb</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">standard</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_ycbcr2rgb</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">standard</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Function to check if Image I/O is available</span>
@@ -3467,11 +3396,11 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Return a boolean indicating if ArrayFire was compiled with Image I/O support</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_imageio_available</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="bool-val">false</span>;
     <span class="kw">unsafe</span> {
-        <span class="ident">af_is_image_io_available</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_int</span>);
+        <span class="ident">af_is_image_io_available</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">bool</span>);
     }
-    <span class="ident">temp</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="comment">// Return boolean flag</span>
+    <span class="ident">temp</span>
 }
 
 <span class="doccomment">/// Transform input coordinates</span>
@@ -3495,17 +3424,12 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_transform_coordinates</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">tf</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">d0</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">d1</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_transform_coordinates</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">tf</span>.<span class="ident">get</span>(), <span class="ident">d0</span>, <span class="ident">d1</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Find Image moments</span>
@@ -3523,16 +3447,12 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">MomentsComputable</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_moments</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">moment</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_moments</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">moment</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Find Image moment for whole image</span>
@@ -3552,11 +3472,7 @@
 {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_moments_all</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">moment</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_moments_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">moment</span> <span class="kw">as</span> <span class="ident">c_uint</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
     <span class="ident">temp</span>
@@ -3577,17 +3493,17 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">ImageFilterType</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_medfilt1</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">wlen</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">wlen</span> <span class="kw">as</span> <span class="ident">dim_t</span>,
             <span class="ident">etype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Canny edge detection operator</span>
@@ -3599,7 +3515,7 @@
 <span class="doccomment">/// - `input` is the input image</span>
 <span class="doccomment">/// - `threshold_type` helps determine if user set high threshold is to be used or not. It can take values defined by the enum [CannyThresholdType](./enum.CannyThresholdType.html)</span>
 <span class="doccomment">/// - `low` is the lower threshold % of the maximum or auto-derived high</span>
-<span class="doccomment">/// - `hight` is the higher threshold % of maximum value in gradient image used in hysteresis procedure. This value is ignored if [CannyThresholdType::OTSU](./enum.CannyThresholdType.html) is chosen.</span>
+<span class="doccomment">/// - `high` is the higher threshold % of maximum value in gradient image used in hysteresis procedure. This value is ignored if [CannyThresholdType::OTSU](./enum.CannyThresholdType.html) is chosen.</span>
 <span class="doccomment">/// - `sobel_window` is the window size of sobel kernel for computing gradient direction and magnitude.</span>
 <span class="doccomment">/// - `is_fast` indicates if L&lt;SUB&gt;1&lt;/SUB&gt; norm(faster but less accurate) is used to compute image gradient magnitude instead of L&lt;SUB&gt;2&lt;/SUB&gt; norm.</span>
 <span class="doccomment">///</span>
@@ -3611,27 +3527,27 @@
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="ident">threshold_type</span>: <span class="ident">CannyThresholdType</span>,
     <span class="ident">low</span>: <span class="ident">f32</span>,
-    <span class="ident">hight</span>: <span class="ident">f32</span>,
+    <span class="ident">high</span>: <span class="ident">f32</span>,
     <span class="ident">sobel_window</span>: <span class="ident">u32</span>,
     <span class="ident">is_fast</span>: <span class="ident">bool</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">EdgeComputable</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_canny</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">threshold_type</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">low</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">hight</span> <span class="kw">as</span> <span class="ident">c_float</span>,
+            <span class="ident">low</span>,
+            <span class="ident">high</span>,
             <span class="ident">sobel_window</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">is_fast</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">is_fast</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Anisotropic smoothing filter</span>
@@ -3720,20 +3636,20 @@
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">EdgeComputable</span>,
     <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_anisotropic_diffusion</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">img</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">dt</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">k</span> <span class="kw">as</span> <span class="ident">c_float</span>,
-            <span class="ident">iters</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
-            <span class="ident">fftype</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">diff_kind</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">img</span>.<span class="ident">get</span>(),
+            <span class="ident">dt</span>,
+            <span class="ident">k</span>,
+            <span class="ident">iters</span>,
+            <span class="ident">fftype</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">diff_kind</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Segment image based on similar pixel characteristics</span>
@@ -3791,21 +3707,21 @@
 <span class="kw">where</span>
     <span class="ident">InOutType</span>: <span class="ident">ConfidenceCCInput</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_confidence_cc</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">seedx</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">seedy</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">seedx</span>.<span class="ident">get</span>(),
+            <span class="ident">seedy</span>.<span class="ident">get</span>(),
             <span class="ident">radius</span>,
             <span class="ident">multiplier</span>,
             <span class="ident">iterations</span> <span class="kw">as</span> <span class="ident">i32</span>,
             <span class="ident">segmented_val</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Iterative Deconvolution</span>
@@ -3854,19 +3770,19 @@
     <span class="ident">T</span>: <span class="ident">DeconvInput</span>,
     <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_iterative_deconv</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">kernel</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">kernel</span>.<span class="ident">get</span>(),
             <span class="ident">iterations</span>,
             <span class="ident">relaxation_factor</span>,
-            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Inverse deconvolution</span>
@@ -3907,18 +3823,18 @@
     <span class="ident">T</span>: <span class="ident">DeconvInput</span>,
     <span class="ident">T</span>::<span class="ident">AbsOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_inverse_deconv</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">kernel</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">kernel</span>.<span class="ident">get</span>(),
             <span class="ident">gamma</span>,
-            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="ident">algo</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

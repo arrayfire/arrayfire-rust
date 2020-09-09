@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js coal">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Interoperability with OpenCL - Rust Wrapper for ArrayFire HPC Library</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('coal')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html" class="active"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#interoperability-with-opencl" id="interoperability-with-opencl">Interoperability with OpenCL</a></h1>
+<p>Although ArrayFire is quite extensive, there remain many cases in which you may want to write custom
+kernels in CUDA or OpenCL. For example, you may wish to add ArrayFire to an existing code base to
+increase your productivity, or you may need to supplement ArrayFire's functionality with your own
+custom implementation of specific algorithms.</p>
+<p>ArrayFire manages its own context, queue, memory, and creates custom IDs for devices. As such, most
+of the interoperability functions focus on reducing potential synchronization conflicts between
+ArrayFire and OpenCL.</p>
+<h2><a class="header" href="#basics" id="basics">Basics</a></h2>
+<p>It is fairly straightforward to interface ArrayFire with your own custom code. ArrayFire provides
+several functions to ease this process including:</p>
+<table><thead><tr><th>Function</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.new_from_device_ptr">Array::new_from_device_ptr</a></td><td>Construct an ArrayFire Array from cl_mem</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.device_ptr">Array::device_ptr</a></td><td>Obtain a pointer to the device memory (implies <code>lock</code>)</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.lock">Array::lock</a></td><td>Removes ArrayFire's control of a device memory pointer</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.unlock">Array::unlock</a></td><td>Restores ArrayFire's control over a device memory pointer</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.get_platform.html">get_platform</a></td><td>Get ArrayFire's current cl_platform</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.get_device.html">get_device</a></td><td>Gets the current ArrayFire device ID</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.get_device_id.html">get_device_id</a></td><td>Get ArrayFire's current cl_device_id</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.set_device_id.html">set_device_id</a></td><td>Set ArrayFire's device from a cl_device_id</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_device.html">set_device</a></td><td>Switches ArrayFire to the specified device</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.get_context.html">get_context</a></td><td>Get ArrayFire's current cl_context</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.get_queue.html">get_queue</a></td><td>Get ArrayFire's current cl_command_queue</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.get_device_type.html">get_device_type</a></td><td>Get the current <a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/enum.DeviceType.html">DeviceType</a></td></tr>
+</tbody></table>
+<p>Note that the pointer returned by <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.device_ptr">Array::device_ptr</a> should be cast to <code>cl_mem</code> before using
+it with OpenCL opaque types. The pointer is a <code>cl_mem</code> internally that is force casted to pointer
+type by ArrayFire before returning the value to caller.</p>
+<p>Additionally, the OpenCL backend permits the programmer to add and remove custom devices from the
+ArrayFire device manager. These permit you to attach ArrayFire directly to the OpenCL queue used by
+other portions of your application.</p>
+<table><thead><tr><th>Function</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.add_device_context.html">add_device_context</a></td><td>Add a new device to ArrayFire's device manager</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.set_device_context.html">set_device_context</a></td><td>Set ArrayFire's device from cl_device_id &amp; cl_context</td></tr>
+<tr><td><a href="http://arrayfire.org/arrayfire-rust/af_opencl_interop/fn.delete_device_context.html">delete_device_context</a></td><td>Remove a device from ArrayFire's device manager</td></tr>
+</tbody></table>
+<p>Below we provide two worked examples on how ArrayFire can be integrated
+into new and existing projects.</p>
+<h2><a class="header" href="#adding-custom-opencl-kernels-to-an-existing-arrayfire-application" id="adding-custom-opencl-kernels-to-an-existing-arrayfire-application">Adding custom OpenCL kernels to an existing ArrayFire application</a></h2>
+<p>By default, ArrayFire manages its own context, queue, memory, and creates custom IDs for devices.
+Thus there is some bookkeeping that needs to be done to integrate your custom OpenCL kernel.</p>
+<p>If your kernels can share operate in the same queue as ArrayFire, you should:</p>
+<ol>
+<li>Obtain the OpenCL context, device, and queue used by ArrayFire</li>
+<li>Obtain cl_mem references to <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> objects</li>
+<li>Load, build, and use your kernels</li>
+<li>Return control of <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> memory to ArrayFire</li>
+</ol>
+<p>Note, ArrayFire uses an in-order queue, thus when ArrayFire and your kernels are operating in the
+same queue, there is no need to perform any synchronization operations.</p>
+<p>This process is best illustrated with a fully worked example:</p>
+<pre><pre class="playground"><code class="language-rust">//! A trivial example. Copied from ocl-core crate repository.
+use af_opencl_interop as afcl;
+use arrayfire as af;
+
+use ocl_core::{ArgVal, Event};
+
+use std::ffi::CString;
+
+fn main() {
+    af::info();
+    let dims = af::dim4!(8);
+    let af_buffer = af::constant(0f32, dims.clone());
+    af::af_print!(&quot;af_buffer&quot;, af_buffer);
+
+    let src = r#&quot;
+        __kernel void add(__global float* buffer, float scalar) {
+            buffer[get_global_id(0)] += scalar;
+        }
+    &quot;#;
+
+    let af_did = afcl::get_device_id();
+    let af_ctx = afcl::get_context(false);
+    let af_que = afcl::get_queue(false);
+
+    let devid = unsafe { ocl_core::DeviceId::from_raw(af_did) };
+    let contx = unsafe { ocl_core::Context::from_raw_copied_ptr(af_ctx) };
+    let queue = unsafe { ocl_core::CommandQueue::from_raw_copied_ptr(af_que) };
+
+    // Define which platform and device(s) to use. Create a context,
+    // queue, and program then define some dims..
+    let src_cstring = CString::new(src).unwrap();
+    let program = ocl_core::create_program_with_source(&amp;contx, &amp;[src_cstring]).unwrap();
+    ocl_core::build_program(
+        &amp;program,
+        None::&lt;&amp;[()]&gt;,
+        &amp;CString::new(&quot;&quot;).unwrap(),
+        None,
+        None,
+    )
+    .unwrap();
+
+    // Fetch cl_mem from ArrayFire Array
+    let ptr = unsafe { af_buffer.device_ptr() };
+    let buffer = unsafe { ocl_core::Mem::from_raw_copied_ptr(ptr) };
+
+    // Create a kernel with arguments matching those in the source above:
+    let kernel = ocl_core::create_kernel(&amp;program, &quot;add&quot;).unwrap();
+    ocl_core::set_kernel_arg(&amp;kernel, 0, ArgVal::mem(&amp;buffer)).unwrap();
+    ocl_core::set_kernel_arg(&amp;kernel, 1, ArgVal::scalar(&amp;10.0f32)).unwrap();
+
+    let ocl_dims: [usize; 3] = [dims[0] as usize, dims[1] as usize, dims[2] as usize];
+    unsafe {
+        ocl_core::enqueue_kernel(
+            &amp;queue,
+            &amp;kernel,
+            1,
+            None,
+            &amp;ocl_dims,
+            None,
+            None::&lt;Event&gt;,
+            None::&lt;&amp;mut Event&gt;,
+        )
+        .unwrap();
+    }
+    ocl_core::finish(&amp;queue).unwrap();
+    af_buffer.unlock(); //Give back control of cl_mem to ArrayFire memory manager
+
+    af::af_print!(&quot;af_buffer after running Custom Kernel on it&quot;, af_buffer);
+}
+</code></pre></pre>
+<p>If your kernels needs to operate in their own OpenCL queue, the process is essentially identical,
+except you need to instruct ArrayFire to complete its computations using the <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.sync.html">sync</a> function
+prior to launching your own kernel and ensure your kernels are complete using <code>clFinish</code>
+(or similar) commands prior to returning control of the memory to ArrayFire:</p>
+<ol>
+<li>Obtain the OpenCL context, device, and queue used by ArrayFire</li>
+<li>Obtain cl_mem references to <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> objects</li>
+<li>Instruct ArrayFire to finish operations using <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.sync.html">sync</a></li>
+<li>Load, build, and use your kernels</li>
+<li>Instruct OpenCL to finish operations using clFinish() or similar commands.</li>
+<li>Return control of <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> memory to ArrayFire</li>
+</ol>
+<h2><a class="header" href="#adding-arrayfire-to-an-existing-opencl-application" id="adding-arrayfire-to-an-existing-opencl-application">Adding ArrayFire to an existing OpenCL application</a></h2>
+<p>Adding ArrayFire to an existing application is slightly more involved and can be somewhat tricky due
+to several optimizations we implement. The most important are as follows:</p>
+<ul>
+<li>ArrayFire assumes control of all memory provided to it.</li>
+<li>ArrayFire does not (in general) support in-place memory transactions.</li>
+</ul>
+<p>We will discuss the implications of these items below. To add ArrayFire to existing code you need to:</p>
+<ol>
+<li>Instruct OpenCL to complete its operations using clFinish (or similar)</li>
+<li>Instruct ArrayFire to use the user-created OpenCL Context</li>
+<li>Create ArrayFire arrays from OpenCL memory objects</li>
+<li>Perform ArrayFire operations on the <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a>s</li>
+<li>Instruct ArrayFire to finish operations using <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.sync.html">sync</a></li>
+<li>Obtain cl_mem references for important memory</li>
+<li>Continue your OpenCL application</li>
+</ol>
+<!--
+To create the [Array][18] object, you should use the following approach:
+
+```rust
+```
+-->
+<blockquote>
+<p>ArrayFire's memory manager automatically assumes responsibility for any memory provided to
+it. If you are creating an array from another RAII style object, you should retain it to ensure
+your memory is not deallocated if your RAII object were to go out of scope.</p>
+</blockquote>
+<blockquote>
+<p>If you do not wish for ArrayFire to manage your memory, you may call the <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.unlock">Array::unlock</a>
+function and manage the memory yourself; however, if you do so, please be cautious not to call
+<code>clReleaseMemObj</code> on a <code>cl_mem</code>  when ArrayFire might be using it!</p>
+</blockquote>
+<p>Given below is a fully working example:</p>
+<pre><pre class="playground"><code class="language-rust">//! A trivial example. Copied from ocl-core crate repository.
+use af_opencl_interop as afcl;
+use arrayfire as af;
+
+use ocl_core::{ContextProperties, Event};
+
+fn main() {
+    // Choose platform &amp; device(s) to use. Create a context, queue,
+    let platform_id = ocl_core::default_platform().unwrap();
+    let device_ids = ocl_core::get_device_ids(&amp;platform_id, None, None).unwrap();
+    let device_id = device_ids[0];
+    let context_properties = ContextProperties::new().platform(platform_id);
+    let context =
+        ocl_core::create_context(Some(&amp;context_properties), &amp;[device_id], None, None).unwrap();
+    let queue = ocl_core::create_command_queue(&amp;context, &amp;device_id, None).unwrap();
+    let dims = [8, 1, 1];
+
+    // Create a `Buffer`:
+    let mut vec = vec![0.0f32; dims[0]];
+    let buffer = unsafe {
+        ocl_core::create_buffer(
+            &amp;context,
+            ocl_core::MEM_READ_WRITE | ocl_core::MEM_COPY_HOST_PTR,
+            dims[0],
+            Some(&amp;vec),
+        )
+        .unwrap()
+    };
+    ocl_core::finish(&amp;queue).unwrap(); //sync up before switching to arrayfire
+
+    // Add custom device, context and associated queue to ArrayFire
+    afcl::add_device_context(device_id.as_raw(), context.as_ptr(), queue.as_ptr());
+    afcl::set_device_context(device_id.as_raw(), context.as_ptr());
+    af::info();
+
+    let mut af_buffer = af::Array::new_from_device_ptr(
+        buffer.as_ptr() as *mut f32,
+        af::Dim4::new(&amp;[dims[0] as u64, 1, 1, 1]),
+    );
+
+    af::af_print!(&quot;GPU Buffer before modification:&quot;, af_buffer);
+
+    af_buffer = af_buffer + 10f32;
+
+    af::sync(af::get_device());
+    unsafe {
+        let ptr = af_buffer.device_ptr();
+        let obuf = ocl_core::Mem::from_raw_copied_ptr(ptr);
+
+        // Read results from the device into a vector:
+        ocl_core::enqueue_read_buffer(
+            &amp;queue,
+            &amp;obuf,
+            true,
+            0,
+            &amp;mut vec,
+            None::&lt;Event&gt;,
+            None::&lt;&amp;mut Event&gt;,
+        )
+        .unwrap();
+    }
+    println!(&quot;GPU buffer on host after ArrayFire operation: {:?}&quot;, vec);
+
+    // Remove device from ArrayFire management towards Application Exit
+    af::set_device(0); // Cannot pop when in Use, hence switch to another device
+    afcl::delete_device_context(device_id.as_raw(), context.as_ptr());
+}
+</code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="cuda-interop.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="cuda-interop.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

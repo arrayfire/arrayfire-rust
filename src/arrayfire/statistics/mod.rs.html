@@ -460,72 +460,61 @@
 <span id="447">447</span>
 <span id="448">448</span>
 <span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
-<span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">core</span>::{
+    <span class="ident">af_array</span>, <span class="ident">dim_t</span>, <span class="ident">AfError</span>, <span class="ident">Array</span>, <span class="ident">CovarianceComputable</span>, <span class="ident">HasAfEnum</span>, <span class="ident">MedianComputable</span>,
+    <span class="ident">RealFloating</span>, <span class="ident">RealNumber</span>, <span class="ident">TopkFn</span>, <span class="ident">VarianceBias</span>, <span class="ident">HANDLE_ERROR</span>,
+};
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">c_uint</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">TopkFn</span>, <span class="ident">VarianceBias</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HANDLE_ERROR</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">AfArray</span>, <span class="ident">DimT</span>, <span class="ident">MutAfArray</span>, <span class="ident">MutDouble</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">CovarianceComputable</span>, <span class="ident">RealNumber</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">HasAfEnum</span>, <span class="ident">MedianComputable</span>, <span class="ident">RealFloating</span>};
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_double</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>};
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">fn</span> <span class="ident">af_mean</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_stdev</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_median</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_mean</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_stdev</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_median</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_mean_weighted</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">wts</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_var_weighted</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">wts</span>: <span class="ident">AfArray</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_mean_weighted</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">wts</span>: <span class="ident">af_array</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_var_weighted</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">wts</span>: <span class="ident">af_array</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_var</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">isbiased</span>: <span class="ident">c_int</span>, <span class="ident">dim</span>: <span class="ident">DimT</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_cov</span>(<span class="ident">out</span>: <span class="ident">MutAfArray</span>, <span class="ident">X</span>: <span class="ident">AfArray</span>, <span class="ident">Y</span>: <span class="ident">AfArray</span>, <span class="ident">isbiased</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_var_all</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">isbiased</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_var</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>, <span class="ident">dim</span>: <span class="ident">dim_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_cov</span>(<span class="ident">out</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">X</span>: <span class="ident">af_array</span>, <span class="ident">Y</span>: <span class="ident">af_array</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_var_all</span>(<span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_mean_all</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_stdev_all</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_median_all</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_mean_all</span>(<span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_stdev_all</span>(<span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_median_all</span>(<span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">arr</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_mean_all_weighted</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">wts</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
-    <span class="kw">fn</span> <span class="ident">af_var_all_weighted</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">arr</span>: <span class="ident">AfArray</span>, <span class="ident">wts</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_mean_all_weighted</span>(
+        <span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+        <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
+        <span class="ident">wts</span>: <span class="ident">af_array</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_var_all_weighted</span>(
+        <span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+        <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
+        <span class="ident">wts</span>: <span class="ident">af_array</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
-    <span class="kw">fn</span> <span class="ident">af_corrcoef</span>(<span class="ident">real</span>: <span class="ident">MutDouble</span>, <span class="ident">imag</span>: <span class="ident">MutDouble</span>, <span class="ident">X</span>: <span class="ident">AfArray</span>, <span class="ident">Y</span>: <span class="ident">AfArray</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
+    <span class="kw">fn</span> <span class="ident">af_corrcoef</span>(<span class="ident">real</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">imag</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>, <span class="ident">X</span>: <span class="ident">af_array</span>, <span class="ident">Y</span>: <span class="ident">af_array</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
     <span class="kw">fn</span> <span class="ident">af_topk</span>(
-        <span class="ident">vals</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">idxs</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">arr</span>: <span class="ident">AfArray</span>,
+        <span class="ident">vals</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">idxs</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">arr</span>: <span class="ident">af_array</span>,
         <span class="ident">k</span>: <span class="ident">c_int</span>,
         <span class="ident">dim</span>: <span class="ident">c_int</span>,
         <span class="ident">order</span>: <span class="ident">c_uint</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 
     <span class="kw">fn</span> <span class="ident">af_meanvar</span>(
-        <span class="ident">mean</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">var</span>: <span class="ident">MutAfArray</span>,
-        <span class="ident">input</span>: <span class="ident">AfArray</span>,
-        <span class="ident">weights</span>: <span class="ident">AfArray</span>,
-        <span class="ident">bias</span>: <span class="ident">c_int</span>,
-        <span class="ident">dim</span>: <span class="ident">DimT</span>,
+        <span class="ident">mean</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">var</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+        <span class="ident">input</span>: <span class="ident">af_array</span>,
+        <span class="ident">weights</span>: <span class="ident">af_array</span>,
+        <span class="ident">bias</span>: <span class="ident">c_uint</span>,
+        <span class="ident">dim</span>: <span class="ident">dim_t</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span>;
 }
 
@@ -540,17 +529,16 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array whose size is equal to input except along the dimension which</span>
 <span class="doccomment">/// median needs to be found. Array size along `dim` will be reduced to one.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">median</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">dim</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">MedianComputable</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_median</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">DimT</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_median</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">dim</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">stat_func_def</span> {
@@ -566,18 +554,17 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// An Array whose size is equal to input except along the dimension which</span>
         <span class="doccomment">/// the stat operation is performed. Array size along `dim` will be reduced to one.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">dim</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">MeanOutType</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
             <span class="ident">T</span>::<span class="ident">MeanOutType</span>: <span class="ident">HasAfEnum</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>, <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>, <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">DimT</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">dim</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -603,7 +590,6 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// An Array whose size is equal to input except along the dimension which</span>
         <span class="doccomment">/// the stat operation is performed. Array size along `dim` will be reduced to one.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">W</span><span class="op">&gt;</span>(
             <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
             <span class="ident">weights</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>,
@@ -614,17 +600,12 @@
             <span class="ident">T</span>::<span class="ident">MeanOutType</span>: <span class="ident">HasAfEnum</span>,
             <span class="ident">W</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
         {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">weights</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-                );
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+                <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,<span class="ident">input</span>.<span class="ident">get</span>(), <span class="ident">weights</span>.<span class="ident">get</span>(), <span class="ident">dim</span>);
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+                <span class="ident">temp</span>.<span class="ident">into</span>()
             }
-            <span class="ident">temp</span>.<span class="ident">into</span>()
         }
     };
 }
@@ -651,23 +632,17 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Array with variance of input Array `arr` along dimension `dim`.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">var</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">arr</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>, <span class="ident">dim</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">MeanOutType</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
     <span class="ident">T</span>::<span class="ident">MeanOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_var</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">arr</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">isbiased</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">DimT</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_var</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">arr</span>.<span class="ident">get</span>(), <span class="ident">isbiased</span>, <span class="ident">dim</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Compute covariance of two Arrays</span>
@@ -681,23 +656,17 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// An Array with Covariance values</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cov</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">y</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">MeanOutType</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">CovarianceComputable</span>,
     <span class="ident">T</span>::<span class="ident">MeanOutType</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_cov</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">y</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">isbiased</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_cov</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>, <span class="ident">x</span>.<span class="ident">get</span>(), <span class="ident">y</span>.<span class="ident">get</span>(), <span class="ident">isbiased</span>);
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        <span class="ident">temp</span>.<span class="ident">into</span>()
     }
-    <span class="ident">temp</span>.<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Compute Variance of all elements</span>
@@ -710,16 +679,15 @@
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A tuple of 64-bit floating point values that has the variance of `input` Array.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">var_all</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">isbiased</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_var_all</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">isbiased</span> <span class="kw">as</span> <span class="ident">c_int</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">isbiased</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -737,15 +705,14 @@
         <span class="doccomment">///# Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// A tuple of 64-bit floating point values with the stat values.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">HasAfEnum</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>) {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+                    <span class="ident">input</span>.<span class="ident">get</span>(),
                 );
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
             }
@@ -770,7 +737,6 @@
 <span class="doccomment">///# Return Values</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A tuple of 64-bit floating point values with the median</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">median_all</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">MedianComputable</span>,
@@ -779,9 +745,9 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_median_all</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -800,7 +766,6 @@
         <span class="doccomment">///# Return Values</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// A tuple of 64-bit floating point values with the stat values.</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">W</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">weights</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>)
         <span class="kw">where</span>
             <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
@@ -810,10 +775,10 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_fn</span>(
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-                    <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-                    <span class="ident">weights</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+                    <span class="ident">input</span>.<span class="ident">get</span>(),
+                    <span class="ident">weights</span>.<span class="ident">get</span>(),
                 );
                 <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
             }
@@ -842,7 +807,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Return Values</span>
 <span class="doccomment">/// A tuple of 64-bit floating point values with the coefficients.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">corrcoef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">y</span>: <span class="kw-2">&amp;</span><span class="ident">Array</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealNumber</span>,
@@ -851,10 +815,10 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imag</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_corrcoef</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="ident">MutDouble</span>,
-            <span class="ident">x</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">y</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">real</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">imag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_double</span>,
+            <span class="ident">x</span>.<span class="ident">get</span>(),
+            <span class="ident">y</span>.<span class="ident">get</span>(),
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
     }
@@ -888,20 +852,20 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">HasAfEnum</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t0</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t1</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t0</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t1</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_topk</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">t0</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">t1</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">t0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">t1</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
             <span class="ident">k</span> <span class="kw">as</span> <span class="ident">c_int</span>,
             <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">c_int</span>,
             <span class="ident">order</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">t0</span>.<span class="ident">into</span>(), <span class="ident">t1</span>.<span class="ident">into</span>())
     }
-    (<span class="ident">t0</span>.<span class="ident">into</span>(), <span class="ident">t1</span>.<span class="ident">into</span>())
 }
 
 <span class="doccomment">/// Calculate mean and variance in single API call</span>
@@ -931,20 +895,20 @@
     <span class="ident">T</span>::<span class="ident">MeanOutType</span>: <span class="ident">HasAfEnum</span>,
     <span class="ident">W</span>: <span class="ident">HasAfEnum</span> <span class="op">+</span> <span class="ident">RealFloating</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mean</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">var</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">unsafe</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mean</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">var</span>: <span class="ident">af_array</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_val</span> <span class="op">=</span> <span class="ident">af_meanvar</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mean</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">var</span> <span class="kw">as</span> <span class="ident">MutAfArray</span>,
-            <span class="ident">input</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">weights</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">AfArray</span>,
-            <span class="ident">bias</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-            <span class="ident">dim</span> <span class="kw">as</span> <span class="ident">DimT</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mean</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">var</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">af_array</span>,
+            <span class="ident">input</span>.<span class="ident">get</span>(),
+            <span class="ident">weights</span>.<span class="ident">get</span>(),
+            <span class="ident">bias</span> <span class="kw">as</span> <span class="ident">c_uint</span>,
+            <span class="ident">dim</span>,
         );
         <span class="ident">HANDLE_ERROR</span>(<span class="ident">AfError</span>::<span class="ident">from</span>(<span class="ident">err_val</span>));
+        (<span class="ident">mean</span>.<span class="ident">into</span>(), <span class="ident">var</span>.<span class="ident">into</span>())
     }
-    (<span class="ident">mean</span>.<span class="ident">into</span>(), <span class="ident">var</span>.<span class="ident">into</span>())
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "arrayfire";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

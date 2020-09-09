@@ -1,0 +1,402 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js coal">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Indexing - Rust Wrapper for ArrayFire HPC Library</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('coal')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html" class="active"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#indexing" id="indexing">Indexing</a></h1>
+<p>Indexing in ArrayFire is a powerful but easy to abuse feature. This feature allows you to reference
+or copy subsections of a larger array and perform operations on only a subset of elements.</p>
+<p><a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html">Indexer</a> structure is the key element used in Rust wrapper of ArrayFire for creating references
+to existing Arrays. Given below are few of such functions and their corresponding use cases. Use
+<a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html#method.new">Indexer::new</a> to create an Indexer object and set either a <code>Seq</code> object or <code>Array</code> as indexing
+object for a given dimension.</p>
+<h2><a class="header" href="#using-seq-objects" id="using-seq-objects">Using Seq objects</a></h2>
+<h3><a class="header" href="#create-a-view-of-an-existing-array" id="create-a-view-of-an-existing-array">Create a view of an existing Array</a></h3>
+<p>We will Sequences and the function <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.index.html">index</a> in this approach. </p>
+<pre><code class="language-rust noplaypen">        let dims = Dim4::new(&amp;[5, 5, 1, 1]);
+        let a = randu::&lt;f32&gt;(dims);
+        //af_print!(&quot;a&quot;, a);
+        //a
+        //[5 5 1 1]
+        //    0.3990     0.5160     0.8831     0.9107     0.6688
+        //    0.6720     0.3932     0.0621     0.9159     0.8434
+        //    0.5339     0.2706     0.7089     0.0231     0.1328
+        //    0.1386     0.9455     0.9434     0.2330     0.2657
+        //    0.7353     0.1587     0.1227     0.2220     0.2299
+
+        // Index array using sequences
+        let seqs = &amp;[Seq::new(1u32, 3, 1), Seq::default()];
+        let _sub = index(&amp;a, seqs);
+        //af_print!(&quot;a(seq(1,3,1), span)&quot;, sub);
+        // [3 5 1 1]
+        //     0.6720     0.3932     0.0621     0.9159     0.8434
+        //     0.5339     0.2706     0.7089     0.0231     0.1328
+        //     0.1386     0.9455     0.9434     0.2330     0.2657
+</code></pre>
+<p>However, the same above code can be condensed into a much terse syntax with the help of <a href="http://arrayfire.org/arrayfire-rust/arrayfire/macro.view.html">view</a>
+macro. Take a look at the following two approaches using view macro.</p>
+<pre><code class="language-rust noplaypen">        let dims = dim4!(5, 5, 1, 1);
+        let a = randu::&lt;f32&gt;(dims);
+        let first3 = seq!(1:3:1);
+        let allindim2 = seq!();
+        let _sub = view!(a[first3, allindim2]);
+</code></pre>
+<div style="text-align: center"> OR </div>
+<pre><code class="language-rust noplaypen">        let a = randu::&lt;f32&gt;(dim4!(5, 5));
+        let _sub = view!(a[1:3:1, 1:1:0]); // 1:1:0 means all elements along axis
+</code></pre>
+<h3><a class="header" href="#modify-a-sub-region-of-an-existing-array" id="modify-a-sub-region-of-an-existing-array">Modify a sub region of an existing Array</a></h3>
+<p>Let us take a look at an example where a portion of an existing Array will be set to with another
+Array. We will an constant value Array and the function <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.assign_seq.html">assign_seq</a> in the below example.</p>
+<pre><code class="language-rust noplaypen">        let mut a = constant(2.0 as f32, Dim4::new(&amp;[5, 3, 1, 1]));
+        //print(&amp;a);
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+        // 2.0 2.0 2.0
+
+        let b = constant(1.0 as f32, Dim4::new(&amp;[3, 3, 1, 1]));
+        let seqs = &amp;[Seq::new(1.0, 3.0, 1.0), Seq::default()];
+        assign_seq(&amp;mut a, seqs, &amp;b);
+        //print(&amp;a);
+        // 2.0 2.0 2.0
+        // 1.0 1.0 1.0
+        // 1.0 1.0 1.0
+        // 1.0 1.0 1.0
+        // 2.0 2.0 2.0
+</code></pre>
+<p>A much terser way of doing the same using macro is shown below</p>
+<pre><code class="language-rust noplaypen">        let mut a = randu::&lt;f32&gt;(dim4!(5, 5));
+        let b = randu::&lt;f32&gt;(dim4!(2, 2));
+        eval!(a[1:2:1, 1:2:1] = b);
+</code></pre>
+<blockquote>
+<p><strong>NOTE</strong> Normally you want to avoid accessing individual elements of the array like this for performance reasons.</p>
+</blockquote>
+<h2><a class="header" href="#using-array-and-seq-combination" id="using-array-and-seq-combination">Using Array and Seq combination</a></h2>
+<h3><a class="header" href="#create-a-view-of-an-existing-array-1" id="create-a-view-of-an-existing-array-1">Create a view of an existing Array</a></h3>
+<p>To use a combination of Array and Seq objects to index an existing Array, we will need a more
+generalized function <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.index_gen.html">index_gen</a>.</p>
+<pre><code class="language-rust noplaypen">        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+        let seq4gen = Seq::new(0.0, 2.0, 1.0);
+        let a = randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));
+        // [5 3 1 1]
+        //     0.0000     0.2190     0.3835
+        //     0.1315     0.0470     0.5194
+        //     0.7556     0.6789     0.8310
+        //     0.4587     0.6793     0.0346
+        //     0.5328     0.9347     0.0535
+
+        let mut idxrs = Indexer::default();
+        idxrs.set_index(&amp;indices, 0, None); // 2nd arg is indexing dimension
+        idxrs.set_index(&amp;seq4gen, 1, Some(false)); // 3rd arg indicates batch operation
+
+        let _sub2 = index_gen(&amp;a, idxrs);
+        //println!(&quot;a(indices, seq(0, 2, 1))&quot;); print(&amp;sub2);
+        // [3 3 1 1]
+        //     0.1315     0.0470     0.5194
+        //     0.7556     0.6789     0.8310
+        //     0.4587     0.6793     0.0346
+</code></pre>
+<p>Similar to how <a href="http://arrayfire.org/arrayfire-rust/arrayfire/macro.view.html">view</a> macro helped with abreviating the syntax when indexing with just
+sequences, it can also help when using a combination of Seq and Array.</p>
+<pre><code class="language-rust noplaypen">        let values: [f32; 3] = [1.0, 2.0, 3.0];
+        let indices = Array::new(&amp;values, Dim4::new(&amp;[3, 1, 1, 1]));
+        let seq4gen = seq!(0:2:1);
+        let a = randu::&lt;f32&gt;(Dim4::new(&amp;[5, 3, 1, 1]));
+        let _sub2 = view!(a[indices, seq4gen]);
+</code></pre>
+<h3><a class="header" href="#modify-a-sub-region-of-an-existing-array-1" id="modify-a-sub-region-of-an-existing-array-1">Modify a sub region of an existing Array</a></h3>
+<p>Set a portion of an existing Array with another Array using a combination of <code>Seq</code> and <code>Array</code>.
+We will use <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.assign_gen.html">assign_gen</a> function to do it.</p>
+<pre><code class="language-rust noplaypen">       let values: [f32; 3] = [1.0, 2.0, 3.0];
+       let indices = Array::new(&amp;values, dim4!(3, 1, 1, 1));
+       let seq4gen = seq!(0:2:1);
+       let mut a = randu::&lt;f32&gt;(dim4!(5, 3, 1, 1));
+       // [5 3 1 1]
+       //     0.0000     0.2190     0.3835
+       //     0.1315     0.0470     0.5194
+       //     0.7556     0.6789     0.8310
+       //     0.4587     0.6793     0.0346
+       //     0.5328     0.9347     0.0535
+
+       let b = constant(2.0 as f32, dim4!(3, 3, 1, 1));
+
+       let mut idxrs = Indexer::default();
+       idxrs.set_index(&amp;indices, 0, None); // 2nd arg is indexing dimension
+       idxrs.set_index(&amp;seq4gen, 1, Some(false)); // 3rd arg indicates batch operation
+
+       let _sub2 = assign_gen(&amp;mut a, &amp;idxrs, &amp;b);
+       //println!(&quot;a(indices, seq(0, 2, 1))&quot;); print(&amp;sub2);
+       // [5 3 1 1]
+       //     0.0000     0.2190     0.3835
+       //     2.0000     2.0000     2.0000
+       //     2.0000     2.0000     2.0000
+       //     2.0000     2.0000     2.0000
+       //     0.5328     0.9347     0.0535
+</code></pre>
+<div style="text-align: center"> OR </div>
+<pre><code class="language-rust noplaypen">       let values: [f32; 3] = [1.0, 2.0, 3.0];
+       let indices = Array::new(&amp;values, dim4!(3));
+       let seq4gen = seq!(0:2:1);
+       let mut a = randu::&lt;f32&gt;(dim4!(5, 3));
+
+       let b = constant(2.0 as f32, dim4!(3, 3));
+
+       eval!(a[indices, seq4gen] = b);
+</code></pre>
+<h2><a class="header" href="#extract-or-set-rowscoloumns-of-an-array" id="extract-or-set-rowscoloumns-of-an-array">Extract or Set rows/coloumns of an Array</a></h2>
+<p>Extract a specific set of rows/coloumns from an existing Array.</p>
+<pre><code class="language-rust noplaypen">        let a = randu::&lt;f32&gt;(dim4!(5, 5, 1, 1));
+        //print(&amp;a);
+        // [5 5 1 1]
+        //     0.6010     0.5497     0.1583     0.3636     0.6755
+        //     0.0278     0.2864     0.3712     0.4165     0.6105
+        //     0.9806     0.3410     0.3543     0.5814     0.5232
+        //     0.2126     0.7509     0.6450     0.8962     0.5567
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _r = row(&amp;a, 4);
+        // [1 5 1 1]
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _c = col(&amp;a, 4);
+        // [5 1 1 1]
+        //     0.6755
+        //     0.6105
+        //     0.5232
+        //     0.5567
+        //     0.7896
+</code></pre>
+<p>You can also use <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.rows.html">rows</a> &amp; <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.cols.html">cols</a> to retrieve a subset of rows or coloumns respectively.</p>
+<p>Similarly, <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_row.html">set_row</a> &amp; <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_rows.html">set_rows</a> can be used to change the values in a particular set of
+rows using another Array. <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_col.html">set_col</a> &amp; <a href="http://arrayfire.org/arrayfire-rust/arrayfire/fn.set_cols.html">set_cols</a> has same functionality, except that it is
+for coloumns.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="array_and_matrix_manipulation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="configuring_arrayfire_environment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="array_and_matrix_manipulation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="configuring_arrayfire_environment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

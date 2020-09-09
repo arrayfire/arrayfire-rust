@@ -11,30 +11,31 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a><p class='location'>Crate arrayfire</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all arrayfire's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-141' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span></h1><div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with
-an easy-to-use API. ArrayFire abstracts away much of the details of
-programming parallel architectures by providing a high-level container object,
-the <a href="./struct.Array.html">Array</a>, that represents data stored on a CPU, GPU, FPGA,
-or other type of accelerator. This abstraction permits developers to write
-massively parallel applications in a high-level language where they need
-not be concerned about low-level optimizations that are frequently required to
-achieve high throughput on most parallel architectures.
-This crate provides Rust bindings for the ArrayFire library. Given below table shows
-the rust bindings compatability with ArrayFire upstream.  If you find any bugs,
-please report them on <a href="https://github.com/arrayfire/arrayfire-rust/issues">github</a>.</p>
+<style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a><p class='location'>Crate arrayfire</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all arrayfire's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'arrayfire', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/arrayfire/lib.rs.html#1-85' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>arrayfire</a></span></h1><div class='docblock'><p>ArrayFire is a high performance software library for parallel computing with an easy-to-use API.
+ArrayFire abstracts away much of the details of programming parallel architectures by providing
+a high-level container object, the <a href="./struct.Array.html">Array</a>, that represents data stored on
+a CPU, GPU, FPGA, or other type of accelerator. This abstraction permits developers to write
+massively parallel applications in a high-level language where they need not be concerned about
+low-level optimizations that are frequently required to achieve high throughput on most parallel
+architectures.
+This crate provides Rust bindings for the ArrayFire library. Given below table shows the rust
+bindings compatability with ArrayFire upstream.  If you find any bugs, please report them on
+<a href="https://github.com/arrayfire/arrayfire-rust/issues">github</a>.</p>
 <table><thead><tr><th align="center">arrayfire-rust crate</th><th align="center">ArrayFire Upstream</th></tr></thead><tbody>
 <tr><td align="center">M.m.p1</td><td align="center">M.m.p2</td></tr>
 </tbody></table>
-<p>Only, Major(M) &amp; Minor(m) version numbers need to match. <em>p1</em> and <em>p2</em>
-are patch/fix updates for <code>arrayfire-rust</code> &amp; <code>ArrayFire</code> respectively,
-and they don't need to match.</p>
-<p>Please go through our <a href="http://arrayfire.org/arrayfire-rust/arrayfire/book/index.html">tutorials</a>
-book for more explanations on how to use ArrayFire to speedup your code.</p>
+<p>Only, Major(M) &amp; Minor(m) version numbers need to match. <em>p1</em> and <em>p2</em> are patch/fix updates
+for <code>arrayfire-rust</code> &amp; <code>ArrayFire</code> respectively, and they don't need to match.</p>
+<p>Please go through our <a href="http://arrayfire.org/arrayfire-rust/book/index.html">tutorials</a> book for
+more explanations on how to use ArrayFire to speedup your code.</p>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table><tr class='module-item'><td><a class="macro" href="macro.af_print.html" title='arrayfire::af_print macro'>af_print</a></td><td class='docblock-short'><p>Print given message before printing out the Array to standard output</p>
-</td></tr><tr class='module-item'><td><a class="macro" href="macro.eval.html" title='arrayfire::eval macro'>eval</a></td><td class='docblock-short'><p>Evaluate arbitrary number of arrays</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.dim4.html" title='arrayfire::dim4 macro'>dim4</a></td><td class='docblock-short'><p>Create a dim4 object from provided dimensions</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.eval.html" title='arrayfire::eval macro'>eval</a></td><td class='docblock-short'><p>Macro to evaluate individual Arrays or assignment operations</p>
 </td></tr><tr class='module-item'><td><a class="macro" href="macro.join_many.html" title='arrayfire::join_many macro'>join_many</a></td><td class='docblock-short'><p>Join multiple Arrays along a given dimension</p>
 </td></tr><tr class='module-item'><td><a class="macro" href="macro.mem_info.html" title='arrayfire::mem_info macro'>mem_info</a></td><td class='docblock-short'><p>Macro to print the current stats of ArrayFire's memory manager.</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.seq.html" title='arrayfire::seq macro'>seq</a></td><td class='docblock-short'><p>Create a sequence object</p>
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.view.html" title='arrayfire::view macro'>view</a></td><td class='docblock-short'><p>Indexing into an existing Array</p>
 </td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table><tr class='module-item'><td><a class="struct" href="struct.Array.html" title='arrayfire::Array struct'>Array</a></td><td class='docblock-short'><p>A multidimensional data container</p>
 </td></tr><tr class='module-item'><td><a class="struct" href="struct.Callback.html" title='arrayfire::Callback struct'>Callback</a></td><td class='docblock-short'><p>Structure holding handle to callback function</p>
@@ -91,6 +92,7 @@ book for more explanations on how to use ArrayFire to speedup your code.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.EdgeComputable.html" title='arrayfire::EdgeComputable trait'>EdgeComputable</a></td><td class='docblock-short'><p>Trait qualifier for given type indicating if edge calculations such as
 derivates etc. can be performed</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.FloatingPoint.html" title='arrayfire::FloatingPoint trait'>FloatingPoint</a></td><td class='docblock-short'><p>Trait qualifier to accept either real or complex typed data</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.Fromf64.html" title='arrayfire::Fromf64 trait'>Fromf64</a></td><td class='docblock-short'><p>Trait to convert reduction's scalar output to appropriate output type</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.GrayRGBConvertible.html" title='arrayfire::GrayRGBConvertible trait'>GrayRGBConvertible</a></td><td class='docblock-short'><p>Trait qualifier for given type indicating conversion capability between
 grayscale and RGB triplets of data</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.HasAfEnum.html" title='arrayfire::HasAfEnum trait'>HasAfEnum</a></td><td class='docblock-short'><p>Types of the data that can be generated using ArrayFire data generation functions.</p>
@@ -109,7 +111,8 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.ReduceByKeyInput.html" title='arrayfire::ReduceByKeyInput trait'>ReduceByKeyInput</a></td><td class='docblock-short'><p>Trait qualifier for Reduction Key type</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.Scanable.html" title='arrayfire::Scanable trait'>Scanable</a></td><td class='docblock-short'><p>Trait qualifier for the type of Arrays accepted by scan operations</p>
 </td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table><tr class='module-item'><td><a class="fn" href="fn.abs.html" title='arrayfire::abs fn'>abs</a></td><td class='docblock-short'><p>Computes absolute value</p>
+<table><tr class='module-item'><td><a class="fn" href="fn.HANDLE_ERROR.html" title='arrayfire::HANDLE_ERROR fn'>HANDLE_ERROR</a></td><td class='docblock-short'><p>Default error handler for error code returned by ArrayFire FFI calls</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.abs.html" title='arrayfire::abs fn'>abs</a></td><td class='docblock-short'><p>Computes absolute value</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.accum.html" title='arrayfire::accum fn'>accum</a></td><td class='docblock-short'><p>Perform exclusive sum of elements along a given dimension</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.acos.html" title='arrayfire::acos fn'>acos</a></td><td class='docblock-short'><p>Compute acos</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.acosh.html" title='arrayfire::acosh fn'>acosh</a></td><td class='docblock-short'><p>Compute acosh</p>
@@ -117,6 +120,8 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.all_true.html" title='arrayfire::all_true fn'>all_true</a></td><td class='docblock-short'><p>Find if all of the values along a given dimension in the Array are true</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.all_true_all.html" title='arrayfire::all_true_all fn'>all_true_all</a></td><td class='docblock-short'><p>Find if all values of Array are non-zero</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.all_true_by_key.html" title='arrayfire::all_true_by_key fn'>all_true_by_key</a></td><td class='docblock-short'><p>Key based AND of elements along a given dimension</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.alloc_host.html" title='arrayfire::alloc_host fn'>alloc_host</a></td><td class='docblock-short'><p>Allocates space using Arrayfire allocator in host memory</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.alloc_pinned.html" title='arrayfire::alloc_pinned fn'>alloc_pinned</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td><td class='docblock-short'><p>Allocate non-pageable memory on HOST memory</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.and.html" title='arrayfire::and fn'>and</a></td><td class='docblock-short'><p>Elementwise logical and operation of two Arrays</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.anisotropic_diffusion.html" title='arrayfire::anisotropic_diffusion fn'>anisotropic_diffusion</a></td><td class='docblock-short'><p>Anisotropic smoothing filter</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.any_true.html" title='arrayfire::any_true fn'>any_true</a></td><td class='docblock-short'><p>Find if any of the values along a given dimension in the Array are true</p>
@@ -212,6 +217,8 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.flat.html" title='arrayfire::flat fn'>flat</a></td><td class='docblock-short'><p>Flatten the multidimensional Array to an 1D Array</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.flip.html" title='arrayfire::flip fn'>flip</a></td><td class='docblock-short'><p>Flip the Array</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.floor.html" title='arrayfire::floor fn'>floor</a></td><td class='docblock-short'><p>Floor the values in an Array</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.free_host.html" title='arrayfire::free_host fn'>free_host</a></td><td class='docblock-short'><p>Frees memory allocated by Arrayfire allocator in host memory</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.free_pinned.html" title='arrayfire::free_pinned fn'>free_pinned</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td><td class='docblock-short'><p>Free the pointer returned by <a href="./fn.alloc_pinned.html">alloc_pinned</a></p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.gaussian_kernel.html" title='arrayfire::gaussian_kernel fn'>gaussian_kernel</a></td><td class='docblock-short'><p>Creates a Gaussian Kernel.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.ge.html" title='arrayfire::ge fn'>ge</a></td><td class='docblock-short'><p>Perform <code>greater than equals</code> comparison operation</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.gemm.html" title='arrayfire::gemm fn'>gemm</a></td><td class='docblock-short'><p>BLAS general matrix multiply (GEMM) of two Array objects</p>
@@ -220,6 +227,7 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_backend_count.html" title='arrayfire::get_backend_count fn'>get_backend_count</a></td><td class='docblock-short'><p>Get the available backend count</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_default_random_engine.html" title='arrayfire::get_default_random_engine fn'>get_default_random_engine</a></td><td class='docblock-short'><p>Get default random engine</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_device.html" title='arrayfire::get_device fn'>get_device</a></td><td class='docblock-short'><p>Get the current active device id</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.get_last_error.html" title='arrayfire::get_last_error fn'>get_last_error</a></td><td class='docblock-short'><p>Fetch last error description as String</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_mem_step_size.html" title='arrayfire::get_mem_step_size fn'>get_mem_step_size</a></td><td class='docblock-short'><p>Get the minimum memory chunk size</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_revision.html" title='arrayfire::get_revision fn'>get_revision</a></td><td class='docblock-short'><p>Get ArrayFire Revision (commit) information of the library.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.get_seed.html" title='arrayfire::get_seed fn'>get_seed</a></td><td class='docblock-short'><p>Get the seed of random number generator</p>
@@ -259,6 +267,7 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.iota.html" title='arrayfire::iota fn'>iota</a></td><td class='docblock-short'><p>Create a range of values</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.is_double_available.html" title='arrayfire::is_double_available fn'>is_double_available</a></td><td class='docblock-short'><p>Check if a device has double support</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.is_eval_manual.html" title='arrayfire::is_eval_manual fn'>is_eval_manual</a></td><td class='docblock-short'><p>Get eval flag value</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.is_half_available.html" title='arrayfire::is_half_available fn'>is_half_available</a></td><td class='docblock-short'><p>Check if a device has half support</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.is_imageio_available.html" title='arrayfire::is_imageio_available fn'>is_imageio_available</a></td><td class='docblock-short'><p>Function to check if Image I/O is available</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.is_lapack_available.html" title='arrayfire::is_lapack_available fn'>is_lapack_available</a></td><td class='docblock-short'><p>Function to check if lapack support is available</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.isinf.html" title='arrayfire::isinf fn'>isinf</a></td><td class='docblock-short'><p>Check if values are infinity</p>
@@ -339,7 +348,7 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.register_error_handler.html" title='arrayfire::register_error_handler fn'>register_error_handler</a></td><td class='docblock-short'><p>Register user provided error handler</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.rem.html" title='arrayfire::rem fn'>rem</a></td><td class='docblock-short'><p>Compute remainder from two Arrays</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder.html" title='arrayfire::reorder fn'>reorder</a></td><td class='docblock-short'><span class="stab deprecated">Deprecated</span><p>Reorder the array in specified order</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder_v2.html" title='arrayfire::reorder_v2 fn'>reorder_v2</a></td><td class='docblock-short'><p>Reorder the array in specified order</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.reorder_v2.html" title='arrayfire::reorder_v2 fn'>reorder_v2</a></td><td class='docblock-short'><p>Reorder the array according to the new specified axes</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.replace.html" title='arrayfire::replace fn'>replace</a></td><td class='docblock-short'><p>Inplace replace in Array based on a condition</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.replace_scalar.html" title='arrayfire::replace_scalar fn'>replace_scalar</a></td><td class='docblock-short'><p>Inplace replace in Array based on a condition</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.resize.html" title='arrayfire::resize fn'>resize</a></td><td class='docblock-short'><p>Resize an Image</p>
@@ -362,8 +371,8 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.selectl.html" title='arrayfire::selectl fn'>selectl</a></td><td class='docblock-short'><p>Element wise conditional operator for Arrays</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.selectr.html" title='arrayfire::selectr fn'>selectr</a></td><td class='docblock-short'><p>Element wise conditional operator for Arrays</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_backend.html" title='arrayfire::set_backend fn'>set_backend</a></td><td class='docblock-short'><p>Toggle backends between cuda, opencl or cpu</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_col.html" title='arrayfire::set_col fn'>set_col</a></td><td class='docblock-short'><p>Set <code>col_num</code>^th col in <code>input</code> Array to a new Array <code>new_col</code></p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_cols.html" title='arrayfire::set_cols fn'>set_cols</a></td><td class='docblock-short'><p>Set cols from <code>first</code> to <code>last</code> in <code>input</code> Array with cols from Array <code>new_cols</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_col.html" title='arrayfire::set_col fn'>set_col</a></td><td class='docblock-short'><p>Set <code>col_num</code>^th col in <code>inout</code> Array to a new Array <code>new_col</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_cols.html" title='arrayfire::set_cols fn'>set_cols</a></td><td class='docblock-short'><p>Set cols from <code>first</code> to <code>last</code> in <code>inout</code> Array with cols from Array <code>new_cols</code></p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_cublas_mode.html" title='arrayfire::set_cublas_mode fn'>set_cublas_mode</a></td><td class='docblock-short'><p>Sets the cuBLAS math mode for the internal handle.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_default_random_engine_type.html" title='arrayfire::set_default_random_engine_type fn'>set_default_random_engine_type</a></td><td class='docblock-short'><p>Set the random engine type for default random number generator</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_device.html" title='arrayfire::set_device fn'>set_device</a></td><td class='docblock-short'><p>Set active device</p>
@@ -371,11 +380,11 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_intersect.html" title='arrayfire::set_intersect fn'>set_intersect</a></td><td class='docblock-short'><p>Find intersection of two sets</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_manual_eval.html" title='arrayfire::set_manual_eval fn'>set_manual_eval</a></td><td class='docblock-short'><p>Set eval flag value</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_mem_step_size.html" title='arrayfire::set_mem_step_size fn'>set_mem_step_size</a></td><td class='docblock-short'><p>Set the minimum memory chunk size</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_row.html" title='arrayfire::set_row fn'>set_row</a></td><td class='docblock-short'><p>Set <code>row_num</code>^th row in <code>input</code> Array to a new Array <code>new_row</code></p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_rows.html" title='arrayfire::set_rows fn'>set_rows</a></td><td class='docblock-short'><p>Set rows from <code>first</code> to <code>last</code> in <code>input</code> Array with rows from Array <code>new_rows</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_row.html" title='arrayfire::set_row fn'>set_row</a></td><td class='docblock-short'><p>Set <code>row_num</code>^th row in <code>inout</code> Array to a new Array <code>new_row</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_rows.html" title='arrayfire::set_rows fn'>set_rows</a></td><td class='docblock-short'><p>Set rows from <code>first</code> to <code>last</code> in <code>inout</code> Array with rows from Array <code>new_rows</code></p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_seed.html" title='arrayfire::set_seed fn'>set_seed</a></td><td class='docblock-short'><p>Set seed for random number generation</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_slice.html" title='arrayfire::set_slice fn'>set_slice</a></td><td class='docblock-short'><p>Set slice <code>slice_num</code> in <code>input</code> Array to a new Array <code>new_slice</code></p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_slices.html" title='arrayfire::set_slices fn'>set_slices</a></td><td class='docblock-short'><p>Set <code>first</code> to <code>last</code> slices of <code>input</code> Array to a new Array <code>new_slices</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_slice.html" title='arrayfire::set_slice fn'>set_slice</a></td><td class='docblock-short'><p>Set slice <code>slice_num</code> in <code>inout</code> Array to a new Array <code>new_slice</code></p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.set_slices.html" title='arrayfire::set_slices fn'>set_slices</a></td><td class='docblock-short'><p>Set <code>first</code> to <code>last</code> slices of <code>inout</code> Array to a new Array <code>new_slices</code></p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_union.html" title='arrayfire::set_union fn'>set_union</a></td><td class='docblock-short'><p>Find union of two sets</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.set_unique.html" title='arrayfire::set_unique fn'>set_unique</a></td><td class='docblock-short'><p>Find unique values from a Set</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.shift.html" title='arrayfire::shift fn'>shift</a></td><td class='docblock-short'><p>&quot;Circular shift of values along specified dimension</p>
@@ -440,4 +449,15 @@ binary operation's results.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.ycbcr2rgb.html" title='arrayfire::ycbcr2rgb fn'>ycbcr2rgb</a></td><td class='docblock-short'><p>YCbCr to RGB colorspace converter.</p>
 </td></tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table><tr class='module-item'><td><a class="type" href="type.ErrorCallback.html" title='arrayfire::ErrorCallback type'>ErrorCallback</a></td><td class='docblock-short'><p>Signature of error handling callback function</p>
-</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "arrayfire";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_array.html" title='arrayfire::af_array type'>af_array</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_array</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_event.html" title='arrayfire::af_event type'>af_event</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_event</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_features.html" title='arrayfire::af_features type'>af_features</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_features</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_index_t.html" title='arrayfire::af_index_t type'>af_index_t</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_indexers_t</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_random_engine.html" title='arrayfire::af_random_engine type'>af_random_engine</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_random_engine</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.af_window.html" title='arrayfire::af_window type'>af_window</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for af_window</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.c32.html" title='arrayfire::c32 type'>c32</a></td><td class='docblock-short'><p>Short type alias for Complex single precision type</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.c64.html" title='arrayfire::c64 type'>c64</a></td><td class='docblock-short'><p>Short type alias for Complex double precision type</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.dim_t.html" title='arrayfire::dim_t type'>dim_t</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for libc's signed long long</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.u64_t.html" title='arrayfire::u64_t type'>u64_t</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for libc's unsigned long long</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.void_ptr.html" title='arrayfire::void_ptr type'>void_ptr</a></td><td class='docblock-short'><p>ArrayFire FFI Type alias for libc's void*</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "arrayfire";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
