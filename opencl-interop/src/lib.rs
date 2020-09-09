@@ -7,7 +7,7 @@
 //! - [cl_context](https://docs.rs/cl-sys/0.4.2/cl_sys/type.cl_context.html)
 //! - [cl_command_queue](https://docs.rs/cl-sys/0.4.2/cl_sys/type.cl_command_queue.html)
 
-use arrayfire::{AfError, HANDLE_ERROR};
+use arrayfire::{handle_error_general, AfError};
 use cl_sys::{
     cl_command_queue, cl_context, cl_device_id, CL_DEVICE_TYPE_ACCELERATOR, CL_DEVICE_TYPE_ALL,
     CL_DEVICE_TYPE_CPU, CL_DEVICE_TYPE_DEFAULT, CL_DEVICE_TYPE_GPU,
@@ -62,7 +62,7 @@ pub fn get_context(retain: bool) -> cl_context {
     unsafe {
         let mut out: cl_context = std::ptr::null_mut();
         let err_val = afcl_get_context(&mut out as *mut cl_context, retain);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
         out
     }
 }
@@ -72,7 +72,7 @@ pub fn get_queue(retain: bool) -> cl_command_queue {
     unsafe {
         let mut out: cl_command_queue = std::ptr::null_mut();
         let err_val = afcl_get_queue(&mut out as *mut cl_command_queue, retain);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
         out
     }
 }
@@ -82,7 +82,7 @@ pub fn get_device_id() -> cl_device_id {
     unsafe {
         let mut out: cl_device_id = std::ptr::null_mut();
         let err_val = afcl_get_device_id(&mut out as *mut cl_device_id);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
         out
     }
 }
@@ -91,7 +91,7 @@ pub fn get_device_id() -> cl_device_id {
 pub fn set_device_id(dev_id: cl_device_id) {
     unsafe {
         let err_val = afcl_set_device_id(dev_id);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
     }
 }
 
@@ -99,7 +99,7 @@ pub fn set_device_id(dev_id: cl_device_id) {
 pub fn add_device_context(dev_id: cl_device_id, ctx: cl_context, queue: cl_command_queue) {
     unsafe {
         let err_val = afcl_add_device_context(dev_id, ctx, queue);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
     }
 }
 
@@ -107,7 +107,7 @@ pub fn add_device_context(dev_id: cl_device_id, ctx: cl_context, queue: cl_comma
 pub fn set_device_context(dev_id: cl_device_id, ctx: cl_context) {
     unsafe {
         let err_val = afcl_set_device_context(dev_id, ctx);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
     }
 }
 
@@ -115,7 +115,7 @@ pub fn set_device_context(dev_id: cl_device_id, ctx: cl_context) {
 pub fn delete_device_context(dev_id: cl_device_id, ctx: cl_context) {
     unsafe {
         let err_val = afcl_delete_device_context(dev_id, ctx);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
     }
 }
 
@@ -124,7 +124,7 @@ pub fn get_device_type() -> DeviceType {
     unsafe {
         let mut out: i32 = 0;
         let err_val = afcl_get_device_type(&mut out as *mut c_int);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
         match out {
             -1 => mem::transmute(out as u64),
             _ => DeviceType::ALL,
@@ -137,7 +137,7 @@ pub fn get_platform() -> VendorPlatform {
     unsafe {
         let mut out: i32 = 0;
         let err_val = afcl_get_platform(&mut out as *mut c_int);
-        HANDLE_ERROR(AfError::from(err_val));
+        handle_error_general(AfError::from(err_val));
         mem::transmute(out)
     }
 }
