@@ -1,6 +1,6 @@
 [package]
 name = "af-cuda-interop"
-version = "0.1.0"
+version = "3.7.1"
 authors = ["Pradeep Garigipati <pradeep@arrayfire.com>"]
 edition = "2018"
 
