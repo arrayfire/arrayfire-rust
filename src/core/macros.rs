@@ -317,6 +317,38 @@ macro_rules! constant {
     };
 }
 
+/// Create an array of given shape sampled from uniform distribution
+///
+/// If no type argument is specified, the data type defaults to 32 bit floats.
+///
+/// # Examples
+///
+/// ```rust
+/// # use arrayfire::{randu};
+/// let mat10x10 = randu!(10, 10);
+/// ```
+#[macro_export]
+macro_rules! randu {
+    ($($dim:expr),+) => { $crate::randu::<f32>($crate::dim4!($($dim),*)) };
+    ($type:ty; $($dim:expr),+) => { $crate::randu::<$type>($crate::dim4!($($dim),*)) };
+}
+
+/// Create an array of given shape sampled from normal distribution
+///
+/// If no type argument is specified, the data type defaults to 32 bit floats.
+///
+/// # Examples
+///
+/// ```rust
+/// # use arrayfire::{randn};
+/// let mat10x10 = randn!(10, 10);
+/// ```
+#[macro_export]
+macro_rules! randn {
+    ($($dim:expr),+) => { $crate::randn::<f32>($crate::dim4!($($dim),*)) };
+    ($type:ty; $($dim:expr),+) => { $crate::randn::<$type>($crate::dim4!($($dim),*)) };
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::array::Array;
@@ -454,5 +486,13 @@ mod tests {
 
         let dim = 10;
         let _mix_shape = constant!(42.0f32; dim, 10);
+    }
+
+    #[test]
+    fn rand_macro() {
+        let _ru5x5 = randu!(5, 5);
+        let _rn5x5 = randn!(5, 5);
+        let _ruu32_5x5 = randu!(u32; 5, 5);
+        let _ruu8_5x5 = randu!(u8; 5, 5);
     }
 }
