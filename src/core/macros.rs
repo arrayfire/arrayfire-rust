@@ -298,6 +298,25 @@ macro_rules! eval {
     };
 }
 
+/// Create an array of given shape filled with a single value a.k.a constant array
+///
+/// # Examples
+///
+/// ```rust
+/// # use arrayfire::{constant};
+/// let _zeros_1d = constant!(0.0f32; 10);
+/// let _ones_3d = constant!(1u32; 3, 3, 3);
+///
+/// let dim = 10;
+/// let mix_shape = constant!(42.0f32; dim, 10);
+/// ```
+#[macro_export]
+macro_rules! constant {
+    ($value:expr; $($dim:expr),+) => {
+        $crate::constant($value, $crate::dim4!($($dim),*))
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::array::Array;
@@ -424,5 +443,16 @@ mod tests {
 
         eval!(a[indices, seq4gen] = b);
         // ANCHOR_END: macro_seq_array_assign
+    }
+
+    #[test]
+    fn constant_macro() {
+        let _zeros_1d = constant!(0.0f32; 10);
+        let _zeros_2d = constant!(0.0f64; 5, 5);
+        let _ones_3d = constant!(1u32; 3, 3, 3);
+        let _twos_4d = constant!(2u16; 2, 2, 2, 2);
+
+        let dim = 10;
+        let _mix_shape = constant!(42.0f32; dim, 10);
     }
 }
