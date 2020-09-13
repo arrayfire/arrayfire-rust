@@ -82,6 +82,14 @@ Create a 5-by-3 matrix of random floats on the GPU
 ...
 ```
 
+### Troubleshooting
+
+If the build command fails with undefined references errors even after taking care of environment
+variables, we recommend doing a `cargo clean` and re-running `cargo build` or `cargo test`.
+
+You can also use some environment variables mentioned in our [book][23], such as `AF_PRINT_ERRORS`
+to print more elaborate error messages to console.
+
 ## Acknowledgements
 
 The ArrayFire library is written by developers at [ArrayFire][14] LLC with [contributions][15]
@@ -118,3 +126,4 @@ the DARPA SBIR Program Office.
 [20]: https://img.shields.io/badge/arrayfire-google--groups-orange
 [21]: http://arrayfire.org/arrayfire-rust/book/index.html
 [22]: https://img.shields.io/badge/arrayfire-mdbook-073763?logo=readthedocs
+[23]: http://arrayfire.org/arrayfire-rust/book/configuring_arrayfire_environment.html
