@@ -144,6 +144,17 @@ extern "C" {
 ///
 /// Currently, Array objects can store only data until four dimensions
 ///
+/// ## Sharing Across Threads
+///
+/// While sharing an Array with other threads, there is no need to wrap
+/// this in an Arc object unless only one such object is required to exist.
+/// The reason being that ArrayFire's internal Array is appropriately reference
+/// counted in thread safe manner. However, if you need to modify Array object,
+/// then please do wrap the object using a Mutex or Read-Write lock.
+///
+/// Examples on how to share Array across threads is illustrated in our
+/// [book](http://arrayfire.org/arrayfire-rust/book/multi-threading.html)
+///
 /// ### NOTE
 ///
 /// All operators(traits) from std::ops module implemented for Array object
@@ -155,6 +166,11 @@ pub struct Array<T: HasAfEnum> {
     /// allocation of data on compute device
     _marker: PhantomData<T>,
 }
+
+/// Enable safely moving Array objects across threads
+unsafe impl<T: HasAfEnum> Send for Array<T> {}
+
+unsafe impl<T: HasAfEnum> Sync for Array<T> {}
 
 macro_rules! is_func {
     ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
@@ -832,5 +848,238 @@ pub fn is_eval_manual() -> bool {
         let err_val = af_get_manual_eval_flag(&mut ret_val as *mut c_int);
         HANDLE_ERROR(AfError::from(err_val));
         ret_val > 0
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::array::print;
+    use super::super::data::constant;
+    use super::super::device::{info, set_device, sync};
+    use crate::dim4;
+    use std::sync::{mpsc, Arc, RwLock};
+    use std::thread;
+
+    #[test]
+    fn thread_move_array() {
+        // ANCHOR: move_array_to_thread
+        set_device(0);
+        info();
+        let mut a = constant(1, dim4!(3, 3));
+
+        let handle = thread::spawn(move || {
+            //set_device to appropriate device id is required in each thread
+            set_device(0);
+
+            println!("\nFrom thread {:?}", thread::current().id());
+
+            a += constant(2, dim4!(3, 3));
+            print(&a);
+        });
+
+        //Need to join other threads as main thread holds arrayfire context
+        handle.join().unwrap();
+        // ANCHOR_END: move_array_to_thread
+    }
+
+    #[test]
+    fn thread_borrow_array() {
+        set_device(0);
+        info();
+        let a = constant(1i32, dim4!(3, 3));
+
+        let handle = thread::spawn(move || {
+            set_device(0); //set_device to appropriate device id is required in each thread
+            println!("\nFrom thread {:?}", thread::current().id());
+            print(&a);
+        });
+        //Need to join other threads as main thread holds arrayfire context
+        handle.join().unwrap();
+    }
+
+    // ANCHOR: multiple_threads_enum_def
+    #[derive(Debug, Copy, Clone)]
+    enum Op {
+        Add,
+        Sub,
+        Div,
+        Mul,
+    }
+    // ANCHOR_END: multiple_threads_enum_def
+
+    #[test]
+    fn read_from_multiple_threads() {
+        // ANCHOR: read_from_multiple_threads
+        let ops: Vec<_> = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        // ArrayFire Array's are internally maintained via atomic reference counting
+        // Thus, they need no Arc wrapping while moving to another thread.
+        // Just call clone method on the object and share the resulting clone object
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        let threads: Vec<_> = ops
+            .into_iter()
+            .map(|op| {
+                let x = a.clone();
+                let y = b.clone();
+                thread::spawn(move || {
+                    set_device(0); //Both of objects are created on device 0 earlier
+                    match op {
+                        Op::Add => {
+                            let _c = x + y;
+                        }
+                        Op::Sub => {
+                            let _c = x - y;
+                        }
+                        Op::Div => {
+                            let _c = x / y;
+                        }
+                        Op::Mul => {
+                            let _c = x * y;
+                        }
+                    }
+                    sync(0);
+                    thread::sleep(std::time::Duration::new(1, 0));
+                })
+            })
+            .collect();
+        for child in threads {
+            let _ = child.join();
+        }
+        // ANCHOR_END: read_from_multiple_threads
+    }
+
+    #[test]
+    fn access_using_rwlock() {
+        // ANCHOR: access_using_rwlock
+        let ops: Vec<_> = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        let c = constant(0.0f32, dim4!(3, 3));
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        // Move ownership to RwLock and wrap in Arc since same object is to be modified
+        let c_lock = Arc::new(RwLock::new(c));
+
+        // a and b are internally reference counted by ArrayFire. Unless there
+        // is prior known need that they may be modified, you can simply clone
+        // the objects pass them to threads
+
+        let threads: Vec<_> = ops
+            .into_iter()
+            .map(|op| {
+                let x = a.clone();
+                let y = b.clone();
+
+                let wlock = c_lock.clone();
+                thread::spawn(move || {
+                    //Both of objects are created on device 0 in main thread
+                    //Every thread needs to set the device that it is going to
+                    //work on. Note that all Array objects must have been created
+                    //on same device as of date this is written on.
+                    set_device(0);
+                    if let Ok(mut c_guard) = wlock.write() {
+                        match op {
+                            Op::Add => {
+                                *c_guard += x + y;
+                            }
+                            Op::Sub => {
+                                *c_guard += x - y;
+                            }
+                            Op::Div => {
+                                *c_guard += x / y;
+                            }
+                            Op::Mul => {
+                                *c_guard += x * y;
+                            }
+                        }
+                    }
+                })
+            })
+            .collect();
+
+        for child in threads {
+            let _ = child.join();
+        }
+
+        //let read_guard = c_lock.read().unwrap();
+        //af_print!("C after threads joined", *read_guard);
+        //C after threads joined
+        //[3 3 1 1]
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        // ANCHOR_END: access_using_rwlock
+    }
+
+    #[test]
+    fn accum_using_channel() {
+        // ANCHOR: accum_using_channel
+        let ops: Vec<_> = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+        let ops_len: usize = ops.len();
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        let mut c = constant(0.0f32, dim4!(3, 3));
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        let (tx, rx) = mpsc::channel();
+
+        let threads: Vec<_> = ops
+            .into_iter()
+            .map(|op| {
+                // a and b are internally reference counted by ArrayFire. Unless there
+                // is prior known need that they may be modified, you can simply clone
+                // the objects pass them to threads
+                let x = a.clone();
+                let y = b.clone();
+
+                let tx_clone = tx.clone();
+
+                thread::spawn(move || {
+                    //Both of objects are created on device 0 in main thread
+                    //Every thread needs to set the device that it is going to
+                    //work on. Note that all Array objects must have been created
+                    //on same device as of date this is written on.
+                    set_device(0);
+
+                    let c = match op {
+                        Op::Add => x + y,
+                        Op::Sub => x - y,
+                        Op::Div => x / y,
+                        Op::Mul => x * y,
+                    };
+                    tx_clone.send(c).unwrap();
+                })
+            })
+            .collect();
+
+        for _i in 0..ops_len {
+            c += rx.recv().unwrap();
+        }
+
+        //Need to join other threads as main thread holds arrayfire context
+        for child in threads {
+            let _ = child.join();
+        }
+
+        //af_print!("C after accumulating results", &c);
+        //[3 3 1 1]
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        // ANCHOR_END: accum_using_channel
     }
 }

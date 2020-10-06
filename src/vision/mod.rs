@@ -114,9 +114,21 @@ extern "C" {
 /// - Scores of the features
 /// - Orientations of the features
 /// - Sizes of the features
+///
+/// ## Sharing Across Threads
+///
+/// While sharing this object with other threads, there is no need to wrap
+/// this in an Arc object unless only one such object is required to exist.
+/// The reason being that ArrayFire's internal details that are pointed to
+/// by the features handle are appropriately reference counted in thread safe
+/// manner. However, if these features are to be edited, then please do wrap
+/// the object using a Mutex or Read-Write lock.
 pub struct Features {
     feat: af_features,
 }
+
+unsafe impl Send for Features {}
+unsafe impl Sync for Features {}
 
 macro_rules! feat_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
