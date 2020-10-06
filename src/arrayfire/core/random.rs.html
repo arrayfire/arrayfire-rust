@@ -305,6 +305,17 @@
 <span id="292">292</span>
 <span id="293">293</span>
 <span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">defines</span>::{<span class="ident">AfError</span>, <span class="ident">RandomEngineType</span>};
@@ -412,9 +423,20 @@
 <span class="doccomment">/// Random number generator engine</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is a wrapper for ArrayFire&#39;s native random number generator engine.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Sharing Across Threads</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// While sharing this object with other threads, there is no need to wrap</span>
+<span class="doccomment">/// this in an Arc object unless only one such object is required to exist.</span>
+<span class="doccomment">/// The reason being that ArrayFire&#39;s internal details that are pointed to</span>
+<span class="doccomment">/// by the RandoMEngine handle are appropriately reference counted in thread safe</span>
+<span class="doccomment">/// manner. However, if you need to modify RandomEngine object, then please do wrap</span>
+<span class="doccomment">/// the object using a Mutex or Read-Write lock.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RandomEngine</span> {
     <span class="ident">handle</span>: <span class="ident">af_random_engine</span>,
 }
+
+<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">RandomEngine</span> {}
 
 <span class="doccomment">/// Used for creating RandomEngine object from native resource id</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">af_random_engine</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RandomEngine</span> {

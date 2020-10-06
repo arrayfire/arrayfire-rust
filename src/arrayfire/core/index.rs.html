@@ -807,6 +807,13 @@
 <span id="794">794</span>
 <span id="795">795</span>
 <span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">defines</span>::<span class="ident">AfError</span>;
@@ -860,6 +867,11 @@
 }
 
 <span class="doccomment">/// Struct to manage an array of resources of type `af_indexer_t`(ArrayFire C struct)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Sharing Across Threads</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// While sharing an Indexer object with other threads, just move it across threads. At the</span>
+<span class="doccomment">/// moment, one cannot share borrowed references across threads.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
@@ -917,6 +929,8 @@
     <span class="ident">count</span>: <span class="ident">usize</span>,
     <span class="ident">marker</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;object</span> ()<span class="op">&gt;</span>,
 }
+
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;object</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Indexer</span><span class="op">&lt;</span><span class="lifetime">&#39;object</span><span class="op">&gt;</span> {}
 
 <span class="doccomment">/// Trait bound indicating indexability</span>
 <span class="doccomment">///</span>

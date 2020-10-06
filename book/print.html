@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li><li class="chapter-item expanded "><a href="multi-threading.html"><strong aria-hidden="true">8.</strong> Multhi-Threading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -1346,6 +1346,220 @@ fn main() {
     afcl::delete_device_context(device_id.as_raw(), context.as_ptr());
 }
 </code></pre></pre>
+<h1><a class="header" href="#arrayfire-in-threaded-applications" id="arrayfire-in-threaded-applications">ArrayFire in Threaded Applications</a></h1>
+<p>In this chapter, we will looking at how to use ArrayFire in multi-threaded programs. We shall
+go over the details in the following order.</p>
+<ul>
+<li><a href="multi-threading.html#move-an-array-to-thread">Move an Array to thread</a></li>
+<li><a href="multi-threading.html#read-array-from-multiple-threads">Read Array from Multiple threads</a></li>
+<li><a href="multi-threading.html#write-to-array-from-multiple-threads">Write to Array from Multiple threads</a></li>
+<li><a href="multi-threading.html#write-to-single-array-using-channel">Write to single Array using Channel</a></li>
+</ul>
+<h2><a class="header" href="#move-an-array-to-thread" id="move-an-array-to-thread">Move an Array to thread</a></h2>
+<p>In this section, we are going to create an Array on main thread and move it to a child thread,
+modify it and then print it from the child thread.</p>
+<pre><code class="language-rust noplaypen">        set_device(0);
+        info();
+        let mut a = constant(1, dim4!(3, 3));
+
+        let handle = thread::spawn(move || {
+            //set_device to appropriate device id is required in each thread
+            set_device(0);
+
+            println!(&quot;\nFrom thread {:?}&quot;, thread::current().id());
+
+            a += constant(2, dim4!(3, 3));
+            print(&amp;a);
+        });
+
+        //Need to join other threads as main thread holds arrayfire context
+        handle.join().unwrap();
+</code></pre>
+<h2><a class="header" href="#read-array-from-multiple-threads" id="read-array-from-multiple-threads">Read Array from Multiple threads</a></h2>
+<p>Now, let's expand the earlier example to do a bunch of arithmetic operations in parallel on
+multiple threads using the same Array objects.</p>
+<pre><code class="language-rust noplaypen">        let ops: Vec&lt;_&gt; = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        // ArrayFire Array's are internally maintained via atomic reference counting
+        // Thus, they need no Arc wrapping while moving to another thread.
+        // Just call clone method on the object and share the resulting clone object
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        let threads: Vec&lt;_&gt; = ops
+            .into_iter()
+            .map(|op| {
+                let x = a.clone();
+                let y = b.clone();
+                thread::spawn(move || {
+                    set_device(0); //Both of objects are created on device 0 earlier
+                    match op {
+                        Op::Add =&gt; {
+                            let _c = x + y;
+                        }
+                        Op::Sub =&gt; {
+                            let _c = x - y;
+                        }
+                        Op::Div =&gt; {
+                            let _c = x / y;
+                        }
+                        Op::Mul =&gt; {
+                            let _c = x * y;
+                        }
+                    }
+                    sync(0);
+                    thread::sleep(std::time::Duration::new(1, 0));
+                })
+            })
+            .collect();
+        for child in threads {
+            let _ = child.join();
+        }
+</code></pre>
+<p>Given below is the definition of the enum <code>Op</code> we used in the example for illustration simplicity.</p>
+<pre><code class="language-rust noplaypen">    #[derive(Debug, Copy, Clone)]
+    enum Op {
+        Add,
+        Sub,
+        Div,
+        Mul,
+    }
+</code></pre>
+<h2><a class="header" href="#write-to-array-from-multiple-threads" id="write-to-array-from-multiple-threads">Write to Array from Multiple threads</a></h2>
+<p>Let us further expand the earlier example by accumulating the results of the arithmetic operations
+into a single Array object.</p>
+<p>The code will differ from earlier section in couple of locations:</p>
+<ul>
+<li>In the main thread, we wrap the accumulating Array in a read-write lock (<code>std::sync::RwLock</code>)
+which is in turn wrapped in an atomically reference counted counter a.k.a <code>std::sync::Arc</code>.</li>
+<li>In the children threads, we use the guarded objects returned by RwLock's write method to access
+the accumulator Array.</li>
+</ul>
+<pre><code class="language-rust noplaypen">        let ops: Vec&lt;_&gt; = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        let c = constant(0.0f32, dim4!(3, 3));
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        // Move ownership to RwLock and wrap in Arc since same object is to be modified
+        let c_lock = Arc::new(RwLock::new(c));
+
+        // a and b are internally reference counted by ArrayFire. Unless there
+        // is prior known need that they may be modified, you can simply clone
+        // the objects pass them to threads
+
+        let threads: Vec&lt;_&gt; = ops
+            .into_iter()
+            .map(|op| {
+                let x = a.clone();
+                let y = b.clone();
+
+                let wlock = c_lock.clone();
+                thread::spawn(move || {
+                    //Both of objects are created on device 0 in main thread
+                    //Every thread needs to set the device that it is going to
+                    //work on. Note that all Array objects must have been created
+                    //on same device as of date this is written on.
+                    set_device(0);
+                    if let Ok(mut c_guard) = wlock.write() {
+                        match op {
+                            Op::Add =&gt; {
+                                *c_guard += x + y;
+                            }
+                            Op::Sub =&gt; {
+                                *c_guard += x - y;
+                            }
+                            Op::Div =&gt; {
+                                *c_guard += x / y;
+                            }
+                            Op::Mul =&gt; {
+                                *c_guard += x * y;
+                            }
+                        }
+                    }
+                })
+            })
+            .collect();
+
+        for child in threads {
+            let _ = child.join();
+        }
+
+        //let read_guard = c_lock.read().unwrap();
+        //af_print!(&quot;C after threads joined&quot;, *read_guard);
+        //C after threads joined
+        //[3 3 1 1]
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+</code></pre>
+<h2><a class="header" href="#write-to-single-array-using-channel" id="write-to-single-array-using-channel">Write to single Array using Channel</a></h2>
+<p>In this section, we shall modify the example to use channel instead of data sharing.</p>
+<pre><code class="language-rust noplaypen">        let ops: Vec&lt;_&gt; = vec![Op::Add, Op::Sub, Op::Div, Op::Mul, Op::Add, Op::Div];
+        let ops_len: usize = ops.len();
+
+        // Set active GPU/device on main thread on which
+        // subsequent Array objects are created
+        set_device(0);
+
+        let mut c = constant(0.0f32, dim4!(3, 3));
+        let a = constant(1.0f32, dim4!(3, 3));
+        let b = constant(2.0f32, dim4!(3, 3));
+
+        let (tx, rx) = mpsc::channel();
+
+        let threads: Vec&lt;_&gt; = ops
+            .into_iter()
+            .map(|op| {
+                // a and b are internally reference counted by ArrayFire. Unless there
+                // is prior known need that they may be modified, you can simply clone
+                // the objects pass them to threads
+                let x = a.clone();
+                let y = b.clone();
+
+                let tx_clone = tx.clone();
+
+                thread::spawn(move || {
+                    //Both of objects are created on device 0 in main thread
+                    //Every thread needs to set the device that it is going to
+                    //work on. Note that all Array objects must have been created
+                    //on same device as of date this is written on.
+                    set_device(0);
+
+                    let c = match op {
+                        Op::Add =&gt; x + y,
+                        Op::Sub =&gt; x - y,
+                        Op::Div =&gt; x / y,
+                        Op::Mul =&gt; x * y,
+                    };
+                    tx_clone.send(c).unwrap();
+                })
+            })
+            .collect();
+
+        for _i in 0..ops_len {
+            c += rx.recv().unwrap();
+        }
+
+        //Need to join other threads as main thread holds arrayfire context
+        for child in threads {
+            let _ = child.join();
+        }
+
+        //af_print!(&quot;C after accumulating results&quot;, &amp;c);
+        //[3 3 1 1]
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+        //    8.0000     8.0000     8.0000
+</code></pre>
 
                     </main>
 
