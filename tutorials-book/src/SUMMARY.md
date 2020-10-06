@@ -7,3 +7,4 @@
 - [Configuring ArrayFire Runtime Environment](./configuring_arrayfire_environment.md)
 - [Interoperability with CUDA](./cuda-interop.md)
 - [Interoperability with OpenCL](./opencl-interop.md)
+- [Multhi-Threading](./multi-threading.md)

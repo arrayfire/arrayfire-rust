@@ -104,9 +104,20 @@ data_gen_def!(
 /// Random number generator engine
 ///
 /// This is a wrapper for ArrayFire's native random number generator engine.
+///
+/// ## Sharing Across Threads
+///
+/// While sharing this object with other threads, there is no need to wrap
+/// this in an Arc object unless only one such object is required to exist.
+/// The reason being that ArrayFire's internal details that are pointed to
+/// by the RandoMEngine handle are appropriately reference counted in thread safe
+/// manner. However, if you need to modify RandomEngine object, then please do wrap
+/// the object using a Mutex or Read-Write lock.
 pub struct RandomEngine {
     handle: af_random_engine,
 }
+
+unsafe impl Send for RandomEngine {}
 
 /// Used for creating RandomEngine object from native resource id
 impl From<af_random_engine> for RandomEngine {

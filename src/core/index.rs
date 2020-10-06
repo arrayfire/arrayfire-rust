@@ -51,6 +51,11 @@ extern "C" {
 
 /// Struct to manage an array of resources of type `af_indexer_t`(ArrayFire C struct)
 ///
+/// ## Sharing Across Threads
+///
+/// While sharing an Indexer object with other threads, just move it across threads. At the
+/// moment, one cannot share borrowed references across threads.
+///
 /// # Examples
 ///
 /// Given below are examples illustrating correct and incorrect usage of Indexer struct.
@@ -107,6 +112,8 @@ pub struct Indexer<'object> {
     count: usize,
     marker: PhantomData<&'object ()>,
 }
+
+unsafe impl<'object> Send for Indexer<'object> {}
 
 /// Trait bound indicating indexability
 ///
