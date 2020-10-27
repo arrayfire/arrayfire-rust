@@ -1,10 +1,13 @@
 use num::{One, Zero};
 
+#[cfg(feature = "afserde")]
+use serde::{Deserialize, Serialize};
 use std::default::Default;
 use std::fmt;
 
 /// Sequences are used for indexing Arrays
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 #[repr(C)]
 pub struct Seq<T> {
     begin: T,
@@ -53,5 +56,24 @@ impl<T: Copy> Seq<T> {
     /// Get step size of Seq
     pub fn step(&self) -> T {
         self.step
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[cfg(feature = "afserde")]
+    #[test]
+    fn seq_serde() {
+        use super::Seq;
+        use crate::seq;
+
+        let original = seq!(1:2:1);
+        let serd = match serde_json::to_string(&original) {
+            Ok(serialized_str) => serialized_str,
+            Err(e) => e.to_string(),
+        };
+
+        let deserd: Seq<i32> = serde_json::from_str(&serd).unwrap();
+        assert_eq!(deserd, original);
     }
 }

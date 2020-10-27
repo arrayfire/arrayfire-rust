@@ -221,6 +221,50 @@ impl Drop for RandomEngine {
     }
 }
 
+#[cfg(feature = "afserde")]
+mod afserde {
+    // Reimport required from super scope
+    use super::{RandomEngine, RandomEngineType};
+
+    use serde::de::Deserializer;
+    use serde::ser::Serializer;
+    use serde::{Deserialize, Serialize};
+
+    #[derive(Debug, Serialize, Deserialize)]
+    struct RandEngine {
+        engine_type: RandomEngineType,
+        seed: u64,
+    }
+
+    /// Serialize Implementation of Array
+    impl Serialize for RandomEngine {
+        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: Serializer,
+        {
+            let r = RandEngine {
+                engine_type: self.get_type(),
+                seed: self.get_seed(),
+            };
+            r.serialize(serializer)
+        }
+    }
+
+    /// Deserialize Implementation of Array
+    #[cfg(feature = "afserde")]
+    impl<'de> Deserialize<'de> for RandomEngine {
+        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: Deserializer<'de>,
+        {
+            match RandEngine::deserialize(deserializer) {
+                Ok(r) => Ok(RandomEngine::new(r.engine_type, Some(r.seed))),
+                Err(err) => Err(err),
+            }
+        }
+    }
+}
+
 /// Get default random engine
 pub fn get_default_random_engine() -> RandomEngine {
     unsafe {
@@ -301,5 +345,29 @@ where
         );
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[cfg(feature = "afserde")]
+    mod serde_tests {
+        use super::super::RandomEngine;
+        use crate::core::defines::RandomEngineType;
+
+        #[test]
+        #[cfg(feature = "afserde")]
+        fn random_engine_serde_bincode() {
+            let input = RandomEngine::new(RandomEngineType::THREEFRY_2X32_16, Some(2047));
+            let encoded = match bincode::serialize(&input) {
+                Ok(encoded) => encoded,
+                Err(_) => vec![],
+            };
+
+            let decoded: RandomEngine = bincode::deserialize(&encoded).unwrap();
+
+            assert_eq!(input.get_seed(), decoded.get_seed());
+            assert_eq!(input.get_type(), decoded.get_type());
+        }
     }
 }
