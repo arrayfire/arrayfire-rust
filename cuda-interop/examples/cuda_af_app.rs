@@ -1,6 +1,5 @@
 use arrayfire::{af_print, dim4, info, set_device, Array};
 use rustacuda::prelude::*;
-use rustacuda::*;
 
 fn main() {
     // MAKE SURE to do all rustacuda initilization before arrayfire API's
