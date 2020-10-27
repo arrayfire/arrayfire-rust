@@ -1,8 +1,12 @@
 use std::fmt;
 use std::ops::{Index, IndexMut};
 
+#[cfg(feature = "afserde")]
+use serde::{Deserialize, Serialize};
+
 /// Dim4 is used to store [Array](./struct.Array.html) dimensions
 #[derive(Copy, Clone, PartialEq, Debug)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub struct Dim4 {
     dims: [u64; 4],
 }
@@ -115,5 +119,27 @@ impl Dim4 {
     /// Get the dimensions as a slice of 4 values
     pub fn get(&self) -> &[u64; 4] {
         &self.dims
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[cfg(feature = "afserde")]
+    mod serde_tests {
+        use super::super::Dim4;
+        use crate::dim4;
+
+        #[test]
+        fn dim4_serde() {
+            let dims = dim4!(4, 4);
+            let serd = match serde_json::to_string(&dims) {
+                Ok(serialized_str) => serialized_str,
+                Err(e) => e.to_string(),
+            };
+            assert_eq!(serd, "{\"dims\":[4,4,1,1]}");
+
+            let deserd: Dim4 = serde_json::from_str(&serd).unwrap();
+            assert_eq!(deserd, dims);
+        }
     }
 }

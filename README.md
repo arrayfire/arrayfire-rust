@@ -16,7 +16,7 @@ Only, Major(M) & Minor(m) version numbers need to match. *p1* and *p2* are patch
 
 ## Supported platforms
 
-Linux, Windows and OSX. Rust 1.15.1 or higher is required.
+Linux, Windows and OSX. Rust 1.31 or newer is required.
 
 ## Use from Crates.io [![][6]][7] [![][8]][9]
 

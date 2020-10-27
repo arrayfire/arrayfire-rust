@@ -2,9 +2,13 @@ use num::Complex;
 use std::fmt::Error as FmtError;
 use std::fmt::{Display, Formatter};
 
+#[cfg(feature = "afserde")]
+use serde::{Deserialize, Serialize};
+
 /// Error codes
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum AfError {
     /// The function returned successfully
     SUCCESS = 0,
@@ -52,6 +56,7 @@ pub enum AfError {
 /// Compute/Acceleration Backend
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum Backend {
     /// Default backend order: OpenCL -> CUDA -> CPU
     DEFAULT = 0,
@@ -103,6 +108,7 @@ impl Display for AfError {
 /// Types of Array data type
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum DType {
     /// 32 bit float
     F32 = 0,
@@ -135,6 +141,7 @@ pub enum DType {
 /// Dictates the interpolation method to be used by a function
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum InterpType {
     /// Nearest Neighbor interpolation method
     NEAREST = 0,
@@ -161,6 +168,7 @@ pub enum InterpType {
 /// Helps determine how to pad kernels along borders
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum BorderType {
     /// Pad using zeros
     ZERO = 0,
@@ -177,6 +185,7 @@ pub enum BorderType {
 /// Used by `regions` function to identify type of connectivity
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum Connectivity {
     /// North-East-South-West (N-E-S-W) connectivity from given pixel/point
     FOUR = 4,
@@ -187,6 +196,7 @@ pub enum Connectivity {
 /// Helps determine the size of output of convolution
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum ConvMode {
     /// Default convolution mode where output size is same as input size
     DEFAULT = 0,
@@ -197,6 +207,7 @@ pub enum ConvMode {
 /// Helps determine if convolution is in Spatial or Frequency domain
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum ConvDomain {
     /// ArrayFire chooses whether the convolution will be in spatial domain or frequency domain
     AUTO = 0,
@@ -209,6 +220,7 @@ pub enum ConvDomain {
 /// Error metric used by `matchTemplate` function
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum MatchType {
     /// Sum of Absolute Differences
     SAD = 0,
@@ -233,6 +245,7 @@ pub enum MatchType {
 /// Identify the color space of given image(Array)
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum ColorSpace {
     /// Grayscale color space
     GRAY = 0,
@@ -245,6 +258,7 @@ pub enum ColorSpace {
 /// Helps determine the type of a Matrix
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum MatProp {
     /// Default (no-op)
     NONE = 0,
@@ -276,6 +290,7 @@ pub enum MatProp {
 #[allow(non_camel_case_types)]
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum NormType {
     /// Treats input as a vector and return sum of absolute values
     VECTOR_1 = 0,
@@ -298,6 +313,7 @@ pub enum NormType {
 /// Dictates what color map is used for Image rendering
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum ColorMap {
     /// Default color map is grayscale range [0-1]
     DEFAULT = 0,
@@ -318,6 +334,7 @@ pub enum ColorMap {
 /// YCbCr Standards
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum YCCStd {
     /// ITU-R BT.601 (formerly CCIR 601) standard
     YCC_601 = 601,
@@ -330,6 +347,7 @@ pub enum YCCStd {
 /// Homography type
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum HomographyType {
     /// RANdom SAmple Consensus algorithm
     RANSAC = 0,
@@ -340,6 +358,7 @@ pub enum HomographyType {
 /// Plotting markers
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum MarkerType {
     /// No marker
     NONE = 0,
@@ -362,6 +381,7 @@ pub enum MarkerType {
 /// Image moment types
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum MomentType {
     /// Central moment of order (0 + 0)
     M00 = 1, // 1<<0
@@ -378,6 +398,7 @@ pub enum MomentType {
 /// Sparse storage format type
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum SparseFormat {
     /// Dense format
     DENSE = 0,
@@ -392,6 +413,7 @@ pub enum SparseFormat {
 /// Binary operation types for generalized scan functions
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum BinaryOp {
     /// Addition operation
     ADD = 0,
@@ -406,6 +428,7 @@ pub enum BinaryOp {
 /// Random engine types
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum RandomEngineType {
     ///Philox variant with N=4, W=32 and Rounds=10
     PHILOX_4X32_10 = 100,
@@ -456,6 +479,7 @@ pub enum Scalar {
 /// Canny edge detector threshold operations types
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum CannyThresholdType {
     /// User has to define canny thresholds manually
     MANUAL = 0,
@@ -466,6 +490,7 @@ pub enum CannyThresholdType {
 /// Anisotropic diffusion flux equation types
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum DiffusionEq {
     /// Quadratic flux function
     QUADRATIC = 1,
@@ -478,6 +503,7 @@ pub enum DiffusionEq {
 /// Diffusion equation types
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum FluxFn {
     /// Quadratic flux function
     GRADIENT = 1,
@@ -490,6 +516,7 @@ pub enum FluxFn {
 /// topk function ordering
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum TopkFn {
     /// Top k min values
     MIN = 1,
@@ -502,6 +529,7 @@ pub enum TopkFn {
 /// Iterative Deconvolution Algorithm
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum IterativeDeconvAlgo {
     /// Land-Weber Algorithm
     LANDWEBER = 1,
@@ -514,6 +542,7 @@ pub enum IterativeDeconvAlgo {
 /// Inverse Deconvolution Algorithm
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum InverseDeconvAlgo {
     /// Tikhonov algorithm
     TIKHONOV = 1,
@@ -524,6 +553,7 @@ pub enum InverseDeconvAlgo {
 /// Gradient mode for convolution
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum ConvGradientType {
     /// Filter Gradient
     FILTER = 1,
@@ -538,6 +568,7 @@ pub enum ConvGradientType {
 /// Gradient mode for convolution
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum VarianceBias {
     /// Sample variance
     SAMPLE = 1,
@@ -550,9 +581,29 @@ pub enum VarianceBias {
 /// Gradient mode for convolution
 #[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum CublasMathMode {
     /// To indicate use of Tensor Cores on CUDA capable GPUs
     TENSOR_OP = 1,
     /// Default i.e. tensor core operations will be avoided by the library
     DEFAULT = 0,
+}
+
+#[cfg(test)]
+mod tests {
+    #[cfg(feature = "afserde")]
+    #[test]
+    fn test_enum_serde() {
+        use super::AfError;
+
+        let err_code = AfError::ERR_NO_MEM;
+        let serd = match serde_json::to_string(&err_code) {
+            Ok(serialized_str) => serialized_str,
+            Err(e) => e.to_string(),
+        };
+        assert_eq!(serd, "\"ERR_NO_MEM\"");
+
+        let deserd: AfError = serde_json::from_str(&serd).unwrap();
+        assert_eq!(deserd, AfError::ERR_NO_MEM);
+    }
 }

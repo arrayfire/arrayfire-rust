@@ -851,6 +851,73 @@ pub fn is_eval_manual() -> bool {
     }
 }
 
+#[cfg(feature = "afserde")]
+mod afserde {
+    // Reimport required from super scope
+    use super::{Array, DType, Dim4, HasAfEnum};
+
+    use serde::de::{Deserializer, Error, Unexpected};
+    use serde::ser::Serializer;
+    use serde::{Deserialize, Serialize};
+
+    #[derive(Debug, Serialize, Deserialize)]
+    struct ArrayOnHost<T: HasAfEnum + std::fmt::Debug> {
+        dtype: DType,
+        shape: Dim4,
+        data: Vec<T>,
+    }
+
+    /// Serialize Implementation of Array
+    impl<T> Serialize for Array<T>
+    where
+        T: std::default::Default + std::clone::Clone + Serialize + HasAfEnum + std::fmt::Debug,
+    {
+        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: Serializer,
+        {
+            let mut vec = vec![T::default(); self.elements()];
+            self.host(&mut vec);
+            let arr_on_host = ArrayOnHost {
+                dtype: self.get_type(),
+                shape: self.dims().clone(),
+                data: vec,
+            };
+            arr_on_host.serialize(serializer)
+        }
+    }
+
+    /// Deserialize Implementation of Array
+    impl<'de, T> Deserialize<'de> for Array<T>
+    where
+        T: Deserialize<'de> + HasAfEnum + std::fmt::Debug,
+    {
+        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: Deserializer<'de>,
+        {
+            match ArrayOnHost::<T>::deserialize(deserializer) {
+                Ok(arr_on_host) => {
+                    let read_dtype = arr_on_host.dtype;
+                    let expected_dtype = T::get_af_dtype();
+                    if expected_dtype != read_dtype {
+                        let error_msg = format!(
+                            "data type is {:?}, deserialized type is {:?}",
+                            expected_dtype, read_dtype
+                        );
+                        return Err(Error::invalid_value(Unexpected::Enum, &error_msg.as_str()));
+                    }
+                    Ok(Array::<T>::new(
+                        &arr_on_host.data,
+                        arr_on_host.shape.clone(),
+                    ))
+                }
+                Err(err) => Err(err),
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::array::print;
@@ -1081,5 +1148,38 @@ mod tests {
         //    8.0000     8.0000     8.0000
         //    8.0000     8.0000     8.0000
         // ANCHOR_END: accum_using_channel
+    }
+
+    #[cfg(feature = "afserde")]
+    mod serde_tests {
+        use super::super::Array;
+        use crate::algorithm::sum_all;
+        use crate::randu;
+
+        #[test]
+        fn array_serde_json() {
+            let input = randu!(u8; 2, 2);
+            let serd = match serde_json::to_string(&input) {
+                Ok(serialized_str) => serialized_str,
+                Err(e) => e.to_string(),
+            };
+
+            let deserd: Array<u8> = serde_json::from_str(&serd).unwrap();
+
+            assert_eq!(sum_all(&(input - deserd)), (0u32, 0u32));
+        }
+
+        #[test]
+        fn array_serde_bincode() {
+            let input = randu!(u8; 2, 2);
+            let encoded = match bincode::serialize(&input) {
+                Ok(encoded) => encoded,
+                Err(_) => vec![],
+            };
+
+            let decoded: Array<u8> = bincode::deserialize(&encoded).unwrap();
+
+            assert_eq!(sum_all(&(input - decoded)), (0u32, 0u32));
+        }
     }
 }

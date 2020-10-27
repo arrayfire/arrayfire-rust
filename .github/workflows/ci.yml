@@ -48,8 +48,8 @@ jobs:
                   export AF_PATH=${GITHUB_WORKSPACE}/afbin
                   export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${AF_PATH}/lib64
                   echo "Using cargo version: $(cargo --version)"
-                  cargo build --all
-                  cargo test --no-fail-fast
+                  cargo build --all --all-features
+                  cargo test --no-fail-fast --all-features
 
     format:
         name: Format Check
