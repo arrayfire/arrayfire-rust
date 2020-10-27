@@ -22,7 +22,7 @@ fn main() {
     let af_ctx = afcl::get_context(false);
     let af_que = afcl::get_queue(false);
 
-    let devid = unsafe { ocl_core::DeviceId::from_raw(af_did) };
+    let _devid = unsafe { ocl_core::DeviceId::from_raw(af_did) };
     let contx = unsafe { ocl_core::Context::from_raw_copied_ptr(af_ctx) };
     let queue = unsafe { ocl_core::CommandQueue::from_raw_copied_ptr(af_que) };
 

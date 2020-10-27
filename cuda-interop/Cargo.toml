@@ -19,7 +19,7 @@ rustacuda = "0.1"
 rustacuda_core = "0.1"
 
 [[example]]
-name = "custom_kernel"
+name = "afcuda_custom_kernel"
 path = "examples/custom_kernel.rs"
 
 [[example]]
