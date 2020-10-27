@@ -447,16 +447,27 @@ pub const MERSENNE: RandomEngineType = RandomEngineType::MERSENNE_GP11213;
 /// Default RandomEngine that defaults to [PHILOX](./constant.PHILOX.html)
 pub const DEFAULT_RANDOM_ENGINE: RandomEngineType = PHILOX;
 
+#[cfg(feature = "afserde")]
+#[derive(Serialize, Deserialize)]
+#[serde(remote = "Complex")]
+struct ComplexDef<T> {
+    re: T,
+    im: T,
+}
+
 /// Scalar value types
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum Scalar {
     /// 32 bit float
     F32(f32),
     /// 32 bit complex float
+    #[cfg_attr(feature = "afserde", serde(with = "ComplexDef"))]
     C32(Complex<f32>),
     /// 64 bit float
     F64(f64),
     /// 64 bit complex float
+    #[cfg_attr(feature = "afserde", serde(with = "ComplexDef"))]
     C64(Complex<f64>),
     /// 8 bit boolean
     B8(bool),
@@ -592,18 +603,38 @@ pub enum CublasMathMode {
 #[cfg(test)]
 mod tests {
     #[cfg(feature = "afserde")]
-    #[test]
-    fn test_enum_serde() {
-        use super::AfError;
+    mod serde_tests {
+        #[test]
+        fn test_enum_serde() {
+            use super::super::AfError;
 
-        let err_code = AfError::ERR_NO_MEM;
-        let serd = match serde_json::to_string(&err_code) {
-            Ok(serialized_str) => serialized_str,
-            Err(e) => e.to_string(),
-        };
-        assert_eq!(serd, "\"ERR_NO_MEM\"");
+            let err_code = AfError::ERR_NO_MEM;
+            let serd = match serde_json::to_string(&err_code) {
+                Ok(serialized_str) => serialized_str,
+                Err(e) => e.to_string(),
+            };
+            assert_eq!(serd, "\"ERR_NO_MEM\"");
 
-        let deserd: AfError = serde_json::from_str(&serd).unwrap();
-        assert_eq!(deserd, AfError::ERR_NO_MEM);
+            let deserd: AfError = serde_json::from_str(&serd).unwrap();
+            assert_eq!(deserd, AfError::ERR_NO_MEM);
+        }
+
+        #[test]
+        fn test_scalar_serde() {
+            use super::super::Scalar;
+            use num::Complex;
+
+            let scalar = Scalar::C32(Complex {
+                re: 1.0f32,
+                im: 1.0f32,
+            });
+            let serd = match serde_json::to_string(&scalar) {
+                Ok(serialized_str) => serialized_str,
+                Err(e) => e.to_string(),
+            };
+
+            let deserd: Scalar = serde_json::from_str(&serd).unwrap();
+            assert_eq!(deserd, scalar);
+        }
     }
 }
