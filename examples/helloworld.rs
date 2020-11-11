@@ -13,14 +13,14 @@ fn main() {
     );
     println!("Revision: {}", get_revision());
 
-    let num_rows: u64 = 5;
-    let num_cols: u64 = 3;
+    let num_rows: i64 = 5;
+    let num_cols: i64 = 3;
     let values: [f32; 3] = [1.0, 2.0, 3.0];
     let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
 
     af_print!("Indices ", indices);
 
-    let dims = Dim4::new(&[num_rows, num_cols, 1, 1]);
+    let dims = Dim4::new(&[num_rows as u64, num_cols as u64, 1, 1]);
 
     let mut a = randu::<f32>(dims);
     af_print!("Create a 5-by-3 float   matrix on the GPU", a);
