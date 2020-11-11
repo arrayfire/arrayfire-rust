@@ -2,7 +2,7 @@ use super::array::Array;
 use super::defines::AfError;
 use super::error::HANDLE_ERROR;
 use super::seq::Seq;
-use super::util::{af_array, af_index_t, dim_t, HasAfEnum};
+use super::util::{af_array, af_index_t, dim_t, HasAfEnum, IndexableType};
 
 use libc::{c_double, c_int, c_uint};
 use std::default::Default;
@@ -142,7 +142,10 @@ pub trait Indexable {
 ///
 /// This is used in functions [index_gen](./fn.index_gen.html) and
 /// [assign_gen](./fn.assign_gen.html)
-impl<T: HasAfEnum> Indexable for Array<T> {
+impl<T> Indexable for Array<T>
+where
+    T: HasAfEnum + IndexableType
+{
     fn set(&self, idxr: &mut Indexer, dim: u32, _is_batch: Option<bool>) {
         unsafe {
             let err_val = af_set_array_indexer(idxr.get(), self.get(), dim as dim_t);
@@ -155,9 +158,10 @@ impl<T: HasAfEnum> Indexable for Array<T> {
 ///
 /// This is used in functions [index_gen](./fn.index_gen.html) and
 /// [assign_gen](./fn.assign_gen.html)
-impl<T: Copy> Indexable for Seq<T>
+impl<T> Indexable for Seq<T>
 where
     c_double: From<T>,
+    T: Copy + IndexableType
 {
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
@@ -256,10 +260,11 @@ impl<'object> Drop for Indexer<'object> {
 /// println!("a(seq(1, 3, 1), span)");
 /// print(&sub);
 /// ```
-pub fn index<IO, T: Copy>(input: &Array<IO>, seqs: &[Seq<T>]) -> Array<IO>
+pub fn index<IO, T>(input: &Array<IO>, seqs: &[Seq<T>]) -> Array<IO>
 where
     c_double: From<T>,
     IO: HasAfEnum,
+    T: Copy + HasAfEnum + IndexableType
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
@@ -462,7 +467,7 @@ where
 pub fn lookup<T, I>(input: &Array<T>, indices: &Array<I>, seq_dim: i32) -> Array<T>
 where
     T: HasAfEnum,
-    I: HasAfEnum,
+    I: HasAfEnum + IndexableType,
 {
     unsafe {
         let mut temp: af_array = std::ptr::null_mut();
@@ -504,10 +509,11 @@ where
 /// // 1.0 1.0 1.0
 /// // 2.0 2.0 2.0
 /// ```
-pub fn assign_seq<T: Copy, I>(lhs: &mut Array<I>, seqs: &[Seq<T>], rhs: &Array<I>)
+pub fn assign_seq<T, I>(lhs: &mut Array<I>, seqs: &[Seq<T>], rhs: &Array<I>)
 where
     c_double: From<T>,
     I: HasAfEnum,
+    T: Copy + IndexableType
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
@@ -632,9 +638,10 @@ struct SeqInternal {
 }
 
 impl SeqInternal {
-    fn from_seq<T: Copy>(s: &Seq<T>) -> Self
+    fn from_seq<T>(s: &Seq<T>) -> Self
     where
         c_double: From<T>,
+        T: Copy + IndexableType
     {
         Self {
             begin: From::from(s.begin()),

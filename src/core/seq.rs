@@ -5,18 +5,23 @@ use serde::{Deserialize, Serialize};
 use std::default::Default;
 use std::fmt;
 
+use super::util::IndexableType;
+
 /// Sequences are used for indexing Arrays
 #[derive(Copy, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 #[repr(C)]
-pub struct Seq<T> {
+pub struct Seq<T: IndexableType> {
     begin: T,
     end: T,
     step: T,
 }
 
 /// Default `Seq` spans all the elements along a dimension
-impl<T: One + Zero> Default for Seq<T> {
+impl<T> Default for Seq<T>
+where
+    T: One + Zero + IndexableType
+{
     fn default() -> Self {
         Self {
             begin: One::one(),
@@ -27,7 +32,10 @@ impl<T: One + Zero> Default for Seq<T> {
 }
 
 /// Enables use of `Seq` with `{}` format in print statements
-impl<T: fmt::Display> fmt::Display for Seq<T> {
+impl<T> fmt::Display for Seq<T>
+where
+    T: fmt::Display + IndexableType
+{
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
@@ -37,7 +45,10 @@ impl<T: fmt::Display> fmt::Display for Seq<T> {
     }
 }
 
-impl<T: Copy> Seq<T> {
+impl<T> Seq<T>
+where
+    T: Copy + IndexableType
+{
     /// Create a `Seq` that goes from `begin` to `end` at a step size of `step`
     pub fn new(begin: T, end: T, step: T) -> Self {
         Self { begin, end, step }
