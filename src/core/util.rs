@@ -839,4 +839,4 @@ impl IndexableType for i32 {}
 impl IndexableType for u32 {}
 impl IndexableType for i16 {}
 impl IndexableType for u16 {}
-impl IndexableType for  u8 {}
+impl IndexableType for u8 {}

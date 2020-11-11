@@ -20,7 +20,7 @@ pub struct Seq<T: IndexableType> {
 /// Default `Seq` spans all the elements along a dimension
 impl<T> Default for Seq<T>
 where
-    T: One + Zero + IndexableType
+    T: One + Zero + IndexableType,
 {
     fn default() -> Self {
         Self {
@@ -34,7 +34,7 @@ where
 /// Enables use of `Seq` with `{}` format in print statements
 impl<T> fmt::Display for Seq<T>
 where
-    T: fmt::Display + IndexableType
+    T: fmt::Display + IndexableType,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
@@ -47,7 +47,7 @@ where
 
 impl<T> Seq<T>
 where
-    T: Copy + IndexableType
+    T: Copy + IndexableType,
 {
     /// Create a `Seq` that goes from `begin` to `end` at a step size of `step`
     pub fn new(begin: T, end: T, step: T) -> Self {

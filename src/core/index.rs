@@ -144,7 +144,7 @@ pub trait Indexable {
 /// [assign_gen](./fn.assign_gen.html)
 impl<T> Indexable for Array<T>
 where
-    T: HasAfEnum + IndexableType
+    T: HasAfEnum + IndexableType,
 {
     fn set(&self, idxr: &mut Indexer, dim: u32, _is_batch: Option<bool>) {
         unsafe {
@@ -161,7 +161,7 @@ where
 impl<T> Indexable for Seq<T>
 where
     c_double: From<T>,
-    T: Copy + IndexableType
+    T: Copy + IndexableType,
 {
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
         unsafe {
@@ -264,7 +264,7 @@ pub fn index<IO, T>(input: &Array<IO>, seqs: &[Seq<T>]) -> Array<IO>
 where
     c_double: From<T>,
     IO: HasAfEnum,
-    T: Copy + HasAfEnum + IndexableType
+    T: Copy + HasAfEnum + IndexableType,
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
@@ -513,7 +513,7 @@ pub fn assign_seq<T, I>(lhs: &mut Array<I>, seqs: &[Seq<T>], rhs: &Array<I>)
 where
     c_double: From<T>,
     I: HasAfEnum,
-    T: Copy + IndexableType
+    T: Copy + IndexableType,
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
     unsafe {
@@ -641,7 +641,7 @@ impl SeqInternal {
     fn from_seq<T>(s: &Seq<T>) -> Self
     where
         c_double: From<T>,
-        T: Copy + IndexableType
+        T: Copy + IndexableType,
     {
         Self {
             begin: From::from(s.begin()),
