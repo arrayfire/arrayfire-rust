@@ -827,3 +827,16 @@ impl Fromf64 for i16  { fn fromf64(value: f64) -> Self { value as Self }}
 impl Fromf64 for u8   { fn fromf64(value: f64) -> Self { value as Self }}
 #[rustfmt::skip]
 impl Fromf64 for bool { fn fromf64(value: f64) -> Self { value > 0.0   }}
+
+///Trait qualifier for the type of Arrays accepted by scan operations
+pub trait IndexableType {}
+
+impl IndexableType for f64 {}
+impl IndexableType for i64 {}
+impl IndexableType for u64 {}
+impl IndexableType for f32 {}
+impl IndexableType for i32 {}
+impl IndexableType for u32 {}
+impl IndexableType for i16 {}
+impl IndexableType for u16 {}
+impl IndexableType for u8 {}
