@@ -3,10 +3,20 @@
 Indexing in ArrayFire is a powerful but easy to abuse feature. This feature allows you to reference
 or copy subsections of a larger array and perform operations on only a subset of elements.
 
+This chapter is split into the following sections:
+- [Index an Array using Seq Objects](#using-seq-objects)
+    - [Create a view of an existing Array](#create-a-view-of-an-existing-array)
+    - [Modify a sub region of an existing Array](#modify-a-sub-region-of-an-existing-array)
+- [Using Array and Seq combination](#using-array-and-seq-combination)
+    - [Create a view of an existing Array](#create-a-view-of-an-existing-array)
+    - [Modify a sub region of an existing Array](#modify-a-sub-region-of-an-existing-array)
+- [Extract or Set rows/columns of an Array](#extract-or-set-rowscolumns-of-an-array)
+- [Negative Indices](#negative-indices)
+
 [Indexer][1] structure is the key element used in Rust wrapper of ArrayFire for creating references
-to existing Arrays. Given below are few of such functions and their corresponding use cases. Use
-[Indexer::new][2] to create an Indexer object and set either a `Seq` object or `Array` as indexing
-object for a given dimension.
+to existing Arrays. The above sections illustrate how it can be used in conjunction with `Seq`
+and/or `Array`. Apart from that, each section also showcases a macro based equivalent
+code(if one exists) that is more terse in syntax but offers the same functionality.
 
 ## Using Seq objects
 
@@ -74,7 +84,7 @@ We will use [assign\_gen][13] function to do it.
 {{#include ../../src/core/macros.rs:macro_seq_array_assign}}
  ```
 
-## Extract or Set rows/coloumns of an Array
+## Extract or Set rows/columns of an Array
 
 Extract a specific set of rows/coloumns from an existing Array.
 
@@ -88,8 +98,21 @@ Similarly, [set\_row][7] & [set\_rows][9] can be used to change the values in a 
 rows using another Array. [set\_col][8] & [set\_cols][10] has same functionality, except that it is
 for coloumns.
 
+## Negative Indices
+
+Negative indices can also be used to refer elements from the end of a given axis. Negative value for
+a row/column/slice will fetch corresponding row/column/slice in reverse order. Given below are some
+examples that showcase getting row(s)/col(s) from an existing Array.
+
+```rust,noplaypen
+{{#include ../../src/core/index.rs:get_row}}
+```
+
+```rust,noplaypen
+{{#include ../../src/core/index.rs:get_rows}}
+```
+
 [1]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html
-[2]: http://arrayfire.org/arrayfire-rust/arrayfire/struct.Indexer.html#method.new
 [3]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.index.html
 [4]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.assign_seq.html
 [5]: http://arrayfire.org/arrayfire-rust/arrayfire/fn.rows.html
