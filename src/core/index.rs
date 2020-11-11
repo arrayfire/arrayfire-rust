@@ -287,7 +287,7 @@ where
 /// print(&a);
 /// print(&row(&a, 4));
 /// ```
-pub fn row<T>(input: &Array<T>, row_num: u64) -> Array<T>
+pub fn row<T>(input: &Array<T>, row_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
@@ -301,7 +301,7 @@ where
 }
 
 /// Set `row_num`^th row in `inout` Array to a new Array `new_row`
-pub fn set_row<T>(inout: &mut Array<T>, new_row: &Array<T>, row_num: u64)
+pub fn set_row<T>(inout: &mut Array<T>, new_row: &Array<T>, row_num: i64)
 where
     T: HasAfEnum,
 {
@@ -313,22 +313,24 @@ where
 }
 
 /// Get an Array with all rows from `first` to `last` in the `input` Array
-pub fn rows<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
+pub fn rows<T>(input: &Array<T>, first: i64, last: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
     index(
         input,
-        &[Seq::new(first as f64, last as f64, 1.0), Seq::default()],
+        &[Seq::new(first as f64, last as f64, step), Seq::default()],
     )
 }
 
 /// Set rows from `first` to `last` in `inout` Array with rows from Array `new_rows`
-pub fn set_rows<T>(inout: &mut Array<T>, new_rows: &Array<T>, first: u64, last: u64)
+pub fn set_rows<T>(inout: &mut Array<T>, new_rows: &Array<T>, first: i64, last: i64)
 where
     T: HasAfEnum,
 {
-    let seqs = [Seq::new(first as f64, last as f64, 1.0), Seq::default()];
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
+    let seqs = [Seq::new(first as f64, last as f64, step), Seq::default()];
     assign_seq(inout, &seqs, new_rows)
 }
 
@@ -344,7 +346,7 @@ where
 /// println!("Grab last col of the random matrix");
 /// print(&col(&a, 4));
 /// ```
-pub fn col<T>(input: &Array<T>, col_num: u64) -> Array<T>
+pub fn col<T>(input: &Array<T>, col_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
@@ -358,7 +360,7 @@ where
 }
 
 /// Set `col_num`^th col in `inout` Array to a new Array `new_col`
-pub fn set_col<T>(inout: &mut Array<T>, new_col: &Array<T>, col_num: u64)
+pub fn set_col<T>(inout: &mut Array<T>, new_col: &Array<T>, col_num: i64)
 where
     T: HasAfEnum,
 {
@@ -370,29 +372,31 @@ where
 }
 
 /// Get all cols from `first` to `last` in the `input` Array
-pub fn cols<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
+pub fn cols<T>(input: &Array<T>, first: i64, last: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
     index(
         input,
-        &[Seq::default(), Seq::new(first as f64, last as f64, 1.0)],
+        &[Seq::default(), Seq::new(first as f64, last as f64, step)],
     )
 }
 
 /// Set cols from `first` to `last` in `inout` Array with cols from Array `new_cols`
-pub fn set_cols<T>(inout: &mut Array<T>, new_cols: &Array<T>, first: u64, last: u64)
+pub fn set_cols<T>(inout: &mut Array<T>, new_cols: &Array<T>, first: i64, last: i64)
 where
     T: HasAfEnum,
 {
-    let seqs = [Seq::default(), Seq::new(first as f64, last as f64, 1.0)];
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
+    let seqs = [Seq::default(), Seq::new(first as f64, last as f64, step)];
     assign_seq(inout, &seqs, new_cols)
 }
 
 /// Get `slice_num`^th slice from `input` Array
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn slice<T>(input: &Array<T>, slice_num: u64) -> Array<T>
+pub fn slice<T>(input: &Array<T>, slice_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
@@ -407,7 +411,7 @@ where
 /// Set slice `slice_num` in `inout` Array to a new Array `new_slice`
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn set_slice<T>(inout: &mut Array<T>, new_slice: &Array<T>, slice_num: u64)
+pub fn set_slice<T>(inout: &mut Array<T>, new_slice: &Array<T>, slice_num: i64)
 where
     T: HasAfEnum,
 {
@@ -422,14 +426,15 @@ where
 /// Get slices from `first` to `last` in `input` Array
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn slices<T>(input: &Array<T>, first: u64, last: u64) -> Array<T>
+pub fn slices<T>(input: &Array<T>, first: i64, last: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
     let seqs = [
         Seq::default(),
         Seq::default(),
-        Seq::new(first as f64, last as f64, 1.0),
+        Seq::new(first as f64, last as f64, step),
     ];
     index(input, &seqs)
 }
@@ -437,14 +442,15 @@ where
 /// Set `first` to `last` slices of `inout` Array to a new Array `new_slices`
 ///
 /// Slices indicate that the indexing is along 3rd dimension
-pub fn set_slices<T>(inout: &mut Array<T>, new_slices: &Array<T>, first: u64, last: u64)
+pub fn set_slices<T>(inout: &mut Array<T>, new_slices: &Array<T>, first: i64, last: i64)
 where
     T: HasAfEnum,
 {
+    let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
     let seqs = [
         Seq::default(),
         Seq::default(),
-        Seq::new(first as f64, last as f64, 1.0),
+        Seq::new(first as f64, last as f64, step),
     ];
     assign_seq(inout, &seqs, new_slices)
 }
@@ -644,6 +650,7 @@ mod tests {
     use super::super::data::constant;
     use super::super::dim4::Dim4;
     use super::super::index::{assign_gen, assign_seq, col, index, index_gen, row, Indexer};
+    use super::super::index::{cols, rows};
     use super::super::random::randu;
     use super::super::seq::Seq;
 
@@ -799,5 +806,52 @@ mod tests {
         //     0.5567
         //     0.7896
         // ANCHOR_END: setrow
+    }
+
+    #[test]
+    fn get_row() {
+        // ANCHOR: get_row
+        let a = randu::<f32>(dim4!(5, 5));
+        // [5 5 1 1]
+        //     0.6010     0.5497     0.1583     0.3636     0.6755
+        //     0.0278     0.2864     0.3712     0.4165     0.6105
+        //     0.9806     0.3410     0.3543     0.5814     0.5232
+        //     0.2126     0.7509     0.6450     0.8962     0.5567
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _r = row(&a, -1);
+        // [1 5 1 1]
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _c = col(&a, -1);
+        // [5 1 1 1]
+        //     0.6755
+        //     0.6105
+        //     0.5232
+        //     0.5567
+        //     0.7896
+        // ANCHOR_END: get_row
+    }
+
+    #[test]
+    fn get_rows() {
+        // ANCHOR: get_rows
+        let a = randu::<f32>(dim4!(5, 5));
+        // [5 5 1 1]
+        //     0.6010     0.5497     0.1583     0.3636     0.6755
+        //     0.0278     0.2864     0.3712     0.4165     0.6105
+        //     0.9806     0.3410     0.3543     0.5814     0.5232
+        //     0.2126     0.7509     0.6450     0.8962     0.5567
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _r = rows(&a, -1, -2);
+        // [2 5 1 1]
+        //     0.2126     0.7509     0.6450     0.8962     0.5567
+        //     0.0655     0.4105     0.9675     0.3712     0.7896
+        let _c = cols(&a, -1, -3);
+        // [5 3 1 1]
+        //     0.1583     0.3636     0.6755
+        //     0.3712     0.4165     0.6105
+        //     0.3543     0.5814     0.5232
+        //     0.6450     0.8962     0.5567
+        //     0.9675     0.3712     0.7896
+        // ANCHOR_END: get_rows
     }
 }
