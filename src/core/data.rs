@@ -568,7 +568,7 @@ pub fn reorder_v2<T>(
 where
     T: HasAfEnum,
 {
-    let mut new_axes = vec![0, 1, 2, 3];
+    let mut new_axes = [0, 1, 2, 3];
     new_axes[0] = new_axis0;
     new_axes[1] = new_axis1;
     match next_axes {
