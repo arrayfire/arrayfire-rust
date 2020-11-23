@@ -141,27 +141,27 @@ impl From<u32> for ColorMap {
 ///
 pub trait HasAfEnum {
     /// This type alias points to `Self` always.
-    type InType;
+    type InType: HasAfEnum;
     /// This type alias points to the data type used to hold real part of a
     /// complex number. For real valued numbers, this points to `Self`.
-    type BaseType;
+    type BaseType: HasAfEnum;
     /// This type alias points to `f32` for all 32 bit size types and `f64` for
     /// larger 64-bit size types.
-    type AbsOutType;
+    type AbsOutType: HasAfEnum;
     /// This type alias points to `f64`/`f32` for floating point types and
     /// `Self` otherwise.
-    type ArgOutType;
+    type ArgOutType: HasAfEnum;
     /// This type alias is used to define the output Array type for unary
     /// operations. It points to `Self` for floating point types, either
     /// real or complex. It points to `f32` for rest of the input types.
-    type UnaryOutType;
+    type UnaryOutType: HasAfEnum;
     /// This type alias points to complex type created from a given input type.
     /// This alias always points to either `std::Complex<f32>` or `std::Complex<f64>`
     type ComplexOutType;
     /// This type alias points to a data type that can store the mean value for
     /// a given input type. This alias points to `f32`/`Complex<f32>` for all 32
     /// bit size types and `f64`/`Complex<f64>` for larger 64-bit size types.
-    type MeanOutType;
+    type MeanOutType: HasAfEnum;
     /// This type alias points to a data type that can store the result of
     /// aggregation of set of values for a given input type. Aggregate type
     /// alias points to below types for given input types:
@@ -172,9 +172,9 @@ pub trait HasAfEnum {
     /// - `u32` for input types: `u16`
     /// - `i32` for input types: `i32`
     /// - `u32` for input types: `u32`
-    type AggregateOutType;
+    type AggregateOutType: HasAfEnum;
     /// This type is different for b8 input type
-    type ProductOutType;
+    type ProductOutType: HasAfEnum;
     /// This type alias points to the output type for given input type of
     /// sobel filter operation. Sobel filter output alias points to below
     /// types for given input types:
@@ -182,7 +182,7 @@ pub trait HasAfEnum {
     /// - `f64` for input types: `Complex<f64>`, `f64`
     /// - `i32` for input types: `bool`, `u8`, `i16`, `u16`, `i32`, `u32`
     /// - `i64` for input types: `i64`, `u64`
-    type SobelOutType;
+    type SobelOutType: HasAfEnum;
 
     /// Return trait implmentors corresponding [DType](./enum.DType.html)
     fn get_af_dtype() -> DType;
@@ -427,7 +427,7 @@ impl From<u32> for RandomEngineType {
 pub trait ImplicitPromote<RHS> {
     /// This type alias points to the type of the result obtained
     /// by performing a given binary option on given type and `RHS`.
-    type Output;
+    type Output: HasAfEnum;
 }
 
 macro_rules! implicit {
