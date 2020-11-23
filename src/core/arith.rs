@@ -376,30 +376,17 @@ pub trait Convertable {
     fn convert(&self) -> Array<Self::OutType>;
 }
 
-macro_rules! convertable_type_def {
-    ($rust_type: ty) => {
-        impl Convertable for $rust_type {
-            type OutType = $rust_type;
+impl<T> Convertable for T
+where
+    T: Clone + HasAfEnum + ConstGenerator<OutType = T>,
+    <T as ConstGenerator>::OutType: HasAfEnum,
+{
+    type OutType = T;
 
-            fn convert(&self) -> Array<Self::OutType> {
-                constant(*self, Dim4::new(&[1, 1, 1, 1]))
-            }
-        }
-    };
+    fn convert(&self) -> Array<Self::OutType> {
+        constant(self.clone(), Dim4::new(&[1, 1, 1, 1]))
+    }
 }
-
-convertable_type_def!(Complex<f64>);
-convertable_type_def!(Complex<f32>);
-convertable_type_def!(u64);
-convertable_type_def!(i64);
-convertable_type_def!(f64);
-convertable_type_def!(f32);
-convertable_type_def!(i32);
-convertable_type_def!(u32);
-convertable_type_def!(i16);
-convertable_type_def!(u16);
-convertable_type_def!(u8);
-convertable_type_def!(bool);
 
 impl<T: HasAfEnum> Convertable for Array<T> {
     type OutType = T;
