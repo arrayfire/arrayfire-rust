@@ -126,16 +126,14 @@ extern "C" {
 ///
 pub trait ConstGenerator {
     /// The type of Array<T> object returned by generate function
-    type OutType;
+    type OutType: HasAfEnum;
 
     /// Create an Array of `dims` size from scalar value `self`.
     ///
     /// # Parameters
     ///
     /// - `dims` are the dimensions of the output constant [Array](./struct.Array.html)
-    fn generate(&self, dims: Dim4) -> Array<Self::OutType>
-    where
-        Self::OutType: HasAfEnum;
+    fn generate(&self, dims: Dim4) -> Array<Self::OutType>;
 }
 
 impl ConstGenerator for i64 {

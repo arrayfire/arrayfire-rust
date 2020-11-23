@@ -370,12 +370,10 @@ pub trait Convertable {
     /// This type alias always points to `Self` which is the
     /// type of [Array](./struct.Array.html) returned by the
     /// trait method [convert](./trait.Convertable.html#tymethod.convert).
-    type OutType;
+    type OutType: HasAfEnum;
 
     /// Get an Array of implementors type
-    fn convert(&self) -> Array<Self::OutType>
-    where
-        <Self as Convertable>::OutType: HasAfEnum;
+    fn convert(&self) -> Array<Self::OutType>;
 }
 
 macro_rules! convertable_type_def {
