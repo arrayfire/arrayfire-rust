@@ -692,44 +692,45 @@ where
     }
 }
 
-macro_rules! arith_scalar_func {
-    ($rust_type: ty, $op_name:ident, $fn_name: ident) => {
+macro_rules! arith_rhs_scalar_func {
+    ($op_name:ident, $fn_name: ident) => {
         // Implement (&Array<T> op_name rust_type)
-        impl<'f, T> $op_name<$rust_type> for &'f Array<T>
+        impl<'f, T, U> $op_name<U> for &'f Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+            T: HasAfEnum + ImplicitPromote<U>,
+            U: HasAfEnum + ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
         {
-            type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
+            type Output = Array<<T as ImplicitPromote<U>>::Output>;
 
-            fn $fn_name(self, rhs: $rust_type) -> Self::Output {
+            fn $fn_name(self, rhs: U) -> Self::Output {
                 let temp = rhs.clone();
                 $fn_name(self, &temp, false)
             }
         }
 
         // Implement (Array<T> op_name rust_type)
-        impl<T: HasAfEnum> $op_name<$rust_type> for Array<T>
+        impl<T, U> $op_name<U> for Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+            T: HasAfEnum + ImplicitPromote<U>,
+            U: HasAfEnum + ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
         {
-            type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
+            type Output = Array<<T as ImplicitPromote<U>>::Output>;
 
-            fn $fn_name(self, rhs: $rust_type) -> Self::Output {
+            fn $fn_name(self, rhs: U) -> Self::Output {
                 let temp = rhs.clone();
                 $fn_name(&self, &temp, false)
             }
         }
+    };
+}
 
+macro_rules! arith_lhs_scalar_func {
+    ($rust_type: ty, $op_name: ident, $fn_name: ident) => {
         // Implement (rust_type op_name &Array<T>)
         impl<'f, T> $op_name<&'f Array<T>> for $rust_type
         where
             T: HasAfEnum + ImplicitPromote<$rust_type>,
             $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <$rust_type as ImplicitPromote<T>>::Output: HasAfEnum,
         {
             type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
 
@@ -743,7 +744,6 @@ macro_rules! arith_scalar_func {
         where
             T: HasAfEnum + ImplicitPromote<$rust_type>,
             $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <$rust_type as ImplicitPromote<T>>::Output: HasAfEnum,
         {
             type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
 
@@ -754,12 +754,17 @@ macro_rules! arith_scalar_func {
     };
 }
 
+arith_rhs_scalar_func!(Add, add);
+arith_rhs_scalar_func!(Sub, sub);
+arith_rhs_scalar_func!(Mul, mul);
+arith_rhs_scalar_func!(Div, div);
+
 macro_rules! arith_scalar_spec {
     ($ty_name:ty) => {
-        arith_scalar_func!($ty_name, Add, add);
-        arith_scalar_func!($ty_name, Sub, sub);
-        arith_scalar_func!($ty_name, Mul, mul);
-        arith_scalar_func!($ty_name, Div, div);
+        arith_lhs_scalar_func!($ty_name, Add, add);
+        arith_lhs_scalar_func!($ty_name, Sub, sub);
+        arith_lhs_scalar_func!($ty_name, Mul, mul);
+        arith_lhs_scalar_func!($ty_name, Div, div);
     };
 }
 
