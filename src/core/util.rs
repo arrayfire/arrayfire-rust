@@ -430,6 +430,13 @@ pub trait ImplicitPromote<RHS> {
     type Output: HasAfEnum;
 }
 
+impl<T> ImplicitPromote<T> for T
+where
+    T: HasAfEnum,
+{
+    type Output = T;
+}
+
 macro_rules! implicit {
     [$implType: ident, $rhsType: ident => $outType: ident] => (
         impl ImplicitPromote< $rhsType > for $implType {
@@ -443,7 +450,6 @@ macro_rules! implicit {
 //
 
 //LHS is Complex double
-implicit!(c64, c64 => c64);
 implicit!(c64, c32 => c64);
 implicit!(c64, f64       => c64);
 implicit!(c64, f32       => c64);
@@ -458,7 +464,6 @@ implicit!(c64, u8        => c64);
 
 //LHS is Complex float
 implicit!(c32, c64 => c64);
-implicit!(c32, c32 => c32);
 implicit!(c32, f64       => c64);
 implicit!(c32, f32       => c32);
 implicit!(c32, i64       => c32);
@@ -473,7 +478,6 @@ implicit!(c32, u8        => c32);
 //LHS is 64-bit floating point
 implicit!(f64, c64 => c64);
 implicit!(f64, c32 => c64);
-implicit!(f64, f64       =>       f64);
 implicit!(f64, f32       =>       f64);
 implicit!(f64, i64       =>       f64);
 implicit!(f64, u64       =>       f64);
@@ -488,7 +492,6 @@ implicit!(f64, u8        =>       f64);
 implicit!(f32, c64 => c64);
 implicit!(f32, c32 => c32);
 implicit!(f32, f64       =>       f64);
-implicit!(f32, f32       =>       f32);
 implicit!(f32, i64       =>       f32);
 implicit!(f32, u64       =>       f32);
 implicit!(f32, i32       =>       f32);
@@ -503,7 +506,6 @@ implicit!(i64, c64 => c64);
 implicit!(i64, c32 => c32);
 implicit!(i64, f64       =>       f64);
 implicit!(i64, f32       =>       f32);
-implicit!(i64, i64       =>       i64);
 implicit!(i64, u64       =>       u64);
 implicit!(i64, i32       =>       i64);
 implicit!(i64, u32       =>       i64);
@@ -518,7 +520,6 @@ implicit!(u64, c32 => c32);
 implicit!(u64, f64       =>       f64);
 implicit!(u64, f32       =>       f32);
 implicit!(u64, i64       =>       u64);
-implicit!(u64, u64       =>       u64);
 implicit!(u64, i32       =>       u64);
 implicit!(u64, u32       =>       u64);
 implicit!(u64, i16       =>       u64);
@@ -533,7 +534,6 @@ implicit!(i32, f64       =>       f64);
 implicit!(i32, f32       =>       f32);
 implicit!(i32, i64       =>       i64);
 implicit!(i32, u64       =>       u64);
-implicit!(i32, i32       =>       i32);
 implicit!(i32, u32       =>       u32);
 implicit!(i32, i16       =>       i32);
 implicit!(i32, u16       =>       i32);
@@ -548,7 +548,6 @@ implicit!(u32, f32       =>       f32);
 implicit!(u32, i64       =>       i64);
 implicit!(u32, u64       =>       u64);
 implicit!(u32, i32       =>       u32);
-implicit!(u32, u32       =>       u32);
 implicit!(u32, i16       =>       u32);
 implicit!(u32, u16       =>       u32);
 implicit!(u32, bool      =>       u32);
@@ -563,7 +562,6 @@ implicit!(i16, i64       =>       i64);
 implicit!(i16, u64       =>       u64);
 implicit!(i16, i32       =>       i32);
 implicit!(i16, u32       =>       u32);
-implicit!(i16, i16       =>       i16);
 implicit!(i16, u16       =>       u16);
 implicit!(i16, bool      =>       u16);
 implicit!(i16, u8        =>       u16);
@@ -578,7 +576,6 @@ implicit!(u16, u64       =>       u64);
 implicit!(u16, i32       =>       i32);
 implicit!(u16, u32       =>       u32);
 implicit!(u16, i16       =>       u16);
-implicit!(u16, u16       =>       u16);
 implicit!(u16, bool      =>       u16);
 implicit!(u16, u8        =>       u16);
 
@@ -594,7 +591,6 @@ implicit!(u8, u32       =>       u32);
 implicit!(u8, i16       =>       i16);
 implicit!(u8, u16       =>       u16);
 implicit!(u8, bool      =>        u8);
-implicit!(u8, u8        =>        u8);
 
 //LHS is bool(af::s8)
 implicit!(bool, c64 => c64);
@@ -607,7 +603,6 @@ implicit!(bool, i32       =>       i32);
 implicit!(bool, u32       =>       u32);
 implicit!(bool, i16       =>       i16);
 implicit!(bool, u16       =>       u16);
-implicit!(bool, bool      =>      bool);
 implicit!(bool, u8        =>        u8);
 
 ///Trait qualifier to accept either real or complex typed data
