@@ -424,7 +424,7 @@ impl From<u32> for RandomEngineType {
 /// This is an internal trait defined and implemented by ArrayFire
 /// create for rust's built-in types to figure out the data type
 /// binary operation's results.
-pub trait ImplicitPromote<RHS> {
+pub trait ImplicitPromote<RHS>: HasAfEnum {
     /// This type alias points to the type of the result obtained
     /// by performing a given binary option on given type and `RHS`.
     type Output: HasAfEnum;
@@ -606,7 +606,7 @@ implicit!(bool, u16       =>       u16);
 implicit!(bool, u8        =>        u8);
 
 ///Trait qualifier to accept either real or complex typed data
-pub trait FloatingPoint {
+pub trait FloatingPoint: HasAfEnum {
     /// Use to check if trait implementor is real number
     fn is_real() -> bool {
         false
@@ -639,19 +639,19 @@ impl FloatingPoint for f32 {
 }
 
 ///Trait qualifier to accept real data(numbers)
-pub trait RealFloating {}
+pub trait RealFloating: HasAfEnum {}
 
 impl RealFloating for f64 {}
 impl RealFloating for f32 {}
 
 ///Trait qualifier to accept complex data(numbers)
-pub trait ComplexFloating {}
+pub trait ComplexFloating: HasAfEnum {}
 
 impl ComplexFloating for c64 {}
 impl ComplexFloating for c32 {}
 
 ///Trait qualifier indicating it can hold real numbers only
-pub trait RealNumber {}
+pub trait RealNumber: HasAfEnum {}
 
 impl RealNumber for f64 {}
 impl RealNumber for f32 {}
@@ -665,7 +665,7 @@ impl RealNumber for u64 {}
 impl RealNumber for i64 {}
 
 ///Trait qualifier for the type of Arrays accepted by scan operations
-pub trait Scanable {}
+pub trait Scanable: HasAfEnum {}
 
 impl Scanable for i32 {}
 impl Scanable for u32 {}
@@ -674,7 +674,7 @@ impl Scanable for i64 {}
 
 /// Trait qualifier for type of Array's that are accepted
 /// by native image load/save functions.
-pub trait ImageNativeType {}
+pub trait ImageNativeType: HasAfEnum {}
 
 impl ImageNativeType for f32 {}
 impl ImageNativeType for u16 {}
@@ -682,7 +682,7 @@ impl ImageNativeType for u8 {}
 
 /// Trait qualifier for type of Array's that are accepted
 /// by image processing functions especially filtering algorithms
-pub trait ImageFilterType {}
+pub trait ImageFilterType: HasAfEnum {}
 
 impl ImageFilterType for f64 {}
 impl ImageFilterType for f32 {}
@@ -696,7 +696,7 @@ impl ImageFilterType for bool {}
 // TODO Rust haven't stabilized trait aliases yet
 /// Trait qualifier for given type indicating conversion capability between
 /// grayscale and RGB triplets of data
-pub trait GrayRGBConvertible {}
+pub trait GrayRGBConvertible: HasAfEnum {}
 
 impl GrayRGBConvertible for f64 {}
 impl GrayRGBConvertible for f32 {}
@@ -708,7 +708,7 @@ impl GrayRGBConvertible for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
 /// Trait qualifier for given type indicating computability of Moments
-pub trait MomentsComputable {}
+pub trait MomentsComputable: HasAfEnum {}
 
 impl MomentsComputable for f64 {}
 impl MomentsComputable for f32 {}
@@ -720,7 +720,7 @@ impl MomentsComputable for u8 {}
 
 // TODO Rust haven't stabilized trait aliases yet
 /// Trait qualifier for given type indicating computability of Median
-pub trait MedianComputable {}
+pub trait MedianComputable: HasAfEnum {}
 
 impl MedianComputable for f64 {}
 impl MedianComputable for f32 {}
@@ -733,7 +733,7 @@ impl MedianComputable for u8 {}
 // TODO Rust haven't stabilized trait aliases yet
 /// Trait qualifier for given type indicating if edge calculations such as
 /// derivates etc. can be performed
-pub trait EdgeComputable {}
+pub trait EdgeComputable: HasAfEnum {}
 
 impl EdgeComputable for f64 {}
 impl EdgeComputable for f32 {}
@@ -744,7 +744,7 @@ impl EdgeComputable for u16 {}
 impl EdgeComputable for u8 {}
 
 /// Trait qualifier for given type indicating computability of covariance
-pub trait CovarianceComputable {}
+pub trait CovarianceComputable: HasAfEnum {}
 
 impl CovarianceComputable for f64 {}
 impl CovarianceComputable for f32 {}
@@ -824,7 +824,7 @@ impl Fromf64 for u8   { fn fromf64(value: f64) -> Self { value as Self }}
 impl Fromf64 for bool { fn fromf64(value: f64) -> Self { value > 0.0   }}
 
 ///Trait qualifier for the type of Arrays accepted by scan operations
-pub trait IndexableType {}
+pub trait IndexableType: HasAfEnum {}
 
 impl IndexableType for f64 {}
 impl IndexableType for i64 {}
