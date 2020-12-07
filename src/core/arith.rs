@@ -287,9 +287,8 @@ macro_rules! binary_func {
         ///   - Only one element in `lhs` or `rhs` along a given dimension/axis
         pub fn $fn_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<A::Output>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
@@ -378,8 +377,7 @@ pub trait Convertable {
 
 impl<T> Convertable for T
 where
-    T: Clone + HasAfEnum + ConstGenerator<OutType = T>,
-    <T as ConstGenerator>::OutType: HasAfEnum,
+    T: Clone + ConstGenerator<OutType = T>,
 {
     type OutType = T;
 
@@ -400,9 +398,8 @@ macro_rules! overloaded_binary_func {
     ($doc_str: expr, $fn_name: ident, $help_name: ident, $ffi_name: ident) => {
         fn $help_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<A::Output>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
@@ -453,10 +450,8 @@ macro_rules! overloaded_binary_func {
         where
             T: Convertable,
             U: Convertable,
-            <T as Convertable>::OutType: HasAfEnum + ImplicitPromote<<U as Convertable>::OutType>,
-            <U as Convertable>::OutType: HasAfEnum + ImplicitPromote<<T as Convertable>::OutType>,
-            <<T as Convertable>::OutType as ImplicitPromote<<U as Convertable>::OutType>>::Output:
-                HasAfEnum,
+            <T as Convertable>::OutType: ImplicitPromote<<U as Convertable>::OutType>,
+            <U as Convertable>::OutType: ImplicitPromote<<T as Convertable>::OutType>,
         {
             let lhs = arg1.convert(); // Convert to Array<T>
             let rhs = arg2.convert(); // Convert to Array<T>
@@ -507,8 +502,8 @@ macro_rules! overloaded_compare_func {
     ($doc_str: expr, $fn_name: ident, $help_name: ident, $ffi_name: ident) => {
         fn $help_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<bool>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
@@ -557,8 +552,8 @@ macro_rules! overloaded_compare_func {
         where
             T: Convertable,
             U: Convertable,
-            <T as Convertable>::OutType: HasAfEnum + ImplicitPromote<<U as Convertable>::OutType>,
-            <U as Convertable>::OutType: HasAfEnum + ImplicitPromote<<T as Convertable>::OutType>,
+            <T as Convertable>::OutType: ImplicitPromote<<U as Convertable>::OutType>,
+            <U as Convertable>::OutType: ImplicitPromote<<T as Convertable>::OutType>,
         {
             let lhs = arg1.convert(); // Convert to Array<T>
             let rhs = arg2.convert(); // Convert to Array<T>
@@ -615,9 +610,8 @@ fn clamp_helper<X, Y>(
     batch: bool,
 ) -> Array<<X as ImplicitPromote<Y>>::Output>
 where
-    X: HasAfEnum + ImplicitPromote<Y>,
-    Y: HasAfEnum + ImplicitPromote<X>,
-    <X as ImplicitPromote<Y>>::Output: HasAfEnum,
+    X: ImplicitPromote<Y>,
+    Y: ImplicitPromote<X>,
 {
     unsafe {
         let mut temp: af_array = std::ptr::null_mut();
@@ -667,10 +661,9 @@ pub fn clamp<T, C>(
     batch: bool,
 ) -> Array<<T as ImplicitPromote<<C as Convertable>::OutType>>::Output>
 where
-    T: HasAfEnum + ImplicitPromote<<C as Convertable>::OutType>,
+    T: ImplicitPromote<<C as Convertable>::OutType>,
     C: Convertable,
-    <C as Convertable>::OutType: HasAfEnum + ImplicitPromote<T>,
-    <T as ImplicitPromote<<C as Convertable>::OutType>>::Output: HasAfEnum,
+    <C as Convertable>::OutType: ImplicitPromote<T>,
 {
     let lo = arg1.convert(); // Convert to Array<T>
     let hi = arg2.convert(); // Convert to Array<T>
@@ -697,8 +690,8 @@ macro_rules! arith_rhs_scalar_func {
         // Implement (&Array<T> op_name rust_type)
         impl<'f, T, U> $op_name<U> for &'f Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<U>,
-            U: HasAfEnum + ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
+            T: ImplicitPromote<U>,
+            U: ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
         {
             type Output = Array<<T as ImplicitPromote<U>>::Output>;
 
@@ -711,8 +704,8 @@ macro_rules! arith_rhs_scalar_func {
         // Implement (Array<T> op_name rust_type)
         impl<T, U> $op_name<U> for Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<U>,
-            U: HasAfEnum + ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
+            T: ImplicitPromote<U>,
+            U: ImplicitPromote<T> + Clone + ConstGenerator<OutType = U>,
         {
             type Output = Array<<T as ImplicitPromote<U>>::Output>;
 
@@ -729,8 +722,8 @@ macro_rules! arith_lhs_scalar_func {
         // Implement (rust_type op_name &Array<T>)
         impl<'f, T> $op_name<&'f Array<T>> for $rust_type
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            T: ImplicitPromote<$rust_type>,
+            $rust_type: ImplicitPromote<T>,
         {
             type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
 
@@ -742,8 +735,8 @@ macro_rules! arith_lhs_scalar_func {
         // Implement (rust_type op_name Array<T>)
         impl<T> $op_name<Array<T>> for $rust_type
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
+            T: ImplicitPromote<$rust_type>,
+            $rust_type: ImplicitPromote<T>,
         {
             type Output = Array<<$rust_type as ImplicitPromote<T>>::Output>;
 
@@ -782,9 +775,8 @@ macro_rules! arith_func {
     ($op_name:ident, $fn_name:ident, $delegate:ident) => {
         impl<A, B> $op_name<Array<B>> for Array<A>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             type Output = Array<<A as ImplicitPromote<B>>::Output>;
 
@@ -795,9 +787,8 @@ macro_rules! arith_func {
 
         impl<'a, A, B> $op_name<&'a Array<B>> for Array<A>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             type Output = Array<<A as ImplicitPromote<B>>::Output>;
 
@@ -808,9 +799,8 @@ macro_rules! arith_func {
 
         impl<'a, A, B> $op_name<Array<B>> for &'a Array<A>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             type Output = Array<<A as ImplicitPromote<B>>::Output>;
 
@@ -821,9 +811,8 @@ macro_rules! arith_func {
 
         impl<'a, 'b, A, B> $op_name<&'a Array<B>> for &'b Array<A>
         where
-            A: HasAfEnum + ImplicitPromote<B>,
-            B: HasAfEnum + ImplicitPromote<A>,
-            <A as ImplicitPromote<B>>::Output: HasAfEnum,
+            A: ImplicitPromote<B>,
+            B: ImplicitPromote<A>,
         {
             type Output = Array<<A as ImplicitPromote<B>>::Output>;
 
@@ -849,9 +838,8 @@ macro_rules! bitshift_scalar_func {
     ($rust_type: ty, $trait_name: ident, $op_name: ident) => {
         impl<T> $trait_name<$rust_type> for Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+            T: ImplicitPromote<$rust_type>,
+            $rust_type: ImplicitPromote<T>,
         {
             type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
 
@@ -862,9 +850,8 @@ macro_rules! bitshift_scalar_func {
         }
         impl<'f, T> $trait_name<$rust_type> for &'f Array<T>
         where
-            T: HasAfEnum + ImplicitPromote<$rust_type>,
-            $rust_type: HasAfEnum + ImplicitPromote<T>,
-            <T as ImplicitPromote<$rust_type>>::Output: HasAfEnum,
+            T: ImplicitPromote<$rust_type>,
+            $rust_type: ImplicitPromote<T>,
         {
             type Output = Array<<T as ImplicitPromote<$rust_type>>::Output>;
 
@@ -900,10 +887,8 @@ mod op_assign {
         ($op_name:ident, $fn_name:ident, $func: ident) => {
             impl<A, B> $op_name<Array<B>> for Array<A>
             where
-                A: HasAfEnum + ImplicitPromote<B>,
-                B: HasAfEnum + ImplicitPromote<A>,
-                <A as ImplicitPromote<B>>::Output: HasAfEnum,
-                <B as ImplicitPromote<A>>::Output: HasAfEnum,
+                A: ImplicitPromote<B>,
+                B: ImplicitPromote<A>,
             {
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
@@ -930,10 +915,8 @@ mod op_assign {
         ($rust_type:ty, $trait_name:ident, $op_name:ident, $func:ident) => {
             impl<T> $trait_name<$rust_type> for Array<T>
             where
-                $rust_type: HasAfEnum + ImplicitPromote<T>,
-                T: HasAfEnum
-                    + ImplicitPromote<$rust_type>
-                    + ImplicitPromote<$rust_type, Output = T>,
+                $rust_type: ImplicitPromote<T>,
+                T: ImplicitPromote<$rust_type, Output = T>,
             {
                 fn $op_name(&mut self, rhs: $rust_type) {
                     let mut temp = $func(self, &rhs, false);
@@ -959,10 +942,8 @@ mod op_assign {
         ($op_name:ident, $fn_name:ident, $func: ident) => {
             impl<A, B> $op_name<Array<B>> for Array<A>
             where
-                A: HasAfEnum + ImplicitPromote<B>,
-                B: HasAfEnum + ImplicitPromote<A>,
-                <A as ImplicitPromote<B>>::Output: HasAfEnum,
-                <B as ImplicitPromote<A>>::Output: HasAfEnum,
+                A: ImplicitPromote<B>,
+                B: ImplicitPromote<A>,
             {
                 fn $fn_name(&mut self, rhs: Array<B>) {
                     let tmp_seq = Seq::<f32>::default();
@@ -985,13 +966,9 @@ mod op_assign {
 ///Implement negation trait for Array
 impl<T> Neg for Array<T>
 where
-    T: HasAfEnum + Zero + ConstGenerator,
-    <T as ConstGenerator>::OutType: HasAfEnum,
-    <T as ConstGenerator>::OutType: ImplicitPromote<T>,
-    T: ImplicitPromote<<T as ConstGenerator>::OutType>,
-    <<T as ConstGenerator>::OutType as ImplicitPromote<T>>::Output: HasAfEnum,
+    T: Zero + ConstGenerator<OutType = T>,
 {
-    type Output = Array<<<T as ConstGenerator>::OutType as ImplicitPromote<T>>::Output>;
+    type Output = Array<T>;
 
     fn neg(self) -> Self::Output {
         let cnst = constant(T::zero(), self.dims());

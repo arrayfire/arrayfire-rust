@@ -124,7 +124,7 @@ extern "C" {
 /// - i16
 /// - u16
 ///
-pub trait ConstGenerator {
+pub trait ConstGenerator: HasAfEnum {
     /// The type of Array<T> object returned by generate function
     type OutType: HasAfEnum;
 
@@ -286,9 +286,9 @@ cnst!(u16, 11);
 /// # Return Values
 ///
 /// An Array of given dimensions with constant value
-pub fn constant<G: ConstGenerator>(cnst: G, dims: Dim4) -> Array<G::OutType>
+pub fn constant<T>(cnst: T, dims: Dim4) -> Array<T>
 where
-    G::OutType: HasAfEnum,
+    T: ConstGenerator<OutType = T>,
 {
     cnst.generate(dims)
 }
