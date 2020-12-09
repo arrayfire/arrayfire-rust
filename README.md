@@ -1,4 +1,4 @@
-[![ci][19]][16] [![docs][18]][3] [![book][22]][21] [![slack][17]][4] [![google-groups][20]][5]
+[![ci][19]][16] [![docs][18]][3] [![book][22]][21] [![slack][17]][4] [![github-discussions][20]][5]
 
 # Arrayfire Rust Bindings
 
@@ -108,7 +108,7 @@ the DARPA SBIR Program Office.
 [2]: https://github.com/arrayfire/arrayfire-rust/issues
 [3]: http://arrayfire.github.io/arrayfire-rust/arrayfire/index.html
 [4]: https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ
-[5]: https://groups.google.com/forum/#!forum/arrayfire-users
+[5]: https://github.com/arrayfire/arrayfire-rust/discussions
 [6]: http://meritbadge.herokuapp.com/arrayfire
 [7]: https://crates.io/crates/arrayfire
 [8]: https://docs.rs/arrayfire/badge.svg
@@ -123,7 +123,7 @@ the DARPA SBIR Program Office.
 [17]: https://img.shields.io/badge/arrayfire-community-e69138?logo=slack
 [18]: https://img.shields.io/badge/arrayfire-Docs-blue?logo=readthedocs
 [19]: https://github.com/arrayfire/arrayfire-rust/workflows/ci/badge.svg?event=push
-[20]: https://img.shields.io/badge/arrayfire-google--groups-orange
+[20]: https://img.shields.io/badge/GitHub-Discussions-orange
 [21]: http://arrayfire.org/arrayfire-rust/book/index.html
 [22]: https://img.shields.io/badge/arrayfire-mdbook-073763?logo=readthedocs
 [23]: http://arrayfire.org/arrayfire-rust/book/configuring_arrayfire_environment.html
