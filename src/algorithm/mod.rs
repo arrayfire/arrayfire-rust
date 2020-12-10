@@ -1444,10 +1444,12 @@ dim_reduce_by_key_nan_func_def!(
 mod tests {
     use super::super::core::c32;
     use super::{imax_all, imin_all, product_nan_all, sum_all, sum_nan_all};
+    use crate::core::set_device;
     use crate::randu;
 
     #[test]
     fn all_reduce_api() {
+        set_device(0);
         let a = randu!(c32; 10, 10);
         println!("Reduction of complex f32 matrix: {:?}", sum_all(&a));
 
@@ -1469,6 +1471,7 @@ mod tests {
 
     #[test]
     fn all_ireduce_api() {
+        set_device(0);
         let a = randu!(c32; 10);
         println!("Reduction of complex f32 matrix: {:?}", imin_all(&a));
 
