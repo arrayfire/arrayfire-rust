@@ -962,6 +962,7 @@ mod tests {
     use super::reorder_v2;
 
     use super::super::defines::BorderType;
+    use super::super::device::set_device;
     use super::super::random::randu;
     use super::pad;
 
@@ -969,6 +970,7 @@ mod tests {
 
     #[test]
     fn check_reorder_api() {
+        set_device(0);
         let a = randu::<f32>(dim4!(4, 5, 2, 3));
 
         let _transposed = reorder_v2(&a, 1, 0, None);
@@ -979,6 +981,7 @@ mod tests {
 
     #[test]
     fn check_pad_api() {
+        set_device(0);
         let a = randu::<f32>(dim4![3, 3]);
         let begin_dims = dim4!(0, 0, 0, 0);
         let end_dims = dim4!(2, 2, 0, 0);

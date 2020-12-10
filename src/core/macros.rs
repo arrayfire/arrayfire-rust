@@ -353,6 +353,7 @@ macro_rules! randn {
 mod tests {
     use super::super::array::Array;
     use super::super::data::constant;
+    use super::super::device::set_device;
     use super::super::index::index;
     use super::super::random::randu;
 
@@ -377,6 +378,7 @@ mod tests {
 
     #[test]
     fn seq_view() {
+        set_device(0);
         let mut dim4d = dim4!(5, 3, 2, 1);
         dim4d[2] = 1;
 
@@ -387,14 +389,17 @@ mod tests {
 
     #[test]
     fn seq_view2() {
+        set_device(0);
         // ANCHOR: seq_view2
         let a = randu::<f32>(dim4!(5, 5));
         let _sub = view!(a[1:3:1, 1:1:0]); // 1:1:0 means all elements along axis
-                                           // ANCHOR_END: seq_view2
+
+        // ANCHOR_END: seq_view2
     }
 
     #[test]
     fn view_macro() {
+        set_device(0);
         let dims = dim4!(5, 5, 2, 1);
         let a = randu::<f32>(dims);
         let b = a.clone();
@@ -421,6 +426,7 @@ mod tests {
 
     #[test]
     fn eval_assign_seq_indexed_array() {
+        set_device(0);
         let dims = dim4!(5, 5);
         let mut a = randu::<f32>(dims);
         //print(&a);
@@ -456,6 +462,7 @@ mod tests {
 
     #[test]
     fn eval_assign_array_to_seqd_array() {
+        set_device(0);
         // ANCHOR: macro_seq_assign
         let mut a = randu::<f32>(dim4!(5, 5));
         let b = randu::<f32>(dim4!(2, 2));
@@ -465,6 +472,7 @@ mod tests {
 
     #[test]
     fn macro_seq_array_assign() {
+        set_device(0);
         // ANCHOR: macro_seq_array_assign
         let values: [f32; 3] = [1.0, 2.0, 3.0];
         let indices = Array::new(&values, dim4!(3));
@@ -479,6 +487,7 @@ mod tests {
 
     #[test]
     fn constant_macro() {
+        set_device(0);
         let _zeros_1d = constant!(0.0f32; 10);
         let _zeros_2d = constant!(0.0f64; 5, 5);
         let _ones_3d = constant!(1u32; 3, 3, 3);
@@ -490,6 +499,7 @@ mod tests {
 
     #[test]
     fn rand_macro() {
+        set_device(0);
         let _ru5x5 = randu!(5, 5);
         let _rn5x5 = randn!(5, 5);
         let _ruu32_5x5 = randu!(u32; 5, 5);

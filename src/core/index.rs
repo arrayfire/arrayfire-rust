@@ -655,6 +655,7 @@ impl SeqInternal {
 mod tests {
     use super::super::array::Array;
     use super::super::data::constant;
+    use super::super::device::set_device;
     use super::super::dim4::Dim4;
     use super::super::index::{assign_gen, assign_seq, col, index, index_gen, row, Indexer};
     use super::super::index::{cols, rows};
@@ -665,6 +666,7 @@ mod tests {
 
     #[test]
     fn non_macro_seq_index() {
+        set_device(0);
         // ANCHOR: non_macro_seq_index
         let dims = Dim4::new(&[5, 5, 1, 1]);
         let a = randu::<f32>(dims);
@@ -690,6 +692,7 @@ mod tests {
 
     #[test]
     fn seq_index() {
+        set_device(0);
         // ANCHOR: seq_index
         let dims = dim4!(5, 5, 1, 1);
         let a = randu::<f32>(dims);
@@ -701,8 +704,9 @@ mod tests {
 
     #[test]
     fn non_macro_seq_assign() {
+        set_device(0);
         // ANCHOR: non_macro_seq_assign
-        let mut a = constant(2.0 as f32, Dim4::new(&[5, 3, 1, 1]));
+        let mut a = constant(2.0 as f32, dim4!(5, 3));
         //print(&a);
         // 2.0 2.0 2.0
         // 2.0 2.0 2.0
@@ -710,9 +714,9 @@ mod tests {
         // 2.0 2.0 2.0
         // 2.0 2.0 2.0
 
-        let b = constant(1.0 as f32, Dim4::new(&[3, 3, 1, 1]));
-        let seqs = &[Seq::new(1.0, 3.0, 1.0), Seq::default()];
-        assign_seq(&mut a, seqs, &b);
+        let b = constant(1.0 as f32, dim4!(3, 3));
+        let seqs = [seq!(1:3:1), seq!()];
+        assign_seq(&mut a, &seqs, &b);
         //print(&a);
         // 2.0 2.0 2.0
         // 1.0 1.0 1.0
@@ -724,6 +728,7 @@ mod tests {
 
     #[test]
     fn non_macro_seq_array_index() {
+        set_device(0);
         // ANCHOR: non_macro_seq_array_index
         let values: [f32; 3] = [1.0, 2.0, 3.0];
         let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -751,6 +756,7 @@ mod tests {
 
     #[test]
     fn seq_array_index() {
+        set_device(0);
         // ANCHOR: seq_array_index
         let values: [f32; 3] = [1.0, 2.0, 3.0];
         let indices = Array::new(&values, Dim4::new(&[3, 1, 1, 1]));
@@ -762,6 +768,7 @@ mod tests {
 
     #[test]
     fn non_macro_seq_array_assign() {
+        set_device(0);
         // ANCHOR: non_macro_seq_array_assign
         let values: [f32; 3] = [1.0, 2.0, 3.0];
         let indices = Array::new(&values, dim4!(3, 1, 1, 1));
@@ -793,6 +800,7 @@ mod tests {
 
     #[test]
     fn setrow() {
+        set_device(0);
         // ANCHOR: setrow
         let a = randu::<f32>(dim4!(5, 5, 1, 1));
         //print(&a);
@@ -817,6 +825,7 @@ mod tests {
 
     #[test]
     fn get_row() {
+        set_device(0);
         // ANCHOR: get_row
         let a = randu::<f32>(dim4!(5, 5));
         // [5 5 1 1]
@@ -840,6 +849,7 @@ mod tests {
 
     #[test]
     fn get_rows() {
+        set_device(0);
         // ANCHOR: get_rows
         let a = randu::<f32>(dim4!(5, 5));
         // [5 5 1 1]
