@@ -1294,25 +1294,25 @@ macro_rules! dim_reduce_by_key_func_def {
 
 dim_reduce_by_key_func_def!(
     "
-    Key based AND of elements along a given dimension
+Key based AND of elements along a given dimension
 
-    All positive non-zero values are considered true, while negative and zero
-    values are considered as false.
-    ",
+All positive non-zero values are considered true, while negative and zero
+values are considered as false.
+",
     "
-    # Examples
-    ```rust
-    use arrayfire::{Dim4, print, randu, all_true_by_key};
-    let dims = Dim4::new(&[5, 3, 1, 1]);
-    let vals = randu::<f32>(dims);
-    let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
-    print(&vals);
-    print(&keys);
-    let (out_keys, out_vals) = all_true_by_key(&keys, &vals, 0);
-    print(&out_keys);
-    print(&out_vals);
-    ```
-    ",
+# Examples
+```rust
+use arrayfire::{Dim4, print, randu, all_true_by_key};
+let dims = Dim4::new(&[5, 3, 1, 1]);
+let vals = randu::<f32>(dims);
+let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
+print(&vals);
+print(&keys);
+let (out_keys, out_vals) = all_true_by_key(&keys, &vals, 0);
+print(&out_keys);
+print(&out_vals);
+```
+",
     all_true_by_key,
     af_all_true_by_key,
     ValueType::AggregateOutType
@@ -1320,25 +1320,25 @@ dim_reduce_by_key_func_def!(
 
 dim_reduce_by_key_func_def!(
     "
-    Key based OR of elements along a given dimension
+Key based OR of elements along a given dimension
 
-    All positive non-zero values are considered true, while negative and zero
-    values are considered as false.
-    ",
+All positive non-zero values are considered true, while negative and zero
+values are considered as false.
+",
     "
-    # Examples
-    ```rust
-    use arrayfire::{Dim4, print, randu, any_true_by_key};
-    let dims = Dim4::new(&[5, 3, 1, 1]);
-    let vals = randu::<f32>(dims);
-    let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
-    print(&vals);
-    print(&keys);
-    let (out_keys, out_vals) = any_true_by_key(&keys, &vals, 0);
-    print(&out_keys);
-    print(&out_vals);
-    ```
-    ",
+# Examples
+```rust
+use arrayfire::{Dim4, print, randu, any_true_by_key};
+let dims = Dim4::new(&[5, 3, 1, 1]);
+let vals = randu::<f32>(dims);
+let keys = randu::<u32>(Dim4::new(&[5, 1, 1, 1]));
+print(&vals);
+print(&keys);
+let (out_keys, out_vals) = any_true_by_key(&keys, &vals, 0);
+print(&out_keys);
+print(&out_vals);
+```
+",
     any_true_by_key,
     af_any_true_by_key,
     ValueType::AggregateOutType
