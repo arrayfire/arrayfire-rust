@@ -30,8 +30,8 @@ To use the rust bindings for ArrayFire from crates.io, the following requirement
     - On Linux: do `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AF_PATH/lib64`
     - On OSX: do `export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$AF_PATH/lib64`
     - On Windows: Add `%AF_PATH%\lib` to your PATH environment variable.
-4. Add `arrayfire = "3.7"` to the dependencies section of your project's Cargo.toml file. Make sure
-   to change the version to latest available.
+4. Add `arrayfire = "3.8"` to the dependencies section of your project's Cargo.toml file.
+   Make sure to change the version to latest available.
 
 Once step (4) is over, you should be able to use ArrayFire in your Rust project. If you find any
 bugs, please report them [here][2].
