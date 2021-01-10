@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/core/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/x-mathjax-config">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/core/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico"><script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
@@ -11,7 +11,8 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
-<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../arrayfire/index.html'><div class='logo-container'><img src='http://www.arrayfire.com/logos/arrayfire_logo_symbol.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -509,6 +510,16 @@
 <span id="496">496</span>
 <span id="497">497</span>
 <span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Macro to print the current stats of ArrayFire&#39;s memory manager.</span>
 <span class="doccomment">///</span>
@@ -700,7 +711,7 @@
             <span class="kw">let</span> <span class="ident">AF_MAX_DIMS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="macro">view</span><span class="macro">!</span>(@<span class="ident">af_max_dims</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seq_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Seq</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">with_capacity</span>(<span class="ident">AF_MAX_DIMS</span>);
             $(
-                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">seq</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">start</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">end</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">step</span>));
+                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">seq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">start</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">end</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">step</span>));
              )<span class="op">*</span>
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">index</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">array_ident</span>, <span class="kw-2">&amp;</span><span class="ident">seq_vec</span>)
         }
@@ -759,13 +770,13 @@
             <span class="kw">let</span> <span class="ident">AF_MAX_DIMS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="macro">view</span><span class="macro">!</span>(@<span class="ident">af_max_dims</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seq_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Seq</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">with_capacity</span>(<span class="ident">AF_MAX_DIMS</span>);
             $(
-                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">seq</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">le</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ls</span>));
+                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">seq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">le</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ls</span>));
              )<span class="op">*</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idxrs</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Indexer</span>::<span class="ident">default</span>();
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">seq_vec</span>.<span class="ident">len</span>() {
                 <span class="ident">idxrs</span>.<span class="ident">set_index</span>(<span class="kw-2">&amp;</span><span class="ident">seq_vec</span>[<span class="ident">i</span>], <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="prelude-val">None</span>);
             }
-            <span class="kw">let</span> <span class="ident">eq_rterm</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">view</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>[ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">re</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rs</span>),<span class="op">+</span> ]);
+            <span class="kw">let</span> <span class="ident">eq_rterm</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">view</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>[ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">re</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rs</span>),<span class="op">+</span> ]);
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">assign_gen</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">l</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>, <span class="kw-2">&amp;</span><span class="ident">eq_rterm</span>);
         }
     };
@@ -775,7 +786,7 @@
             <span class="kw">let</span> <span class="ident">AF_MAX_DIMS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="macro">view</span><span class="macro">!</span>(@<span class="ident">af_max_dims</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seq_vec</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Seq</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">with_capacity</span>(<span class="ident">AF_MAX_DIMS</span>);
             $(
-                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">seq</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">le</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ls</span>));
+                <span class="ident">seq_vec</span>.<span class="ident">push</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">seq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lb</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">le</span>:<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ls</span>));
              )<span class="op">*</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idxrs</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Indexer</span>::<span class="ident">default</span>();
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">seq_vec</span>.<span class="ident">len</span>() {
@@ -786,7 +797,7 @@
     };
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>:<span class="ident">ident</span> [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs_e</span>:<span class="ident">expr</span>),<span class="op">+</span> ] <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>:<span class="ident">ident</span> [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs_e</span>:<span class="ident">expr</span>),<span class="op">+</span> ]) <span class="op">=</span><span class="op">&gt;</span> {
         {
-            <span class="kw">let</span> <span class="ident">eq_rterm</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">view</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>[ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs_e</span>),<span class="op">+</span> ]);
+            <span class="kw">let</span> <span class="ident">eq_rterm</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">view</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>[ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs_e</span>),<span class="op">+</span> ]);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idxrs</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Indexer</span>::<span class="ident">default</span>();
             <span class="macro">view</span><span class="macro">!</span>(@<span class="ident">set_indexer</span> <span class="number">0</span>, <span class="ident">idxrs</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs_e</span>),<span class="kw-2">*</span>);
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">assign_gen</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>, <span class="kw-2">&amp;</span><span class="ident">idxrs</span>, <span class="kw-2">&amp;</span><span class="ident">eq_rterm</span>);
@@ -825,7 +836,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">constant</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">constant</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">dim4</span><span class="op">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>))
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">constant</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">dim4</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>))
     };
 }
 
@@ -841,8 +852,8 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">randu</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">dim4</span><span class="op">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
-    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randu</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">dim4</span><span class="op">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">dim4</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
+    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randu</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">dim4</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
 }
 
 <span class="doccomment">/// Create an array of given shape sampled from normal distribution</span>
@@ -857,14 +868,15 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">randn</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randn</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">dim4</span><span class="op">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
-    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randn</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">dim4</span><span class="op">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randn</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">dim4</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
+    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span>),<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">randn</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">type</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">dim4</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>),<span class="kw-2">*</span>)) };
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">data</span>::<span class="ident">constant</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">device</span>::<span class="ident">set_device</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">index</span>::<span class="ident">index</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">random</span>::<span class="ident">randu</span>;
 
@@ -889,6 +901,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seq_view</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dim4d</span> <span class="op">=</span> <span class="macro">dim4</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>);
         <span class="ident">dim4d</span>[<span class="number">2</span>] <span class="op">=</span> <span class="number">1</span>;
 
@@ -899,14 +912,17 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seq_view2</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="comment">// ANCHOR: seq_view2</span>
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro">dim4</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>));
         <span class="kw">let</span> <span class="ident">_sub</span> <span class="op">=</span> <span class="macro">view</span><span class="macro">!</span>(<span class="ident">a</span>[<span class="number">1</span>:<span class="number">3</span>:<span class="number">1</span>, <span class="number">1</span>:<span class="number">1</span>:<span class="number">0</span>]); <span class="comment">// 1:1:0 means all elements along axis</span>
-                                           <span class="comment">// ANCHOR_END: seq_view2</span>
+
+        <span class="comment">// ANCHOR_END: seq_view2</span>
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">view_macro</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">dims</span> <span class="op">=</span> <span class="macro">dim4</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="ident">dims</span>);
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">a</span>.<span class="ident">clone</span>();
@@ -933,6 +949,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">eval_assign_seq_indexed_array</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">dims</span> <span class="op">=</span> <span class="macro">dim4</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="ident">dims</span>);
         <span class="comment">//print(&amp;a);</span>
@@ -968,6 +985,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">eval_assign_array_to_seqd_array</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="comment">// ANCHOR: macro_seq_assign</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro">dim4</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>));
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">randu</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>(<span class="macro">dim4</span><span class="macro">!</span>(<span class="number">2</span>, <span class="number">2</span>));
@@ -977,6 +995,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">macro_seq_array_assign</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="comment">// ANCHOR: macro_seq_array_assign</span>
         <span class="kw">let</span> <span class="ident">values</span>: [<span class="ident">f32</span>; <span class="number">3</span>] <span class="op">=</span> [<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>];
         <span class="kw">let</span> <span class="ident">indices</span> <span class="op">=</span> <span class="ident">Array</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">values</span>, <span class="macro">dim4</span><span class="macro">!</span>(<span class="number">3</span>));
@@ -991,6 +1010,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">constant_macro</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">_zeros_1d</span> <span class="op">=</span> <span class="macro">constant</span><span class="macro">!</span>(<span class="number">0.0f32</span>; <span class="number">10</span>);
         <span class="kw">let</span> <span class="ident">_zeros_2d</span> <span class="op">=</span> <span class="macro">constant</span><span class="macro">!</span>(<span class="number">0.0f64</span>; <span class="number">5</span>, <span class="number">5</span>);
         <span class="kw">let</span> <span class="ident">_ones_3d</span> <span class="op">=</span> <span class="macro">constant</span><span class="macro">!</span>(<span class="number">1u32</span>; <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>);
@@ -1002,6 +1022,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">rand_macro</span>() {
+        <span class="ident">set_device</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">_ru5x5</span> <span class="op">=</span> <span class="macro">randu</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>);
         <span class="kw">let</span> <span class="ident">_rn5x5</span> <span class="op">=</span> <span class="macro">randn</span><span class="macro">!</span>(<span class="number">5</span>, <span class="number">5</span>);
         <span class="kw">let</span> <span class="ident">_ruu32_5x5</span> <span class="op">=</span> <span class="macro">randu</span><span class="macro">!</span>(<span class="ident">u32</span>; <span class="number">5</span>, <span class="number">5</span>);

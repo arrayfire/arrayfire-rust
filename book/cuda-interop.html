@@ -1,28 +1,17 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js coal">
+<html lang="en" class="sidebar-visible no-js">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Interoperability with CUDA - Rust Wrapper for ArrayFire HPC Library</title>
         
-        
-
-
-        <!-- Custom HTML head -->
-        
-
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
-        <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
@@ -30,9 +19,8 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
-        <link rel="stylesheet" href="fonts/fonts.css">
-        
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
@@ -47,11 +35,11 @@
         <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         
     </head>
-    <body>
+    <body class="Coal">
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+            var default_theme = "Coal";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -75,11 +63,8 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
-            html.classList.remove('coal')
-            html.classList.add(theme);
-            html.classList.add('js');
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -96,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li class="chapter-item expanded "><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li class="chapter-item expanded "><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li class="chapter-item expanded "><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li class="chapter-item expanded "><a href="cuda-interop.html" class="active"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li class="chapter-item expanded "><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li><li class="chapter-item expanded "><a href="multi-threading.html"><strong aria-hidden="true">8.</strong> Multhi-Threading</a></li></ol>
+                <ol class="chapter"><li><a href="getting_started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><a href="vectorization.html"><strong aria-hidden="true">2.</strong> Introduction to Vectorization</a></li><li><a href="array_and_matrix_manipulation.html"><strong aria-hidden="true">3.</strong> Array and Matrix Manipulation</a></li><li><a href="indexing.html"><strong aria-hidden="true">4.</strong> Indexing</a></li><li><a href="configuring_arrayfire_environment.html"><strong aria-hidden="true">5.</strong> Configuring ArrayFire Runtime Environment</a></li><li><a href="cuda-interop.html" class="active"><strong aria-hidden="true">6.</strong> Interoperability with CUDA</a></li><li><a href="opencl-interop.html"><strong aria-hidden="true">7.</strong> Interoperability with OpenCL</a></li><li><a href="multi-threading.html"><strong aria-hidden="true">8.</strong> Multhi-Threading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -105,36 +90,37 @@
 
             <div class="page">
                 
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
-                    <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                        </ul>
-                        
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        
-                    </div>
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
 
-                    <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
+                        <h1 class="menu-title">Rust Wrapper for ArrayFire HPC Library</h1>
 
-                    <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
-                        </a>
-                        
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
                     </div>
                 </div>
 
@@ -196,7 +182,7 @@ to perform explicit synchronization before launching kernel on your stream that 
 computation carried out by ArrayFire earlier. This extra step is unnecessary once the above stated
 limiation of RustaCUDA's stream is eliminated.</p>
 <p>This process is best illustrated with a fully worked example:</p>
-<pre><pre class="playground"><code class="language-rust">use arrayfire as af;
+<pre><pre class="playpen"><code class="language-rust">use arrayfire as af;
 use rustacuda::prelude::*;
 use rustacuda::*;
 
@@ -279,6 +265,7 @@ fn main() {
     }
     af::af_print!(&quot;sum after kernel launch&quot;, out);
 }
+
 </code></pre></pre>
 <h2><a class="header" href="#adding-arrayfire-to-existing-cuda-application" id="adding-arrayfire-to-existing-cuda-application">Adding ArrayFire to existing CUDA Application</a></h2>
 <p>Adding ArrayFire to an existing application is slightly more involved and can be somewhat tricky due
@@ -299,22 +286,21 @@ to several optimizations we implement. The most important are as follows:</p>
 </ol>
 <p>To create the <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html">Array</a> fom device pointer, you should use one of the following approaches:</p>
 <p>Using DeviceBuffer from <a href="https://github.com/bheisler/RustaCUDA">RustaCUDA</a>, or a Wrapper Object for CUDA device memory</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let mut buffer = memory::DeviceBuffer::from_slice(&amp;v).unwrap();
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let mut buffer = memory::DeviceBuffer::from_slice(&amp;v).unwrap();
 
 let array_dptr = Array::new_from_device_ptr(
     buffer.as_device_ptr().as_raw_mut(), dim4!(10, 10));
 
 array_dptr.lock(); // Needed to avoid free as arrayfire takes ownership
-<span class="boring">}
-</span></code></pre></pre>
+#}</code></pre></pre>
 <p>Using raw pointer returned from cuda_malloc interface exposed by <a href="https://github.com/bheisler/RustaCUDA">RustaCUDA</a></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let mut dptr: *mut f32 = std::ptr::null_mut();
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let mut dptr: *mut f32 = std::ptr::null_mut();
 unsafe {
     dptr = memory::cuda_malloc::&lt;f32&gt;(10*10).unwrap().as_raw_mut();
 }
@@ -322,16 +308,14 @@ unsafe {
 let array_dptr = Array::new_from_device_ptr(dptr, dim4!(10, 10));
 // After ArrayFire takes over ownership of the pointer, you can use other
 // arrayfire functions as usual.
-<span class="boring">}
-</span></code></pre></pre>
+#}</code></pre></pre>
 <p>ArrayFire's memory manager automatically assumes responsibility for any memory provided to it.
 Thus ArrayFire could free or reuse the memory at any later time. If this behavior is not desired,
 you may call <a href="http://arrayfire.org/arrayfire-rust/arrayfire/struct.Array.html#method.unlock">Array::unlock</a> and manage the memory yourself. However, if you do so, please be
 cautious not to free memory when ArrayFire might be using it!</p>
 <p>The seven steps above are best illustrated using a fully-worked example:</p>
-<pre><pre class="playground"><code class="language-rust">use arrayfire::{af_print, dim4, info, set_device, Array};
+<pre><pre class="playpen"><code class="language-rust">use arrayfire::{af_print, dim4, info, set_device, Array};
 use rustacuda::prelude::*;
-use rustacuda::*;
 
 fn main() {
     // MAKE SURE to do all rustacuda initilization before arrayfire API's
@@ -390,6 +374,7 @@ fn main() {
     // Once the non-arrayfire operations are done, call unlock.
     o.unlock(); // After this, there is no guarantee that value of o_dptr is valid
 }
+
 </code></pre></pre>
 
                     </main>
@@ -415,13 +400,13 @@ fn main() {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="configuring_arrayfire_environment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="configuring_arrayfire_environment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="opencl-interop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="opencl-interop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -431,14 +416,6 @@ fn main() {
 
         
 
-        
-
-        
-
-        
-        <script type="text/javascript">
-            window.playground_copyable = true;
-        </script>
         
 
         
