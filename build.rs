@@ -16,13 +16,13 @@ use std::path::PathBuf;
 use std::process::Command;
 
 // Windows specific library file names
-static WIN_CUDA_LIB: &'static str = "afcuda";
-static WIN_OCL_LIB: &'static str = "afopencl";
-static WIN_UNI_LIB: &'static str = "af";
+static WIN_CUDA_LIB: &str = "afcuda";
+static WIN_OCL_LIB: &str = "afopencl";
+static WIN_UNI_LIB: &str = "af";
 // Linux & OSX specific library file names
-static UNIX_CUDA_LIB: &'static str = "libafcuda";
-static UNIX_OCL_LIB: &'static str = "libafopencl";
-static UNIX_UNI_LIB: &'static str = "libaf";
+static UNIX_CUDA_LIB: &str = "libafcuda";
+static UNIX_OCL_LIB: &str = "libafopencl";
+static UNIX_UNI_LIB: &str = "libaf";
 
 #[allow(dead_code)]
 #[derive(Deserialize, Debug)]
@@ -187,14 +187,14 @@ fn prep_cmake_options(conf: &Config) -> Vec<String> {
     };
     match conf.with_opencl_blas_lib.as_ref() {
         "clblast" => {
-            options.push(format!("-DAF_OPENCL_BLAS_LIBRARY:STRING=CLBlast"));
+            options.push("-DAF_OPENCL_BLAS_LIBRARY:STRING=CLBlast".to_string());
         }
         "clblas" => {
-            options.push(format!("-DAF_OPENCL_BLAS_LIBRARY:STRING=clBLAS"));
+            options.push("-DAF_OPENCL_BLAS_LIBRARY:STRING=clBLAS".to_string());
         }
         _ => fail("Invalid value for with_opencl_blas_lib option"),
     };
-    return options;
+    options
 }
 
 #[cfg(windows)]
@@ -269,7 +269,7 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
     run(
         make_cmd
             .arg(format!("-j{}", conf.build_threads))
-            .arg(format!("install")),
+            .arg("install".to_string()),
         "make",
     );
 }
@@ -279,7 +279,7 @@ fn backend_exists(name: &str) -> bool {
     let osx_backend = name.to_string() + ".dylib";
     let linux_backend = name.to_string() + ".so";
 
-    return file_exists(&win_backend) || file_exists(&osx_backend) || file_exists(&linux_backend);
+    file_exists(&win_backend) || file_exists(&osx_backend) || file_exists(&linux_backend)
 }
 
 fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
@@ -402,19 +402,17 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
             }
         }
 
-        if conf.with_graphics == "ON" {
-            if !conf.use_lib {
-                backend_dirs.push(
-                    build_dir
-                        .join("third_party")
-                        .join("forge")
-                        .join("lib")
-                        .to_str()
-                        .to_owned()
-                        .unwrap()
-                        .to_string(),
-                );
-            }
+        if conf.with_graphics == "ON" && !conf.use_lib {
+            backend_dirs.push(
+                build_dir
+                    .join("third_party")
+                    .join("forge")
+                    .join("lib")
+                    .to_str()
+                    .to_owned()
+                    .unwrap()
+                    .to_string(),
+            );
         }
     }
 
@@ -425,7 +423,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
         }
     }
 
-    return (backends, backend_dirs);
+    (backends, backend_dirs)
 }
 
 fn main() {
