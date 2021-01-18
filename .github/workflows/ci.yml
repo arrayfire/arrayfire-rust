@@ -69,3 +69,22 @@ jobs:
               with:
                   command: fmt
                   args: --all -- --check
+
+    clippy:
+        name: Clippy Lints
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@master
+
+            - name: Setup Rust Toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+                  components: clippy
+            - name: Run clippy tool
+              uses: actions-rs/cargo@v1
+              with:
+                  command: clippy
+                  args: --all
