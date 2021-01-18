@@ -252,7 +252,7 @@ where
                 dims.get().as_ptr() as *const c_longlong,
                 strides.get().as_ptr() as *const c_longlong,
                 aftype as c_uint,
-                1 as c_uint,
+                1_u32,
             );
             HANDLE_ERROR(AfError::from(err_val));
             temp.into()
@@ -482,7 +482,7 @@ where
     }
 
     /// Returns the native FFI handle for Rust object `Array`
-    pub unsafe fn get(&self) -> af_array {
+    pub(crate) unsafe fn get(&self) -> af_array {
         self.handle
     }
 
@@ -644,6 +644,11 @@ where
     /// Get the device pointer and lock the buffer in memory manager
     ///
     /// The device pointer is not freed by memory manager until unlock is called.
+    ///
+    /// # Safety
+    ///
+    /// Using the function returns a pointer(CPU)/GPU-memory-pointer(CUDA)/cl_mem(OpenCL).
+    /// Use this function only when you know what to do further with returned object.
     pub unsafe fn device_ptr(&self) -> void_ptr {
         let mut temp: void_ptr = std::ptr::null_mut();
         let err_val = af_get_device_ptr(&mut temp as *mut void_ptr, self.handle);
@@ -792,10 +797,7 @@ pub fn print_gen<T: HasAfEnum>(msg: String, input: &Array<T>, precision: Option<
         let err_val = af_print_array_gen(
             emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
             input.get(),
-            match precision {
-                Some(p) => p,
-                None => 4,
-            } as c_int,
+            precision.unwrap_or(4),
         );
         HANDLE_ERROR(AfError::from(err_val));
     }

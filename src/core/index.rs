@@ -169,10 +169,7 @@ where
                 idxr.get(),
                 &SeqInternal::from_seq(self) as *const SeqInternal,
                 dim as dim_t,
-                match is_batch {
-                    Some(value) => value,
-                    None => false,
-                },
+                is_batch.unwrap_or(false),
             );
             HANDLE_ERROR(AfError::from(err_val));
         }
@@ -230,7 +227,7 @@ impl<'object> Indexer<'object> {
     }
 
     /// Get native(ArrayFire) resource handle
-    pub unsafe fn get(&self) -> af_index_t {
+    unsafe fn get(&self) -> af_index_t {
         self.handle
     }
 }

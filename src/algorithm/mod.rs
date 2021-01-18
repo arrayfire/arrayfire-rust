@@ -1524,14 +1524,12 @@ mod tests {
         println!("reduction of bool matrix: {:?}", sum_all(&b));
 
         println!(
-            "reduction of complex f32 matrix after replacing nan with {}: {:?}",
-            1.0,
+            "reduction of complex f32 matrix after replacing nan with 1.0: {:?}",
             product_nan_all(&a, 1.0)
         );
 
         println!(
-            "reduction of bool matrix after replacing nan with {}: {:?}",
-            0.0,
+            "reduction of bool matrix after replacing nan with 0.0: {:?}",
             sum_nan_all(&b, 0.0)
         );
     }
