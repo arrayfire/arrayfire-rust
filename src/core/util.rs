@@ -120,7 +120,7 @@ impl From<u32> for ColorMap {
 }
 
 mod private {
-    pub trait Sealed {}
+    pub trait Sealed: std::fmt::Debug + std::marker::Copy + std::default::Default {}
 
     impl Sealed for num::complex::Complex<f32> {}
     impl Sealed for num::complex::Complex<f64> {}

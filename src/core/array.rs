@@ -872,7 +872,7 @@ mod afserde {
     /// Serialize Implementation of Array
     impl<T> Serialize for Array<T>
     where
-        T: std::default::Default + std::clone::Clone + Serialize + HasAfEnum + std::fmt::Debug,
+        T: Serialize + HasAfEnum,
     {
         fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where
@@ -892,7 +892,7 @@ mod afserde {
     /// Deserialize Implementation of Array
     impl<'de, T> Deserialize<'de> for Array<T>
     where
-        T: Deserialize<'de> + HasAfEnum + std::fmt::Debug,
+        T: Deserialize<'de> + HasAfEnum,
     {
         fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
         where

@@ -383,7 +383,7 @@ where
     type OutType = T;
 
     fn convert(&self) -> Array<Self::OutType> {
-        constant(self.clone(), Dim4::new(&[1, 1, 1, 1]))
+        constant(*self, Dim4::new(&[1, 1, 1, 1]))
     }
 }
 
