@@ -119,6 +119,25 @@ impl From<u32> for ColorMap {
     }
 }
 
+mod private {
+    pub trait Sealed {}
+
+    impl Sealed for num::complex::Complex<f32> {}
+    impl Sealed for num::complex::Complex<f64> {}
+    impl Sealed for f32 {}
+    impl Sealed for f64 {}
+    impl Sealed for bool {}
+    impl Sealed for u8 {}
+    impl Sealed for i16 {}
+    impl Sealed for u16 {}
+    impl Sealed for half::f16 {}
+    impl Sealed for i32 {}
+    impl Sealed for u32 {}
+    impl Sealed for i64 {}
+    impl Sealed for u64 {}
+    impl Sealed for usize {}
+}
+
 /// Types of the data that can be generated using ArrayFire data generation functions.
 ///
 /// The trait HasAfEnum has been defined internally for the following types. We strongly suggest
@@ -139,7 +158,7 @@ impl From<u32> for ColorMap {
 /// - i16
 /// - u16
 ///
-pub trait HasAfEnum {
+pub trait HasAfEnum: private::Sealed {
     /// This type alias points to `Self` always.
     type InType: HasAfEnum;
     /// This type alias points to the data type used to hold real part of a
@@ -795,7 +814,7 @@ impl BitOr for MatProp {
 /// Trait to convert reduction's scalar output to appropriate output type
 ///
 /// This is an internal trait and ideally of no use to user usecases.
-pub trait Fromf64 {
+pub trait Fromf64: private::Sealed {
     /// Convert to target type from a double precision value
     fn fromf64(value: f64) -> Self;
 }
@@ -837,7 +856,7 @@ impl IndexableType for u16 {}
 impl IndexableType for u8 {}
 
 /// Trait qualifier for given type indicating computability of covariance
-pub trait IntegralType {}
+pub trait IntegralType: HasAfEnum {}
 
 impl IntegralType for i64 {}
 impl IntegralType for u64 {}
