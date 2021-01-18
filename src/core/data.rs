@@ -577,12 +577,11 @@ where
             // of only two more axes can be provided. Hence the below condition.
             assert!(left_over_new_axes.len() <= 2);
 
-            for a_idx in 0..left_over_new_axes.len() {
-                new_axes[2 + a_idx] = left_over_new_axes[a_idx];
-            }
+            new_axes[2..(left_over_new_axes.len() + 2)].clone_from_slice(&left_over_new_axes[..]);
         }
         None => {
-            for a_idx in 2..4 {
+            let left_over_indices: Vec<usize> = (2..4).collect();
+            for a_idx in left_over_indices {
                 new_axes[a_idx] = a_idx as u64;
             }
         }

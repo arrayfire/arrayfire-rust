@@ -112,10 +112,10 @@ pub fn info_string(verbose: bool) -> String {
 /// # Return Values
 /// A tuple of `String` indicating the name, platform, toolkit and compute.
 pub fn device_info() -> (String, String, String, String) {
-    let mut name = [0 as c_char; 64];
-    let mut platform = [0 as c_char; 10];
-    let mut toolkit = [0 as c_char; 64];
-    let mut compute = [0 as c_char; 10];
+    let mut name: [c_char; 64] = [0; 64];
+    let mut platform: [c_char; 10] = [0; 10];
+    let mut toolkit: [c_char; 64] = [0; 64];
+    let mut compute: [c_char; 10] = [0; 10];
     unsafe {
         let err_val = af_device_info(
             &mut name[0],
@@ -320,6 +320,12 @@ pub fn sync(device: i32) {
 }
 
 /// Allocate non-pageable memory on HOST memory
+///
+/// # Safety
+///
+/// Non-pageable memory allocations should be done by users
+/// who understand the consequences of such allocations on other
+/// tasks running on the system.
 pub unsafe fn alloc_pinned(bytes: usize) -> void_ptr {
     let mut out: void_ptr = std::ptr::null_mut();
     let err_val = af_alloc_pinned(&mut out as *mut void_ptr, bytes as dim_t);
@@ -328,6 +334,12 @@ pub unsafe fn alloc_pinned(bytes: usize) -> void_ptr {
 }
 
 /// Free the pointer returned by [alloc_pinned](./fn.alloc_pinned.html)
+///
+/// # Safety
+///
+/// This function is intended to be called on pointers that were earlier
+/// allocated using [alloc_pinned](./fn.alloc_pinned.html). Any other values
+/// passed as argument would result in undefined behavior.
 pub unsafe fn free_pinned(ptr: void_ptr) {
     let err_val = af_free_pinned(ptr);
     HANDLE_ERROR(AfError::from(err_val));
