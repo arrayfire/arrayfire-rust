@@ -5,6 +5,7 @@ use super::util::{af_array, dim_t, void_ptr, HasAfEnum};
 
 use libc::{c_char, c_int, c_longlong, c_uint, c_void};
 use std::ffi::CString;
+use std::fmt;
 use std::marker::PhantomData;
 
 // Some unused functions from array.h in C-API of ArrayFire
@@ -850,6 +851,24 @@ pub fn is_eval_manual() -> bool {
         let err_val = af_get_manual_eval_flag(&mut ret_val as *mut c_int);
         HANDLE_ERROR(AfError::from(err_val));
         ret_val > 0
+    }
+}
+
+/// Prints data type, shape and data of a given Array in programming friendly context
+///
+/// Used via println macro or formatter
+impl<T> fmt::Debug for Array<T>
+where
+    T: HasAfEnum,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut vec = vec![T::default(); self.elements()];
+        self.host(&mut vec);
+        f.debug_struct("Array")
+            .field("dtype", &self.get_type())
+            .field("shape", &self.dims())
+            .field("data", &vec)
+            .finish()
     }
 }
 
