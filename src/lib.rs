@@ -19,6 +19,9 @@
 //!
 //! Please go through our [tutorials](http://arrayfire.org/arrayfire-rust/book/index.html) book for
 //! more explanations on how to use ArrayFire to speedup your code.
+//!
+//! Note that the public traits on arrayfire-rust crate aren't meant to be implemented for user
+//! defined types. If attempted, rust compiler will throw an error.
 
 #![doc(
     html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
