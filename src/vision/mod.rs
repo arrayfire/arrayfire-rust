@@ -184,11 +184,6 @@ impl Features {
         af_get_features_orientation
     );
     feat_func_def!("Get features size Array", size, af_get_features_size);
-
-    /// Get the internal handle for [Features](./struct.Features.html) object
-    pub unsafe fn get(&self) -> af_features {
-        self.feat
-    }
 }
 
 impl Clone for Features {
