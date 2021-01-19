@@ -143,7 +143,10 @@ extern "C" {
 
 /// A multidimensional data container
 ///
-/// Currently, Array objects can store only data until four dimensions
+/// Currently, `Array<T>` objects support data up to four dimensions.
+///
+/// All operations on arrays (including creation) require that `T: HasAfEnum`,
+/// meaning that `T` must be one of the numerical datatypes supported by Arrayfire.
 ///
 /// ## Sharing Across Threads
 ///
@@ -161,7 +164,7 @@ extern "C" {
 /// All operators(traits) from std::ops module implemented for Array object
 /// carry out element wise operations. For example, `*` does multiplication of
 /// elements at corresponding locations in two different Arrays.
-pub struct Array<T: HasAfEnum> {
+pub struct Array<T> {
     handle: af_array,
     /// The phantom marker denotes the
     /// allocation of data on compute device
@@ -707,10 +710,7 @@ where
 }
 
 /// To free resources when Array goes out of scope
-impl<T> Drop for Array<T>
-where
-    T: HasAfEnum,
-{
+impl<T> Drop for Array<T> {
     fn drop(&mut self) {
         unsafe {
             let ret_val = af_release_array(self.handle);
