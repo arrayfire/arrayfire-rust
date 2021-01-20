@@ -64,13 +64,13 @@ impl IndexMut<usize> for Dim4 {
 /// use arrayfire::Dim4;
 ///
 /// let dims = Dim4::new(&[4, 4, 2, 1]);
-/// println!("0th Dimension length is {}", dims[0]); // -> 4
+/// println!("Shape is {}", dims); // -> [4, 4, 2, 1]
 /// ```
 impl fmt::Display for Dim4 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "[{} {} {} {}]",
+            "[{}, {}, {}, {}]",
             self.dims[0], self.dims[1], self.dims[2], self.dims[3]
         )
     }
