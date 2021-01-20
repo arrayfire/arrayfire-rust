@@ -890,13 +890,24 @@ where
     T: HasAfEnum,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut vec = vec![T::default(); self.elements()];
-        self.host(&mut vec);
-        f.debug_struct("Array")
-            .field("dtype", &self.get_type())
-            .field("shape", &self.dims())
-            .field("data", &vec)
-            .finish()
+        if f.alternate() {
+            let mut vec = vec![T::default(); self.elements()];
+            self.host(&mut vec);
+            f.debug_struct("Array")
+                .field("dtype", &self.get_type())
+                .field("shape", &self.dims())
+                .field("strides", &self.strides())
+                .field("offset", &self.offset())
+                .field("device_id", &self.get_device_id())
+                .field("data", &vec)
+                .finish()
+        } else {
+            f.debug_struct("Array")
+                .field("dtype", &self.get_type())
+                .field("shape", &self.dims())
+                .field("af_array", unsafe { &self.get() })
+                .finish()
+        }
     }
 }
 
