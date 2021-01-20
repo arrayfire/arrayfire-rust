@@ -1,10 +1,10 @@
 use super::defines::{AfError, Backend, DType};
 use super::dim4::Dim4;
 use super::error::HANDLE_ERROR;
-use super::util::{af_array, dim_t, void_ptr, HasAfEnum};
+use super::util::{af_array, dim_t, free_host, void_ptr, HasAfEnum};
 
 use libc::{c_char, c_int, c_longlong, c_uint, c_void};
-use std::ffi::CString;
+use std::ffi::{CStr, CString};
 use std::fmt;
 use std::marker::PhantomData;
 
@@ -139,6 +139,14 @@ extern "C" {
     fn af_get_device_ptr(ptr: *mut void_ptr, arr: af_array) -> c_int;
 
     fn af_get_allocated_bytes(result: *mut usize, arr: af_array) -> c_int;
+
+    fn af_array_to_string(
+        ostr: *mut *mut c_char,
+        exp: *const c_char,
+        arr: af_array,
+        precision: c_int,
+        transpose: bool,
+    ) -> c_int;
 }
 
 /// A multidimensional data container
@@ -671,6 +679,26 @@ where
             HANDLE_ERROR(AfError::from(err_val));
             temp
         }
+    }
+
+    /// Fetch Array as String
+    pub fn to_string(&self) -> String {
+        let result: String;
+        unsafe {
+            let cname = CString::new("test").unwrap();
+            let mut tmp: *mut c_char = ::std::ptr::null_mut();
+            let err_val = af_array_to_string(
+                &mut tmp,
+                cname.to_bytes_with_nul().as_ptr() as *const c_char,
+                self.get(),
+                4,
+                true,
+            );
+            HANDLE_ERROR(AfError::from(err_val));
+            result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
+            free_host(tmp);
+        }
+        result
     }
 }
 
