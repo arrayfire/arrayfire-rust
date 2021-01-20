@@ -5,7 +5,7 @@ use std::ops::{Index, IndexMut};
 use serde::{Deserialize, Serialize};
 
 /// Dim4 is used to store [Array](./struct.Array.html) dimensions
-#[derive(Copy, Clone, PartialEq, Debug)]
+#[derive(Copy, Clone, PartialEq)]
 #[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub struct Dim4 {
     dims: [u64; 4],
@@ -67,6 +67,26 @@ impl IndexMut<usize> for Dim4 {
 /// println!("Shape is {}", dims); // -> [4, 4, 2, 1]
 /// ```
 impl fmt::Display for Dim4 {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "[{}, {}, {}, {}]",
+            self.dims[0], self.dims[1], self.dims[2], self.dims[3]
+        )
+    }
+}
+
+/// Debug trait implementation for Dim4 objects
+///
+/// # Examples
+///
+/// ```rust
+/// use arrayfire::Dim4;
+///
+/// let dims = Dim4::new(&[4, 4, 2, 1]);
+/// println!("Shape is {:?}", dims); // -> {4, 4, 2, 1}
+/// ```
+impl fmt::Debug for Dim4 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
