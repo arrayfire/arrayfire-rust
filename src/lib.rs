@@ -24,9 +24,9 @@
 //! defined types. If attempted, rust compiler will throw an error.
 
 #![doc(
-    html_logo_url = "http://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
-    html_favicon_url = "http://www.rust-lang.org/favicon.ico",
-    html_root_url = "http://arrayfire.org/arrayfire-rust/arrayfire/index.html"
+    html_logo_url = "https://www.arrayfire.com/logos/arrayfire_logo_symbol.png",
+    html_favicon_url = "https://www.arrayfire.com/logos/arrayfire.ico",
+    html_root_url = "https://arrayfire.org/arrayfire-rust/arrayfire/index.html"
 )]
 #![warn(missing_docs)]
 #![allow(non_camel_case_types)]
