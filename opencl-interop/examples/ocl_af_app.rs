@@ -30,7 +30,7 @@ fn main() {
         .unwrap()
     };
     ocl_core::finish(&queue).unwrap(); //sync up before switching to arrayfire
-    
+
     // Add custom device, context and associated queue to ArrayFire
     afcl::add_device_context(device_id.as_raw(), context.as_ptr(), queue.as_ptr());
     afcl::set_device_context(device_id.as_raw(), context.as_ptr());
