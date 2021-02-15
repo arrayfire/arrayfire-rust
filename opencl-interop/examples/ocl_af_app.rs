@@ -5,7 +5,8 @@ use arrayfire as af;
 use ocl_core::{ContextProperties, Event};
 
 fn main() {
-    // Set the arrayfire backend to use OopenCL first, because CUDA is the default
+    // Set the arrayfire backend to use OpenCL first,
+    // because CUDA is the automatically preferred if available
     af::set_backend(af::Backend::OPENCL);
 
     // Choose platform & device(s) to use. Create a context, queue,

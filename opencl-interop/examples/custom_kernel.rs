@@ -7,6 +7,10 @@ use ocl_core::{ArgVal, Event};
 use std::ffi::CString;
 
 fn main() {
+    // Set the arrayfire backend to use OpenCL first,
+    // because CUDA is the automatically preferred if available
+    af::set_backend(af::Backend::OPENCL);
+
     af::info();
     let dims = af::dim4!(8);
     let af_buffer = af::constant(0f32, dims.clone());
