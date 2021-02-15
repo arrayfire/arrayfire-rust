@@ -18,12 +18,12 @@ Supported on all platforms [arrayfire-rust][1] is supported.
 
 Command to build the crate
 ```
-cargo build -p af_opencl_interop
+cargo build -p af-opencl-interop
 ```
 
 Use the following command to run an example
 ```
-cargo run -p af_opencl_interop --example custom_kernel
+cargo run -p af-opencl-interop --example afocl_custom_kernel
 ```
 
 This crate can be used by directly using the packages on crates.io or building them on your own.
