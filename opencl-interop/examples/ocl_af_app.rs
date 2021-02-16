@@ -2,7 +2,7 @@
 use af_opencl_interop as afcl;
 use arrayfire as af;
 
-use ocl_core::{ContextProperties, Event};
+use ocl_core::{retain_mem_object, ContextProperties, Event};
 
 fn main() {
     // Set the arrayfire backend to use OpenCL first,
@@ -20,7 +20,7 @@ fn main() {
     let dims = [8, 1, 1];
 
     // Create a `Buffer`:
-    let mut vec = vec![0.0f32; dims[0]];
+    let mut vec = vec![1.0f32; dims[0]];
     let buffer = unsafe {
         ocl_core::create_buffer(
             &context,
@@ -37,6 +37,9 @@ fn main() {
     afcl::set_device_context(device_id.as_raw(), context.as_ptr());
     af::info();
 
+    unsafe {
+        retain_mem_object(&buffer).unwrap();
+    }
     let mut af_buffer = af::Array::new_from_device_ptr(
         buffer.as_ptr() as *mut f32,
         af::Dim4::new(&[dims[0] as u64, 1, 1, 1]),
