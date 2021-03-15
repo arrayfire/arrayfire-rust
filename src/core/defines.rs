@@ -58,7 +58,7 @@ pub enum AfError {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub enum Backend {
-    /// Default backend order: OpenCL -> CUDA -> CPU
+    /// Default backend order: CUDA -> OpenCL -> CPU
     DEFAULT = 0,
     /// CPU a.k.a sequential algorithms
     CPU = 1,
