@@ -185,7 +185,7 @@ unsafe impl<T: HasAfEnum> Send for Array<T> {}
 unsafe impl<T: HasAfEnum> Sync for Array<T> {}
 
 macro_rules! is_func {
-    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_fn: ident) => {
         #[doc=$doc_str]
         pub fn $fn_name(&self) -> bool {
             unsafe {
@@ -195,7 +195,7 @@ macro_rules! is_func {
                 ret_val
             }
         }
-    )
+    };
 }
 
 impl<T> Array<T>

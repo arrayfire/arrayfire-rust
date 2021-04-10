@@ -293,9 +293,7 @@ macro_rules! binary_func {
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(
-                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
-                );
+                let err_val = $ffi_fn(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
                 HANDLE_ERROR(AfError::from(err_val));
                 Into::<Array<A::Output>>::into(temp)
             }
@@ -404,9 +402,7 @@ macro_rules! overloaded_binary_func {
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(
-                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
-                );
+                let err_val = $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
             }
@@ -508,9 +504,7 @@ macro_rules! overloaded_compare_func {
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(
-                    &mut temp as *mut af_array, lhs.get(), rhs.get(), batch,
-                );
+                let err_val = $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
             }
@@ -545,11 +539,7 @@ macro_rules! overloaded_compare_func {
         ///   - Only one element in `arg1` or `arg2` along a given dimension/axis
         ///
         /// - The trait `Convertable` essentially translates to a scalar native type on rust or Array.
-        pub fn $fn_name<T, U>(
-            arg1: &T,
-            arg2: &U,
-            batch: bool,
-        ) -> Array<bool>
+        pub fn $fn_name<T, U>(arg1: &T, arg2: &U, batch: bool) -> Array<bool>
         where
             T: Convertable,
             U: Convertable,

@@ -721,7 +721,7 @@ macro_rules! conv_func_def {
             F: HasAfEnum,
         {
             unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
                     &mut temp as *mut af_array,
                     signal.get(),
@@ -796,9 +796,13 @@ macro_rules! fft_conv_func_def {
             F: HasAfEnum,
         {
             unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut temp as *mut af_array, signal.get(), filter.get(), mode as c_uint);
+                    &mut temp as *mut af_array,
+                    signal.get(),
+                    filter.get(),
+                    mode as c_uint,
+                );
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
             }
