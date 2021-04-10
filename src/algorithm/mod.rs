@@ -527,11 +527,12 @@ where
 macro_rules! all_reduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $assoc_type:ident) => {
         #[doc=$doc_str]
-        pub fn $fn_name<T>(input: &Array<T>)
-            -> (
-                <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
-                <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType
-               )
+        pub fn $fn_name<T>(
+            input: &Array<T>,
+        ) -> (
+            <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
+            <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
+        )
         where
             T: HasAfEnum,
             <T as HasAfEnum>::$assoc_type: HasAfEnum,
@@ -541,7 +542,9 @@ macro_rules! all_reduce_func_def {
             let mut imag: f64 = 0.0;
             unsafe {
                 let err_val = $ffi_name(
-                    &mut real as *mut c_double, &mut imag as *mut c_double, input.get(),
+                    &mut real as *mut c_double,
+                    &mut imag as *mut c_double,
+                    input.get(),
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
@@ -676,13 +679,15 @@ macro_rules! all_reduce_func_def2 {
         pub fn $fn_name<T>(input: &Array<T>) -> ($out_type, $out_type)
         where
             T: HasAfEnum,
-            $out_type: HasAfEnum + Fromf64
+            $out_type: HasAfEnum + Fromf64,
         {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             unsafe {
                 let err_val = $ffi_name(
-                    &mut real as *mut c_double, &mut imag as *mut c_double, input.get(),
+                    &mut real as *mut c_double,
+                    &mut imag as *mut c_double,
+                    input.get(),
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
@@ -869,13 +874,16 @@ macro_rules! dim_ireduce_func_def {
             T::$out_type: HasAfEnum,
         {
             unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let mut idx: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
+                let mut idx: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut temp as *mut af_array, &mut idx as *mut af_array, input.get(), dim,
+                    &mut temp as *mut af_array,
+                    &mut idx as *mut af_array,
+                    input.get(),
+                    dim,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            (temp.into(), idx.into())
+                (temp.into(), idx.into())
             }
         }
     };
@@ -910,12 +918,13 @@ dim_ireduce_func_def!("
 macro_rules! all_ireduce_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident, $assoc_type:ident) => {
         #[doc=$doc_str]
-        pub fn $fn_name<T>(input: &Array<T>)
-            -> (
-                <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
-                <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
-                u32
-               )
+        pub fn $fn_name<T>(
+            input: &Array<T>,
+        ) -> (
+            <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
+            <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType,
+            u32,
+        )
         where
             T: HasAfEnum,
             <T as HasAfEnum>::$assoc_type: HasAfEnum,
@@ -926,8 +935,10 @@ macro_rules! all_ireduce_func_def {
             let mut temp: u32 = 0;
             unsafe {
                 let err_val = $ffi_name(
-                    &mut real as *mut c_double, &mut imag as *mut c_double,
-                    &mut temp as *mut c_uint, input.get(),
+                    &mut real as *mut c_double,
+                    &mut imag as *mut c_double,
+                    &mut temp as *mut c_uint,
+                    input.get(),
                 );
                 HANDLE_ERROR(AfError::from(err_val));
             }
@@ -1277,8 +1288,10 @@ macro_rules! dim_reduce_by_key_func_def {
         /// Tuple of Arrays, with output keys and values after reduction
         ///
         #[doc=$ex_str]
-        pub fn $fn_name<KeyType, ValueType>(keys: &Array<KeyType>, vals: &Array<ValueType>,
-                                            dim: i32
+        pub fn $fn_name<KeyType, ValueType>(
+            keys: &Array<KeyType>,
+            vals: &Array<ValueType>,
+            dim: i32,
         ) -> (Array<KeyType>, Array<$out_type>)
         where
             KeyType: ReduceByKeyInput,
@@ -1286,14 +1299,17 @@ macro_rules! dim_reduce_by_key_func_def {
             $out_type: HasAfEnum,
         {
             unsafe {
-            let mut out_keys: af_array = std::ptr::null_mut();
-            let mut out_vals: af_array = std::ptr::null_mut();
+                let mut out_keys: af_array = std::ptr::null_mut();
+                let mut out_vals: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
-                    &mut out_keys as *mut af_array, &mut out_vals as *mut af_array,
-                    keys.get(), vals.get(), dim,
+                    &mut out_keys as *mut af_array,
+                    &mut out_vals as *mut af_array,
+                    keys.get(),
+                    vals.get(),
+                    dim,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            (out_keys.into(), out_vals.into())
+                (out_keys.into(), out_vals.into())
             }
         }
     };
@@ -1408,8 +1424,11 @@ macro_rules! dim_reduce_by_key_nan_func_def {
         /// Tuple of Arrays, with output keys and values after reduction
         ///
         #[doc=$ex_str]
-        pub fn $fn_name<KeyType, ValueType>(keys: &Array<KeyType>, vals: &Array<ValueType>,
-                                            dim: i32, replace_value: f64
+        pub fn $fn_name<KeyType, ValueType>(
+            keys: &Array<KeyType>,
+            vals: &Array<ValueType>,
+            dim: i32,
+            replace_value: f64,
         ) -> (Array<KeyType>, Array<$out_type>)
         where
             KeyType: ReduceByKeyInput,
@@ -1417,15 +1436,18 @@ macro_rules! dim_reduce_by_key_nan_func_def {
             $out_type: HasAfEnum,
         {
             unsafe {
-            let mut out_keys: af_array = std::ptr::null_mut();
-            let mut out_vals: af_array = std::ptr::null_mut();
+                let mut out_keys: af_array = std::ptr::null_mut();
+                let mut out_vals: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
                     &mut out_keys as *mut af_array,
                     &mut out_vals as *mut af_array,
-                    keys.get(), vals.get(), dim, replace_value,
+                    keys.get(),
+                    vals.get(),
+                    dim,
+                    replace_value,
                 );
                 HANDLE_ERROR(AfError::from(err_val));
-            (out_keys.into(), out_vals.into())
+                (out_keys.into(), out_vals.into())
             }
         }
     };

@@ -963,7 +963,7 @@ macro_rules! filt_func_def {
             T: HasAfEnum + ImageFilterType,
         {
             unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(
                     &mut temp as *mut af_array,
                     input.get(),
@@ -1181,7 +1181,7 @@ macro_rules! grayrgb_func_def {
             T: HasAfEnum + GrayRGBConvertible,
         {
             unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(&mut temp as *mut af_array, input.get(), r, g, b);
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
@@ -1201,7 +1201,7 @@ macro_rules! hsvrgb_func_def {
             T: HasAfEnum + RealFloating,
         {
             unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
+                let mut temp: af_array = std::ptr::null_mut();
                 let err_val = $ffi_name(&mut temp as *mut af_array, input.get());
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()

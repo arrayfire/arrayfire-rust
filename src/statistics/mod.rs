@@ -142,7 +142,7 @@ macro_rules! stat_wtd_func_def {
         {
             unsafe {
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array,input.get(), weights.get(), dim);
+                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get(), weights.get(), dim);
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
             }

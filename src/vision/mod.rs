@@ -131,7 +131,7 @@ unsafe impl Send for Features {}
 unsafe impl Sync for Features {}
 
 macro_rules! feat_func_def {
-    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => (
+    ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         pub fn $fn_name(&self) -> Array<f32> {
             unsafe {
@@ -146,7 +146,7 @@ macro_rules! feat_func_def {
                 retained
             }
         }
-    )
+    };
 }
 
 impl Features {
