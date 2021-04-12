@@ -317,17 +317,6 @@ binary_func!(
     af_bitxor
 );
 binary_func!(
-    "Elementwise not equals comparison of two Arrays",
-    neq,
-    af_neq
-);
-binary_func!(
-    "Elementwise logical and operation of two Arrays",
-    and,
-    af_and
-);
-binary_func!("Elementwise logical or operation of two Arrays", or, af_or);
-binary_func!(
     "Elementwise minimum operation of two Arrays",
     minof,
     af_minof
@@ -495,7 +484,7 @@ overloaded_binary_func!(
 overloaded_binary_func!("Compute root", root, root_helper, af_root);
 overloaded_binary_func!("Computer power", pow, pow_helper, af_pow);
 
-macro_rules! overloaded_compare_func {
+macro_rules! overloaded_logic_func {
     ($doc_str: expr, $fn_name: ident, $help_name: ident, $ffi_name: ident) => {
         fn $help_name<A, B>(lhs: &Array<A>, rhs: &Array<B>, batch: bool) -> Array<bool>
         where
@@ -563,35 +552,53 @@ macro_rules! overloaded_compare_func {
     };
 }
 
-overloaded_compare_func!(
+overloaded_logic_func!(
     "Perform `less than` comparison operation",
     lt,
     lt_helper,
     af_lt
 );
-overloaded_compare_func!(
+overloaded_logic_func!(
     "Perform `greater than` comparison operation",
     gt,
     gt_helper,
     af_gt
 );
-overloaded_compare_func!(
+overloaded_logic_func!(
     "Perform `less than equals` comparison operation",
     le,
     le_helper,
     af_le
 );
-overloaded_compare_func!(
+overloaded_logic_func!(
     "Perform `greater than equals` comparison operation",
     ge,
     ge_helper,
     af_ge
 );
-overloaded_compare_func!(
+overloaded_logic_func!(
     "Perform `equals` comparison operation",
     eq,
     eq_helper,
     af_eq
+);
+overloaded_logic_func!(
+    "Elementwise `not equals` comparison of two Arrays",
+    neq,
+    neq_helper,
+    af_neq
+);
+overloaded_logic_func!(
+    "Elementwise logical AND operation of two Arrays",
+    and,
+    and_helper,
+    af_and
+);
+overloaded_logic_func!(
+    "Elementwise logical OR operation of two Arrays",
+    or,
+    or_helper,
+    af_or
 );
 
 fn clamp_helper<X, Y>(
