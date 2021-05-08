@@ -293,13 +293,11 @@ pub fn row<T>(input: &Array<T>, row_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
-    index(
-        input,
-        &[
-            Seq::new(row_num as f64, row_num as f64, 1.0),
-            Seq::default(),
-        ],
-    )
+    let mut seqs = vec![Seq::new(row_num as f64, row_num as f64, 1.0)];
+    for _d in 1..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
+    index(input, &seqs)
 }
 
 /// Set `row_num`^th row in `inout` Array to a new Array `new_row`
@@ -308,7 +306,7 @@ where
     T: HasAfEnum,
 {
     let mut seqs = vec![Seq::new(row_num as f64, row_num as f64, 1.0)];
-    if inout.dims().ndims() > 1 {
+    for _d in 1..inout.dims().ndims() {
         seqs.push(Seq::default());
     }
     assign_seq(inout, &seqs, new_row)
@@ -320,10 +318,11 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    index(
-        input,
-        &[Seq::new(first as f64, last as f64, step), Seq::default()],
-    )
+    let mut seqs = vec![Seq::new(first as f64, last as f64, step)];
+    for _d in 1..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
+    index(input, &seqs)
 }
 
 /// Set rows from `first` to `last` in `inout` Array with rows from Array `new_rows`
@@ -332,7 +331,10 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    let seqs = [Seq::new(first as f64, last as f64, step), Seq::default()];
+    let mut seqs = vec![Seq::new(first as f64, last as f64, step)];
+    for _d in 1..inout.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_rows)
 }
 
@@ -352,13 +354,14 @@ pub fn col<T>(input: &Array<T>, col_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
-    index(
-        input,
-        &[
-            Seq::default(),
-            Seq::new(col_num as f64, col_num as f64, 1.0),
-        ],
-    )
+    let mut seqs = vec![
+        Seq::default(),
+        Seq::new(col_num as f64, col_num as f64, 1.0),
+    ];
+    for _d in 2..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
+    index(input, &seqs)
 }
 
 /// Set `col_num`^th col in `inout` Array to a new Array `new_col`
@@ -366,10 +369,13 @@ pub fn set_col<T>(inout: &mut Array<T>, new_col: &Array<T>, col_num: i64)
 where
     T: HasAfEnum,
 {
-    let seqs = [
+    let mut seqs = vec![
         Seq::default(),
         Seq::new(col_num as f64, col_num as f64, 1.0),
     ];
+    for _d in 2..inout.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_col)
 }
 
@@ -379,10 +385,11 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    index(
-        input,
-        &[Seq::default(), Seq::new(first as f64, last as f64, step)],
-    )
+    let mut seqs = vec![Seq::default(), Seq::new(first as f64, last as f64, step)];
+    for _d in 2..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
+    index(input, &seqs)
 }
 
 /// Set cols from `first` to `last` in `inout` Array with cols from Array `new_cols`
@@ -391,7 +398,10 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    let seqs = [Seq::default(), Seq::new(first as f64, last as f64, step)];
+    let mut seqs = vec![Seq::default(), Seq::new(first as f64, last as f64, step)];
+    for _d in 2..inout.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_cols)
 }
 
@@ -402,11 +412,14 @@ pub fn slice<T>(input: &Array<T>, slice_num: i64) -> Array<T>
 where
     T: HasAfEnum,
 {
-    let seqs = [
+    let mut seqs = vec![
         Seq::default(),
         Seq::default(),
         Seq::new(slice_num as f64, slice_num as f64, 1.0),
     ];
+    for _d in 3..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     index(input, &seqs)
 }
 
@@ -417,11 +430,14 @@ pub fn set_slice<T>(inout: &mut Array<T>, new_slice: &Array<T>, slice_num: i64)
 where
     T: HasAfEnum,
 {
-    let seqs = [
+    let mut seqs = vec![
         Seq::default(),
         Seq::default(),
         Seq::new(slice_num as f64, slice_num as f64, 1.0),
     ];
+    for _d in 3..inout.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_slice)
 }
 
@@ -433,11 +449,14 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    let seqs = [
+    let mut seqs = vec![
         Seq::default(),
         Seq::default(),
         Seq::new(first as f64, last as f64, step),
     ];
+    for _d in 3..input.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     index(input, &seqs)
 }
 
@@ -449,11 +468,14 @@ where
     T: HasAfEnum,
 {
     let step: f64 = if first > last && last < 0 { -1.0 } else { 1.0 };
-    let seqs = [
+    let mut seqs = vec![
         Seq::default(),
         Seq::default(),
         Seq::new(first as f64, last as f64, step),
     ];
+    for _d in 3..inout.dims().ndims() {
+        seqs.push(Seq::default());
+    }
     assign_seq(inout, &seqs, new_slices)
 }
 
@@ -655,7 +677,7 @@ mod tests {
     use super::super::device::set_device;
     use super::super::dim4::Dim4;
     use super::super::index::{assign_gen, assign_seq, col, index, index_gen, row, Indexer};
-    use super::super::index::{cols, rows};
+    use super::super::index::{cols, rows, set_row, set_rows};
     use super::super::random::randu;
     use super::super::seq::Seq;
 
@@ -867,5 +889,45 @@ mod tests {
         //     0.6450     0.8962     0.5567
         //     0.9675     0.3712     0.7896
         // ANCHOR_END: get_rows
+    }
+
+    #[test]
+    fn change_row() {
+        set_device(0);
+
+        let v0: Vec<bool> = vec![true, true, true, true, true, true];
+        let mut a0 = Array::new(&v0, dim4!(v0.len() as u64));
+
+        let v1: Vec<bool> = vec![false];
+        let a1 = Array::new(&v1, dim4!(v1.len() as u64));
+
+        set_row(&mut a0, &a1, 2);
+
+        let mut res = vec![true; a0.elements()];
+        a0.host(&mut res);
+
+        let gold = vec![true, true, false, true, true, true];
+
+        assert_eq!(gold, res);
+    }
+
+    #[test]
+    fn change_rows() {
+        set_device(0);
+
+        let v0: Vec<bool> = vec![true, true, true, true, true, true];
+        let mut a0 = Array::new(&v0, dim4!(v0.len() as u64));
+
+        let v1: Vec<bool> = vec![false, false];
+        let a1 = Array::new(&v1, dim4!(v1.len() as u64));
+
+        set_rows(&mut a0, &a1, 2, 3);
+
+        let mut res = vec![true; a0.elements()];
+        a0.host(&mut res);
+
+        let gold = vec![true, true, false, false, true, true];
+
+        assert_eq!(gold, res);
     }
 }

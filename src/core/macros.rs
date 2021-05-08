@@ -190,6 +190,9 @@ macro_rules! view {
             $(
                 seq_vec.push($crate::seq!($start:$end:$step));
              )*
+             for _d in seq_vec.len()..$array_ident.dims().ndims() {
+                 seq_vec.push($crate::seq!());
+             }
             $crate::index(&$array_ident, &seq_vec)
         }
     };
@@ -354,7 +357,7 @@ mod tests {
     use super::super::array::Array;
     use super::super::data::constant;
     use super::super::device::set_device;
-    use super::super::index::index;
+    use super::super::index::{index, rows, set_rows};
     use super::super::random::randu;
 
     #[test]
@@ -504,5 +507,56 @@ mod tests {
         let _rn5x5 = randn!(5, 5);
         let _ruu32_5x5 = randu!(u32; 5, 5);
         let _ruu8_5x5 = randu!(u8; 5, 5);
+    }
+
+    #[test]
+    fn match_eval_macro_with_set_rows() {
+        set_device(0);
+
+        let inpt = vec![true, true, true, true, true, true, true, true, true, true];
+        let gold = vec![
+            true, true, false, false, true, true, true, false, false, true,
+        ];
+
+        let mut orig_arr = Array::new(&inpt, dim4!(5, 2));
+        let mut orig_cln = orig_arr.clone();
+
+        let new_vals = vec![false, false, false, false];
+        let new_arr = Array::new(&new_vals, dim4!(2, 2));
+
+        eval!( orig_arr[2:3:1,1:1:0] = new_arr );
+        let mut res1 = vec![true; orig_arr.elements()];
+        orig_arr.host(&mut res1);
+
+        set_rows(&mut orig_cln, &new_arr, 2, 3);
+        let mut res2 = vec![true; orig_cln.elements()];
+        orig_cln.host(&mut res2);
+
+        assert_eq!(gold, res1);
+        assert_eq!(res1, res2);
+    }
+
+    #[test]
+    fn match_view_macro_with_get_rows() {
+        set_device(0);
+
+        let inpt: Vec<i32> = (0..10).collect();
+        let gold: Vec<i32> = vec![2, 3, 7, 8];
+
+        println!("input {:?}", inpt);
+        println!("gold {:?}", gold);
+
+        let orig_arr = Array::new(&inpt, dim4!(5, 2));
+
+        let view_out = view!( orig_arr[2:3:1] );
+        let mut res1 = vec![0i32; view_out.elements()];
+        view_out.host(&mut res1);
+
+        let rows_out = rows(&orig_arr, 2, 3);
+        let mut res2 = vec![0i32; rows_out.elements()];
+        rows_out.host(&mut res2);
+
+        assert_eq!(gold, res1);
+        assert_eq!(res1, res2);
     }
 }
