@@ -78,6 +78,7 @@ mod tests {
         use super::Seq;
         use crate::seq;
 
+        // ANCHOR: seq_json_serde_snippet
         let original = seq!(1:2:1);
         let serd = match serde_json::to_string(&original) {
             Ok(serialized_str) => serialized_str,
@@ -86,5 +87,6 @@ mod tests {
 
         let deserd: Seq<i32> = serde_json::from_str(&serd).unwrap();
         assert_eq!(deserd, original);
+        // ANCHOR_END: seq_json_serde_snippet
     }
 }

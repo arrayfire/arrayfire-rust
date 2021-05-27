@@ -151,6 +151,7 @@ mod tests {
 
         #[test]
         fn dim4_serde() {
+            // ANCHOR: dim4_json_serde_snippet
             let dims = dim4!(4, 4);
             let serd = match serde_json::to_string(&dims) {
                 Ok(serialized_str) => serialized_str,
@@ -160,6 +161,7 @@ mod tests {
 
             let deserd: Dim4 = serde_json::from_str(&serd).unwrap();
             assert_eq!(deserd, dims);
+            // ANCHOR_END: dim4_json_serde_snippet
         }
     }
 }
