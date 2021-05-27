@@ -355,13 +355,19 @@ mod tests {
         #[test]
         #[cfg(feature = "afserde")]
         fn random_engine_serde_bincode() {
-            let input = RandomEngine::new(RandomEngineType::THREEFRY_2X32_16, Some(2047));
+            // ANCHOR: rng_bincode_serde_snippet
+            use RandomEngineType::THREEFRY_2X32_16;
+
+            let input = RandomEngine::new(THREEFRY_2X32_16, Some(2047));
             let encoded = match bincode::serialize(&input) {
                 Ok(encoded) => encoded,
                 Err(_) => vec![],
             };
+            // Save to disk or anything else required
 
+            // Load different object if required
             let decoded: RandomEngine = bincode::deserialize(&encoded).unwrap();
+            // ANCHOR_END: rng_bincode_serde_snippet
 
             assert_eq!(input.get_seed(), decoded.get_seed());
             assert_eq!(input.get_type(), decoded.get_type());

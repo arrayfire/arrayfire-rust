@@ -1218,6 +1218,7 @@ mod tests {
 
         #[test]
         fn array_serde_json() {
+            // ANCHOR: array_json_serde_snippet
             let input = randu!(u8; 2, 2);
             let serd = match serde_json::to_string(&input) {
                 Ok(serialized_str) => serialized_str,
@@ -1225,12 +1226,14 @@ mod tests {
             };
 
             let deserd: Array<u8> = serde_json::from_str(&serd).unwrap();
+            // ANCHOR_END: array_json_serde_snippet
 
             assert_eq!(sum_all(&(input - deserd)), (0u32, 0u32));
         }
 
         #[test]
         fn array_serde_bincode() {
+            // ANCHOR: array_bincode_serde_snippet
             let input = randu!(u8; 2, 2);
             let encoded = match bincode::serialize(&input) {
                 Ok(encoded) => encoded,
@@ -1238,6 +1241,7 @@ mod tests {
             };
 
             let decoded: Array<u8> = bincode::deserialize(&encoded).unwrap();
+            // ANCHOR_END: array_bincode_serde_snippet
 
             assert_eq!(sum_all(&(input - decoded)), (0u32, 0u32));
         }
