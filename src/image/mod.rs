@@ -1400,7 +1400,7 @@ where
 /// digital photography systems where Y is luma component and Cb & Cr are the blue-difference and
 /// red-difference chroma components.
 ///
-/// Input array to this function should be of real data in the range [0,1].
+/// Input array to this function should be of real data in the range \[0,1\].
 ///
 /// # Parameters
 ///
@@ -1435,9 +1435,9 @@ where
 /// Input array to this function should be of real data with the following range in their
 /// respective channels.
 ///
-/// - Y  −> [16,219]
-/// - Cb −> [16,240]
-/// - Cr −> [16,240]
+/// - Y  −> \[16,219\]
+/// - Cb −> \[16,240\]
+/// - Cr −> \[16,240\]
 ///
 /// # Parameters
 ///
