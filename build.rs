@@ -305,6 +305,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
                 }
             }
         };
+        println!("cargo:rerun-if-env-changed=AF_PATH");
 
         backend_dirs.push(afpath.join("lib").to_str().to_owned().unwrap().to_string());
         backend_dirs.push(
