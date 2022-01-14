@@ -58,8 +58,9 @@ struct Config {
     win_vs_toolset: String,
 }
 
-fn fail(s: &str) -> ! {
-    panic!("\n{}\n\nbuild script failed, must exit now", s)
+fn fail(msg: &str) -> ! {
+    eprintln!("ERROR: {}", msg);
+    std::process::exit(1);
 }
 
 fn dir_exists(location: &str) -> bool {
