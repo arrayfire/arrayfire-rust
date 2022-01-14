@@ -71,7 +71,7 @@ fn dir_exists(location: &str) -> bool {
                 eprintln!("WARNING: failed to access `{}`: {}", location, err);
             }
             false
-        },
+        }
     }
 }
 
@@ -83,7 +83,7 @@ fn file_exists(location: &str) -> bool {
                 eprintln!("WARNING: failed to access `{}`: {}", location, err);
             }
             false
-        },
+        }
     }
 }
 
@@ -458,7 +458,7 @@ fn main() {
     let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
 
     if backends.is_empty() {
-       fail("no arrayfire backends found");
+        fail("no arrayfire backends found");
     }
 
     for backend in backends.iter() {
