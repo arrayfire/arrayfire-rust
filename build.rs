@@ -66,14 +66,24 @@ fn fail(msg: &str) -> ! {
 fn dir_exists(location: &str) -> bool {
     match fs::metadata(location) {
         Ok(f) => f.is_dir(),
-        Err(_) => false,
+        Err(err) => {
+            if err.kind() != ErrorKind::NotFound {
+                eprintln!("WARNING: failed to access `{}`: {}", location, err);
+            }
+            false
+        },
     }
 }
 
 fn file_exists(location: &str) -> bool {
     match fs::metadata(location) {
         Ok(f) => f.is_file(),
-        Err(_) => false,
+        Err(err) => {
+            if err.kind() != ErrorKind::NotFound {
+                eprintln!("WARNING: failed to access `{}`: {}", location, err);
+            }
+            false
+        },
     }
 }
 
