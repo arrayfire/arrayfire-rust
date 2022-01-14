@@ -292,13 +292,9 @@ fn blob_backends(conf: &Config, build_dir: &std::path::Path) -> (Vec<String>, Ve
         let afpath = match env::var("AF_PATH") {
             Ok(af_path) => PathBuf::from(&af_path),
             Err(_) => {
-                println!(
-                    "WARNING! USE_LIB is defined,
-                          but AF_PATH is not found,"
-                );
-                println!(
-                    "Trying to find libraries from
-                          known default locations"
+                eprintln!(
+                    "WARNING: USE_LIB is defined, but AF_PATH is not found. Trying to find \
+                    libraries from known default locations."
                 );
                 if cfg!(target_os = "windows") {
                     PathBuf::from("C:\\Program Files\\ArrayFire\\v3\\")
