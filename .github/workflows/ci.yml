@@ -73,6 +73,8 @@ jobs:
     clippy:
         name: Clippy Lints
         runs-on: ubuntu-18.04
+        env:
+            AF_VER: 3.8.0
         steps:
             - name: Checkout Repository
               uses: actions/checkout@master
@@ -83,7 +85,29 @@ jobs:
                   toolchain: stable
                   override: true
                   components: clippy
+
+            - name: Cache ArrayFire
+              uses: actions/cache@v1
+              id: arrayfire
+              with:
+                  path: afbin
+                  key: ${{ runner.os }}-af-${{ env.AF_VER }}
+
+            - name: Download ArrayFire
+              # Only download and cache arrayfire if already not found
+              if: steps.arrayfire.outputs.cache-hit != 'true'
+              run: |
+                  wget --quiet http://arrayfire.s3.amazonaws.com/${AF_VER}/ArrayFire-v${AF_VER}_Linux_x86_64.sh
+                  chmod +x ./ArrayFire-v${AF_VER}_Linux_x86_64.sh
+                  mkdir afbin
+                  ./ArrayFire-v${AF_VER}_Linux_x86_64.sh --skip-license --exclude-subdir --prefix=./afbin
+                  rm ./afbin/lib64/libcu*.so*
+                  rm ./afbin/lib64/libafcuda*.so*
+                  rm ./ArrayFire-v${AF_VER}_Linux_x86_64.sh
+
             - name: Run clippy tool
+              env:
+                AF_PATH: ${{ github.workspace }}/afbin
               uses: actions-rs/cargo@v1
               with:
                   command: clippy
