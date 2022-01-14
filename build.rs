@@ -449,6 +449,11 @@ fn main() {
     }
 
     let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
+
+    if backends.is_empty() {
+       fail("no arrayfire backends found");
+    }
+
     for backend in backends.iter() {
         println!("cargo:rustc-link-lib=dylib={}", backend);
     }
