@@ -12,9 +12,9 @@ pub(crate) mod arrayfire_mnist {
     use arrayfire::{dim4, transpose, Array};
     use mnist::NormalizedMnist;
 
-    pub const TRAINING_SET_SIZE: u32 = 50_000;
-    pub const VALIDATION_SET_SIZE: u32 = 10_000;
-    pub const TEST_SET_SIZE: u32 = 10_000;
+    pub const TRAINING_SET_SIZE: u32 = 6_000;
+    pub const VALIDATION_SET_SIZE: u32 = 1_000;
+    pub const TEST_SET_SIZE: u32 = 1_000;
     pub const IMAGE_DIMENSION: usize = 28;
     pub struct ArrayfireNormalizedMnist {
         pub training_labels: Array<u8>,
