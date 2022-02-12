@@ -199,8 +199,10 @@ mod ANN {
             let number_of_training_samples = training_features.dims()[0] as i32;
             let number_of_batches_in_training_set = number_of_training_samples / batch_size;
 
-            let number_of_validation_samples = validation_features.dims()[0] as i32;
-            let number_of_batches_in_validation_set = number_of_validation_samples / batch_size;
+            let validation_batch_size = 1;
+
+            let _number_of_validation_samples = validation_features.dims()[0] as i32;
+            let number_of_batches_in_validation_set = 1; //number_of_validation_samples / validation_batch_size;
 
             let mut avg_error = 0f64;
 
@@ -219,17 +221,19 @@ mod ANN {
                 }
 
                 for validation_batch in 0..number_of_batches_in_validation_set {
-                    let start = validation_batch * batch_size;
-                    let end = start + batch_size - 1;
+                    let start = validation_batch * validation_batch_size;
+                    let end = start + validation_batch_size - 1;
 
                     let prediction =
                         self.predict(&index(validation_features, &[seq![start, end, 1], seq!()]));
 
                     let target = &index(validation_labels, &[seq![start, end, 1], seq!()]);
+
                     errors.push(Self::error(&prediction, target));
                 }
+
                 avg_error = errors.clone().into_iter().sum::<f64>()
-                    / number_of_batches_in_validation_set as f64;
+                    / (number_of_batches_in_validation_set) as f64;
                 if avg_error < max_err {
                     println!("Converged on Epoch: {}", epoch + 1);
                     return avg_error;
