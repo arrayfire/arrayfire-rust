@@ -24,7 +24,7 @@ fn check_error_handler_mutation() {
     let children = (0..4)
         .map(|i| {
             thread::Builder::new()
-                .name(format!("child {}", i + 1).to_string())
+                .name(format!("child {}", i + 1))
                 .spawn(move || {
                     let target_device = i % arrayfire::device_count();
                     println!(

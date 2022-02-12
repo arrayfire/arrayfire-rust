@@ -12,6 +12,7 @@ use std::env;
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::{ErrorKind, Read};
+use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -95,7 +96,7 @@ fn run(cmd: &mut Command, program: &str) {
     }
 }
 
-fn read_file(file_name: &std::path::PathBuf) -> String {
+fn read_file(file_name: &std::path::Path) -> String {
     let file_path = file_name.to_str().unwrap();
     let options = OpenOptions::new()
         .read(true)
@@ -115,7 +116,7 @@ fn read_file(file_name: &std::path::PathBuf) -> String {
     }
 }
 
-fn read_conf(conf_file: &std::path::PathBuf) -> Config {
+fn read_conf(conf_file: &std::path::Path) -> Config {
     let raw_conf = read_file(conf_file);
     let decoded: Config = serde_json::from_str(&raw_conf).unwrap();
     decoded
@@ -198,7 +199,7 @@ fn prep_cmake_options(conf: &Config) -> Vec<String> {
 }
 
 #[cfg(windows)]
-fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
+fn run_cmake_command(conf: &Config, build_dir: &std::path::Path) {
     let _ = fs::create_dir(&build_dir);
 
     let options = prep_cmake_options(conf);
@@ -243,7 +244,7 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
 }
 
 #[cfg(not(windows))]
-fn run_cmake_command(conf: &Config, build_dir: &std::path::PathBuf) {
+fn run_cmake_command(conf: &Config, build_dir: &std::path::Path) {
     let _ = fs::create_dir(&build_dir);
 
     let options = prep_cmake_options(conf);
@@ -282,7 +283,7 @@ fn backend_exists(name: &str) -> bool {
     file_exists(&win_backend) || file_exists(&osx_backend) || file_exists(&linux_backend)
 }
 
-fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>, Vec<String>) {
+fn blob_backends(conf: &Config, build_dir: &std::path::Path) -> (Vec<String>, Vec<String>) {
     let mut backend_dirs: Vec<String> = Vec::new();
     let mut backends: Vec<String> = Vec::new();
 
@@ -338,7 +339,7 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
     let mut ocl_lib_exists = false;
 
     for backend_dir in backend_dirs.iter() {
-        let lib_dir = PathBuf::from(backend_dir);
+        let lib_dir = Path::new(backend_dir);
 
         let culib_name = if cfg!(windows) {
             WIN_CUDA_LIB
@@ -429,7 +430,14 @@ fn blob_backends(conf: &Config, build_dir: &std::path::PathBuf) -> (Vec<String>,
 
 fn main() {
     // Setup pathing
-    let src = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
+    let cargo_manifest_dir = match env::var("CARGO_MANIFEST_DIR") {
+        Ok(dir_path) => dir_path,
+        Err(error) => panic!(
+            "CARGO_MANIFEST_DIR environment variable is not available: {}",
+            error
+        ),
+    };
+    let src = Path::new(&cargo_manifest_dir);
     let conf_file = src.join("build.conf");
     let conf = read_conf(&conf_file);
 
