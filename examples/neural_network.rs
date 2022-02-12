@@ -1,7 +1,5 @@
 use self::{
-    arrayfire_mnist::ArrayfireNormalizedMnist,
-    model::Model,
-    ANN::{ArtificialNeuralNetwork, ArtificialNeuralNetworkBuilder},
+    ann::ArtificialNeuralNetworkBuilder, arrayfire_mnist::ArrayfireNormalizedMnist, model::Model,
 };
 
 use arrayfire::Array;
@@ -96,7 +94,7 @@ pub(crate) mod model {
         ) -> f64;
     }
 }
-mod ANN {
+mod ann {
     use super::model::Model;
     use arrayfire::{
         constant, dim4, index, join, matmul, seq, sigmoid, sum_all, transpose, Array, MatProp,
@@ -358,6 +356,7 @@ fn main() {
         .with_label_width(10)
         .add_hidden_layer(100)
         .add_hidden_layer(50)
+        .with_initial_random_range(0.05f32)
         .build();
 
     model.train(
