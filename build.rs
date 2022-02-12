@@ -430,9 +430,12 @@ fn blob_backends(conf: &Config, build_dir: &std::path::Path) -> (Vec<String>, Ve
 
 fn main() {
     // Setup pathing
-    let cargo_manifest_dir = match env::var("CARGO_MANIFEST_DIR")  {
+    let cargo_manifest_dir = match env::var("CARGO_MANIFEST_DIR") {
         Ok(dir_path) => dir_path,
-        Err(error) => panic!("CARGO_MANIFEST_DIR environment variable is not available: {}", error),
+        Err(error) => panic!(
+            "CARGO_MANIFEST_DIR environment variable is not available: {}",
+            error
+        ),
     };
     let src = Path::new(&cargo_manifest_dir);
     let conf_file = src.join("build.conf");
