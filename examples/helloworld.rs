@@ -81,7 +81,7 @@ fn main() {
     //print(&x.0);
     //print(&x.1);
 
-    let u8_cnst = &constant(1 as u8, dims);
+    let u8_cnst = &constant(1_u8, dims);
     af_print!("u8 constant array", u8_cnst);
     println!(
         "Is u8_cnst array float precision type ? {}",

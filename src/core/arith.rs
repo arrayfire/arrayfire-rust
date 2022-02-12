@@ -668,18 +668,18 @@ where
     match (lo.is_scalar(), hi.is_scalar()) {
         (true, false) => {
             let l = tile(&lo, hi.dims());
-            clamp_helper(&input, &l, &hi, batch)
+            clamp_helper(input, &l, &hi, batch)
         }
         (false, true) => {
             let r = tile(&hi, lo.dims());
-            clamp_helper(&input, &lo, &r, batch)
+            clamp_helper(input, &lo, &r, batch)
         }
         (true, true) => {
             let l = tile(&lo, input.dims());
             let r = tile(&hi, input.dims());
-            clamp_helper(&input, &l, &r, batch)
+            clamp_helper(input, &l, &r, batch)
         }
-        _ => clamp_helper(&input, &lo, &hi, batch),
+        _ => clamp_helper(input, &lo, &hi, batch),
     }
 }
 

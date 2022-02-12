@@ -725,7 +725,7 @@ mod tests {
     fn non_macro_seq_assign() {
         set_device(0);
         // ANCHOR: non_macro_seq_assign
-        let mut a = constant(2.0 as f32, dim4!(5, 3));
+        let mut a = constant(2.0_f32, dim4!(5, 3));
         //print(&a);
         // 2.0 2.0 2.0
         // 2.0 2.0 2.0
@@ -733,7 +733,7 @@ mod tests {
         // 2.0 2.0 2.0
         // 2.0 2.0 2.0
 
-        let b = constant(1.0 as f32, dim4!(3, 3));
+        let b = constant(1.0_f32, dim4!(3, 3));
         let seqs = [seq!(1:3:1), seq!()];
         assign_seq(&mut a, &seqs, &b);
         //print(&a);
@@ -800,7 +800,7 @@ mod tests {
         //     0.4587     0.6793     0.0346
         //     0.5328     0.9347     0.0535
 
-        let b = constant(2.0 as f32, dim4!(3, 3, 1, 1));
+        let b = constant(2.0_f32, dim4!(3, 3, 1, 1));
 
         let mut idxrs = Indexer::default();
         idxrs.set_index(&indices, 0, None); // 2nd arg is indexing dimension

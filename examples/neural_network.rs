@@ -241,7 +241,7 @@ mod ann {
                     println!("Epoch: {}, Error: {}", epoch + 1, avg_error);
                 }
             }
-            return avg_error;
+            avg_error
         }
 
         fn predict(&self, input: &Array<f32>) -> Array<f32> {
@@ -312,7 +312,7 @@ mod ann {
                     MatProp::NONE,
                 );
 
-                error = index(&err, &[seq!(), seq!(1, output.dims()[1] as i32, 1)]);
+                error = index(err, &[seq!(), seq!(1, output.dims()[1] as i32, 1)]);
             }
         }
 
@@ -333,7 +333,7 @@ fn accuracy(predicted: &Array<f32>, target: &Array<f32>) -> f32 {
         &predicted_max_indices,
         false,
     ));
-    return 100f32 * matches as f32 / target_max_indices.elements() as f32;
+    100f32 * matches as f32 / target_max_indices.elements() as f32
 }
 
 fn main() {

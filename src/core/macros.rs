@@ -482,7 +482,7 @@ mod tests {
         let seq4gen = seq!(0:2:1);
         let mut a = randu::<f32>(dim4!(5, 3));
 
-        let b = constant(2.0 as f32, dim4!(3, 3));
+        let b = constant(2.0_f32, dim4!(3, 3));
 
         eval!(a[indices, seq4gen] = b);
         // ANCHOR_END: macro_seq_array_assign

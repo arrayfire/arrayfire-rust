@@ -682,6 +682,7 @@ where
     }
 
     /// Fetch Array as String
+    #[allow(clippy::inherent_to_string)]
     pub fn to_string(&self) -> String {
         let result: String;
         unsafe {
@@ -704,6 +705,7 @@ where
 
 /// Used for creating Array object from native
 /// resource id, an 64 bit integer
+#[allow(clippy::from_over_into)]
 impl<T: HasAfEnum> Into<Array<T>> for af_array {
     fn into(self) -> Array<T> {
         Array {
