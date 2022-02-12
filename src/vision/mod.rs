@@ -501,6 +501,10 @@ where
     T: HasAfEnum + ImageFilterType,
     T::AbsOutType: HasAfEnum,
 {
+    match mtype {
+        MatchType::NCC | MatchType::ZNCC | MatchType::SHD => HANDLE_ERROR(AfError::ERR_ARG),
+        _ => (), // Do nothing valid matching type
+    };
     unsafe {
         let mut temp: af_array = std::ptr::null_mut();
         let err_val = af_match_template(
@@ -668,5 +672,21 @@ where
         );
         HANDLE_ERROR(AfError::from(err_val));
         (temp.into(), inliers)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::randu;
+
+    #[test]
+    #[should_panic]
+    fn check_invalid_matchtype() {
+        crate::core::set_device(0);
+        let a = randu!(f32; 10, 10);
+        let b = randu!(f32; 2, 2);
+        super::match_template(&a, &b, crate::MatchType::NCC);
+        super::match_template(&a, &b, crate::MatchType::ZNCC);
+        super::match_template(&a, &b, crate::MatchType::SHD);
     }
 }
