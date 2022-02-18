@@ -58,21 +58,32 @@ struct Config {
     win_vs_toolset: String,
 }
 
-fn fail(s: &str) -> ! {
-    panic!("\n{}\n\nbuild script failed, must exit now", s)
+fn fail(msg: &str) -> ! {
+    eprintln!("ERROR: {}", msg);
+    std::process::exit(1);
 }
 
 fn dir_exists(location: &str) -> bool {
     match fs::metadata(location) {
         Ok(f) => f.is_dir(),
-        Err(_) => false,
+        Err(err) => {
+            if err.kind() != ErrorKind::NotFound {
+                eprintln!("WARNING: failed to access `{}`: {}", location, err);
+            }
+            false
+        }
     }
 }
 
 fn file_exists(location: &str) -> bool {
     match fs::metadata(location) {
         Ok(f) => f.is_file(),
-        Err(_) => false,
+        Err(err) => {
+            if err.kind() != ErrorKind::NotFound {
+                eprintln!("WARNING: failed to access `{}`: {}", location, err);
+            }
+            false
+        }
     }
 }
 
@@ -291,13 +302,9 @@ fn blob_backends(conf: &Config, build_dir: &std::path::Path) -> (Vec<String>, Ve
         let afpath = match env::var("AF_PATH") {
             Ok(af_path) => PathBuf::from(&af_path),
             Err(_) => {
-                println!(
-                    "WARNING! USE_LIB is defined,
-                          but AF_PATH is not found,"
-                );
-                println!(
-                    "Trying to find libraries from
-                          known default locations"
+                eprintln!(
+                    "WARNING: USE_LIB is defined, but AF_PATH is not found. Trying to find \
+                    libraries from known default locations."
                 );
                 if cfg!(target_os = "windows") {
                     PathBuf::from("C:\\Program Files\\ArrayFire\\v3\\")
@@ -449,6 +456,11 @@ fn main() {
     }
 
     let (backends, backend_dirs) = blob_backends(&conf, &build_dir);
+
+    if backends.is_empty() {
+        fail("no arrayfire backends found");
+    }
+
     for backend in backends.iter() {
         println!("cargo:rustc-link-lib=dylib={}", backend);
     }
