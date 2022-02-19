@@ -1,6 +1,6 @@
 [![ci][19]][16] [![docs][18]][3] [![book][22]][21] [![slack][17]][4] [![github-discussions][20]][5]
 
-# Arrayfire Rust Bindings
+# ArrayFire Rust Bindings
 
 [ArrayFire][1] is a high performance library for parallel computing with an easy-to-use API. It
 enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU
