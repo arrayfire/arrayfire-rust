@@ -43,31 +43,31 @@ extern "C" {
 
 /// Get size, in bytes, of the arrayfire native type
 pub fn get_size(value: DType) -> usize {
-    unsafe {
+    
         let mut ret_val: usize = 0;
-        let err_val = af_get_size_of(&mut ret_val as *mut size_t, value as c_uint);
+        let err_val = unsafe {af_get_size_of(&mut ret_val as *mut size_t, value as c_uint)};
         HANDLE_ERROR(AfError::from(err_val));
         ret_val
-    }
+    
 }
 
 /// Allocates space using Arrayfire allocator in host memory
 pub fn alloc_host<T>(elements: usize, _type: DType) -> *const T {
     let ptr: *const T = ::std::ptr::null();
     let bytes = (elements * get_size(_type)) as dim_t;
-    unsafe {
-        let err_val = af_alloc_host(&mut (ptr as *const c_void), bytes);
+    
+        let err_val = unsafe {af_alloc_host(&mut (ptr as *const c_void), bytes)};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     ptr
 }
 
 /// Frees memory allocated by Arrayfire allocator in host memory
 pub fn free_host<T>(ptr: *mut T) {
-    unsafe {
-        let err_val = af_free_host(ptr as *mut c_void);
+   
+        let err_val =  unsafe {af_free_host(ptr as *mut c_void)};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
 }
 
 impl From<i32> for AfError {

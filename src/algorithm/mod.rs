@@ -150,12 +150,12 @@ macro_rules! dim_reduce_func_def {
             T: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            unsafe {
+            
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(&mut temp as *mut af_array, input.get(), dim);
+                let err_val = unsafe {$ffi_name(&mut temp as *mut af_array, input.get(), dim)};
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
-            }
+            
         }
     };
 }
@@ -490,12 +490,12 @@ where
     T: HasAfEnum,
     T::AggregateOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_sum_nan(&mut temp as *mut af_array, input.get(), dim, nanval);
+        let err_val = unsafe {af_sum_nan(&mut temp as *mut af_array, input.get(), dim, nanval) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Product of elements along specific dimension using user specified value instead of `NAN` values
@@ -516,12 +516,12 @@ where
     T: HasAfEnum,
     T::ProductOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_product_nan(&mut temp as *mut af_array, input.get(), dim, nanval);
+        let err_val = unsafe {af_product_nan(&mut temp as *mut af_array, input.get(), dim, nanval)};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 macro_rules! all_reduce_func_def {
@@ -540,14 +540,14 @@ macro_rules! all_reduce_func_def {
         {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
-            unsafe {
-                let err_val = $ffi_name(
+            
+                let err_val = unsafe {$ffi_name(
                     &mut real as *mut c_double,
                     &mut imag as *mut c_double,
                     input.get(),
-                );
+                )};
                 HANDLE_ERROR(AfError::from(err_val));
-            }
+            
             (
                 <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType::fromf64(real),
                 <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType::fromf64(imag),
@@ -683,14 +683,14 @@ macro_rules! all_reduce_func_def2 {
         {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
-            unsafe {
-                let err_val = $ffi_name(
+            
+                let err_val = unsafe {$ffi_name(
                     &mut real as *mut c_double,
                     &mut imag as *mut c_double,
                     input.get(),
-                );
+                ) };
                 HANDLE_ERROR(AfError::from(err_val));
-            }
+           
             (<$out_type>::fromf64(real), <$out_type>::fromf64(imag))
         }
     };
@@ -806,15 +806,15 @@ where
 {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_sum_nan_all(
+    
+        let err_val =unsafe { af_sum_nan_all(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
             val,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     (
         <<T as HasAfEnum>::AggregateOutType as HasAfEnum>::BaseType::fromf64(real),
         <<T as HasAfEnum>::AggregateOutType as HasAfEnum>::BaseType::fromf64(imag),
@@ -850,15 +850,15 @@ where
 {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_product_nan_all(
+    
+        let err_val = unsafe {af_product_nan_all(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
             val,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     (
         <<T as HasAfEnum>::ProductOutType as HasAfEnum>::BaseType::fromf64(real),
         <<T as HasAfEnum>::ProductOutType as HasAfEnum>::BaseType::fromf64(imag),
@@ -873,18 +873,18 @@ macro_rules! dim_ireduce_func_def {
             T: HasAfEnum,
             T::$out_type: HasAfEnum,
         {
-            unsafe {
+            
                 let mut temp: af_array = std::ptr::null_mut();
                 let mut idx: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(
+                let err_val = unsafe {$ffi_name(
                     &mut temp as *mut af_array,
                     &mut idx as *mut af_array,
                     input.get(),
                     dim,
-                );
+                ) };
                 HANDLE_ERROR(AfError::from(err_val));
                 (temp.into(), idx.into())
-            }
+           
         }
     };
 }
@@ -933,15 +933,15 @@ macro_rules! all_ireduce_func_def {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
             let mut temp: u32 = 0;
-            unsafe {
-                let err_val = $ffi_name(
+            
+                let err_val = unsafe {$ffi_name(
                     &mut real as *mut c_double,
                     &mut imag as *mut c_double,
                     &mut temp as *mut c_uint,
                     input.get(),
-                );
+                )};
                 HANDLE_ERROR(AfError::from(err_val));
-            }
+            
             (
                 <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType::fromf64(real),
                 <<T as HasAfEnum>::$assoc_type as HasAfEnum>::BaseType::fromf64(imag),
@@ -1004,12 +1004,12 @@ all_ireduce_func_def!(
 ///
 /// Array of indices where the input Array has non-zero values.
 pub fn locate<T: HasAfEnum>(input: &Array<T>) -> Array<u32> {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_where(&mut temp as *mut af_array, input.get());
+        let err_val = unsafe {af_where(&mut temp as *mut af_array, input.get())};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Sort the values in input Arrays
@@ -1030,12 +1030,12 @@ pub fn sort<T>(input: &Array<T>, dim: u32, ascending: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_sort(&mut temp as *mut af_array, input.get(), dim, ascending);
+        let err_val = unsafe {af_sort(&mut temp as *mut af_array, input.get(), dim, ascending)};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Sort the values in input Arrays
@@ -1058,19 +1058,19 @@ pub fn sort_index<T>(input: &Array<T>, dim: u32, ascending: bool) -> (Array<T>, 
 where
     T: HasAfEnum + RealNumber,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
         let mut idx: af_array = std::ptr::null_mut();
-        let err_val = af_sort_index(
+        let err_val = unsafe {af_sort_index(
             &mut temp as *mut af_array,
             &mut idx as *mut af_array,
             input.get(),
             dim,
             ascending,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (temp.into(), idx.into())
-    }
+    
 }
 
 /// Sort the values in input Arrays
@@ -1101,20 +1101,20 @@ where
     K: HasAfEnum + RealNumber,
     V: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
         let mut temp2: af_array = std::ptr::null_mut();
-        let err_val = af_sort_by_key(
+        let err_val = unsafe {af_sort_by_key(
             &mut temp as *mut af_array,
             &mut temp2 as *mut af_array,
             keys.get(),
             vals.get(),
             dim,
             ascending,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (temp.into(), temp2.into())
-    }
+    
 }
 
 /// Find unique values from a Set
@@ -1132,12 +1132,12 @@ pub fn set_unique<T>(input: &Array<T>, is_sorted: bool) -> Array<T>
 where
     T: HasAfEnum + RealNumber,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_set_unique(&mut temp as *mut af_array, input.get(), is_sorted);
+        let err_val =unsafe { af_set_unique(&mut temp as *mut af_array, input.get(), is_sorted) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Find union of two sets
@@ -1155,17 +1155,17 @@ pub fn set_union<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) -> Arr
 where
     T: HasAfEnum + RealNumber,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_set_union(
+        let err_val = unsafe {af_set_union(
             &mut temp as *mut af_array,
             first.get(),
             second.get(),
             is_unique,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Find intersection of two sets
@@ -1183,17 +1183,17 @@ pub fn set_intersect<T>(first: &Array<T>, second: &Array<T>, is_unique: bool) ->
 where
     T: HasAfEnum + RealNumber,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_set_intersect(
+        let err_val =unsafe { af_set_intersect(
             &mut temp as *mut af_array,
             first.get(),
             second.get(),
             is_unique,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Generalized scan
@@ -1219,18 +1219,18 @@ where
     T: HasAfEnum,
     T::AggregateOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_scan(
+        let err_val = unsafe {af_scan(
             &mut temp as *mut af_array,
             input.get(),
             dim,
             op as u32,
             inclusive,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Generalized scan by key
@@ -1259,19 +1259,19 @@ where
     V::AggregateOutType: HasAfEnum,
     K: HasAfEnum + Scanable,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_scan_by_key(
+        let err_val =unsafe { af_scan_by_key(
             &mut temp as *mut af_array,
             key.get(),
             input.get(),
             dim,
             op as u32,
             inclusive,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 macro_rules! dim_reduce_by_key_func_def {
@@ -1298,19 +1298,19 @@ macro_rules! dim_reduce_by_key_func_def {
             ValueType: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            unsafe {
+            
                 let mut out_keys: af_array = std::ptr::null_mut();
                 let mut out_vals: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(
+                let err_val = unsafe {$ffi_name(
                     &mut out_keys as *mut af_array,
                     &mut out_vals as *mut af_array,
                     keys.get(),
                     vals.get(),
                     dim,
-                );
+                )};
                 HANDLE_ERROR(AfError::from(err_val));
                 (out_keys.into(), out_vals.into())
-            }
+            
         }
     };
 }
@@ -1435,20 +1435,20 @@ macro_rules! dim_reduce_by_key_nan_func_def {
             ValueType: HasAfEnum,
             $out_type: HasAfEnum,
         {
-            unsafe {
+           
                 let mut out_keys: af_array = std::ptr::null_mut();
                 let mut out_vals: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(
+                let err_val =  unsafe {$ffi_name(
                     &mut out_keys as *mut af_array,
                     &mut out_vals as *mut af_array,
                     keys.get(),
                     vals.get(),
                     dim,
                     replace_value,
-                );
+                )};
                 HANDLE_ERROR(AfError::from(err_val));
                 (out_keys.into(), out_vals.into())
-            }
+            
         }
     };
 }
@@ -1514,19 +1514,19 @@ where
     T: HasAfEnum,
     T::InType: HasAfEnum,
 {
-    unsafe {
+    
         let mut out_vals: af_array = std::ptr::null_mut();
         let mut out_idxs: af_array = std::ptr::null_mut();
-        let err_val = af_max_ragged(
+        let err_val = unsafe {af_max_ragged(
             &mut out_vals as *mut af_array,
             &mut out_idxs as *mut af_array,
             input.get(),
             ragged_len.get(),
             dim,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (out_vals.into(), out_idxs.into())
-    }
+    
 }
 
 #[cfg(test)]

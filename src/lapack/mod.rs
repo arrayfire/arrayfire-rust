@@ -73,19 +73,19 @@ where
     T: HasAfEnum + FloatingPoint,
     T::BaseType: HasAfEnum,
 {
-    unsafe {
+    
         let mut u: af_array = std::ptr::null_mut();
         let mut s: af_array = std::ptr::null_mut();
         let mut vt: af_array = std::ptr::null_mut();
-        let err_val = af_svd(
+        let err_val =unsafe { af_svd(
             &mut u as *mut af_array,
             &mut s as *mut af_array,
             &mut vt as *mut af_array,
             input.get(),
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (u.into(), s.into(), vt.into())
-    }
+    
 }
 
 /// Perform Singular Value Decomposition inplace
@@ -117,19 +117,19 @@ where
     T: HasAfEnum + FloatingPoint,
     T::BaseType: HasAfEnum,
 {
-    unsafe {
+    
         let mut u: af_array = std::ptr::null_mut();
         let mut s: af_array = std::ptr::null_mut();
         let mut vt: af_array = std::ptr::null_mut();
-        let err_val = af_svd_inplace(
+        let err_val =unsafe { af_svd_inplace(
             &mut u as *mut af_array,
             &mut s as *mut af_array,
             &mut vt as *mut af_array,
             input.get(),
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (u.into(), s.into(), vt.into())
-    }
+    
 }
 
 /// Perform LU decomposition
@@ -151,19 +151,19 @@ pub fn lu<T>(input: &Array<T>) -> (Array<T>, Array<T>, Array<i32>)
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut lower: af_array = std::ptr::null_mut();
         let mut upper: af_array = std::ptr::null_mut();
         let mut pivot: af_array = std::ptr::null_mut();
-        let err_val = af_lu(
+        let err_val = unsafe {af_lu(
             &mut lower as *mut af_array,
             &mut upper as *mut af_array,
             &mut pivot as *mut af_array,
             input.get(),
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (lower.into(), upper.into(), pivot.into())
-    }
+    
 }
 
 /// Perform inplace LU decomposition
@@ -181,12 +181,12 @@ pub fn lu_inplace<T>(input: &mut Array<T>, is_lapack_piv: bool) -> Array<i32>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut pivot: af_array = std::ptr::null_mut();
-        let err_val = af_lu_inplace(&mut pivot as *mut af_array, input.get(), is_lapack_piv);
+        let err_val =unsafe { af_lu_inplace(&mut pivot as *mut af_array, input.get(), is_lapack_piv)  };
         HANDLE_ERROR(AfError::from(err_val));
         pivot.into()
-    }
+  
 }
 
 /// Perform QR decomposition
@@ -209,19 +209,19 @@ pub fn qr<T>(input: &Array<T>) -> (Array<T>, Array<T>, Array<T>)
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut q: af_array = std::ptr::null_mut();
         let mut r: af_array = std::ptr::null_mut();
         let mut tau: af_array = std::ptr::null_mut();
-        let err_val = af_qr(
+        let err_val = unsafe {af_qr(
             &mut q as *mut af_array,
             &mut r as *mut af_array,
             &mut tau as *mut af_array,
             input.get(),
-        );
+        )  };
         HANDLE_ERROR(AfError::from(err_val));
         (q.into(), r.into(), tau.into())
-    }
+  
 }
 
 /// Perform inplace QR decomposition
@@ -237,12 +237,12 @@ pub fn qr_inplace<T>(input: &mut Array<T>) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut tau: af_array = std::ptr::null_mut();
-        let err_val = af_qr_inplace(&mut tau as *mut af_array, input.get());
+        let err_val = unsafe {af_qr_inplace(&mut tau as *mut af_array, input.get())};
         HANDLE_ERROR(AfError::from(err_val));
         tau.into()
-    }
+    
 }
 
 /// Perform Cholesky decomposition
@@ -264,18 +264,18 @@ pub fn cholesky<T>(input: &Array<T>, is_upper: bool) -> (Array<T>, i32)
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
         let mut info: i32 = 0;
-        let err_val = af_cholesky(
+        let err_val = unsafe {af_cholesky(
             &mut temp as *mut af_array,
             &mut info as *mut c_int,
             input.get(),
             is_upper,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         (temp.into(), info)
-    }
+   
 }
 
 /// Perform inplace Cholesky decomposition
@@ -294,10 +294,10 @@ where
     T: HasAfEnum + FloatingPoint,
 {
     let mut info: i32 = 0;
-    unsafe {
-        let err_val = af_cholesky_inplace(&mut info as *mut c_int, input.get(), is_upper);
+    
+        let err_val = unsafe {af_cholesky_inplace(&mut info as *mut c_int, input.get(), is_upper)};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     info
 }
 
@@ -318,17 +318,17 @@ pub fn solve<T>(a: &Array<T>, b: &Array<T>, options: MatProp) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+   
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_solve(
+        let err_val = unsafe { af_solve(
             &mut temp as *mut af_array,
             a.get(),
             b.get(),
             options as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Solve a system of equations
@@ -349,18 +349,18 @@ pub fn solve_lu<T>(a: &Array<T>, piv: &Array<i32>, b: &Array<T>, options: MatPro
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_solve_lu(
+        let err_val = unsafe {af_solve_lu(
             &mut temp as *mut af_array,
             a.get(),
             piv.get(),
             b.get(),
             options as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Compute inverse of a matrix
@@ -379,12 +379,12 @@ pub fn inverse<T>(input: &Array<T>, options: MatProp) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_inverse(&mut temp as *mut af_array, input.get(), options as c_uint);
+        let err_val = unsafe {af_inverse(&mut temp as *mut af_array, input.get(), options as c_uint) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Find rank of a matrix
@@ -402,10 +402,10 @@ where
     T: HasAfEnum + FloatingPoint,
 {
     let mut temp: u32 = 0;
-    unsafe {
-        let err_val = af_rank(&mut temp as *mut c_uint, input.get(), tol);
+    
+        let err_val = unsafe {af_rank(&mut temp as *mut c_uint, input.get(), tol)};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     temp
 }
 
@@ -426,14 +426,14 @@ where
 {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_det(
+    
+        let err_val = unsafe {af_det(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     (real, imag)
 }
 
@@ -456,16 +456,16 @@ where
     T: HasAfEnum + FloatingPoint,
 {
     let mut out: f64 = 0.0;
-    unsafe {
-        let err_val = af_norm(
+   
+        let err_val =  unsafe {af_norm(
             &mut out as *mut c_double,
             input.get(),
             ntype as c_uint,
             p,
             q,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
-    }
+   
     out
 }
 
@@ -507,15 +507,15 @@ pub fn pinverse<T>(input: &Array<T>, tolerance: f64, option: MatProp) -> Array<T
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
+    
         let mut out: af_array = std::ptr::null_mut();
-        let err_val = af_pinverse(
+        let err_val = unsafe {af_pinverse(
             &mut out as *mut af_array,
             input.get(),
             tolerance,
             option as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         out.into()
-    }
+    
 }

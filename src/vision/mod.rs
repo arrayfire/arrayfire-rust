@@ -134,9 +134,9 @@ macro_rules! feat_func_def {
     ($doc_str: expr, $fn_name: ident, $ffi_name: ident) => {
         #[doc=$doc_str]
         pub fn $fn_name(&self) -> Array<f32> {
-            unsafe {
+            
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(&mut temp as *mut af_array, self.feat);
+                let err_val = unsafe {$ffi_name(&mut temp as *mut af_array, self.feat) };
                 HANDLE_ERROR(AfError::from(err_val));
 
                 let temp_array: Array<f32> = temp.into();
@@ -144,7 +144,7 @@ macro_rules! feat_func_def {
                 mem::forget(temp_array);
 
                 retained
-            }
+           
         }
     };
 }
@@ -154,24 +154,24 @@ impl Features {
     ///
     /// This object is basically a bunch of Arrays.
     pub fn new(n: u64) -> Self {
-        unsafe {
+        
             let mut temp: af_features = std::ptr::null_mut();
-            let err_val = af_create_features(&mut temp as *mut af_features, n as dim_t);
+            let err_val = unsafe {af_create_features(&mut temp as *mut af_features, n as dim_t) };
             HANDLE_ERROR(AfError::from(err_val));
             Self { feat: temp }
-        }
+       
     }
 
     /// Get total number of features found
     pub fn num_features(&self) -> i64 {
         let mut temp: i64 = 0;
-        unsafe {
-            let err_val = af_get_features_num(
+        
+            let err_val =unsafe { af_get_features_num(
                 &mut temp as *mut dim_t,
                 self.feat as *const dim_t as af_features,
-            );
+            )};
             HANDLE_ERROR(AfError::from(err_val));
-        }
+        
         temp
     }
 
@@ -188,21 +188,21 @@ impl Features {
 
 impl Clone for Features {
     fn clone(&self) -> Self {
-        unsafe {
+       
             let mut temp: af_features = std::ptr::null_mut();
-            let ret_val = af_retain_features(&mut temp as *mut af_features, self.feat);
+            let ret_val =  unsafe {af_retain_features(&mut temp as *mut af_features, self.feat)};
             HANDLE_ERROR(AfError::from(ret_val));
             Self { feat: temp }
-        }
+        
     }
 }
 
 impl Drop for Features {
     fn drop(&mut self) {
-        unsafe {
-            let ret_val = af_release_features(self.feat);
+        
+            let ret_val = unsafe {af_release_features(self.feat)};
             HANDLE_ERROR(AfError::from(ret_val));
-        }
+        
     }
 }
 
@@ -245,9 +245,9 @@ pub fn fast<T>(
 where
     T: HasAfEnum + ImageFilterType,
 {
-    unsafe {
+    
         let mut temp: af_features = std::ptr::null_mut();
-        let err_val = af_fast(
+        let err_val =unsafe { af_fast(
             &mut temp as *mut af_features,
             input.get(),
             thr,
@@ -255,10 +255,10 @@ where
             non_max,
             feat_ratio,
             edge,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         Features { feat: temp }
-    }
+    
 }
 
 /// Harris corner detector.
@@ -293,9 +293,9 @@ pub fn harris<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    unsafe {
+    
         let mut temp: af_features = std::ptr::null_mut();
-        let err_val = af_harris(
+        let err_val =unsafe { af_harris(
             &mut temp as *mut af_features,
             input.get(),
             max_corners,
@@ -303,10 +303,10 @@ where
             sigma,
             block_size,
             k_thr,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         Features { feat: temp }
-    }
+   
 }
 
 /// ORB feature descriptor
@@ -342,10 +342,10 @@ pub fn orb<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    unsafe {
+    
         let mut f: af_features = std::ptr::null_mut();
         let mut d: af_array = std::ptr::null_mut();
-        let err_val = af_orb(
+        let err_val = unsafe {af_orb(
             &mut f as *mut af_features,
             &mut d as *mut af_array,
             input.get(),
@@ -354,10 +354,10 @@ where
             scl_fctr,
             levels,
             blur_img,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         (Features { feat: f }, d.into())
-    }
+   
 }
 
 /// Hamming feature matcher
@@ -402,20 +402,20 @@ where
     T: HasAfEnum + ImageFilterType,
     T::AggregateOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut idx: af_array = std::ptr::null_mut();
         let mut dist: af_array = std::ptr::null_mut();
-        let err_val = af_hamming_matcher(
+        let err_val = unsafe {af_hamming_matcher(
             &mut idx as *mut af_array,
             &mut dist as *mut af_array,
             query.get(),
             train.get(),
             dist_dims,
             n_dist,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (idx.into(), dist.into())
-    }
+    
 }
 
 /// Nearest Neighbour.
@@ -461,10 +461,10 @@ where
     T: HasAfEnum + ImageFilterType,
     T::AggregateOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut idx: af_array = std::ptr::null_mut();
         let mut dist: af_array = std::ptr::null_mut();
-        let err_val = af_nearest_neighbour(
+        let err_val =unsafe { af_nearest_neighbour(
             &mut idx as *mut af_array,
             &mut dist as *mut af_array,
             query.get(),
@@ -472,10 +472,10 @@ where
             dist_dim,
             n_dist,
             dist_type as c_int,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         (idx.into(), dist.into())
-    }
+   
 }
 
 /// Image matching
@@ -505,17 +505,17 @@ where
         MatchType::NCC | MatchType::ZNCC | MatchType::SHD => HANDLE_ERROR(AfError::ERR_ARG),
         _ => (), // Do nothing valid matching type
     };
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_match_template(
+        let err_val =unsafe { af_match_template(
             &mut temp as *mut af_array,
             search_img.get(),
             template_img.get(),
             mtype as c_uint,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// SUSAN corner detector.
@@ -568,9 +568,9 @@ pub fn susan<T>(
 where
     T: HasAfEnum + ImageFilterType,
 {
-    unsafe {
+    
         let mut temp: af_features = std::ptr::null_mut();
-        let err_val = af_susan(
+        let err_val = unsafe {af_susan(
             &mut temp as *mut af_features,
             input.get(),
             radius,
@@ -578,10 +578,10 @@ where
             geom_thr,
             feature_ratio,
             edge,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         Features { feat: temp }
-    }
+    
 }
 
 /// Difference of Gaussians.
@@ -603,12 +603,12 @@ where
     T: HasAfEnum + ImageFilterType,
     T::AbsOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_dog(&mut temp as *mut af_array, input.get(), radius1, radius2);
+        let err_val = unsafe {af_dog(&mut temp as *mut af_array, input.get(), radius1, radius2) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Homography estimation
@@ -655,10 +655,10 @@ where
     OutType: HasAfEnum + RealFloating,
 {
     let otype = OutType::get_af_dtype();
-    unsafe {
+   
         let mut inliers: i32 = 0;
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_homography(
+        let err_val = unsafe { af_homography(
             &mut temp as *mut af_array,
             &mut inliers as *mut c_int,
             x_src.get(),
@@ -669,10 +669,10 @@ where
             inlier_thr,
             iterations,
             otype as c_uint,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         (temp.into(), inliers)
-    }
+   
 }
 
 #[cfg(test)]

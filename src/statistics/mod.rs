@@ -78,12 +78,12 @@ pub fn median<T>(input: &Array<T>, dim: i64) -> Array<T>
 where
     T: HasAfEnum + MedianComputable,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_median(&mut temp as *mut af_array, input.get(), dim);
+        let err_val =unsafe { af_median(&mut temp as *mut af_array, input.get(), dim)};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 macro_rules! stat_func_def {
@@ -104,12 +104,12 @@ macro_rules! stat_func_def {
             T: HasAfEnum,
             T::MeanOutType: HasAfEnum,
         {
-            unsafe {
+            
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get(), dim);
+                let err_val = unsafe {$ffi_fn(&mut temp as *mut af_array, input.get(), dim) };
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
-            }
+           
         }
     };
 }
@@ -140,12 +140,12 @@ macro_rules! stat_wtd_func_def {
             T::MeanOutType: HasAfEnum,
             W: HasAfEnum + RealFloating,
         {
-            unsafe {
+            
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get(), weights.get(), dim);
+                let err_val = unsafe {$ffi_fn(&mut temp as *mut af_array, input.get(), weights.get(), dim) };
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
-            }
+           
         }
     };
 }
@@ -179,17 +179,17 @@ where
     T: HasAfEnum,
     T::MeanOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_var_v2(
+        let err_val = unsafe {af_var_v2(
             &mut temp as *mut af_array,
             arr.get(),
             bias_kind as c_uint,
             dim,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Compute Variance along a specific dimension
@@ -238,17 +238,17 @@ where
     T: HasAfEnum + CovarianceComputable,
     T::MeanOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_cov_v2(
+        let err_val = unsafe {af_cov_v2(
             &mut temp as *mut af_array,
             x.get(),
             y.get(),
             bias_kind as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Compute covariance of two Arrays
@@ -294,15 +294,15 @@ where
 pub fn var_all_v2<T: HasAfEnum>(input: &Array<T>, bias_kind: VarianceBias) -> (f64, f64) {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_var_all_v2(
+    
+        let err_val =unsafe { af_var_all_v2(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
             bias_kind as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     (real, imag)
 }
 
@@ -342,14 +342,14 @@ macro_rules! stat_all_func_def {
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> (f64, f64) {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
-            unsafe {
-                let err_val = $ffi_fn(
+           
+                let err_val = unsafe { $ffi_fn(
                     &mut real as *mut c_double,
                     &mut imag as *mut c_double,
                     input.get(),
-                );
+                )};
                 HANDLE_ERROR(AfError::from(err_val));
-            }
+            
             (real, imag)
         }
     };
@@ -372,14 +372,14 @@ where
 {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_median_all(
+    
+        let err_val =unsafe { af_median_all(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
-    }
+    
     (real, imag)
 }
 
@@ -402,15 +402,15 @@ macro_rules! stat_wtd_all_func_def {
         {
             let mut real: f64 = 0.0;
             let mut imag: f64 = 0.0;
-            unsafe {
-                let err_val = $ffi_fn(
+            
+                let err_val =unsafe { $ffi_fn(
                     &mut real as *mut c_double,
                     &mut imag as *mut c_double,
                     input.get(),
                     weights.get(),
-                );
+                ) };
                 HANDLE_ERROR(AfError::from(err_val));
-            }
+           
             (real, imag)
         }
     };
@@ -442,15 +442,15 @@ where
 {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_corrcoef(
+    
+        let err_val =unsafe { af_corrcoef(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             x.get(),
             y.get(),
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
-    }
+   
     (real, imag)
 }
 
@@ -481,20 +481,20 @@ pub fn topk<T>(input: &Array<T>, k: u32, dim: i32, order: TopkFn) -> (Array<T>, 
 where
     T: HasAfEnum,
 {
-    unsafe {
+    
         let mut t0: af_array = std::ptr::null_mut();
         let mut t1: af_array = std::ptr::null_mut();
-        let err_val = af_topk(
+        let err_val = unsafe {af_topk(
             &mut t0 as *mut af_array,
             &mut t1 as *mut af_array,
             input.get(),
             k as c_int,
             dim as c_int,
             order as c_uint,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (t0.into(), t1.into())
-    }
+    
 }
 
 /// Calculate mean and variance in single API call
@@ -524,20 +524,20 @@ where
     T::MeanOutType: HasAfEnum,
     W: HasAfEnum + RealFloating,
 {
-    unsafe {
+    
         let mut mean: af_array = std::ptr::null_mut();
         let mut var: af_array = std::ptr::null_mut();
-        let err_val = af_meanvar(
+        let err_val = unsafe {af_meanvar(
             &mut mean as *mut af_array,
             &mut var as *mut af_array,
             input.get(),
             weights.get(),
             bias as c_uint,
             dim,
-        );
+        )};
         HANDLE_ERROR(AfError::from(err_val));
         (mean.into(), var.into())
-    }
+    
 }
 
 /// Standard deviation along given axis
@@ -559,17 +559,17 @@ where
     T: HasAfEnum,
     T::MeanOutType: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_stdev_v2(
+        let err_val = unsafe {af_stdev_v2(
             &mut temp as *mut af_array,
             input.get(),
             bias_kind as c_uint,
             dim,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+   
 }
 
 /// Standard deviation along specified axis
@@ -607,15 +607,15 @@ where
 pub fn stdev_all_v2<T: HasAfEnum>(input: &Array<T>, bias_kind: VarianceBias) -> (f64, f64) {
     let mut real: f64 = 0.0;
     let mut imag: f64 = 0.0;
-    unsafe {
-        let err_val = af_stdev_all_v2(
+    
+        let err_val = unsafe {af_stdev_all_v2(
             &mut real as *mut c_double,
             &mut imag as *mut c_double,
             input.get(),
             bias_kind as c_uint,
-        );
+        )  };
         HANDLE_ERROR(AfError::from(err_val));
-    }
+  
     (real, imag)
 }
 

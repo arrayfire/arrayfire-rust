@@ -147,10 +147,10 @@ where
     T: HasAfEnum + IndexableType,
 {
     fn set(&self, idxr: &mut Indexer, dim: u32, _is_batch: Option<bool>) {
-        unsafe {
-            let err_val = af_set_array_indexer(idxr.get(), self.get(), dim as dim_t);
+        
+            let err_val = unsafe { af_set_array_indexer(idxr.get(), self.get(), dim as dim_t) };
             HANDLE_ERROR(AfError::from(err_val));
-        }
+        
     }
 }
 
@@ -164,30 +164,30 @@ where
     T: Copy + IndexableType,
 {
     fn set(&self, idxr: &mut Indexer, dim: u32, is_batch: Option<bool>) {
-        unsafe {
-            let err_val = af_set_seq_indexer(
+        
+            let err_val = unsafe { af_set_seq_indexer(
                 idxr.get(),
                 &SeqInternal::from_seq(self) as *const SeqInternal,
                 dim as dim_t,
                 is_batch.unwrap_or(false),
-            );
+            ) };
             HANDLE_ERROR(AfError::from(err_val));
-        }
+        
     }
 }
 
 impl<'object> Default for Indexer<'object> {
     fn default() -> Self {
-        unsafe {
+        
             let mut temp: af_index_t = std::ptr::null_mut();
-            let err_val = af_create_indexers(&mut temp as *mut af_index_t);
+            let err_val = unsafe { af_create_indexers(&mut temp as *mut af_index_t) };
             HANDLE_ERROR(AfError::from(err_val));
             Self {
                 handle: temp,
                 count: 0,
                 marker: PhantomData,
             }
-        }
+        
     }
 }
 
@@ -195,16 +195,16 @@ impl<'object> Indexer<'object> {
     /// Create a new Indexer object and set the dimension specific index objects later
     #[deprecated(since = "3.7.0", note = "Use Indexer::default() instead")]
     pub fn new() -> Self {
-        unsafe {
+        
             let mut temp: af_index_t = std::ptr::null_mut();
-            let err_val = af_create_indexers(&mut temp as *mut af_index_t);
+                let err_val = unsafe { af_create_indexers(&mut temp as *mut af_index_t) };
             HANDLE_ERROR(AfError::from(err_val));
             Self {
                 handle: temp,
                 count: 0,
                 marker: PhantomData,
             }
-        }
+        
     }
 
     /// Set either [Array](./struct.Array.html) or [Seq](./struct.Seq.html) to index an Array along `idx` dimension
@@ -234,13 +234,13 @@ impl<'object> Indexer<'object> {
 
 impl<'object> Drop for Indexer<'object> {
     fn drop(&mut self) {
-        unsafe {
-            let ret_val = af_release_indexers(self.handle as af_index_t);
+        
+            let ret_val = unsafe { af_release_indexers(self.handle as af_index_t) };
             match ret_val {
                 0 => (),
                 _ => panic!("Failed to release indexers resource: {}", ret_val),
             }
-        }
+        
     }
 }
 
@@ -264,17 +264,17 @@ where
     T: Copy + HasAfEnum + IndexableType,
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_index(
+        let err_val = unsafe { af_index(
             &mut temp as *mut af_array,
             input.get(),
             seqs.len() as u32,
             seqs.as_ptr() as *const SeqInternal,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Extract `row_num` row from `input` Array
@@ -488,17 +488,17 @@ where
     T: HasAfEnum,
     I: HasAfEnum + IndexableType,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_lookup(
+        let err_val = unsafe { af_lookup(
             &mut temp as *mut af_array,
             input.get() as af_array,
             indices.get() as af_array,
             seq_dim as c_uint,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Assign(copy) content of an Array to another Array indexed by Sequences
@@ -535,20 +535,20 @@ where
     T: Copy + IndexableType,
 {
     let seqs: Vec<SeqInternal> = seqs.iter().map(|s| SeqInternal::from_seq(s)).collect();
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_assign_seq(
+        let err_val = unsafe { af_assign_seq(
             &mut temp as *mut af_array,
             lhs.get() as af_array,
             seqs.len() as c_uint,
             seqs.as_ptr() as *const SeqInternal,
             rhs.get() as af_array,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
 
         let modified = temp.into();
         let _old_arr = mem::replace(lhs, modified);
-    }
+    
 }
 
 /// Index an Array using any combination of Array's and Sequence's
@@ -584,17 +584,17 @@ pub fn index_gen<T>(input: &Array<T>, indices: Indexer) -> Array<T>
 where
     T: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_index_gen(
+        let err_val = unsafe { af_index_gen(
             &mut temp as *mut af_array,
             input.get() as af_array,
             indices.len() as dim_t,
             indices.get() as af_index_t,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
-    }
+    
 }
 
 /// Assign an Array to another after indexing it using any combination of Array's and Sequence's
@@ -633,20 +633,20 @@ pub fn assign_gen<T>(lhs: &mut Array<T>, indices: &Indexer, rhs: &Array<T>)
 where
     T: HasAfEnum,
 {
-    unsafe {
+    
         let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_assign_gen(
+        let err_val = unsafe { af_assign_gen(
             &mut temp as *mut af_array,
             lhs.get() as af_array,
             indices.len() as dim_t,
             indices.get() as af_index_t,
             rhs.get() as af_array,
-        );
+        ) };
         HANDLE_ERROR(AfError::from(err_val));
 
         let modified = temp.into();
         let _old_arr = mem::replace(lhs, modified);
-    }
+    
 }
 
 #[repr(C)]
