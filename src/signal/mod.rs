@@ -201,18 +201,18 @@ where
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_approx1(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_approx1(
             &mut temp as *mut af_array,
             input.get(),
             pos.get(),
             method as c_uint,
             off_grid,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Same as [approx1](./fn.approx1.html) but uses existing Array as output
@@ -226,16 +226,16 @@ pub fn approx1_v2<T, P>(
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let err_val = unsafe {af_approx1_v2(
+    let err_val = unsafe {
+        af_approx1_v2(
             output.get() as *mut af_array,
             input.get(),
             pos.get(),
             method as c_uint,
             off_grid,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Perform signal interpolation for 1d signals along specified dimension
@@ -267,9 +267,9 @@ where
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_approx1_uniform(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_approx1_uniform(
             &mut temp as *mut af_array,
             input.get(),
             pos.get(),
@@ -278,10 +278,10 @@ where
             step,
             method as c_uint,
             off_grid,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Same as [approx1_uniform](./fn.approx1_uniform.html) but uses existing Array as output
@@ -299,8 +299,8 @@ pub fn approx1_uniform_v2<T, P>(
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-   
-        let err_val =  unsafe {af_approx1_uniform_v2(
+    let err_val = unsafe {
+        af_approx1_uniform_v2(
             output.get() as *mut af_array,
             input.get(),
             pos.get(),
@@ -309,9 +309,9 @@ pub fn approx1_uniform_v2<T, P>(
             step,
             method as c_uint,
             off_grid,
-        )}; 
-        HANDLE_ERROR(AfError::from(err_val));
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Perform signal interpolation for 2d signals
@@ -339,19 +339,19 @@ where
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_approx2(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_approx2(
             &mut temp as *mut af_array,
             input.get(),
             pos0.get(),
             pos1.get(),
             method as c_uint,
             off_grid,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Same as [approx2](./fn.approx2.html) but uses existing Array as output
@@ -366,17 +366,17 @@ pub fn approx2_v2<T, P>(
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let err_val = unsafe {af_approx2_v2(
+    let err_val = unsafe {
+        af_approx2_v2(
             output.get() as *mut af_array,
             input.get(),
             pos0.get(),
             pos1.get(),
             method as c_uint,
             off_grid,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Perform signal interpolation for 2d signals along a specified dimension
@@ -417,9 +417,9 @@ where
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_approx2_uniform(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_approx2_uniform(
             &mut temp as *mut af_array,
             input.get(),
             pos0.get(),
@@ -432,10 +432,10 @@ where
             step1,
             method as c_uint,
             off_grid,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Same as [approx2_uniform](./fn.approx2_uniform.html) but uses existing Array as output
@@ -457,8 +457,8 @@ pub fn approx2_uniform_v2<T, P>(
     T: HasAfEnum + FloatingPoint,
     P: HasAfEnum + RealFloating,
 {
-    
-        let err_val = unsafe {af_approx2_uniform_v2(
+    let err_val = unsafe {
+        af_approx2_uniform_v2(
             output.get() as *mut af_array,
             input.get(),
             pos0.get(),
@@ -471,9 +471,9 @@ pub fn approx2_uniform_v2<T, P>(
             step1,
             method as c_uint,
             off_grid,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Set fft plan cache size
@@ -482,10 +482,8 @@ pub fn approx2_uniform_v2<T, P>(
 /// the fft plan cache size a mid program execution unless that is what
 /// you intend to do.
 pub fn set_fft_plan_cache_size(cache_size: usize) {
-    
-        let err_val = unsafe {af_set_fft_plan_cache_size(cache_size as size_t) };
-        HANDLE_ERROR(AfError::from(err_val));
-   
+    let err_val = unsafe { af_set_fft_plan_cache_size(cache_size as size_t) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Fast fourier transform for 1d signals
@@ -506,12 +504,10 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-   
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe { af_fft(&mut temp as *mut af_array, input.get(), norm_factor, odim0) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_fft(&mut temp as *mut af_array, input.get(), norm_factor, odim0) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Fast fourier transform for 2d signals
@@ -537,18 +533,18 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_fft2(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_fft2(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             odim0,
             odim1,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Fast fourier transform for 3d signals
@@ -576,19 +572,19 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_fft3(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_fft3(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             odim0,
             odim1,
             odim2,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Inverse fast fourier transform for 1d signals
@@ -609,12 +605,10 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_ifft(&mut temp as *mut af_array, input.get(), norm_factor, odim0) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_ifft(&mut temp as *mut af_array, input.get(), norm_factor, odim0) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Inverse fast fourier transform for 2d signals
@@ -640,18 +634,18 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_ifft2(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_ifft2(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             odim0,
             odim1,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Inverse fast fourier transform for 3d signals
@@ -679,19 +673,19 @@ where
     T: HasAfEnum + FloatingPoint,
     <T as HasAfEnum>::ComplexOutType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_ifft3(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_ifft3(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             odim0,
             odim1,
             odim2,
-        )  };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-  
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 macro_rules! conv_func_def {
@@ -720,18 +714,18 @@ macro_rules! conv_func_def {
             T: HasAfEnum,
             F: HasAfEnum,
         {
-            
-                let mut temp: af_array = std::ptr::null_mut();
-                let err_val = unsafe {$ffi_name(
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val = unsafe {
+                $ffi_name(
                     &mut temp as *mut af_array,
                     signal.get(),
                     filter.get(),
                     mode as c_uint,
                     domain as c_uint,
-                )};
-                HANDLE_ERROR(AfError::from(err_val));
-                temp.into()
-            
+                )
+            };
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
     };
 }
@@ -762,18 +756,18 @@ where
     T: HasAfEnum,
     F: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_convolve2_sep(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_convolve2_sep(
             &mut temp as *mut af_array,
             cfilt.get(),
             rfilt.get(),
             signal.get(),
             mode as c_uint,
-        )  };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-  
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 macro_rules! fft_conv_func_def {
@@ -795,17 +789,17 @@ macro_rules! fft_conv_func_def {
             T: HasAfEnum,
             F: HasAfEnum,
         {
-            
-                let mut temp: af_array = std::ptr::null_mut();
-                let err_val = unsafe {$ffi_name(
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val = unsafe {
+                $ffi_name(
                     &mut temp as *mut af_array,
                     signal.get(),
                     filter.get(),
                     mode as c_uint,
-                )};
-                HANDLE_ERROR(AfError::from(err_val));
-                temp.into()
-            
+                )
+            };
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
     };
 }
@@ -841,12 +835,10 @@ where
     B: HasAfEnum,
     X: HasAfEnum,
 {
-   
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =  unsafe {af_fir(&mut temp as *mut af_array, b.get(), x.get())};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_fir(&mut temp as *mut af_array, b.get(), x.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Infinite impulse response filter
@@ -861,12 +853,10 @@ where
 ///
 /// Filtered Array
 pub fn iir<T: HasAfEnum>(b: &Array<T>, a: &Array<T>, x: &Array<T>) -> Array<T> {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_iir(&mut temp as *mut af_array, b.get(), a.get(), x.get())};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_iir(&mut temp as *mut af_array, b.get(), a.get(), x.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// In place 1d dimensional Fast fourier transform
@@ -879,10 +869,8 @@ pub fn fft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val = unsafe {af_fft_inplace(input.get() as *mut af_array, norm_factor) };
-        HANDLE_ERROR(AfError::from(err_val));
-   
+    let err_val = unsafe { af_fft_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// In place 2d dimensional Fast fourier transform
@@ -895,10 +883,8 @@ pub fn fft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val = unsafe {af_fft2_inplace(input.get() as *mut af_array, norm_factor) };
-        HANDLE_ERROR(AfError::from(err_val));
-   
+    let err_val = unsafe { af_fft2_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// In place 3d dimensional Fast fourier transform
@@ -911,10 +897,8 @@ pub fn fft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val =unsafe { af_fft3_inplace(input.get() as *mut af_array, norm_factor)};
-        HANDLE_ERROR(AfError::from(err_val));
-    
+    let err_val = unsafe { af_fft3_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// In place 1d dimensional inverse fast fourier transform
@@ -927,10 +911,8 @@ pub fn ifft_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val = unsafe {af_ifft_inplace(input.get() as *mut af_array, norm_factor)  };
-        HANDLE_ERROR(AfError::from(err_val));
-  
+    let err_val = unsafe { af_ifft_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// In place 2d dimensional inverse fast fourier transform
@@ -943,10 +925,8 @@ pub fn ifft2_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val = unsafe {af_ifft2_inplace(input.get() as *mut af_array, norm_factor)};
-        HANDLE_ERROR(AfError::from(err_val));
-    
+    let err_val = unsafe { af_ifft2_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// In place 3d dimensional inverse fast fourier transform
@@ -959,10 +939,8 @@ pub fn ifft3_inplace<T>(input: &mut Array<T>, norm_factor: f64)
 where
     T: HasAfEnum + ComplexFloating,
 {
-    
-        let err_val = unsafe {af_ifft3_inplace(input.get() as *mut af_array, norm_factor) };
-        HANDLE_ERROR(AfError::from(err_val));
-   
+    let err_val = unsafe { af_ifft3_inplace(input.get() as *mut af_array, norm_factor) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// 1d Real to Complex fast fourier transform
@@ -981,12 +959,10 @@ where
     T: HasAfEnum + RealFloating,
     Complex<T>: HasAfEnum,
 {
-  
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =   unsafe {af_fft_r2c(&mut temp as *mut af_array, input.get(), norm_factor, pad0)};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_fft_r2c(&mut temp as *mut af_array, input.get(), norm_factor, pad0) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// 2d Real to Complex fast fourier transform
@@ -1006,18 +982,18 @@ where
     T: HasAfEnum + RealFloating,
     Complex<T>: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_fft2_r2c(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_fft2_r2c(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             pad0,
             pad1,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// 3d Real to Complex fast fourier transform
@@ -1044,19 +1020,19 @@ where
     T: HasAfEnum + RealFloating,
     Complex<T>: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_fft3_r2c(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_fft3_r2c(
             &mut temp as *mut af_array,
             input.get(),
             norm_factor,
             pad0,
             pad1,
             pad2,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// 1d Complex to Real fast fourier transform
@@ -1075,12 +1051,11 @@ where
     T: HasAfEnum + ComplexFloating,
     <T as HasAfEnum>::BaseType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_fft_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val =
+        unsafe { af_fft_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// 2d Complex to Real fast fourier transform
@@ -1099,12 +1074,11 @@ where
     T: HasAfEnum + ComplexFloating,
     <T as HasAfEnum>::BaseType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_fft2_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val =
+        unsafe { af_fft2_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// 3d Complex to Real fast fourier transform
@@ -1123,10 +1097,9 @@ where
     T: HasAfEnum + ComplexFloating,
     <T as HasAfEnum>::BaseType: HasAfEnum,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_fft3_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd)};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val =
+        unsafe { af_fft3_c2r(&mut temp as *mut af_array, input.get(), norm_factor, is_odd) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }

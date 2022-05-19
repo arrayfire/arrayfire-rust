@@ -70,9 +70,9 @@ pub fn convolve2_nn<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = unsafe {af_convolve2_nn(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_convolve2_nn(
             &mut temp as *mut af_array,
             signal.get(),
             filter.get(),
@@ -82,10 +82,10 @@ where
             padding.get().as_ptr() as *const dim_t,
             2,
             dilation.get().as_ptr() as *const dim_t,
-        )};
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Backward pass gradient of 2D convolution
@@ -118,9 +118,9 @@ pub fn convolve2_gradient_nn<T>(
 where
     T: HasAfEnum + RealFloating,
 {
-    
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =unsafe { af_convolve2_gradient_nn(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_convolve2_gradient_nn(
             &mut temp as *mut af_array,
             incoming_grad.get(),
             original_signal.get(),
@@ -133,8 +133,8 @@ where
             2,
             dilation.get().as_ptr() as *const dim_t,
             grad_type as c_uint,
-        ) };
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-   
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
