@@ -281,7 +281,7 @@ fn run_cmake_command(conf: &Config, build_dir: &std::path::Path) {
     run(
         make_cmd
             .arg(format!("-j{}", conf.build_threads))
-            .arg("install".to_string()),
+            .arg("install"),
         "make",
     );
 }

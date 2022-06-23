@@ -88,35 +88,27 @@ pub fn get_device_id() -> cl_device_id {
 }
 
 /// Set the cl_device_id as the active ArrayFire OpenCL device
-pub fn set_device_id(dev_id: cl_device_id) {
-    unsafe {
-        let err_val = afcl_set_device_id(dev_id);
-        handle_error_general(AfError::from(err_val));
-    }
+pub unsafe fn set_device_id(dev_id: cl_device_id) {
+    let err_val = afcl_set_device_id(dev_id);
+    handle_error_general(AfError::from(err_val));
 }
 
 /// Push user provided device, context and queue tuple to ArrayFire device mamanger
-pub fn add_device_context(dev_id: cl_device_id, ctx: cl_context, queue: cl_command_queue) {
-    unsafe {
-        let err_val = afcl_add_device_context(dev_id, ctx, queue);
-        handle_error_general(AfError::from(err_val));
-    }
+pub unsafe fn add_device_context(dev_id: cl_device_id, ctx: cl_context, queue: cl_command_queue) {
+    let err_val = afcl_add_device_context(dev_id, ctx, queue);
+    handle_error_general(AfError::from(err_val));
 }
 
 /// Set the device identified by device & context pair as the active device for ArrayFire
-pub fn set_device_context(dev_id: cl_device_id, ctx: cl_context) {
-    unsafe {
-        let err_val = afcl_set_device_context(dev_id, ctx);
-        handle_error_general(AfError::from(err_val));
-    }
+pub unsafe fn set_device_context(dev_id: cl_device_id, ctx: cl_context) {
+    let err_val = afcl_set_device_context(dev_id, ctx);
+    handle_error_general(AfError::from(err_val));
 }
 
 /// Remove the user provided device, context pair from ArrayFire device mamanger
-pub fn delete_device_context(dev_id: cl_device_id, ctx: cl_context) {
-    unsafe {
-        let err_val = afcl_delete_device_context(dev_id, ctx);
-        handle_error_general(AfError::from(err_val));
-    }
+pub unsafe fn delete_device_context(dev_id: cl_device_id, ctx: cl_context) {
+    let err_val = afcl_delete_device_context(dev_id, ctx);
+    handle_error_general(AfError::from(err_val));
 }
 
 ///// Fetch Active ArrayFire device's type i.e. CPU/GPU/Accelerator etc.
