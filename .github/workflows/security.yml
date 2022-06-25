@@ -1,0 +1,14 @@
+name: Security
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/arrayfire
+      - uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
