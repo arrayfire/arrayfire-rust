@@ -1,3 +1,4 @@
+
 pub trait Zero {
     fn zero() -> Self;
 }
@@ -28,6 +29,7 @@ zero_impl!(i64, 0);
 zero_impl!(isize, 0);
 zero_impl!(f32, 0.0);
 zero_impl!(f64, 0.0);
+zero_impl!(half::f16, half::f16::from_f32(0.0));
 
 macro_rules! one_impl {
     ( $t:ident, $o:expr ) => {
@@ -51,3 +53,4 @@ one_impl!(i64, 1);
 one_impl!(isize, 1);
 one_impl!(f32, 1.0);
 one_impl!(f64, 1.0);
+one_impl!(half::f16, half::f16::from_f32(1.0));
