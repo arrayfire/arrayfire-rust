@@ -337,7 +337,7 @@ impl HasAfEnum for f16 {
     type AbsOutType = Self;
     type ArgOutType = Self;
     type UnaryOutType = Self;
-    type ComplexOutType = Complex<f16>;
+    type ComplexOutType = Complex<f32>;
     type MeanOutType = Self;
     type AggregateOutType = f32;
     type ProductOutType = f32;
@@ -678,12 +678,18 @@ impl FloatingPoint for f32 {
         true
     }
 }
+impl FloatingPoint for f16 {
+    fn is_real() -> bool {
+        true
+    }
+}
 
 ///Trait qualifier to accept real data(numbers)
 pub trait RealFloating: HasAfEnum {}
 
 impl RealFloating for f64 {}
 impl RealFloating for f32 {}
+impl RealFloating for f16 {}
 
 ///Trait qualifier to accept complex data(numbers)
 pub trait ComplexFloating: HasAfEnum {}
@@ -696,6 +702,7 @@ pub trait RealNumber: HasAfEnum {}
 
 impl RealNumber for f64 {}
 impl RealNumber for f32 {}
+impl RealNumber for f16 {}
 impl RealNumber for i32 {}
 impl RealNumber for u32 {}
 impl RealNumber for i16 {}
@@ -856,6 +863,8 @@ impl Fromf64 for u32  { fn fromf64(value: f64) -> Self { value as Self }}
 #[rustfmt::skip]
 impl Fromf64 for i32  { fn fromf64(value: f64) -> Self { value as Self }}
 #[rustfmt::skip]
+impl Fromf64 for f16  { fn fromf64(value: f64) -> Self { f16::from_f64(value) }}
+#[rustfmt::skip]
 impl Fromf64 for u16  { fn fromf64(value: f64) -> Self { value as Self }}
 #[rustfmt::skip]
 impl Fromf64 for i16  { fn fromf64(value: f64) -> Self { value as Self }}
@@ -873,6 +882,7 @@ impl IndexableType for u64 {}
 impl IndexableType for f32 {}
 impl IndexableType for i32 {}
 impl IndexableType for u32 {}
+impl IndexableType for f16 {}
 impl IndexableType for i16 {}
 impl IndexableType for u16 {}
 impl IndexableType for u8 {}

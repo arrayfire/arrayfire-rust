@@ -4,6 +4,8 @@ use super::defines::AfError;
 use super::dim4::Dim4;
 use super::error::HANDLE_ERROR;
 use super::util::{af_array, HasAfEnum, ImplicitPromote, IntegralType};
+
+use half::f16;
 use num::Zero;
 
 use libc::c_int;
@@ -758,6 +760,7 @@ arith_scalar_spec!(Complex<f64>);
 arith_scalar_spec!(Complex<f32>);
 arith_scalar_spec!(f64);
 arith_scalar_spec!(f32);
+arith_scalar_spec!(f16);
 arith_scalar_spec!(u64);
 arith_scalar_spec!(i64);
 arith_scalar_spec!(u32);

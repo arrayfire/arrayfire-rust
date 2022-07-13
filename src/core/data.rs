@@ -4,6 +4,7 @@ use super::dim4::Dim4;
 use super::error::HANDLE_ERROR;
 use super::util::{af_array, c32, c64, dim_t, u64_t, HasAfEnum};
 
+use half::f16;
 use libc::{c_double, c_int, c_uint};
 use std::option::Option;
 use std::vec::Vec;
@@ -228,6 +229,25 @@ impl ConstGenerator for bool {
         };
         HANDLE_ERROR(AfError::from(err_val));
         temp.into()
+    }
+}
+
+impl ConstGenerator for f16 {
+    type OutType = f16;
+
+    fn generate(&self, dims: Dim4) -> Array<Self::OutType> {
+        unsafe {
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val = af_constant(
+                &mut temp as *mut af_array,
+                f16::to_f64(*self),
+                dims.ndims() as c_uint,
+                dims.get().as_ptr() as *const dim_t,
+                12,
+            );
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
+        }
     }
 }
 
