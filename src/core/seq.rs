@@ -8,7 +8,7 @@ use std::fmt;
 use super::util::IndexableType;
 
 /// Sequences are used for indexing Arrays
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 #[repr(C)]
 pub struct Seq<T: IndexableType> {

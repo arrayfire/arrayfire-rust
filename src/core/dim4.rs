@@ -5,7 +5,7 @@ use std::ops::{Index, IndexMut};
 use serde::{Deserialize, Serialize};
 
 /// Dim4 is used to store [Array](./struct.Array.html) dimensions
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "afserde", derive(Serialize, Deserialize))]
 pub struct Dim4 {
     dims: [u64; 4],

@@ -94,14 +94,11 @@ pub fn info() {
 /// [0] GeForce GT 750M, 2048 MB, CUDA Compute 3.0
 /// ```
 pub fn info_string(verbose: bool) -> String {
-    let result: String;
-
     let mut tmp: *mut c_char = ::std::ptr::null_mut();
     let err_val = unsafe { af_info_string(&mut tmp, verbose) };
     HANDLE_ERROR(AfError::from(err_val));
-    result = unsafe { CStr::from_ptr(tmp).to_string_lossy().into_owned() };
+    let result: String = unsafe { CStr::from_ptr(tmp).to_string_lossy().into_owned() };
     free_host(tmp);
-
     result
 }
 

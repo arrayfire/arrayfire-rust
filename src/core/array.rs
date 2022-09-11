@@ -665,8 +665,6 @@ where
     /// Fetch Array as String
     #[allow(clippy::inherent_to_string)]
     pub fn to_string(&self) -> String {
-        let result: String;
-
         let cname = CString::new("test").unwrap();
         let mut tmp: *mut c_char = ::std::ptr::null_mut();
         let err_val = unsafe {
@@ -679,9 +677,8 @@ where
             )
         };
         HANDLE_ERROR(AfError::from(err_val));
-        result = unsafe { CStr::from_ptr(tmp).to_string_lossy().into_owned() };
+        let result: String = unsafe { CStr::from_ptr(tmp).to_string_lossy().into_owned() };
         free_host(tmp);
-
         result
     }
 }
