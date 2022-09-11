@@ -130,9 +130,9 @@ pub fn gemm<T>(
 ) where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut out = output.get();
-        let err_val = af_gemm(
+    let mut out = unsafe { output.get() };
+    let err_val = unsafe {
+        af_gemm(
             &mut out as *mut af_array,
             optlhs as c_uint,
             optrhs as c_uint,
@@ -140,10 +140,10 @@ pub fn gemm<T>(
             lhs.get(),
             rhs.get(),
             beta.as_ptr() as *const c_void,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        output.set(out);
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    output.set(out);
 }
 
 /// Matrix multiple of two Arrays
@@ -162,18 +162,18 @@ pub fn matmul<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatPro
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_matmul(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_matmul(
             &mut temp as *mut af_array,
             lhs.get(),
             rhs.get(),
             optlhs as c_uint,
             optrhs as c_uint,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Calculate the dot product of vectors.
@@ -194,18 +194,18 @@ pub fn dot<T>(lhs: &Array<T>, rhs: &Array<T>, optlhs: MatProp, optrhs: MatProp) 
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_dot(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_dot(
             &mut temp as *mut af_array,
             lhs.get(),
             rhs.get(),
             optlhs as c_uint,
             optrhs as c_uint,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Transpose of a matrix.
@@ -220,12 +220,10 @@ where
 ///
 /// Transposed Array.
 pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_transpose(&mut temp as *mut af_array, arr.get(), conjugate);
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_transpose(&mut temp as *mut af_array, arr.get(), conjugate) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Inplace transpose of a matrix.
@@ -236,10 +234,8 @@ pub fn transpose<T: HasAfEnum>(arr: &Array<T>, conjugate: bool) -> Array<T> {
 /// - `conjugate` is a boolean that indicates if the transpose operation needs to be a conjugate
 /// transpose
 pub fn transpose_inplace<T: HasAfEnum>(arr: &mut Array<T>, conjugate: bool) {
-    unsafe {
-        let err_val = af_transpose_inplace(arr.get(), conjugate);
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+    let err_val = unsafe { af_transpose_inplace(arr.get(), conjugate) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Sets the cuBLAS math mode for the internal handle.

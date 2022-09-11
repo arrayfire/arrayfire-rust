@@ -187,15 +187,13 @@ pub struct Window {
 
 impl Drop for Window {
     fn drop(&mut self) {
-        unsafe {
-            let err_val = af_destroy_window(self.handle);
-            match err_val {
-                0 => (),
-                _ => panic!(
-                    "Window object destruction failed with error code: {}",
-                    err_val
-                ),
-            }
+        let err_val = unsafe { af_destroy_window(self.handle) };
+        match err_val {
+            0 => (),
+            _ => panic!(
+                "Window object destruction failed with error code: {}",
+                err_val
+            ),
         }
     }
 }
@@ -214,24 +212,23 @@ impl Window {
     /// Window Object
     #[allow(clippy::match_wild_err_arm)]
     pub fn new(width: i32, height: i32, title: String) -> Self {
-        unsafe {
-            let cstr_ret = CString::new(title);
-            match cstr_ret {
-                Ok(cstr) => {
-                    let mut temp: af_window = std::ptr::null_mut();
-                    let err_val =
-                        af_create_window(&mut temp as *mut af_window, width, height, cstr.as_ptr());
-                    HANDLE_ERROR(AfError::from(err_val));
-                    Window {
-                        handle: temp,
-                        row: -1,
-                        col: -1,
-                        cmap: ColorMap::DEFAULT,
-                    }
+        let cstr_ret = CString::new(title);
+        match cstr_ret {
+            Ok(cstr) => {
+                let mut temp: af_window = std::ptr::null_mut();
+                let err_val = unsafe {
+                    af_create_window(&mut temp as *mut af_window, width, height, cstr.as_ptr())
+                };
+                HANDLE_ERROR(AfError::from(err_val));
+                Window {
+                    handle: temp,
+                    row: -1,
+                    col: -1,
+                    cmap: ColorMap::DEFAULT,
                 }
-                Err(_) => {
-                    panic!("String creation failed while prepping params for window creation.")
-                }
+            }
+            Err(_) => {
+                panic!("String creation failed while prepping params for window creation.")
             }
         }
     }
@@ -243,10 +240,8 @@ impl Window {
     /// - `x` is the horiontal coordinate where window is to be placed
     /// - `y` is the vertical coordinate where window is to be placed
     pub fn set_position(&self, x: u32, y: u32) {
-        unsafe {
-            let err_val = af_set_position(self.handle, x, y);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_set_position(self.handle, x, y) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set window title
@@ -255,15 +250,13 @@ impl Window {
     ///
     /// - `title` is the string to be displayed on window title bar
     pub fn set_title(&self, title: String) {
-        unsafe {
-            let cstr_ret = CString::new(title);
-            match cstr_ret {
-                Ok(cstr) => {
-                    let err_val = af_set_title(self.handle, cstr.as_ptr());
-                    HANDLE_ERROR(AfError::from(err_val));
-                }
-                Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
+        let cstr_ret = CString::new(title);
+        match cstr_ret {
+            Ok(cstr) => {
+                let err_val = unsafe { af_set_title(self.handle, cstr.as_ptr()) };
+                HANDLE_ERROR(AfError::from(err_val));
             }
+            Err(_) => HANDLE_ERROR(AfError::ERR_INTERNAL),
         }
     }
 
@@ -277,10 +270,8 @@ impl Window {
     ///
     /// None
     pub fn set_visibility(&self, is_visible: bool) {
-        unsafe {
-            let err_val = af_set_visibility(self.handle, is_visible);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_set_visibility(self.handle, is_visible) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set window size
@@ -290,10 +281,8 @@ impl Window {
     /// - `w` is the target width of window
     /// - `h` is the target height of window
     pub fn set_size(&self, w: u32, h: u32) {
-        unsafe {
-            let err_val = af_set_size(self.handle, w, h);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_set_size(self.handle, w, h) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set color map to be used for rendering image, it can take one of the values of enum
@@ -304,12 +293,10 @@ impl Window {
 
     /// Returns true if the window close is triggered by the user
     pub fn is_closed(&self) -> bool {
-        unsafe {
-            let mut temp: bool = true;
-            let err_val = af_is_window_closed(&mut temp as *mut bool, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            temp
-        }
+        let mut temp: bool = true;
+        let err_val = unsafe { af_is_window_closed(&mut temp as *mut bool, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 
     /// Setup display layout in multiview mode
@@ -319,21 +306,17 @@ impl Window {
     /// - `rows` is the number of rows into which whole window is split into in multiple view mode
     /// - `cols` is the number of cols into which whole window is split into in multiple view mode
     pub fn grid(&self, rows: i32, cols: i32) {
-        unsafe {
-            let err_val = af_grid(self.handle, rows, cols);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_grid(self.handle, rows, cols) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Used in multiview mode to swap back buffer with front buffer to show the recently rendered
     /// frame
     pub fn show(&mut self) {
-        unsafe {
-            let err_val = af_show(self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            self.row = -1;
-            self.col = -1;
-        }
+        let err_val = unsafe { af_show(self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        self.row = -1;
+        self.col = -1;
     }
 
     /// Set the current sub-region to render
@@ -366,16 +349,17 @@ impl Window {
         let xstr = CString::new(xlabel).unwrap();
         let ystr = CString::new(ylabel).unwrap();
         let zstr = CString::new(zlabel).unwrap();
-        unsafe {
-            let err_val = af_set_axes_titles(
+
+        let err_val = unsafe {
+            af_set_axes_titles(
                 self.handle,
                 xstr.as_ptr(),
                 ystr.as_ptr(),
                 zstr.as_ptr(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set chart axes labels format
@@ -400,16 +384,17 @@ impl Window {
         let xstr = CString::new(xlabel_format).unwrap();
         let ystr = CString::new(ylabel_format).unwrap();
         let zstr = CString::new(zlabel_format).unwrap();
-        unsafe {
-            let err_val = af_set_axes_label_format(
+
+        let err_val = unsafe {
+            af_set_axes_label_format(
                 self.handle,
                 xstr.as_ptr(),
                 ystr.as_ptr(),
                 zstr.as_ptr(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set chart axes labels formats
@@ -433,16 +418,17 @@ impl Window {
         let xstr = CString::new(xformat).unwrap();
         let ystr = CString::new(yformat).unwrap();
         let zstr = CString::new(zformat).unwrap();
-        unsafe {
-            let err_val = af_set_axes_titles(
+
+        let err_val = unsafe {
+            af_set_axes_titles(
                 self.handle,
                 xstr.as_ptr(),
                 ystr.as_ptr(),
                 zstr.as_ptr(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set chart axes limits by computing limits from data
@@ -474,8 +460,9 @@ impl Window {
             title: ptr::null(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_set_axes_limits_compute(
+
+        let err_val = unsafe {
+            af_set_axes_limits_compute(
                 self.handle,
                 xrange.get(),
                 yrange.get(),
@@ -485,9 +472,9 @@ impl Window {
                 },
                 exact,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set 2d chart axes limits
@@ -511,8 +498,9 @@ impl Window {
             title: ptr::null(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_set_axes_limits_2d(
+
+        let err_val = unsafe {
+            af_set_axes_limits_2d(
                 self.handle,
                 xmin,
                 xmax,
@@ -520,9 +508,9 @@ impl Window {
                 ymax,
                 exact,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Set 3d chart axes limits
@@ -558,8 +546,9 @@ impl Window {
             title: ptr::null(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_set_axes_limits_3d(
+
+        let err_val = unsafe {
+            af_set_axes_limits_3d(
                 self.handle,
                 xmin,
                 xmax,
@@ -569,9 +558,9 @@ impl Window {
                 zmax,
                 exact,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Array as an image
@@ -596,10 +585,9 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_image(self.handle, input.get(), &cprops as *const af_cell);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+
+        let err_val = unsafe { af_draw_image(self.handle, input.get(), &cprops as *const af_cell) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given two Array's `x` and `y` as a 2d line plot
@@ -625,10 +613,10 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_plot_2d(self.handle, x.get(), y.get(), &cprops as *const af_cell);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+
+        let err_val =
+            unsafe { af_draw_plot_2d(self.handle, x.get(), y.get(), &cprops as *const af_cell) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Array's `x`, `y` and `z` as a 3d line plot
@@ -655,16 +643,17 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_plot_3d(
+
+        let err_val = unsafe {
+            af_draw_plot_3d(
                 self.handle,
                 x.get(),
                 y.get(),
                 z.get(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render give Arrays of points as a 3d line plot
@@ -689,10 +678,10 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_plot_nd(self.handle, points.get(), &cprops as *const af_cell);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+
+        let err_val =
+            unsafe { af_draw_plot_nd(self.handle, points.get(), &cprops as *const af_cell) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Array as a histogram
@@ -719,16 +708,17 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_hist(
+
+        let err_val = unsafe {
+            af_draw_hist(
                 self.handle,
                 hst.get(),
                 minval,
                 maxval,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render give Arrays as 3d surface
@@ -760,16 +750,17 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_surface(
+
+        let err_val = unsafe {
+            af_draw_surface(
                 self.handle,
                 xvals.get(),
                 yvals.get(),
                 zvals.get(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Arrays as 2d scatter plot
@@ -801,16 +792,17 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_scatter_2d(
+
+        let err_val = unsafe {
+            af_draw_scatter_2d(
                 self.handle,
                 xvals.get(),
                 yvals.get(),
                 marker as c_uint,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Arrays as 3d scatter plot
@@ -844,17 +836,18 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_scatter_3d(
+
+        let err_val = unsafe {
+            af_draw_scatter_3d(
                 self.handle,
                 xvals.get(),
                 yvals.get(),
                 zvals.get(),
                 marker as c_uint,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render give Array as 3d scatter plot
@@ -880,15 +873,16 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_scatter_nd(
+
+        let err_val = unsafe {
+            af_draw_scatter_nd(
                 self.handle,
                 vals.get(),
                 marker as c_uint,
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Arrays as 2d vector field
@@ -922,17 +916,18 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_vector_field_2d(
+
+        let err_val = unsafe {
+            af_draw_vector_field_2d(
                 self.handle,
                 xpnts.get(),
                 ypnts.get(),
                 xdirs.get(),
                 ydirs.get(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Arrays as 3d vector field
@@ -971,8 +966,9 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_vector_field_3d(
+
+        let err_val = unsafe {
+            af_draw_vector_field_3d(
                 self.handle,
                 xpnts.get(),
                 ypnts.get(),
@@ -981,9 +977,9 @@ impl Window {
                 ydirs.get(),
                 zdirs.get(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Render given Array as vector field
@@ -1014,14 +1010,15 @@ impl Window {
             title: tstr.as_ptr(),
             cmap: self.cmap as u32,
         };
-        unsafe {
-            let err_val = af_draw_vector_field_nd(
+
+        let err_val = unsafe {
+            af_draw_vector_field_nd(
                 self.handle,
                 points.get(),
                 directions.get(),
                 &cprops as *const af_cell,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 }

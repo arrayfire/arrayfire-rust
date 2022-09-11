@@ -235,18 +235,19 @@ where
     ///
     pub fn new(slice: &[T], dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_create_array(
+
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe {
+            af_create_array(
                 &mut temp as *mut af_array,
                 slice.as_ptr() as *const c_void,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as *const c_longlong,
                 aftype as c_uint,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     /// Constructs a new Array object from strided data
@@ -254,9 +255,10 @@ where
     /// The data pointed by the slice passed to this function can possibily be offseted using an additional `offset` parameter.
     pub fn new_strided(slice: &[T], offset: i64, dims: Dim4, strides: Dim4) -> Self {
         let aftype = T::get_af_dtype();
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_create_strided_array(
+
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe {
+            af_create_strided_array(
                 &mut temp as *mut af_array,
                 slice.as_ptr() as *const c_void,
                 offset as dim_t,
@@ -265,10 +267,10 @@ where
                 strides.get().as_ptr() as *const c_longlong,
                 aftype as c_uint,
                 1_u32,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     /// Constructs a new Array object of specified dimensions and type
@@ -281,17 +283,18 @@ where
     /// ```
     pub fn new_empty(dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_create_handle(
+
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe {
+            af_create_handle(
                 &mut temp as *mut af_array,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as *const c_longlong,
                 aftype as c_uint,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     /// Constructs a new Array object from device pointer
@@ -367,18 +370,19 @@ where
     /// ```
     pub fn new_from_device_ptr(dev_ptr: *mut T, dims: Dim4) -> Self {
         let aftype = T::get_af_dtype();
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_device_array(
+
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe {
+            af_device_array(
                 &mut temp as *mut af_array,
                 dev_ptr as *mut c_void,
                 dims.ndims() as c_uint,
                 dims.get().as_ptr() as *const dim_t,
                 aftype as c_uint,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     /// Returns the backend of the Array
@@ -388,16 +392,14 @@ where
     /// Returns an value of type `Backend` which indicates which backend
     /// was active when Array was created.
     pub fn get_backend(&self) -> Backend {
-        unsafe {
-            let mut ret_val: u32 = 0;
-            let err_val = af_get_backend_id(&mut ret_val as *mut c_uint, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            match (err_val, ret_val) {
-                (0, 1) => Backend::CPU,
-                (0, 2) => Backend::CUDA,
-                (0, 3) => Backend::OPENCL,
-                _ => Backend::DEFAULT,
-            }
+        let mut ret_val: u32 = 0;
+        let err_val = unsafe { af_get_backend_id(&mut ret_val as *mut c_uint, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        match (err_val, ret_val) {
+            (0, 1) => Backend::CPU,
+            (0, 2) => Backend::CUDA,
+            (0, 3) => Backend::OPENCL,
+            _ => Backend::DEFAULT,
         }
     }
 
@@ -407,90 +409,80 @@ where
     ///
     /// Return the device id on which Array was created.
     pub fn get_device_id(&self) -> i32 {
-        unsafe {
-            let mut ret_val: i32 = 0;
-            let err_val = af_get_device_id(&mut ret_val as *mut c_int, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            ret_val
-        }
+        let mut ret_val: i32 = 0;
+        let err_val = unsafe { af_get_device_id(&mut ret_val as *mut c_int, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val
     }
 
     /// Returns the number of elements in the Array
     pub fn elements(&self) -> usize {
-        unsafe {
-            let mut ret_val: dim_t = 0;
-            let err_val = af_get_elements(&mut ret_val as *mut dim_t, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            ret_val as usize
-        }
+        let mut ret_val: dim_t = 0;
+        let err_val = unsafe { af_get_elements(&mut ret_val as *mut dim_t, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val as usize
     }
 
     /// Returns the Array data type
     pub fn get_type(&self) -> DType {
-        unsafe {
-            let mut ret_val: u32 = 0;
-            let err_val = af_get_type(&mut ret_val as *mut c_uint, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            DType::from(ret_val)
-        }
+        let mut ret_val: u32 = 0;
+        let err_val = unsafe { af_get_type(&mut ret_val as *mut c_uint, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        DType::from(ret_val)
     }
 
     /// Returns the dimensions of the Array
     pub fn dims(&self) -> Dim4 {
-        unsafe {
-            let mut ret0: i64 = 0;
-            let mut ret1: i64 = 0;
-            let mut ret2: i64 = 0;
-            let mut ret3: i64 = 0;
-            let err_val = af_get_dims(
+        let mut ret0: i64 = 0;
+        let mut ret1: i64 = 0;
+        let mut ret2: i64 = 0;
+        let mut ret3: i64 = 0;
+        let err_val = unsafe {
+            af_get_dims(
                 &mut ret0 as *mut dim_t,
                 &mut ret1 as *mut dim_t,
                 &mut ret2 as *mut dim_t,
                 &mut ret3 as *mut dim_t,
                 self.handle,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
     }
 
     /// Returns the strides of the Array
     pub fn strides(&self) -> Dim4 {
-        unsafe {
-            let mut ret0: i64 = 0;
-            let mut ret1: i64 = 0;
-            let mut ret2: i64 = 0;
-            let mut ret3: i64 = 0;
-            let err_val = af_get_strides(
+        let mut ret0: i64 = 0;
+        let mut ret1: i64 = 0;
+        let mut ret2: i64 = 0;
+        let mut ret3: i64 = 0;
+        let err_val = unsafe {
+            af_get_strides(
                 &mut ret0 as *mut dim_t,
                 &mut ret1 as *mut dim_t,
                 &mut ret2 as *mut dim_t,
                 &mut ret3 as *mut dim_t,
                 self.handle,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        Dim4::new(&[ret0 as u64, ret1 as u64, ret2 as u64, ret3 as u64])
     }
 
     /// Returns the number of dimensions of the Array
     pub fn numdims(&self) -> u32 {
-        unsafe {
-            let mut ret_val: u32 = 0;
-            let err_val = af_get_numdims(&mut ret_val as *mut c_uint, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            ret_val
-        }
+        let mut ret_val: u32 = 0;
+        let err_val = unsafe { af_get_numdims(&mut ret_val as *mut c_uint, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val
     }
 
     /// Returns the offset to the pointer from where data begins
     pub fn offset(&self) -> i64 {
-        unsafe {
-            let mut ret_val: i64 = 0;
-            let err_val = af_get_offset(&mut ret_val as *mut dim_t, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            ret_val
-        }
+        let mut ret_val: i64 = 0;
+        let err_val = unsafe { af_get_offset(&mut ret_val as *mut dim_t, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        ret_val
     }
 
     /// Returns the native FFI handle for Rust object `Array`
@@ -533,30 +525,25 @@ where
         if data.len() != self.elements() {
             HANDLE_ERROR(AfError::ERR_SIZE);
         }
-        unsafe {
-            let err_val = af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+
+        let err_val = unsafe { af_get_data_ptr(data.as_mut_ptr() as *mut c_void, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Evaluates any pending lazy expressions that represent the data in the Array object
     pub fn eval(&self) {
-        unsafe {
-            let err_val = af_eval(self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_eval(self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Makes an copy of the Array
     ///
     /// This does a deep copy of the data into a new Array
     pub fn copy(&self) -> Self {
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_copy_array(&mut temp as *mut af_array, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe { af_copy_array(&mut temp as *mut af_array, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     is_func!("Check if Array is empty", is_empty, af_is_empty);
@@ -624,22 +611,20 @@ where
     /// Cast the Array data type to `target_type`
     pub fn cast<O: HasAfEnum>(&self) -> Array<O> {
         let trgt_type = O::get_af_dtype();
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_cast(&mut temp as *mut af_array, self.handle, trgt_type as c_uint);
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val =
+            unsafe { af_cast(&mut temp as *mut af_array, self.handle, trgt_type as c_uint) };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 
     /// Lock the device buffer in the memory manager
     ///
     /// Locked buffers are not freed by memory manager until unlock is called.
     pub fn lock(&self) {
-        unsafe {
-            let err_val = af_lock_array(self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_lock_array(self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Unlock the device buffer in the memory manager
@@ -647,10 +632,8 @@ where
     /// This function will give back the control over the device pointer to the
     /// memory manager.
     pub fn unlock(&self) {
-        unsafe {
-            let err_val = af_unlock_array(self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-        }
+        let err_val = unsafe { af_unlock_array(self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
     }
 
     /// Get the device pointer and lock the buffer in memory manager
@@ -673,32 +656,32 @@ where
     /// This function will return the size of the parent/owner if the current Array object is an
     /// indexed Array.
     pub fn get_allocated_bytes(&self) -> usize {
-        unsafe {
-            let mut temp: usize = 0;
-            let err_val = af_get_allocated_bytes(&mut temp as *mut usize, self.handle);
-            HANDLE_ERROR(AfError::from(err_val));
-            temp
-        }
+        let mut temp: usize = 0;
+        let err_val = unsafe { af_get_allocated_bytes(&mut temp as *mut usize, self.handle) };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp
     }
 
     /// Fetch Array as String
     #[allow(clippy::inherent_to_string)]
     pub fn to_string(&self) -> String {
         let result: String;
-        unsafe {
-            let cname = CString::new("test").unwrap();
-            let mut tmp: *mut c_char = ::std::ptr::null_mut();
-            let err_val = af_array_to_string(
+
+        let cname = CString::new("test").unwrap();
+        let mut tmp: *mut c_char = ::std::ptr::null_mut();
+        let err_val = unsafe {
+            af_array_to_string(
                 &mut tmp,
                 cname.to_bytes_with_nul().as_ptr() as *const c_char,
                 self.get(),
                 4,
                 true,
-            );
-            HANDLE_ERROR(AfError::from(err_val));
-            result = CStr::from_ptr(tmp).to_string_lossy().into_owned();
-            free_host(tmp);
-        }
+            )
+        };
+        HANDLE_ERROR(AfError::from(err_val));
+        result = unsafe { CStr::from_ptr(tmp).to_string_lossy().into_owned() };
+        free_host(tmp);
+
         result
     }
 }
@@ -728,13 +711,11 @@ where
     T: HasAfEnum,
 {
     fn clone(&self) -> Self {
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let ret_val = af_retain_array(&mut temp as *mut af_array, self.handle);
-            match ret_val {
-                0 => temp.into(),
-                _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
-            }
+        let mut temp: af_array = std::ptr::null_mut();
+        let ret_val = unsafe { af_retain_array(&mut temp as *mut af_array, self.handle) };
+        match ret_val {
+            0 => temp.into(),
+            _ => panic!("Weak copy of Array failed with error code: {}", ret_val),
         }
     }
 }
@@ -742,12 +723,10 @@ where
 /// To free resources when Array goes out of scope
 impl<T> Drop for Array<T> {
     fn drop(&mut self) {
-        unsafe {
-            let ret_val = af_release_array(self.handle);
-            match ret_val {
-                0 => (),
-                _ => panic!("Array<T> drop failed with error code: {}", ret_val),
-            }
+        let ret_val = unsafe { af_release_array(self.handle) };
+        match ret_val {
+            0 => (),
+            _ => panic!("Array<T> drop failed with error code: {}", ret_val),
         }
     }
 }
@@ -780,14 +759,15 @@ impl<T> Drop for Array<T> {
 /// ```
 pub fn print<T: HasAfEnum>(input: &Array<T>) {
     let emptystring = CString::new("").unwrap();
-    unsafe {
-        let err_val = af_print_array_gen(
+
+    let err_val = unsafe {
+        af_print_array_gen(
             emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
             input.get(),
             4,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Generalized Array print function
@@ -824,14 +804,15 @@ pub fn print<T: HasAfEnum>(input: &Array<T>) {
 /// ```
 pub fn print_gen<T: HasAfEnum>(msg: String, input: &Array<T>, precision: Option<i32>) {
     let emptystring = CString::new(msg.as_bytes()).unwrap();
-    unsafe {
-        let err_val = af_print_array_gen(
+
+    let err_val = unsafe {
+        af_print_array_gen(
             emptystring.to_bytes_with_nul().as_ptr() as *const c_char,
             input.get(),
             precision.unwrap_or(4),
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// evaluate multiple arrays
@@ -842,15 +823,13 @@ pub fn print_gen<T: HasAfEnum>(msg: String, input: &Array<T>, precision: Option<
 ///
 /// - `inputs` are the list of arrays to be evaluated
 pub fn eval_multiple<T: HasAfEnum>(inputs: Vec<&Array<T>>) {
-    unsafe {
-        let mut v = Vec::new();
-        for i in inputs {
-            v.push(i.get());
-        }
-
-        let err_val = af_eval_multiple(v.len() as c_int, v.as_ptr() as *const af_array);
-        HANDLE_ERROR(AfError::from(err_val));
+    let mut v = Vec::new();
+    for i in inputs {
+        unsafe { v.push(i.get()) };
     }
+
+    let err_val = unsafe { af_eval_multiple(v.len() as c_int, v.as_ptr() as *const af_array) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Set eval flag value
@@ -861,10 +840,8 @@ pub fn eval_multiple<T: HasAfEnum>(inputs: Vec<&Array<T>>) {
 ///
 /// - `flag` is a boolean value indicating manual evaluation setting
 pub fn set_manual_eval(flag: bool) {
-    unsafe {
-        let err_val = af_set_manual_eval_flag(flag as c_int);
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+    let err_val = unsafe { af_set_manual_eval_flag(flag as c_int) };
+    HANDLE_ERROR(AfError::from(err_val));
 }
 
 /// Get eval flag value
@@ -876,12 +853,10 @@ pub fn set_manual_eval(flag: bool) {
 ///
 /// A boolean indicating manual evaluation setting.
 pub fn is_eval_manual() -> bool {
-    unsafe {
-        let mut ret_val: i32 = 0;
-        let err_val = af_get_manual_eval_flag(&mut ret_val as *mut c_int);
-        HANDLE_ERROR(AfError::from(err_val));
-        ret_val > 0
-    }
+    let mut ret_val: i32 = 0;
+    let err_val = unsafe { af_get_manual_eval_flag(&mut ret_val as *mut c_int) };
+    HANDLE_ERROR(AfError::from(err_val));
+    ret_val > 0
 }
 
 /// Prints data type, shape and data of a given Array in programming friendly context

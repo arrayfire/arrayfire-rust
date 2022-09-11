@@ -108,12 +108,10 @@ where
     type Output = Array<T>;
 
     fn not(self) -> Self::Output {
-        unsafe {
-            let mut temp: af_array = std::ptr::null_mut();
-            let err_val = af_not(&mut temp as *mut af_array, self.get());
-            HANDLE_ERROR(AfError::from(err_val));
-            temp.into()
-        }
+        let mut temp: af_array = std::ptr::null_mut();
+        let err_val = unsafe { af_not(&mut temp as *mut af_array, self.get()) };
+        HANDLE_ERROR(AfError::from(err_val));
+        temp.into()
     }
 }
 
@@ -124,12 +122,12 @@ macro_rules! unary_func {
         /// This is an element wise unary operation.
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> Array< T::$out_type >
         where T::$out_type: HasAfEnum {
-            unsafe {
+
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get());
+                let err_val = unsafe { $ffi_fn(&mut temp as *mut af_array, input.get()) };
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
-            }
+
         }
     )
 }
@@ -256,12 +254,12 @@ macro_rules! unary_boolean_func {
         ///
         /// This is an element wise unary operation.
         pub fn $fn_name<T: HasAfEnum>(input: &Array<T>) -> Array<bool> {
-            unsafe {
+
                 let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array, input.get());
+                let err_val = unsafe { $ffi_fn(&mut temp as *mut af_array, input.get()) };
                 HANDLE_ERROR(AfError::from(err_val));
                 temp.into()
-            }
+
         }
     )
 }
@@ -291,12 +289,11 @@ macro_rules! binary_func {
             A: ImplicitPromote<B>,
             B: ImplicitPromote<A>,
         {
-            unsafe {
-                let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_fn(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
-                HANDLE_ERROR(AfError::from(err_val));
-                Into::<Array<A::Output>>::into(temp)
-            }
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val =
+                unsafe { $ffi_fn(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch) };
+            HANDLE_ERROR(AfError::from(err_val));
+            Into::<Array<A::Output>>::into(temp)
         }
     };
 }
@@ -389,12 +386,11 @@ macro_rules! overloaded_binary_func {
             A: ImplicitPromote<B>,
             B: ImplicitPromote<A>,
         {
-            unsafe {
-                let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
-                HANDLE_ERROR(AfError::from(err_val));
-                temp.into()
-            }
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val =
+                unsafe { $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch) };
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
 
         #[doc=$doc_str]
@@ -491,12 +487,11 @@ macro_rules! overloaded_logic_func {
             A: ImplicitPromote<B>,
             B: ImplicitPromote<A>,
         {
-            unsafe {
-                let mut temp: af_array = std::ptr::null_mut();
-                let err_val = $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch);
-                HANDLE_ERROR(AfError::from(err_val));
-                temp.into()
-            }
+            let mut temp: af_array = std::ptr::null_mut();
+            let err_val =
+                unsafe { $ffi_name(&mut temp as *mut af_array, lhs.get(), rhs.get(), batch) };
+            HANDLE_ERROR(AfError::from(err_val));
+            temp.into()
         }
 
         #[doc=$doc_str]
@@ -611,18 +606,18 @@ where
     X: ImplicitPromote<Y>,
     Y: ImplicitPromote<X>,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_clamp(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_clamp(
             &mut temp as *mut af_array,
             inp.get(),
             lo.get(),
             hi.get(),
             batch,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Clamp the values of Array
@@ -979,10 +974,8 @@ pub fn bitnot<T: HasAfEnum>(input: &Array<T>) -> Array<T>
 where
     T: HasAfEnum + IntegralType,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_bitnot(&mut temp as *mut af_array, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_bitnot(&mut temp as *mut af_array, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }

@@ -91,9 +91,9 @@ pub fn sparse<T>(
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_create_sparse_array(
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_create_sparse_array(
             &mut temp as *mut af_array,
             rows as dim_t,
             cols as dim_t,
@@ -101,10 +101,10 @@ where
             row_indices.get(),
             col_indices.get(),
             format as c_uint,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Create sprase matrix from data on host memory
@@ -144,9 +144,10 @@ where
     T: HasAfEnum + FloatingPoint,
 {
     let aftype = T::get_af_dtype();
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_create_sparse_array_from_ptr(
+
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_create_sparse_array_from_ptr(
             &mut temp as *mut af_array,
             rows as dim_t,
             cols as dim_t,
@@ -157,10 +158,10 @@ where
             aftype as c_uint,
             format as c_uint,
             1,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+        )
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Convert dense array to sparse array
@@ -177,16 +178,12 @@ pub fn sparse_from_dense<T>(dense: &Array<T>, format: SparseFormat) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_create_sparse_array_from_dense(
-            &mut temp as *mut af_array,
-            dense.get(),
-            format as c_uint,
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe {
+        af_create_sparse_array_from_dense(&mut temp as *mut af_array, dense.get(), format as c_uint)
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Convert between sparse formats
@@ -203,13 +200,11 @@ pub fn sparse_convert_to<T>(input: &Array<T>, format: SparseFormat) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val =
-            af_sparse_convert_to(&mut temp as *mut af_array, input.get(), format as c_uint);
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val =
+        unsafe { af_sparse_convert_to(&mut temp as *mut af_array, input.get(), format as c_uint) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Convert sparse array to dense array
@@ -225,12 +220,10 @@ pub fn sparse_to_dense<T>(input: &Array<T>) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut temp: af_array = std::ptr::null_mut();
-        let err_val = af_sparse_to_dense(&mut temp as *mut af_array, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-        temp.into()
-    }
+    let mut temp: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_sparse_to_dense(&mut temp as *mut af_array, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    temp.into()
 }
 
 /// Get sparse Array information
@@ -246,26 +239,26 @@ pub fn sparse_get_info<T>(input: &Array<T>) -> (Array<T>, Array<i32>, Array<i32>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut val: af_array = std::ptr::null_mut();
-        let mut row: af_array = std::ptr::null_mut();
-        let mut col: af_array = std::ptr::null_mut();
-        let mut stype: u32 = 0;
-        let err_val = af_sparse_get_info(
+    let mut val: af_array = std::ptr::null_mut();
+    let mut row: af_array = std::ptr::null_mut();
+    let mut col: af_array = std::ptr::null_mut();
+    let mut stype: u32 = 0;
+    let err_val = unsafe {
+        af_sparse_get_info(
             &mut val as *mut af_array,
             &mut row as *mut af_array,
             &mut col as *mut af_array,
             &mut stype as *mut c_uint,
             input.get(),
-        );
-        HANDLE_ERROR(AfError::from(err_val));
-        (
-            val.into(),
-            row.into(),
-            col.into(),
-            SparseFormat::from(stype),
         )
-    }
+    };
+    HANDLE_ERROR(AfError::from(err_val));
+    (
+        val.into(),
+        row.into(),
+        col.into(),
+        SparseFormat::from(stype),
+    )
 }
 
 /// Get values of sparse Array
@@ -281,12 +274,10 @@ pub fn sparse_get_values<T>(input: &Array<T>) -> Array<T>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut val: af_array = std::ptr::null_mut();
-        let err_val = af_sparse_get_values(&mut val as *mut af_array, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-        val.into()
-    }
+    let mut val: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_sparse_get_values(&mut val as *mut af_array, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    val.into()
 }
 
 /// Get row indices Array
@@ -302,12 +293,10 @@ pub fn sparse_get_row_indices<T>(input: &Array<T>) -> Array<i32>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut val: af_array = std::ptr::null_mut();
-        let err_val = af_sparse_get_row_idx(&mut val as *mut af_array, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-        val.into()
-    }
+    let mut val: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_sparse_get_row_idx(&mut val as *mut af_array, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    val.into()
 }
 
 /// Get cololumn indices Array
@@ -323,12 +312,10 @@ pub fn sparse_get_col_indices<T>(input: &Array<T>) -> Array<i32>
 where
     T: HasAfEnum + FloatingPoint,
 {
-    unsafe {
-        let mut val: af_array = std::ptr::null_mut();
-        let err_val = af_sparse_get_col_idx(&mut val as *mut af_array, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-        val.into()
-    }
+    let mut val: af_array = std::ptr::null_mut();
+    let err_val = unsafe { af_sparse_get_col_idx(&mut val as *mut af_array, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+    val.into()
 }
 
 /// Get number of non-zero elements in sparse array
@@ -342,10 +329,10 @@ where
 /// Number of non-zero elements of sparse Array
 pub fn sparse_get_nnz<T: HasAfEnum>(input: &Array<T>) -> i64 {
     let mut count: i64 = 0;
-    unsafe {
-        let err_val = af_sparse_get_nnz(&mut count as *mut dim_t, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+
+    let err_val = unsafe { af_sparse_get_nnz(&mut count as *mut dim_t, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+
     count
 }
 
@@ -360,9 +347,9 @@ pub fn sparse_get_nnz<T: HasAfEnum>(input: &Array<T>) -> i64 {
 /// Sparse array format
 pub fn sparse_get_format<T: HasAfEnum>(input: &Array<T>) -> SparseFormat {
     let mut stype: u32 = 0;
-    unsafe {
-        let err_val = af_sparse_get_storage(&mut stype as *mut c_uint, input.get());
-        HANDLE_ERROR(AfError::from(err_val));
-    }
+
+    let err_val = unsafe { af_sparse_get_storage(&mut stype as *mut c_uint, input.get()) };
+    HANDLE_ERROR(AfError::from(err_val));
+
     SparseFormat::from(stype)
 }
