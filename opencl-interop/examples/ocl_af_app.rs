@@ -33,8 +33,10 @@ fn main() {
     ocl_core::finish(&queue).unwrap(); //sync up before switching to arrayfire
 
     // Add custom device, context and associated queue to ArrayFire
-    afcl::add_device_context(device_id.as_raw(), context.as_ptr(), queue.as_ptr());
-    afcl::set_device_context(device_id.as_raw(), context.as_ptr());
+    unsafe {
+        afcl::add_device_context(device_id.as_raw(), context.as_ptr(), queue.as_ptr());
+        afcl::set_device_context(device_id.as_raw(), context.as_ptr());
+    }
     af::info();
 
     unsafe {
@@ -70,5 +72,7 @@ fn main() {
 
     // Remove device from ArrayFire management towards Application Exit
     af::set_device(0); // Cannot pop when in Use, hence switch to another device
-    afcl::delete_device_context(device_id.as_raw(), context.as_ptr());
+    unsafe {
+        afcl::delete_device_context(device_id.as_raw(), context.as_ptr());
+    }
 }

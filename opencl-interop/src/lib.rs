@@ -17,7 +17,7 @@ use std::mem;
 
 /// OpenCL Vendor Platform
 #[repr(i32)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum VendorPlatform {
     AMD = 0,
     APPLE = 1,
@@ -30,7 +30,7 @@ pub enum VendorPlatform {
 
 /// OpenCL Device Type
 #[repr(u64)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DeviceType {
     DEFAULT = CL_DEVICE_TYPE_DEFAULT,
     CPU = CL_DEVICE_TYPE_CPU,
@@ -88,24 +88,46 @@ pub fn get_device_id() -> cl_device_id {
 }
 
 /// Set the cl_device_id as the active ArrayFire OpenCL device
+///
+/// # Safety
+///
+/// This function is to be only called if user intends to set a particular
+/// opencl device explicitly. This is low level function and it's for only
+/// advanced users.
 pub unsafe fn set_device_id(dev_id: cl_device_id) {
     let err_val = afcl_set_device_id(dev_id);
     handle_error_general(AfError::from(err_val));
 }
 
 /// Push user provided device, context and queue tuple to ArrayFire device mamanger
+///
+/// # Safety
+///
+/// This function is to be only called if user intends to add a opencl device context
+/// explicitly. This is low level function and it's for only advanced users.
 pub unsafe fn add_device_context(dev_id: cl_device_id, ctx: cl_context, queue: cl_command_queue) {
     let err_val = afcl_add_device_context(dev_id, ctx, queue);
     handle_error_general(AfError::from(err_val));
 }
 
 /// Set the device identified by device & context pair as the active device for ArrayFire
+///
+/// # Safety
+///
+/// This function is to be only called if user intends mark a given opencl device
+/// as current device. It is for advanced users only.
 pub unsafe fn set_device_context(dev_id: cl_device_id, ctx: cl_context) {
     let err_val = afcl_set_device_context(dev_id, ctx);
     handle_error_general(AfError::from(err_val));
 }
 
 /// Remove the user provided device, context pair from ArrayFire device mamanger
+///
+/// # Safety
+///
+/// This function is to be only called if user intends to delete a prior added
+/// opencl device context. Using this for devices not added by user explicitly
+/// can result in undefined behavior.
 pub unsafe fn delete_device_context(dev_id: cl_device_id, ctx: cl_context) {
     let err_val = afcl_delete_device_context(dev_id, ctx);
     handle_error_general(AfError::from(err_val));
@@ -113,23 +135,19 @@ pub unsafe fn delete_device_context(dev_id: cl_device_id, ctx: cl_context) {
 
 ///// Fetch Active ArrayFire device's type i.e. CPU/GPU/Accelerator etc.
 pub fn get_device_type() -> DeviceType {
-    unsafe {
-        let mut out: i32 = 0;
-        let err_val = afcl_get_device_type(&mut out as *mut c_int);
-        handle_error_general(AfError::from(err_val));
-        match out {
-            -1 => mem::transmute(out as u64),
-            _ => DeviceType::ALL,
-        }
+    let mut out: i32 = 0;
+    let err_val = unsafe { afcl_get_device_type(&mut out as *mut c_int) };
+    handle_error_general(AfError::from(err_val));
+    match out {
+        -1 => unsafe { mem::transmute(out as u64) },
+        _ => DeviceType::ALL,
     }
 }
 
 /// Fetch Active ArrayFire device's vendor platform
 pub fn get_platform() -> VendorPlatform {
-    unsafe {
-        let mut out: i32 = 0;
-        let err_val = afcl_get_platform(&mut out as *mut c_int);
-        handle_error_general(AfError::from(err_val));
-        mem::transmute(out)
-    }
+    let mut out: i32 = 0;
+    let err_val = unsafe { afcl_get_platform(&mut out as *mut c_int) };
+    handle_error_general(AfError::from(err_val));
+    unsafe { mem::transmute(out) }
 }
