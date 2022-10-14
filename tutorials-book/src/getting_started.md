@@ -108,7 +108,7 @@ using arrays into the smallest number of CUDA/OpenCL kernels. For most operation
 ArrayFire functions like a vector library. That means that an element-wise operation, like
 `c[i] = a[i] + b[i]` in C, would be written more concisely without indexing, like `c = a + b`. When
 there are multiple expressions involving arrays, ArrayFire's JIT engine will merge them together.
-his "kernel fusion" technology not only decreases the number of kernel calls, but, more importantly, avoids extraneous global memory operations.
+This "kernel fusion" technology not only decreases the number of kernel calls, but, more importantly, avoids extraneous global memory operations.
 
 Our JIT functionality extends across C API boundary and only ends when a non-JIT function is
 encountered or a synchronization operation is explicitly called by the code.
