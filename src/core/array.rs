@@ -398,7 +398,8 @@ where
         match (err_val, ret_val) {
             (0, 1) => Backend::CPU,
             (0, 2) => Backend::CUDA,
-            (0, 3) => Backend::OPENCL,
+            (0, 4) => Backend::OPENCL,
+            (0, 8) => Backend::ONEAPI,
             _ => Backend::DEFAULT,
         }
     }
