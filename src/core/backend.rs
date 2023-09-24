@@ -35,6 +35,9 @@ pub fn get_available_backends() -> Vec<Backend> {
     HANDLE_ERROR(AfError::from(err_val));
 
     let mut b = Vec::new();
+    if temp & 0b1000 == 0b1000 {
+        b.push(Backend::ONEAPI);
+    }
     if temp & 0b0100 == 0b0100 {
         b.push(Backend::OPENCL);
     }
@@ -58,6 +61,7 @@ pub fn get_active_backend() -> Backend {
         (0, 1) => Backend::CPU,
         (0, 2) => Backend::CUDA,
         (0, 4) => Backend::OPENCL,
+        (0, 8) => Backend::ONEAPI,
         _ => panic!("Invalid backend retrieved, undefined behavior."),
     }
 }

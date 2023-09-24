@@ -66,11 +66,14 @@ pub enum Backend {
     CUDA = 2,
     /// OpenCL Compute Backend
     OPENCL = 4,
+    /// OneAPI Compute Backend
+    ONEAPI = 8,
 }
 
 impl Display for Backend {
     fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
         let text = match *self {
+            Backend::ONEAPI => "OneAPI",
             Backend::OPENCL => "OpenCL",
             Backend::CUDA => "Cuda",
             Backend::CPU => "CPU",

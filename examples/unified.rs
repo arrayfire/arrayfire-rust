@@ -47,6 +47,13 @@ fn main() {
         test_backend();
     }
 
+    if available.contains(&Backend::ONEAPI) {
+        println!("Evaluating OneAPI Backend...");
+        set_backend(Backend::ONEAPI);
+        println!("There are {} OneAPI compute devices", device_count());
+        test_backend();
+    }
+
     if available.contains(&Backend::OPENCL) {
         println!("Evaluating OpenCL Backend...");
         set_backend(Backend::OPENCL);
