@@ -107,7 +107,14 @@ pub fn info_string(verbose: bool) -> String {
 /// # Return Values
 /// A tuple of `String` indicating the name, platform, toolkit and compute.
 pub fn device_info() -> (String, String, String, String) {
-    let mut name: [c_char; 64] = [0; 64];
+    // The documented minimum size for the name buffer is 64 bytes, but
+    // `af_device_info` takes no length arguments and the CUDA backend writes up
+    // to 257 bytes into it, corrupting the caller's stack on every call.
+    // libarrayfire is linked dynamically and this crate never checks its
+    // version, so an upstream fix is not on its own a reason to shrink this
+    // back: the library resolved at runtime may still be an affected build.
+    // See https://github.com/arrayfire/arrayfire/issues/3712
+    let mut name: [c_char; 1024] = [0; 1024];
     let mut platform: [c_char; 10] = [0; 10];
     let mut toolkit: [c_char; 64] = [0; 64];
     let mut compute: [c_char; 10] = [0; 10];
