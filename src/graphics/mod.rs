@@ -177,7 +177,6 @@ extern "C" {
 ///     if wnd.is_closed() == true { break; }
 /// }
 /// ```
-#[derive(Clone)]
 pub struct Window {
     handle: af_window,
     row: i32,
