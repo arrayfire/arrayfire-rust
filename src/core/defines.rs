@@ -602,6 +602,15 @@ pub enum CublasMathMode {
 
 #[cfg(test)]
 mod tests {
+    use super::DType;
+
+    #[test]
+    fn dtype_from_u32_roundtrip() {
+        for v in (DType::F32 as u32)..=(DType::F16 as u32) {
+            assert_eq!(DType::from(v) as u32, v);
+        }
+    }
+
     #[cfg(feature = "afserde")]
     mod serde_tests {
         #[test]

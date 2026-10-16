@@ -75,7 +75,7 @@ impl From<i32> for AfError {
 
 impl From<u32> for DType {
     fn from(t: u32) -> Self {
-        assert!(DType::F32 as u32 <= t && t <= DType::U64 as u32);
+        assert!(DType::F32 as u32 <= t && t <= DType::F16 as u32);
         unsafe { mem::transmute(t) }
     }
 }
